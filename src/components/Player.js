@@ -186,7 +186,7 @@ export const Player = function ({ songList }) {
             let setting = await StorageManager.getPlayerSetting()
             // console.log('setting:' + setting)
             if (undefined == setting) {
-                setting = { playMode: 'order', defaultVolume: 0.5 }
+                setting = { playMode: 'shufflePlay', defaultVolume: 1 }
                 StorageManager.setPlayerSetting(setting)
             }
 
