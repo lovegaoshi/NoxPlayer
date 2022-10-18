@@ -1,6 +1,6 @@
 {
-  "name": "azusa-player",
-  "description": "电梓播放器 / azusa-player: 一个第三方哔哩哔哩(bilibili.com)音频播放器 / A 3rd party Bilibili audio player.",
+  "name": "nox-player",
+  "description": "电闹播放器 / nox-player: 一个换nox皮的电梓播放器 / 第三方哔哩哔哩(bilibili.com)音频播放器 / A 3rd party Bilibili audio player.",
   "main": "index.js",
   "author": "Sirage-T",
   "private": true,
@@ -16,7 +16,7 @@
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.16",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^4.15.0",

@@ -1,8 +1,8 @@
-import { getSongList } from '../background/DataProcess'
+import { getBiliSeriesList } from '../background/DataProcess'
 import { v4 as uuidv4 } from 'uuid';
 import { fetchPlayUrlPromise } from '../utils/Data'
-
-const INITIAL_PLAYLIST = 'BV1wr4y1v7TA'
+// https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
+const INITIAL_PLAYLIST = ['5053504', '2664851']
 const MY_FAV_LIST_KEY = 'MyFavList'
 const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
@@ -52,8 +52,8 @@ export default class StorageManager {
     async initWithDefault() {
         const _self = this
         const value = {
-            songList: await getSongList(INITIAL_PLAYLIST),
-            info: { title: '【阿梓】2021精选翻唱50首【纯享】', id: ('FavList-' + uuidv4()) }
+            songList: await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1]),
+            info: { title: '闹闹的人工智障歌切', id: ('FavList-' + uuidv4()) }
         }
 
         // const value2 = {
