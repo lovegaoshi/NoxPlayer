@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 export const Search = function ({ handleSeach }) {
 
     const [searchValue, setSearchValue] = useState('')
+    const [progressVal, setProgressVal] = useState(100)
     const [Loading, setLoading] = useState(false)
 
     const onSearchTextChange = (e) => {
@@ -21,7 +22,7 @@ export const Search = function ({ handleSeach }) {
             // Handles BV search    
             let reExtracted = /.*\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
             if (reExtracted !== null) {
-                getBiliSeriesList(reExtracted[1], reExtracted[2])
+                getBiliSeriesList(reExtracted[1], reExtracted[2], setProgressVal)
                     .then((songs) => {
                         const list = {
                             songList: songs,
@@ -84,6 +85,21 @@ export const Search = function ({ handleSeach }) {
         }
     }
 
+    const progressBar = () => {
+        if (Loading) {
+            if (progressVal == 100) {
+                return (
+                    <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', }} />
+                )    
+            } else {
+                return (
+                    <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', }} variant="determinate" value={progressVal} />
+                )  
+            }
+        }
+        return ('')
+    }
+
     return (
         <React.Fragment>
             <Box // Top Grid -- Search  
@@ -103,7 +119,7 @@ export const Search = function ({ handleSeach }) {
                         onChange={onSearchTextChange}
                         value={searchValue}
                     />
-                    {Loading ? <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', }} /> : ''}
+                    { progressBar() }
                 </Box>
             </Box>
         </React.Fragment>

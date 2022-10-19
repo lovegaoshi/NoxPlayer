@@ -101,10 +101,10 @@ const getSongsFromBVids = async (infos) => {
     return (songs)
 }
 
-export const getBiliSeriesList = async (mid, sid) => {
-    return getSongsFromBVids(await fetchBiliSeriesInfo(mid, sid))
+export const getBiliSeriesList = async (mid, sid, progressEmitter = (res) => {}) => {
+    return getSongsFromBVids(await fetchBiliSeriesInfo(mid, sid, progressEmitter))
 }
 
-export const getFavList = async (mid) => {
-    return getSongsFromBVids(await fetchFavList(mid))
+export const getFavList = async (mid, progressEmitter = (res) => {}) => {
+    return getSongsFromBVids(await fetchFavList(mid, progressEmitter))
 }

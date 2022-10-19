@@ -87,6 +87,7 @@ export const fetchLRC = async (name, setLyric, setSongTitle) => {
 
 }
 
+
 export const fetchVideoInfo = async (bvid) => {
     logger.info("calling fetchVideoInfo")
     const res = await fetch(URL_VIDEO_INFO.replace('{bvid}', bvid))
@@ -110,7 +111,7 @@ export const fetchVideoInfo = async (bvid) => {
 // this API does not provide the total number of videos in a list, but will return an empty list if 
 // the queried page exceeds the number of videos; so use a while loop and break when empty is detected
 // everything else is copied from fetchFavList
-export const fetchBiliSeriesInfo = async (mid, sid) => {
+export const fetchBiliSeriesInfo = async (mid, sid, progressEmitter) => {
     logger.info("calling fetchBiliSeriesInfo")
     let page = 0
     let res = await fetch(URL_BILISERIES_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', page))
@@ -125,6 +126,7 @@ export const fetchBiliSeriesInfo = async (mid, sid) => {
             await new Promise(resolve => setTimeout(resolve, 500))
             console.log('wait 500ms to prevent API abuse')
         }
+        progressEmitter(parseInt(100 * (i + 1) / data.archives.length))
     }
 
     return videoInfos
