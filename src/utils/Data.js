@@ -117,15 +117,16 @@ export const fetchBiliSeriesInfo = async (mid, sid) => {
     let json = await res.json()
     let data = json.data
 
-    const BVidPromises = []
+    let videoInfos = []
+    // albeit slow, this is a good way to not get banned....
     for (let i = 0; i < data.archives.length; i++) {
-        BVidPromises.push(fetchVideoInfo(data.archives[i].bvid))
+        videoInfos.push(await fetchVideoInfo(data.archives[i].bvid))
+        if (i % 50 === 0) {
+            await new Promise(resolve => setTimeout(resolve, 500))
+            console.log('wait 500ms to prevent API abuse')
+        }
     }
 
-    let videoInfos = []
-    await Promise.all(BVidPromises).then(res => {
-        videoInfos = res
-    })
     return videoInfos
 }
 
