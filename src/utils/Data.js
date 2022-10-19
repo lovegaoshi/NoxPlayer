@@ -121,7 +121,7 @@ export const fetchBiliSeriesInfo = async (mid, sid) => {
     // albeit slow, this is a good way to not get banned....
     for (let i = 0; i < data.archives.length; i++) {
         videoInfos.push(await fetchVideoInfo(data.archives[i].bvid))
-        if (i % 50 === 0) {
+        if ((i + 1) % 50 === 0) {
             await new Promise(resolve => setTimeout(resolve, 500))
             console.log('wait 500ms to prevent API abuse')
         }
