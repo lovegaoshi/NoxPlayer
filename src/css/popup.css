@@ -21,7 +21,7 @@ body {
 // https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true 
 */
 .react-jinke-music-player-main .music-player-panel {
-  background: url('https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/bg3.png?raw=true')
+  background: url(''https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxbg.png?raw=true')
     no-repeat;
   width: 100%;
   background-size: cover;

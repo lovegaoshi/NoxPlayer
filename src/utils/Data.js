@@ -112,21 +112,14 @@ export const fetchVideoInfo = async (bvid) => {
 // everything else is copied from fetchFavList
 export const fetchBiliSeriesInfo = async (mid, sid) => {
     logger.info("calling fetchBiliSeriesInfo")
-    let page = 1
+    let page = 0
     let res = await fetch(URL_BILISERIES_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', page))
     let json = await res.json()
     let data = json.data
 
     const BVidPromises = []
-    while (data.archives.length > 0) {
-        for (let i = 0; i < data.archives.length; i++) {
-            BVidPromises.push(fetchVideoInfo(data.archives[i].bvid))
-        }
-        page += 1
-        data = await(await (await fetch(URL_BILISERIES_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', page))).json).data
-        if (data === undefined) {
-            break
-        }
+    for (let i = 0; i < data.archives.length; i++) {
+        BVidPromises.push(fetchVideoInfo(data.archives[i].bvid))
     }
 
     let videoInfos = []

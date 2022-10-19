@@ -59,7 +59,7 @@ const CRUDIcon = {
 }
 
 const songText = {
-    fontSize: 15,
+    fontSize: 16,
     minWidth: 0,
     color: '#ab5fff'
 }
@@ -80,7 +80,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 15,
+        fontSize: 16,
         padding: 0
     },
 }));
@@ -197,13 +197,13 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                     <Box sx={{ flexGrow: 1, maxHeight: '72px' }} >
                         <Grid container spacing={2} style={{ paddingTop: '8px' }}>
                             <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px', paddingTop: '4px' }}>
-                                <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '1rem' }}>
+                                <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                     {currentFavList.info.title}
                                 </Typography>
 
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'center', padding: '0px' }}>
-                                <img style={{ width: '44px', height: '44px' }}
+                                <img style={{ width: '66px', height: '66px' }}
                                     src={getRandomHeaderGIF()}></img>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
