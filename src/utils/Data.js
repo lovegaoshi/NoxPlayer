@@ -20,7 +20,7 @@ const URL_LRC_BASE = "https://raw.githubusercontent.com/kenmingwang/azusa-player
 // Header GIF base
 const URL_HEADER_GIF = "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
 // HEADER GIFs count: https://github.com/kenmingwang/azusa-player-lrcs/tree/main/aziRandomPic
-const COUNT_HEADER_GIFS = 1
+const COUNT_HEADER_GIFS = 2
 // QQ SongSearch API
 const URL_QQ_SEARCH = "https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key={KeyWord}"
 // QQ LyricSearchAPI
@@ -100,7 +100,8 @@ export const fetchVideoInfo = async (bvid) => {
             data.videos,
             data.pic,
             data.owner,
-            data.pages.map((s) => { return ({ bvid: bvid, part: s.part, cid: s.cid }) }))
+            data.pages.map((s) => { return ({ bvid: bvid, part: s.part, cid: s.cid }) }),
+            bvid)
         return v
     } catch (error) {
         console.log('Some issue happened when fetching', bvid)
