@@ -34,9 +34,9 @@
 <h4 align="center" style="color:purple">A 3rd party Bilibili audio player / 一个Bilibili第三方音频播放器</h4>
 
 ## Nox版
-virtuareal link所属虚拟艺人诺莺Nox，歌势。从Nox的社交媒体偷来了图换了皮肤。
+Virtuareal link所属虚拟艺人[诺莺Nox](https://space.bilibili.com/529249/channel/seriesdetail?sid=61060)，歌势。从Nox的社交媒体偷来了图换了皮肤。
 
-nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的功能，其他功能需求请[私信电梓播放器的作者](https://message.bilibili.com/#/whisper/mid1989881)
+Nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的功能，其他功能需求请[私信电梓播放器的作者](https://message.bilibili.com/#/whisper/mid1989881)
 
 ## 项目简介
 
