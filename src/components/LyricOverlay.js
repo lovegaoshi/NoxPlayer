@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useEffect, memo } from "react";
 import { Lyric } from './Lyric';
+import { LyricMobile } from './LyricMobile';
 import Box from "@mui/material/Box";
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
@@ -14,7 +15,7 @@ const theme = {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   };
 
-export const LyricOverlay = memo(function ({ showLyric, currentTime, audioName, audioId, audioCover }) {
+export const LyricOverlay = memo(function ({ showLyric, currentTime, audioName, audioId, audioCover, isMobile = false }) {
     const [open, setOpen] = useState(true);
 
     useEffect(() => {
@@ -50,7 +51,11 @@ export const LyricOverlay = memo(function ({ showLyric, currentTime, audioName, 
                     >
                         <KeyboardArrowDownIcon />
                     </IconButton>
-                    <Lyric currentTime={currentTime} audioName={audioName} audioId={audioId} audioCover={audioCover} />
+                    { isMobile? 
+                        <LyricMobile currentTime={currentTime} audioName={audioName} audioId={audioId} audioCover={audioCover} /> 
+                        : <Lyric currentTime={currentTime} audioName={audioName} audioId={audioId} audioCover={audioCover} />
+                    }
+                    
                 </div>
             </Dialog>
         </div>

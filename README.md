@@ -30,12 +30,10 @@
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/kenmingwang/azusa-player/total">
   </a>
 </p>
-<h3 align="center" style="color:purple">Azusa-Player / 电闹播放器</h3>
+<h3 align="center" style="color:purple"> 诺莺nox皮肤版 Azusa-Player / 电闹播放器</h3>
 <h4 align="center" style="color:purple">A 3rd party Bilibili audio player / 一个Bilibili第三方音频播放器</h4>
 
 ## 项目简介
-
-诺莺nox皮肤版
 
 - 是真正意义上的《电梓播放器》(?): Azusa-Player！
   - 私货默认歌单 [【阿梓】2021 精选翻唱 50 首【纯享】](https://www.bilibili.com/video/BV1wr4y1v7TA)

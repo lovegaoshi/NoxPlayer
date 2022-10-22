@@ -5,7 +5,8 @@
       "action": {
         "type": "modifyHeaders",
         "requestHeaders": [
-          { "header": "referer", "operation": "set", "value": "https://www.bilibili.com/" }
+          { "header": "referer", "operation": "set", "value": "https://www.bilibili.com/" },
+          { "header": "User-Agent", "operation": "set", "value": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36" }
         ]
       },
       "condition": { "urlFilter" : "bilivideo.com" }

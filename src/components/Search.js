@@ -118,6 +118,7 @@ export const Search = function ({ handleSeach }) {
                         onKeyDown={keyPress}
                         onChange={onSearchTextChange}
                         value={searchValue}
+                        type="search"
                     />
                     { progressBar() }
                 </Box>

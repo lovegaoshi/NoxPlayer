@@ -12,10 +12,16 @@ body {
 .MutiBox-root {
   backdrop-filter: blur(59px);
 } */
+.homepage-bgimage {
+  height: 100%;
+  width: 100%;
+  overflow: clip;
+  filter: blur(1px);
+}
 
 .react-jinke-music-player-main {
   position: absolute;
-  z-index: 2000;
+  z-index: 0;
 }
 /*
 // https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true 
@@ -26,6 +32,7 @@ body {
   width: 100%;
   background-size: cover;
 }
+
 .react-jinke-music-player-main .music-player-panel .panel-content .img-content {
   background-position-y: center;
   background-position-x: center;
