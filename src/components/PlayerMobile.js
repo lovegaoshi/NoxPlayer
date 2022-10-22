@@ -281,7 +281,7 @@ export const PlayerMobile = function ({ songList }) {
                         display="flex"
                         flex="1"
                         justifyContent="space-around"
-                        style={{ maxHeight: "100%", height: "64px" }} // Relative height against the Player
+                        style={{ maxHeight: "0%", height: "0px" }} // Relative height against the Player
                         sx={{ gridArea: "footer" }}
                     >
                         <ReactJkMusicPlayer

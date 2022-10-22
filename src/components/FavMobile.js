@@ -34,6 +34,15 @@ const theme = createTheme(
         palette: {
             primary: { main: '#1976d2' },
         },
+        components: {
+            MuiTablePagination: {
+                styleOverrides: {
+                    spacer: {
+                        display: "none"
+                    }
+                }
+            }
+        }
     },
     zhCN,
 );
@@ -149,13 +158,13 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
     const [currentFavList, setCurrentFavList] = useState(null)
     const [rows, setRows] = useState(null)
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(-1);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(25)
+        setRowsPerPage(-1)
         //console.log(FavList)
     }, [FavList])
 
@@ -222,7 +231,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                             
                         </Grid>
                     </Box>
-                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%" }} style={{ overflow: "auto", paddingTop: '8px' }} >
+                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%", maxWidth: "95%" }} style={{ overflow: "auto", paddingTop: '8px' }} >
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
@@ -274,6 +283,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                                 <TableRow>
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
+                                            id="pagination-toolbar"
                                             rowsPerPageOptions={[25, 75, 100]}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}

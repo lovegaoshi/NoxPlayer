@@ -1,7 +1,7 @@
 import { fetchVideoInfo, fetchPlayUrlPromise, fetchFavList, fetchBiliSeriesInfo } from '../utils/Data'
 import Song from '../objects/Song'
 
-const DEFAULT_BVID = 'BV1BQ4y1X714'
+const DEFAULT_BVID = 'BV1Md4y1r75d'
 const LAST_PLAY_LIST = 'LastPlayList'
 
 // Load last-playist from storage, else use DEFAULT_BVID as initial list.
