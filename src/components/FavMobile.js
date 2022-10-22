@@ -222,7 +222,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                             
                         </Grid>
                     </Box>
-                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%" }} style={{ overflow: "auto" }} >
+                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%" }} style={{ overflow: "auto", paddingTop: '8px' }} >
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>

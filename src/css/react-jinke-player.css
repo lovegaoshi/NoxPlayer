@@ -635,6 +635,9 @@
   animation: imgRotate 30s linear infinite;
   object-fit: cover;
   width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: 635px 397px;
 }
 .react-jinke-music-player-mobile-progress {
   align-items: center;

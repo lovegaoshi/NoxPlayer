@@ -18,7 +18,8 @@ const options = {
     locale: 'zh_CN',
     autoPlayInitLoadPlayList: true,
     autoPlay: false,
-    defaultPlayIndex: 0
+    defaultPlayIndex: 0,
+    isInitRemember: true,
 }
 
 export const PlayerMobile = function ({ songList }) {

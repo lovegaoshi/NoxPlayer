@@ -3,7 +3,7 @@ import { Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
-import { AddFavDialog, NewFavDialog } from "./AddFavDialog";
+import { AddFavDialog, NewFavDialog } from "./AddFavDialogMobile";
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -27,6 +27,8 @@ import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import IconButton from "@mui/material/IconButton";
+import { LineWeight, Opacity } from "@mui/icons-material";
+import { lineHeight } from "@mui/system";
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -50,10 +52,11 @@ const CRUDIcon = {
     ':hover': {
         cursor: 'pointer'
     },
-    width: '1.2em',
-    height: '1.2em',
-    paddingBottom: '2px',
-    color: '#ab5fff'
+    width: '30px',
+    height: '30px',
+    paddingTop: '12px',
+    paddingBottom: '12px',
+    color: '#ab5fff',
 }
 
 const CRUDIconDisable = {
@@ -71,7 +74,7 @@ const AddFavIcon = {
         cursor: 'pointer'
     },
     width: '40px',
-    color: '#ab5fff'
+    color: '#ab5fff',
 }
 
 const DiskIcon = {
@@ -217,7 +220,7 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
 
             <Box // Mid Grid -- SideBar
                 className={ScrollBar().root}
-                style={{ overflow: "auto", maxHeight: "96%", minHeight: "20%", paddingTop: "10px" }}
+                style={{ overflow: "auto", maxHeight: "96%", minHeight: "20%", paddingTop: "10px", lineHeight: '32px' }}
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>
@@ -242,11 +245,12 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                         keepMounted
                         openState={openNewDialog}
                         onClose={onNewFav}
+                        
                     />
                 </Grid>
                 <Divider light />
                 <List
-                    sx={{ width: '100%' }}
+                    sx={{ width: '100%'}}
                     component="nav"
                 >
                     <React.Fragment key={searchList.id}>
@@ -254,13 +258,13 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                             disableRipple
                             sx={outerLayerBtn}
                         >
-                            <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={() => setSelectedList(searchList)} id={searchList.info.id} >
+                            <ListItemButton style={{ maxWidth: 'calc(100% - 136px)' }} onClick={() => setSelectedList(searchList)} id={searchList.info.id} >
                                 <ListItemIcon sx={DiskIcon}>
                                     <ManageSearchIcon />
                                 </ListItemIcon>
-                                <ListItemText sx={{ color: '#9c55fac9' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
+                                <ListItemText style={{ maxWidth: '50%' }} sx={{ color: '#9c55fac9' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
                             </ListItemButton>
-                            <Box component="div" sx={CRUDBtn}>
+                            <Box component="div" sx={CRUDBtn} align="right">
                                 <Tooltip title="播放歌单">
                                     <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(searchList)} />
                                 </Tooltip>
@@ -271,7 +275,7 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                                     <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
                                 <Tooltip title="删除歌单">
-                                    <DeleteOutlineOutlinedIcon sx={CRUDIconDisable} />
+                                    <DeleteOutlineOutlinedIcon sx={CRUDIconDisable} style={{ opacity: '0' }}/>
                                 </Tooltip>
                             </Box>
                         </ListItemButton>
@@ -283,15 +287,15 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                                 disableRipple
                                 sx={outerLayerBtn}
                             >
-                                <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={() => setSelectedList(v)} id={v.info.id} >
+                                <ListItemButton style={{ maxWidth: 'calc(100% - 136px)' }} onClick={() => setSelectedList(v)} id={v.info.id} >
                                     <ListItemIcon sx={DiskIcon}>
                                         <AlbumOutlinedIcon />
                                     </ListItemIcon>
                                     <ListItemText sx={{ color: '#9600af94' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
                                 </ListItemButton>
-                                <Box component="div" sx={CRUDBtn}>
+                                <Box component="div" sx={CRUDBtn}  align="right">
                                     <Tooltip title="播放歌单">
-                                        <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(v)} />
+                                        <PlaylistPlayIcon onClick={() => handlePlayListClick(v)} sx={CRUDIcon}/>
                                     </Tooltip>
                                     <Tooltip title="添加到播放列表">
                                         <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(v)} />
