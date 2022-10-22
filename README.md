@@ -30,8 +30,13 @@
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/kenmingwang/azusa-player/total">
   </a>
 </p>
-<h3 align="center" style="color:purple"> 诺莺nox皮肤版 Azusa-Player / 电闹播放器</h3>
+<h3 align="center" style="color:purple"> 诺莺nox皮肤版 Azusa-Player / 电梓播放器</h3>
 <h4 align="center" style="color:purple">A 3rd party Bilibili audio player / 一个Bilibili第三方音频播放器</h4>
+
+## Nox版
+virtuareal link所属虚拟艺人诺莺Nox，歌势。从Nox的社交媒体偷来了图换了皮肤。
+
+nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的功能，其他功能需求请[私信电梓播放器的作者](https://message.bilibili.com/#/whisper/mid1989881)
 
 ## 项目简介
 
