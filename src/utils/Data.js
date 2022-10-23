@@ -18,7 +18,7 @@ const URL_LRC_MAPPING = "https://raw.githubusercontent.com/kenmingwang/azusa-pla
 // LRC Base
 const URL_LRC_BASE = "https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/{songFile}"
 // Header GIF base
-const URL_HEADER_GIF = "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
+const URL_HEADER_GIF = "https://raw.githubusercontent.com/lovegaoshi/azusa-player/itsuki-player/public/img/Itsuki/ItsukiRandomGIF/Itsuki{count}.gif"
 // HEADER GIFs count: https://github.com/kenmingwang/azusa-player-lrcs/tree/main/aziRandomPic
 const COUNT_HEADER_GIFS = 2
 // QQ SongSearch API

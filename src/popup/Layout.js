@@ -40,7 +40,7 @@ export default function PageLayout({ songList }) {
         // Outmost layer of the page
         <Box sx={OutmostBox} id='master-box'>
             <div class="container-fluid homepage-bgimage" align="center" height="100vh" width="100vw">
-                <img id="player-bkgrd" src="https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/nox/noxbgm.png?raw=true"></img>
+                <img id="player-bkgrd" src="https://raw.githubusercontent.com/lovegaoshi/azusa-player/itsuki-player/public/img/Itsuki/Itsukibgm.png?raw=true"></img>
             </div>
             <Box sx={PlayerBoxMobile} id='player-box'> 
                 <PlayerMobile songList={songList} id='player-instance'/>

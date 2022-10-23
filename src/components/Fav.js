@@ -194,7 +194,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
         <React.Fragment>
             {currentFavList &&
                 <React.Fragment>
-                    <Box sx={{ flexGrow: 1, maxHeight: '72px' }} >
+                    <Box sx={{ flexGrow: 1, maxHeight: '72px' }} style={{ paddingBottom: '8px' }}>
                         <Grid container spacing={2} style={{ paddingTop: '8px' }}>
                             <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px', paddingTop: '4px' }}>
                                 <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
