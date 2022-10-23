@@ -8,7 +8,7 @@
   },
   "action": {
     "default_icon": {
-      "128": "icons/logo2-128.png"
+      "128": "icons/itsuki_logo.png"
     }
   },
   "content_scripts": [
@@ -18,7 +18,7 @@
     }
   ],
   "icons": {
-    "128": "icons/logo2-128.png"
+    "128": "icons/itsuki_logo.png"
   },
   "permissions": [
     "declarativeNetRequest",
