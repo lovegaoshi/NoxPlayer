@@ -39,7 +39,10 @@ const theme = createTheme(
                 styleOverrides: {
                     spacer: {
                         display: "none"
-                    }
+                    },
+                    selectLabel: {
+                        display: "none"
+                    },
                 }
             }
         }
@@ -154,17 +157,17 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, handleDelteFromSearchList, handleAddToFavClick }) {
+export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, handleDelteFromSearchList, handleAddToFavClick, playCurrentPlaylist }) {
     const [currentFavList, setCurrentFavList] = useState(null)
     const [rows, setRows] = useState(null)
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(-1);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(-1)
+        setRowsPerPage(25)
         //console.log(FavList)
     }, [FavList])
 
@@ -198,22 +201,31 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
     //console.log('rener Fav')
     const className = ScrollBar().root
 
+    const playlistTitleParse = (title) => {
+        if (title.includes('-')) {
+            return title.substring(0, title.indexOf('-'))
+        }
+        return title
+    }
+
     return (
         <React.Fragment>
             {currentFavList &&
                 <React.Fragment>
                     <Box sx={{ flexGrow: 1, maxHeight: '144px' }} >
-                        <Grid container spacing={2} style={{ paddingTop: '8px' }}>
-                            <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px', paddingTop: '4px' }}>
-                                <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
-                                    {currentFavList.info.title}
-                                </Typography>
+                        <Grid container spacing={2} style={{ paddingTop: '8px', paddingBottom: '8px' }}>
+                            <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
+                                <Button onClick={playCurrentPlaylist}>
+                                    <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
+                                        {playlistTitleParse(currentFavList.info.title)}
+                                    </Typography>
+                                </Button>
 
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
                             </Grid>
-                            <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '16px' }}>
-                                <img style={{ width: '66px', height: '66px' }}
+                            <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '8px' }}>
+                                <img style={{ width: '66px', height: '66px', zIndex: "5" }}
                                     src={getRandomHeaderGIF()}></img>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
@@ -231,7 +243,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                             
                         </Grid>
                     </Box>
-                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%", maxWidth: "95%" }} style={{ overflow: "auto", paddingTop: '8px' }} >
+                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%", maxWidth: "95%" }} style={{ overflow: "auto" }} >
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
@@ -297,6 +309,11 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                                             onPageChange={handleChangePage}
                                             onRowsPerPageChange={handleChangeRowsPerPage}
                                             ActionsComponent={TablePaginationActions}
+                                            labelDisplayedRows={
+                                                ({ from, to, count }) => {
+                                                    return `${from}-${to} / ${count !== -1 ? count : `> ${to}`}`;  
+                                                }
+                                            }
                                         />
                                     </ThemeProvider>
                                 </TableRow>

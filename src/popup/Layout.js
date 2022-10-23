@@ -13,6 +13,18 @@ const OutmostBox = {
     }
 }
 const PlayerBox = {
+    height: "100vh",
+    maxHeight: "100%",
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gap: 0,
+    gridTemplateRows: "72px 1fr",
+    gridTemplateAreas: `"Lrc         Lrc      Lrc      search"
+                        "Lrc         Lrc      Lrc      sidebar"
+                        "footer      footer   footer   footer"`
+}
+
+const PlayerBoxMobile = {
     height: "0px",
     maxHeight: "0%",
 }
@@ -30,7 +42,7 @@ export default function PageLayout({ songList }) {
             <div class="container-fluid homepage-bgimage" align="center" height="100vh" width="100vw">
                 <img id="player-bkgrd" src="https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/nox/noxbgm.png?raw=true"></img>
             </div>
-            <Box sx={PlayerBox} id='player-box'> 
+            <Box sx={PlayerBoxMobile} id='player-box'> 
                 <PlayerMobile songList={songList} id='player-instance'/>
             </Box>
         </Box>

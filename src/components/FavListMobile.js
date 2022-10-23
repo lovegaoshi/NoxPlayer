@@ -210,7 +210,7 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
             <Grid container spacing={1} align="center" justify = "center" alignItems = "center">
                 <Grid item xs={1} style={{ paddingLeft: '18px' }}>
                     <IconButton onClick={handleClose} size='large'>            
-                        <ArrowBackIosNewIcon></ArrowBackIosNewIcon>
+                        <ArrowBackIosNewIcon size='large'></ArrowBackIosNewIcon>
                     </IconButton>
                 </Grid>
                 <Grid item xs={11}>
@@ -322,6 +322,7 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                         onAddOneFromFav={onAddOneFromFav}
                         handleDelteFromSearchList={handleDelteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
+                        playCurrentPlaylist={() => handlePlayListClick(selectedList)}
                     />}
             </Box>
             <AlertDialog
