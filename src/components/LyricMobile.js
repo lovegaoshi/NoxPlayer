@@ -86,9 +86,9 @@ export const LyricMobile = withStyles(styles)((props) => {
 
             <Grid container spacing={1} sx={{ maxHeight: '100vh',minHeight: '100vh', overflow: 'hidden' }}>
                 <Grid align="center" sx={{ alignItems: 'center', paddingBottom: 10, overflow: "hidden" }} item xs={12}>
-                    <Grid container spacing={0} sx={{ maxHeight: '100vh', overflow: 'hidden', marginTop: '50px' }}>
+                    <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', marginTop: '10px' }}>
                         <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: "hidden" }} item xs={12}>
-                            <Grid container spacing={0} sx={{ maxHeight: '100vh', overflow: 'hidden', width: '90vw' }}>
+                            <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', width: '90vw' }}>
                                 <Grid align="right" sx={{ paddingTop: '8px', paddingRight: '2px', overflow: "hidden" }} style={{ maxWidth: 'fit-content' }} item xs={3}>
                                     <TextField
                                         type="number"
@@ -103,7 +103,7 @@ export const LyricMobile = withStyles(styles)((props) => {
                                         onChange={onLrcOffsetChange}
                                     />
                                 </Grid>
-                                <Grid align="center" sx={{ paddingTop: '8px', overflow: "hidden" }}  item xs={9}>
+                                <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: "8px", overflow: "hidden" }}  item xs={9}>
                                     <TextField
                                         variant="outlined"
                                         label="歌词搜索"
@@ -115,6 +115,7 @@ export const LyricMobile = withStyles(styles)((props) => {
                                         }}
                                         placeholder={songTitle}
                                         onKeyDown={onEnterPress}
+                                        type="search"
                                     />
                                 </Grid>
                             </Grid>
@@ -131,10 +132,10 @@ export const LyricMobile = withStyles(styles)((props) => {
 
                     </Grid>
                 </Grid>
-                <Grid style={{ paddingBottom: 10, overflow: "auto", maxHeight: 'calc(100% - 130px)' }} item xs={12}>
+                <Grid style={{ paddingBottom: 10, overflow: "auto", maxHeight: '80%' }} item xs={12}>
                     <Lrc
                         className={className}
-                        style={{ maxHeight: "100%"}}
+                        style={{ maxHeight: "100%" }}
                         lrc={lyric}
                         autoScroll={true}
                         lineRenderer={lineRenderer}
