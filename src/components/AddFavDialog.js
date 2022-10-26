@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -10,6 +10,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import { IconButton } from '@mui/material';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import Input from '@mui/material/Input';
 
 export const NewFavDialog = function ({ onClose, openState }) {
   const [favName, setfavName] = useState('')
@@ -56,7 +59,7 @@ export const NewFavDialog = function ({ onClose, openState }) {
   );
 }
 
-export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song }) {
+export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song, onNewFav }) {
   const [favId, setfavId] = useState('')
 
   const handleCancel = () => {
@@ -87,6 +90,7 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
                 value={favId}
                 label="FavLists"
                 onChange={onfavId}
+                input={(<Input></Input>)}
               >
                 {favLists && favLists.map((v, i) => {
                   if (v.id != fromId)
@@ -102,6 +106,46 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
             <Button disabled>确认</Button> :
             <Button onClick={handleOK}>确认</Button>}
 
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+
+export const UpdateSubscribeDialog = function ({ fromList, onClose, openState }) {
+
+  const [subUrl, setSubUrl] = useState("")
+
+  useEffect( () => {
+    try{
+      console.debug('parsing fromList.subscribeUrls', fromList.subscribeUrls)
+      setSubUrl(fromList.subscribeUrls.join(';'))
+    } catch {
+      setSubUrl("")
+    }
+  }, [fromList.info.id])
+
+  return (
+    <div>
+      <Dialog open={openState}>
+        <DialogTitle>{fromList.info.title}</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="订阅url"
+            type="name"
+            variant="standard"
+            onChange={(e) => setSubUrl(e.target.value)}
+            value={subUrl}
+            autoComplete='off'
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => onClose()}>取消</Button>
+          <Button onClick={() => onClose(fromList, subUrl.split(';'))}>确认</Button>
         </DialogActions>
       </Dialog>
     </div>

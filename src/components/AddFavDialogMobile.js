@@ -10,51 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-
-export const NewFavDialog = function ({ onClose, openState }) {
-  const [favName, setfavName] = useState('')
-
-  const handleCancel = () => {
-    onClose()
-    setfavName('')
-  }
-
-  const onfavName = (e) => {
-    setfavName(e.target.value)
-  }
-
-  const handleOK = () => {
-    onClose(favName)
-    setfavName('')
-  }
-
-  return (
-    <div>
-      <Dialog open={openState}>
-        <DialogTitle>新建歌单</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="歌单名字"
-            type="name"
-            variant="standard"
-            onChange={onfavName}
-            value={favName}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel}>取消</Button>
-          {favName == '' ?
-            <Button disabled>确认</Button> :
-            <Button onClick={handleOK}>确认</Button>}
-
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
+import { Input } from '@mui/material';
 
 export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song }) {
   const [favId, setfavId] = useState('')

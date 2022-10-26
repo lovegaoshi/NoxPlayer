@@ -161,13 +161,13 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
     const [currentFavList, setCurrentFavList] = useState(null)
     const [rows, setRows] = useState(null)
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(24);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(25)
+        setRowsPerPage(24)
         //console.log(FavList)
     }, [FavList])
 
@@ -238,6 +238,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                                     label="搜索歌曲"
                                     onChange={requestSearch}
                                     align="center"
+                                    autoComplete='off'
                                 />
                             </Grid>
                             

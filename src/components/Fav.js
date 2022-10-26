@@ -28,6 +28,8 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { zhCN } from '@mui/material/locale';
 import Tooltip from '@mui/material/Tooltip';
+import RssFeedIcon from '@mui/icons-material/RssFeed';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 const theme = createTheme(
     {
@@ -146,17 +148,17 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, handleDelteFromSearchList, handleAddToFavClick }) {
+export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, handleDelteFromSearchList, handleAddToFavClick, setSubscribeURL, rssUpdate, }) {
     const [currentFavList, setCurrentFavList] = useState(null)
     const [rows, setRows] = useState(null)
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(24);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(24)
+        setRowsPerPage(25)
         //console.log(FavList)
     }, [FavList])
 
@@ -196,7 +198,7 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                 <React.Fragment>
                     <Box sx={{ flexGrow: 1, maxHeight: '72px' }} style={{ paddingBottom: '8px' }}>
                         <Grid container spacing={2} style={{ paddingTop: '8px' }}>
-                            <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px', paddingTop: '4px' }}>
+                            <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '4px' }} overflow="hidden">
                                 <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                     {currentFavList.info.title}
                                 </Typography>
@@ -207,12 +209,19 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                                     src={getRandomHeaderGIF()}></img>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
+                                <IconButton size="large" onClick={() => setSubscribeURL()}>
+                                    <RssFeedIcon></RssFeedIcon>
+                                </IconButton>
+                                <IconButton size="large">
+                                    <AutorenewIcon></AutorenewIcon>
+                                </IconButton>
                                 <TextField
                                     id="outlined-basic"
                                     color="secondary"
                                     size="small"
                                     label="搜索歌曲"
                                     onChange={requestSearch}
+                                    autoComplete='off'
                                 />
                             </Grid>
                         </Grid>

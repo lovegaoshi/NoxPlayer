@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback, memo, useContext } from "react";
-import { Search } from '../components/Search'
-import { Fav } from './Fav'
+import { Search } from '../components/Search';
+import { Fav } from './Fav';
 import { ScrollBar } from "../styles/styles";
-import { AlertDialog } from "./ConfirmDialog"
-import { AddFavDialog, NewFavDialog } from "./AddFavDialog"
-import StorageManagerCtx from '../popup/App'
+import { AlertDialog } from "./ConfirmDialog";
+import { AddFavDialog, NewFavDialog, UpdateSubscribeDialog } from "./AddFavDialog";
+import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -23,6 +23,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
+import { getSongsFromBVids, getBiliSeriesList } from '../background/DataProcess';
 
 const outerLayerBtn = { padding: 'unset' }
 
@@ -75,6 +76,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openAddDialog, setOpenAddDialog] = useState(false)
+    const [openUpdateSubscribeDialog, setOpenUpdateSubscribeDialog] = useState(false)
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
@@ -90,7 +92,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         //console.log(favLists)
     }, [])
 
-    const handleSeach = useCallback((list) => {
+    const handleSearch = useCallback((list) => {
         setSearchList(list)
         setSelectedList(list)
     }, [searchList, selectedList])
@@ -110,6 +112,20 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             //console.log(val)
             StorageManager.addFavList(val, favLists)
         }
+    }
+    
+    const updateSubscribeURL = (listObj, urls) => {
+        setOpenUpdateSubscribeDialog(false)
+        if (listObj) {
+            listObj.subscribeUrls = urls
+            StorageManager.updateFavList(listObj)
+        }
+    }
+
+    const updateSubscribeFavList = (listObj) => {
+        let newSongs = getBiliSeriesList()
+        listObj.songList.concat(newSongs)
+        StorageManager.updateFavList(listObj)
     }
 
     const handleDeleteFavClick = (id) => {
@@ -179,7 +195,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
     return (
         <React.Fragment>
-            <Search handleSeach={handleSeach} />
+            <Search handleSearch={handleSearch} />
 
             <Box // Mid Grid -- SideBar
                 className={ScrollBar().root}
@@ -284,6 +300,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onAddOneFromFav={onAddOneFromFav}
                         handleDelteFromSearchList={handleDelteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
+                        setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}
+                        rssUpdate={() => setOpenNewDialog(true)}
                     />}
             </Box>
             <AlertDialog
@@ -300,7 +318,15 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     fromId={actionFavId}
                     favLists={favLists.map(v => v.info)}
                     song={actionFavSong}
+                    onNewFav={onNewFav}
                 />}
+
+            {selectedList && <UpdateSubscribeDialog
+                id="subscribeURLDialog"
+                openState={openUpdateSubscribeDialog}
+                onClose={updateSubscribeURL}
+                fromList={selectedList}
+            />}
         </React.Fragment >
     )
 })

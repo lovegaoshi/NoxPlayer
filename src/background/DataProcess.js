@@ -59,7 +59,13 @@ export const getSongList = async (bvid) => {
     return (songs)
 }
 
-const getSongsFromBVids = async (infos) => {
+export const getSongsFromBVids = async (infos, favList = []) => {
+
+    let favListBVid = []
+    
+    for (let i = 0; i < favList.length; i++) {
+        favListBVid.push(favList[i].bvid)
+    }
 
     let songs = []
 
@@ -68,6 +74,7 @@ const getSongsFromBVids = async (infos) => {
             return
         // Case of single part video
         if (info.pages.length == 1) {
+            if (favListBVid.includes(info.pages[0].bvid)) return;
             // lrc = await fetchLRC(info.title)
             songs.push(new Song({
                 cid: info.pages[0].cid,
@@ -83,7 +90,8 @@ const getSongsFromBVids = async (infos) => {
             // Can't use forEach, does not support await
             for (let index = 0; index < info.pages.length; index++) {
                 let page = info.pages[index]
-                // lrc = fetchLRC(page.part)
+                if (favListBVid.includes(page.bvid)) continue;
+                    // lrc = fetchLRC(page.part)
                 songs.push(new Song({
                     cid: page.cid,
                     bvid: page.bvid,
@@ -101,10 +109,10 @@ const getSongsFromBVids = async (infos) => {
     return (songs)
 }
 
-export const getBiliSeriesList = async (mid, sid, progressEmitter = (res) => {}) => {
-    return getSongsFromBVids(await fetchBiliSeriesInfo(mid, sid, progressEmitter))
+export const getBiliSeriesList = async (mid, sid, progressEmitter = (res) => {}, favList = []) => {
+    return getSongsFromBVids(await fetchBiliSeriesInfo(mid, sid, progressEmitter), favList)
 }
 
-export const getFavList = async (mid, progressEmitter = (res) => {}) => {
-    return getSongsFromBVids(await fetchFavList(mid, progressEmitter))
+export const getFavList = async (mid, progressEmitter = (res) => {}, favList = []) => {
+    return getSongsFromBVids(await fetchFavList(mid, progressEmitter), favList)
 }

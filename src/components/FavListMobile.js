@@ -3,7 +3,8 @@ import { Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
-import { AddFavDialog, NewFavDialog } from "./AddFavDialogMobile";
+import { AddFavDialog } from "./AddFavDialogMobile";
+import { NewFavDialog } from './AddFavDialog';
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -110,7 +111,7 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
         //console.log(favLists)
     }, [])
 
-    const handleSeach = useCallback((list) => {
+    const handleSearch = useCallback((list) => {
         setSearchList(list)
         setSelectedList(list)
     }, [searchList, selectedList])
@@ -214,7 +215,7 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                     </IconButton>
                 </Grid>
                 <Grid item xs={11}>
-                    <Search handleSeach={handleSeach} />
+                    <Search handleSearch={handleSearch} />
                 </Grid>
             </Grid>
 
