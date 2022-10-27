@@ -129,7 +129,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const updateSubscribeFavList = async (listObj) => {
         setRSSLoading(true)
         for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-            listObj.songList = listObj.songList.concat((await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList)
+            listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
         }
         StorageManager.updateFavList(listObj)
         // otherwise fav wont update
