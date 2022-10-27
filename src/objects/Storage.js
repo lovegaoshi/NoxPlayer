@@ -62,7 +62,7 @@ export default class StorageManager {
 
     async initWithDefault() {
         const _self = this
-        let value = dummyFavList(闹闹的人工智障歌切)
+        let value = dummyFavList('闹闹的人工智障歌切')
         value.songList = await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1])
 
         // const value2 = {
