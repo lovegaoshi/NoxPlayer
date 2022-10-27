@@ -8,6 +8,17 @@ const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'
 
+const dummyFavList = (favName) => {
+    return {
+        songList: [],
+        info: { title: favName, id: ('FavList-' + uuidv4()) },
+        subscribeUrls: [],
+        settings: {
+            autoRSSUpdate: false,
+        }
+    }
+}
+
 export default class StorageManager {
     constructor() {
         this.setFavLists = () => { }
@@ -51,12 +62,8 @@ export default class StorageManager {
 
     async initWithDefault() {
         const _self = this
-        const value = {
-            songList: await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1]),
-            info: { title: '闹闹的人工智障歌切', id: ('FavList-' + uuidv4()) },
-            subscribeUrls: [],
-
-        }
+        let value = dummyFavList(闹闹的人工智障歌切)
+        value.songList = await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1])
 
         // const value2 = {
         //     songList: await getSongList('BV1Ya411z7WL'),
@@ -90,11 +97,7 @@ export default class StorageManager {
 
     addFavList(favName) {
         const _self = this
-        const value = {
-            songList: [],
-            info: { title: favName, id: ('FavList-' + uuidv4()) },
-            subscribeUrls: [],
-        }
+        const value = dummyFavList(favName)
 
         chrome.storage.local.set({ [value.info.id]: value }, function () {
             _self.latestFavLists.push(value)
@@ -113,8 +116,10 @@ export default class StorageManager {
         chrome.storage.local.set({ [updatedToList.info.id]: updatedToList }, function () {
             const index = _self.latestFavLists.findIndex(f => f.info.id == updatedToList.info.id)
             _self.latestFavLists[index].songList = updatedToList.songList
-            _self.latestFavLists[index].subscribeUrls = updatedToList.subscribeUrls
-            console.debug('saving subscribe url', updatedToList.subscribeUrls)
+            if (updatedToList.subscribeUrls) {
+                _self.latestFavLists[index].subscribeUrls = updatedToList.subscribeUrls
+                console.debug('saving subscribe url', updatedToList.subscribeUrls)    
+            }
             _self.setFavLists([..._self.latestFavLists])
         });
     }

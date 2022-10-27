@@ -11,9 +11,10 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
     /**
      * @param {string}  input  input, can be a biliseries list url, or bvid, or fid
      * @param {function} progressEmitter    a emitter for ciurcularprogress.
+     * @param {array} favList a list of old BVIds; any BVid included in this list will not be processed for efficiency.
      */
     let list = {songList: [],
-                    info: { title: '搜索歌单', id: ('FavList1-' + 'Search')}
+                    info: { title: '搜索歌单', id: ('FavList-Search')}
                 }
     
     let reExtracted = /.*\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
@@ -21,6 +22,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         if (reExtracted !== null) {
             list.songList = await getBiliSeriesList(reExtracted[1], reExtracted[2], progressEmitter, favList)
                 .then((songs) => {return songs})
+            throw 're matched biliseries; raising a dummy error breaking loop.'
         }
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)

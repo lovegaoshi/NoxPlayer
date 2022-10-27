@@ -1,10 +1,10 @@
 import React, { forwardRef, useEffect, useState, useCallback, memo, useContext } from "react";
-import { Search } from '../components/Search';
+import { searchBiliURLs, Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
 import { AddFavDialog } from "./AddFavDialogMobile";
-import { NewFavDialog } from './AddFavDialog';
+import { NewFavDialog, UpdateSubscribeDialog } from './AddFavDialog';
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -30,24 +30,12 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import IconButton from "@mui/material/IconButton";
 import { LineWeight, Opacity } from "@mui/icons-material";
 import { lineHeight } from "@mui/system";
+import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 
 const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const outerLayerBtn = { padding: 'unset' }
-
-const CRUDBtn = {
-    ':hover': {
-        cursor: 'default'
-    },
-    marginTop: '-30px',
-    paddingBottom: '30px',
-    marginBottom: '-30px',
-    paddingTop: '30px',
-    paddingLeft: '8px',
-    paddingRight: '8px'
-}
 
 const CRUDIcon = {
     ':hover': {
@@ -78,19 +66,18 @@ const AddFavIcon = {
     color: '#ab5fff',
 }
 
-const DiskIcon = {
-    minWidth: '36px'
-}
 
-export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList }) {
+export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openAddDialog, setOpenAddDialog] = useState(false)
+    const [openUpdateSubscribeDialog, setOpenUpdateSubscribeDialog] = useState(false)
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
+    const [rssLoading, setRSSLoading] = useState(false)
     
     const StorageManager = useContext(StorageManagerCtx)
 
@@ -132,6 +119,26 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
             StorageManager.addFavList(val, favLists)
         }
     }
+    
+    const updateSubscribeURL = (listObj, urls) => {
+        setOpenUpdateSubscribeDialog(false)
+        if (listObj) {
+            listObj.subscribeUrls = urls
+            StorageManager.updateFavList(listObj)
+        }
+    }
+
+    const updateSubscribeFavList = async (listObj) => {
+        setRSSLoading(true)
+        for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
+            listObj.songList = listObj.songList.concat((await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList)
+        }
+        StorageManager.updateFavList(listObj)
+        // otherwise fav wont update
+        setSelectedList(null)
+        setSelectedList(listObj)
+        setRSSLoading(false)
+    }
 
     const handleDeleteFavClick = (id) => {
         setActionFavId(id)
@@ -156,7 +163,6 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
             let fromList = []
             let newSongList = []
             let toList = favLists.find(f => f.info.id == toId)
-
             if (song)
                 fromList = { songList: [song] }
             else if (fromId == 'FavList-Search')
@@ -246,7 +252,6 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                         keepMounted
                         openState={openNewDialog}
                         onClose={onNewFav}
-                        
                     />
                 </Grid>
                 <Divider light />
@@ -324,6 +329,11 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                         handleDelteFromSearchList={handleDelteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         playCurrentPlaylist={() => handlePlayListClick(selectedList)}
+                        setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}
+                        rssUpdate={() => {
+                            updateSubscribeFavList(selectedList)
+                        }}
+                        Loading={rssLoading}
                     />}
             </Box>
             <AlertDialog
@@ -341,7 +351,17 @@ export const FavListMobile = memo(function ({ onSongListChange, onPlayOneFromFav
                     favLists={favLists.map(v => v.info)}
                     song={actionFavSong}
                 />}
+
         </Dialog>
+            {selectedList && <UpdateSubscribeDialog
+                id="subscribeURLDialog"
+                openState={openUpdateSubscribeDialog}
+                onClose={updateSubscribeURL}
+                fromList={selectedList}
+                rssUpdate={() => {
+                    updateSubscribeFavList(selectedList)
+                }}
+            />}
         </React.Fragment >
     )
 })

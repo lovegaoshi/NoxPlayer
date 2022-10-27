@@ -30,6 +30,7 @@ import { zhCN } from '@mui/material/locale';
 import Tooltip from '@mui/material/Tooltip';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const theme = createTheme(
     {
@@ -60,13 +61,13 @@ const CRUDIcon = {
     color: '#8e5fab'
 }
 
-const songText = {
+export const songText = {
     fontSize: 16,
     minWidth: 0,
     color: '#ab5fff'
 }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
@@ -76,7 +77,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,
@@ -87,7 +88,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-function TablePaginationActions(props) {
+export function TablePaginationActions(props) {
     const theme = useTheme();
     const { count, page, rowsPerPage, onPageChange } = props;
 
@@ -148,9 +149,12 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, handleDelteFromSearchList, handleAddToFavClick, setSubscribeURL, rssUpdate, }) {
-    const [currentFavList, setCurrentFavList] = useState(null)
-    const [rows, setRows] = useState(null)
+export const Fav = (function ({ 
+    FavList, onSongIndexChange, onAddOneFromFav, 
+    handleDelteFromSearchList, handleAddToFavClick,
+    setSubscribeURL, rssUpdate, Loading }) {
+    const [currentFavList, setCurrentFavList] = useState(null);
+    const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
 
@@ -210,10 +214,15 @@ export const Fav = (function ({ FavList, onSongIndexChange, onAddOneFromFav, han
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton size="large" onClick={() => setSubscribeURL()}>
-                                    <RssFeedIcon></RssFeedIcon>
+                                <RssFeedIcon />
                                 </IconButton>
-                                <IconButton size="large">
-                                    <AutorenewIcon></AutorenewIcon>
+                                <IconButton 
+                                    size="large" 
+                                    onClick={() => {
+                                        rssUpdate()
+                                    }}
+                                >
+                                    {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
                                 </IconButton>
                                 <TextField
                                     id="outlined-basic"

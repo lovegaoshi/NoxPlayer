@@ -10,9 +10,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
-import { IconButton } from '@mui/material';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Input from '@mui/material/Input';
+import { Checkbox } from '@mui/material';
 
 export const NewFavDialog = function ({ onClose, openState }) {
   const [favName, setfavName] = useState('')
@@ -59,7 +58,7 @@ export const NewFavDialog = function ({ onClose, openState }) {
   );
 }
 
-export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song, onNewFav }) {
+export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song }) {
   const [favId, setfavId] = useState('')
 
   const handleCancel = () => {
@@ -113,9 +112,10 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
 }
 
 
-export const UpdateSubscribeDialog = function ({ fromList, onClose, openState }) {
+export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, rssUpdate }) {
 
   const [subUrl, setSubUrl] = useState("")
+  const [autoRSSUpdate, setAutoRSSUpdate] = useState(false)
 
   useEffect( () => {
     try{
@@ -142,10 +142,23 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState })
             value={subUrl}
             autoComplete='off'
           />
+          <Checkbox 
+            onChange={e => {
+              setAutoRSSUpdate(e.target.checked)
+            }}
+            label="自动更新"
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => onClose()}>取消</Button>
           <Button onClick={() => onClose(fromList, subUrl.split(';'))}>确认</Button>
+          <Button 
+            onClick={() => {
+              onClose(fromList, subUrl.split(';'))
+              rssUpdate()
+            }}>
+            确认并更新订阅
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

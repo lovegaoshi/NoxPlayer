@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useContext } from "react";
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import Box from "@mui/material/Box";
-import { FavListMobile } from './FavListMobile'
+import { FavList } from './FavListMobile'
 import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
@@ -126,22 +126,6 @@ export const PlayerMobile = function ({ songList }) {
         StorageManager.setPlayerSetting(playerSettings)
     }
 
-    const playlistButton = () => {
-        return (
-            <span className="go2playlist" title="playlist">
-                <IconButton>            
-                    <QueueMusicIcon 
-                        style={{ width: '32px', height: '32px' }}
-                        sx={{ color: 'gray' }} 
-                        onClick={() => {
-                            setShowFavList(favState => !favState)
-                        }}
-                    ></QueueMusicIcon>
-                </IconButton>
-            </span >
-        )
-    }
-
     const onAudioPlay = useCallback((audioInfo) => {
         // console.log('audio playing', audioInfo)
         const link = 'https://www.bilibili.com/video/' + audioInfo.bvid
@@ -149,14 +133,15 @@ export const PlayerMobile = function ({ songList }) {
             ...params,
             extendsContent: (
                 <span className="go2playlist" title="playlist">
-                    <IconButton>            
+                    <IconButton 
+                        onClick={() => {
+                            setShowFavList(favState => !favState)
+                        }}>            
                         <QueueMusicIcon 
                             style={{ width: '32px', height: '32px' }}
                             sx={{ color: 'gray' }} 
-                            onClick={() => {
-                                setShowFavList(favState => !favState)
-                            }}
-                        ></QueueMusicIcon>
+                        >
+                        </QueueMusicIcon>
                     </IconButton>
                 </span >
                 
@@ -227,14 +212,15 @@ export const PlayerMobile = function ({ songList }) {
             const link = 'https://www.bilibili.com/video/' + songList[0].bvid
             options.extendsContent = (
                 <span className="go2playlist" title="playlist">
-                    <IconButton>            
+                    <IconButton 
+                        onClick={() => {
+                            setShowFavList(favState => !favState)
+                        }}>            
                         <QueueMusicIcon 
                             style={{ width: '32px', height: '32px' }}
                             sx={{ color: 'gray' }} 
-                            onClick={() => {
-                                setShowFavList(favState => !favState)
-                            }}
-                        ></QueueMusicIcon>
+                        >
+                        </QueueMusicIcon>
                     </IconButton>
                 </span >
             )
@@ -257,7 +243,7 @@ export const PlayerMobile = function ({ songList }) {
     // console.log(currentAudio)
     return (
         <React.Fragment>
-            {params && <FavListMobile currentAudioList={params.audioLists}
+            {params && <FavList currentAudioList={params.audioLists}
                 onSongIndexChange={playByIndex}
                 onPlayOneFromFav={onPlayOneFromFav}
                 onPlayAllFromFav={onPlayAllFromFav}
