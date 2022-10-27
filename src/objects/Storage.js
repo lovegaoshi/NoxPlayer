@@ -64,7 +64,7 @@ export default class StorageManager {
         const _self = this
         let value = dummyFavList('闹闹的人工智障歌切')
         value.songList = await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1])
-
+        value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851']
         // const value2 = {
         //     songList: await getSongList('BV1Ya411z7WL'),
         //     info: { title: '默认歌单2', id: ('FavList-' + uuidv4()) }
