@@ -38,6 +38,12 @@ Virtuareal link所属虚拟艺人[诺莺Nox](https://space.bilibili.com/529249/c
 
 Nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的功能，其他功能需求请[私信电梓播放器的作者](https://message.bilibili.com/#/whisper/mid1989881)
 
+### Nox版的功能
+#### 视频列表订阅：
+支持bvid直接搜索b站的[视频列表](https://space.bilibili.com/5053504/channel/seriesdetail?sid=2701998)（广义上的合集）。
+由于为了避免b站封ip，合集搜索未使用多线程导致超大合集会很慢；因此在“搜索歌曲”栏的左边加了RSS按钮和更新按钮；RSS按钮可以填入视频列表的URL，更新按钮可以加入合集里新加入的歌，跳过已经有的歌，更新速度快。
+
+
 ## 项目简介
 
 - 是真正意义上的《电梓播放器》(?): Azusa-Player！
