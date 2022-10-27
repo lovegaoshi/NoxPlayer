@@ -36,7 +36,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         }
         // Handles Fav search
         else {
-            list.songList = await getFavList(input, favList)
+            list.songList = await getFavList(input, progressEmitter, favList)
             .then((songs) => {return songs})
         }
     } catch (err) {

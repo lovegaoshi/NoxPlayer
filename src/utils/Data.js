@@ -200,7 +200,11 @@ export const fetchFavList = async (mid, progressEmitter, favList = []) => {
         .then(async function (v) {
             // console.log(BVidPromises)
             for (let index = 0; index < v.length; index++) {
-                await v[index].json().then(js => js.data.medias.map(m => BVidPromises.push(fetchVideoInfo(m.bvid))))
+                await v[index].json().then(js => js.data.medias.map(m => {
+                    if (!favList.includes(m.bvid)) {
+                        BVidPromises.push(fetchVideoInfo(m.bvid))
+                    }
+                }))
             }
 
             await Promise.all(BVidPromises).then(res => {
