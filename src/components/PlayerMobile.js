@@ -74,16 +74,15 @@ export const PlayerMobile = function ({ songList }) {
         setplayingList(newAudioLists)
     }, [params, playingList])
 
-    const onPlayOneFromFav = useCallback((songs) => {
-
+    const onPlayOneFromFav = useCallback((songs, favList) => {
         const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
         //console.log(existingIndex)
         if (existingIndex != -1) {
-            currentAudioInst.updatePlayIndex(existingIndex)
+            currentAudioInst.playByIndex(existingIndex)
             return
         }
 
-        updateCurrentAudioList({ songs: songs, immediatePlay: true })
+        updateCurrentAudioList({ songs: songs.concat(favList.songList), replaceList: true })
     }, [params, playingList, currentAudioInst])
 
     const onAddOneFromFav = useCallback((songs) => {
@@ -237,6 +236,28 @@ export const PlayerMobile = function ({ songList }) {
         initPlayer()
     }, [songList])
 
+    // handles swipe action: call playlist when swiping left
+    const [touchStart, setTouchStart] = React.useState(0);
+    const [touchEnd, setTouchEnd] = React.useState(0);
+    
+    function handleTouchStart(e) {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    }
+    
+    function handleTouchMove(e) {
+        setTouchEnd(e.targetTouches[0].clientX);
+    }
+    
+    function handleTouchEnd() {
+        if (!touchEnd) {
+            return;
+        }
+        if (touchStart - touchEnd > 50) {
+            // do your stuff here for left swipe
+            setShowFavList(favState => !favState);
+        }    
+    }
     // //console.log('params')
     // //console.log(params)
     // //console.log('lyric' + lyric)
@@ -269,7 +290,11 @@ export const PlayerMobile = function ({ songList }) {
                         justifyContent="space-around"
                         style={{ maxHeight: "0%", height: "0px" }} // Relative height against the Player
                         sx={{ gridArea: "footer" }}
+                        onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
+                        onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
+                        onTouchEnd={() => handleTouchEnd()}
                     >
+                        
                         <ReactJkMusicPlayer
                             {...params}
                             showMediaSession

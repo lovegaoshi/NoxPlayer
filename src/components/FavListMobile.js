@@ -28,8 +28,6 @@ import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import IconButton from "@mui/material/IconButton";
-import { LineWeight, Opacity } from "@mui/icons-material";
-import { lineHeight } from "@mui/system";
 import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -205,6 +203,27 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         StorageManager.importStorage()
     }
 
+    const [touchStart, setTouchStart] = React.useState(0);
+    const [touchEnd, setTouchEnd] = React.useState(0);
+    
+    function handleTouchStart(e) {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    }
+    
+    function handleTouchMove(e) {
+        setTouchEnd(e.targetTouches[0].clientX);
+    }
+    
+    function handleTouchEnd() {
+        if (!touchEnd) {
+            return;
+        }
+        if (touchStart - touchEnd < -50) {
+            // do your stuff here for right swipe
+            handleClose();
+        }
+    }
     return (
         <React.Fragment>
             <Dialog
@@ -229,6 +248,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 className={ScrollBar().root}
                 style={{ overflow: "auto", maxHeight: "96%", minHeight: "20%", paddingTop: "10px", lineHeight: '32px' }}
                 sx={{ gridArea: "sidebar" }}
+                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
+                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
+                onTouchEnd={() => handleTouchEnd()}
             >
                 <Grid container spacing={2}>
                     <Grid item xs={4}>

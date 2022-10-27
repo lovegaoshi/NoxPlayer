@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
-import { getSongList, getFavList, getBiliSeriesList } from '../background/DataProcess';
+import { getSongList, getFavList, getBiliSeriesList, getBiliColleList } from '../background/DataProcess';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -17,12 +17,18 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
                     info: { title: '搜索歌单', id: ('FavList-Search')}
                 }
     
-    let reExtracted = /.*\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
-    try {
+    try {    
+        let reExtracted = /.*\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliSeriesList(reExtracted[1], reExtracted[2], progressEmitter, favList)
                 .then((songs) => {return songs})
             throw 're matched biliseries; raising a dummy error breaking loop.'
+        }
+        reExtracted = /.*\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
+        if (reExtracted !== null) {
+            list.songList = await getBiliColleList(reExtracted[1], reExtracted[2], progressEmitter, favList)
+                .then((songs) => {return songs})
+            throw 're matched bilicollection; raising a dummy error breaking loop.'
         }
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)

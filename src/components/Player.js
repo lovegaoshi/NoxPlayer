@@ -69,8 +69,7 @@ export const Player = function ({ songList }) {
         setplayingList(newAudioLists)
     }, [params, playingList])
 
-    const onPlayOneFromFav = useCallback((songs) => {
-
+    const onPlayOneFromFav = useCallback((songs, favList) => {
         const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
         //console.log(existingIndex)
         if (existingIndex != -1) {
@@ -78,7 +77,7 @@ export const Player = function ({ songList }) {
             return
         }
 
-        updateCurrentAudioList({ songs: songs, immediatePlay: true })
+        updateCurrentAudioList({ songs: songs.concat(favList.songList), replaceList: true })
     }, [params, playingList, currentAudioInst])
 
     const onAddOneFromFav = useCallback((songs) => {

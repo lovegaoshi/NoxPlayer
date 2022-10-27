@@ -156,13 +156,13 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(24);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(25)
+        setRowsPerPage(24)
         //console.log(FavList)
     }, [FavList])
 
@@ -263,7 +263,7 @@ export const Fav = (function ({
                                             whiteSpace: 'nowrap'
                                         }}
                                             style={{ paddingLeft: '10px' }}>
-                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song])} >{song.name}</Button>
+                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</Button>
                                         </StyledTableCell>
                                         <StyledTableCell align="center" sx={{
                                             width: '10%', fontSize: 4,

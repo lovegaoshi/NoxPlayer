@@ -40,8 +40,10 @@ Nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的�
 
 ### Nox版的功能
 #### 视频列表订阅：
-支持bvid直接搜索b站的[视频列表](https://space.bilibili.com/5053504/channel/seriesdetail?sid=2701998)（广义上的合集）。
+支持bvid搜索栏搜索b站的[视频列表](https://space.bilibili.com/5053504/channel/seriesdetail?sid=2701998)和[合集](https://space.bilibili.com/287837/channel/collectiondetail?sid=793137)。
 由于为了避免b站封ip，合集搜索未使用多线程导致超大合集会很慢；因此在“搜索歌曲”栏的左边加了RSS按钮和更新按钮；RSS按钮可以填入视频列表的URL，更新按钮可以加入合集里新加入的歌，跳过已经有的歌，更新速度快。
+#### 简易移动端适配：
+
 
 
 ## 项目简介

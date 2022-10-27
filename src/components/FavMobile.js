@@ -81,13 +81,13 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(24);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(24)
+        setRowsPerPage(5)
         //console.log(FavList)
     }, [FavList])
 
@@ -218,7 +218,7 @@ export const Fav = (function ({
                                             whiteSpace: 'nowrap'
                                         }}
                                             style={{ paddingLeft: '10px' }}>
-                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song])} >{song.name}</Button>
+                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</Button>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 )}
@@ -228,7 +228,7 @@ export const Fav = (function ({
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
                                             id="pagination-toolbar"
-                                            rowsPerPageOptions={[25, 75, 100]}
+                                            rowsPerPageOptions={[10, 75, 100]}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
