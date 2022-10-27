@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
-import ReactJkMusicPlayer from 'react-jinke-music-player'
-import '../css/react-jinke-player.css'
+import ReactJkMusicPlayer from 'react-jinke-music-player';
+import '../css/react-jinke-player.css';
 import Box from "@mui/material/Box";
-import { FavList } from '../components/FavList'
+import { FavList } from '../components/FavList';
 import { BiliBiliIcon } from "./bilibiliIcon";
-import { LyricOverlay } from './LyricOverlay'
-import StorageManagerCtx from '../popup/App'
+import { LyricOverlay } from './LyricOverlay';
+import StorageManagerCtx from '../popup/App';
+import { skins } from '../styles/skin';
 
 // Initial Player options
 const options = {
@@ -16,7 +17,8 @@ const options = {
     locale: 'zh_CN',
     autoPlayInitLoadPlayList: true,
     autoPlay: false,
-    defaultPlayIndex: 0
+    defaultPlayIndex: 0,
+    bannerBg: skins().playerBanner,
 }
 
 export const Player = function ({ songList }) {
@@ -183,12 +185,6 @@ export const Player = function ({ songList }) {
 
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
-            // console.log('setting:' + setting)
-            if (undefined == setting) {
-                setting = { playMode: 'shufflePlay', defaultPlayMode: 'shufflePlay', defaultVolume: 1 }
-                StorageManager.setPlayerSetting(setting)
-            }
-
             const link = 'https://www.bilibili.com/video/' + songList[0].bvid
             options.extendsContent = (
                 <span className="group audio-download" title="Bilibili">

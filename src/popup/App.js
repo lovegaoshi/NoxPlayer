@@ -1,7 +1,8 @@
 import React, { useEffect, useState, createContext } from "react";
-import PageLayout from './Layout'
-import { initSongList } from '../background/DataProcess'
-import StorageManager from '../objects/Storage'
+import PageLayout from './Layout';
+import { initSongList } from '../background/DataProcess';
+import StorageManager from '../objects/Storage';
+import { skins } from '../styles/skin';
 
  // Persist instance of the program, manages R/W to local storage.
 const StorageManagerCtx = createContext()
@@ -14,6 +15,10 @@ export const App = function () {
     useEffect(() => {
         initSongList(setCurrentSongList)
     }, [])
+
+    useEffect(() => {
+        document.title = skins().appTitle;
+      }, []);
 
     //console.log(currentSongList)
     return (

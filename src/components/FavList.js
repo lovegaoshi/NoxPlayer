@@ -3,7 +3,7 @@ import { searchBiliURLs, Search } from '../components/Search';
 import { Fav } from './Fav';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
-import { AddFavDialog, NewFavDialog, UpdateSubscribeDialog } from "./AddFavDialog";
+import { AddFavDialog, NewFavDialog, UpdateSubscribeDialog, SettingsDialog } from "./AddFavDialog";
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -76,6 +76,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openAddDialog, setOpenAddDialog] = useState(false)
     const [openUpdateSubscribeDialog, setOpenUpdateSubscribeDialog] = useState(false)
+    const [openSettingsDialog, setOpenSettingsDialog] = useState(false)
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
@@ -200,7 +201,10 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
     return (
         <React.Fragment>
-            <Search handleSearch={handleSearch} />
+            <Search 
+                handleSearch={handleSearch}
+                settingsOnClick={()=>{setOpenSettingsDialog(true)}}
+            />
 
             <Box // Mid Grid -- SideBar
                 className={ScrollBar().root}
@@ -337,6 +341,17 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     updateSubscribeFavList(selectedList)
                 }}
             />}
+            
+            <SettingsDialog
+            id='settingsDialog'
+            openState={openSettingsDialog}
+            onClose={(settings)=>{
+                StorageManager.setPlayerSetting(settings)
+                setOpenSettingsDialog(false)
+            }}
+            settings={StorageManager.getPlayerSetting()}
+            />
+
         </React.Fragment >
     )
 })

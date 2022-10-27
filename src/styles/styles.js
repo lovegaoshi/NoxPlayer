@@ -25,4 +25,4 @@ export const btnActiveStyle = makeStyles((theme) => ({
             background: '#e6e6e694',
         },
     },
-}))
+}));

@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import { Checkbox } from '@mui/material';
+import { SkinKeys, skins } from '../styles/skin';
 
 export const NewFavDialog = function ({ onClose, openState }) {
   const [favName, setfavName] = useState('')
@@ -159,6 +160,67 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
             }}>
             确认并更新订阅
           </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+
+export const SettingsDialog = function ({ onClose, openState, settings }) {
+  const [skin, setSkin] = useState('诺莺nox')
+  const [settingObj, setSettingObj] = useState({})
+
+  // load settings into this dialog
+  useEffect( () => {
+    async function init() {
+      settings = await settings
+      setSettingObj(settings)
+      let skinIndex = SkinKeys.indexOf(settings.skin)
+      if (skinIndex !== -1) {
+        setSkin(settings.skin)
+      } else {
+        setSkin(SkinKeys[0])
+      }
+    }
+    init()
+  }, [])
+
+  const handleCancel = () => {
+    onClose()
+  }
+
+  const handleOK = () => {
+    let updatedSettingObj = settingObj
+    updatedSettingObj.skin = skin
+    onClose(updatedSettingObj)
+  }
+
+  const onSkinSelect = (e) => {
+    setSkin(e.target.value)
+  }
+
+  return (
+    <div>
+      <Dialog open={openState}>
+        <DialogTitle>播放器设置</DialogTitle>
+        <DialogContent>
+          <p>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+          <Select
+            labelId="player-settings-skin-select"
+            id="player-settings-skin-select"
+            value={skin}
+            label="选择皮肤"
+            onChange={onSkinSelect}
+          >
+            {SkinKeys.map((v, i) => {
+                return (<MenuItem key={i} value={v}>{v}</MenuItem>)
+            })}
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel}>取消</Button>
+          <Button onClick={handleOK}>确认</Button>
         </DialogActions>
       </Dialog>
     </div>

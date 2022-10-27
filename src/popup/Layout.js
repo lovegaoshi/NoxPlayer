@@ -1,8 +1,9 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { Player } from '../components/Player'
-import { PlayerMobile } from '../components/PlayerMobile'
+import { Player } from '../components/Player';
+import { PlayerMobile } from '../components/PlayerMobile';
 import isMobile from 'is-mobile';
+import { skins } from '../styles/skin';
 
 const OutmostBox = {
     width: "100vw",
@@ -40,7 +41,7 @@ export default function PageLayout({ songList }) {
         // Outmost layer of the page
         <Box sx={OutmostBox} id='master-box'>
             <div className="container-fluid homepage-bgimage" align="center" height="100vh" width="100vw">
-                <img id="player-bkgrd" src="https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/nox/noxbgm.png?raw=true"></img>
+                <img id="player-bkgrd" src={skins().playerBannerMobile}></img>
             </div>
             <Box sx={PlayerBoxMobile} id='player-box'> 
                 <PlayerMobile songList={songList} id='player-instance'/>

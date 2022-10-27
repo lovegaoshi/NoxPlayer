@@ -20,6 +20,7 @@ const options = {
     autoPlay: false,
     defaultPlayIndex: 0,
     isInitRemember: true,
+    bannerBg: "",
 }
 
 export const PlayerMobile = function ({ songList }) {
@@ -202,13 +203,6 @@ export const PlayerMobile = function ({ songList }) {
         
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
-            // console.log('setting:' + setting)
-            if (undefined == setting) {
-                setting = { playMode: 'shufflePlay', defaultPlayMode: 'shufflePlay', defaultVolume: 1 }
-                StorageManager.setPlayerSetting(setting)
-            }
-
-            const link = 'https://www.bilibili.com/video/' + songList[0].bvid
             options.extendsContent = (
                 <span className="go2playlist" title="playlist">
                     <IconButton 

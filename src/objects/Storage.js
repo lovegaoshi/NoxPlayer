@@ -19,6 +19,12 @@ const dummyFavList = (favName) => {
     }
 }
 
+const defaultSetting = { 
+    playMode: 'shufflePlay',
+    defaultPlayMode: 'shufflePlay',
+    defaultVolume: 1,
+}
+
 export default class StorageManager {
     constructor() {
         this.setFavLists = () => { }
@@ -165,6 +171,10 @@ export default class StorageManager {
     async getPlayerSetting() {
         const settings = await this.readLocalStorage(PLAYER_SETTINGS)
         // console.log('setting1:' + settings)
+        if (settings == undefined) {
+            this.setPlayerSetting(defaultSetting)
+            return defaultSetting
+        }
         return (settings)
     }
 

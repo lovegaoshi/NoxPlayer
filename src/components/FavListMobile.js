@@ -4,7 +4,7 @@ import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
 import { AddFavDialog } from "./AddFavDialogMobile";
-import { NewFavDialog, UpdateSubscribeDialog } from './AddFavDialog';
+import { NewFavDialog, UpdateSubscribeDialog, SettingsDialog } from './AddFavDialog';
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -76,6 +76,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [actionFavSong, setActionFavSong] = useState(null)
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
     const [rssLoading, setRSSLoading] = useState(false)
+    const [openSettingsDialog, setOpenSettingsDialog] = useState(false)
     
     const StorageManager = useContext(StorageManagerCtx)
 
@@ -240,7 +241,10 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     </IconButton>
                 </Grid>
                 <Grid item xs={11}>
-                    <Search handleSearch={handleSearch} />
+                    <Search 
+                        handleSearch={handleSearch}
+                        settingsOnClick={()=>{setOpenSettingsDialog(true)}}
+                    />
                 </Grid>
             </Grid>
 
@@ -384,6 +388,16 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     updateSubscribeFavList(selectedList)
                 }}
             />}
+            <SettingsDialog
+            id='settingsDialog'
+            openState={openSettingsDialog}
+            onClose={(settings)=>{
+                StorageManager.setPlayerSetting(settings)
+                setOpenSettingsDialog(false)
+            }}
+            settings={StorageManager.getPlayerSetting()}
+            />
+
         </React.Fragment >
     )
 })

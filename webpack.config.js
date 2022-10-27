@@ -65,6 +65,9 @@ module.exports = (env) => {
   var fileExtensions = ["jpg", "jpeg", "png", "gif", "eot", "otf", "svg", "ttf", "woff", "woff2", "txt"];
 
   return {
+    experiments: {
+      topLevelAwait: true
+    },
     mode: ifProd('production', 'development'),
     entry: removeEmpty({
       popup: ifDirExists('popup', path.join(__dirname, 'src/popup/index.js')),

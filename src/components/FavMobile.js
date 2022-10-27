@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getRandomHeaderGIF } from '../utils/Data'
 import { ScrollBar } from "../styles/styles";
-import { styled } from '@mui/material/styles';
-import PropTypes from 'prop-types';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -21,10 +19,6 @@ import Typography from '@mui/material/Typography';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { zhCN } from '@mui/material/locale';
 import Tooltip from '@mui/material/Tooltip';
@@ -81,13 +75,13 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(5)
+        setRowsPerPage(25)
         //console.log(FavList)
     }, [FavList])
 
@@ -228,7 +222,7 @@ export const Fav = (function ({
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
                                             id="pagination-toolbar"
-                                            rowsPerPageOptions={[10, 75, 100]}
+                                            rowsPerPageOptions={[25, 75, 100]}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
