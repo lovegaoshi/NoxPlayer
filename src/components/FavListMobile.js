@@ -29,6 +29,7 @@ import Slide from '@mui/material/Slide';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import IconButton from "@mui/material/IconButton";
 import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -243,7 +244,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 <Grid item xs={11}>
                     <Search 
                         handleSearch={handleSearch}
-                        settingsOnClick={()=>{setOpenSettingsDialog(true)}}
                     />
                 </Grid>
             </Grid>
@@ -271,6 +271,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         </Tooltip>
                         <Tooltip title="导入歌单">
                             <FileUploadIcon sx={AddFavIcon} onClick={() => importFav()} />
+                        </Tooltip>
+                        <Tooltip title="播放器设置">
+                            <SettingsIcon sx={AddFavIcon} onClick={() => setOpenSettingsDialog(true)} />
                         </Tooltip>
                     </Grid>
                     <NewFavDialog

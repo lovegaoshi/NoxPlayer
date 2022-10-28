@@ -107,9 +107,12 @@ export const Search = function ({ handleSearch, settingsOnClick }) {
             >
                 <Box // Serch Grid -- SearchBox
                     sx={{ mx: "auto", textAlign: "center" }}>
-                    <IconButton size='large' onClick={settingsOnClick}>
-                        <SettingsIcon fontSize='inherit'/>
-                    </IconButton>
+                        {
+                            settingsOnClick == null? <></> :
+                            <IconButton size='large' onClick={settingsOnClick}>
+                                <SettingsIcon fontSize='inherit'/>
+                            </IconButton>
+                        }
                     <TextField
                         id="outlined-basic"
                         color="secondary"
