@@ -74,6 +74,12 @@ export const reExtract = (filename, uploader) => {
             filename = extractParenthesis(filename);
             extracted = /.*『(.+)』.*/.exec(filename);
             break;
+        case "焱缪-猫猫兔":
+            // in specialized brackets.
+            // 【折原露露 · 翻唱】乌兰巴托的夜（10.18-歌切）
+            filename = extractParenthesis(filename);
+            extracted = /【.+】(.+)/.exec(filename);
+            break;
             
     }
     if (extracted !== null) return extracted[1];
