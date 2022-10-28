@@ -203,18 +203,12 @@ export const PlayerMobile = function ({ songList }) {
         
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
+            const link = 'https://www.bilibili.com/video/' + songList[0].bvid
             options.extendsContent = (
-                <span className="go2playlist" title="playlist">
-                    <IconButton 
-                        onClick={() => {
-                            setShowFavList(favState => !favState)
-                        }}>            
-                        <QueueMusicIcon 
-                            style={{ width: '32px', height: '32px' }}
-                            sx={{ color: 'gray' }} 
-                        >
-                        </QueueMusicIcon>
-                    </IconButton>
+                <span className="group audio-download" title="Bilibili">
+                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
+                        <BiliBiliIcon />
+                    </a>
                 </span >
             )
             const params = {

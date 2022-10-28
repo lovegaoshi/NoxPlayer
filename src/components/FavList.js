@@ -346,7 +346,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             id='settingsDialog'
             openState={openSettingsDialog}
             onClose={(settings)=>{
-                StorageManager.setPlayerSetting(settings)
+                if (settings) {
+                    StorageManager.setPlayerSetting(settings)
+                }
                 setOpenSettingsDialog(false)
             }}
             settings={StorageManager.getPlayerSetting()}

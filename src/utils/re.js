@@ -47,6 +47,14 @@ export const reExtract = (filename, uploader) => {
                 extracted = /\d+ (.+)/.exec(filename);
             }
             break;
+            case "海鲜DD":
+                // sometimes date_in_numbers{songname}; others in brackets
+                //11 一番の宝物
+                extracted = /\d+ (.+)（+.+/.exec(filename);
+                if (extracted == null) {
+                    extracted = /\d+(.+)/.exec(filename);
+                }
+                break;
     }
     if (extracted !== null) return extracted[1];
     console.debug('resorting to default songname extract', filename, uploader);
