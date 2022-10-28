@@ -26,6 +26,7 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledTableRow, StyledTableCell, songText, TablePaginationActions } from './Fav';
+import { reExtract } from '../utils/re';
 
 const theme = createTheme(
     {
@@ -212,7 +213,7 @@ export const Fav = (function ({
                                             whiteSpace: 'nowrap'
                                         }}
                                             style={{ paddingLeft: '10px' }}>
-                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</Button>
+                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{reExtract(song.name, song.singer)}</Button>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 )}

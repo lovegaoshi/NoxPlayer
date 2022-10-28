@@ -224,7 +224,9 @@ export const Player = function ({ songList }) {
                 currentTime={currentAudio.currentTime}
                 audioName={currentAudio.name}
                 audioId={currentAudio.id}
-                audioCover={currentAudio.cover} />}
+                audioCover={currentAudio.cover}
+                artist={currentAudio.singer}
+                />}
 
             {params &&
                 <React.Fragment>
