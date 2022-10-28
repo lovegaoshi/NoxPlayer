@@ -5,7 +5,6 @@ import { getSongList, getFavList, getBiliSeriesList, getBiliColleList } from '..
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import SettingsIcon from '@mui/icons-material/Settings';
 
 
 
@@ -48,7 +47,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
     return list
 }
 
-export const Search = function ({ handleSearch, settingsOnClick }) {
+export const Search = function ({ handleSearch }) {
 
     const [searchValue, setSearchValue] = useState('')
     const [progressVal, setProgressVal] = useState(100)
@@ -107,12 +106,6 @@ export const Search = function ({ handleSearch, settingsOnClick }) {
             >
                 <Box // Serch Grid -- SearchBox
                     sx={{ mx: "auto", textAlign: "center" }}>
-                        {
-                            settingsOnClick == null? <></> :
-                            <IconButton size='large' onClick={settingsOnClick}>
-                                <SettingsIcon fontSize='inherit'/>
-                            </IconButton>
-                        }
                     <TextField
                         id="outlined-basic"
                         color="secondary"

@@ -1,7 +1,16 @@
 import { extractSongName } from './Data';
 
+const extractParenthesis = (filename) => {
+    let extracted = /(.+)（.+）/.exec(filename); 
+    if (extracted) {
+        return extracted[1];
+    } else {
+        return filename;
+    }
+}
+
 export const reExtract = (filename, uploader) => {
-    var extracted = null;
+    let extracted = null;
     switch (String(uploader)) {
         case "胡桃小王":
             // always {number}_{songname} by {artist}  
@@ -21,10 +30,8 @@ export const reExtract = (filename, uploader) => {
         case "钢铁慈父晚大林":
             // always 【HeraKris】【stream title】{songname}
             //【赫拉Kris】【随便唱唱】三国恋
-            extracted = /【赫拉Kris】【.+】(.+)（+.+）+/.exec(filename);
-            if (extracted == null) {
-                extracted = /【赫拉Kris】【.+】(.+)/.exec(filename);
-            }
+            filename = extractParenthesis(filename);
+            extracted = /【赫拉Kris】【.+】(.+)/.exec(filename);
             break;
         case "叹氣喵":
             break;
@@ -41,20 +48,33 @@ export const reExtract = (filename, uploader) => {
             break;
         case "HonmaMeiko":
             // always number {songname}
-            //11 一番の宝物
-            extracted = /\d+ (.+)（+.+/.exec(filename);
+            // 11 一番の宝物
+            filename = extractParenthesis(filename);
+            extracted = /\d+ (.+)/.exec(filename);
+            break;
+        case "海鲜DD":
+            // sometimes date_in_numbers{songname}; others in brackets
+            // 11一番の宝物
+            filename = extractParenthesis(filename);
+            extracted = /\d+(.+)/.exec(filename);
+            break;
+        case "夜の_":
+            // sometimes date_in_numbers {songname}; someimtes index.{somename}
+            // else song name is always in brackets.
+            // 9.普通朋友
+            filename = extractParenthesis(filename);
+            extracted = /\d+\.\d+ (.+)/.exec(filename);
             if (extracted == null) {
-                extracted = /\d+ (.+)/.exec(filename);
+                extracted = /\d+\.(.+)/.exec(filename);
             }
             break;
-            case "海鲜DD":
-                // sometimes date_in_numbers{songname}; others in brackets
-                //11 一番の宝物
-                extracted = /\d+ (.+)（+.+/.exec(filename);
-                if (extracted == null) {
-                    extracted = /\d+(.+)/.exec(filename);
-                }
-                break;
+        case "随心":
+            // in specialized brackets.
+            // 『露米Lumi_Official』『月牙湾』
+            filename = extractParenthesis(filename);
+            extracted = /.*『(.+)』.*/.exec(filename);
+            break;
+            
     }
     if (extracted !== null) return extracted[1];
     console.debug('resorting to default songname extract', filename, uploader);

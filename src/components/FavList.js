@@ -23,6 +23,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export const outerLayerBtn = { padding: 'unset' }
 
@@ -62,7 +64,7 @@ const AddFavIcon = {
     ':hover': {
         cursor: 'pointer'
     },
-    width: '0.7em',
+    width: '1em',
     color: '#ab5fff'
 }
 
@@ -212,20 +214,31 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>
-                    <Grid item xs={9}>
-                        <Typography variant="subtitle1" style={{ color: '#9600af94', paddingLeft: '8px' }}>
+                    <Grid item xs={6}>
+                        <Typography variant="subtitle1" style={{ color: '#9600af94', paddingLeft: '8px', paddingTop: '12px'}}>
                             我的歌单
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} style={{ textAlign: 'right', paddingRight: '8px' }}>
+                    <Grid item xs={6} style={{ textAlign: 'right', paddingRight: '8px' }}>
                         <Tooltip title="新建歌单">
-                            <AddIcon sx={AddFavIcon} onClick={() => setOpenNewDialog(true)} />
+                            <IconButton size='large' onClick={() => setOpenNewDialog(true)} >
+                                <AddIcon sx={AddFavIcon}/>
+                            </IconButton>
                         </Tooltip>
                         <Tooltip title="导出歌单">
-                            <DownloadIcon sx={AddFavIcon} onClick={() => exportFav()} />
+                            <IconButton size='large' onClick={() => exportFav()} >
+                                <DownloadIcon sx={AddFavIcon} />
+                            </IconButton>
                         </Tooltip>
                         <Tooltip title="导入歌单">
-                            <FileUploadIcon sx={AddFavIcon} onClick={() => importFav()} />
+                            <IconButton size='large' onClick={() => importFav()}>
+                                <FileUploadIcon sx={AddFavIcon} />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="播放器设置">
+                            <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
+                                <SettingsIcon sx={AddFavIcon} />
+                            </IconButton>
                         </Tooltip>
                     </Grid>
                     <NewFavDialog
