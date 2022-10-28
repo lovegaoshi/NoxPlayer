@@ -7,6 +7,7 @@ export const reExtract = (filename, uploader) => {
             // always {number}_{songname} by {artist}  
             // 27_星の在り処 Full Ver. (Less Vocal) [BONUS TRACK] by Falcom Sound Team jdk
             // occasionally theres a parenthesis; always take whats before left parenthesis
+            // im sure theres a one statement way to do this re....
             extracted = /\d*_(.+) \(.+/.exec(filename);
             if (extracted == null) {
                 extracted = /\d*_(.+) \(?.*by .+/.exec(filename);
@@ -21,6 +22,9 @@ export const reExtract = (filename, uploader) => {
             // always 【HeraKris】【stream title】{songname}
             //【赫拉Kris】【随便唱唱】三国恋
             extracted = /【赫拉Kris】【.+】(.+)（+.+）+/.exec(filename);
+            if (extracted == null) {
+                extracted = /【赫拉Kris】【.+】(.+)/.exec(filename);
+            }
             break;
         case "叹氣喵":
             break;
@@ -38,7 +42,10 @@ export const reExtract = (filename, uploader) => {
         case "HonmaMeiko":
             // always number {songname}
             //11 一番の宝物
-            extracted = /\d+ (.+)/.exec(filename);
+            extracted = /\d+ (.+)（+.+/.exec(filename);
+            if (extracted == null) {
+                extracted = /\d+ (.+)/.exec(filename);
+            }
             break;
     }
     if (extracted !== null) return extracted[1];
