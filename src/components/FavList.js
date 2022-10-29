@@ -25,6 +25,9 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 export const outerLayerBtn = { padding: 'unset' }
 
@@ -47,7 +50,7 @@ const CRUDIcon = {
     width: '0.7em',
     height: '0.7em',
     paddingBottom: '2px',
-    color: '#ab5fff'
+    color: colorTheme.playListIconColor,
 }
 
 const CRUDIconDisable = {
@@ -57,7 +60,7 @@ const CRUDIconDisable = {
     width: '0.7em',
     height: '0.7em',
     paddingBottom: '2px',
-    color: '##adadad'
+    color: colorTheme.iconDisableColor
 }
 
 const AddFavIcon = {
@@ -65,7 +68,7 @@ const AddFavIcon = {
         cursor: 'pointer'
     },
     width: '1em',
-    color: '#ab5fff'
+    color: colorTheme.playListIconColor,
 }
 
 export const DiskIcon = {
@@ -214,12 +217,12 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <Typography variant="subtitle1" style={{ color: '#9600af94', paddingLeft: '8px', paddingTop: '12px'}}>
+                    <Grid item xs={4}>
+                        <Typography variant="subtitle1" style={{ color: colorTheme.myPlayListCaptionColor, paddingLeft: '8px', paddingTop: '12px'}}>
                             我的歌单
                         </Typography>
                     </Grid>
-                    <Grid item xs={6} style={{ textAlign: 'right', paddingRight: '8px' }}>
+                    <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '8px' }}>
                         <Tooltip title="新建歌单">
                             <IconButton size='large' onClick={() => setOpenNewDialog(true)} >
                                 <AddIcon sx={AddFavIcon}/>
@@ -262,7 +265,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <ListItemIcon sx={DiskIcon}>
                                     <ManageSearchIcon />
                                 </ListItemIcon>
-                                <ListItemText sx={{ color: '#9c55fac9' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
+                                <ListItemText sx={{ color: colorTheme.myPlayListCaptionColor }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
                             </ListItemButton>
                             <Box component="div" sx={CRUDBtn}>
                                 <Tooltip title="播放歌单">
@@ -291,7 +294,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                     <ListItemIcon sx={DiskIcon}>
                                         <AlbumOutlinedIcon />
                                     </ListItemIcon>
-                                    <ListItemText sx={{ color: '#9600af94' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
+                                    <ListItemText sx={{ color: colorTheme.myPlayListCaptionColor }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
                                 </ListItemButton>
                                 <Box component="div" sx={CRUDBtn}>
                                     <Tooltip title="播放歌单">

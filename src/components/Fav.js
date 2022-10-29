@@ -31,6 +31,9 @@ import Tooltip from '@mui/material/Tooltip';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
+import { skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 const theme = createTheme(
     {
@@ -58,13 +61,13 @@ const CRUDIcon = {
         cursor: 'pointer'
     },
     width: '0.7em',
-    color: '#8e5fab'
+    color: colorTheme.playListIconColor
 }
 
 export const songText = {
     fontSize: 16,
     minWidth: 0,
-    color: '#ab5fff'
+    color: colorTheme.songCaptionColor
 }
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -204,7 +207,7 @@ export const Fav = (function ({
                     <Box sx={{ flexGrow: 1, maxHeight: '72px' }} style={{ paddingBottom: '8px' }}>
                         <Grid container spacing={2} style={{ paddingTop: '8px' }}>
                             <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '4px' }} overflow="hidden">
-                                <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
+                                <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                     {currentFavList.info.title}
                                 </Typography>
 
@@ -236,7 +239,14 @@ export const Fav = (function ({
                             </Grid>
                         </Grid>
                     </Box>
-                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "calc(100% - 65px)" }} style={{ overflow: "auto" }} >
+                    <TableContainer 
+                        className={className}
+                        id='FavTable'
+                        component={Paper}
+                        sx={{ maxHeight: "calc(100% - 65px)" }}
+                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle }} 
+                    >
+
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
@@ -269,7 +279,7 @@ export const Fav = (function ({
                                         <StyledTableCell align="center" sx={{
                                             width: '10%', fontSize: 4,
                                             minWidth: 0,
-                                            color: '#ab5fff'
+                                            color: colorTheme.uploaderCaptionColor
                                         }} >
                                             <a href={"https://space.bilibili.com/" + song.singerId} target="_blank" style={{ color: 'inherit', textDecoration: 'none' }} >
                                                 {song.singer}

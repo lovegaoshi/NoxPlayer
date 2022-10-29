@@ -52,21 +52,10 @@ body {
   background-color: '#c6acfc';
 }
 
-#FavTable {
-  box-shadow: -4px 5px 6px 2px rgb(166 88 249 / 20%),
-    4px -3px 2px 0px rgb(166 88 249 / 20%), 1px 1px 0px 2px rgb(0 0 0 / 12%);
-}
-
-#LrcImg {
-  box-shadow: rgb(114 90 248 / 40%) 5px 5px, rgb(152 92 241 / 30%) 10px 10px,
-    rgb(146 90 247 / 19%) 15px 15px, rgb(172 127 240 / 10%) 20px 20px,
-    rgb(148 119 229 / 5%) 25px 25px;
-}
-
 #blur-glass {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #ffffff80;
   backdrop-filter: blur(35px);
 }

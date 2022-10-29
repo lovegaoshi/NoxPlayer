@@ -6,8 +6,11 @@ import TextField from "@mui/material/TextField";
 import { withStyles } from '@mui/styles';
 import Grid from "@mui/material/Grid";
 import { reExtract } from '../utils/re';
-import { LyricSearchBar } from './LyricSearchBar'
-import StorageManagerCtx from '../popup/App'
+import { LyricSearchBar } from './LyricSearchBar';
+import StorageManagerCtx from '../popup/App';
+import { skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 const INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL = 5000;
 
@@ -63,7 +66,7 @@ export const LyricMobile = withStyles(styles)((props) => {
         return (
             <div style={{
                 textAlign: 'center',
-                color: active ? '#c660e7' : '#4d388f',
+                color: active ? colorTheme.lyricActiveColor : colorTheme.lyricInactiveColor,
                 padding: '6px 12px',
                 fontSize: active ? '18px' : '15px',
                 fontFamily: 'Georgia,\'Microsoft YaHei\',simsun,serif'

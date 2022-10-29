@@ -30,6 +30,9 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import IconButton from "@mui/material/IconButton";
 import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -44,7 +47,7 @@ const CRUDIcon = {
     height: '30px',
     paddingTop: '12px',
     paddingBottom: '12px',
-    color: '#ab5fff',
+    color: colorTheme.playListIconColor,
 }
 
 const CRUDIconDisable = {
@@ -54,7 +57,7 @@ const CRUDIconDisable = {
     width: '1.2em',
     height: '1.2em',
     paddingBottom: '2px',
-    color: '##adadad'
+    color: colorTheme.iconDisableColor
 }
 
 const AddFavIcon = {
@@ -62,7 +65,7 @@ const AddFavIcon = {
         cursor: 'pointer'
     },
     width: '40px',
-    color: '#ab5fff',
+    color: colorTheme.playListIconColor,
 }
 
 
@@ -258,7 +261,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             >
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        <Typography variant="subtitle1" style={{ color: '#9600af94', paddingLeft: '18px' }}>
+                        <Typography variant="subtitle1" style={{ color: colorTheme.myPlayListCaptionColor, paddingLeft: '18px' }}>
                             我的歌单
                         </Typography>
                     </Grid>
@@ -297,7 +300,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <ListItemIcon sx={DiskIcon}>
                                     <ManageSearchIcon />
                                 </ListItemIcon>
-                                <ListItemText style={{ maxWidth: '50%' }} sx={{ color: '#9c55fac9' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
+                                <ListItemText style={{ maxWidth: '50%' }} sx={{ color: colorTheme.myPlayListCaptionColor }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
                             </ListItemButton>
                             <Box component="div" sx={CRUDBtn} align="right">
                                 <Tooltip title="播放歌单">
@@ -326,7 +329,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                     <ListItemIcon sx={DiskIcon}>
                                         <AlbumOutlinedIcon />
                                     </ListItemIcon>
-                                    <ListItemText sx={{ color: '#9600af94' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
+                                    <ListItemText sx={{ color: colorTheme.myPlayListCaptionColor }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
                                 </ListItemButton>
                                 <Box component="div" sx={CRUDBtn}  align="right">
                                     <Tooltip title="播放歌单">

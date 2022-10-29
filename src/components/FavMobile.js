@@ -27,6 +27,9 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledTableRow, StyledTableCell, songText, TablePaginationActions } from './Fav';
 import { reExtract } from '../utils/re';
+import { skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 const theme = createTheme(
     {
@@ -65,7 +68,7 @@ const CRUDIcon = {
         cursor: 'pointer'
     },
     width: '1.2em',
-    color: '#8e5fab'
+    color: colorTheme.playListIconColor
 }
 
 export const Fav = (function ({
@@ -131,7 +134,7 @@ export const Fav = (function ({
                         <Grid container spacing={2} style={{ paddingTop: '8px', paddingBottom: '8px' }}>
                             <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
                                 <Button onClick={playCurrentPlaylist}>
-                                    <Typography variant="h6" style={{ color: '#9600af94', whiteSpace: 'nowrap', fontSize: '2rem' }}>
+                                    <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                         {playlistTitleParse(currentFavList.info.title)}
                                     </Typography>
                                 </Button>
@@ -170,7 +173,13 @@ export const Fav = (function ({
                             
                         </Grid>
                     </Box>
-                    <TableContainer className={className} id='FavTable' component={Paper} sx={{ maxHeight: "80%", maxWidth: "95%" }} style={{ overflow: "auto" }} >
+                    <TableContainer 
+                        className={className}
+                        id='FavTable' 
+                        component={Paper} 
+                        sx={{ maxHeight: "80%", maxWidth: "95%" }} 
+                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle }}
+                    >
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
                                 <TableRow>
