@@ -168,6 +168,7 @@ export const Fav = (function ({
 
     const requestSearch = (e) => {
         const searchedVal = e.target.value
+        setPage(0)
         if (searchedVal == '') {
             setRows(FavList.songList)
             return

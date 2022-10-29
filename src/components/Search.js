@@ -41,7 +41,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
             .then((songs) => {return songs})
         }
     } catch (err) {
-        console.error(err)
+        console.warn(err)
     }
     console.debug('searched bv list', list)
     return list

@@ -179,14 +179,14 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
 export const fetchFavList = async (mid, progressEmitter, favList = []) => {
     logger.info("calling fetchFavList")
     const res = await fetch(URL_FAV_LIST.replace('{mid}', mid).replace('{pn}', 1))
-    const json = await res.json()
+    const json = await res.clone().json()
     const data = json.data
 
     const mediaCount = data.info.media_count
     let totalPagesRequired = 1 + Math.floor(mediaCount / 20)
 
-    const BVidPromises = data.medias.map(m => fetchVideoInfo(m.bvid))
-    const pagesPromises = []
+    const BVidPromises = []
+    const pagesPromises = [res]
 
     for (let page = 2; page <= totalPagesRequired; page++) {
         pagesPromises.push(fetch(URL_FAV_LIST.replace('{mid}', mid).replace('{pn}', page)))
