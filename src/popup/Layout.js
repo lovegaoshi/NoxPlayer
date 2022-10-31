@@ -3,7 +3,12 @@ import Box from "@mui/material/Box";
 import { Player } from '../components/Player';
 import { PlayerMobile } from '../components/PlayerMobile';
 import isMobile from 'is-mobile';
-import { skins } from '../styles/skin';
+import { skinPreset } from '../styles/skin';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+let colorTheme = skinPreset.colorTheme;
+
+const theme = createTheme(colorTheme.palette);
 
 const OutmostBox = {
     width: "100vw",
@@ -39,22 +44,26 @@ export default function PageLayout({ songList }) {
         
     return (
         // Outmost layer of the page
-        <Box sx={OutmostBox} id='master-box'>
-            <div className="container-fluid homepage-bgimage" align="center" height="100vh" width="100vw">
-                <img id="player-bkgrd" src={skins().playerBannerMobile}></img>
-            </div>
-            <Box sx={PlayerBoxMobile} id='player-box'> 
-                <PlayerMobile songList={songList} id='player-instance'/>
+        <ThemeProvider theme={theme}>
+            <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.PCBackgroundColor }}>
+                <div className="container-fluid homepage-bgimage" align="center" height="100vh" width="100vw">
+                    <img id="player-bkgrd" src={skinPreset.playerBannerMobile}></img>
+                </div>
+                <Box sx={PlayerBoxMobile} id='player-box'> 
+                    <PlayerMobile songList={songList} id='player-instance'/>
+                </Box>
             </Box>
-        </Box>
+        </ThemeProvider>
     );
     }
     return (
         // Outmost layer of the page
-        <Box sx={OutmostBox}>
-            <Box sx={PlayerBox}> 
-                <Player songList={songList} />
+        <ThemeProvider theme={theme}>
+            <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.PCBackgroundColor }}>
+                <Box sx={PlayerBox}> 
+                    <Player songList={songList} />
+                </Box>
             </Box>
-        </Box>
+        </ThemeProvider>
     );
 }

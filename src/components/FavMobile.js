@@ -11,6 +11,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
+import ListItemButton from '@mui/material/ListItemButton';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -178,7 +179,7 @@ export const Fav = (function ({
                         id='FavTable' 
                         component={Paper} 
                         sx={{ maxHeight: "70%", maxWidth: "95%" }} 
-                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle }}
+                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle, backgroundColor: colorTheme.FavlistBackgroundColor }}
                     >
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
@@ -188,6 +189,7 @@ export const Fav = (function ({
                                             key={column.id}
                                             align={column.align}
                                             sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
+                                            style={{ backgroundColor: colorTheme.FavlistBackgroundColor, color:colorTheme.songListColumnHeaderColor }}
                                         >
                                             {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}
                                         </TableCell>))}
@@ -222,7 +224,11 @@ export const Fav = (function ({
                                             whiteSpace: 'nowrap'
                                         }}
                                             style={{ paddingLeft: '10px' }}>
-                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{reExtract(song.name, song.singer)}</Button>
+                                            <ListItemButton 
+                                                variant="text" 
+                                                sx={songText} 
+                                                onClick={() => onSongIndexChange([song], currentFavList)} 
+                                            >{reExtract(song.name, song.singer)}</ListItemButton>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 )}
@@ -249,6 +255,7 @@ export const Fav = (function ({
                                                     return `${from}-${to} / ${count !== -1 ? count : `> ${to}`}`;  
                                                 }
                                             }
+                                            style={{ color:colorTheme.playListIconColor }}
                                         />
                                     </ThemeProvider>
                                 </TableRow>

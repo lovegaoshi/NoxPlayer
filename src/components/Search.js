@@ -6,8 +6,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 
-
-
 export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favList = []) => {
     /**
      * @param {string}  input  input, can be a biliseries list url, or bvid, or fid
@@ -87,9 +85,10 @@ export const Search = function ({ handleSearch }) {
             }
         } else {
             return (
-                <IconButton size='large' onClick={() => {
-                    searchBili(searchValue)
-                }}>
+                <IconButton 
+                    size='large'
+                    onClick={() => {searchBili(searchValue)}}
+                    >
                     <SearchIcon fontSize='inherit'/>
                 </IconButton>
             )
@@ -108,7 +107,6 @@ export const Search = function ({ handleSearch }) {
                     sx={{ mx: "auto", textAlign: "center" }}>
                     <TextField
                         id="outlined-basic"
-                        color="secondary"
                         label="BVid/fid"
                         placeholder="BV1w44y1b7MX/1303535681"
                         onKeyDown={keyPress}

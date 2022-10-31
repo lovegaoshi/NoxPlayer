@@ -31,8 +31,13 @@ import IconButton from "@mui/material/IconButton";
 import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 
 let colorTheme = skinPreset.colorTheme;
+let modifiedBackgroundPalette = colorTheme.palette;
+modifiedBackgroundPalette.components.MuiPaper.styleOverrides.root.backgroundColor = colorTheme.PCBackgroundColor;
+const theme = createTheme(modifiedBackgroundPalette);
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
@@ -231,6 +236,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }
     return (
         <React.Fragment>
+            
+        <ThemeProvider theme={theme}>
             <Dialog
                 fullScreen
                 open={open}
@@ -368,43 +375,45 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         Loading={rssLoading}
                     />}
             </Box>
-            <AlertDialog
-                id="DeleteFav"
-                openState={openDeleteDialog}
-                onClose={onDelteFav}
-                value={actionFavId}
-            />
-            {favLists &&
-                <AddFavDialog
-                    id="AddFav"
-                    openState={openAddDialog}
-                    onClose={onAddFav}
-                    fromId={actionFavId}
-                    favLists={favLists.map(v => v.info)}
-                    song={actionFavSong}
-                />}
+            
 
         </Dialog>
-            {selectedList && <UpdateSubscribeDialog
-                id="subscribeURLDialog"
-                openState={openUpdateSubscribeDialog}
-                onClose={updateSubscribeURL}
-                fromList={selectedList}
-                rssUpdate={() => {
-                    updateSubscribeFavList(selectedList)
-                }}
+        </ThemeProvider>
+        <AlertDialog
+            id="DeleteFav"
+            openState={openDeleteDialog}
+            onClose={onDelteFav}
+            value={actionFavId}
+        />
+        {favLists &&
+            <AddFavDialog
+                id="AddFav"
+                openState={openAddDialog}
+                onClose={onAddFav}
+                fromId={actionFavId}
+                favLists={favLists.map(v => v.info)}
+                song={actionFavSong}
             />}
-            <SettingsDialog
-            id='settingsDialog'
-            openState={openSettingsDialog}
-            onClose={(settings)=>{
-                if (settings) {
-                    StorageManager.setPlayerSetting(settings)
-                }
-                setOpenSettingsDialog(false)
+        {selectedList && <UpdateSubscribeDialog
+            id="subscribeURLDialog"
+            openState={openUpdateSubscribeDialog}
+            onClose={updateSubscribeURL}
+            fromList={selectedList}
+            rssUpdate={() => {
+                updateSubscribeFavList(selectedList)
             }}
-            settings={StorageManager.getPlayerSetting()}
-            />
+        />}
+        <SettingsDialog
+        id='settingsDialog'
+        openState={openSettingsDialog}
+        onClose={(settings)=>{
+            if (settings) {
+                StorageManager.setPlayerSetting(settings)
+            }
+            setOpenSettingsDialog(false)
+        }}
+        settings={StorageManager.getPlayerSetting()}
+        />
 
         </React.Fragment >
     )

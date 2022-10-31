@@ -12,7 +12,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -32,6 +31,7 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
 import { skinPreset } from '../styles/skin';
+import ListItemButton from '@mui/material/ListItemButton';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -67,12 +67,11 @@ const CRUDIcon = {
 export const songText = {
     fontSize: 16,
     minWidth: 0,
-    color: colorTheme.songCaptionColor
 }
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: colorTheme.FavlistAlternateBackgroundColor,//theme.palette.action.hover,
     },
     // hide last border
     '&:last-child td, &:last-child th': {
@@ -117,6 +116,7 @@ export function TablePaginationActions(props) {
                 onClick={handleFirstPageButtonClick}
                 disabled={page === 0}
                 aria-label="first page"
+                style={{ color:colorTheme.playListIconColor }}
             >
                 {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
             </IconButton>
@@ -124,6 +124,7 @@ export function TablePaginationActions(props) {
                 onClick={handleBackButtonClick}
                 disabled={page === 0}
                 aria-label="previous page"
+                style={{ color:colorTheme.playListIconColor }}
             >
                 {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
             </IconButton>
@@ -131,6 +132,7 @@ export function TablePaginationActions(props) {
                 onClick={handleNextButtonClick}
                 disabled={page >= Math.ceil(count / rowsPerPage) - 1}
                 aria-label="next page"
+                style={{ color:colorTheme.playListIconColor }}
             >
                 {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </IconButton>
@@ -138,6 +140,7 @@ export function TablePaginationActions(props) {
                 onClick={handleLastPageButtonClick}
                 disabled={page >= Math.ceil(count / rowsPerPage) - 1}
                 aria-label="last page"
+                style={{ color:colorTheme.playListIconColor }}
             >
                 {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
             </IconButton>
@@ -217,7 +220,10 @@ export const Fav = (function ({
                                     src={getRandomHeaderGIF()}></img>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
-                                <IconButton size="large" onClick={() => setSubscribeURL()}>
+                                <IconButton 
+                                    size="large" 
+                                    onClick={() => setSubscribeURL()}
+                                >
                                 <RssFeedIcon />
                                 </IconButton>
                                 <IconButton 
@@ -244,17 +250,18 @@ export const Fav = (function ({
                         id='FavTable'
                         component={Paper}
                         sx={{ maxHeight: "calc(100% - 65px)" }}
-                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle }} 
+                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle, backgroundColor: colorTheme.FavlistBackgroundColor }} 
                     >
 
                         <Table stickyHeader aria-label="sticky table" >
-                            <TableHead>
+                            <TableHead >
                                 <TableRow>
                                     {columns.map((column) => (
                                         <TableCell
                                             key={column.id}
                                             align={column.align}
                                             sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
+                                            style={{ backgroundColor: colorTheme.FavlistBackgroundColor, color:colorTheme.songListColumnHeaderColor }}
                                         >
                                             {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}
                                         </TableCell>))}
@@ -274,7 +281,7 @@ export const Fav = (function ({
                                             whiteSpace: 'nowrap'
                                         }}
                                             style={{ paddingLeft: '10px' }}>
-                                            <Button variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</Button>
+                                            <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</ListItemButton>
                                         </StyledTableCell>
                                         <StyledTableCell align="center" sx={{
                                             width: '10%', fontSize: 4,
@@ -321,6 +328,7 @@ export const Fav = (function ({
                                             onPageChange={handleChangePage}
                                             onRowsPerPageChange={handleChangeRowsPerPage}
                                             ActionsComponent={TablePaginationActions}
+                                            style={{ color:colorTheme.playListIconColor }}
                                         />
                                     </ThemeProvider>
                                 </TableRow>

@@ -269,16 +269,16 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                             </ListItemButton>
                             <Box component="div" sx={CRUDBtn}>
                                 <Tooltip title="播放歌单">
-                                    <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(searchList)} />
+                                    <PlaylistPlayIcon size='large' sx={CRUDIcon} onClick={() => handlePlayListClick(searchList)} />
                                 </Tooltip>
                                 <Tooltip title="添加到播放列表">
-                                    <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(searchList)} />
+                                    <PlaylistAddIcon size='large' sx={CRUDIcon} onClick={() => handleAddPlayListClick(searchList)} />
                                 </Tooltip>
                                 <Tooltip title="添加到收藏歌单">
-                                    <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
+                                    <AddBoxOutlinedIcon size='large' sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
                                 <Tooltip title="删除歌单">
-                                    <DeleteOutlineOutlinedIcon sx={CRUDIconDisable} />
+                                    <DeleteOutlineOutlinedIcon size='large' sx={CRUDIconDisable} />
                                 </Tooltip>
                             </Box>
                         </ListItemButton>

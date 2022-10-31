@@ -2,13 +2,12 @@ import React, { useEffect, useState, useCallback, useContext } from "react";
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import Box from "@mui/material/Box";
-import { FavList } from './FavListMobile'
+import { FavList } from './FavListMobile';
 import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import IconButton from "@mui/material/IconButton";
-
 // Initial Player options
 const options = {
     mode: 'full',

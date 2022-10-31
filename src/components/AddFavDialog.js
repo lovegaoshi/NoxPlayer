@@ -12,7 +12,9 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import { Checkbox } from '@mui/material';
-import { SkinKeys, skins } from '../styles/skin';
+import { SkinKeys, skins, skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 export const NewFavDialog = function ({ onClose, openState }) {
   const [favName, setfavName] = useState('')
@@ -45,6 +47,7 @@ export const NewFavDialog = function ({ onClose, openState }) {
             variant="standard"
             onChange={onfavName}
             value={favName}
+            autoComplete='off'
           />
         </DialogContent>
         <DialogActions>
@@ -118,13 +121,17 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
   const [subUrl, setSubUrl] = useState("")
   const [autoRSSUpdate, setAutoRSSUpdate] = useState(false)
 
-  useEffect( () => {
+  const loadRSSUrl = (subscribeUrls) => {
     try{
-      console.debug('parsing fromList.subscribeUrls', fromList.subscribeUrls)
-      setSubUrl(fromList.subscribeUrls.join(';'))
+      console.debug('parsing fromList.subscribeUrls', subscribeUrls)
+      setSubUrl(subscribeUrls.join(';'))
     } catch {
       setSubUrl("")
     }
+  }
+
+  useEffect( () => {
+    loadRSSUrl(fromList.subscribeUrls)
   }, [fromList.info.id])
 
   return (
@@ -151,7 +158,11 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => onClose()}>取消</Button>
+          <Button 
+            onClick={() => {
+              loadRSSUrl(fromList.subscribeUrls)
+              onClose()
+            }}>取消</Button>
           <Button onClick={() => onClose(fromList, subUrl.split(';'))}>确认</Button>
           <Button 
             onClick={() => {
