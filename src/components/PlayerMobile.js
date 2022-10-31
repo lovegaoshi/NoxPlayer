@@ -132,6 +132,13 @@ export const PlayerMobile = function ({ songList }) {
         const newParam = {
             ...params,
             extendsContent: (
+                <span className="group audio-download" title="Bilibili">
+                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
+                        <BiliBiliIcon />
+                    </a>
+                </span >
+                /*
+                
                 <span className="go2playlist" title="playlist">
                     <IconButton 
                         onClick={() => {
@@ -144,7 +151,7 @@ export const PlayerMobile = function ({ songList }) {
                         </QueueMusicIcon>
                     </IconButton>
                 </span >
-                
+                */
             )
         }
         console.debug(audioInfo)

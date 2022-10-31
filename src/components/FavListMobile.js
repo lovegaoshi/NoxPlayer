@@ -253,7 +253,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
             <Box // Mid Grid -- SideBar
                 className={ScrollBar().root}
-                style={{ overflow: "auto", maxHeight: "96%", minHeight: "20%", paddingTop: "10px", lineHeight: '32px' }}
+                style={{ overflow: "auto", maxHeight: "40%", minHeight: "20%", paddingTop: "10px", lineHeight: '24px' }}
                 sx={{ gridArea: "sidebar" }}
                 onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
                 onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
@@ -265,7 +265,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                             我的歌单
                         </Typography>
                     </Grid>
-                    <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '5px' }}>
+                    <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '5px', paddingLeft: '6px' }}>
                         <Tooltip title="新建歌单">
                             <AddIcon sx={AddFavIcon} onClick={() => setOpenNewDialog(true)} />
                         </Tooltip>
@@ -351,7 +351,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 </List>
             </Box>
             <Box // Mid Grid -- Fav Detail 
-                style={{ maxHeight: "80%", paddingTop: '20px', paddingLeft: '20px', overflow: "auto" }}
+                style={{ maxHeight: "75%", paddingLeft: '20px', overflow: "auto" }}
                 sx={{ gridArea: "Lrc", padding: '0.2em' }}>
                 {selectedList &&
                     <Fav FavList={selectedList}

@@ -79,13 +79,13 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(4);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(25)
+        setRowsPerPage(4)
         //console.log(FavList)
     }, [FavList])
 
@@ -159,7 +159,7 @@ export const Fav = (function ({
                                         {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
                                     </IconButton>
                             </Grid>
-                            <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
+                            <Grid item xs={7} style={{ textAlign: 'right', padding: '0px' }}>
                                 <TextField
                                     id="outlined-basic"
                                     color="secondary"
@@ -177,7 +177,7 @@ export const Fav = (function ({
                         className={className}
                         id='FavTable' 
                         component={Paper} 
-                        sx={{ maxHeight: "80%", maxWidth: "95%" }} 
+                        sx={{ maxHeight: "70%", maxWidth: "95%" }} 
                         style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle }}
                     >
                         <Table stickyHeader aria-label="sticky table" >
@@ -232,7 +232,7 @@ export const Fav = (function ({
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
                                             id="pagination-toolbar"
-                                            rowsPerPageOptions={[25, 75, 100]}
+                                            rowsPerPageOptions={[4, 10, 25]}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
@@ -244,7 +244,6 @@ export const Fav = (function ({
                                             }}
                                             onPageChange={handleChangePage}
                                             onRowsPerPageChange={handleChangeRowsPerPage}
-                                            ActionsComponent={TablePaginationActions}
                                             labelDisplayedRows={
                                                 ({ from, to, count }) => {
                                                     return `${from}-${to} / ${count !== -1 ? count : `> ${to}`}`;  

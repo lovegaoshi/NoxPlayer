@@ -58,7 +58,7 @@ export const skins = (key = setting.skin) => {
                 playerBannerMobile: 'https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/nox/noxbgm.png?raw=true',
                 gifIcon: () => {
                     return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
-                    .replace('{count}', Math.floor(Math.random() * 2))
+                    .replace('{count}', Math.floor(Math.random() * 3))
                 },
                 appTitle: 'Nox-player',
                 colorTheme: {

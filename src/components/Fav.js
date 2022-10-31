@@ -159,13 +159,13 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(24);
+    const [rowsPerPage, setRowsPerPage] = useState(22);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(24)
+        setRowsPerPage(22)
         //console.log(FavList)
     }, [FavList])
 
@@ -307,7 +307,7 @@ export const Fav = (function ({
                                 <TableRow>
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
-                                            rowsPerPageOptions={[24, 75, 100]}
+                                            rowsPerPageOptions={[22, 75, 100]}
                                             colSpan={3}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}
