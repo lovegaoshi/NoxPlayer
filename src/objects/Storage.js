@@ -68,7 +68,7 @@ export default class StorageManager {
 
     async initWithDefault() {
         const _self = this
-        let value = dummyFavList('闹闹的人工智障歌切')
+        let value = dummyFavList('闹闹的歌切')
         value.songList = await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1])
         value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851']
         // const value2 = {

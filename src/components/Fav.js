@@ -162,13 +162,13 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(22);
+    const [rowsPerPage, setRowsPerPage] = useState(223);
 
     useEffect(() => {
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(22)
+        setRowsPerPage(23)
         //console.log(FavList)
     }, [FavList])
 
@@ -231,6 +231,7 @@ export const Fav = (function ({
                                     onClick={() => {
                                         rssUpdate()
                                     }}
+                                    disabled={false}
                                 >
                                     {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
                                 </IconButton>
@@ -280,7 +281,7 @@ export const Fav = (function ({
                                             paddingLeft: '8px', width: '45%',
                                             whiteSpace: 'nowrap'
                                         }}
-                                            style={{ paddingLeft: '10px' }}>
+                                        >
                                             <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</ListItemButton>
                                         </StyledTableCell>
                                         <StyledTableCell align="center" sx={{
@@ -314,7 +315,7 @@ export const Fav = (function ({
                                 <TableRow>
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
-                                            rowsPerPageOptions={[22, 75, 100]}
+                                            rowsPerPageOptions={[23, 75, 100]}
                                             colSpan={3}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}

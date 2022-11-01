@@ -1,7 +1,7 @@
 import { extractSongName } from './Data';
 
 const extractParenthesis = (filename) => {
-    let extracted = /(.+)（.+）/.exec(filename); 
+    let extracted = /(.+)[（\(].+/.exec(filename); 
     if (extracted) {
         return extracted[1];
     } else {
@@ -18,9 +18,10 @@ export const reExtract = (filename, uploader) => {
             // 27_星の在り処 Full Ver. (Less Vocal) [BONUS TRACK] by Falcom Sound Team jdk
             // occasionally theres a parenthesis; always take whats before left parenthesis
             // im sure theres a one statement way to do this re....
-            extracted = /\d*_(.+) \(.+/.exec(filename);
+            filename = extractParenthesis(filename);
+            extracted = /\d*_(.+) \(?.*by .+/.exec(filename);
             if (extracted == null) {
-                extracted = /\d*_(.+) \(?.*by .+/.exec(filename);
+                extracted = /\d*_(.+)/.exec(filename);
             }
             break;
         case "冥侦探柯鎮悪":

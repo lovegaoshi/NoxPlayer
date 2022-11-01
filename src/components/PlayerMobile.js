@@ -265,6 +265,7 @@ export const PlayerMobile = function ({ songList }) {
                 onAddFavToList={onAddFavToList}
                 onAddOneFromFav={onAddOneFromFav}
                 showFavList={showFavList}
+                currentAudioID={currentAudio? currentAudio.id : -1}
             />}
             {currentAudio && <LyricOverlay
                 showLyric={showLyric}

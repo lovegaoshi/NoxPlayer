@@ -140,8 +140,9 @@ export const skins = (key = setting.skin) => {
                             MuiTextField: {
                                 styleOverrides: {
                                     root: {
-                                        backgroundColor: '#707070'
-                                    }
+                                        backgroundColor: '#707070',
+                                        color: '#fff44f'
+                                    },
                                 }
                               },
                             MuiIconButton: {
@@ -177,6 +178,27 @@ export const skins = (key = setting.skin) => {
                                         color: '#fff44f'
                                     }
                                 }
+                            },
+                            MuiSelect: {
+                                styleOverrides: {
+                                    select: {
+                                        color: '#fff44f'
+                                    },
+                                    icon: {
+                                        color: '#fff44f'
+                                    },
+                                    nativeInput: {
+                                        color: '#fff44f'
+                                    },
+                                }
+                            },
+                            MuiMenuItem: {
+                                root: {
+                                    color: '#fff44f'
+                                },
+                                focusVisible: {
+                                    color: '#fff44f'
+                                },
                             },
                           },
                       },

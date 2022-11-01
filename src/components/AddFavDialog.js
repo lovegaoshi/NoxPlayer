@@ -216,7 +216,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
       <Dialog open={openState}>
         <DialogTitle>播放器设置</DialogTitle>
         <DialogContent>
-          <p>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+          <p style={{ color:colorTheme.songIconColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
           <Select
             labelId="player-settings-skin-select"
             id="player-settings-skin-select"

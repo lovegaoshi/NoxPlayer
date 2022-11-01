@@ -5,6 +5,7 @@ import { getSongList, getFavList, getBiliSeriesList, getBiliColleList } from '..
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 
 export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favList = []) => {
     /**
@@ -45,7 +46,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
     return list
 }
 
-export const Search = function ({ handleSearch }) {
+export const Search = function ({ handleSearch, handleOpenFav }) {
 
     const [searchValue, setSearchValue] = useState('')
     const [progressVal, setProgressVal] = useState(100)
@@ -87,12 +88,26 @@ export const Search = function ({ handleSearch }) {
             return (
                 <IconButton 
                     size='large'
-                    onClick={() => {searchBili(searchValue)}}
+                    onClick={() => { searchBili(searchValue)} }
                     >
                     <SearchIcon fontSize='inherit'/>
                 </IconButton>
             )
         }
+    }
+
+    const favListButton = () => {
+        if (!handleOpenFav) {
+            return
+        }
+        return (
+            <IconButton 
+                size='large'
+                onClick={ () => {handleOpenFav()} }
+                >
+                <QueueMusicIcon fontSize='inherit'/>
+            </IconButton>
+        )
     }
 
     return (
@@ -104,7 +119,8 @@ export const Search = function ({ handleSearch }) {
                 style={{ paddingTop: '12px' }}
             >
                 <Box // Serch Grid -- SearchBox
-                    sx={{ mx: "auto", textAlign: "center" }}>
+                    sx={{ mx: "auto", textAlign: "left" }}>
+                    { favListButton() }
                     <TextField
                         id="outlined-basic"
                         label="BVid/fid"
@@ -113,6 +129,7 @@ export const Search = function ({ handleSearch }) {
                         onChange={onSearchTextChange}
                         value={searchValue}
                         type="search"
+                        sx={{ width: `calc(100%-10px)` }}
                     />
                     { progressBar() }
                 </Box>

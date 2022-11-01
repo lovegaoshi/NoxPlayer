@@ -26,8 +26,6 @@ import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import IconButton from "@mui/material/IconButton";
 import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
@@ -36,11 +34,21 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
-modifiedBackgroundPalette.components.MuiPaper.styleOverrides.root.backgroundColor = colorTheme.PCBackgroundColor;
+
+try {
+    modifiedBackgroundPalette.components.MuiPaper.styleOverrides.root.backgroundColor = colorTheme.PCBackgroundColor;
+} catch (e) {
+    
+}
+
 const theme = createTheme(modifiedBackgroundPalette);
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="left" ref={ref} {...props} />;
+});
+
+const TransitionRight = forwardRef(function Transition(props, ref) {
+    return <Slide direction="right" ref={ref} {...props} />;
 });
 
 
@@ -74,7 +82,7 @@ const AddFavIcon = {
 }
 
 
-export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList }) {
+export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList, currentAudioID }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -86,16 +94,25 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
     const [rssLoading, setRSSLoading] = useState(false)
     const [openSettingsDialog, setOpenSettingsDialog] = useState(false)
+    const [favOpen, setFavOpen] = useState(false)
+    const [favScrollPageFlag, setFavScrollPageFlag] = useState(0);
     
     const StorageManager = useContext(StorageManagerCtx)
 
     const [open, setOpen] = useState(true);
     useEffect(() => {
-        setOpen(!open)
+        if (!selectedList) {
+            setOpen(!open);
+        } else {
+            setFavOpen(!favOpen);
+        }
     }, [showFavList])
 
     const handleClose = () => {
-        setOpen(false)
+        if (selectedList) {
+            setFavOpen(!favOpen);
+        } 
+        setOpen(false);
     };
 
     useEffect(() => {
@@ -138,14 +155,19 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
     const updateSubscribeFavList = async (listObj) => {
         setRSSLoading(true)
-        for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-            listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
+        try{
+            for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
+                listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
+            }
+            StorageManager.updateFavList(listObj)
+            // otherwise fav wont update
+            setSelectedList(null)
+            setSelectedList(listObj)
+        } catch {
+            // alert('RSS is not set')
+        } finally {
+            setRSSLoading(false)
         }
-        StorageManager.updateFavList(listObj)
-        // otherwise fav wont update
-        setSelectedList(null)
-        setSelectedList(listObj)
-        setRSSLoading(false)
     }
 
     const handleDeleteFavClick = (id) => {
@@ -213,58 +235,67 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         StorageManager.importStorage()
     }
 
-    const [touchStart, setTouchStart] = React.useState(0);
-    const [touchEnd, setTouchEnd] = React.useState(0);
+    const [touchStartX, setTouchStartX] = React.useState(0);
+    const [touchEndX, setTouchEndX] = React.useState(0);
+    const [touchStartY, setTouchStartY] = React.useState(0);
+    const [touchEndY, setTouchEndY] = React.useState(0);
     
     function handleTouchStart(e) {
-        setTouchEnd(null);
-        setTouchStart(e.targetTouches[0].clientX);
+        setTouchEndX(null);
+        setTouchEndY(null);
+        setTouchStartX(e.targetTouches[0].clientX);
+        setTouchStartY(e.targetTouches[0].clientY);
     }
     
     function handleTouchMove(e) {
-        setTouchEnd(e.targetTouches[0].clientX);
+        setTouchEndX(e.targetTouches[0].clientX);
+        setTouchEndY(e.targetTouches[0].clientY);
     }
     
-    function handleTouchEnd() {
-        if (!touchEnd) {
+    function handleTouchEndFavList() {
+        if (!touchEndX && !touchEndY) {
             return;
         }
-        if (touchStart - touchEnd < -50) {
+        if (touchStartX - touchEndX < -50) {
             // do your stuff here for right swipe
             handleClose();
         }
     }
-    return (
-        <React.Fragment>
-            
-        <ThemeProvider theme={theme}>
-            <Dialog
-                fullScreen
-                open={open}
-                onClose={handleClose}
-                hideBackdrop
-                TransitionComponent={Transition}
-            >
-            <Grid container spacing={1} align="center" justify = "center" alignItems = "center">
-                <Grid item xs={1} style={{ paddingLeft: '18px' }}>
-                    <IconButton onClick={handleClose} size='large'>            
-                        <ArrowBackIosNewIcon size='large'></ArrowBackIosNewIcon>
-                    </IconButton>
-                </Grid>
-                <Grid item xs={11}>
-                    <Search 
-                        handleSearch={handleSearch}
-                    />
-                </Grid>
-            </Grid>
 
+    function handleTouchEndFav() {
+        if (!touchEndX && !touchEndY) {
+            return;
+        }
+        if (touchStartX - touchEndX < -50) {
+            // do your stuff here for right swipe
+            setOpen(false);
+            setFavOpen(false);
+        } else if (touchStartY - touchEndY < -50) {
+            setFavScrollPageFlag(favScrollPageFlag + 1);
+
+        } else if (touchStartY - touchEndY > 50) {
+            setFavScrollPageFlag(favScrollPageFlag - 1);
+        }
+    }
+
+    const searchBarComponent = () => {
+        return (
+                <Search 
+                    handleSearch={handleSearch}
+                    handleOpenFav={() => {
+                        setOpen(!open)
+                        setFavOpen(!favOpen)
+                    }}
+                />
+        )
+    }
+
+    const favListComponent = () => {
+        return (
             <Box // Mid Grid -- SideBar
                 className={ScrollBar().root}
-                style={{ overflow: "auto", maxHeight: "40%", minHeight: "20%", paddingTop: "10px", lineHeight: '24px' }}
+                style={{ overflow: "auto", height: "90%", paddingTop: "10px", lineHeight: '24px' }}
                 sx={{ gridArea: "sidebar" }}
-                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
-                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
-                onTouchEnd={() => handleTouchEnd()}
             >
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
@@ -303,7 +334,14 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                             disableRipple
                             sx={outerLayerBtn}
                         >
-                            <ListItemButton style={{ maxWidth: 'calc(100% - 136px)' }} onClick={() => setSelectedList(searchList)} id={searchList.info.id} >
+                            <ListItemButton 
+                                style={{ maxWidth: 'calc(100% - 136px)' }} 
+                                onClick={() => {
+                                    setOpen(false)
+                                    setFavOpen(true)
+                                    setSelectedList(searchList)
+                                    }} 
+                                id={searchList.info.id} >
                                 <ListItemIcon sx={DiskIcon}>
                                     <ManageSearchIcon />
                                 </ListItemIcon>
@@ -332,7 +370,14 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 disableRipple
                                 sx={outerLayerBtn}
                             >
-                                <ListItemButton style={{ maxWidth: 'calc(100% - 136px)' }} onClick={() => setSelectedList(v)} id={v.info.id} >
+                                <ListItemButton 
+                                    style={{ maxWidth: 'calc(100% - 136px)' }} 
+                                    onClick={() => {
+                                        setOpen(false)
+                                        setFavOpen(true)
+                                        setSelectedList(v)
+                                    }} 
+                                    id={v.info.id} >
                                     <ListItemIcon sx={DiskIcon}>
                                         <AlbumOutlinedIcon />
                                     </ListItemIcon>
@@ -357,8 +402,13 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     )}
                 </List>
             </Box>
+        )
+    }
+
+    const favComponent = () => {
+        return (
             <Box // Mid Grid -- Fav Detail 
-                style={{ maxHeight: "75%", paddingLeft: '20px', overflow: "auto" }}
+                style={{ height: "90%", paddingLeft: '20px', overflow: "auto" }}
                 sx={{ gridArea: "Lrc", padding: '0.2em' }}>
                 {selectedList &&
                     <Fav FavList={selectedList}
@@ -373,11 +423,43 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                             updateSubscribeFavList(selectedList)
                         }}
                         Loading={rssLoading}
+                        currentAudioID={currentAudioID}
+                        scrollPageFlag={favScrollPageFlag}
                     />}
             </Box>
-            
+        )
+    }
 
-        </Dialog>
+    return (
+        <React.Fragment>
+            
+        <ThemeProvider theme={theme}>
+            <Dialog
+                fullScreen
+                open={open}
+                onClose={handleClose}
+                hideBackdrop
+                TransitionComponent={Transition}
+                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
+                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
+                onTouchEnd={() => handleTouchEndFavList()}
+            >
+                { searchBarComponent() }
+                { favListComponent() }
+            </Dialog>
+            <Dialog
+                fullScreen
+                open={favOpen}
+                onClose={handleClose}
+                hideBackdrop
+                TransitionComponent={Transition}
+                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
+                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
+                onTouchEnd={() => handleTouchEndFav()}
+            >
+                { searchBarComponent() }
+                { favComponent() }
+            </Dialog>
         </ThemeProvider>
         <AlertDialog
             id="DeleteFav"
