@@ -179,6 +179,13 @@ export const skins = (key = setting.skin) => {
                                     }
                                 }
                             },
+                            MuiInput: {
+                                styleOverrides: {
+                                    root: {
+                                        color: '#fff44f'
+                                    }
+                                }
+                            },
                             MuiSelect: {
                                 styleOverrides: {
                                     select: {
@@ -193,12 +200,11 @@ export const skins = (key = setting.skin) => {
                                 }
                             },
                             MuiMenuItem: {
-                                root: {
-                                    color: '#fff44f'
-                                },
-                                focusVisible: {
-                                    color: '#fff44f'
-                                },
+                                styleOverrides: {
+                                    root: {
+                                        color: '#fff44f'
+                                    },
+                                }
                             },
                           },
                       },

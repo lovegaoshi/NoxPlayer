@@ -30,7 +30,8 @@ import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -258,7 +259,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         }
         if (touchStartX - touchEndX < -50) {
             // do your stuff here for right swipe
-            handleClose();
+            //handleClose();
+            setOpen(false);
         }
     }
 
@@ -270,22 +272,25 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             // do your stuff here for right swipe
             setOpen(false);
             setFavOpen(false);
+        } else if (touchStartX - touchEndX > 50) {
+            //openFavorFavlist();
+            setOpen(true);
         } else if (touchStartY - touchEndY < -50) {
-            setFavScrollPageFlag(favScrollPageFlag + 1);
+            setFavScrollPageFlag(favScrollPageFlag - 1);
 
         } else if (touchStartY - touchEndY > 50) {
-            setFavScrollPageFlag(favScrollPageFlag - 1);
+            setFavScrollPageFlag(favScrollPageFlag + 1);
         }
     }
 
-    const searchBarComponent = () => {
+    const searchBarComponent = (playListIcon) => {
         return (
                 <Search 
                     handleSearch={handleSearch}
                     handleOpenFav={() => {
                         setOpen(!open)
-                        setFavOpen(!favOpen)
                     }}
+                    playListIcon={playListIcon}
                 />
         )
     }
@@ -326,7 +331,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 </Grid>
                 <Divider light />
                 <List
-                    sx={{ width: '100%'}}
+                    sx={{ width: '100%' }}
                     component="nav"
                 >
                     <React.Fragment key={searchList.id}>
@@ -444,7 +449,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
                 onTouchEnd={() => handleTouchEndFavList()}
             >
-                { searchBarComponent() }
+                { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
                 { favListComponent() }
             </Dialog>
             <Dialog
@@ -457,7 +462,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
                 onTouchEnd={() => handleTouchEndFav()}
             >
-                { searchBarComponent() }
+                { searchBarComponent((<MoreHorizIcon fontSize='inherit'/>)) }
                 { favComponent() }
             </Dialog>
         </ThemeProvider>

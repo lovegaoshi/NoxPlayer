@@ -46,7 +46,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
     return list
 }
 
-export const Search = function ({ handleSearch, handleOpenFav }) {
+export const Search = function ({ handleSearch, handleOpenFav, playListIcon }) {
 
     const [searchValue, setSearchValue] = useState('')
     const [progressVal, setProgressVal] = useState(100)
@@ -77,11 +77,11 @@ export const Search = function ({ handleSearch, handleOpenFav }) {
         if (Loading) {
             if (progressVal == 100) {
                 return (
-                    <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', }} />
+                    <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', paddingTop: '8px', paddingBottom: '8px' }} />
                 )    
             } else {
                 return (
-                    <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', }} variant="determinate" value={progressVal} />
+                    <CircularProgress sx={{ paddingLeft: '16px', paddingRight: '16px', paddingTop: '8px', paddingBottom: '8px' }} variant="determinate" value={progressVal} />
                 )  
             }
         } else {
@@ -89,6 +89,7 @@ export const Search = function ({ handleSearch, handleOpenFav }) {
                 <IconButton 
                     size='large'
                     onClick={() => { searchBili(searchValue)} }
+                    sx={{ fontSize: "40px" }}
                     >
                     <SearchIcon fontSize='inherit'/>
                 </IconButton>
@@ -104,12 +105,14 @@ export const Search = function ({ handleSearch, handleOpenFav }) {
             <IconButton 
                 size='large'
                 onClick={ () => {handleOpenFav()} }
-                >
-                <QueueMusicIcon fontSize='inherit'/>
+                sx={{ fontSize: "40px", marginTop: Loading? '-42px' : '0px' }}
+            >
+                {playListIcon}
             </IconButton>
         )
     }
 
+    //<QueueMusicIcon fontSize='inherit'/>
     return (
         <React.Fragment>
             <Box // Top Grid -- Search  
@@ -119,7 +122,7 @@ export const Search = function ({ handleSearch, handleOpenFav }) {
                 style={{ paddingTop: '12px' }}
             >
                 <Box // Serch Grid -- SearchBox
-                    sx={{ mx: "auto", textAlign: "left" }}>
+                    sx={{ mx: "auto", textAlign: "left", overflow: 'hidden', height: '64px' }}>
                     { favListButton() }
                     <TextField
                         id="outlined-basic"
@@ -129,7 +132,7 @@ export const Search = function ({ handleSearch, handleOpenFav }) {
                         onChange={onSearchTextChange}
                         value={searchValue}
                         type="search"
-                        sx={{ width: `calc(100%-10px)` }}
+                        sx={{ width: `55%` }}
                     />
                     { progressBar() }
                 </Box>

@@ -162,7 +162,7 @@ export const Fav = (function ({
         <React.Fragment>
             {currentFavList &&
                 <React.Fragment>
-                    <Box sx={{ flexGrow: 1, maxHeight: '144px' }} >
+                    <Box sx={{ flexGrow: 1, height: '144px' }} >
                         <Grid container spacing={2} style={{ paddingTop: '18px', paddingBottom: '8px' }}>
                             <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
                                 <Button onClick={playCurrentPlaylist}> 
@@ -214,7 +214,7 @@ export const Fav = (function ({
                         className={className}
                         id='FavTable' 
                         component={Paper} 
-                        sx={{ maxHeight: "100%", maxWidth: "95%" }} 
+                        sx={{ maxHeight: "calc(100% - 220px)", maxWidth: "95%" }} 
                         style={{ 
                             overflowY: "auto", 
                             overflowX: "hidden", 
