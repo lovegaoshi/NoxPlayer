@@ -221,7 +221,7 @@ export const Fav = (function ({
                         className={className}
                         id='FavTable' 
                         component={Paper} 
-                        sx={{ maxHeight: "calc(100% - 220px)", maxWidth: "95%" }} 
+                        sx={{ maxHeight: "calc(100% - 160px)", maxWidth: "95%" }} 
                         style={{ 
                             overflowY: "auto", 
                             overflowX: "hidden", 
@@ -292,7 +292,7 @@ export const Fav = (function ({
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
                                             id="pagination-toolbar"
-                                            rowsPerPageOptions={[8, 25, 99]}
+                                            rowsPerPageOptions={[8]}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}
                                             page={page}
@@ -304,6 +304,7 @@ export const Fav = (function ({
                                             }}
                                             onPageChange={handleChangePage}
                                             onRowsPerPageChange={handleChangeRowsPerPage}
+                                            ActionsComponent={TablePaginationActions}
                                             labelDisplayedRows={
                                                 ({ from, to, count }) => {
                                                     return `${from}-${to} / ${count !== -1 ? count : `> ${to}`}`;  
