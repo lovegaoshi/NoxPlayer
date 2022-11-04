@@ -120,6 +120,7 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
 export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, rssUpdate }) {
 
   const [subUrl, setSubUrl] = useState("")
+  const [favListName, setFavListName] = useState("")
   const [autoRSSUpdate, setAutoRSSUpdate] = useState(false)
 
   const loadRSSUrl = (subscribeUrls) => {
@@ -131,19 +132,40 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
     }
   }
 
+  const handleOnClose = () => {
+    onClose(fromList, subUrl.split(';'), favListName);
+  }
+
+  const loadFavList = (favList = fromList) => {
+    loadRSSUrl(favList.subscribeUrls)
+    setFavListName(favList.info.title)
+  }
+
   useEffect( () => {
-    loadRSSUrl(fromList.subscribeUrls)
+    loadFavList()
   }, [fromList.info.id])
 
   return (
     <div>
       <Dialog open={openState}>
-        <DialogTitle>{fromList.info.title}</DialogTitle>
+        <DialogTitle>
+        <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="歌单名称"
+            type="name"
+            variant="standard"
+            onChange={(e) => setFavListName(e.target.value)}
+            value={favListName}
+            autoComplete='off'
+          />  
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            id="name"
+            id="rssname"
             label="订阅url"
             type="name"
             variant="standard"
@@ -161,13 +183,13 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
         <DialogActions>
           <Button 
             onClick={() => {
-              loadRSSUrl(fromList.subscribeUrls)
+              loadFavList()
               onClose()
             }}>取消</Button>
-          <Button onClick={() => onClose(fromList, subUrl.split(';'))}>确认</Button>
+          <Button onClick={handleOnClose}>确认</Button>
           <Button 
             onClick={() => {
-              onClose(fromList, subUrl.split(';'))
+              handleOnClose()
               rssUpdate()
             }}>
             确认并更新订阅
@@ -182,29 +204,37 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
 export const SettingsDialog = function ({ onClose, openState, settings }) {
   const [skin, setSkin] = useState('诺莺nox')
   const [settingObj, setSettingObj] = useState({})
+  const [parseSongName, setParseSongName] = useState(false)
 
+  async function init() {
+    settings = await settings
+    setSettingObj(settings)
+    let skinIndex = SkinKeys.indexOf(settings.skin)
+    if (skinIndex !== -1) {
+      setSkin(settings.skin)
+    } else {
+      setSkin(SkinKeys[0])
+    }
+    if (settings.parseSongName !== undefined) {
+      setParseSongName(settings.parseSongName)
+    } else {
+      setParseSongName(false)
+    }
+  }
   // load settings into this dialog
   useEffect( () => {
-    async function init() {
-      settings = await settings
-      setSettingObj(settings)
-      let skinIndex = SkinKeys.indexOf(settings.skin)
-      if (skinIndex !== -1) {
-        setSkin(settings.skin)
-      } else {
-        setSkin(SkinKeys[0])
-      }
-    }
     init()
   }, [])
 
   const handleCancel = () => {
+    init()
     onClose()
   }
 
   const handleOK = () => {
     let updatedSettingObj = settingObj
     updatedSettingObj.skin = skin
+    updatedSettingObj.parseSongName = parseSongName
     onClose(updatedSettingObj)
   }
 
@@ -229,6 +259,12 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
                 return (<MenuItem key={i} value={v}>{v}</MenuItem>)
             })}
           </Select>
+          <p/>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
+            checked={parseSongName}
+            label="使用提取的歌名" 
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>取消</Button>

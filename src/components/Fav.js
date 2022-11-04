@@ -31,6 +31,7 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
 import { skinPreset } from '../styles/skin';
+import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
 
 let colorTheme = skinPreset.colorTheme;
@@ -67,6 +68,7 @@ const CRUDIcon = {
 export const songText = {
     fontSize: 16,
     minWidth: 0,
+    overflow: 'hidden',
 }
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -158,7 +160,7 @@ TablePaginationActions.propTypes = {
 export const Fav = (function ({ 
     FavList, onSongIndexChange, onAddOneFromFav, 
     handleDelteFromSearchList, handleAddToFavClick,
-    setSubscribeURL, rssUpdate, Loading }) {
+    setSubscribeURL, rssUpdate, Loading, playerSettings }) {
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
@@ -293,7 +295,7 @@ export const Fav = (function ({
                                             whiteSpace: 'nowrap'
                                         }}
                                         >
-                                            <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{song.name}</ListItemButton>
+                                            <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
                                         </StyledTableCell>
                                         <StyledTableCell align="center" sx={{
                                             width: '10%', fontSize: 4,

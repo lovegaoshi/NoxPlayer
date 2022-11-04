@@ -99,3 +99,16 @@ export const reExtract = (filename, uploader) => {
     // if fails, first try to extract in brackets; else return as is.
     return extractSongName(filename);
 }
+
+
+export const getName = (song, parsed = false) => {
+    if (parsed) {
+        return song.parsedName? song.parsedName : song.name
+    } else {
+        return song.name
+    }
+}
+
+export const parseSongName = (song) => {
+    song.parsedName = reExtract(song.name, song.singer)
+}

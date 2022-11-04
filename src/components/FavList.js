@@ -26,6 +26,7 @@ import Box from "@mui/material/Box";
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
+import { parseSongName } from '../utils/re';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -71,7 +72,7 @@ export const DiskIcon = {
     minWidth: '36px'
 }
 
-export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav }) {
+export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -116,24 +117,33 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         }
     }
     
-    const updateSubscribeURL = (listObj, urls) => {
+    const updateSubscribeURL = (listObj, urls, favListName) => {
         setOpenUpdateSubscribeDialog(false)
         if (listObj) {
             listObj.subscribeUrls = urls
+            listObj.info.title = favListName
             StorageManager.updateFavList(listObj)
         }
     }
 
     const updateSubscribeFavList = async (listObj) => {
         setRSSLoading(true)
-        for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-            listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
+        try{
+            for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
+                listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
+            }
+            for (let i=0, n=listObj.songList.length; i < n; i++) {
+                parseSongName(listObj.songList[i])
+            }
+            StorageManager.updateFavList(listObj)
+            // otherwise fav wont update
+            setSelectedList(null)
+            setSelectedList(listObj)
+        } catch {
+            // alert('RSS is not set')
+        } finally {
+            setRSSLoading(false)
         }
-        StorageManager.updateFavList(listObj)
-        // otherwise fav wont update
-        setSelectedList(null)
-        setSelectedList(listObj)
-        setRSSLoading(false)
     }
 
     const handleDeleteFavClick = (id) => {
@@ -326,6 +336,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                             updateSubscribeFavList(selectedList)
                         }}
                         Loading={rssLoading}
+                        playerSettings={playerSettings}
                     />}
             </Box>
             <AlertDialog

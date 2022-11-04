@@ -146,10 +146,11 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         }
     }
     
-    const updateSubscribeURL = (listObj, urls) => {
+    const updateSubscribeURL = (listObj, urls, favListName) => {
         setOpenUpdateSubscribeDialog(false)
         if (listObj) {
             listObj.subscribeUrls = urls
+            listObj.info.title = favListName
             StorageManager.updateFavList(listObj)
         }
     }
@@ -159,6 +160,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         try{
             for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
                 listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
+            }
+            for (let i=0, n=listObj.songList.length; i < n; i++) {
+                parseSongName(listObj.songList[i])
             }
             StorageManager.updateFavList(listObj)
             // otherwise fav wont update

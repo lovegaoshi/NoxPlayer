@@ -27,7 +27,7 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
 import { StyledTableRow, StyledTableCell, songText, TablePaginationActions } from './Fav';
-import { reExtract } from '../utils/re';
+import { getName } from '../utils/re';
 import { skinPreset } from '../styles/skin';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
@@ -282,7 +282,7 @@ export const Fav = (function ({
                                                 variant="text" 
                                                 sx={songText} 
                                                 onClick={() => onSongIndexChange([song], currentFavList)}
-                                            >{reExtract(song.name, song.singer)}</ListItemButton>
+                                            >{getName(song, true)}</ListItemButton>
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 )}

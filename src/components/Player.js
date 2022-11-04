@@ -218,6 +218,7 @@ export const Player = function ({ songList }) {
                 onPlayAllFromFav={onPlayAllFromFav}
                 onAddFavToList={onAddFavToList}
                 onAddOneFromFav={onAddOneFromFav}
+                playerSettings={playerSettings}
             />}
             {currentAudio && <LyricOverlay
                 showLyric={showLyric}
