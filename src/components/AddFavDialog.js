@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import { Checkbox } from '@mui/material';
 import { SkinKeys, skins, skinPreset } from '../styles/skin';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -150,11 +151,11 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
             value={subUrl}
             autoComplete='off'
           />
-          <Checkbox 
-            onChange={e => {
-              setAutoRSSUpdate(e.target.checked)
-            }}
-            label="自动更新"
+          
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setAutoRSSUpdate(e.target.checked) }}/>} 
+            label="自动更新" 
+            sx={{ paddingLeft: '16px', paddingTop: '12px' }}
           />
         </DialogContent>
         <DialogActions>

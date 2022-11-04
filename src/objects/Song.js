@@ -10,4 +10,9 @@ export default class Song {
         this.lyric = lyric
         this.lyricOffset = lyricOffset
     }
+
+    name() {
+        return this.parsedName? parsedName : this.name
+    }
+
 }

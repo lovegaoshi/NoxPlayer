@@ -9,7 +9,7 @@
           { "header": "User-Agent", "operation": "set", "value": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36" }
         ]
       },
-      "condition": { "urlFilter" : "bilivideo.com" }
+      "condition": { "urlFilter" : "bilivideo" }
     },
     {
         "id": 2,
@@ -20,6 +20,6 @@
             { "header": "referer", "operation": "set", "value": "https://y.qq.com/" }
           ]
         },
-        "condition": { "urlFilter" : "qq.com"  }
+        "condition": { "urlFilter" : "y.qq.com"  }
       }
   ]
