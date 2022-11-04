@@ -30,20 +30,20 @@
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/kenmingwang/azusa-player/total">
   </a>
 </p>
-<h3 align="center" style="color:purple"> 诺莺nox皮肤版 Azusa-Player / 电梓播放器</h3>
+<h3 align="center" style="color:purple"> 诺莺nox威力加强版 Azusa-Player / 电梓播放器</h3>
 <h4 align="center" style="color:purple">A 3rd party Bilibili audio player / 一个Bilibili第三方音频播放器</h4>
 
-## Nox版
+## Nox威力加强版
 Virtuareal link所属虚拟艺人[诺莺Nox](https://space.bilibili.com/529249/channel/seriesdetail?sid=61060)，歌势。从Nox的社交媒体偷来了图换了皮肤。
 
 Nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的功能，其他功能需求请[私信电梓播放器的作者](https://message.bilibili.com/#/whisper/mid1989881)
 
-### Nox版的功能
-#### 视频列表订阅：
-支持bvid搜索栏搜索b站的[视频列表](https://space.bilibili.com/5053504/channel/seriesdetail?sid=2701998)和[合集](https://space.bilibili.com/287837/channel/collectiondetail?sid=793137)。
-由于为了避免b站封ip，合集搜索未使用多线程导致超大合集会很慢；因此在“搜索歌曲”栏的左边加了RSS按钮和更新按钮；RSS按钮可以填入视频列表的URL，更新按钮可以加入合集里新加入的歌，跳过已经有的歌，更新速度快。
-#### 简易移动端适配：
-
+### [Nox版的功能](https://github.com/lovegaoshi/azusa-player/wiki/nox%E5%A8%81%E5%8A%9B%E5%8A%A0%E5%BC%BA%E7%89%88%E6%96%B0%E5%8A%9F%E8%83%BD#%E7%AE%80%E6%98%93%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D)
+- BVid/fid搜索栏支持b站合集和视频列表URL搜索
+- 皮肤切换
+- 根据up主自定义的歌名提取
+- 歌单自动更新
+- 简易移动端适配
 
 
 ## 项目简介
