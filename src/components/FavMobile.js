@@ -86,6 +86,7 @@ export const Fav = (function ({
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [songIconVisible, setSongIconVisible] = useState(false);
     const [randomGIFSrc, setRandomGIFSrc] = useState(null);
+    const [randomGIFSrcSwitch, setRandomGIFSrcSwitch] = useState(0);
     const [scrollPageFlagSlave, setScrollPageFlagSlave] = useState(scrollPageFlag);
     
     const findInFavList = (songList, audioid) => {
@@ -119,7 +120,7 @@ export const Fav = (function ({
 
     useEffect(() => {
         setRandomGIFSrc(getRandomHeaderGIF());
-    }, [FavList, page])
+    }, [FavList, page, randomGIFSrcSwitch])
 
     const requestSearch = (e) => {
         const searchedVal = e.target.value
@@ -176,8 +177,13 @@ export const Fav = (function ({
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '8px' }}>
-                                <img style={{ width: '66px', height: '66px', zIndex: "5" }}
-                                    src={randomGIFSrc}></img>
+                                <IconButton 
+                                    onClick={() => setRandomGIFSrcSwitch(randomGIFSrcSwitch + 1)} 
+                                    sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
+                                >
+                                    <img style={{ width: '66px', height: '66px' }}
+                                        src={randomGIFSrc}></img>
+                                </IconButton>
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton size="large" onClick={() => {

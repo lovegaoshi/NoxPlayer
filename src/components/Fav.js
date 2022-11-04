@@ -163,6 +163,8 @@ export const Fav = (function ({
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(223);
+    const [randomGIFSrc, setRandomGIFSrc] = useState(null);
+    const [randomGIFSrcSwitch, setRandomGIFSrcSwitch] = useState(0);
 
     useEffect(() => {
         setCurrentFavList(FavList)
@@ -172,6 +174,10 @@ export const Fav = (function ({
         //console.log(FavList)
     }, [FavList])
 
+    useEffect(() => {
+        setRandomGIFSrc(getRandomHeaderGIF());
+    }, [FavList, page, randomGIFSrcSwitch])
+    
     const requestSearch = (e) => {
         const searchedVal = e.target.value
         setPage(0)
@@ -216,8 +222,13 @@ export const Fav = (function ({
 
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'center', padding: '0px' }}>
-                                <img style={{ width: '66px', height: '66px' }}
-                                    src={getRandomHeaderGIF()}></img>
+                                <IconButton 
+                                    onClick={() => setRandomGIFSrcSwitch(randomGIFSrcSwitch + 1)} 
+                                    sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
+                                >
+                                    <img style={{ width: '66px', height: '66px' }}
+                                        src={randomGIFSrc}></img>
+                                </IconButton>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton 
