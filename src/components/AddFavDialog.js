@@ -14,6 +14,7 @@ import Input from '@mui/material/Input';
 import { Checkbox } from '@mui/material';
 import { SkinKeys, skins, skinPreset } from '../styles/skin';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Tooltip from '@mui/material/Tooltip';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -247,7 +248,9 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
       <Dialog open={openState}>
         <DialogTitle>播放器设置</DialogTitle>
         <DialogContent>
-          <p style={{ color:colorTheme.songIconColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+          <Tooltip title={skins(skin).maintainerTooltip}>
+            <p style={{ color:colorTheme.songIconColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+          </Tooltip>
           <Select
             labelId="player-settings-skin-select"
             id="player-settings-skin-select"
@@ -260,11 +263,13 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
             })}
           </Select>
           <p/>
-          <FormControlLabel 
-            control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
-            checked={parseSongName}
-            label="使用提取的歌名" 
-          />
+          <Tooltip title='选定后，会在歌单里显示提取后的歌名而非原本的视频标题；歌词搜索会一直使用提取后的歌名'>
+            <FormControlLabel 
+              control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
+              checked={parseSongName}
+              label="使用提取的歌名" 
+            />
+          </Tooltip>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>取消</Button>

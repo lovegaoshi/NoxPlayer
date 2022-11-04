@@ -69,6 +69,7 @@ let defaultSkinPreset = {
         },
     },
     maintainer: "kenmingwang@github",
+    maintainerTooltip: "",
 };
 
 export const skins = (key = setting.skin) => {
@@ -140,6 +141,13 @@ export const skins = (key = setting.skin) => {
                           }
                         },
                         components: {
+                            MuiTooltip: {
+                                styleOverrides: {
+                                    tooltip: {
+                                        fontSize: "1.4em",
+                                    },
+                                }
+                            },
                             MuiPaper: {
                               styleOverrides: {
                                     root: {
@@ -235,6 +243,7 @@ export const skins = (key = setting.skin) => {
                 },
                 
                 maintainer: 'lovegaoshi@github',
+                maintainerTooltip: '关注生草精灵诺莺Nox直播间282208',
             };
         case '星谷樹itsuki': 
             return {
@@ -247,6 +256,7 @@ export const skins = (key = setting.skin) => {
                 appTitle: 'Itsuki-player',
                 colorTheme: defaultSkinPreset.colorTheme,
                 maintainer: '树小喵-录播@bilibili',
+                maintainerTooltip: "",
             };
     }
     // default is azusa skin.
