@@ -18,18 +18,20 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
                 }
     
     try {    
-        let reExtracted = /.*\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
+        let reExtracted = /.*bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliSeriesList(reExtracted[1], reExtracted[2], progressEmitter, favList)
                 .then((songs) => {return songs})
             throw 're matched biliseries; raising a dummy error breaking loop.'
         }
-        reExtracted = /.*\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
+        reExtracted = /.*bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliColleList(reExtracted[1], reExtracted[2], progressEmitter, favList)
                 .then((songs) => {return songs})
             throw 're matched bilicollection; raising a dummy error breaking loop.'
         }
+        //https://www.bilibili.com/video/BV1se4y147qM/
+        reExtracted = /.*bilibili\.com\/video\/BV(.+)\/?/.exec(input)
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
             .then((songs) => {return songs})
