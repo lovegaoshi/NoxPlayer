@@ -27,7 +27,7 @@ import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -45,8 +45,8 @@ const CRUDIcon = {
     ':hover': {
         cursor: 'pointer'
     },
-    width: '0.7em',
-    height: '0.7em',
+    width: '1em',
+    height: '1em',
     paddingBottom: '2px',
     color: colorTheme.playListIconColor,
 }
@@ -290,7 +290,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                     <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
                                 <Tooltip title="新建为歌单">
-                                    <CreateNewFolderIcon 
+                                    <FiberNewIcon 
                                         sx={CRUDIcon} 
                                         onClick={() => {
                                             setSongsStoredAsNewFav(searchList.songList)

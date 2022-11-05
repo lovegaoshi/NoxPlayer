@@ -32,7 +32,7 @@ import { skinPreset } from '../styles/skin';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -375,7 +375,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                     <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
                                 <Tooltip title="新建为歌单">
-                                    <CreateNewFolderIcon 
+                                    <FiberNewIcon
                                         sx={CRUDIcon} 
                                         onClick={() => {
                                             setSongsStoredAsNewFav(searchList.songList)
