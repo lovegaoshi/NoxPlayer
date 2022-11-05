@@ -33,3 +33,4 @@ yarn-error.log*
 *.rar
 *.tar
 *.zip
+build.pem

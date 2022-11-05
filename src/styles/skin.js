@@ -88,12 +88,16 @@ export const skins = (key = setting.skin) => {
     switch (key) {
         case '诺莺nox': 
             return {
-                playerBanner: 'https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxbg.png?raw=true',
-                playerBannerMobile: 'https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/nox/noxbgm.png?raw=true',
+                playerBanner: 'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
+                playerBannerMobile: 'https://i0.hdslb.com/bfs/new_dyn/21a92c2ad982efc214940cb71d5525265053504.png',
                 gifIcon: () => {
                     let gifs = [
                         'https://i0.hdslb.com/bfs/new_dyn/697096d892a7193d33dbdc0edc5e2c9f5053504.gif',
-                    ]
+                        'https://i0.hdslb.com/bfs/new_dyn/d9f4d8ea6686304cefff9ce096f0f4135053504.gif',
+                        'https://i0.hdslb.com/bfs/new_dyn/2e678361788e9fd518fb47bc5ab15e8b5053504.gif',
+                        'https://i0.hdslb.com/bfs/new_dyn/26bcb47c59fb3d004bf0b93f6749da6f5053504.gif',
+                    ];        
+                    return gifs[Math.floor(Math.random() * gifs.length)>>0]
                     return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
                     .replace('{count}', Math.floor(Math.random() * 3))
                 },
