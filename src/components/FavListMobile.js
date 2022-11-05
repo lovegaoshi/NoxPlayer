@@ -32,6 +32,7 @@ import { skinPreset } from '../styles/skin';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -96,8 +97,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [rssLoading, setRSSLoading] = useState(false)
     const [openSettingsDialog, setOpenSettingsDialog] = useState(false)
     const [favOpen, setFavOpen] = useState(false)
-    const [favScrollPageFlag, setFavScrollPageFlag] = useState(0);
-    
+    const [favScrollPageFlag, setFavScrollPageFlag] = useState(0)
+    const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
+
     const StorageManager = useContext(StorageManagerCtx)
 
     const [open, setOpen] = useState(true);
@@ -127,6 +129,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const handleSearch = useCallback((list) => {
         setSearchList(list)
         setSelectedList(list)
+        setOpen(false)
+        setFavOpen(true)
     }, [searchList, selectedList])
 
     const handleDelteFromSearchList = useCallback((id, index) => {
@@ -142,7 +146,11 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         setOpenNewDialog(false)
         if (val) {
             //console.log(val)
-            StorageManager.addFavList(val, favLists)
+            let favList = StorageManager.addFavList(val, favLists)
+            if (songsStoredAsNewFav) {
+                favList.songList = songsStoredAsNewFav
+                setSongsStoredAsNewFav(null)
+            }
         }
     }
     
@@ -366,8 +374,13 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <Tooltip title="添加到收藏歌单">
                                     <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
-                                <Tooltip title="删除歌单">
-                                    <DeleteOutlineOutlinedIcon sx={CRUDIconDisable} style={{ opacity: '0' }}/>
+                                <Tooltip title="新建为歌单">
+                                    <CreateNewFolderIcon 
+                                        sx={CRUDIcon} 
+                                        onClick={() => {
+                                            setSongsStoredAsNewFav(searchList.songList)
+                                            setOpenNewDialog(true)
+                                        }}/>
                                 </Tooltip>
                             </Box>
                         </ListItemButton>
