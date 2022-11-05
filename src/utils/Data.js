@@ -14,6 +14,8 @@ const URL_VIDEO_INFO = "http://api.bilibili.com/x/web-interface/view?bvid={bvid}
 const URL_BILISERIES_INFO = "https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30"
 // channel series API Extract Info
 const URL_BILICOLLE_INFO = 'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=30'
+// channel API Extract Info
+const URL_BILICHANNEL_INFO = "https://api.bilibili.com/x/space/arc/search?mid={mid}&pn={pn}&jsonp=jsonp"
 // Fav List
 const URL_FAV_LIST = "https://api.bilibili.com/x/v3/fav/resource/list?media_id={mid}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web&jsonp=jsonp"
 // LRC Mapping
@@ -163,14 +165,65 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
             for (let index = 0, n = v.length; index < n; index++) {
                 await v[index].json().then(js => js.data.archives.map(m => {
                     if (!favList.includes(m.bvid)) {
-                        BVidPromises.push(fetchVideoInfo(m.bvid))
+                        BVidPromises.push(m.bvid)
                     }
                 }))
             }
 
-            await Promise.all(BVidPromises).then(res => {
-                videoInfos = res
-            })
+            for (let i=0, n=BVidPromises.length; i<n; i++) {
+                videoInfos.push(await fetchVideoInfo(BVidPromises[i]))
+                if ((i + 1) % 50 === 0) {
+                    await new Promise(resolve => setTimeout(resolve, 500))
+                    console.log('wait 500ms to prevent API abuse')
+                }
+                progressEmitter(parseInt(100 * (i + 1) / BVidPromises.length))
+            }
+        })
+
+    return videoInfos
+}
+
+// copied from ytdlp. applies to bibibili channels such as:
+// https://space.bilibili.com/355371630/video
+// method is copied from fetchFavList. when list gets large enough there 
+// might be a API ban issue. might need to transition into a series promise solver.
+// see https://gist.github.com/jcouyang/632709f30e12a7879a73e9e132c0d56b#file-readme-org
+export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) => {
+    console.log(favList)
+    logger.info("calling fetchBiliColleList")
+    const res = await fetch(URL_BILICHANNEL_INFO.replace('{mid}', mid).replace('{pn}', 1))
+    const json = await res.clone().json()
+    const data = json.data
+
+    const mediaCount = data.page.count
+    let totalPagesRequired = 1 + Math.floor(mediaCount / data.page.ps)
+
+    const BVidPromises = []
+    const pagesPromises = [res]
+
+    for (let page = 2; page <= totalPagesRequired; page++) {
+        pagesPromises.push(await fetch(URL_BILICHANNEL_INFO.replace('{mid}', mid).replace('{pn}', page)))
+    }
+
+    let videoInfos = []
+    await Promise.all(pagesPromises)
+        .then(async function (v) {
+            for (let index = 0, n = v.length; index < n; index++) {
+                await v[index].json().then(js => js.data.list.vlist.map(m => {
+                    if (!favList.includes(m.bvid)) {
+                        BVidPromises.push(m.bvid)
+                    }
+                }))
+            }
+            
+            for (let i=0, n=BVidPromises.length; i<n; i++) {
+                videoInfos.push(await fetchVideoInfo(BVidPromises[i]))
+                if ((i + 1) % 50 === 0) {
+                    await new Promise(resolve => setTimeout(resolve, 500))
+                    console.log('wait 500ms to prevent API abuse')
+                }
+                progressEmitter(parseInt(100 * (i + 1) / BVidPromises.length))
+            }
         })
 
     return videoInfos

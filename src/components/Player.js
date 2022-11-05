@@ -135,6 +135,7 @@ export const Player = function ({ songList }) {
                 </span >
             )
         }
+        setcurrentAudio(audioInfo)
         setparams(newParam)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
     }, [params])
@@ -151,7 +152,12 @@ export const Player = function ({ songList }) {
     }
 
     const onAudioProgress = (audioInfo) => {
-        setcurrentAudio(audioInfo)
+        // this is updated every 0.5sec or so. disabling this seems to make playing >3000 songs list 
+        // a tinny bit faster; the other slowing part is audioTimeUpdate's setState in JKmusicplayer. 
+        // setting currentaudio (for lrc display) is moved to onaudioplay. this makes lrc display
+        // no longer available until any song is played after player initialization. to resolve
+        // this, setCurentAudio in an one-off useeffect loading probably from ['CurrentPlaying'].
+        //setcurrentAudio(audioInfo)
     }
 
     const getAudioInstance = (audio) => {

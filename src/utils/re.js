@@ -45,6 +45,7 @@ export const reExtract = (filename, uploader) => {
             // https://space.bilibili.com/355371630
             // always number.{songname}
             //11.一番の宝物
+            filename = extractParenthesis(filename);
             extracted = /\d+\.(.+)/.exec(filename);
             break;
         case "蝉时雨☆":
@@ -92,7 +93,6 @@ export const reExtract = (filename, uploader) => {
             filename = extractParenthesis(filename);
             extracted = /【.+】(.+)/.exec(filename);
             break;
-            
     }
     if (extracted !== null) return extracted[1];
     console.debug('resorting to default songname extract', filename, uploader);

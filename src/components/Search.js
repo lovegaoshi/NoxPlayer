@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
-import { getSongList, getFavList, getBiliSeriesList, getBiliColleList } from '../background/DataProcess';
+import { getSongList, getFavList, getBiliSeriesList, getBiliColleList, getBiliChannelList } from '../background/DataProcess';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,19 +18,25 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
                 }
     
     try {    
-        let reExtracted = /.*bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
+        let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliSeriesList(reExtracted[1], reExtracted[2], progressEmitter, favList)
                 .then((songs) => {return songs})
             throw 're matched biliseries; raising a dummy error breaking loop.'
         }
-        reExtracted = /.*bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
+        reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliColleList(reExtracted[1], reExtracted[2], progressEmitter, favList)
                 .then((songs) => {return songs})
             throw 're matched bilicollection; raising a dummy error breaking loop.'
         }
         //https://www.bilibili.com/video/BV1se4y147qM/
+        reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
+        if (reExtracted !== null) {
+            list.songList = await getBiliChannelList(reExtracted[1], progressEmitter, favList)
+                .then((songs) => {return songs})
+            throw 're matched bilichannel; raising a dummy error breaking loop.'
+        }
         reExtracted = /.*bilibili\.com\/video\/BV(.+)\/?/.exec(input)
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
