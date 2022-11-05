@@ -91,6 +91,9 @@ export const skins = (key = setting.skin) => {
                 playerBanner: 'https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxbg.png?raw=true',
                 playerBannerMobile: 'https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/nox/noxbgm.png?raw=true',
                 gifIcon: () => {
+                    let gifs = [
+                        'https://i0.hdslb.com/bfs/new_dyn/697096d892a7193d33dbdc0edc5e2c9f5053504.gif',
+                    ]
                     return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
                     .replace('{count}', Math.floor(Math.random() * 3))
                 },

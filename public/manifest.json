@@ -1,7 +1,7 @@
 {
-  "name": "电闹播放器PK",
+  "name": "电闹播放器",
   "version": "1.0.0.1",
-  "description":"电闹播放器 / nox-player: 第三方b站播放器，魔改自阿梓播放器 / Enhanced 3rd party Bilibili audio player modified from Azusa-player.",
+  "description":"电闹播放器 / nox-player: 第三方b站播放器威力加强版，魔改自阿梓播放器 / 3rd party Bilibili audio player modified from Azusa-player.",
   "manifest_version": 3,
   "background": {
     "service_worker": "serviceWorker.js"

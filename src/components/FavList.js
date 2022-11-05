@@ -51,16 +51,6 @@ const CRUDIcon = {
     color: colorTheme.playListIconColor,
 }
 
-const CRUDIconDisable = {
-    ':hover': {
-        cursor: 'default'
-    },
-    width: '0.7em',
-    height: '0.7em',
-    paddingBottom: '2px',
-    color: colorTheme.iconDisableColor
-}
-
 const AddFavIcon = {
     ':hover': {
         cursor: 'pointer'
