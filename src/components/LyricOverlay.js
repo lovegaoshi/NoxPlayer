@@ -15,15 +15,17 @@ const theme = {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   };
 
-export const LyricOverlay = memo(function ({ showLyric, currentTime, audioName, audioId, audioCover, artist, isMobile = false}) {
+export const LyricOverlay = memo(function ({ showLyric, currentTime, audioName, audioId, audioCover, artist, setOpenStateEmitter, isMobile = false}) {
     const [open, setOpen] = useState(true);
 
     useEffect(() => {
+        setOpenStateEmitter(!open)
         setOpen(!open)
     }, [showLyric])
 
     const handleClose = () => {
         setOpen(false);
+        setOpenStateEmitter(false);
     };
 
     return (

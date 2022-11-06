@@ -6,8 +6,6 @@ import { FavList } from './FavListMobile';
 import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import IconButton from "@mui/material/IconButton";
 // Initial Player options
 const options = {
     mode: 'full',
@@ -40,6 +38,7 @@ export const PlayerMobile = function ({ songList }) {
     const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
+    const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
 
     const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
         //console.log("updateCurrentAudioList", params)
@@ -175,7 +174,9 @@ export const PlayerMobile = function ({ songList }) {
     }
 
     const onAudioProgress = (audioInfo) => {
-        setcurrentAudio(audioInfo)
+        if (lrcOverlayOpenStateEmitter) {
+            setcurrentAudio(audioInfo);
+        }
     }
 
     const getAudioInstance = (audio) => {
@@ -275,6 +276,7 @@ export const PlayerMobile = function ({ songList }) {
                 audioCover={currentAudio.cover}
                 isMobile={true}
                 artist={currentAudio.singer}
+                setOpenStateEmitter={setLrcOverlayOpenStateEmitter}
                 />}
                 
 

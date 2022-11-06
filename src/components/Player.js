@@ -37,6 +37,7 @@ export const Player = function ({ songList }) {
     const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
+    const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
 
     const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
         //console.log("updateCurrentAudioList", params)
@@ -152,12 +153,15 @@ export const Player = function ({ songList }) {
     }
 
     const onAudioProgress = (audioInfo) => {
-        // this is updated every 0.5sec or so. disabling this seems to make playing >3000 songs list 
+        // this is updated every 0.1sec or so. disabling this seems to make playing >3000 songs list 
         // a tinny bit faster; the other slowing part is audioTimeUpdate's setState in JKmusicplayer. 
-        // setting currentaudio (for lrc display) is moved to onaudioplay. this makes lrc display
-        // no longer available until any song is played after player initialization. to resolve
-        // this, setCurentAudio in an one-off useeffect loading probably from ['CurrentPlaying'].
-        //setcurrentAudio(audioInfo)
+        // its probably because with a huge songlist, updating musicplayer state recreatign it somehow and its very slow
+        // to recreate objects with that huge songlist. it might need to be restructured to have player send next music signal
+        // to controller (player.js here) so it doesnt have to save that list anymore.
+
+        if (lrcOverlayOpenStateEmitter) {
+            setcurrentAudio(audioInfo);
+        }
     }
 
     const getAudioInstance = (audio) => {
@@ -233,6 +237,7 @@ export const Player = function ({ songList }) {
                 audioId={currentAudio.id}
                 audioCover={currentAudio.cover}
                 artist={currentAudio.singer}
+                setOpenStateEmitter={setLrcOverlayOpenStateEmitter}
                 />}
 
             {params &&
