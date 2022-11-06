@@ -9,7 +9,7 @@ const extractParenthesis = (filename) => {
     }
 }
 
-export const reExtract = (filename, uploader) => {
+export const reExtract = (filename, uploader = '') => {
     let extracted = null;
     switch (String(uploader)) {
         case "胡桃小王":
@@ -70,7 +70,7 @@ export const reExtract = (filename, uploader) => {
             break;
         case "夜の_":
             // https://space.bilibili.com/7405415/channel/series
-            // sometimes date_in_numbers {songname}; someimtes index.{somename}
+            // sometimes {date_in_numbers} {songname}; someimtes {index}.{somename}
             // else song name is always in brackets.
             // 9.普通朋友
             filename = extractParenthesis(filename);
@@ -92,6 +92,44 @@ export const reExtract = (filename, uploader) => {
             // 【折原露露 · 翻唱】乌兰巴托的夜（10.18-歌切）
             filename = extractParenthesis(filename);
             extracted = /【.+】(.+)/.exec(filename);
+            break;
+        case "HACHI蜂蜜酿造厂":
+            /*
+            https://space.bilibili.com/9979698/channel/series
+            naming template switches from time to time. below is my parsing rules in python
+                if '】' in fn:
+                    mutagen_loaded['title'] = fn[fn.find('】') + 1:fn.rfind(' ')]
+                elif '.' in os.path.splitext(fn)[0]:
+                    mutagen_loaded['title'] = fn[fn.find('.') + 1:fn.rfind(' ')]
+                elif '第' in fn and '首' in fn:
+                    mutagen_loaded['title'] = fn[fn.find('首') + 1:fn.rfind(' ')]
+                else:
+                    mutagen_loaded['title'] = fn[fn.find(' ') + 1:fn.rfind(' ')]
+            annnnnd this person doesnt have a video list...
+            */
+           if (filename.includes('】')) {
+            extracted = /【.+】(.+)/.exec(filename);
+           } else if (filename.includes('.')) {
+            extracted = /\d+\.(.+)/.exec(filename);
+           } else if (filename.includes('第') && filename.includes('首')) {
+            extracted = /.*第.+首(.+)/.exec(filename);
+           }
+            break;
+        case "天马的冰淇淋小推车":
+            // https://www.bilibili.com/video/BV12d4y117TU/
+            // seems like {MM.DD}{songname}
+            filename = extractParenthesis(filename);
+            extracted = /\d+\.\d+(.+)/.exec(filename);
+            break;
+        case "黑修":
+            // https://space.bilibili.com/8136522/channel/seriesdetail?sid=2161219
+            // either in brackets or not (???)
+            filename = extractParenthesis(filename);
+            if (filename.startsWith('【Pomelo安妮】')) {
+                filename = filename.substring('【Pomelo安妮】'.length);
+            }
+            break;
+        case "":
             break;
     }
     if (extracted !== null) return extracted[1];

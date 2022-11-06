@@ -37,18 +37,28 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
                 .then((songs) => {return songs})
             throw 're matched bilichannel; raising a dummy error breaking loop.'
         }
-        reExtracted = /.*bilibili\.com\/video\/BV(.+)\/?/.exec(input)
+        reExtracted = /.*bilibili\.com\/video\/(BV.+)\/.*/.exec(input)
+        if (reExtracted !== null) {
+            input = reExtracted[1]
+        }
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
             .then((songs) => {return songs})
+            throw 're matched single BVID; raising a dummy error breaking loop.'
         }
         // Handles Fav search
-        else {
-            list.songList = await getFavList(input, progressEmitter, favList)
-            .then((songs) => {return songs})
+        // https://space.bilibili.com/94558176/favlist?fid=314856176
+        reExtracted = /.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/.exec(input)
+        if (reExtracted !== null) {
+            input = reExtracted[1]
         }
+        list.songList = await getFavList(input, progressEmitter, favList)
+        .then((songs) => {return songs})
+        
     } catch (err) {
-        console.warn(err)
+        if (!err.startsWith('re matched')) {
+            console.warn(err)
+        }
     }
     console.debug('searched bv list', list)
     return list
