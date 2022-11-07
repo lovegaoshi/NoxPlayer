@@ -9,7 +9,7 @@ const extractParenthesis = (filename) => {
     }
 }
 
-export const reExtract = (filename, uploader = '') => {
+export const reExtractSongName = (filename, uploader = '') => {
     let extracted = null;
     switch (String(uploader)) {
         case "胡桃小王":
@@ -148,5 +148,5 @@ export const getName = (song, parsed = false) => {
 }
 
 export const parseSongName = (song) => {
-    song.parsedName = reExtract(song.name, song.singer)
+    song.parsedName = reExtractSongName(song.name, song.singer)
 }

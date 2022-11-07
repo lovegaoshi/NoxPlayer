@@ -5,7 +5,7 @@ import { ScrollBar } from "../styles/styles";
 import TextField from "@mui/material/TextField";
 import { withStyles } from '@mui/styles';
 import Grid from "@mui/material/Grid";
-import { reExtract } from '../utils/re';
+import { reExtractSongName } from '../utils/re';
 import { LyricSearchBar } from './LyricSearchBar';
 import StorageManagerCtx from '../popup/App';
 import { skinPreset } from '../styles/skin';
@@ -40,7 +40,7 @@ export const LyricMobile = withStyles(styles)((props) => {
     const StorageManager = useContext(StorageManagerCtx)
 
     useEffect(() => {
-        const extractedName = reExtract(audioName, artist)
+        const extractedName = reExtractSongName(audioName, artist)
         console.debug('Lrc changed to %s', extractedName)
         // fetchLRC(audioName, setLyric, setSongTitle)
         setSongTitle(extractedName)

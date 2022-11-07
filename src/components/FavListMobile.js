@@ -157,7 +157,11 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         setRSSLoading(true)
         try{
             for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-                listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
+                let uniqueSongList = new Map();
+                for (const tag of (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)) {
+                    uniqueSongList.set(tag.id, tag);
+                }
+                listObj.songList = [...uniqueSongList.values()];
             }
             for (let i=0, n=listObj.songList.length; i < n; i++) {
                 parseSongName(listObj.songList[i])
