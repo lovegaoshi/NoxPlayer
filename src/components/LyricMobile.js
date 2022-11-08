@@ -34,7 +34,6 @@ export const LyricMobile = withStyles(styles)((props) => {
     const [lyricOffset, setLyricOffset] = useState(0)
     const [lyric, setLyric] = useState('')
     const [songTitle, setSongTitle] = useState('')
-    const [favListID, setFavListID] = useState(null)
 
     const { classes, currentTime, audioName, audioId, audioCover, artist } = props;
     const StorageManager = useContext(StorageManagerCtx)
