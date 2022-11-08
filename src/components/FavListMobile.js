@@ -89,6 +89,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [favOpen, setFavOpen] = useState(false)
     const [favScrollPageFlag, setFavScrollPageFlag] = useState(0)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
+    const [searchInputVal, setSearchInputVal] = useState('')
 
     const StorageManager = useContext(StorageManagerCtx)
 
@@ -140,6 +141,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             if (songsStoredAsNewFav) {
                 favList.songList = songsStoredAsNewFav
                 setSongsStoredAsNewFav(null)
+                favList.subscribeUrls = [searchInputVal.slice()]
                 StorageManager.updateFavList(favList)
             }
         }
@@ -300,6 +302,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         setOpen(!open)
                     }}
                     playListIcon={playListIcon}
+                    handleSetSearchInputVal={setSearchInputVal}
                 />
         )
     }

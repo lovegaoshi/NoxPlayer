@@ -64,7 +64,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
     return list
 }
 
-export const Search = function ({ handleSearch, handleOpenFav, playListIcon }) {
+export const Search = function ({ handleSearch, handleOpenFav, playListIcon, handleSetSearchInputVal }) {
 
     const [searchValue, setSearchValue] = useState('')
     const [progressVal, setProgressVal] = useState(100)
@@ -106,7 +106,10 @@ export const Search = function ({ handleSearch, handleOpenFav, playListIcon }) {
             return (
                 <IconButton 
                     size='large'
-                    onClick={() => { searchBili(searchValue)} }
+                    onClick={() => { 
+                        searchBili(searchValue);
+                        handleSetSearchInputVal(searchValue);
+                    }}
                     sx={{ fontSize: "40px" }}
                     >
                     <SearchIcon fontSize='inherit'/>

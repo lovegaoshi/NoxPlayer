@@ -76,6 +76,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
     const [rssLoading, setRSSLoading] = useState(false)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
+    const [searchInputVal, setSearchInputVal] = useState('')
 
     const StorageManager = useContext(StorageManagerCtx)
 
@@ -109,6 +110,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             if (songsStoredAsNewFav) {
                 favList.songList = songsStoredAsNewFav
                 setSongsStoredAsNewFav(null)
+                favList.subscribeUrls = [searchInputVal.slice()]
                 StorageManager.updateFavList(favList)
             }
         }
@@ -217,7 +219,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         <React.Fragment>
             <Search 
                 handleSearch={handleSearch}
-                settingsOnClick={()=>{setOpenSettingsDialog(true)}}
+                handleSetSearchInputVal={setSearchInputVal}
             />
 
             <Box // Mid Grid -- SideBar
