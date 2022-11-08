@@ -269,7 +269,7 @@ export const Fav = (function ({
                                                 <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
                                             </Tooltip>
                                             <Tooltip title="删除歌曲">
-                                                <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index)} />
+                                                <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index + page * rowsPerPage)} />
                                             </Tooltip>
                                         </StyledTableCell>
                                         : <></> }
