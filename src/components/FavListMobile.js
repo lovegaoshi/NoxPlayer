@@ -140,6 +140,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             if (songsStoredAsNewFav) {
                 favList.songList = songsStoredAsNewFav
                 setSongsStoredAsNewFav(null)
+                StorageManager.updateFavList(favList)
             }
         }
     }
