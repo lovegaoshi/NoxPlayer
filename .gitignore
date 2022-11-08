@@ -34,3 +34,4 @@ yarn-error.log*
 *.tar
 *.zip
 build.pem
+build.crx
