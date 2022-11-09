@@ -38,13 +38,14 @@ Virtuareal link所属虚拟艺人[诺莺Nox](https://space.bilibili.com/529249/c
 
 Nox版会做简易的移动端适配、视频列表订阅、以及对我QoL的功能，其他功能需求请[私信电梓播放器的作者](https://message.bilibili.com/#/whisper/mid1989881)
 
+nox used a modified version of react-jinke-music-player (specified memo on audiolist; added shuffle play track). see my fork.
+
 ### [Nox版的功能](https://github.com/lovegaoshi/azusa-player/wiki/nox%E5%A8%81%E5%8A%9B%E5%8A%A0%E5%BC%BA%E7%89%88%E6%96%B0%E5%8A%9F%E8%83%BD#%E7%AE%80%E6%98%93%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D)
 - BVid/fid搜索栏支持b站合集和视频列表URL搜索
 - 皮肤切换
 - 根据up主自定义的歌名提取
 - 歌单自动更新
 - 简易移动端适配
-
 
 ## 项目简介
 
