@@ -164,7 +164,8 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(223);
+    const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40 - 1));
+    const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [randomGIFSrc, setRandomGIFSrc] = useState(null);
     const [randomGIFSrcSwitch, setRandomGIFSrcSwitch] = useState(0);
 
@@ -172,7 +173,7 @@ export const Fav = (function ({
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         setPage(0)
-        setRowsPerPage(23)
+        setRowsPerPage(defaultRowsPerPage)
         //console.log(FavList)
     }, [FavList])
 
@@ -328,7 +329,7 @@ export const Fav = (function ({
                                 <TableRow>
                                     <ThemeProvider theme={theme}>
                                         <TablePagination
-                                            rowsPerPageOptions={[23, 75, 100]}
+                                            rowsPerPageOptions={[defaultRowsPerPage, 99, currentFavList.songList.length]}
                                             colSpan={3}
                                             count={rows.length}
                                             rowsPerPage={rowsPerPage}

@@ -212,7 +212,6 @@ export const Player = function ({ songList }) {
             setplayingList(songList)
             setPlayerSettings(setting)
         }
-
         initPlayer()
     }, [songList])
 

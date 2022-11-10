@@ -83,7 +83,8 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 350) / 40));
+    const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [songIconVisible, setSongIconVisible] = useState(false);
     const [randomGIFSrc, setRandomGIFSrc] = useState(null);
     const [randomGIFSrcSwitch, setRandomGIFSrcSwitch] = useState(0);
@@ -102,9 +103,8 @@ export const Fav = (function ({
         setCurrentFavList(FavList)
         setRows(FavList.songList)
         // this should be saved to localStorage
-        let rowsPerPage = 8
-        setPage(Math.max(0, Math.floor(findInFavList(FavList.songList, currentAudioID) / rowsPerPage)))
-        setRowsPerPage(rowsPerPage)
+        setPage(Math.max(0, Math.floor(findInFavList(FavList.songList, currentAudioID) / defaultRowsPerPage)))
+        setRowsPerPage(defaultRowsPerPage)
         //console.log(FavList)
     }, [FavList])
 
