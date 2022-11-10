@@ -9,6 +9,16 @@ const extractParenthesis = (filename) => {
     }
 }
 
+const extractWith = (filename, reExpressions = []) => {
+    for (let i=0, n=reExpressions.length; i<n; i++) {
+        let extracted = reExpressions[i].exec(filename);
+        if (extracted !== null) {
+            return extracted[1];
+        }
+    }
+    return filename;
+}
+
 export const reExtractSongName = (filename, uploader = '') => {
     let extracted = null;
     switch (String(uploader)) {
@@ -18,11 +28,12 @@ export const reExtractSongName = (filename, uploader = '') => {
             // 27_星の在り処 Full Ver. (Less Vocal) [BONUS TRACK] by Falcom Sound Team jdk
             // occasionally theres a parenthesis; always take whats before left parenthesis
             // im sure theres a one statement way to do this re....
-            filename = extractParenthesis(filename);
-            extracted = /\d*_(.+) \(?.*by .+/.exec(filename);
-            if (extracted == null) {
-                extracted = /\d*_(.+)/.exec(filename);
-            }
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /\d*_(.+) \(?.*by .+/, 
+                    /\d*_(.+)/,
+                ]);
             break;
         case "冥侦探柯鎮悪":
             // https://space.bilibili.com/94558176/channel/series
@@ -34,8 +45,14 @@ export const reExtractSongName = (filename, uploader = '') => {
             // https://space.bilibili.com/33576761/channel/series
             // always 【HeraKris】【stream title】{songname}
             //【赫拉Kris】【随便唱唱】三国恋
-            filename = extractParenthesis(filename);
-            extracted = /【赫拉Kris】【.+】(.+)/.exec(filename);
+            // in some videos, its number-song-name
+            filename = extractParenthesis(
+                extractWith(filename, 
+                    [
+                        /【赫拉Kris】【.+】(.+)/, 
+                        /【赫拉Kris.*】(.+)/, 
+                        /\d+-(.+)-.+/
+                    ]));
             break;
         case "叹氣喵":
             // https://space.bilibili.com/170066/channel/series
@@ -73,11 +90,12 @@ export const reExtractSongName = (filename, uploader = '') => {
             // sometimes {date_in_numbers} {songname}; someimtes {index}.{somename}
             // else song name is always in brackets.
             // 9.普通朋友
-            filename = extractParenthesis(filename);
-            extracted = /\d+\.\d+ (.+)/.exec(filename);
-            if (extracted == null) {
-                extracted = /\d+\.(.+)/.exec(filename);
-            }
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /\d+\.\d+ (.+)/, 
+                    /\d+\.(.+)/,
+                ]);
             break;
         case "随心":
             // https://space.bilibili.com/63326/channel/seriesdetail?sid=2701519
