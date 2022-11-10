@@ -104,6 +104,15 @@ export const reExtractSongName = (filename, uploader = '') => {
             filename = extractParenthesis(filename);
             extracted = /.*『(.+)』.*/.exec(filename);
             break;
+        case "litmus石蕊":
+            // https://space.bilibili.com/159910988/channel/collectiondetail?sid=766244
+            // 凉凉【露米Lumi】
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /(.+)【露米Lumi】/, 
+                ]);
+            break;
         case "焱缪-猫猫兔":
             // https://space.bilibili.com/287837/channel/series
             // in specialized brackets.
