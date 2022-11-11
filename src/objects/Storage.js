@@ -118,7 +118,7 @@ export default class StorageManager {
 
     updateFavList(updatedToList) {
         const _self = this
-
+        console.debug('saving favList', updatedToList.info.title)
         chrome.storage.local.set({ [updatedToList.info.id]: updatedToList }, function () {
             const index = _self.latestFavLists.findIndex(f => f.info.id == updatedToList.info.id)
             _self.latestFavLists[index].songList = updatedToList.songList

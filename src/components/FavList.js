@@ -144,8 +144,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             // otherwise fav wont update
             setSelectedList(null)
             setSelectedList(listObj)
-        } catch {
-            // alert('RSS is not set')
+        } catch(err) {
+            console.error(err)
         } finally {
             setRSSLoading(false)
         }

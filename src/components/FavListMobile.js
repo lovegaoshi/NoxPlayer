@@ -29,6 +29,7 @@ import Slide from '@mui/material/Slide';
 import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
+import { parseSongName } from '../utils/re';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -175,8 +176,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             // otherwise fav wont update
             setSelectedList(null)
             setSelectedList(listObj)
-        } catch {
-            // alert('RSS is not set')
+        } catch(err) {
+            console.error(err)
         } finally {
             setRSSLoading(false)
         }

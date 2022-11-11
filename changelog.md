@@ -6,6 +6,7 @@ react-virtualized的歌列表
 1.1.1.0：
 魔改react-jinke-music-player，降低播放列表重render次数，提升性能；播放列表按当前播放歌曲位置追踪。
 按窗口高度调整歌单一页显示数量。
+更多歌名提取正则。
 
 1.1.0.0：
 bvid搜索支持URL；支持视频合集，列表，空间URL。
