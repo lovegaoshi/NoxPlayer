@@ -71,7 +71,7 @@ const CRUDIcon = {
         cursor: 'pointer'
     },
     width: '1.2em',
-    color: colorTheme.playListIconColor
+    color: colorTheme.songListIconColor
 }
 
 export const Fav = (function ({

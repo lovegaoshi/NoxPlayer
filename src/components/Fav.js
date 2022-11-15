@@ -61,8 +61,8 @@ const CRUDIcon = {
     ':hover': {
         cursor: 'pointer'
     },
-    width: '0.7em',
-    color: colorTheme.playListIconColor
+    width: '1em',
+    color: colorTheme.songListIconColor
 }
 
 export const songText = {

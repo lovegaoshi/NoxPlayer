@@ -276,7 +276,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <ListItemIcon sx={DiskIcon}>
                                     <ManageSearchIcon />
                                 </ListItemIcon>
-                                <ListItemText sx={{ color: colorTheme.myPlayListCaptionColor }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
+                                <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
                             </ListItemButton>
                             <Box component="div" sx={CRUDBtn}>
                                 <Tooltip title="播放歌单">
@@ -310,7 +310,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                     <ListItemIcon sx={DiskIcon}>
                                         <AlbumOutlinedIcon />
                                     </ListItemIcon>
-                                    <ListItemText sx={{ color: colorTheme.myPlayListCaptionColor }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
+                                    <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
                                 </ListItemButton>
                                 <Box component="div" sx={CRUDBtn}>
                                     <Tooltip title="播放歌单">

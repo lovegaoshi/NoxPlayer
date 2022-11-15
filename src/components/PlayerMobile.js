@@ -6,6 +6,7 @@ import { FavList } from './FavListMobile';
 import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
+import { skins } from '../styles/skin';
 // Initial Player options
 const options = {
     mode: 'full',
@@ -18,6 +19,7 @@ const options = {
     defaultPlayIndex: 0,
     isInitRemember: true,
     bannerBg: "",
+    themeOverwrite: skins().reactJKPlayerTheme,
 }
 
 export const PlayerMobile = function ({ songList }) {

@@ -249,7 +249,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
         <DialogTitle>播放器设置</DialogTitle>
         <DialogContent>
           <Tooltip title={skins(skin).maintainerTooltip}>
-            <p style={{ color:colorTheme.songIconColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+            <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
           </Tooltip>
           <Select
             labelId="player-settings-skin-select"

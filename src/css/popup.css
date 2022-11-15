@@ -49,7 +49,6 @@ body {
   background-clip: 'padding-box';
   border-radius: '7px';
   -webkit-border-radius: '7px';
-  background-color: '#c6acfc';
 }
 
 #blur-glass {

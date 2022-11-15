@@ -1,52 +1,50 @@
-export const NoxTheme = {
-    playerBanner: 'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
-    playerBannerMobile: 'https://i0.hdslb.com/bfs/new_dyn/21a92c2ad982efc214940cb71d5525265053504.png',
+export const ClessSTheme = {
+    playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
+    playerBannerMobile: 'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
     gifIcon: () => {
         let gifs = [
-            'https://i0.hdslb.com/bfs/new_dyn/697096d892a7193d33dbdc0edc5e2c9f5053504.gif',
-            'https://i0.hdslb.com/bfs/new_dyn/d9f4d8ea6686304cefff9ce096f0f4135053504.gif',
-            'https://i0.hdslb.com/bfs/new_dyn/2e678361788e9fd518fb47bc5ab15e8b5053504.gif',
-            'https://i0.hdslb.com/bfs/new_dyn/26bcb47c59fb3d004bf0b93f6749da6f5053504.gif',
-            'https://article.biliimg.com/bfs/article/2841b7662c4d6a32c3852f58b623e234f7f4e21a.gif',
+            'https://article.biliimg.com/bfs/article/85e8313a2dab7c845040969b4cda9a1ea967964f.gif',
+            'https://article.biliimg.com/bfs/article/02ca7eb075f9f22fcf4049ddfa4df77ec3cb9ec0.gif',
+            'https://article.biliimg.com/bfs/article/07e44240fa272c4d8bba77d23fe837ba02cbc74d.gif',
         ];        
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
         return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
         .replace('{count}', Math.floor(Math.random() * 3))
     },
-    appTitle: 'Nox-player',
+    appTitle: '克√播放器',
     colorTheme: {
         // color for icons such as add to current playlist, on the right panel
-        playListIconColor: '#fff44f',
-        songListIconColor: '#fff44f',
+        playListIconColor: 'white',
+        songListIconColor: 'white',
         iconDisableColor: '##adadad',
         // colors for playlist caption on the right panel
-        myPlayListCaptionColor: '#fff44f',
+        myPlayListCaptionColor: 'white',
         // similar to above; depreciating?
-        playlistCaptionColor: '#fff44f',
+        playlistCaptionColor: 'red',
         // color for icons on hte left panel. depreciating?
-        songIconColor: '#fff44f',
-        songListColumnHeaderColor: '#fff44f',
+        songIconColor: 'red',
+        songListColumnHeaderColor: 'white',
         // colors for song caption on the left panel. depreciating?
-        uploaderCaptionColor: '#fff44f',
+        uploaderCaptionColor: 'white',
         lyricActiveColor: '#c660e7',
         lyricInactiveColor: '#4d388f',
-        songListShadowStyle: "-4px 5px 6px 2px #f0e68c, 4px -3px 2px 0px #f0e68c, 1px 1px 0px 2px #fff8dc",
+        songListShadowStyle: "-4px 5px 6px 2px #ff0000, 4px -3px 2px 0px #ff0028, 1px 1px 0px 2px #ff2400",
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: '#1E1E1E',
         FavlistBackgroundColor: '#1E1E1E',
         FavlistAlternateBackgroundColor: '#3d3d3d',
-        scrollbarColor: '#fff44f',
+        scrollbarColor: '#dc143c',
         palette: {
             palette: {
               primary: {
                 // light: will be calculated from palette.primary.main,
-                main: '#fff44f',
+                main: '#dc143c',
+                background: "black",
                 // dark: will be calculated from palette.primary.main,
                 // contrastText: will be calculated to contrast with palette.primary.main
-                background: "black",
               },
               secondary: {
-                main: '#fff44f',
+                main: '#dc143c',
                 // dark: will be calculated from palette.secondary.main,
                 contrastText: '#ffcc00',
               },
@@ -57,9 +55,6 @@ export const NoxTheme = {
               // two indexes within its tonal palette.
               // E.g., shift from Red 500 to Red 300 or Red 700.
               tonalOffset: 0.2,
-              background: {
-                default: "#000000"
-              }
             },
             components: {
                 MuiTooltip: {
@@ -73,14 +68,14 @@ export const NoxTheme = {
                   styleOverrides: {
                         root: {
                             backgroundColor: "grey",
-                            color: '#fff44f'
+                            color: 'white'
                         }
                   }
                 },
                 MuiDialogTitle: {
                     styleOverrides: {
                           root: {
-                            color: '#fff44f'
+                            color: 'white'
                           }
                     }
                   },
@@ -88,7 +83,7 @@ export const NoxTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: 'grey',
-                            color: '#fff44f'
+                            color: 'white'
                         },
                     }
                   },
@@ -96,33 +91,34 @@ export const NoxTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: 'grey',
-                            color: '#fff44f'
+                            color: 'white'
                         },
                     }
                 },
                 MuiOutlinedInput: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                         input: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                     }
                 },
                 MuiInputBase: {
                     styleOverrides: {
                         input: {
-                            color: '#fff44f',
+                            color: 'white',
                         },
                     }
                 },
                 MuiIconButton: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f',
+                            color: 'red',
                             "&:hover": {
-                                backgroundColor: 'green',
+                                backgroundColor: '#e8000d',
+                                color: 'white',
                             }
                         }
                     },
@@ -130,9 +126,10 @@ export const NoxTheme = {
                 MuiListItemButton: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f',
+                            color: 'white',
                             "&:hover": {
-                                backgroundColor: 'green',
+                                backgroundColor: '#e8000d',
+                                color: 'white',
                             }
                         }
                     },
@@ -140,48 +137,48 @@ export const NoxTheme = {
                 MuiListItemIcon: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f'
+                            color: 'red'
                         }
                     }
                 },
                 MuiTablePagination: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f'
+                            color: 'white'
                         }
                     }
                 },
                 MuiInput: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f'
+                            color: 'white'
                         }
                     }
                 },
                 MuiSelect: {
                     styleOverrides: {
                         select: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                         icon: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                         nativeInput: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                     }
                 },
                 MuiMenuItem: {
                     styleOverrides: {
                         root: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                     }
                 },
                 MuiFormControlLabel: {
                     styleOverrides: {
                         label: {
-                            color: '#fff44f'
+                            color: 'white'
                         },
                     },
                 },
@@ -189,8 +186,8 @@ export const NoxTheme = {
           },
     },
     reactJKPlayerTheme: {
-        sliderColor: '#fff44f',
+        sliderColor: 'red',
     },
-    maintainer: 'lovegaoshi@github',
-    maintainerTooltip: '关注生草精灵诺莺Nox直播间282208',
+    maintainer: '内德维德的军火库@bilibili',
+    maintainerTooltip: '快滚',
 };

@@ -19,6 +19,7 @@ const options = {
     autoPlay: false,
     defaultPlayIndex: 0,
     bannerBg: skins().playerBanner,
+    themeOverwrite: skins().reactJKPlayerTheme,
 }
 
 export const Player = function ({ songList }) {
