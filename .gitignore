@@ -33,7 +33,6 @@ yarn-error.log*
 *.rar
 *.tar
 *.zip
-build.pem
 build.crx
 Dependencies/react-jinke-music-player
 package-lock.json
