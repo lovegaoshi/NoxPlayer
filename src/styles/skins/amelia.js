@@ -2,7 +2,7 @@
 import { NoxTheme } from './nox';
 
 export const AmeliaTheme = {
-    playerBanner: 'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
+    playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Amelia/AmeliaBanner.png',
     playerBannerMobile: 'https://cdn.donmai.us/sample/11/ac/__watson_amelia_hololive_and_1_more_drawn_by_oozora_halu__sample-11acdfd9e23432d93d241c4942d2047f.jpg',
     gifIcon: () => {
         let gifs = [
