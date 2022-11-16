@@ -74,5 +74,5 @@ export const GuraTheme = {
       sliderColor: '#1e90ff',
     },
     maintainer: 'lovegaoshi@github',
-    maintainerTooltip: "",
+    maintainerTooltip: "A",
 };

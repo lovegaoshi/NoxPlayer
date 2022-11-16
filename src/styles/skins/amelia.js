@@ -43,5 +43,5 @@ export const AmeliaTheme = {
     colorTheme: NoxTheme.colorTheme,
     reactJKPlayerTheme: NoxTheme.reactJKPlayerTheme,
     maintainer: NoxTheme.maintainer,
-    maintainerTooltip: "",
+    maintainerTooltip: "华生，你发现了盲点",
 };
