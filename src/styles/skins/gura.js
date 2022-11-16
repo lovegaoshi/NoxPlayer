@@ -52,11 +52,11 @@ export const GuraTheme = {
             palette: {
               primary: {
                 // light: will be calculated from palette.primary.main,
-                main: '#1e90ff ',
+                main: '#1e90ff',
               },
               secondary: {
                 // light: will be calculated from palette.primary.main,
-                main: '#ce93d8',
+                main: '#1e90ff',
               },
             },
             components: {
