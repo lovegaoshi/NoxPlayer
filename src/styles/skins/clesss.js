@@ -14,18 +14,18 @@ export const ClessSTheme = {
     appTitle: '克√播放器',
     colorTheme: {
         // color for icons such as add to current playlist, on the right panel
-        playListIconColor: 'white',
-        songListIconColor: 'white',
+        playListIconColor: '#d3d3d3',
+        songListIconColor: '#d3d3d3',
         iconDisableColor: '##adadad',
         // colors for playlist caption on the right panel
-        myPlayListCaptionColor: 'white',
+        myPlayListCaptionColor: '#d3d3d3',
         // similar to above; depreciating?
         playlistCaptionColor: 'red',
         // color for icons on hte left panel. depreciating?
         songIconColor: 'red',
-        songListColumnHeaderColor: 'white',
+        songListColumnHeaderColor: '#d3d3d3',
         // colors for song caption on the left panel. depreciating?
-        uploaderCaptionColor: 'white',
+        uploaderCaptionColor: '#d3d3d3',
         lyricActiveColor: '#c660e7',
         lyricInactiveColor: '#4d388f',
         songListShadowStyle: "-4px 5px 6px 2px #ff0000, 4px -3px 2px 0px #ff0028, 1px 1px 0px 2px #ff2400",
@@ -68,14 +68,14 @@ export const ClessSTheme = {
                   styleOverrides: {
                         root: {
                             backgroundColor: "grey",
-                            color: 'white'
+                            color: '#d3d3d3'
                         }
                   }
                 },
                 MuiDialogTitle: {
                     styleOverrides: {
                           root: {
-                            color: 'white'
+                            color: '#d3d3d3'
                           }
                     }
                   },
@@ -83,7 +83,7 @@ export const ClessSTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: 'grey',
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                     }
                   },
@@ -91,24 +91,24 @@ export const ClessSTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: 'grey',
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                     }
                 },
                 MuiOutlinedInput: {
                     styleOverrides: {
                         root: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                         input: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                     }
                 },
                 MuiInputBase: {
                     styleOverrides: {
                         input: {
-                            color: 'white',
+                            color: '#d3d3d3',
                         },
                     }
                 },
@@ -118,7 +118,7 @@ export const ClessSTheme = {
                             color: 'red',
                             "&:hover": {
                                 backgroundColor: '#e8000d',
-                                color: 'white',
+                                color: '#d3d3d3',
                             }
                         }
                     },
@@ -126,10 +126,10 @@ export const ClessSTheme = {
                 MuiListItemButton: {
                     styleOverrides: {
                         root: {
-                            color: 'white',
+                            color: '#d3d3d3',
                             "&:hover": {
                                 backgroundColor: '#e8000d',
-                                color: 'white',
+                                color: '#d3d3d3',
                             }
                         }
                     },
@@ -144,41 +144,41 @@ export const ClessSTheme = {
                 MuiTablePagination: {
                     styleOverrides: {
                         root: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         }
                     }
                 },
                 MuiInput: {
                     styleOverrides: {
                         root: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         }
                     }
                 },
                 MuiSelect: {
                     styleOverrides: {
                         select: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                         icon: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                         nativeInput: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                     }
                 },
                 MuiMenuItem: {
                     styleOverrides: {
                         root: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                     }
                 },
                 MuiFormControlLabel: {
                     styleOverrides: {
                         label: {
-                            color: 'white'
+                            color: '#d3d3d3'
                         },
                     },
                 },

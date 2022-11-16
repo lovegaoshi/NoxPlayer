@@ -19,6 +19,10 @@ body {
   filter: blur(1px);
 }
 
+.homepage-bgimage {
+  object-fit: cover;
+}
+
 .react-jinke-music-player-main {
   position: absolute;
   z-index: 0;

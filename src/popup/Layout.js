@@ -46,8 +46,8 @@ export default function PageLayout({ songList }) {
         // Outmost layer of the page
         <ThemeProvider theme={theme}>
             <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.PCBackgroundColor }}>
-                <div className="container-fluid homepage-bgimage" align="center" height="100vh" width="100vw">
-                    <img id="player-bkgrd" src={skinPreset.playerBannerMobile}></img>
+                <div className="container-fluid homepage-bgimage" align="center">
+                    <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
                 </div>
                 <Box sx={PlayerBoxMobile} id='player-box'> 
                     <PlayerMobile songList={songList} id='player-instance'/>

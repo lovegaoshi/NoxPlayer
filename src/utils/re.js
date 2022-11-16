@@ -69,7 +69,11 @@ export const reExtractSongName = (filename, uploader = '') => {
             // https://space.bilibili.com/3421497/channel/series
             // always 【vtuber】{songname}
             //【clessS×汐尔Sier】玫瑰少年
-            extracted = /【.+】(.+)/.exec(filename);
+            filename = extractWith(
+                extractParenthesis(extractParenthesis(filename)), 
+                [
+                    /【.+】(.+)/, 
+                ]);
             break;
         case "HonmaMeiko":
             // https://space.bilibili.com/590096
