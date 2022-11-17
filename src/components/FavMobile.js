@@ -166,15 +166,13 @@ export const Fav = (function ({
                 <React.Fragment>
                     <Box sx={{ flexGrow: 1, height: '144px' }} >
                         <Grid container spacing={2} style={{ paddingTop: '18px', paddingBottom: '8px' }}>
-                            <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
+                            <Grid item xs={8} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
                                 <Button onClick={playCurrentPlaylist}> 
                                     <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                         {playlistTitleParse(currentFavList.info.title)}
                                     </Typography>
                                 </Button>
 
-                            </Grid>
-                            <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '8px' }}>
                                 <IconButton 

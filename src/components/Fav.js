@@ -218,13 +218,13 @@ export const Fav = (function ({
                 <React.Fragment>
                     <Box sx={{ flexGrow: 1, maxHeight: '72px' }} style={{ paddingBottom: '8px' }}>
                         <Grid container spacing={2} style={{ paddingTop: '8px' }}>
-                            <Grid item xs={4} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '4px' }} overflow="hidden">
+                            <Grid item xs={5} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '4px' }} overflow="hidden">
                                 <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                     {currentFavList.info.title}
                                 </Typography>
 
                             </Grid>
-                            <Grid item xs={4} style={{ textAlign: 'center', padding: '0px' }}>
+                            <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
                                 <IconButton 
                                     onClick={() => setRandomGIFSrcSwitch(randomGIFSrcSwitch + 1)} 
                                     sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
@@ -233,7 +233,7 @@ export const Fav = (function ({
                                         src={randomGIFSrc}></img>
                                 </IconButton>
                             </Grid>
-                            <Grid item xs={4} style={{ textAlign: 'right', padding: '0px' }}>
+                            <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton 
                                     size="large" 
                                     onClick={() => setSubscribeURL()}
@@ -301,8 +301,10 @@ export const Fav = (function ({
                                         <StyledTableCell align="center" sx={{
                                             width: '10%', fontSize: 4,
                                             minWidth: 0,
-                                            color: colorTheme.uploaderCaptionColor
-                                        }} >
+                                            color: colorTheme.uploaderCaptionColor,
+                                            whiteSpace: 'nowrap',
+                                        }}
+                                        style={{ overflow: 'visible' }} >
                                             <a href={"https://space.bilibili.com/" + song.singerId} target="_blank" style={{ color: 'inherit', textDecoration: 'none' }} >
                                                 {song.singer}
                                             </a>

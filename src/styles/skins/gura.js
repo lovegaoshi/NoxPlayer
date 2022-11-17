@@ -31,15 +31,15 @@ export const GuraTheme = {
         songListIconColor: '#1e90ff',
         iconDisableColor: '#adadad',
         // colors for playlist caption on the right panel
-        myPlayListCaptionColor: '#0070ff',
+        myPlayListCaptionColor: '#1e90ff',
         // similar to above; depreciating?
-        playlistCaptionColor: '#0070ff',
+        playlistCaptionColor: '#1e90ff',
         // color for icons on hte left panel. depreciating?
         songListColumnHeaderColor: 'black',
         // color for icons on hte left panel. depreciating?
         songIconColor: '#1e90ff',
         // colors for song caption on the left panel. depreciating?
-        uploaderCaptionColor: '#1e90ff ',
+        uploaderCaptionColor: '#1e90ff',
         lyricActiveColor: '#c660e7',
         lyricInactiveColor: '#4d388f',
         songListShadowStyle: "-4px 5px 6px 2px #1e90ff, 4px -3px 2px 0px #0070ff, 1px 1px 0px 2px #87ceeb",
