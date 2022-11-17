@@ -29,7 +29,7 @@ export const Player = function ({ songList }) {
     // Playing List
     const [playingList, setplayingList] = useState(null)
     // Current Audio info
-    const [currentAudio, setcurrentAudio] = useState(null)
+    const [currentAudio, setcurrentAudio] = useState({})
     // Current Audio Inst
     const [currentAudioInst, setcurrentAudioInst] = useState(null)
     // Lyric Dialog
@@ -40,6 +40,12 @@ export const Player = function ({ songList }) {
     const StorageManager = useContext(StorageManagerCtx)
     const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
 
+    useEffect(() => {
+        if (currentAudio.name) {
+            document.title = currentAudio.name + ' - ' + skins().appTitle;
+        }
+    }, [currentAudio.name])
+    
     const updateCurrentAudioList = useCallback(({ 
         songs,
         immediatePlay = false,
