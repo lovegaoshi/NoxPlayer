@@ -15,6 +15,9 @@ import { Checkbox } from '@mui/material';
 import { SkinKeys, skins, skinPreset } from '../styles/skin';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
+import DownloadIcon from '@mui/icons-material/Download';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import IconButton from '@mui/material/IconButton';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -202,7 +205,8 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
 }
 
 
-export const SettingsDialog = function ({ onClose, openState, settings }) {
+export const SettingsDialog = function ({ onClose, openState, settings,
+  importFavButton = () => {}, exportFavButton = () => {}, }) {
   const [skin, setSkin] = useState('诺莺nox')
   const [settingObj, setSettingObj] = useState({})
   const [parseSongName, setParseSongName] = useState(false)
@@ -248,6 +252,10 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
       <Dialog open={openState}>
         <DialogTitle>播放器设置</DialogTitle>
         <DialogContent>
+        <Box>
+          {exportFavButton()}
+          {importFavButton()}
+        </Box>
           <Tooltip title={skins(skin).maintainerTooltip}>
             <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
           </Tooltip>

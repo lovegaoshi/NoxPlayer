@@ -40,7 +40,12 @@ export const Player = function ({ songList }) {
     const StorageManager = useContext(StorageManagerCtx)
     const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
 
-    const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
+    const updateCurrentAudioList = useCallback(({ 
+        songs,
+        immediatePlay = false,
+        replaceList = false,
+        newAudioListPlayIndex = 0
+    }) => {
         //console.log("updateCurrentAudioList", params)
         let newAudioLists = []
         if (immediatePlay) {
@@ -66,7 +71,8 @@ export const Player = function ({ songList }) {
             ...params,
             quietUpdate: !immediatePlay,
             clearPriorAudioLists: immediatePlay || replaceList,
-            audioLists: newAudioLists
+            audioLists: newAudioLists,
+            newAudioListPlayIndex,
         }
         //console.log(newParam)
         setparams(newParam)
@@ -81,7 +87,11 @@ export const Player = function ({ songList }) {
             return
         }
 
-        updateCurrentAudioList({ songs: songs.concat(favList.songList), replaceList: true })
+        updateCurrentAudioList({ 
+            songs: favList.songList,
+            replaceList: true,
+            newAudioListPlayIndex: favList.songList.findIndex((s) => s.id == songs[0].id) 
+        })
     }, [params, playingList, currentAudioInst])
 
     const onAddOneFromFav = useCallback((songs) => {
@@ -95,7 +105,14 @@ export const Player = function ({ songList }) {
     }, [params, playingList])
 
     const onPlayAllFromFav = useCallback((songs) => {
-        updateCurrentAudioList({ songs: songs, immediatePlay: false, replaceList: true })
+        console.debug('current PlayMode is', params.playMode)
+        updateCurrentAudioList({ 
+            songs: songs,
+            immediatePlay: false,
+            replaceList: true,
+            newAudioListPlayIndex: params.playMode === 'shufflePlay' ? 
+                Math.floor(Math.random() * songs.length)>>0 : 0
+        })
 
     }, [params])
 
@@ -114,7 +131,9 @@ export const Player = function ({ songList }) {
         //console.log('play mode change:', playMode)
         playerSettings.playMode = playMode
         setPlayerSettings(playerSettings)
+        params.playMode = playMode
         StorageManager.setPlayerSetting(playerSettings)
+        setparams(params)
     }
 
     const onAudioVolumeChange = (currentVolume) => {

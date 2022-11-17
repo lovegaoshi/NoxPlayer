@@ -27,8 +27,8 @@ export const GuraTheme = {
     colorTheme: {
         // these are adapted from the original azusa player; eventually will be trnaslated into palettes.
         // color for icons such as add to current playlist, on the right panel
-        playListIconColor: '#1e90ff ',
-        songListIconColor: '#1e90ff ',
+        playListIconColor: '#1e90ff',
+        songListIconColor: '#1e90ff',
         iconDisableColor: '#adadad',
         // colors for playlist caption on the right panel
         myPlayListCaptionColor: '#0070ff',
@@ -47,7 +47,7 @@ export const GuraTheme = {
         PCBackgroundColor: 'white',
         FavlistBackgroundColor: 'white',
         FavlistAlternateBackgroundColor: '#f2f2f2',
-        scrollbarColor: '#c6acfc',
+        scrollbarColor: '#1e90ff',
         palette: {
             palette: {
               primary: {

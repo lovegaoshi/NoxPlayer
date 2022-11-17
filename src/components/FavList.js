@@ -28,6 +28,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -215,6 +216,33 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         StorageManager.importStorage()
     }
 
+    const shuffleAll = () => {
+        let allFavSongList = [];
+        for (let i=0, n=favLists.length; i<n; i++ ) {
+            allFavSongList = allFavSongList.concat(favLists[i].songList)
+        } 
+        onPlayAllFromFav(allFavSongList);
+    }
+
+    const importFavButton = () => {
+        return (
+            <Tooltip title="导入歌单">
+                <IconButton size='large' onClick={() => importFav()}>
+                    <FileUploadIcon sx={AddFavIcon} />
+                </IconButton>
+            </Tooltip>
+        )
+    }
+
+    const exportFavButton = () => {
+        return (
+            <Tooltip title="导出歌单">
+                <IconButton size='large' onClick={() => exportFav()} >
+                    <DownloadIcon sx={AddFavIcon} />
+                </IconButton>
+            </Tooltip>
+        )
+    }
     return (
         <React.Fragment>
             <Search 
@@ -223,8 +251,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             />
 
             <Box // Mid Grid -- SideBar
-                className={ScrollBar().root}
-                style={{ overflow: "auto", maxHeight: "96%" }}
+                style={{ overflow: "hidden", maxHeight: "96%" }}
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>
@@ -239,14 +266,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <AddIcon sx={AddFavIcon}/>
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="导出歌单">
-                            <IconButton size='large' onClick={() => exportFav()} >
-                                <DownloadIcon sx={AddFavIcon} />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="导入歌单">
-                            <IconButton size='large' onClick={() => importFav()}>
-                                <FileUploadIcon sx={AddFavIcon} />
+                        <Tooltip title="全歌单播放">
+                            <IconButton size='large' onClick={() => shuffleAll()}>
+                                <ShuffleIcon sx={AddFavIcon} />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="播放器设置">
@@ -264,6 +286,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 </Grid>
                 <Divider light />
                 <List
+                    style={{ overflow: "auto", maxHeight: "96%" }}
+                    className={ScrollBar().root}
                     sx={{ width: '100%' }}
                     component="nav"
                 >
@@ -385,6 +409,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 setOpenSettingsDialog(false)
             }}
             settings={StorageManager.getPlayerSetting()}
+            importFavButton={importFavButton}
+            exportFavButton={exportFavButton}
             />
 
         </React.Fragment >
