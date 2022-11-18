@@ -7,6 +7,7 @@ import { AmeliaTheme } from './skins/amelia';
 import { GuraTheme } from './skins/gura';
 // needs to enable top-level await; necessary for other modules to import current skin config
 let setting = await new StorageManager().getPlayerSetting();
+
 export const SkinKeys = [
     '诺莺nox',
     '阿梓azusa',

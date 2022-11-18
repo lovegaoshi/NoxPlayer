@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getRandomHeaderGIF } from '../utils/Data'
 import { ScrollBar } from "../styles/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -31,6 +30,7 @@ import { getName } from '../utils/re';
 import { skinPreset } from '../styles/skin';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
+import { getRandomNumberExclude } from '../styles/skins/utils';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -86,8 +86,7 @@ export const Fav = (function ({
     const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 350) / 40));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [songIconVisible, setSongIconVisible] = useState(false);
-    const [randomGIFSrc, setRandomGIFSrc] = useState(null);
-    const [randomGIFSrcSwitch, setRandomGIFSrcSwitch] = useState(0);
+    const [randomGIFSrc, setRandomGIFSrc] = useState(getRandomNumberExclude(skinPreset.gifs.length, -1));
     const [scrollPageFlagSlave, setScrollPageFlagSlave] = useState(scrollPageFlag);
     
     const findInFavList = (songList, audioid) => {
@@ -119,8 +118,8 @@ export const Fav = (function ({
     }, [scrollPageFlag])
 
     useEffect(() => {
-        setRandomGIFSrc(getRandomHeaderGIF());
-    }, [FavList, page, randomGIFSrcSwitch])
+        setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc));
+    }, [FavList, page])
 
     const requestSearch = (e) => {
         const searchedVal = e.target.value
@@ -176,11 +175,11 @@ export const Fav = (function ({
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '8px' }}>
                                 <IconButton 
-                                    onClick={() => setRandomGIFSrcSwitch(randomGIFSrcSwitch + 1)} 
+                                    onClick={() => setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc))} 
                                     sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
                                 >
                                     <img style={{ width: '66px', height: '66px' }}
-                                        src={randomGIFSrc}></img>
+                                        src={skinPreset.gifs[randomGIFSrc]}></img>
                                 </IconButton>
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>

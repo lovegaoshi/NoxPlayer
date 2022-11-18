@@ -1,6 +1,5 @@
 import { Logger } from "./Logger";
 import VideoInfo from "../objects/VideoInfo";
-import { skins } from '../styles/skin';
 
 const logger = new Logger("Data.js")
 
@@ -285,10 +284,6 @@ export const extractSongName = (name) => {
     // var nameReg = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/ // Check if name is just one string, no special chars
     // if(!nameReg.test(name))
     return (name)
-}
-
-export const getRandomHeaderGIF = () => {
-    return skins().gifIcon()
 }
 
 export const searchLyricOptions = async (searchKey, setOptions, setLyric) => {

@@ -1,12 +1,13 @@
+const gifs = [
+    'https://article.biliimg.com/bfs/article/85e8313a2dab7c845040969b4cda9a1ea967964f.gif',
+    'https://article.biliimg.com/bfs/article/02ca7eb075f9f22fcf4049ddfa4df77ec3cb9ec0.gif',
+    'https://article.biliimg.com/bfs/article/07e44240fa272c4d8bba77d23fe837ba02cbc74d.gif',
+];   
 export const ClessSTheme = {
     playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
     playerBannerMobile: 'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
+    gifs,
     gifIcon: () => {
-        let gifs = [
-            'https://article.biliimg.com/bfs/article/85e8313a2dab7c845040969b4cda9a1ea967964f.gif',
-            'https://article.biliimg.com/bfs/article/02ca7eb075f9f22fcf4049ddfa4df77ec3cb9ec0.gif',
-            'https://article.biliimg.com/bfs/article/07e44240fa272c4d8bba77d23fe837ba02cbc74d.gif',
-        ];        
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
         return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
         .replace('{count}', Math.floor(Math.random() * 3))
