@@ -28,11 +28,13 @@ export const reExtractSongName = (filename, uploader = '') => {
             // 27_星の在り処 Full Ver. (Less Vocal) [BONUS TRACK] by Falcom Sound Team jdk
             // occasionally theres a parenthesis; always take whats before left parenthesis
             // im sure theres a one statement way to do this re....
+            // else i do [歌切][诺莺Nox] Renegade 20221119
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
                     /\d*_(.+) \(?.*by .+/, 
                     /\d*_(.+)/,
+                    /\[.+\]\[.+\] (.+) \d+/,
                 ]);
             break;
         case "冥侦探柯鎮悪":

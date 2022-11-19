@@ -64,7 +64,7 @@
     "@mui/icons-material": "^5.2.1",
     "@mui/material": "^5.2.3",
     "@mui/styles": "^5.2.3",
-    "@mui/x-data-grid": "^5.2.2",
+    "@mui/x-data-grid": "^5.17.12",
     "@types/chrome": "0.0.177",
     "cross-fetch": "^3.1.5",
     "downloadjs": "^1.4.7",

@@ -1,11 +1,13 @@
 功能愿望单：
-react-virtualized的歌列表
+react-virtualized/mui datagrid的歌列表
 整合pc端和移动端的狗屎代码
 黑泽诺亚和林莉奈的皮肤
 
 1.1.1.1:
 更多歌名提取正则。
 内德维德，holo myth皮肤。
+全歌单播放按钮。
+react-window重置的主界面播放列表，加载3w首也不卡。
 
 1.1.1.0：
 魔改react-jinke-music-player，降低播放列表重render次数，提升性能；播放列表按当前播放歌曲位置追踪。

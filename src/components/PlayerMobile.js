@@ -41,6 +41,7 @@ export const PlayerMobile = function ({ songList }) {
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
+    const [audioListsPanelState, setAudioListsPanelState] = useState(false)
 
     const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
         //console.log("updateCurrentAudioList", params)
@@ -97,8 +98,14 @@ export const PlayerMobile = function ({ songList }) {
     }, [params, playingList])
 
     const onPlayAllFromFav = useCallback((songs) => {
-        updateCurrentAudioList({ songs: songs, immediatePlay: false, replaceList: true })
-
+        updateCurrentAudioList({ 
+            songs: songs,
+            immediatePlay: false,
+            replaceList: true,
+            newAudioListPlayIndex: params.playMode === 'shufflePlay' 
+                ? Math.floor(Math.random() * songs.length)>>0 
+                : 0
+        })
     }, [params])
 
     const onAddFavToList = useCallback((songs) => {
@@ -247,7 +254,7 @@ export const PlayerMobile = function ({ songList }) {
     }
     
     function handleTouchEnd() {
-        if (!touchEnd) {
+        if (!touchEnd || audioListsPanelState) {
             return;
         }
         if (touchStart - touchEnd > 50) {
@@ -307,6 +314,7 @@ export const PlayerMobile = function ({ songList }) {
                             onAudioPlay={onAudioPlay}
                             onCoverClick={onCoverClick}
                             onAudioListsChange={onAudioListsChange}
+                            onAudioListsPanelChange={setAudioListsPanelState}
                         />
                     </Box>
                 </React.Fragment>}

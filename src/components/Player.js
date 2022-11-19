@@ -116,8 +116,9 @@ export const Player = function ({ songList }) {
             songs: songs,
             immediatePlay: false,
             replaceList: true,
-            newAudioListPlayIndex: params.playMode === 'shufflePlay' ? 
-                Math.floor(Math.random() * songs.length)>>0 : 0
+            newAudioListPlayIndex: params.playMode === 'shufflePlay' 
+                ? Math.floor(Math.random() * songs.length)>>0 
+                : 0
         })
 
     }, [params])
