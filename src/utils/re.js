@@ -30,13 +30,22 @@ export const reExtractSongName = (filename, uploader = '') => {
             // im sure theres a one statement way to do this re....
             // else i do [歌切][诺莺Nox] Renegade 20221119
             filename = extractWith(
-                extractParenthesis(filename), 
+                extractParenthesis(extractParenthesis(filename)), 
                 [
                     /\d*_(.+) \(?.*by .+/, 
                     /\d*_(.+)/,
                     /\[.+\]\[.+\] (.+) \d+/,
                 ]);
             break;
+            case "王胡桃w":
+                filename = extractWith(
+                    extractParenthesis(extractParenthesis(filename)), 
+                    [
+                        /\d*_(.+) \(?.*by .+/, 
+                        /\d*_(.+)/,
+                        /\[.+\]\[.+\] (.+) \d+/,
+                    ]);
+                break;
         case "冥侦探柯鎮悪":
             // https://space.bilibili.com/94558176/channel/series
             // seesm to be always 【{vtuber}】《{song} （his comments）》

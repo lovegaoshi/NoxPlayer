@@ -1,6 +1,12 @@
-import React from "react"
+import React, { useEffect } from "react";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
+import { skins } from '../styles/skin';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import { sendBVLike } from '../utils/BiliOperate';
 
-export const BiliBiliIcon = function () {
+const BiliBiliIconSVG = function () {
     return (
         <svg role="img" width='26' height='26' fontSize='5px'
             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -11,3 +17,53 @@ export const BiliBiliIcon = function () {
     )
 }
 
+const buttonStyle = css`
+    cursor: pointer;
+    &:hover {
+        color: ${skins().reactJKPlayerTheme.sliderColor};
+    };
+    background-color: transparent;
+    color: white;
+`
+
+export const BiliBiliIcon = ({
+    bvid, 
+    liked, 
+    handleThumbsUp = () => {}, 
+    handleThumbedUp = () => {
+        window.open('https://www.bilibili.com/video/' + bvid)
+    }}) => {
+    if (liked === 1) {
+        return (
+            <span
+                className="group audio-download"
+                css={buttonStyle}
+                onClick={handleThumbedUp}
+                title={"已点赞"}
+            >
+                <ThumbUpAltIcon />
+            </span>
+        )
+    } else if (liked === undefined) {
+        return (
+            <span
+                className="group audio-download"
+                css={buttonStyle}
+                onClick={handleThumbedUp}
+                title={"前往视频"}
+            >
+                <BiliBiliIconSVG />
+            </span>
+        )
+    }
+    return (
+        <span
+            className="group audio-download"
+            css={buttonStyle}
+            onClick={() => {sendBVLike(bvid, handleThumbsUp)}}
+            title={"点赞"}
+        >
+            <ThumbUpOffAltIcon />
+        </span>
+    )
+}

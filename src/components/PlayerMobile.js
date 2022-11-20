@@ -7,8 +7,10 @@ import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins } from '../styles/skin';
+import { checkBVLiked } from '../utils/BiliOperate';
+
 // Initial Player options
-const options = {
+let options = {
     mode: 'full',
     showThemeSwitch: false,
     showLyric: false,
@@ -42,6 +44,7 @@ export const PlayerMobile = function ({ songList }) {
     const StorageManager = useContext(StorageManagerCtx)
     const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
+    const [bvidLiked, setBvidLiked] = useState(0)
 
     const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
         //console.log("updateCurrentAudioList", params)
@@ -134,35 +137,20 @@ export const PlayerMobile = function ({ songList }) {
     }
 
     const onAudioPlay = useCallback((audioInfo) => {
-        // console.log('audio playing', audioInfo)
-        const link = 'https://www.bilibili.com/video/' + audioInfo.bvid
-        const newParam = {
-            ...params,
-            extendsContent: (
-                <span className="group audio-download" title="Bilibili">
-                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
-                        <BiliBiliIcon />
-                    </a>
-                </span >
-                /*
-                
-                <span className="go2playlist" title="playlist">
-                    <IconButton 
-                        onClick={() => {
-                            setShowFavList(favState => !favState)
-                        }}>            
-                        <QueueMusicIcon 
-                            style={{ width: '32px', height: '32px' }}
-                            sx={{ color: 'gray' }} 
-                        >
-                        </QueueMusicIcon>
-                    </IconButton>
-                </span >
-                */
-            )
-        }
+        checkBVLiked(
+            audioInfo.bvid,
+            (videoLikeStatus) => {
+                setBvidLiked(videoLikeStatus);
+                const newParam = {
+                    ...params,
+                    extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: (val) => {
+                        console.debug('like video returned', val)
+                        setparams({...params, extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: 1 })})
+                    } })
+                }
+                setparams(newParam)
+            })
         setcurrentAudio(audioInfo)
-        setparams(newParam)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
     }, [params])
 
@@ -219,14 +207,7 @@ export const PlayerMobile = function ({ songList }) {
         
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
-            const link = 'https://www.bilibili.com/video/' + songList[0].bvid
-            options.extendsContent = (
-                <span className="group audio-download" title="Bilibili">
-                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
-                        <BiliBiliIcon />
-                    </a>
-                </span >
-            )
+            options.extendsContent = BiliBiliIcon({ bvid: songList[0].bvid, liked: undefined })
             const params = {
                 ...options,
                 ...setting,

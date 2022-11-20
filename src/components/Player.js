@@ -7,9 +7,11 @@ import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins } from '../styles/skin';
+import { checkBVLiked } from '../utils/BiliOperate';
+
 
 // Initial Player options
-const options = {
+let options = {
     mode: 'full',
     showThemeSwitch: false,
     showLyric: false,
@@ -39,11 +41,14 @@ export const Player = function ({ songList }) {
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
+    const [bvidLiked, setBvidLiked] = useState(0)
 
     useEffect(() => {
-        if (currentAudio.name) {
-            document.title = currentAudio.name + ' - ' + skins().appTitle;
+        if (!currentAudio.name) {
+            return;
         }
+        document.title = currentAudio.name + ' - ' + skins().appTitle;
+        
     }, [currentAudio.name])
     
     const updateCurrentAudioList = useCallback(({ 
@@ -152,19 +157,20 @@ export const Player = function ({ songList }) {
 
     const onAudioPlay = useCallback((audioInfo) => {
         // console.log('audio playing', audioInfo)
-        const link = 'https://www.bilibili.com/video/' + audioInfo.bvid
-        const newParam = {
-            ...params,
-            extendsContent: (
-                <span className="group audio-download" title="Bilibili">
-                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
-                        <BiliBiliIcon />
-                    </a>
-                </span >
-            )
-        }
+        checkBVLiked(
+            audioInfo.bvid,
+            (videoLikeStatus) => {
+                setBvidLiked(videoLikeStatus);
+                const newParam = {
+                    ...params,
+                    extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: (val) => {
+                        console.debug('like video returned', val)
+                        setparams({...params, extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: 1 })})
+                    } })
+                }
+                setparams(newParam)
+            })
         setcurrentAudio(audioInfo)
-        setparams(newParam)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
     }, [params])
 
@@ -218,18 +224,11 @@ export const Player = function ({ songList }) {
         // console.log('ran Init useEffect - Player', songList)
         if (!songList || songList[0] == undefined)
             return;
+        options.extendsContent = BiliBiliIcon({ bvid: songList[0].bvid, liked: undefined })
         chrome.storage.local.set({ ['CurrentPlaying']: {} })
 
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
-            const link = 'https://www.bilibili.com/video/' + songList[0].bvid
-            options.extendsContent = (
-                <span className="group audio-download" title="Bilibili">
-                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
-                        <BiliBiliIcon />
-                    </a>
-                </span >
-            )
             const params = {
                 ...options,
                 ...setting,
