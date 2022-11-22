@@ -132,8 +132,11 @@ export const reExtractSongName = (filename, uploader = '') => {
             // https://space.bilibili.com/287837/channel/series
             // in specialized brackets.
             // 【折原露露 · 翻唱】乌兰巴托的夜（10.18-歌切）
-            filename = extractParenthesis(filename);
-            extracted = /【.+】(.+)/.exec(filename);
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【.+】(.+)/, 
+                ]);
             break;
         case "HACHI蜂蜜酿造厂":
             /*
@@ -171,7 +174,37 @@ export const reExtractSongName = (filename, uploader = '') => {
                 filename = filename.substring('【Pomelo安妮】'.length);
             }
             break;
+        case "食梦莲lotus":
+            //【安妮Pomelo】1118恋爱循环
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【.+】\d+(.+)/, 
+                ]);
+            break;
+        case "真心之梦":
+            // https://space.bilibili.com/344906417/channel/seriesdetail?sid=2463652
+            // 【咲间妮娜】射手座午后九时don't be late
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【.+】(.+)/, 
+                ]);
+            break;
+        case "姓单名推的DD桑":
+            // https://space.bilibili.com/7191181/channel/collectiondetail?sid=821187
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【.+】(.+)/, 
+                ]);
+            break;
         case "":
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+
+                ]);
             break;
     }
     if (extracted !== null) return extracted[1];

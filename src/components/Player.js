@@ -182,7 +182,7 @@ export const Player = function ({ songList }) {
     }, [params, playingList])
 
     const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
-        console.error('audio error', errMsg, currentPlayId, audioLists, audioInfo)
+        console.error('audio error', errMsg, audioInfo)
     }
 
     const onAudioProgress = (audioInfo) => {
