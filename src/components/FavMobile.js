@@ -159,6 +159,48 @@ export const Fav = (function ({
         return title
     }
 
+    const rowRenderer = ({ song, index }) => {
+        return (
+            <StyledTableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+                { songIconVisible
+                ? <StyledTableCell align="left" sx={{
+                    paddingRight: '8px', width: '20px',
+                    whiteSpace: 'nowrap'
+                }}
+                    style={{ paddingLeft: '8px', paddingRight: '8px' }}>
+                    <Tooltip title="添加到播放列表">
+                        <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
+                    </Tooltip>
+                    <Tooltip title="添加到收藏歌单">
+                        <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
+                    </Tooltip>
+                    <Tooltip title="删除歌曲">
+                        <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index + page * rowsPerPage)} />
+                    </Tooltip>
+                </StyledTableCell>
+                : <></> }
+                <StyledTableCell align="left" sx={{
+                    paddingLeft: '8px', width: '45%',
+                    whiteSpace: 'nowrap'
+                }}
+                >
+                    <ListItemButton 
+                        variant="text" 
+                        sx={songText} 
+                        onClick={() => onSongIndexChange([song], currentFavList)}
+                    >{getName(song, true)}</ListItemButton>
+                </StyledTableCell>
+            </StyledTableRow>
+        )
+    }
+
+    const Row = ({ index, style }) => {
+        return rowRenderer({ song: rows[index], index });
+    }
+
     return (
         <React.Fragment>
             {currentFavList &&
@@ -249,39 +291,7 @@ export const Fav = (function ({
                                     ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     : rows
                                 ).map((song, index) =>
-                                    <StyledTableRow
-                                        key={index}
-                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                    >
-                                        { songIconVisible
-                                        ? <StyledTableCell align="left" sx={{
-                                            paddingRight: '8px', width: '20px',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                            style={{ paddingLeft: '8px', paddingRight: '8px' }}>
-                                            <Tooltip title="添加到播放列表">
-                                                <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
-                                            </Tooltip>
-                                            <Tooltip title="添加到收藏歌单">
-                                                <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
-                                            </Tooltip>
-                                            <Tooltip title="删除歌曲">
-                                                <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index + page * rowsPerPage)} />
-                                            </Tooltip>
-                                        </StyledTableCell>
-                                        : <></> }
-                                        <StyledTableCell align="left" sx={{
-                                            paddingLeft: '8px', width: '45%',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                        >
-                                            <ListItemButton 
-                                                variant="text" 
-                                                sx={songText} 
-                                                onClick={() => onSongIndexChange([song], currentFavList)}
-                                            >{getName(song, true)}</ListItemButton>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
+                                    rowRenderer( {song, index} )
                                 )}
                             </TableBody>
                             <TableFooter>

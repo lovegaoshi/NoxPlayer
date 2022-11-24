@@ -211,6 +211,49 @@ export const Fav = (function ({
     //console.log('rener Fav')
     const className = ScrollBar().root
 
+    const rowRenderer = ({ song, index }) => {
+        return (
+            <StyledTableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+                <StyledTableCell align="left" sx={{
+                    paddingLeft: '8px', width: '45%',
+                    whiteSpace: 'nowrap'
+                }}
+                >
+                    <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
+                </StyledTableCell>
+                <StyledTableCell align="center" sx={{
+                    width: '10%', fontSize: 4,
+                    minWidth: 0,
+                    color: colorTheme.uploaderCaptionColor,
+                    whiteSpace: 'nowrap',
+                }}
+                style={{ overflow: 'visible' }} >
+                    <a href={"https://space.bilibili.com/" + song.singerId} target="_blank" style={{ color: 'inherit', textDecoration: 'none' }} >
+                        {song.singer}
+                    </a>
+                </StyledTableCell>
+                <StyledTableCell align="right" sx={{
+                    paddingRight: '8px', width: '45%',
+                    whiteSpace: 'nowrap'
+                }}
+                    style={{ paddingLeft: '40px', paddingRight: '8px' }}>
+                    <Tooltip title="添加到播放列表">
+                        <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
+                    </Tooltip>
+                    <Tooltip title="添加到收藏歌单">
+                        <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
+                    </Tooltip>
+                    <Tooltip title="删除歌曲">
+                        <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index + page * rowsPerPage )} />
+                    </Tooltip>
+                </StyledTableCell>
+            </StyledTableRow>
+        )
+    }
+
     return (
         <React.Fragment>
             {currentFavList &&
@@ -286,44 +329,7 @@ export const Fav = (function ({
                                     ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     : rows
                                 ).map((song, index) =>
-                                    <StyledTableRow
-                                        key={index}
-                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                    >
-                                        <StyledTableCell align="left" sx={{
-                                            paddingLeft: '8px', width: '45%',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                        >
-                                            <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
-                                        </StyledTableCell>
-                                        <StyledTableCell align="center" sx={{
-                                            width: '10%', fontSize: 4,
-                                            minWidth: 0,
-                                            color: colorTheme.uploaderCaptionColor,
-                                            whiteSpace: 'nowrap',
-                                        }}
-                                        style={{ overflow: 'visible' }} >
-                                            <a href={"https://space.bilibili.com/" + song.singerId} target="_blank" style={{ color: 'inherit', textDecoration: 'none' }} >
-                                                {song.singer}
-                                            </a>
-                                        </StyledTableCell>
-                                        <StyledTableCell align="right" sx={{
-                                            paddingRight: '8px', width: '45%',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                            style={{ paddingLeft: '40px', paddingRight: '8px' }}>
-                                            <Tooltip title="添加到播放列表">
-                                                <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
-                                            </Tooltip>
-                                            <Tooltip title="添加到收藏歌单">
-                                                <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
-                                            </Tooltip>
-                                            <Tooltip title="删除歌曲">
-                                                <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index + page * rowsPerPage )} />
-                                            </Tooltip>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
+                                    rowRenderer( {song, index} )
                                 )}
                             </TableBody>
                             <TableFooter>

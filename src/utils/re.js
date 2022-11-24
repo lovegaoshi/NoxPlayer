@@ -23,21 +23,13 @@ export const reExtractSongName = (filename, uploader = '') => {
     let extracted = null;
     switch (String(uploader)) {
         case "胡桃小王":
+        case "王胡桃w":
             // https://space.bilibili.com/5053504/channel/series
             // always {number}_{songname} by {artist}  
             // 27_星の在り処 Full Ver. (Less Vocal) [BONUS TRACK] by Falcom Sound Team jdk
             // occasionally theres a parenthesis; always take whats before left parenthesis
             // im sure theres a one statement way to do this re....
             // else i do [歌切][诺莺Nox] Renegade 20221119
-            filename = extractWith(
-                extractParenthesis(extractParenthesis(filename)), 
-                [
-                    /\d*_(.+) \(?.*by .+/, 
-                    /\d*_(.+)/,
-                    /\[.+\]\[.+\] (.+) \d+/,
-                ]);
-            break;
-            case "王胡桃w":
                 filename = extractWith(
                     extractParenthesis(extractParenthesis(filename)), 
                     [
@@ -52,6 +44,7 @@ export const reExtractSongName = (filename, uploader = '') => {
             // eg 【ninnikuu泥泥裤】《alice（现场LIVE纯享版~古川本辅，日）》
             extracted = /【.+】《(.+)（.+）》/.exec(filename);
             break;
+        case "哆啦A0":
         case "钢铁慈父晚大林":
             // https://space.bilibili.com/33576761/channel/series
             // always 【HeraKris】【stream title】{songname}
