@@ -32,7 +32,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
-import { getRandomNumberExclude } from '../styles/skins/utils';
+import RandomGIFIcon from './randomGIF';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -166,7 +166,6 @@ export const Fav = (function ({
     const [page, setPage] = useState(0);
     const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40 - 1));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
-    const [randomGIFSrc, setRandomGIFSrc] = useState(getRandomNumberExclude(skinPreset.gifs.length, -1));
 
     useEffect(() => {
         setCurrentFavList(FavList)
@@ -175,10 +174,6 @@ export const Fav = (function ({
         setRowsPerPage(defaultRowsPerPage)
         //console.log(FavList)
     }, [FavList])
-
-    useEffect(() => {
-        setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc));
-    }, [FavList, page])
     
     const requestSearch = (e) => {
         const searchedVal = e.target.value
@@ -267,13 +262,7 @@ export const Fav = (function ({
 
                             </Grid>
                             <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
-                                <IconButton 
-                                    onClick={() => setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc))} 
-                                    sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
-                                >
-                                    <img style={{ width: '66px', height: '66px' }}
-                                        src={skinPreset.gifs[randomGIFSrc]}></img>
-                                </IconButton>
+                                <RandomGIFIcon gifs={skinPreset.gifs} favList={currentFavList.info.id + page.toString()}></RandomGIFIcon>
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, forwardRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ScrollBar } from "../styles/styles";
 import Table from "@mui/material/Table";
 import TableCell from '@mui/material/TableCell';
@@ -26,8 +26,8 @@ import { getName } from '../utils/re';
 import { skinPreset } from '../styles/skin';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
-import { getRandomNumberExclude } from '../styles/skins/utils';
 import { FixedSizeList as List } from 'react-window';
+import RandomGIFIcon from './randomGIF';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -58,7 +58,6 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [songIconVisible, setSongIconVisible] = useState(false);
-    const [randomGIFSrc, setRandomGIFSrc] = useState(getRandomNumberExclude(skinPreset.gifs.length, -1));
     const FavPanelRef = useRef(null);
     
     const findInFavList = (songList, audioid) => {
@@ -75,7 +74,6 @@ export const Fav = (function ({
         setCurrentFavList(FavList);
         setRows(FavList.songList);
         // this should be saved to localStorage
-        setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc));
         if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
     }, [FavList])
 
@@ -152,13 +150,7 @@ export const Fav = (function ({
                                 </Button>
                             </Grid>
                             <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '8px' }}>
-                                <IconButton 
-                                    onClick={() => setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc))} 
-                                    sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
-                                >
-                                    <img style={{ width: '66px', height: '66px' }}
-                                        src={skinPreset.gifs[randomGIFSrc]}></img>
-                                </IconButton>
+                                <RandomGIFIcon gifs={skinPreset.gifs} favList={currentFavList.info.id}></RandomGIFIcon>
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton size="large" onClick={() => {
