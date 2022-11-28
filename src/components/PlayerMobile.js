@@ -82,6 +82,7 @@ export const PlayerMobile = function ({ songList }) {
     const onPlayOneFromFav = useCallback((songs, favList) => {
         const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
         //console.log(existingIndex)
+        setShowFavList(favState => !favState)
         if (existingIndex != -1) {
             currentAudioInst.playByIndex(existingIndex)
             return
