@@ -43,6 +43,7 @@ export const CaliTheme = {
         FavlistBackgroundColor: 'white',
         FavlistAlternateBackgroundColor: '#f2f2f2',
         scrollbarColor: '#1e90ff',
+        favMobileBorder: "1px solid #1e90ff",
         palette: {
             palette: {
               primary: {

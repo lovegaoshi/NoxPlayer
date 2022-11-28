@@ -39,10 +39,17 @@ export const reExtractSongName = (filename, uploader = '') => {
                     ]);
                 break;
         case "冥侦探柯鎮悪":
+        case "冥侦探柯镇恶":
             // https://space.bilibili.com/94558176/channel/series
             // seesm to be always 【{vtuber}】《{song} （his comments）》
             // eg 【ninnikuu泥泥裤】《alice（现场LIVE纯享版~古川本辅，日）》
-            extracted = /【.+】《(.+)（.+）》/.exec(filename);
+            filename = extractParenthesis(extractWith(
+                filename, 
+                [
+                    /【.+】《(.+)》/,
+                    /【.+】(.+)/
+                ]));
+            console.debug(filename); 
             break;
         case "哆啦A0":
         case "钢铁慈父晚大林":
