@@ -56,7 +56,7 @@ export const Fav = (function ({
     handleDelteFromSearchList, handleAddToFavClick,
     onPlaylistTitleClick,
     setSubscribeURL, onRssUpdate, Loading,
-    currentAudioID, handleTouchStart, handleTouchMove, handleTouchEnd }) {
+    currentAudioID }) {
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [songIconVisible, setSongIconVisible] = useState(false);

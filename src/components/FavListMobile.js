@@ -34,6 +34,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
+import { useSwipeable } from "react-swipeable";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -246,48 +247,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         StorageManager.importStorage()
     }
 
-    const [touchStartX, setTouchStartX] = React.useState(0);
-    const [touchEndX, setTouchEndX] = React.useState(0);
-    const [touchStartY, setTouchStartY] = React.useState(0);
-    const [touchEndY, setTouchEndY] = React.useState(0);
-    
-    function handleTouchStart(e) {
-        setTouchEndX(null);
-        setTouchEndY(null);
-        setTouchStartX(e.targetTouches[0].clientX);
-        setTouchStartY(e.targetTouches[0].clientY);
-    }
-    
-    function handleTouchMove(e) {
-        setTouchEndX(e.targetTouches[0].clientX);
-        setTouchEndY(e.targetTouches[0].clientY);
-    }
-    
-    function handleTouchEndFavList() {
-        if (!touchEndX && !touchEndY) {
-            return;
-        }
-        if (touchStartX - touchEndX < -50) {
-            // do your stuff here for right swipe
-            //handleClose();
-            setOpen(false);
-        }
-    }
-
-    function handleTouchEndFav() {
-        if (!touchEndX) {
-            return;
-        }
-        if (touchStartX - touchEndX < -50) {
-            // do your stuff here for right swipe
-            setOpen(false);
-            setFavOpen(false);
-        } else if (touchStartX - touchEndX > 50) {
-            //openFavorFavlist();
-            setOpen(true);
-        }
-    }
-
     const searchBarComponent = (playListIcon) => {
         return (
                 <Search 
@@ -424,7 +383,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const favComponent = () => {
         return (
             <Box // Mid Grid -- Fav Detail 
-                style={{ height: "90%", paddingLeft: '20px', overflow: "auto" }}
+                style={{ height: "90%", maxHeight: "90%", paddingLeft: '20px', overflow: "auto" }}
                 sx={{ gridArea: "Lrc", padding: '0.2em' }}>
                 {selectedList &&
                     <Fav FavList={selectedList}
@@ -440,13 +399,22 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         }}
                         Loading={rssLoading}
                         currentAudioID={currentAudioID}
-                        handleTouchStart={handleTouchStart}
-                        handleTouchMove={handleTouchMove}
-                        handleTouchEnd={handleTouchEndFav}
                     />}
             </Box>
         )
     }
+
+    const FavListSwipeHandlers = useSwipeable({
+        onSwipedRight: (eventData) => setOpen(false),
+      });
+
+    const FavSwipeHandlers = useSwipeable({
+        onSwipedRight: (eventData) => {
+            setOpen(false);
+            setFavOpen(false);
+        },
+        onSwipedLeft: (eventData) => setOpen(true),
+      });
 
     return (
         <React.Fragment>
@@ -458,26 +426,24 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 onClose={handleClose}
                 hideBackdrop
                 TransitionComponent={Transition}
-                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
-                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
-                onTouchEnd={() => handleTouchEndFavList()}
             >
-                { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
-                { favListComponent() }
+                <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '100%' }}>
+                    { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
+                    { favListComponent() }
+                </div>
             </Dialog>
-            <Dialog
-                fullScreen
-                open={favOpen}
-                onClose={handleClose}
-                hideBackdrop
-                TransitionComponent={Transition}
-                onTouchStart={touchStartEvent => handleTouchStart(touchStartEvent)}
-                onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
-                onTouchEnd={() => handleTouchEndFav()}
-            >
-                { searchBarComponent((<MoreHorizIcon fontSize='inherit'/>)) }
-                { favComponent() }
-            </Dialog>
+                <Dialog
+                    fullScreen
+                    open={favOpen}
+                    onClose={handleClose}
+                    hideBackdrop
+                    TransitionComponent={Transition}
+                >
+                    <div id='favSwipePlane' {...FavSwipeHandlers} style={{ height: '100%' }}>
+                        { searchBarComponent((<MoreHorizIcon fontSize='inherit'/>)) }
+                        { favComponent() }
+                    </div>
+                </Dialog>
         </ThemeProvider>
         <AlertDialog
             id="DeleteFav"
