@@ -46,7 +46,12 @@ export const PlayerMobile = function ({ songList }) {
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
 
-    const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
+    const updateCurrentAudioList = useCallback(({ 
+        songs,
+        immediatePlay = false,
+        replaceList = false,
+        newAudioListPlayIndex = 0
+    }) => {
         //console.log("updateCurrentAudioList", params)
         let newAudioLists = []
         if (immediatePlay) {
@@ -72,7 +77,8 @@ export const PlayerMobile = function ({ songList }) {
             ...params,
             quietUpdate: !immediatePlay,
             clearPriorAudioLists: immediatePlay || replaceList,
-            audioLists: newAudioLists
+            audioLists: newAudioLists,
+            newAudioListPlayIndex,
         }
         //console.log(newParam)
         setparams(newParam)
@@ -88,7 +94,11 @@ export const PlayerMobile = function ({ songList }) {
             return
         }
 
-        updateCurrentAudioList({ songs: songs.concat(favList.songList), replaceList: true })
+        updateCurrentAudioList({ 
+            songs: favList.songList,
+            replaceList: true,
+            newAudioListPlayIndex: favList.songList.findIndex((s) => s.id == songs[0].id) 
+        })
     }, [params, playingList, currentAudioInst])
 
     const onAddOneFromFav = useCallback((songs) => {

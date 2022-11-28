@@ -69,14 +69,16 @@ export const Fav = (function ({
                 return i;
             }
         }
+        console.debug(audioid, 'is not found in the current playlist.');
         return 0;
     }
 
     useEffect(() => {
-        setCurrentFavList(FavList)
-        setRows(FavList.songList)
+        setCurrentFavList(FavList);
+        setRows(FavList.songList);
         // this should be saved to localStorage
         setRandomGIFSrc(getRandomNumberExclude(skinPreset.gifs.length, randomGIFSrc));
+        if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
     }, [FavList])
 
     const requestSearch = (e) => {
