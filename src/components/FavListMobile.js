@@ -88,13 +88,11 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [rssLoading, setRSSLoading] = useState(false)
     const [openSettingsDialog, setOpenSettingsDialog] = useState(false)
     const [favOpen, setFavOpen] = useState(false)
-    const [favScrollPageFlag, setFavScrollPageFlag] = useState(0)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')
-
-    const StorageManager = useContext(StorageManagerCtx)
-
     const [open, setOpen] = useState(true);
+    const StorageManager = useContext(StorageManagerCtx)
+    
     useEffect(() => {
         if (!selectedList) {
             setOpen(!open);
@@ -277,7 +275,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }
 
     function handleTouchEndFav() {
-        if (!touchEndX && !touchEndY) {
+        if (!touchEndX) {
             return;
         }
         if (touchStartX - touchEndX < -50) {
@@ -287,11 +285,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         } else if (touchStartX - touchEndX > 50) {
             //openFavorFavlist();
             setOpen(true);
-        } else if (touchStartY - touchEndY < -50) {
-            setFavScrollPageFlag(favScrollPageFlag - 1);
-
-        } else if (touchStartY - touchEndY > 50) {
-            setFavScrollPageFlag(favScrollPageFlag + 1);
         }
     }
 
@@ -440,14 +433,16 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onAddOneFromFav={onAddOneFromFav}
                         handleDelteFromSearchList={handleDelteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
-                        playCurrentPlaylist={() => handlePlayListClick(selectedList)}
+                        onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
                         setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}
-                        rssUpdate={() => {
+                        onRssUpdate={() => {
                             updateSubscribeFavList(selectedList)
                         }}
                         Loading={rssLoading}
                         currentAudioID={currentAudioID}
-                        scrollPageFlag={favScrollPageFlag}
+                        handleTouchStart={handleTouchStart}
+                        handleTouchMove={handleTouchMove}
+                        handleTouchEnd={handleTouchEndFav}
                     />}
             </Box>
         )
