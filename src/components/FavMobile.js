@@ -110,7 +110,7 @@ export const Fav = (function ({
             <ListItem 
                 key={index}
                 className='favItem'
-                style={{ ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden' } }
+                style={{ ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden', width: '98%' } }
                 onClick={() => onSongIndexChange([song], currentFavList)}
             >
                 {songIconVisible && 
@@ -230,13 +230,14 @@ export const Fav = (function ({
                                 rows
                                 && (
                                     <List
-                                        className="FavList"
+                                        className={className}
                                         height={window.innerHeight - 320}
                                         itemCount={rows.length}
                                         itemSize={50}
                                         width={window.innerWidth}
                                         ref={FavPanelRef}
                                         initialScrollOffset={50 * findInFavList(rows, currentAudioID)}
+                                        width={window.innerWidth - 40}
                                     >
                                         {Row}
                                     </List>)
