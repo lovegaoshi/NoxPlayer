@@ -427,7 +427,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 hideBackdrop
                 TransitionComponent={Transition}
             >
-                <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '100%' }}>
+                <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '95%' }}>
                     { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
                     { favListComponent() }
                 </div>

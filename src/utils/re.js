@@ -125,7 +125,7 @@ export const reExtractSongName = (filename, uploader = '') => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-                    /(.+)【露米Lumi】/, 
+                    /(.+)【.+】/, 
                 ]);
             break;
         case "焱缪-猫猫兔":
@@ -176,10 +176,12 @@ export const reExtractSongName = (filename, uploader = '') => {
             break;
         case "食梦莲lotus":
             //【安妮Pomelo】1118恋爱循环
+            // 阿楚姑娘0726
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
                     /【.+】\d+(.+)/, 
+                    /(\D+)\d+/, 
                 ]);
             break;
         case "真心之梦":
@@ -197,6 +199,18 @@ export const reExtractSongName = (filename, uploader = '') => {
                 extractParenthesis(filename), 
                 [
                     /【.+】(.+)/, 
+                ]);
+            break;
+        case "黑泽诺亚的五元店":
+            // https://space.bilibili.com/1190296645/video
+            // 【黑泽诺亚】【歌切】Hold On
+            // 【黑泽诺亚】【歌切】《Starfall》
+            // 【黑泽诺亚NOIR】i love you - 碧梨
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【黑泽诺亚NOIR】(.+) - (.+)/,
+                    /【黑泽诺亚】【歌切】(.+)/,
                 ]);
             break;
         case "":
