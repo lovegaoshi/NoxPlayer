@@ -194,6 +194,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                 ]);
             break;
         case "姓单名推的DD桑":
+        case "铵溶液制造工厂":
             // https://space.bilibili.com/7191181/channel/collectiondetail?sid=821187
             filename = extractWith(
                 extractParenthesis(filename), 

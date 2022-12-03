@@ -5,7 +5,7 @@ import { getSongList, getFavList, getBiliSeriesList, getBiliColleList, getBiliCh
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import QueueMusicIcon from '@mui/icons-material/QueueMusic';
+import Tooltip from '@mui/material/Tooltip';
 
 export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favList = []) => {
     /**
@@ -104,16 +104,19 @@ export const Search = function ({ handleSearch, handleOpenFav, playListIcon, han
             }
         } else {
             return (
-                <IconButton 
-                    size='large'
-                    onClick={() => { 
-                        searchBili(searchValue);
-                        handleSetSearchInputVal(searchValue);
-                    }}
-                    sx={{ fontSize: "40px" }}
-                    >
-                    <SearchIcon fontSize='inherit'/>
-                </IconButton>
+                
+                <Tooltip title="搜索">
+                    <IconButton 
+                        size='large'
+                        onClick={() => { 
+                            searchBili(searchValue);
+                            handleSetSearchInputVal(searchValue);
+                        }}
+                        sx={{ fontSize: "40px" }}
+                        >
+                        <SearchIcon fontSize='inherit'/>
+                    </IconButton>
+                </Tooltip>
             )
         }
     }

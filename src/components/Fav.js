@@ -265,21 +265,25 @@ export const Fav = (function ({
                                 <RandomGIFIcon gifs={skinPreset.gifs} favList={currentFavList.info.id + page.toString()}></RandomGIFIcon>
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
-                                <IconButton 
-                                    size="large" 
-                                    onClick={() => setSubscribeURL()}
-                                >
-                                <RssFeedIcon />
-                                </IconButton>
-                                <IconButton 
-                                    size="large" 
-                                    onClick={() => {
-                                        rssUpdate()
-                                    }}
-                                    disabled={false}
-                                >
-                                    {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
-                                </IconButton>
+                                <Tooltip title="歌单设置">
+                                    <IconButton 
+                                        size="large" 
+                                        onClick={() => setSubscribeURL()}
+                                    >
+                                    <RssFeedIcon />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="歌单更新">
+                                    <IconButton 
+                                        size="large" 
+                                        onClick={() => {
+                                            rssUpdate()
+                                        }}
+                                        disabled={false}
+                                    >
+                                        {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
+                                    </IconButton>
+                                </Tooltip>
                                 <TextField
                                     id="outlined-basic"
                                     color="secondary"
