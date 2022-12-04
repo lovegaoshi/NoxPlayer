@@ -97,17 +97,24 @@ export const reExtractSongName = (filename, uploader = '') => {
             // https://space.bilibili.com/1912892773/channel/series
             // sometimes date_in_numbers{songname}; others in brackets
             // 11一番の宝物
-            filename = extractParenthesis(filename);
-            extracted = /\d+(.+)/.exec(filename);
+            // 1202王菲-如愿 
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /\d+.+-(.+)/, 
+                    /\d+(.+)/, 
+                ]);
             break;
         case "夜の_":
             // https://space.bilibili.com/7405415/channel/series
             // sometimes {date_in_numbers} {songname}; someimtes {index}.{somename}
             // else song name is always in brackets.
             // 9.普通朋友
+            // 【03.17】只对你有感觉（半首）
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
+                    /【.+】(.+)/, 
                     /\d+\.\d+ (.+)/, 
                     /\d+\.(.+)/,
                 ]);
@@ -212,6 +219,25 @@ export const reExtractSongName = (filename, uploader = '') => {
                 [
                     /【黑泽诺亚NOIR】(.+) - (.+)/,
                     /【黑泽诺亚】【歌切】(.+)/,
+                ]);
+            break;
+        case "我是你的电吉他":
+            // https://space.bilibili.com/284940670/video
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【.+】(.+)-.+/,
+                ]);
+            break;	
+        case "瑞娅今天早睡了吗":
+            // https://space.bilibili.com/1035062789/channel/seriesdetail?sid=576862
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /(.+) - .+/,
+                    /(.+) w\/ .+/,
+                    /【.+】\d+\.\d+ (.+)/,
+                    /【.+】(.+)/,
                 ]);
             break;
         case "":

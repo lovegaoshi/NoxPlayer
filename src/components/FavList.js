@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, memo, useContext } from "react";
-import { searchBiliURLs, Search } from '../components/Search';
+import { searchBiliURLs, Search, defaultSearchList } from '../components/Search';
 import { Fav } from './Fav';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
@@ -219,8 +219,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const shuffleAll = () => {
         let allFavSongList = [];
         for (let i=0, n=favLists.length; i<n; i++ ) {
-            allFavSongList = allFavSongList.concat(favLists[i].songList)
+            allFavSongList = allFavSongList.concat(favLists[i].songList);
         } 
+        handleSearch(defaultSearchList({ songList: allFavSongList }));
         onPlayAllFromFav(allFavSongList);
     }
 

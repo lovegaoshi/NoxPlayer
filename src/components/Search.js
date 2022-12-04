@@ -7,15 +7,21 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 
+export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('FavList-Search')} }) => {
+    return {
+        songList,
+        info,
+    }
+}
+
 export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favList = []) => {
     /**
      * @param {string}  input  input, can be a biliseries list url, or bvid, or fid
      * @param {function} progressEmitter    a emitter for ciurcularprogress.
      * @param {array} favList a list of old BVIds; any BVid included in this list will not be processed for efficiency.
      */
-    let list = {songList: [],
-                    info: { title: '搜索歌单', id: ('FavList-Search')}
-                }
+    let list = defaultSearchList({})
+    console.debug(list)
     
     try {    
         let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
