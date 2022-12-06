@@ -124,13 +124,12 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         setFavOpen(true)
     }, [searchList, selectedList])
 
-    const handleDelteFromSearchList = useCallback((id, index) => {
-        let favList = id == 'Search' ? searchList : favLists.find(f => f.info.id == id)
-
+    const handleDeleteFromSearchList = useCallback((listid, songid) => {
+        let favList = listid == 'Search' ? searchList : favLists.find(f => f.info.id == listid)
+        let index = favList.songList.findIndex((song) => song.id === songid)
         favList.songList.splice(index, 1)
         const updatedToList = { ...favList }
-
-        id == 'Search' ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
+        listid == 'Search' ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
     }, [searchList, selectedList, favLists])
 
     const onNewFav = (val) => {
@@ -390,7 +389,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onSongListChange={onSongListChange}
                         onSongIndexChange={onPlayOneFromFav}
                         onAddOneFromFav={onAddOneFromFav}
-                        handleDelteFromSearchList={handleDelteFromSearchList}
+                        handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
                         setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}

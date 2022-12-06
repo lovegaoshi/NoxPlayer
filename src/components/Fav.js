@@ -159,13 +159,14 @@ TablePaginationActions.propTypes = {
 
 export const Fav = (function ({ 
     FavList, onSongIndexChange, onAddOneFromFav, 
-    handleDelteFromSearchList, handleAddToFavClick,
+    handleDeleteFromSearchList, handleAddToFavClick,
     setSubscribeURL, rssUpdate, Loading, playerSettings }) {
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
     const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40 - 1));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
+    const [searchBarVal, setSearchBarVal] = useState('');
 
     useEffect(() => {
         setCurrentFavList(FavList)
@@ -178,6 +179,11 @@ export const Fav = (function ({
     const requestSearch = (e) => {
         const searchedVal = e.target.value
         setPage(0)
+        setSearchBarVal(searchedVal)
+        handleSearch(searchedVal)
+    }
+
+    const handleSearch = (searchedVal) => {
         if (searchedVal == '') {
             setRows(FavList.songList)
             return
@@ -189,7 +195,6 @@ export const Fav = (function ({
         })
         setRows(filteredRows)
     }
-
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -242,7 +247,14 @@ export const Fav = (function ({
                         <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
                     </Tooltip>
                     <Tooltip title="删除歌曲">
-                        <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index + page * rowsPerPage )} />
+                        <DeleteOutlineOutlinedIcon 
+                            sx={CRUDIcon}
+                            onClick={
+                                () => {
+                                    handleDeleteFromSearchList(currentFavList.info.id, song.id);
+                                    handleSearch(searchBarVal);
+                                }
+                            } />
                     </Tooltip>
                 </StyledTableCell>
             </StyledTableRow>

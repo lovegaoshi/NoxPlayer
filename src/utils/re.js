@@ -240,6 +240,15 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)/,
                 ]);
             break;
+        case "棉花mennka":
+            // https://space.bilibili.com/2509376/channel/series
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /.+ - (.+) \d+\.\d+/,
+                    /.+ - (.+)/,
+                ]);
+            break;
         case "":
             filename = extractWith(
                 extractParenthesis(filename), 

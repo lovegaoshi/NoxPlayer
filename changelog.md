@@ -1,6 +1,7 @@
 功能愿望单：
 整合pc端和移动端的狗屎代码
 黑泽诺亚和林莉奈的皮肤
+react-beautiful-dnd的歌单列表
 
 1.1.1.3:
 react-window的歌列表

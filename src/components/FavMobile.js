@@ -51,7 +51,7 @@ const CRUDIcon = {
 
 export const Fav = (function ({
     FavList, onSongIndexChange, onAddOneFromFav,
-    handleDelteFromSearchList, handleAddToFavClick,
+    handleDeleteFromSearchList, handleAddToFavClick,
     onPlaylistTitleClick,
     setSubscribeURL, onRssUpdate, Loading,
     currentAudioID }) {
@@ -59,6 +59,7 @@ export const Fav = (function ({
     const [rows, setRows] = useState(null);
     const [songIconVisible, setSongIconVisible] = useState(false);
     const FavPanelRef = useRef(null);
+    const [searchBarVal, setSearchBarVal] = useState('');
     
     const findInFavList = (songList, audioid) => {
         for (let i=0, n=songList.length; i<n; i++) {
@@ -79,6 +80,11 @@ export const Fav = (function ({
 
     const requestSearch = (e) => {
         const searchedVal = e.target.value
+        setSearchBarVal(searchedVal)
+        handleSearch(searchedVal)
+    }
+
+    const handleSearch = (searchedVal) => {
         if (searchedVal == '') {
             setRows(FavList.songList)
             return
@@ -107,7 +113,7 @@ export const Fav = (function ({
                 key={index}
                 className='favItem'
                 style={{ ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden', width: '98%' } }
-                onClick={() => onSongIndexChange([song], currentFavList)}
+                onClick={songIconVisible? () => {} : () => onSongIndexChange([song], currentFavList)}
             >
                 {songIconVisible && 
                 (<ListItemButton>
@@ -118,13 +124,21 @@ export const Fav = (function ({
                         <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
                     </Tooltip>
                     <Tooltip title="删除歌曲">
-                        <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDelteFromSearchList(currentFavList.info.id, index)} />
+                        <DeleteOutlineOutlinedIcon 
+                            sx={CRUDIcon}
+                            onClick={
+                                () => {
+                                    handleDeleteFromSearchList(currentFavList.info.id, song.id);
+                                    handleSearch(searchBarVal);
+                                }
+                            } />
                     </Tooltip>
                 </ListItemButton>)}
                 <ListItemButton 
                     variant="text" 
                     sx={songText} 
                     style={{ overflow: 'hidden' }}
+                    onClick={songIconVisible? () => onSongIndexChange([song], currentFavList) : () => {}}
                 >
                     {getName(song, true)}
                 </ListItemButton>
@@ -139,7 +153,7 @@ export const Fav = (function ({
     return (
         <React.Fragment>
             {currentFavList &&
-                <React.Fragment>
+                <div>
                     <Box sx={{ flexGrow: 1, height: '144px' }} >
                         <Grid container spacing={2} style={{ paddingTop: '18px', paddingBottom: '8px' }}>
                             <Grid item xs={8} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
@@ -234,7 +248,7 @@ export const Fav = (function ({
                             }
                         </div>
                     </TableContainer >
-                </React.Fragment>
+                </div>
             }
         </React.Fragment>
     );

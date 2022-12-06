@@ -29,6 +29,7 @@ import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -64,6 +65,14 @@ export const DiskIcon = {
     minWidth: '36px'
 }
 
+export const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+};
+
 export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
@@ -94,13 +103,12 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         setSelectedList(list)
     }, [searchList, selectedList])
 
-    const handleDelteFromSearchList = useCallback((id, index) => {
-        let favList = id == 'Search' ? searchList : favLists.find(f => f.info.id == id)
-
+    const handleDeleteFromSearchList = useCallback((listid, songid) => {
+        let favList = listid == 'Search' ? searchList : favLists.find(f => f.info.id == listid)
+        let index = favList.songList.findIndex((song) => song.id === songid)
         favList.songList.splice(index, 1)
         const updatedToList = { ...favList }
-
-        id == 'Search' ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
+        listid == 'Search' ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
     }, [searchList, selectedList, favLists])
 
     const onNewFav = (val) => {
@@ -244,6 +252,20 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             </Tooltip>
         )
     }
+
+    const onDragEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+    
+        setFavLists(reorder(
+            favLists,
+            result.source.index,
+            result.destination.index
+        ));
+      }
+
     return (
         <React.Fragment>
             <Search 
@@ -364,7 +386,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onSongListChange={onSongListChange}
                         onSongIndexChange={onPlayOneFromFav}
                         onAddOneFromFav={onAddOneFromFav}
-                        handleDelteFromSearchList={handleDelteFromSearchList}
+                        handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}
                         rssUpdate={() => {
