@@ -53,6 +53,7 @@ export const reExtractSongName = (filename, uploader = '') => {
             break;
         case "哆啦A0":
         case "钢铁慈父晚大林":
+        case "-哆啦A林-":
             // https://space.bilibili.com/33576761/channel/series
             // always 【HeraKris】【stream title】{songname}
             //【赫拉Kris】【随便唱唱】三国恋
