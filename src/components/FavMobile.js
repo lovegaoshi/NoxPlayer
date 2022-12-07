@@ -76,6 +76,7 @@ export const Fav = (function ({
         setRows(FavList.songList);
         // this should be saved to localStorage
         if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
+        requestSearch({target:{value:''}})
     }, [FavList])
 
     const requestSearch = (e) => {

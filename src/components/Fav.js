@@ -173,6 +173,7 @@ export const Fav = (function ({
         setRows(FavList.songList)
         setPage(0)
         setRowsPerPage(defaultRowsPerPage)
+        requestSearch({target:{value:''}})
         //console.log(FavList)
     }, [FavList])
     
