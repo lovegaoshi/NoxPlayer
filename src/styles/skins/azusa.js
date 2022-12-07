@@ -49,6 +49,7 @@ export const AzusaTheme = {
         FavlistAlternateBackgroundColor: '#f2f2f2',
         scrollbarColor: '#c6acfc',
         favMobileBorder: "1px solid #ab5fff",
+        clickHoldBackground: 'lightgrey',
         palette: {
             palette: {
               primary: {

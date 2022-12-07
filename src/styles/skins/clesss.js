@@ -36,6 +36,7 @@ export const ClessSTheme = {
         FavlistAlternateBackgroundColor: '#3d3d3d',
         scrollbarColor: '#dc143c',
         favMobileBorder: "1px solid white",
+        clickHoldBackground: 'red',
         palette: {
             palette: {
               primary: {

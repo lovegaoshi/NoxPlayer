@@ -40,6 +40,7 @@ export const NoxTheme = {
         FavlistAlternateBackgroundColor: '#3d3d3d',
         scrollbarColor: '#fff44f',
         favMobileBorder: "1px solid white",
+        clickHoldBackground: 'green',
         palette: {
             palette: {
               primary: {

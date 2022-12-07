@@ -271,7 +271,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             result.destination.index
         );
         setFavLists(newFavLists);
-        StorageManager.saveMyFavList(newFavLists.map(v => v.info.id));
+        StorageManager.saveMyFavList(newFavLists);
       }
 
     const renderFavListItem = ({ v, i }) => {
@@ -406,7 +406,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
                                             {...provided.dragHandleProps}
-                                            style={provided.draggableProps.style}
+                                            style={{background: snapshot.isDragging? colorTheme.clickHoldBackground : null, ...provided.draggableProps.style}}
                                         >
                                             {renderFavListItem({ v:item, i: index })}
                                         </div>
