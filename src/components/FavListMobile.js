@@ -26,7 +26,7 @@ import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
-import {CRUDBtn, outerLayerBtn, DiskIcon} from './FavList';
+import { CRUDBtn, outerLayerBtn, DiskIcon, reorder } from './FavList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
@@ -35,6 +35,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useSwipeable } from "react-swipeable";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -259,6 +260,59 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         )
     }
 
+    const onDragEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+        let newFavLists = reorder(
+            favLists,
+            result.source.index,
+            result.destination.index
+        );
+        setFavLists(newFavLists);
+        StorageManager.saveMyFavList(newFavLists.map(v => v.info.id));
+      }
+
+    const renderFavListItem = ({ v, i }) => {
+        return (
+            <React.Fragment key={i}>
+                <ListItemButton
+                    disableRipple
+                    sx={outerLayerBtn}
+                >
+                    <ListItemButton 
+                        style={{ maxWidth: 'calc(100% - 136px)' }} 
+                        onClick={() => {
+                            setOpen(false);
+                            setFavOpen(true);
+                            setSelectedList(v);
+                        }} 
+                        id={v.info.id} >
+                        <ListItemIcon sx={DiskIcon}>
+                            <AlbumOutlinedIcon />
+                        </ListItemIcon>
+                        <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
+                    </ListItemButton>
+                    <Box component="div" sx={CRUDBtn}  align="right">
+                        <Tooltip title="播放歌单">
+                            <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(v)}/>
+                        </Tooltip>
+                        <Tooltip title="添加到播放列表">
+                            <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(v)} />
+                        </Tooltip>
+                        <Tooltip title="添加到收藏歌单">
+                            <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
+                        </Tooltip>
+                        <Tooltip title="删除歌单">
+                            <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.id)} />
+                        </Tooltip>
+                    </Box>
+                </ListItemButton>
+            </React.Fragment>
+        )
+    }
+
     const favListComponent = () => {
         return (
             <Box // Mid Grid -- SideBar
@@ -338,42 +392,32 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         </ListItemButton>
                     </React.Fragment>
 
-                    {favLists && favLists.map((v, i) =>
-                        <React.Fragment key={i}>
-                            <ListItemButton
-                                disableRipple
-                                sx={outerLayerBtn}
-                            >
-                                <ListItemButton 
-                                    style={{ maxWidth: 'calc(100% - 136px)' }} 
-                                    onClick={() => {
-                                        setOpen(false)
-                                        setFavOpen(true)
-                                        setSelectedList(v)
-                                    }} 
-                                    id={v.info.id} >
-                                    <ListItemIcon sx={DiskIcon}>
-                                        <AlbumOutlinedIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
-                                </ListItemButton>
-                                <Box component="div" sx={CRUDBtn}  align="right">
-                                    <Tooltip title="播放歌单">
-                                        <PlaylistPlayIcon onClick={() => handlePlayListClick(v)} sx={CRUDIcon}/>
-                                    </Tooltip>
-                                    <Tooltip title="添加到播放列表">
-                                        <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(v)} />
-                                    </Tooltip>
-                                    <Tooltip title="添加到收藏歌单">
-                                        <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
-                                    </Tooltip>
-                                    <Tooltip title="删除歌单">
-                                        <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.id)} />
-                                    </Tooltip>
-                                </Box>
-                            </ListItemButton>
-                        </React.Fragment>
-                    )}
+                    {favLists && <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                {favLists.map((item, index) => (
+                                    <Draggable key={`item-${index}`} draggableId={`item-${index}`} index={index}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={provided.draggableProps.style}
+                                        >
+                                            {renderFavListItem({ v:item, i: index })}
+                                        </div>
+                                    )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>}
                 </List>
             </Box>
         )

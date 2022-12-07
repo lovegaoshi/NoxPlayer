@@ -258,15 +258,16 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         if (!result.destination) {
             return;
         }
-    
-        setFavLists(reorder(
+        let newFavLists = reorder(
             favLists,
             result.source.index,
             result.destination.index
-        ));
+        );
+        setFavLists(newFavLists);
+        StorageManager.saveMyFavList(newFavLists.map(v => v.info.id));
       }
 
-    const renderFavListItem = (v, i) => {
+    const renderFavListItem = ({ v, i }) => {
         return (
             <React.Fragment key={i}>
                 <ListItemButton
@@ -380,31 +381,30 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     </React.Fragment>
                     {favLists && <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
-                        {(provided, snapshot) => (
-                            <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                            >
-                            {favLists.map((item, index) => (
-                                <Draggable key={`item-${index}`} draggableId={`item-${index}`} index={index}>
-                                {(provided, snapshot) => (
-                                    <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={provided.draggableProps.style}
-                                    >
-                                        {renderFavListItem(item, index)}
-                                    </div>
-                                )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-                }
+                            {(provided, snapshot) => (
+                                <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                {favLists.map((item, index) => (
+                                    <Draggable key={`item-${index}`} draggableId={`item-${index}`} index={index}>
+                                    {(provided, snapshot) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            style={provided.draggableProps.style}
+                                        >
+                                            {renderFavListItem({ v:item, i: index })}
+                                        </div>
+                                    )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>}
                 </List>
             </Box>
             <Box // Mid Grid -- Fav Detail 

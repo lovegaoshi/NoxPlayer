@@ -160,7 +160,7 @@ TablePaginationActions.propTypes = {
 export const Fav = (function ({ 
     FavList, onSongIndexChange, onAddOneFromFav, 
     handleDeleteFromSearchList, handleAddToFavClick,
-    setSubscribeURL, rssUpdate, Loading, playerSettings }) {
+    setSubscribeURL, rssUpdate, Loading, playerSettings, }) {
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);

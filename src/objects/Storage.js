@@ -106,14 +106,17 @@ export default class StorageManager {
         const value = dummyFavList(favName)
         chrome.storage.local.set({ [value.info.id]: value }, function () {
             _self.latestFavLists.push(value)
-            const newListIDs = _self.latestFavLists.map(v => v.info.id)
-            chrome.storage.local.set({ 'MyFavList': newListIDs }, function () {
+            _self.saveMyFavList(_self.latestFavLists.map(v => v.info.id), function () {
                 _self.setFavLists([..._self.latestFavLists])
 
                 //console.log('AddedFav ' + value.info.id);
             })
         });
         return value
+    }
+
+    saveMyFavList(newListIDs, callbackFunc = () => {console.debug('saveMyFavList called.')} ) {
+        chrome.storage.local.set({ 'MyFavList': newListIDs }, callbackFunc)
     }
 
     updateFavList(updatedToList) {
