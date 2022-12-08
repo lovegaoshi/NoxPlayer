@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import Box from "@mui/material/Box";
@@ -45,13 +45,13 @@ export const Player = function ({ songList }) {
     const [bvidLiked, setBvidLiked] = useState(0)
     const [snackBarOpen, setSnackBarOpen] = useState(false)
     const [snackBarMsg, setSnackBarMsg] = useState('this is a snackbar message')
-    const favListAutoUpdateTimestamps = {}
+    const favListAutoUpdateTimestamps = useRef({})
 
     const checkFavListAutoUpdate = ({favList, updateInterval = 1000*60*60*24}) => {
         if (favList.info.id === 'Search' || !playerSettings.autoRSSUpdate) return false;
-        console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps[favList.info.id], 'which is', new Date() - favListAutoUpdateTimestamps[favList.info.id], 'compared to', updateInterval );
-        if (favListAutoUpdateTimestamps[favList.info.id] === undefined || (new Date() - favListAutoUpdateTimestamps[favList.info.id]) > updateInterval) {
-            favListAutoUpdateTimestamps[favList.info.id] = new Date();
+        console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps.current[favList.info.id]);
+        if (favListAutoUpdateTimestamps.current[favList.info.id] === undefined || (new Date() - favListAutoUpdateTimestamps.current[favList.info.id]) > updateInterval) {
+            favListAutoUpdateTimestamps.current[favList.info.id] = new Date();
             return true;
         }
         return false;
