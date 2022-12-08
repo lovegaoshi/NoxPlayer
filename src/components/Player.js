@@ -49,7 +49,7 @@ export const Player = function ({ songList }) {
 
     const checkFavListAutoUpdate = ({favList, updateInterval = 1000*60*60*24}) => {
         if (favList.info.id === 'Search' || !playerSettings.autoRSSUpdate) return false;
-        console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps[favList.info.id]);
+        console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps[favList.info.id], 'which is', new Date() - favListAutoUpdateTimestamps[favList.info.id], 'compared to', updateInterval );
         if (favListAutoUpdateTimestamps[favList.info.id] === undefined || (new Date() - favListAutoUpdateTimestamps[favList.info.id]) > updateInterval) {
             favListAutoUpdateTimestamps[favList.info.id] = new Date();
             return true;

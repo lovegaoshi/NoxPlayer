@@ -4,6 +4,7 @@
 
 1.1.1.4:
 react-beautiful-dnd的歌单列表
+自动更新歌单
 
 1.1.1.3:
 react-window的歌列表
