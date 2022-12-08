@@ -3,7 +3,9 @@ import { searchBiliURLs, Search, defaultSearchList } from '../components/Search'
 import { Fav } from './Fav';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
-import { AddFavDialog, NewFavDialog, UpdateSubscribeDialog, SettingsDialog } from "./AddFavDialog";
+import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
+import { UpdateSubscribeDialog } from "./dialogs/FavSettingsDialog";
+import { SettingsDialog } from "./dialogs/PlayerSettingsDialog";
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -73,7 +75,7 @@ export const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings }) {
+export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings, checkFavListAutoUpdate }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -97,6 +99,12 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
         //console.log(favLists)
     }, [])
+
+    useEffect(() => {
+        if (selectedList && checkFavListAutoUpdate({favList: selectedList})) {
+            updateSubscribeFavList(selectedList);
+        }
+    }, [selectedList])
 
     const handleSearch = useCallback((list) => {
         setSearchList(list)

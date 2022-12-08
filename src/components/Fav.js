@@ -170,8 +170,6 @@ export const Fav = (function ({
 
     useEffect(() => {
         setCurrentFavList(FavList)
-        setRows(FavList.songList)
-        setPage(0)
         setRowsPerPage(defaultRowsPerPage)
         requestSearch({target:{value:''}})
         //console.log(FavList)

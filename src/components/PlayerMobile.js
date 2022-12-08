@@ -45,6 +45,16 @@ export const PlayerMobile = function ({ songList }) {
     const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
+    const favListAutoUpdateTimestamps = {}
+
+    const checkFavListAutoUpdate = ({favList, updateInterval = 1000*60*60*24}) => {
+        if (favList.info.id === 'Search') return false;
+        if (favListAutoUpdateTimestamps[favList.info.id] === undefined || (new Date() - favListAutoUpdateTimestamps[favList.info.id]) > updateInterval) {
+            favListAutoUpdateTimestamps[favList.info.id] = new Date();
+            return true;
+        }
+        return false;
+    }
 
     const updateCurrentAudioList = useCallback(({ 
         songs,
@@ -268,6 +278,7 @@ export const PlayerMobile = function ({ songList }) {
                 onAddOneFromFav={onAddOneFromFav}
                 showFavList={showFavList}
                 currentAudioID={currentAudio? currentAudio.id : -1}
+                checkFavListAutoUpdate={checkFavListAutoUpdate}
             />}
             {currentAudio && <LyricOverlay
                 showLyric={showLyric}

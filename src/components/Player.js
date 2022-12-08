@@ -45,6 +45,17 @@ export const Player = function ({ songList }) {
     const [bvidLiked, setBvidLiked] = useState(0)
     const [snackBarOpen, setSnackBarOpen] = useState(false)
     const [snackBarMsg, setSnackBarMsg] = useState('this is a snackbar message')
+    const favListAutoUpdateTimestamps = {}
+
+    const checkFavListAutoUpdate = ({favList, updateInterval = 1000*60*60*24}) => {
+        if (favList.info.id === 'Search' || !playerSettings.autoRSSUpdate) return false;
+        console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps[favList.info.id]);
+        if (favListAutoUpdateTimestamps[favList.info.id] === undefined || (new Date() - favListAutoUpdateTimestamps[favList.info.id]) > updateInterval) {
+            favListAutoUpdateTimestamps[favList.info.id] = new Date();
+            return true;
+        }
+        return false;
+    }
 
     const showMsg = ({ msg, type = 'success' }) => {
         setSnackBarOpen(true);
@@ -268,6 +279,7 @@ export const Player = function ({ songList }) {
                 onAddFavToList={onAddFavToList}
                 onAddOneFromFav={onAddOneFromFav}
                 playerSettings={playerSettings}
+                checkFavListAutoUpdate={checkFavListAutoUpdate}
             />}
             {currentAudio && <LyricOverlay
                 showLyric={showLyric}

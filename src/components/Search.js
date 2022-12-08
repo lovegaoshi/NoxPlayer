@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 
-export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('FavList-Search')} }) => {
+export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('Search')} }) => {
     return {
         songList,
         info,

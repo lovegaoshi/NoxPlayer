@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,8 +10,55 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
 
-export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song }) {
+export const NewFavDialog = function ({ onClose, openState }) {
+  const [favName, setfavName] = useState('')
+
+  const handleCancel = () => {
+    onClose()
+    setfavName('')
+  }
+
+  const onfavName = (e) => {
+    setfavName(e.target.value)
+  }
+
+  const handleOK = () => {
+    onClose(favName)
+    setfavName('')
+  }
+
+  return (
+    <div>
+      <Dialog open={openState}>
+        <DialogTitle>新建歌单</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="歌单名字"
+            type="name"
+            variant="standard"
+            onChange={onfavName}
+            value={favName}
+            autoComplete='off'
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel}>取消</Button>
+          {favName == '' ?
+            <Button disabled>确认</Button> :
+            <Button onClick={handleOK}>确认</Button>}
+
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song, isMobile = false }) {
   const [favId, setfavId] = useState('')
 
   const handleCancel = () => {
@@ -32,7 +80,7 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
       <Dialog open={openState}>
         <DialogTitle>添加到歌单</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
-          <Box sx={{ minWidth: '50vw', minHeight: 50 }}>
+          <Box sx={{ minWidth: isMobile? '50vw' : 400, minHeight: 50 }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">添加到歌单</InputLabel>
               <Select
@@ -41,6 +89,7 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
                 value={favId}
                 label="FavLists"
                 onChange={onfavId}
+                input={(<Input></Input>)}
               >
                 {favLists && favLists.map((v, i) => {
                   if (v.id != fromId)

@@ -3,8 +3,9 @@ import { searchBiliURLs, Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
-import { AddFavDialog } from "./AddFavDialogMobile";
-import { NewFavDialog, UpdateSubscribeDialog, SettingsDialog } from './AddFavDialog';
+import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
+import { UpdateSubscribeDialog } from "./dialogs/FavSettingsDialog";
+import { SettingsDialog } from "./dialogs/PlayerSettingsDialog";
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -502,6 +503,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 fromId={actionFavId}
                 favLists={favLists.map(v => v.info)}
                 song={actionFavSong}
+                isMobile={true}
             />}
         {selectedList && <UpdateSubscribeDialog
             id="subscribeURLDialog"

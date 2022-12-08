@@ -1,4 +1,4 @@
-import { fetchVideoInfo, fetchPlayUrlPromise, fetchFavList, fetchBiliSeriesInfo, fetchBiliColleList, fetchBiliChannelList } from '../utils/Data'
+import { fetchVideoInfo, fetchPlayUrlPromise, fetchFavList, fetchBiliSeriesList, fetchBiliColleList, fetchBiliChannelList } from '../utils/Data'
 import Song from '../objects/Song'
 
 const DEFAULT_BVID = 'BV1g34y1r71w'
@@ -111,8 +111,32 @@ export const getSongsFromBVids = async (infos) => {
     return (songs)
 }
 
+export const getSongsFromSteriaPlayer = async (infos) => {
+    // https://steria.vplayer.tk/api/musics/1
+    let songs = []
+
+    infos.forEach(info => {
+        if(!info)
+            return
+        // Case of single part video
+        for (let index = 0, n = info.data.length; index < n; index++) {
+            songs.push(new Song({
+                cid: info.data[index].id,
+                bvid: info.data[index].id,
+                name: info.data[index].name,
+                singer: info.data[index].artist,
+                singerId: info.data[index].artist,
+                cover: "https://i2.hdslb.com/bfs/face/b70f6e62e4582d4fa5d48d86047e64eb57d7504e.jpg@240w_240h_1c_1s.webp",
+                musicSrc: () => { return info.data[index].url }
+            }))
+        }
+    })
+
+    return (songs)
+}
+
 export const getBiliSeriesList = async (mid, sid, progressEmitter = (res) => {}, favList = []) => {
-    return getSongsFromBVids(await fetchBiliSeriesInfo(mid, sid, progressEmitter, parseFavList(favList)))
+    return getSongsFromBVids(await fetchBiliSeriesList(mid, sid, progressEmitter, parseFavList(favList)))
 }
 
 export const getFavList = async (mid, progressEmitter = (res) => {}, favList = []) => {
