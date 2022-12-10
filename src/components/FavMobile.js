@@ -60,6 +60,7 @@ export const Fav = (function ({
     const [songIconVisible, setSongIconVisible] = useState(false);
     const FavPanelRef = useRef(null);
     const [searchBarVal, setSearchBarVal] = useState('');
+    const favPanelHeight = useRef(window.innerHeight - 320);
     
     const findInFavList = (songList, audioid) => {
         for (let i=0, n=songList.length; i<n; i++) {
@@ -203,7 +204,7 @@ export const Fav = (function ({
                         className={className}
                         id='FavTable' 
                         component={Paper} 
-                        sx={{ maxHeight: "calc(100% - 160px)", maxWidth: "95%" }} 
+                        sx={{ maxHeight: "calc(100% - 180px)", maxWidth: "95%" }} 
                         style={{ 
                             overflowY: "auto", 
                             overflowX: "hidden", 
@@ -236,7 +237,7 @@ export const Fav = (function ({
                                 && (
                                     <List
                                         className={className}
-                                        height={window.innerHeight - 320}
+                                        height={favPanelHeight.current}
                                         itemCount={rows.length}
                                         itemSize={50}
                                         width={window.innerWidth}

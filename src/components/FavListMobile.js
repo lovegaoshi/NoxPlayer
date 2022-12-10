@@ -427,7 +427,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const favComponent = () => {
         return (
             <Box // Mid Grid -- Fav Detail 
-                style={{ height: "90%", maxHeight: "90%", paddingLeft: '20px', overflow: "auto" }}
+                style={{ height: "calc(100% - 86px)", maxHeight: "calc(100% - 86px)", paddingLeft: '20px', overflow: "auto" }}
                 sx={{ gridArea: "Lrc", padding: '0.2em' }}>
                 {selectedList &&
                     <Fav FavList={selectedList}
