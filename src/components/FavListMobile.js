@@ -78,7 +78,7 @@ const AddFavIcon = {
 }
 
 
-export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList, currentAudioID }) {
+export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList, currentAudioID, checkFavListAutoUpdate }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -104,6 +104,12 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         }
     }, [showFavList])
 
+    useEffect(() => {
+        if (selectedList && checkFavListAutoUpdate({favList: selectedList})) {
+            updateSubscribeFavList(selectedList);
+        }
+    }, [selectedList])
+    
     const handleClose = () => {
         if (selectedList) {
             setFavOpen(!favOpen);
@@ -450,6 +456,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
     const FavListSwipeHandlers = useSwipeable({
         onSwipedRight: (eventData) => setOpen(false),
+        swipeDuration: 250 // only swipes under 250ms will trigger callbacks
       });
 
     const FavSwipeHandlers = useSwipeable({
@@ -458,6 +465,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             setFavOpen(false);
         },
         onSwipedLeft: (eventData) => setOpen(true),
+        swipeDuration: 250 // only swipes under 250ms will trigger callbacks
       });
 
     return (
