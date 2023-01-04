@@ -32,6 +32,7 @@ export const ClessSTheme = {
         songListShadowStyle: "-4px 5px 6px 2px #ff0000, 4px -3px 2px 0px #ff0028, 1px 1px 0px 2px #ff2400",
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: '#1E1E1E',
+        MobileBackgroundColor: '#1E1E1E',
         FavlistBackgroundColor: '#1E1E1E',
         FavlistAlternateBackgroundColor: '#3d3d3d',
         scrollbarColor: '#dc143c',

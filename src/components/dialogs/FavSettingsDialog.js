@@ -5,9 +5,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Checkbox } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
-
 
 export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, rssUpdate }) {
 

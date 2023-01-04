@@ -23,7 +23,7 @@ const buttonStyle = css`
         color: ${skins().reactJKPlayerTheme.sliderColor};
     };
     background-color: transparent;
-    color: white;
+    color: ${skins().desktopTheme === "light"? "7d7d7d" : "white"};
 `
 
 export const BiliBiliIcon = ({

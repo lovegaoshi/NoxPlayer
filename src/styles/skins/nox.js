@@ -10,6 +10,7 @@ const gifs = [
 export const NoxTheme = {
     playerBanner: 'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
     playerBannerMobile: 'https://i0.hdslb.com/bfs/new_dyn/21a92c2ad982efc214940cb71d5525265053504.png',
+    playerBackground: 'http://i0.hdslb.com/bfs/live/room_bg/1428a93e4a983a7a6e7ba3dc62b064e403fc8354.png@1920w_1080h.webp',
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
@@ -36,6 +37,7 @@ export const NoxTheme = {
         songListShadowStyle: "-4px 5px 6px 2px #f0e68c, 4px -3px 2px 0px #f0e68c, 1px 1px 0px 2px #fff8dc",
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: '#1E1E1E',
+        MobileBackgroundColor: '#1E1E1E',
         FavlistBackgroundColor: '#1E1E1E',
         FavlistAlternateBackgroundColor: '#3d3d3d',
         scrollbarColor: '#fff44f',

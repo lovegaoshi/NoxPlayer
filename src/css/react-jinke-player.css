@@ -1451,10 +1451,6 @@
   background-color: #fff !important;
   transition: background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
 }
-.react-jinke-music-player-main.light-theme svg:active,
-.react-jinke-music-player-main.light-theme svg:hover {
-  color: #3ece89;
-}
 .react-jinke-music-player-main.light-theme .rc-slider-rail {
   background-color: rgba(0, 0, 0, 0.09) !important;
 }

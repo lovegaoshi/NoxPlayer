@@ -45,7 +45,7 @@ export default function PageLayout({ songList }) {
     return (
         // Outmost layer of the page
         <ThemeProvider theme={theme}>
-            <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.PCBackgroundColor }}>
+            <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
                 <div className="container-fluid homepage-bgimage" align="center">
                     <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
                 </div>
@@ -59,7 +59,12 @@ export default function PageLayout({ songList }) {
     return (
         // Outmost layer of the page
         <ThemeProvider theme={theme}>
-            <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.PCBackgroundColor }}>
+            <Box sx={OutmostBox} id='master-box' style={{ 
+                backgroundColor: colorTheme.PCBackgroundColor, 
+                backgroundImage: `url(${skinPreset.playerBackground})`, 
+                backgroundSize: '100% 100%', 
+                backgroundBlendMode: 'overlay' 
+                }}>
                 <Box sx={PlayerBox}> 
                     <Player songList={songList} />
                 </Box>

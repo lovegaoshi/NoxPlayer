@@ -204,6 +204,7 @@ export const reExtractSongName = (filename, uploader = '') => {
         case "姓单名推的DD桑":
         case "铵溶液制造工厂":
         case "神圣的楼兰我":
+        case "狐心妖面-Huxin":
             // https://space.bilibili.com/7191181/channel/collectiondetail?sid=821187
             filename = extractWith(
                 extractParenthesis(filename), 
@@ -221,6 +222,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                 [
                     /【黑泽诺亚NOIR】(.+) - (.+)/,
                     /【黑泽诺亚】【歌切】(.+)/,
+                    /【黑泽诺亚】【.+】(.+)/,
                 ]);
             break;
         case "我是你的电吉他":

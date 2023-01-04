@@ -43,6 +43,7 @@ export const InaTheme = {
         songListShadowStyle: "-4px 5px 6px 2px #1e90ff, 4px -3px 2px 0px #0070ff, 1px 1px 0px 2px #87ceeb",
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: 'white',
+        MobileBackgroundColor: 'white',
         FavlistBackgroundColor: 'white',
         FavlistAlternateBackgroundColor: '#f2f2f2',
         scrollbarColor: '#1e90ff',

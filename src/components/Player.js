@@ -6,7 +6,7 @@ import { FavList } from '../components/FavList';
 import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
-import { skins } from '../styles/skin';
+import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import SnackBar from './SnackBar';
 
@@ -312,6 +312,7 @@ export const Player = function ({ songList }) {
                             onAudioPlay={onAudioPlay}
                             onCoverClick={onCoverClick}
                             onAudioListsChange={onAudioListsChange}
+                            theme={skinPreset.desktopTheme}
                         />
                     </Box>
                 </React.Fragment>}

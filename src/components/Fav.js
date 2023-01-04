@@ -322,7 +322,11 @@ export const Fav = (function ({
                                             key={column.id}
                                             align={column.align}
                                             sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
-                                            style={{ backgroundColor: colorTheme.FavlistBackgroundColor, color:colorTheme.songListColumnHeaderColor }}
+                                            style={{ 
+                                                backgroundColor: colorTheme.FavlistBackgroundColorSolid === undefined 
+                                                    ? colorTheme.FavlistBackgroundColor 
+                                                    : colorTheme.FavlistBackgroundColorSolid, 
+                                                color:colorTheme.songListColumnHeaderColor }}
                                         >
                                             {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}
                                         </TableCell>))}

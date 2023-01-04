@@ -5,6 +5,7 @@ import { NoxTheme } from './skins/nox';
 import { ClessSTheme } from './skins/clesss';
 import { AmeliaTheme } from './skins/amelia';
 import { GuraTheme } from './skins/gura';
+import { PomeloTheme } from './skins/pomelo';
 // needs to enable top-level await; necessary for other modules to import current skin config
 let setting = await new StorageManager().getPlayerSetting();
 
@@ -15,6 +16,7 @@ export const SkinKeys = [
     'clessS',
     'Amelia Watson',
     'Gawr Gura',
+    'Pokemon安妮',
 ];
 
 export const skins = (key = setting.skin) => {
@@ -41,6 +43,8 @@ export const skins = (key = setting.skin) => {
             return AmeliaTheme;
         case 'Gawr Gura': 
             return GuraTheme;
+        case 'Pokemon安妮': 
+            return PomeloTheme;
     }
     // default is azusa skin.
     return AzusaTheme;
