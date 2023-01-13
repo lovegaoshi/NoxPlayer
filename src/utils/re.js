@@ -205,6 +205,7 @@ export const reExtractSongName = (filename, uploader = '') => {
         case "铵溶液制造工厂":
         case "神圣的楼兰我":
         case "狐心妖面-Huxin":
+        case "5424单推人":
             // https://space.bilibili.com/7191181/channel/collectiondetail?sid=821187
             filename = extractWith(
                 extractParenthesis(filename), 

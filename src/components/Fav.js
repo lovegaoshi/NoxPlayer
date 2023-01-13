@@ -164,7 +164,7 @@ export const Fav = (function ({
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
-    const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40 - 1));
+    const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [searchBarVal, setSearchBarVal] = useState('');
 

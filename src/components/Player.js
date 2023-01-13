@@ -293,13 +293,6 @@ export const Player = function ({ songList }) {
 
             {params &&
                 <React.Fragment>
-                    <Box // Bottom Grid -- Footer
-                        display="flex"
-                        flex="1"
-                        justifyContent="space-around"
-                        style={{ maxHeight: "100%", height: "64px" }} // Relative height against the Player
-                        sx={{ gridArea: "footer" }}
-                    >
                         <ReactJkMusicPlayer
                             {...params}
                             showMediaSession
@@ -314,7 +307,6 @@ export const Player = function ({ songList }) {
                             onAudioListsChange={onAudioListsChange}
                             theme={skinPreset.desktopTheme}
                         />
-                    </Box>
                 </React.Fragment>}
         </React.Fragment>
     )

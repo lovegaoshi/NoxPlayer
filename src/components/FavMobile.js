@@ -240,10 +240,9 @@ export const Fav = (function ({
                                         height={favPanelHeight.current}
                                         itemCount={rows.length}
                                         itemSize={50}
-                                        width={window.innerWidth}
                                         ref={FavPanelRef}
                                         initialScrollOffset={50 * findInFavList(rows, currentAudioID)}
-                                        width={window.innerWidth - 40}
+                                        width={window.innerWidth}
                                     >
                                         {Row}
                                     </List>)

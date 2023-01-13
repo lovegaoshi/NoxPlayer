@@ -35,6 +35,7 @@ const gifs = [
 export const AmeliaTheme = {
     playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Amelia/AmeliaBanner.png',
     playerBannerMobile: 'https://cdn.donmai.us/sample/11/ac/__watson_amelia_hololive_and_1_more_drawn_by_oozora_halu__sample-11acdfd9e23432d93d241c4942d2047f.jpg',
+    playerBackground: 'https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg',
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
