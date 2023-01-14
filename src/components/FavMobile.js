@@ -115,7 +115,7 @@ export const Fav = (function ({
                 key={index}
                 className='favItem'
                 style={{ ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden', width: '98%' } }
-                onClick={songIconVisible? () => {} : () => onSongIndexChange([song], currentFavList)}
+                onClick={songIconVisible? () => {} : () => onSongIndexChange([song], {songList: rows})}
             >
                 {songIconVisible && 
                 (<ListItemButton>
@@ -140,7 +140,7 @@ export const Fav = (function ({
                     variant="text" 
                     sx={songText} 
                     style={{ overflow: 'hidden' }}
-                    onClick={songIconVisible? () => onSongIndexChange([song], currentFavList) : () => {}}
+                    onClick={songIconVisible? () => onSongIndexChange([song], {songList: rows}) : () => {}}
                 >
                     {getName(song, true)}
                 </ListItemButton>

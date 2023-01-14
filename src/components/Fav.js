@@ -221,7 +221,7 @@ export const Fav = (function ({
                     whiteSpace: 'nowrap'
                 }}
                 >
-                    <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], currentFavList)} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
+                    <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], {songList: rows})} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{
                     width: '10%', fontSize: 4,

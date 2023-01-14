@@ -111,8 +111,7 @@ export const Player = function ({ songList }) {
 
     const onPlayOneFromFav = useCallback((songs, favList) => {
         const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
-        //console.log(existingIndex)
-        if (existingIndex != -1) {
+        if (playingList.length === favList.songList.length && existingIndex != -1) {
             currentAudioInst.playByIndex(existingIndex)
             return
         }

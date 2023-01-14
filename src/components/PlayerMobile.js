@@ -100,7 +100,7 @@ export const PlayerMobile = function ({ songList }) {
         const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
         //console.log(existingIndex)
         setShowFavList(favState => !favState)
-        if (existingIndex != -1) {
+        if (playingList.length === favList.songList.length && existingIndex != -1) {
             currentAudioInst.playByIndex(existingIndex)
             return
         }
