@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
-import Box from "@mui/material/Box";
 import { FavList } from '../components/FavList';
 import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
@@ -238,21 +237,21 @@ export const Player = function ({ songList }) {
 
     // Initialization effect
     useEffect(() => {
-        // console.log('ran Init useEffect - Player', songList)
+        // using this debug message, even when songList is changed this is only initialized once. but why? 
+        console.debug('ran Init useEffect - Player', songList.length)
         if (!songList || songList[0] == undefined)
             return;
-        options.extendsContent = BiliBiliIcon({ bvid: songList[0].bvid, liked: undefined })
         async function initPlayer() {
-            console.debug('initialing player params:')
             let setting = await StorageManager.getPlayerSetting()
-            let previousPlayingCID = (await StorageManager.readLocalStorage('CurrentPlaying')).cid
+            let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
+            let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
+            options.extendsContent = BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
             // chrome.storage.local.set({ ['CurrentPlaying']: {} })
             const params = {
                 ...options,
                 ...setting,
                 audioLists: songList,
-                defaultPlayIndex: Math.max(0, (songList.findIndex((s) => s.id == previousPlayingCID))),
-
+                defaultPlayIndex: previousPlayingSongIndex,
             }
             setparams(params)
             setplayingList(songList)

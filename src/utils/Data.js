@@ -37,8 +37,9 @@ export const fetchPlayUrlPromise = async (bvid, cid) => {
         chrome.storage.local.get(['CurrentPlaying','PlayerSetting'], function (result) {
             // To prohibit current playing audio from fetching a new audio stream
             // If single loop, retreive the promise again.
-            if (result.CurrentPlaying && result.CurrentPlaying.cid == cid && result.PlayerSetting.playMode != 'singleLoop'){
-                resolve(result.playUrl)
+            if (result.CurrentPlaying && result.CurrentPlaying.cid == cid && result.PlayerSetting.playMode == 'singleLoop'){
+                // fixed return point; but why when repeat is single loop, a new promise is retrieved? 
+                resolve(result.CurrentPlaying.playUrl)
             }
             else {
                 fetch(URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
