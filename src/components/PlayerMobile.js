@@ -225,21 +225,23 @@ export const PlayerMobile = function ({ songList }) {
         // console.log('ran Init useEffect - Player', songList)
         if (!songList || songList[0] == undefined)
             return;
-        chrome.storage.local.set({ ['CurrentPlaying']: {} })
-        
+        options.extendsContent = BiliBiliIcon({ bvid: songList[0].bvid, liked: undefined })
         async function initPlayer() {
+            console.debug('initialing player params:')
             let setting = await StorageManager.getPlayerSetting()
-            options.extendsContent = BiliBiliIcon({ bvid: songList[0].bvid, liked: undefined })
+            let previousPlayingCID = (await StorageManager.readLocalStorage('CurrentPlaying')).cid
+            // chrome.storage.local.set({ ['CurrentPlaying']: {} })
             const params = {
                 ...options,
                 ...setting,
-                audioLists: songList
+                audioLists: songList,
+                defaultPlayIndex: Math.max(0, (songList.findIndex((s) => s.id == previousPlayingCID))),
+
             }
             setparams(params)
             setplayingList(songList)
             setPlayerSettings(setting)
         }
-
         initPlayer()
     }, [songList])
 

@@ -10,7 +10,6 @@ import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import SnackBar from './SnackBar';
 
-
 // Initial Player options
 let options = {
     mode: 'full',
@@ -189,7 +188,7 @@ export const Player = function ({ songList }) {
                 setparams(newParam)
             })
         setcurrentAudio(audioInfo)
-        chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
+        chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(), playUrl:audioInfo.musicSrc} })
     }, [params])
 
     const onAudioListsChange = useCallback((currentPlayId, audioLists, audioInfo) => {
@@ -243,14 +242,17 @@ export const Player = function ({ songList }) {
         if (!songList || songList[0] == undefined)
             return;
         options.extendsContent = BiliBiliIcon({ bvid: songList[0].bvid, liked: undefined })
-        chrome.storage.local.set({ ['CurrentPlaying']: {} })
-
         async function initPlayer() {
+            console.debug('initialing player params:')
             let setting = await StorageManager.getPlayerSetting()
+            let previousPlayingCID = (await StorageManager.readLocalStorage('CurrentPlaying')).cid
+            // chrome.storage.local.set({ ['CurrentPlaying']: {} })
             const params = {
                 ...options,
                 ...setting,
-                audioLists: songList
+                audioLists: songList,
+                defaultPlayIndex: Math.max(0, (songList.findIndex((s) => s.id == previousPlayingCID))),
+
             }
             setparams(params)
             setplayingList(songList)

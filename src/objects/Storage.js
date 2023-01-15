@@ -7,6 +7,7 @@ const MY_FAV_LIST_KEY = 'MyFavList'
 const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'
+const CURRENT_PLAYING = 'CurrentPlaying'
 
 const dummyFavList = (favName) => {
     return {
@@ -80,6 +81,7 @@ export default class StorageManager {
             [value.info.id]: value,
             [LAST_PLAY_LIST]: [],
             [LYRIC_MAPPING]: [],
+            [CURRENT_PLAYING]: {cid: null, playUrl: null},
         }, function () {
             //console.log('key is set to ' + value.info.id);
             //console.log('Value is set to ' + value);
@@ -136,6 +138,10 @@ export default class StorageManager {
 
     setLastPlayList(audioLists) {
         chrome.storage.local.set({ [LAST_PLAY_LIST]: audioLists })
+    }
+
+    setCurrentPlaying(cid, musicSrc) {
+        chrome.storage.local.set({ [CURRENT_PLAYING]: {cid:cid, playUrl:musicSrc} })
     }
 
     async setLyricOffset(songId, lrcOffset) {

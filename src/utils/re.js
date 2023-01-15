@@ -99,12 +99,13 @@ export const reExtractSongName = (filename, uploader = '') => {
             // sometimes date_in_numbers{songname}; others in brackets
             // 11一番の宝物
             // 1202王菲-如愿 
-            filename = extractWith(
-                extractParenthesis(filename), 
+            filename = extractParenthesis(extractWith(
+                filename, 
                 [
+                    /.+《(.+)》.+/, 
                     /\d+.+-(.+)/, 
                     /\d+(.+)/, 
-                ]);
+                ]));
             break;
         case "夜の_":
             // https://space.bilibili.com/7405415/channel/series
