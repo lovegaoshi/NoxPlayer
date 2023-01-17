@@ -39,7 +39,6 @@ export const Player = function ({ songList }) {
     const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
-    const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
     const [snackBarOpen, setSnackBarOpen] = useState(false)
     const [snackBarMsg, setSnackBarMsg] = useState('this is a snackbar message')
@@ -208,7 +207,7 @@ export const Player = function ({ songList }) {
         // to recreate objects with that huge songlist. it might need to be restructured to have player send next music signal
         // to controller (player.js here) so it doesnt have to save that list anymore.
 
-        if (lrcOverlayOpenStateEmitter) {
+        if (showLyric) {
             setcurrentAudio(audioInfo);
         }
     }
@@ -281,14 +280,14 @@ export const Player = function ({ songList }) {
                 playerSettings={playerSettings}
                 checkFavListAutoUpdate={checkFavListAutoUpdate}
             />}
-            {currentAudio && <LyricOverlay
+            {currentAudio.id && <LyricOverlay
                 showLyric={showLyric}
                 currentTime={currentAudio.currentTime}
                 audioName={currentAudio.name}
                 audioId={currentAudio.id}
                 audioCover={currentAudio.cover}
                 artist={currentAudio.singer}
-                setOpenStateEmitter={setLrcOverlayOpenStateEmitter}
+                closeLyric={() => setShowLyric(false)}
                 />}
 
             {params &&

@@ -42,7 +42,6 @@ export const PlayerMobile = function ({ songList }) {
     const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
-    const [lrcOverlayOpenStateEmitter, setLrcOverlayOpenStateEmitter] = useState(false)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
     const favListAutoUpdateTimestamps = useRef({})
@@ -193,7 +192,7 @@ export const PlayerMobile = function ({ songList }) {
     }
 
     const onAudioProgress = (audioInfo) => {
-        if (lrcOverlayOpenStateEmitter) {
+        if (showLyric) {
             setcurrentAudio(audioInfo);
         }
     }
@@ -290,8 +289,8 @@ export const PlayerMobile = function ({ songList }) {
                 audioCover={currentAudio.cover}
                 isMobile={true}
                 artist={currentAudio.singer}
-                setOpenStateEmitter={setLrcOverlayOpenStateEmitter}
-                />}
+                closeLyric={() => setShowLyric(false)}
+            />}
                 
 
             {params &&

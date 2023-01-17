@@ -118,6 +118,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                 [
                     /【.+】(.+)/, 
                     /\d+\.\d+ (.+)/, 
+                    /\d+\.(.+) - .+/,
                     /\d+\.(.+)/,
                 ]);
             break;

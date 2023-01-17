@@ -93,7 +93,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [favOpen, setFavOpen] = useState(false)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const StorageManager = useContext(StorageManagerCtx)
     
     useEffect(() => {
@@ -103,6 +103,16 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             setFavOpen(!favOpen);
         }
     }, [showFavList])
+
+    // this is here because i have overcomplicated the dialog open logic by implementing 
+    // it as a state in player.js, but also a state here;
+    // then for some reason when state is initialized as true but turned off because of the above logic (triggered when 
+    // a swipe action is executed (?), the music player part wont render; i have to do below
+    // similar problem happened to lyricOverlay; I took out lyricOverlay's open state inside the component, but is having 
+    // trouble with this one. alas, this patch seems to work... 
+    useEffect(() => {
+        setOpen(false)
+    }, [])
 
     useEffect(() => {
         if (selectedList && checkFavListAutoUpdate({favList: selectedList})) {
