@@ -4,6 +4,7 @@ const gifs = [
   "https://article.biliimg.com/bfs/article/313c42ec86c5bdaa13ba3d8a5633e696bfd2412f.gif",
   "https://article.biliimg.com/bfs/article/f961bb02daccadcc19daf191e5540e633fe4b104.gif",
   "https://article.biliimg.com/bfs/article/5fb01231dff56e8b089126c6edfa6fc68c7b2be7.gif",
+  "https://article.biliimg.com/bfs/article/8dc01b02cd7dfeb8871dea607b4f191a5be80f64.gif",
 ];
 export const PomeloTheme = {
     playerBanner:  "https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png",
