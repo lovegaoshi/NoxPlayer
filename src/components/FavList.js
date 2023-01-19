@@ -320,7 +320,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             />
 
             <Box // Mid Grid -- SideBar
-                style={{ overflow: "hidden", maxHeight: "96%" }}
+                style={{ overflow: "hidden", maxHeight: "96%", backgroundColor: colorTheme.FavListBackgroundColor }}
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>

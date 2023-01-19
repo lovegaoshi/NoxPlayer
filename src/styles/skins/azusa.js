@@ -16,6 +16,7 @@ const gifs = [
 export const AzusaTheme = {
     playerBanner:  "https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true",
     playerBannerMobile: "https://cdn.donmai.us/sample/b8/10/__azusa_nijisanji_and_2_more_drawn_by_bsmycc__sample-b8106d3890e42fc9bfcd896a648a6c80.jpg",
+    playerBackground: 'http://i0.hdslb.com/bfs/live/room_bg/36d425e9205e7b0e583580fe44a5b80bb0a70b0d.jpg',
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
@@ -46,8 +47,10 @@ export const AzusaTheme = {
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: undefined,
         MobileBackgroundColor: 'white',
-        FavlistBackgroundColor: 'white',
-        FavlistAlternateBackgroundColor: '#f2f2f2',
+        FavListBackgroundColor: "rgba(255,255,255,0.6)",
+        FavBackgroundColor: "rgba(255,255,255,0.9)",
+        FavBackgroundColorSolid: "rgba(255,255,255,1)",
+        FavAlternateBackgroundColor: "rgba(242,242,242,0.5)",
         scrollbarColor: '#c6acfc',
         favMobileBorder: "1px solid #ab5fff",
         clickHoldBackground: 'lightgrey',

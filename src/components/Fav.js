@@ -73,7 +73,7 @@ export const songText = {
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: colorTheme.FavlistAlternateBackgroundColor,//theme.palette.action.hover,
+        backgroundColor: colorTheme.FavAlternateBackgroundColor,//theme.palette.action.hover,
     },
     // hide last border
     '&:last-child td, &:last-child th': {
@@ -311,7 +311,7 @@ export const Fav = (function ({
                         id='FavTable'
                         component={Paper}
                         sx={{ maxHeight: "calc(100% - 65px)" }}
-                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle, backgroundColor: colorTheme.FavlistBackgroundColor }} 
+                        style={{ overflow: "auto", boxShadow: colorTheme.songListShadowStyle, backgroundColor: colorTheme.FavBackgroundColor }} 
                     >
 
                         <Table stickyHeader aria-label="sticky table" >
@@ -323,9 +323,9 @@ export const Fav = (function ({
                                             align={column.align}
                                             sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
                                             style={{ 
-                                                backgroundColor: colorTheme.FavlistBackgroundColorSolid === undefined 
-                                                    ? colorTheme.FavlistBackgroundColor 
-                                                    : colorTheme.FavlistBackgroundColorSolid, 
+                                                backgroundColor: colorTheme.FavBackgroundColorSolid === undefined 
+                                                    ? colorTheme.FavBackgroundColor 
+                                                    : colorTheme.FavBackgroundColorSolid, 
                                                 color:colorTheme.songListColumnHeaderColor }}
                                         >
                                             {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}

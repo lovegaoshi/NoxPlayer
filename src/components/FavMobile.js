@@ -209,7 +209,7 @@ export const Fav = (function ({
                             overflowY: "auto", 
                             overflowX: "hidden", 
                             boxShadow: colorTheme.songListShadowStyle, 
-                            backgroundColor: colorTheme.FavlistBackgroundColor, }}
+                            backgroundColor: colorTheme.FavBackgroundColor, }}
                     >
                         <Table stickyHeader aria-label="sticky table" >
                             <TableHead>
@@ -223,7 +223,7 @@ export const Fav = (function ({
                                             key={column.id}
                                             align={column.align}
                                             sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
-                                            style={{ backgroundColor: colorTheme.FavlistBackgroundColor, color:colorTheme.songListColumnHeaderColor }}
+                                            style={{ backgroundColor: colorTheme.FavBackgroundColor, color:colorTheme.songListColumnHeaderColor }}
                                             
                                         >
                                             {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}

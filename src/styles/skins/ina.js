@@ -44,8 +44,8 @@ export const InaTheme = {
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: 'white',
         MobileBackgroundColor: 'white',
-        FavlistBackgroundColor: 'white',
-        FavlistAlternateBackgroundColor: '#f2f2f2',
+        FavBackgroundColor: 'white',
+        FavAlternateBackgroundColor: '#f2f2f2',
         scrollbarColor: '#1e90ff',
         favMobileBorder: "1px solid #1e90ff",
         palette: {
