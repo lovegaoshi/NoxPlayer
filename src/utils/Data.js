@@ -4,7 +4,8 @@ import Bottleneck from "bottleneck";
 
 const logger = new Logger("Data.js")
 const biliApiLimiter = new Bottleneck({
-    minTime: 200, //200 msec per 
+    // limits to bilibili API call to 200ms/call.
+    minTime: 200,
     maxConcurrent: 5,
 })
 // Video src info
@@ -131,21 +132,19 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
     let json = await res.json()
     let data = json.data
 
-    let videoInfos = []
+    let BVidPromises = []
     // albeit slow, this is a good way to not get banned....
     for (let i=0, n=data.archives.length; i < n; i++) {
         if (favList.includes(data.archives[i].bvid)) {
             console.debug('skipped duplicate bvid during rss feed update', data.archives[i].bvid)
             continue
         }
-        videoInfos.push(await fetchVideoInfo(data.archives[i].bvid))
-        if ((i + 1) % 50 === 0) {
-            await new Promise(resolve => setTimeout(resolve, 500))
-            console.log('wait 500ms to prevent API abuse')
-        }
-        progressEmitter(parseInt(100 * (i + 1) / data.archives.length))
+        BVidPromises.push(fetchVideoInfo(data.archives[i].bvid, () => {progressEmitter(parseInt(100 * (i + 1) / data.archives.length))}))        
     }
-
+    let videoInfos = []
+    await Promise.all(BVidPromises).then(res => {
+        videoInfos = res
+    })
     return videoInfos
 }
 
@@ -176,19 +175,13 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
             for (let index = 0, n = v.length; index < n; index++) {
                 await v[index].json().then(js => js.data.archives.map(m => {
                     if (!favList.includes(m.bvid)) {
-                        BVidPromises.push(m.bvid)
+                        BVidPromises.push(fetchVideoInfo(m.bvid, () => {progressEmitter(parseInt(100 * (index + 1) / n))}))
                     }
                 }))
             }
-
-            for (let i=0, n=BVidPromises.length; i<n; i++) {
-                videoInfos.push(await fetchVideoInfo(BVidPromises[i]))
-                if ((i + 1) % 50 === 0) {
-                    await new Promise(resolve => setTimeout(resolve, 500))
-                    console.log('wait 500ms to prevent API abuse')
-                }
-                progressEmitter(parseInt(100 * (i + 1) / BVidPromises.length))
-            }
+            await Promise.all(BVidPromises).then(res => {
+                videoInfos = res
+            })
         })
 
     return videoInfos
@@ -222,19 +215,13 @@ export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) =
             for (let index = 0, n = v.length; index < n; index++) {
                 await v[index].json().then(js => js.data.list.vlist.map(m => {
                     if (!favList.includes(m.bvid)) {
-                        BVidPromises.push(m.bvid)
+                        BVidPromises.push(fetchVideoInfo(m.bvid, () => {progressEmitter(parseInt(100 * (index + 1) / n))}))
                     }
                 }))
             }
-            
-            for (let i=0, n=BVidPromises.length; i<n; i++) {
-                videoInfos.push(await fetchVideoInfo(BVidPromises[i]))
-                if ((i + 1) % 50 === 0) {
-                    await new Promise(resolve => setTimeout(resolve, 500))
-                    console.log('wait 500ms to prevent API abuse')
-                }
-                progressEmitter(parseInt(100 * (i + 1) / BVidPromises.length))
-            }
+            await Promise.all(BVidPromises).then(res => {
+                videoInfos = res
+            })
         })
 
     return videoInfos

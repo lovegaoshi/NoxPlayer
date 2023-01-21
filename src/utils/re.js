@@ -36,6 +36,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                         /\d*_(.+) \(?.*by .+/, 
                         /\d*_(.+)/,
                         /\[.+\]\[.+\] (.+) \d+/,
+                        /\[.+\] (.+) \d+/,
                     ]);
                 break;
         case "冥侦探柯鎮悪":
