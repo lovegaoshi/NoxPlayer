@@ -33,7 +33,7 @@ import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { ExportFavButton, ImportFavButton } from "./buttons/ImportExport";
-import { ExportSyncFavButton, ImportSyncFavButton } from "./buttons/GDriveSync";
+import { ExportSyncFavButton, ImportSyncFavButton } from "./buttons/DropboxSyncButton";
 
 let colorTheme = skinPreset.colorTheme;
 

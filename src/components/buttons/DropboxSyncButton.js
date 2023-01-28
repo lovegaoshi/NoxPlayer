@@ -24,7 +24,6 @@ export const ImportSyncFavButton = (AddFavIcon) => {
     const cloudDownload = async () => {
         let response = await noxRestore();
         if (response !== null) {
-            console.debug(response);
             await StorageManager.importStorageRaw(response);
             enqueueSnackbar("歌单同步自Dropbox成功！", { variant: 'success', autoHideDuration: 2000 });
         } else {
