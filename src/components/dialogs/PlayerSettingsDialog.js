@@ -75,8 +75,8 @@ export const SettingsDialog = function ({ onClose, openState, settings,
         <Box>
           {exportFavButton()}
           {importFavButton()}
-          {importSyncFavButton()}
           {exportSyncFavButton()}
+          {importSyncFavButton()}
         </Box>
           <Tooltip title={skins(skin).maintainerTooltip}>
             <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>

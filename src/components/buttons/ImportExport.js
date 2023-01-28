@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 export const ExportFavButton = (AddFavIcon) => {
     const StorageManager = useContext(StorageManagerCtx);
     return (
-        <Tooltip title="导入云端歌单">
+        <Tooltip title="导入歌单">
             <IconButton size='large' onClick={() => StorageManager.importStorage()}>
                 <FileUploadIcon sx={AddFavIcon} />
             </IconButton>
@@ -19,7 +19,7 @@ export const ExportFavButton = (AddFavIcon) => {
 export const ImportFavButton = (AddFavIcon) => {
     const StorageManager = useContext(StorageManagerCtx);
     return (
-        <Tooltip title="上传云端歌单">
+        <Tooltip title="导出歌单">
             <IconButton size='large' onClick={() => StorageManager.exportStorage()} >
                 <DownloadIcon sx={AddFavIcon} />
             </IconButton>

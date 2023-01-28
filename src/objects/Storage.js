@@ -213,6 +213,13 @@ export default class StorageManager {
             link.click()
         });
     }
+    async importStorageRaw(content) {
+        chrome.storage.local.clear(() => {
+            chrome.storage.local.set(content, () => {
+                this.initFavLists()
+            })
+        })
+    }
 
     async importStorage() {
         const _self = this
@@ -227,11 +234,7 @@ export default class StorageManager {
                 let parsedJSON = JSON.parse(fileReader.result);
                 console.log(parsedJSON);
                 // your code to consume the json
-                chrome.storage.local.clear(() => {
-                    chrome.storage.local.set(parsedJSON, () => {
-                        _self.initFavLists()
-                    })
-                })
+                _self.importStorageRaw(parsedJSON);
             }
             fileReader.readAsText(this.files[0]);
         }

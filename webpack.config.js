@@ -199,7 +199,11 @@ module.exports = (env) => {
       fallback: {
         "path": require.resolve("path-browserify"),
         "os": require.resolve("os-browserify/browser"),
-        "fs": false
+        "fs": false,
+        "util": require.resolve("util/"),
+        "crypto": require.resolve("crypto-browserify"),
+        "buffer": require.resolve("buffer/"),
+        "stream": require.resolve("stream-browserify"),
       },
     },
     devtool: ifProd(false, 'source-map'),

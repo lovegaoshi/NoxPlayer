@@ -5,6 +5,8 @@ import { PlayerMobile } from '../components/PlayerMobile';
 import isMobile from 'is-mobile';
 import { skinPreset } from '../styles/skin';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ConfirmProvider } from "material-ui-confirm";
+import { SnackbarProvider } from 'notistack';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -44,31 +46,40 @@ export default function PageLayout({ songList }) {
         
     return (
         // Outmost layer of the page
+        
         <ThemeProvider theme={theme}>
-            <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
-                <div className="container-fluid homepage-bgimage" align="center">
-                    <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
-                </div>
-                <Box sx={PlayerBoxMobile} id='player-box'> 
-                    <PlayerMobile songList={songList} id='player-instance'/>
-                </Box>
-            </Box>
+            <SnackbarProvider maxSnack={1}>
+                <ConfirmProvider>
+                    <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
+                        <div className="container-fluid homepage-bgimage" align="center">
+                            <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
+                        </div>
+                        <Box sx={PlayerBoxMobile} id='player-box'> 
+                            <PlayerMobile songList={songList} id='player-instance'/>
+                        </Box>
+                    </Box>
+                </ConfirmProvider>
+            </SnackbarProvider>
         </ThemeProvider>
     );
     }
     return (
         // Outmost layer of the page
         <ThemeProvider theme={theme}>
-            <Box sx={OutmostBox} id='master-box' style={{ 
-                backgroundColor: colorTheme.PCBackgroundColor, 
-                backgroundImage: `url(${skinPreset.playerBackground})`, 
-                backgroundSize: '100% 100%', 
-                backgroundBlendMode: 'overlay' 
-                }}>
-                <Box sx={PlayerBox}> 
-                    <Player songList={songList} />
-                </Box>
-            </Box>
+            <SnackbarProvider maxSnack={1}>
+                <ConfirmProvider>
+                    <Box sx={OutmostBox} id='master-box' style={{ 
+                        backgroundColor: colorTheme.PCBackgroundColor, 
+                        backgroundImage: `url(${skinPreset.playerBackground})`, 
+                        backgroundSize: '100% 100%', 
+                        backgroundBlendMode: 'overlay' 
+                        }}>
+                        <Box sx={PlayerBox}> 
+                            <Player songList={songList} />
+                        </Box>
+                    </Box>
+                </ConfirmProvider>
+            </SnackbarProvider>
         </ThemeProvider>
     );
 }
