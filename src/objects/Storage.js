@@ -192,6 +192,10 @@ export default class StorageManager {
         chrome.storage.local.set({ [PLAYER_SETTINGS]: newSettings })
     }
 
+    async exportStorageRaw() {
+        return chrome.storage.local.get(null);
+    }
+
     async exportStorage() {
         chrome.storage.local.get(null, function (items) { // null implies all items
             // Convert object to a string.

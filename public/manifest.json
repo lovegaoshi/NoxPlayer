@@ -6,6 +6,13 @@
   "background": {
     "service_worker": "serviceWorker.js"
   },
+  "oauth2": {
+    "client_id": "529029418684-rgikniq8k5n5r30lb054g1e1f0rsseu1.apps.googleusercontent.com",
+    "scopes":["https://www.googleapis.com/auth/drive.file"]
+  },
+  "content_security_policy": {
+    "extension_pages": ""
+  },
   "action": {
     "default_icon": {
       "128": "icons/logo2-128.png"
@@ -24,7 +31,8 @@
     "declarativeNetRequest",
     "storage",
     "unlimitedStorage",
-    "cookies"
+    "cookies",
+    "identity"
   ],
   "host_permissions": [
     "*://*.acgvideo.com/*",

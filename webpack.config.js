@@ -8,8 +8,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ProgressBar = require('progress-bar-webpack-plugin');
-
-const pkgJson = require('./package.json');
+const Dotenv = require('dotenv-webpack');
 
 const ifDirIsNotEmpty = (dir, value) => {
   return fs.readdirSync(dir).length !== 0 ? value : undefined;
@@ -126,6 +125,10 @@ module.exports = (env) => {
       ],
     },
     plugins: removeEmpty([
+      new Dotenv({
+        path: './.env', // Path to .env file (this is the default)
+        safe: true, // load .env.example (defaults to "false" which does not use dotenv-safe)
+      }),
       new CleanWebpackPlugin({
         cleanStaleWebpackAssets: false, // don't remove index.html when using the flag watch
       }),
@@ -193,6 +196,11 @@ module.exports = (env) => {
     ]),
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],
+      fallback: {
+        "path": require.resolve("path-browserify"),
+        "os": require.resolve("os-browserify/browser"),
+        "fs": false
+      },
     },
     devtool: ifProd(false, 'source-map'),
     devServer: {

@@ -50,7 +50,7 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
             variant="standard"
             onChange={(e) => setFavListName(e.target.value)}
             value={favListName}
-            autoComplete='off'
+            autoComplete="off"
           />  
         </DialogTitle>
         <DialogContent>
@@ -63,7 +63,7 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
             variant="standard"
             onChange={(e) => setSubUrl(e.target.value)}
             value={subUrl}
-            autoComplete='off'
+            autoComplete="off"
           />
           
         </DialogContent>

@@ -15,7 +15,11 @@ import Tooltip from '@mui/material/Tooltip';
 let colorTheme = skinPreset.colorTheme;
 
 export const SettingsDialog = function ({ onClose, openState, settings,
-  importFavButton = () => {}, exportFavButton = () => {}, }) {
+    importFavButton = () => {},
+    exportFavButton = () => {}, 
+    importSyncFavButton = () => {}, 
+    exportSyncFavButton = () => {}, 
+  }) {
   const [skin, setSkin] = useState('诺莺nox')
   const [settingObj, setSettingObj] = useState({})
   const [parseSongName, setParseSongName] = useState(false)
@@ -71,6 +75,8 @@ export const SettingsDialog = function ({ onClose, openState, settings,
         <Box>
           {exportFavButton()}
           {importFavButton()}
+          {importSyncFavButton()}
+          {exportSyncFavButton()}
         </Box>
           <Tooltip title={skins(skin).maintainerTooltip}>
             <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>

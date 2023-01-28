@@ -32,6 +32,8 @@ import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { ExportFavButton, ImportFavButton } from "./buttons/ImportExport";
+import { ExportSyncFavButton, ImportSyncFavButton } from "./buttons/GDriveSync";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -229,14 +231,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         onAddFavToList(FavList.songList)
     }
 
-    const exportFav = () => {
-        StorageManager.exportStorage()
-    }
-
-    const importFav = () => {
-        StorageManager.importStorage()
-    }
-
     const shuffleAll = () => {
         let allFavSongList = [];
         for (let i=0, n=favLists.length; i<n; i++ ) {
@@ -244,26 +238,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         } 
         handleSearch(defaultSearchList({ songList: allFavSongList }));
         onPlayAllFromFav(allFavSongList);
-    }
-
-    const importFavButton = () => {
-        return (
-            <Tooltip title="导入歌单">
-                <IconButton size='large' onClick={() => importFav()}>
-                    <FileUploadIcon sx={AddFavIcon} />
-                </IconButton>
-            </Tooltip>
-        )
-    }
-
-    const exportFavButton = () => {
-        return (
-            <Tooltip title="导出歌单">
-                <IconButton size='large' onClick={() => exportFav()} >
-                    <DownloadIcon sx={AddFavIcon} />
-                </IconButton>
-            </Tooltip>
-        )
     }
 
     const onDragEnd = (result) => {
@@ -474,8 +448,10 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 setOpenSettingsDialog(false)
             }}
             settings={StorageManager.getPlayerSetting()}
-            importFavButton={importFavButton}
-            exportFavButton={exportFavButton}
+            importFavButton={() => ImportFavButton(AddFavIcon)}
+            exportFavButton={() => ExportFavButton(AddFavIcon)}
+            importSyncFavButton={() => ImportSyncFavButton(AddFavIcon)}
+            exportSyncFavButton={() => ExportSyncFavButton(AddFavIcon)}
             />
 
         </React.Fragment >

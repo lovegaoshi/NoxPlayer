@@ -78,7 +78,15 @@ const AddFavIcon = {
 }
 
 
-export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, showFavList, currentAudioID, checkFavListAutoUpdate }) {
+export const FavList = memo(function ({ 
+    onSongListChange, 
+    onPlayOneFromFav, 
+    onPlayAllFromFav, 
+    onAddFavToList, 
+    onAddOneFromFav, 
+    showFavList, 
+    currentAudioID, 
+    checkFavListAutoUpdate }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
