@@ -8,7 +8,6 @@ import StorageManagerCtx from '../popup/App';
 import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import SnackBar from './SnackBar';
-import { loginDropbox } from '../utils/dropboxauth';
 
 // Initial Player options
 let options = {

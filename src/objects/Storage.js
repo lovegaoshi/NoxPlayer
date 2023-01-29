@@ -35,6 +35,39 @@ export const defaultSetting = {
     settingExportLocation: EXPORT_OPTIONS.local,
 }
 
+/** 
+ * 
+*/
+export const readLocalStorage = async (key) => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get([key], function (result) {
+            resolve(result[key]);
+        });
+    });
+};
+
+const getPlayerSetting = async () => {
+    const settings = await readLocalStorage(PLAYER_SETTINGS);
+    // console.log(settings)
+    if (settings == undefined) {
+        this.setPlayerSetting(defaultSetting);
+        return defaultSetting;
+    }
+    return (settings);
+}
+
+export const getPlayerSettingKey = async(key = null) => {
+    let settings = await getPlayerSetting();
+    if (key === null) {
+        return settings;
+    }
+    if (settings.hasOwnProperty(key)) {
+        return settings[key];
+    } else {
+        return defaultSetting[key];
+    }
+}
+
 export default class StorageManager {
     constructor() {
         this.setFavLists = () => { }
@@ -195,18 +228,6 @@ export default class StorageManager {
             return defaultSetting
         }
         return (settings)
-    }
-
-    async getPlayerSettingKey(key = null) {
-        let settings = await this.getPlayerSetting();
-        if (key === null) {
-            return settings;
-        }
-        if (settings.hasOwnProperty(key)) {
-            return settings.key;
-        } else {
-            return defaultSetting.key;
-        }
     }
 
     async setPlayerSetting(newSettings) {

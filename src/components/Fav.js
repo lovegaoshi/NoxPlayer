@@ -33,6 +33,7 @@ import { skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
 import RandomGIFIcon from './randomGIF';
+import { getPlayerSettingKey } from '../objects/Storage';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -209,7 +210,8 @@ export const Fav = (function ({
 
     //console.log('rener Fav')
     const className = ScrollBar().root
-
+    // onSongIndexChange([song], {songList: rows})
+    
     const rowRenderer = ({ song, index }) => {
         return (
             <StyledTableRow
@@ -221,7 +223,9 @@ export const Fav = (function ({
                     whiteSpace: 'nowrap'
                 }}
                 >
-                    <ListItemButton variant="text" sx={songText} onClick={() => onSongIndexChange([song], {songList: rows})} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
+                    <ListItemButton variant="text" sx={songText} onClick={() => getPlayerSettingKey('keepSearchedSongListWhenPlaying').then((val) => {
+                        onSongIndexChange([song], {songList: val? rows : FavList.songList})
+                    })} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{
                     width: '10%', fontSize: 4,
