@@ -32,8 +32,6 @@ import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { ExportFavButton, ImportFavButton } from "./buttons/ImportExport";
-import { ExportSyncFavButton, ImportSyncFavButton } from "./buttons/DropboxSyncButton";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -448,10 +446,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 setOpenSettingsDialog(false)
             }}
             settings={StorageManager.getPlayerSetting()}
-            importFavButton={() => ImportFavButton(AddFavIcon)}
-            exportFavButton={() => ExportFavButton(AddFavIcon)}
-            importSyncFavButton={() => ImportSyncFavButton(AddFavIcon)}
-            exportSyncFavButton={() => ExportSyncFavButton(AddFavIcon)}
             />
 
         </React.Fragment >

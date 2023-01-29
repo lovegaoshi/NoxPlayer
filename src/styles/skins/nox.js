@@ -80,7 +80,7 @@ export const NoxTheme = {
                 MuiPaper: {
                   styleOverrides: {
                         root: {
-                            backgroundColor: "grey",
+                            backgroundColor: "#1E1E1E",
                             color: '#fff44f'
                         }
                   }
@@ -95,7 +95,7 @@ export const NoxTheme = {
                 MuiTextField: {
                     styleOverrides: {
                         root: {
-                            backgroundColor: 'grey',
+                            backgroundColor: '#1E1E1E',
                             color: '#fff44f'
                         },
                     }
@@ -103,7 +103,7 @@ export const NoxTheme = {
                 MuiInputLabel: {
                     styleOverrides: {
                         root: {
-                            backgroundColor: 'grey',
+                            backgroundColor: '#1E1E1E',
                             color: '#fff44f'
                         },
                     }

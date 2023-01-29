@@ -1,6 +1,9 @@
 import { DropboxAuth, Dropbox as _Dropbox } from 'dropbox';
 import _ from 'lodash';
 
+const DEFAULT_FILE_NAME = 'nox.json';
+const DEFAULT_FILE_PATH = '/' + DEFAULT_FILE_NAME;
+
 let dba = new DropboxAuth({ 
   clientId: process.env.DROPBOX_KEY,
   clientSecret: process.env.DROPBOX_SECRET, 
@@ -28,7 +31,7 @@ export const getAuth = async (callback = () => checkAuthentication().then(consol
 }
 
 // dbx.filesListFolder({path: ''}).then(data => console.log(data.result.entries))
-const find = async (query = "nox.json") => {
+const find = async (query = DEFAULT_FILE_NAME) => {
   let data = await dbx.filesSearchV2({
     query,
     options: {
@@ -43,7 +46,7 @@ const find = async (query = "nox.json") => {
     return null;
   }
 }
-const upload = async (content, fpath = '/nox.json') => {
+const upload = async (content, fpath = DEFAULT_FILE_PATH) => {
   return await dbx.filesUpload({
     path: fpath,
     mode: 'overwrite',
@@ -52,7 +55,7 @@ const upload = async (content, fpath = '/nox.json') => {
 }
 //upload({'new': 'content'}).then(console.log)
 
-const download = async (fpath = '/nox.json') => {
+const download = async (fpath = DEFAULT_FILE_PATH) => {
   if (fpath === null) {
     return null;
   } 

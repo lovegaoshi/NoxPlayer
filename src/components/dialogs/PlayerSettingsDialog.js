@@ -11,19 +11,41 @@ import { Checkbox } from '@mui/material';
 import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
+import { defaultSetting, EXPORT_OPTIONS } from '../../objects/Storage';
+import TextField from '@mui/material/TextField';
+import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
+import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
 
 let colorTheme = skinPreset.colorTheme;
 
-export const SettingsDialog = function ({ onClose, openState, settings,
-    importFavButton = () => {},
-    exportFavButton = () => {}, 
-    importSyncFavButton = () => {}, 
-    exportSyncFavButton = () => {}, 
-  }) {
-  const [skin, setSkin] = useState('诺莺nox')
+const AddFavIcon = {
+  ':hover': {
+      cursor: 'pointer'
+  },
+  width: '1em',
+  color: colorTheme.playListIconColor,
+  // padding added to account for the textfield label margin:dense
+  paddingTop: '8px',
+  paddingBottom: '8px',
+  paddingLeft: '8px',
+  paddingRight: '8px',
+}
+
+export const SettingsDialog = function ({ onClose, openState, settings }) {
+  const [skin, setSkin] = useState(defaultSetting.skin)
   const [settingObj, setSettingObj] = useState({})
-  const [parseSongName, setParseSongName] = useState(false)
-  const [autoRSSUpdate, setAutoRSSUpdate] = useState(false)
+  const [parseSongName, setParseSongName] = useState(defaultSetting.parseSongName)
+  const [autoRSSUpdate, setAutoRSSUpdate] = useState(defaultSetting.autoRSSUpdate)
+  const [settingExportLocation, setSettingExportLocation] = useState(defaultSetting.settingExportLocation)
+  const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(defaultSetting.keepSearchedSongListWhenPlaying)
+  
+  const setSettings = (setFunc, value = undefined, defaultValue = undefined) => {
+    if (value !== undefined) {
+      setFunc(value);
+    } else if (defaultValue !== undefined) {
+      setFunc(defaultValue);
+    }
+  }
 
   async function init() {
     settings = await settings
@@ -34,16 +56,10 @@ export const SettingsDialog = function ({ onClose, openState, settings,
     } else {
       setSkin(SkinKeys[0])
     }
-    if (settings.parseSongName !== undefined) {
-      setParseSongName(settings.parseSongName)
-    } else {
-      setParseSongName(false)
-    }
-    if (settings.autoRSSUpdate !== undefined) {
-      setAutoRSSUpdate(settings.autoRSSUpdate)
-    } else {
-      setAutoRSSUpdate(false)
-    }
+    setSettings(setParseSongName, settings.parseSongName);
+    setSettings(setAutoRSSUpdate, settings.autoRSSUpdate);
+    setSettings(setSettingExportLocation, settings.settingExportLocation);
+    setSettings(setKeepSearchedSongListWhenPlaying, settings.keepSearchedSongListWhenPlaying);
   }
   // load settings into this dialog
   useEffect( () => {
@@ -60,11 +76,27 @@ export const SettingsDialog = function ({ onClose, openState, settings,
     updatedSettingObj.skin = skin
     updatedSettingObj.parseSongName = parseSongName
     updatedSettingObj.autoRSSUpdate = autoRSSUpdate
+    updatedSettingObj.settingExportLocation = settingExportLocation
+    updatedSettingObj.keepSearchedSongListWhenPlaying = keepSearchedSongListWhenPlaying
     onClose(updatedSettingObj)
   }
 
-  const onSkinSelect = (e) => {
-    setSkin(e.target.value)
+  const syncSetttingButtons = () => {
+    switch (settingExportLocation) {
+      case EXPORT_OPTIONS.dropbox:
+        return (
+          <React.Fragment>
+            {ExportSyncFavButton(AddFavIcon)}
+            {ImportSyncFavButton(AddFavIcon)}
+          </React.Fragment>
+        )
+    }
+    return (
+      <React.Fragment>
+        {ExportFavButton(AddFavIcon)}
+        {ImportFavButton(AddFavIcon)}
+      </React.Fragment>
+    )
   }
 
   return (
@@ -73,38 +105,55 @@ export const SettingsDialog = function ({ onClose, openState, settings,
         <DialogTitle>播放器设置</DialogTitle>
         <DialogContent>
         <Box>
-          {exportFavButton()}
-          {importFavButton()}
-          {exportSyncFavButton()}
-          {importSyncFavButton()}
+          {syncSetttingButtons()}
+          <TextField
+            id="player-settings-sync-method-select"
+            value={settingExportLocation}
+            label="云同步选择"
+            margin="dense"
+            select
+            onChange={(e) => setSettingExportLocation(e.target.value)}
+            style={{ minWidth: 100 }}
+          >
+            {Object.values(EXPORT_OPTIONS).map((v, i) => {
+                return (<MenuItem key={i} value={v}>{v}</MenuItem>)
+            })}
+          </TextField>
         </Box>
           <Tooltip title={skins(skin).maintainerTooltip}>
             <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
           </Tooltip>
-          <Select
-            labelId="player-settings-skin-select"
+          <TextField
             id="player-settings-skin-select"
             value={skin}
-            label="选择皮肤"
-            onChange={onSkinSelect}
+            select
+            onChange={(e) => setSkin(e.target.value)}
           >
             {SkinKeys.map((v, i) => {
                 return (<MenuItem key={i} value={v}>{v}</MenuItem>)
             })}
-          </Select>
+          </TextField>
           <p/>
-          <Tooltip title='选定后，会在歌单里显示提取后的歌名而非原本的视频标题；歌词搜索会一直使用提取后的歌名'>
+          <Tooltip title='在歌单里显示提取后的歌名'>
             <FormControlLabel 
               control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
               checked={parseSongName}
               label="使用提取的歌名" 
             />
           </Tooltip>
-          <Tooltip title='选定后，每天自动更新歌单的订阅'>
+          <Tooltip title='每天打开歌单时自动更新歌单的订阅'>
             <FormControlLabel 
               control={<Checkbox onChange={e => { setAutoRSSUpdate(e.target.checked) }}/>} 
               checked={autoRSSUpdate}
               label="自动更新订阅"
+            />
+          </Tooltip>
+          <p/>
+          <Tooltip title='搜索歌单时，按搜索的结果播放歌单'>
+            <FormControlLabel 
+              control={<Checkbox onChange={e => { setKeepSearchedSongListWhenPlaying(e.target.checked) }}/>} 
+              checked={keepSearchedSongListWhenPlaying}
+              label="播放搜索结果歌单"
             />
           </Tooltip>
         </DialogContent>

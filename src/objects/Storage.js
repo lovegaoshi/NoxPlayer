@@ -8,6 +8,10 @@ const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'
 const CURRENT_PLAYING = 'CurrentPlaying'
+export const EXPORT_OPTIONS = {
+    local: '本地',
+    dropbox: 'Dropbox',
+}
 
 const dummyFavList = (favName) => {
     return {
@@ -20,10 +24,15 @@ const dummyFavList = (favName) => {
     }
 }
 
-const defaultSetting = { 
+export const defaultSetting = { 
     playMode: 'shufflePlay',
     defaultPlayMode: 'shufflePlay',
     defaultVolume: 1,
+    autoRSSUpdate: false,
+    skin: "诺莺nox",
+    parseSongName: false,
+    keepSearchedSongListWhenPlaying: false,
+    settingExportLocation: EXPORT_OPTIONS.local,
 }
 
 export default class StorageManager {
@@ -180,12 +189,24 @@ export default class StorageManager {
 
     async getPlayerSetting() {
         const settings = await this.readLocalStorage(PLAYER_SETTINGS)
-        // console.log('setting1:' + settings)
+        // console.log(settings)
         if (settings == undefined) {
             this.setPlayerSetting(defaultSetting)
             return defaultSetting
         }
         return (settings)
+    }
+
+    async getPlayerSettingKey(key = null) {
+        let settings = await this.getPlayerSetting();
+        if (key === null) {
+            return settings;
+        }
+        if (settings.hasOwnProperty(key)) {
+            return settings.key;
+        } else {
+            return defaultSetting.key;
+        }
     }
 
     async setPlayerSetting(newSettings) {
