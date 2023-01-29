@@ -71,7 +71,7 @@ export const ClessSTheme = {
                 MuiPaper: {
                   styleOverrides: {
                         root: {
-                            backgroundColor: "grey",
+                            backgroundColor: "1E1E1E",
                             color: '#d3d3d3'
                         }
                   }
@@ -86,7 +86,7 @@ export const ClessSTheme = {
                 MuiTextField: {
                     styleOverrides: {
                         root: {
-                            backgroundColor: 'grey',
+                            backgroundColor: '1E1E1E',
                             color: '#d3d3d3'
                         },
                     }
@@ -94,7 +94,7 @@ export const ClessSTheme = {
                 MuiInputLabel: {
                     styleOverrides: {
                         root: {
-                            backgroundColor: 'grey',
+                            backgroundColor: '1E1E1E',
                             color: '#d3d3d3'
                         },
                     }

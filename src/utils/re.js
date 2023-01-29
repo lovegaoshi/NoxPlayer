@@ -1,15 +1,22 @@
 import { extractSongName } from './Data';
 
+/**
+ * truncate the first left parenthesis and return the leftover string.
+ * @param {string} filename 
+ * @returns  the extracted string
+ */
 const extractParenthesis = (filename) => {
-    let extracted = /(.+)[（\(].+/.exec(filename); 
-    if (extracted) {
-        return extracted[1];
-    } else {
-        return filename;
-    }
+    return extractWith(filename, [/(.+)[（\(].+/]);
 }
 
-const extractWith = (filename, reExpressions = []) => {
+/**
+ * return the first matched value of a string against an array of regex.
+ * if nothing matches, the original string is returned.
+ * @param {string} filename 
+ * @param {Array} reExpressions 
+ * @returns the extracted string
+ */
+export const extractWith = (filename, reExpressions = []) => {
     for (let i=0, n=reExpressions.length; i<n; i++) {
         let extracted = reExpressions[i].exec(filename);
         if (extracted !== null) {
@@ -19,6 +26,12 @@ const extractWith = (filename, reExpressions = []) => {
     return filename;
 }
 
+/**
+ * extract songnames with custom regex based on the uploader.
+ * @param {string} filename 
+ * @param {string} uploader 
+ * @returns 
+ */
 export const reExtractSongName = (filename, uploader = '') => {
     let extracted = null;
     switch (String(uploader)) {

@@ -133,7 +133,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
                 return (<MenuItem key={i} value={v}>{v}</MenuItem>)
             })}
           </TextField>
-          <p/>
+          <div/>
           <Tooltip title='在歌单里显示提取后的歌名'>
             <FormControlLabel 
               control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
@@ -148,7 +148,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
               label="自动更新订阅"
             />
           </Tooltip>
-          <p/>
+          <div/>
           <Tooltip title='搜索歌单时，按搜索的结果播放歌单'>
             <FormControlLabel 
               control={<Checkbox onChange={e => { setKeepSearchedSongListWhenPlaying(e.target.checked) }}/>} 

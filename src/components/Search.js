@@ -6,6 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
+import { extractWith } from '../utils/re';
 
 export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('Search')} }) => {
     return {
@@ -14,14 +15,15 @@ export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单
     }
 }
 
+/**
+ * searches various types of supported bilibili url (BVid, collection, series, favlist) and 
+ * returns the serached result.
+ * @param {string}  input  input, can be a biliseries list url, or bvid, or fid
+ * @param {function} progressEmitter    a emitter for ciurcularprogress.
+ * @param {array} favList a list of old BVIds; any BVid included in this list will not be processed for efficiency.
+ */
 export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favList = []) => {
-    /**
-     * @param {string}  input  input, can be a biliseries list url, or bvid, or fid
-     * @param {function} progressEmitter    a emitter for ciurcularprogress.
-     * @param {array} favList a list of old BVIds; any BVid included in this list will not be processed for efficiency.
-     */
     let list = defaultSearchList({})
-    console.debug(list)
     
     try {    
         let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
@@ -43,30 +45,25 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
                 .then((songs) => {return songs})
             throw 're matched bilichannel; raising a dummy error breaking loop.'
         }
-        reExtracted = /.*bilibili\.com\/video\/(BV.+)\/.*/.exec(input)
-        if (reExtracted !== null) {
-            input = reExtracted[1]
-        }
+        input = extractWith(input, [
+            /(BV[^/]+)/,
+            /.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/,
+        ])
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
             .then((songs) => {return songs})
-            throw 're matched single BVID; raising a dummy error breaking loop.'
+        } else if (!isNaN(Number(input))) {
+            list.songList = await getFavList(input, progressEmitter, favList)
+            .then((songs) => {return songs})    
+        } else {
+            console.warning(input, 'search string is not valid.')
         }
-        // Handles Fav search
-        // https://space.bilibili.com/94558176/favlist?fid=314856176
-        reExtracted = /.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/.exec(input)
-        if (reExtracted !== null) {
-            input = reExtracted[1]
-        }
-        list.songList = await getFavList(input, progressEmitter, favList)
-        .then((songs) => {return songs})
         
     } catch (err) {
         if (!err.startsWith('re matched')) {
             console.warn(err)
         }
     }
-    console.debug('searched bv list', list)
     return list
 }
 
