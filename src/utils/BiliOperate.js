@@ -1,8 +1,21 @@
+/**
+ * get a cookie using chrome.cookies.get.
+ * @param {string} domain url of the cookie, eg bilibili.com
+ * @param {string} name name of the cookie, eg SESSIONDATA
+ * @returns 
+ */
 const getCookie = async (domain, name) => {
     return chrome.cookies.get({ "url": domain, "name": name });
 }
 
-export const checkBVLiked = (bvid, onChecked) => {
+/**
+ * use api.bilibili.com/x/web-interface/archive/has/like?bvid=
+ * to check if a bvid is liked by the current logged in bilibili user.
+ * @param {string} bvid bvid of the bilibili video.
+ * @param {function} onChecked callback  function with the input parameter of the 
+ * looked up json API return.
+ */
+export const checkBVLiked = (bvid, onChecked = () => {}) => {
     fetch('https://api.bilibili.com/x/web-interface/archive/has/like?bvid=' + bvid, {
             credentials: 'include',
             referer: 'https://www.bilibili.com/video/' + bvid + '/',
@@ -12,7 +25,13 @@ export const checkBVLiked = (bvid, onChecked) => {
         .catch(error => onChecked(undefined))
 }
 
-export const sendBVLike = (bvid, onLiked) => {
+/**
+ * use https://api.bilibili.com/x/web-interface/archive/like to like a video.
+ * @param {string} bvid bvid of the bilibili video.
+ * @param {function} onLiked callback function with the input parameter of the 
+ * looked up json API return.
+ */
+export const sendBVLike = (bvid, onLiked = () => {}) => {
     getCookie('https://www.bilibili.com', 'bili_jct')
     .then(promised => {
         fetch('https://api.bilibili.com/x/web-interface/archive/like', {

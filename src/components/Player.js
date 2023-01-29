@@ -7,7 +7,6 @@ import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
-import SnackBar from './SnackBar';
 
 // Initial Player options
 let options = {
@@ -40,8 +39,6 @@ export const Player = function ({ songList }) {
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [bvidLiked, setBvidLiked] = useState(0)
-    const [snackBarOpen, setSnackBarOpen] = useState(false)
-    const [snackBarMsg, setSnackBarMsg] = useState('this is a snackbar message')
     const favListAutoUpdateTimestamps = useRef({})
 
     const checkFavListAutoUpdate = ({favList, updateInterval = 1000*60*60*24}) => {
@@ -54,17 +51,11 @@ export const Player = function ({ songList }) {
         return false;
     }
 
-    const showMsg = ({ msg, type = 'success' }) => {
-        setSnackBarOpen(true);
-        setSnackBarMsg(msg);
-    }
-
     useEffect(() => {
         if (!currentAudio.name) {
             return;
         }
         document.title = currentAudio.name + ' - ' + skins().appTitle;
-        // setSnackBarOpen(true);
     }, [currentAudio.name])
     
     const updateCurrentAudioList = useCallback(({ 
@@ -265,12 +256,6 @@ export const Player = function ({ songList }) {
     // console.log(currentAudio)
     return (
         <React.Fragment>
-            <SnackBar 
-                open={snackBarOpen}
-                setOpen={setSnackBarOpen}
-                message={snackBarMsg}
-            >
-            </SnackBar>
             {params && <FavList currentAudioList={params.audioLists}
                 onSongIndexChange={playByIndex}
                 onPlayOneFromFav={onPlayOneFromFav}
