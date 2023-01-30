@@ -35,9 +35,12 @@ export const defaultSetting = {
     settingExportLocation: EXPORT_OPTIONS.local,
 }
 
-/** 
- * 
-*/
+/**
+ * wrapper for chrome.storage.local.get. return the 
+ * local stored objects given a key.
+ * @param {string} key 
+ * @returns 
+ */
 export const readLocalStorage = async (key) => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get([key], function (result) {
@@ -46,6 +49,11 @@ export const readLocalStorage = async (key) => {
     });
 };
 
+/**
+ * wrapper for getting the current playerSetting.
+ * if setting is not initialized, initialize and return the default one.
+ * @returns playerSetting
+ */
 const getPlayerSetting = async () => {
     const settings = await readLocalStorage(PLAYER_SETTINGS);
     // console.log(settings)
@@ -56,6 +64,12 @@ const getPlayerSetting = async () => {
     return (settings);
 }
 
+/**
+ * wrapper for getting the current playerSetting's value given a key.
+ * if key doesnt exist (an older version?) then return the default value.
+ * @param {string} key 
+ * @returns value in playerSetting
+ */
 export const getPlayerSettingKey = async(key = null) => {
     let settings = await getPlayerSetting();
     if (key === null) {

@@ -33,7 +33,7 @@ import { skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
 import RandomGIFIcon from './randomGIF';
-import { getPlayerSettingKey } from '../objects/Storage';
+import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -169,11 +169,26 @@ export const Fav = (function ({
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [searchBarVal, setSearchBarVal] = useState('');
 
+    const primePageToCurrentPlaying = () => {
+        try {
+            const songList = rows === null? FavList.songList : rows
+            readLocalStorage('CurrentPlaying').then((r) => {
+                for (let i=0, n=songList.length; i<n; i++) {
+                    if (songList[i].id == r.cid) {
+                        setPage(Math.floor(i / defaultRowsPerPage));
+                        break;
+                    }
+                }});
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     useEffect(() => {
         setCurrentFavList(FavList)
         setRowsPerPage(defaultRowsPerPage)
         requestSearch({target:{value:''}})
-        //console.log(FavList)
+        primePageToCurrentPlaying()
     }, [FavList])
     
     const requestSearch = (e) => {
@@ -277,7 +292,11 @@ export const Fav = (function ({
 
                             </Grid>
                             <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
-                                <RandomGIFIcon gifs={skinPreset.gifs} favList={currentFavList.info.id + page.toString()}></RandomGIFIcon>
+                                <RandomGIFIcon 
+                                    gifs={skinPreset.gifs}
+                                    favList={currentFavList.info.id + page.toString()}
+                                    onClickCallback={primePageToCurrentPlaying}
+                                />
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <Tooltip title="歌单设置">

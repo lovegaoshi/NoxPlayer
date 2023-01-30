@@ -153,7 +153,6 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
 // method is copied from fetchFavList. when list gets large enough there 
 // might be a API ban issue. might need to transition into a series promise solver.
 export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []) => {
-    console.log(favList)
     logger.info("calling fetchBiliColleList")
     const res = await fetch(URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', 1))
     const json = await res.clone().json()
@@ -193,7 +192,6 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
 // might be a API ban issue. might need to transition into a series promise solver.
 // see https://gist.github.com/jcouyang/632709f30e12a7879a73e9e132c0d56b#file-readme-org
 export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) => {
-    console.log(favList)
     logger.info("calling fetchBiliColleList")
     const res = await fetch(URL_BILICHANNEL_INFO.replace('{mid}', mid).replace('{pn}', 1))
     const json = await res.clone().json()
