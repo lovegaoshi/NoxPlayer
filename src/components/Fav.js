@@ -169,12 +169,24 @@ export const Fav = (function ({
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [searchBarVal, setSearchBarVal] = useState('');
 
+    /**
+     * because of delayed state update/management, we need a reliable way to get
+     * the current row. return rows when currentFavList is the same as the Favlist props.
+     */
+    const getCurrentRow = () => {
+        if (currentFavList !== null && rows !== null && currentFavList.info.id === FavList.info.id) {
+            return rows;
+        }
+        return FavList.songList;
+    }
+
     const primePageToCurrentPlaying = () => {
         try {
-            const songList = rows === null? FavList.songList : rows
+            const songList = getCurrentRow();
             readLocalStorage('CurrentPlaying').then((r) => {
                 for (let i=0, n=songList.length; i<n; i++) {
                     if (songList[i].id == r.cid) {
+                        console.log(i);
                         setPage(Math.floor(i / defaultRowsPerPage));
                         break;
                     }
