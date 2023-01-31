@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { ScrollBar } from "../styles/styles";
 import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
@@ -32,8 +32,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import RandomGIFIcon from './randomGIF';
 import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
+import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -70,6 +74,8 @@ export const songText = {
     fontSize: 16,
     minWidth: 0,
     overflow: 'hidden',
+    paddingBottom: '4px',
+    paddingTop: '4px',
 }
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -168,6 +174,7 @@ export const Fav = (function ({
     const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [searchBarVal, setSearchBarVal] = useState('');
+    const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
 
     /**
      * because of delayed state update/management, we need a reliable way to get
@@ -186,7 +193,6 @@ export const Fav = (function ({
             readLocalStorage('CurrentPlaying').then((r) => {
                 for (let i=0, n=songList.length; i<n; i++) {
                     if (songList[i].id == r.cid) {
-                        console.log(i);
                         setPage(Math.floor(i / defaultRowsPerPage));
                         break;
                     }
@@ -252,7 +258,10 @@ export const Fav = (function ({
                 >
                     <ListItemButton variant="text" sx={songText} onClick={() => getPlayerSettingKey('keepSearchedSongListWhenPlaying').then((val) => {
                         onSongIndexChange([song], {songList: val? rows : FavList.songList})
-                    })} >{getName(song, playerSettings.parseSongName)}</ListItemButton>
+                    })}>
+                        {song.id === currentAudio.id && <ListItemIcon sx={{ minWidth: '30px' }}><PlayCircleIcon/></ListItemIcon>}
+                        <ListItemText primary={getName(song, playerSettings.parseSongName)}></ListItemText>
+                    </ListItemButton>
                 </StyledTableCell>
                 <StyledTableCell align="center" sx={{
                     width: '10%', fontSize: 4,

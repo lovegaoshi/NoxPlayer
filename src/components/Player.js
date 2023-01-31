@@ -7,6 +7,7 @@ import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
+import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 
 // Initial Player options
 let options = {
@@ -29,7 +30,7 @@ export const Player = function ({ songList }) {
     // Playing List
     const [playingList, setplayingList] = useState(null)
     // Current Audio info
-    const [currentAudio, setcurrentAudio] = useState({})
+    const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext)
     // Current Audio Inst
     const [currentAudioInst, setcurrentAudioInst] = useState(null)
     // Lyric Dialog

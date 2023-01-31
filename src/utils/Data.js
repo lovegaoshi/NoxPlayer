@@ -31,6 +31,12 @@ const URL_QQ_SEARCH = "https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key
 // QQ LyricSearchAPI
 const URL_QQ_LYRIC = "https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1"
 
+/**
+ * 
+ * @param {string} bvid 
+ * @param {string} cid 
+ * @returns 
+ */
 export const fetchPlayUrlPromise = async (bvid, cid) => {
     // Fetch cid from bvid if needed
     if (!cid)
@@ -56,6 +62,11 @@ export const fetchPlayUrlPromise = async (bvid, cid) => {
     }));
 }
 
+/**
+ * 
+ * @param {string} bvid 
+ * @returns 
+ */
 export const fetchCID = async (bvid) => {
     //console.log('Data.js Calling fetchCID:' + URL_BVID_TO_CID.replace("{bvid}", bvid))
     const res = await fetch(URL_BVID_TO_CID.replace("{bvid}", bvid))
@@ -93,7 +104,11 @@ export const fetchLRC = async (name, setLyric, setSongTitle) => {
 
 }
 
-
+/**
+ * 
+ * @param {string} bvid 
+ * @returns 
+ */
 export const fetchVideoInfoRaw = async (bvid) => {
     logger.info("calling fetchVideoInfo")
     const res = await fetch(URL_VIDEO_INFO.replace('{bvid}', bvid))
@@ -110,10 +125,16 @@ export const fetchVideoInfoRaw = async (bvid) => {
             bvid)
         return v
     } catch (error) {
-        console.log('Some issue happened when fetching', bvid)
+        console.warning('Some issue happened when fetching', bvid)
     }
 }
 
+/**
+ * 
+ * @param {string} bvid 
+ * @param {function} progressEmit 
+ * @returns 
+ */
 export const fetchVideoInfo = async (bvid, progressEmit = () => {}) => {
     return biliApiLimiter.schedule(() => {
         progressEmit()
@@ -121,10 +142,18 @@ export const fetchVideoInfo = async (bvid, progressEmit = () => {}) => {
     })
 }
 
-// fetch biliseries. copied from yt-dlp.
-// this API does not provide the total number of videos in a list, but will return an empty list if 
-// the queried page exceeds the number of videos; so use a while loop and break when empty is detected
-// everything else is copied from fetchFavList
+
+/**
+ * fetch biliseries. copied from yt-dlp.
+ * this API does not provide the total number of videos in a list, but will return an empty list if 
+ * the queried page exceeds the number of videos; so use a while loop and break when empty is detected
+ * everything else is copied from fetchFavList.
+ * @param {string} mid 
+ * @param {string} sid 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
 export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = []) => {
     logger.info("calling fetchBiliSeriesList")
     let page = 0
@@ -148,10 +177,16 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
     return videoInfos
 }
 
+/**
+ * 
 // copied from ytdlp. applies to collections such as:
 // https://space.bilibili.com/287837/channel/collectiondetail?sid=793137
-// method is copied from fetchFavList. when list gets large enough there 
-// might be a API ban issue. might need to transition into a series promise solver.
+ * @param {string} mid 
+ * @param {string} sid 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
 export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []) => {
     logger.info("calling fetchBiliColleList")
     const res = await fetch(URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', 1))
@@ -186,11 +221,15 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
     return videoInfos
 }
 
+/**
+ * 
 // copied from ytdlp. applies to bibibili channels such as:
 // https://space.bilibili.com/355371630/video
-// method is copied from fetchFavList. when list gets large enough there 
-// might be a API ban issue. might need to transition into a series promise solver.
-// see https://gist.github.com/jcouyang/632709f30e12a7879a73e9e132c0d56b#file-readme-org
+ * @param {string} mid 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
 export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) => {
     logger.info("calling fetchBiliColleList")
     const res = await fetch(URL_BILICHANNEL_INFO.replace('{mid}', mid).replace('{pn}', 1))
@@ -225,12 +264,14 @@ export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) =
     return videoInfos
 }
 
-// copied from ytdlp. applies to bibibili channels such as:
-// https://space.bilibili.com/355371630/video
-// method is copied from fetchFavList. when list gets large enough there 
-// might be a API ban issue. might need to transition into a series promise solver.
-// see https://gist.github.com/jcouyang/632709f30e12a7879a73e9e132c0d56b#file-readme-org
-export const fetchGenericPaginatedList = async ({ url, progressEmitter, favList = [] }) => {
+/**
+ * 
+ * @param {string} url 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
+export const fetchGenericPaginatedList = async (url, progressEmitter, favList = []) => {
     logger.info("calling fetchGenricPaginatedList");
     url = 'https://steria.vplayer.tk/api/musics/{pn}';
     let res = await fetch(url.replace('{pn}', 1));
@@ -244,6 +285,15 @@ export const fetchGenericPaginatedList = async ({ url, progressEmitter, favList 
     return videoInfos
 }
 
+/**
+ * 
+// copied from ytdlp. applies to bibibili fav lists such as:
+// https://space.bilibili.com/355371630/video
+ * @param {string} mid 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
 export const fetchFavList = async (mid, progressEmitter, favList = []) => {
     logger.info("calling fetchFavList")
     const res = await fetch(URL_FAV_LIST.replace('{mid}', mid).replace('{pn}', 1))
@@ -280,7 +330,12 @@ export const fetchFavList = async (mid, progressEmitter, favList = []) => {
     return videoInfos
 }
 
-// Private Util to extract json according to https://github.com/SocialSisterYi/bilibili-API-collect
+/**
+ * Private Util to extract json, see https://github.com/SocialSisterYi/bilibili-API-collect
+ * @param {Object} json 
+ * @param {string} field 
+ * @returns 
+ */
 const extractResponseJson = (json, field) => {
     if (field === 'AudioUrl') {
         return json.data.dash.audio[0].baseUrl
@@ -291,6 +346,11 @@ const extractResponseJson = (json, field) => {
     }
 }
 
+/**
+ * use regex to extract songnames from a string. default to whatever in 《》
+ * @param {string} name 
+ * @returns parsed songname.
+ */
 export const extractSongName = (name) => {
     const nameReg = new RegExp("《.*》"); // For single-list BVID, we need to extract name from title
     const res = nameReg.exec(name)

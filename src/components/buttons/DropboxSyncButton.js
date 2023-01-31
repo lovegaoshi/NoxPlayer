@@ -25,7 +25,7 @@ export const ImportSyncFavButton = (AddFavIcon) => {
         let response = await noxRestore();
         if (response !== null) {
             await StorageManager.importStorageRaw(response);
-            enqueueSnackbar("歌单同步自Dropbox成功！", { variant: 'success', autoHideDuration: 2000 });
+            enqueueSnackbar("歌单同步自Dropbox成功！", { variant: 'success', autoHideDuration: 4000 });
         } else {
             errorHandling('云端歌单不存在', '云端歌单不存在');
         }
@@ -68,7 +68,7 @@ export const ExportSyncFavButton = (AddFavIcon) => {
         let exportedDict = await StorageManager.exportStorageRaw();
         let response = await noxBackup(exportedDict);
         if (response.status === 200) {
-            enqueueSnackbar("歌单上传到Dropbox成功！", { variant: 'success', autoHideDuration: 2000 });
+            enqueueSnackbar("歌单上传到Dropbox成功！", { variant: 'success', autoHideDuration: 4000 });
         } else {
             errorHandling(response);
         }
