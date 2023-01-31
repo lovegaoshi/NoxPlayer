@@ -34,7 +34,7 @@ import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import RandomGIFIcon from './randomGIF';
+import RandomGIFIcon from './buttons/randomGIF';
 import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -346,6 +346,7 @@ export const Fav = (function ({
                                     label="搜索歌曲"
                                     onChange={requestSearch}
                                     autoComplete='off'
+                                    type="search"
                                 />
                             </Grid>
                         </Grid>

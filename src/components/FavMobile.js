@@ -27,7 +27,7 @@ import { skinPreset } from '../styles/skin';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
-import RandomGIFIcon from './randomGIF';
+import RandomGIFIcon from './buttons/randomGIF';
 
 let colorTheme = skinPreset.colorTheme;
 

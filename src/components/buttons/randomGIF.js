@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import IconButton from '@mui/material/IconButton';
-import { getRandomNumberExclude } from '../styles/skins/utils';
+import { getRandomNumberExclude } from '../../styles/skins/utils';
 
 /**
  * returns a button that shows a random gif from the input array. when clicked, change the gif into another one.  
