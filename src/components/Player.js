@@ -8,6 +8,7 @@ import StorageManagerCtx from '../popup/App';
 import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
+// import { oath2agent } from "../utils/dropboxauth";
 
 // Initial Player options
 let options = {
@@ -235,8 +236,10 @@ export const Player = function ({ songList }) {
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
+            if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
             options.extendsContent = BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
+            // oath2agent.onBtnClick()
             // chrome.storage.local.set({ ['CurrentPlaying']: {} })
             const params = {
                 ...options,

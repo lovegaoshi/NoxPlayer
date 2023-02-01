@@ -47,7 +47,10 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         }
         input = extractWith(input, [
             /(BV[^/?]+)/,
+            // favlist url from a channel page: https://space.bilibili.com/429765143/favlist?fid=452404943
             /.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/,
+            // https://www.bilibili.com/medialist/detail/ml452404943?type=1
+            /.*bilibili\.com\/medialist\/detail\/ml(\d+)/,
         ])
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)

@@ -228,6 +228,7 @@ export const PlayerMobile = function ({ songList }) {
         async function initPlayer() {
             let setting = await StorageManager.getPlayerSetting()
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
+            if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
             options.extendsContent = BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
             // chrome.storage.local.set({ ['CurrentPlaying']: {} })
