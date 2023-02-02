@@ -11,6 +11,7 @@ const CURRENT_PLAYING = 'CurrentPlaying'
 export const EXPORT_OPTIONS = {
     local: '本地',
     dropbox: 'Dropbox',
+    personal: '私有云',
 }
 
 const dummyFavList = (favName) => {

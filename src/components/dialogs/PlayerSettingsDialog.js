@@ -15,6 +15,7 @@ import { defaultSetting, EXPORT_OPTIONS } from '../../objects/Storage';
 import TextField from '@mui/material/TextField';
 import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
 import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
+import { ExportSyncFavButton as PersonalExportSyncFavButton, ImportSyncFavButton as PersonalImportSyncFavButton } from "../buttons/PersonalSyncButton";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -38,6 +39,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
   const [autoRSSUpdate, setAutoRSSUpdate] = useState(defaultSetting.autoRSSUpdate)
   const [settingExportLocation, setSettingExportLocation] = useState(defaultSetting.settingExportLocation)
   const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(defaultSetting.keepSearchedSongListWhenPlaying)
+  const [personalCloudIP, setPersonalCloudIP] = useState("")
   
   const setSettings = (setFunc, value = undefined, defaultValue = undefined) => {
     if (value !== undefined) {
@@ -60,6 +62,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     setSettings(setAutoRSSUpdate, settings.autoRSSUpdate);
     setSettings(setSettingExportLocation, settings.settingExportLocation);
     setSettings(setKeepSearchedSongListWhenPlaying, settings.keepSearchedSongListWhenPlaying);
+    setSettings(setPersonalCloudIP, settings.personalCloudIP, "");
   }
   // load settings into this dialog
   useEffect( () => {
@@ -88,6 +91,13 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
           <React.Fragment>
             {ExportSyncFavButton(AddFavIcon)}
             {ImportSyncFavButton(AddFavIcon)}
+          </React.Fragment>
+        )
+      case EXPORT_OPTIONS.personal:
+        return (
+          <React.Fragment>
+            {PersonalExportSyncFavButton(AddFavIcon)}
+            {PersonalImportSyncFavButton(AddFavIcon)}
           </React.Fragment>
         )
     }

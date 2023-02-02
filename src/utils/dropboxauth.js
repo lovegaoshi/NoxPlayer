@@ -1,5 +1,4 @@
 import { DropboxAuth, Dropbox as _Dropbox } from 'dropbox';
-import _ from 'lodash';
 
 const DEFAULT_FILE_NAME = 'nox.json';
 const DEFAULT_FILE_PATH = '/' + DEFAULT_FILE_NAME;

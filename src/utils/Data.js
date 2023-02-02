@@ -3,32 +3,61 @@ import VideoInfo from "../objects/VideoInfo";
 import Bottleneck from "bottleneck";
 
 const logger = new Logger("Data.js")
+/**
+ * limits to bilibili API call to 200ms/call using bottleneck. 
+ * 100ms/call seems to brick IP after ~ 400 requests.
+ */
 const biliApiLimiter = new Bottleneck({
-    // limits to bilibili API call to 200ms/call.
     minTime: 200,
     maxConcurrent: 5,
 })
-// Video src info
+/**
+ *  Video src info
+ */
 const URL_PLAY_URL = "https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16"
-// BVID -> CID
+/**
+ *  BVID -> CID
+ */
 const URL_BVID_TO_CID = "https://api.bilibili.com/x/player/pagelist?bvid={bvid}&jsonp=jsonp"
-// Video Basic Info
+/**
+ *  Video Basic Info
+ */
 const URL_VIDEO_INFO = "http://api.bilibili.com/x/web-interface/view?bvid={bvid}"
-// channel series API Extract Info
+/**
+ *  channel series API Extract Info
+ */
 const URL_BILISERIES_INFO = "https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30"
-// channel series API Extract Info
+/**
+ *  channel series API Extract Info
+ */
 const URL_BILICOLLE_INFO = 'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=30'
-// channel API Extract Info
+/**
+ *  channel API Extract Info
+ */
 const URL_BILICHANNEL_INFO = "https://api.bilibili.com/x/space/arc/search?mid={mid}&pn={pn}&jsonp=jsonp"
-// Fav List
+/**
+ *  Fav List
+ */
 const URL_FAV_LIST = "https://api.bilibili.com/x/v3/fav/resource/list?media_id={mid}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web&jsonp=jsonp"
-// LRC Mapping
+/**
+ *  BILIBILI search API. 
+ */
+const URL_BILI_SEARCH = "https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}"
+/**
+ *  LRC Mapping
+ */
 const URL_LRC_MAPPING = "https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/mappings.txt"
-// LRC Base
+/**
+ *  LRC Base
+ */
 const URL_LRC_BASE = "https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/{songFile}"
-// QQ SongSearch API
+/**
+ *  QQ SongSearch API
+ */
 const URL_QQ_SEARCH = "https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key={KeyWord}"
-// QQ LyricSearchAPI
+/**
+ *  QQ LyricSearchAPI
+ */
 const URL_QQ_LYRIC = "https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1"
 
 /**
