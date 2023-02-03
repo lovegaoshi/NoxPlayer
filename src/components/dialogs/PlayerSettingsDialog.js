@@ -5,17 +5,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { Checkbox } from '@mui/material';
 import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
 import { defaultSetting, EXPORT_OPTIONS } from '../../objects/Storage';
-import TextField from '@mui/material/TextField';
 import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
 import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
-import { ExportSyncFavButton as PersonalExportSyncFavButton, ImportSyncFavButton as PersonalImportSyncFavButton } from "../buttons/PersonalSyncButton";
+import { ExportSyncFavButton as PersonalExportSyncFavButton, ImportSyncFavButton as PersonalImportSyncFavButton, setPersonalCloudTextField } from "../buttons/PersonalSyncButton";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -81,6 +80,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     updatedSettingObj.autoRSSUpdate = autoRSSUpdate
     updatedSettingObj.settingExportLocation = settingExportLocation
     updatedSettingObj.keepSearchedSongListWhenPlaying = keepSearchedSongListWhenPlaying
+    updatedSettingObj.personalCloudIP = personalCloudIP
     onClose(updatedSettingObj)
   }
 
@@ -96,8 +96,9 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
       case EXPORT_OPTIONS.personal:
         return (
           <React.Fragment>
-            {PersonalExportSyncFavButton(AddFavIcon)}
-            {PersonalImportSyncFavButton(AddFavIcon)}
+            {PersonalExportSyncFavButton(AddFavIcon, personalCloudIP)}
+            {PersonalImportSyncFavButton(AddFavIcon, personalCloudIP)}
+            {setPersonalCloudTextField(personalCloudIP, setPersonalCloudIP)}
           </React.Fragment>
         )
     }
@@ -133,17 +134,17 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
           <Tooltip title={skins(skin).maintainerTooltip}>
             <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
           </Tooltip>
-          <TextField
-            id="player-settings-skin-select"
-            value={skin}
-            select
-            onChange={(e) => setSkin(e.target.value)}
-          >
-            {SkinKeys.map((v, i) => {
-                return (<MenuItem key={i} value={v}>{v}</MenuItem>)
-            })}
-          </TextField>
-          <div/>
+            <TextField
+              id="player-settings-skin-select"
+              value={skin}
+              select
+              onChange={(e) => setSkin(e.target.value)}
+            >
+              {SkinKeys.map((v, i) => {
+                  return (<MenuItem key={i} value={v}>{v}</MenuItem>)
+              })}
+            </TextField>
+            <div/>
           <Tooltip title='在歌单里显示提取后的歌名'>
             <FormControlLabel 
               control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 

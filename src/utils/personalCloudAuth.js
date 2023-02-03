@@ -10,7 +10,7 @@
  * check out the fastAPI docker I set up to your router/NAS/VPS to get started.
  * 
  */
-
+import { getPlayerSettingKey } from '../objects/Storage';
 
 /**
  * a simple personal cloud built with fastAPI. uses the current bili user
@@ -32,37 +32,49 @@ export const getBiliUserKey = async () => {
  * wraps up find noxplayer setting and download in one function;
  * returns the JSON object of settting or null if not found.
  * @returns playerSetting object, or null
+ * @param {string} cloudAddress web address for your personal cloud.
  */
-export const noxRestore = async () => {
-  let res = await fetch(
-    process.env.PERSONAL_CLOUD_SERVER + 'download/' + await getBiliUserKey()
-  );
-  if (res.status === 200) {
-    return await (res).json();
-  }
+export const noxRestore = async (cloudAddress = getPlayerSettingKey('personalCloudIP')) => {
+  try {
+    let res = await fetch(
+      await cloudAddress + 'download/' + await getBiliUserKey()
+    );
+    if (res.status === 200) {
+      return await (res).json();
+    }
+  } catch {
+  } 
   return null;
+  
+
 }
 
 /**
  * wraps up upload noxplayer setting. returns the response
  * if successful.
  * @param {Object} content 
+ * @param {string} cloudAddress web address for your personal cloud.
  * @returns 
  */
-export const noxBackup = async (content) => {
-  return await fetch(
-    process.env.PERSONAL_CLOUD_SERVER + 'upload',
-    {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userid: await getBiliUserKey(),
-        json_obj: content,
-        secret_key: process.env.PERSONAL_CLOUD_SECRET
-      }),
-    }
-  );
+export const noxBackup = async (content, cloudAddress = getPlayerSettingKey('personalCloudIP')) => {
+  try {
+    return await fetch(
+      await cloudAddress + 'upload',
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userid: await getBiliUserKey(),
+          json_obj: content,
+          secret_key: process.env.PERSONAL_CLOUD_SECRET
+        }),
+      }
+    );
+  } catch {
+    return {status: "fetch failed."};
+  }
+  
 }

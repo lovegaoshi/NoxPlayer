@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
-export const ImportSyncFavButton = (AddFavIcon) => {
+export const ImportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
     const StorageManager = useContext(StorageManagerCtx);
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export const ImportSyncFavButton = (AddFavIcon) => {
 
     const cloudDownload = async () => {
         setLoading(true);
-        let response = await noxRestore();
+        let response = await noxRestore(cloudAddress);
         if (response !== null) {
             await StorageManager.importStorageRaw(response);
             enqueueSnackbar("歌单同步自私有云成功！", { variant: 'success', autoHideDuration: 4000 });
@@ -48,7 +48,7 @@ export const ImportSyncFavButton = (AddFavIcon) => {
     )
 }
 
-export const ExportSyncFavButton = (AddFavIcon) => {
+export const ExportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
     const StorageManager = useContext(StorageManagerCtx);
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ export const ExportSyncFavButton = (AddFavIcon) => {
     const cloudUpload = async () => {
         setLoading(true);
         let exportedDict = await StorageManager.exportStorageRaw();
-        let response = await noxBackup(exportedDict);
+        let response = await noxBackup(exportedDict, cloudAddress);
         if (response.status === 200) {
             enqueueSnackbar("歌单上传到私有云成功！", { variant: 'success', autoHideDuration: 4000 });
         } else {
@@ -97,6 +97,7 @@ export const setPersonalCloudTextField = (val, setVal) => {
             onChange={(e) => setVal(e.target.value)}
             value={val}
             autoComplete="off"
+            placeholder="末尾带/"
         />
     )
 }

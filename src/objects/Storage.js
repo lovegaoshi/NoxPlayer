@@ -34,6 +34,7 @@ export const defaultSetting = {
     parseSongName: false,
     keepSearchedSongListWhenPlaying: false,
     settingExportLocation: EXPORT_OPTIONS.local,
+    personalCloudIP: "",
 }
 
 /**
