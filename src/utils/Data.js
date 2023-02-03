@@ -154,7 +154,7 @@ export const fetchVideoInfoRaw = async (bvid) => {
             bvid)
         return v
     } catch (error) {
-        console.warning('Some issue happened when fetching', bvid)
+        console.warn('Some issue happened when fetching', bvid)
     }
 }
 
@@ -174,9 +174,8 @@ export const fetchVideoInfo = async (bvid, progressEmit = () => {}) => {
 
 /**
  * fetch biliseries. copied from yt-dlp.
- * this API does not provide the total number of videos in a list, but will return an empty list if 
- * the queried page exceeds the number of videos; so use a while loop and break when empty is detected
- * everything else is copied from fetchFavList.
+ * unlike other APIs, biliseries API can return all videos in the series by using page number = 0. 
+ * thus this does not need to use the generic paginated function. 
  * @param {string} mid 
  * @param {string} sid 
  * @param {function} progressEmitter 
@@ -191,7 +190,6 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
     let data = json.data
 
     let BVidPromises = []
-    // albeit slow, this is a good way to not get banned....
     for (let i=0, n=data.archives.length; i < n; i++) {
         if (favList.includes(data.archives[i].bvid)) {
             console.debug('skipped duplicate bvid during rss feed update', data.archives[i].bvid)
@@ -207,6 +205,53 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
 }
 
 /**
+ * a universal bvid retriever for all bilibili paginated APIs. used to reduce 
+ * redundant codes in bilibili collection, favlist and channel.
+ * @param {string} url 
+ * @param {function} getMediaCount 
+ * @param {function} getPageSize 
+ * @param {function} getItems 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
+export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = []) => {
+    const res = await fetch(url.replace('{pn}', 1))
+    const json = await res.clone().json()
+    const data = json.data
+
+    const mediaCount = getMediaCount(data)
+    const BVids = []
+    const BVidPromises = []
+    const pagesPromises = [res]
+
+    for (let page = 2; page <= 1 + Math.floor(mediaCount / getPageSize(data)); page++) {
+        pagesPromises.push(await fetch(url.replace('{pn}', page)))
+    }
+
+    let videoInfos = []
+    await Promise.all(pagesPromises)
+        .then(async function (v) {
+            for (let index = 0, n = v.length; index < n; index++) {
+                await v[index].json().then(js => getItems(js).map(m => {
+                    if (!favList.includes(m.bvid)) {
+                        BVids.push(m.bvid)
+                    }
+                }))
+            }
+            // i dont know the smart way to do this out of the async loop, though lucky that O(2n) isnt that big of a deal
+            for (let index = 0, n=BVids.length; index < n; index ++) {
+                BVidPromises.push(fetchVideoInfo(BVids[index], () => {progressEmitter(parseInt(100 * (index + 1) / mediaCount))}))
+            }
+            await Promise.all(BVidPromises).then(res => {
+                videoInfos = res
+            })
+        })
+
+    return videoInfos
+}
+
+/**
  * 
 // copied from ytdlp. applies to collections such as:
 // https://space.bilibili.com/287837/channel/collectiondetail?sid=793137
@@ -218,36 +263,15 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
  */
 export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []) => {
     logger.info("calling fetchBiliColleList")
-    const res = await fetch(URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', 1))
-    const json = await res.clone().json()
-    const data = json.data
-
-    const mediaCount = data.meta.total
-    let totalPagesRequired = 1 + Math.floor(mediaCount / data.page.page_size)
-
-    const BVidPromises = []
-    const pagesPromises = [res]
-
-    for (let page = 2; page <= totalPagesRequired; page++) {
-        pagesPromises.push(await fetch(URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', page)))
-    }
-
-    let videoInfos = []
-    await Promise.all(pagesPromises)
-        .then(async function (v) {
-            for (let index = 0, n = v.length; index < n; index++) {
-                await v[index].json().then(js => js.data.archives.map(m => {
-                    if (!favList.includes(m.bvid)) {
-                        BVidPromises.push(fetchVideoInfo(m.bvid, () => {progressEmitter(parseInt(100 * (index + 1) / n))}))
-                    }
-                }))
-            }
-            await Promise.all(BVidPromises).then(res => {
-                videoInfos = res
-            })
-        })
-
-    return videoInfos
+    
+    return fetchBiliPaginatedAPI(
+        URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid),
+        (data) => {return data.meta.total},
+        (data) => {return data.page.page_size},
+        (js) => {return js.data.archives},
+        progressEmitter,
+        favList
+    );
 }
 
 /**
@@ -260,37 +284,15 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
  * @returns 
  */
 export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) => {
-    logger.info("calling fetchBiliColleList")
-    const res = await fetch(URL_BILICHANNEL_INFO.replace('{mid}', mid).replace('{pn}', 1))
-    const json = await res.clone().json()
-    const data = json.data
-
-    const mediaCount = data.page.count
-    let totalPagesRequired = 1 + Math.floor(mediaCount / data.page.ps)
-
-    const BVidPromises = []
-    const pagesPromises = [res]
-
-    for (let page = 2; page <= totalPagesRequired; page++) {
-        pagesPromises.push(await fetch(URL_BILICHANNEL_INFO.replace('{mid}', mid).replace('{pn}', page)))
-    }
-
-    let videoInfos = []
-    await Promise.all(pagesPromises)
-        .then(async function (v) {
-            for (let index = 0, n = v.length; index < n; index++) {
-                await v[index].json().then(js => js.data.list.vlist.map(m => {
-                    if (!favList.includes(m.bvid)) {
-                        BVidPromises.push(fetchVideoInfo(m.bvid, () => {progressEmitter(parseInt(100 * (index + 1) / n))}))
-                    }
-                }))
-            }
-            await Promise.all(BVidPromises).then(res => {
-                videoInfos = res
-            })
-        })
-
-    return videoInfos
+    logger.info("calling fetchBiliChannelList")
+    return fetchBiliPaginatedAPI(
+        URL_BILICHANNEL_INFO.replace('{mid}', mid),
+        (data) => {return data.page.count},
+        (data) => {return data.page.ps},
+        (js) => {return js.data.list.vlist},
+        progressEmitter,
+        favList
+    );
 }
 
 /**
@@ -325,38 +327,37 @@ export const fetchGenericPaginatedList = async (url, progressEmitter, favList = 
  */
 export const fetchFavList = async (mid, progressEmitter, favList = []) => {
     logger.info("calling fetchFavList")
-    const res = await fetch(URL_FAV_LIST.replace('{mid}', mid).replace('{pn}', 1))
-    const json = await res.clone().json()
-    const data = json.data
 
-    const mediaCount = data.info.media_count
-    let totalPagesRequired = 1 + Math.floor(mediaCount / 20)
+    return fetchBiliPaginatedAPI(
+        URL_FAV_LIST.replace('{mid}', mid),
+        (data) => {return data.info.media_count},
+        (data) => {return 20},
+        (js) => {return js.data.medias},
+        progressEmitter,
+        favList
+    );
+}
 
-    const BVidPromises = []
-    const pagesPromises = [res]
+/**
+ * 
+// copied from ytdlp. applies to bibibili fav lists such as:
+// https://space.bilibili.com/355371630/video
+ * @param {string} mid 
+ * @param {function} progressEmitter 
+ * @param {array} favList 
+ * @returns 
+ */
+export const fetchBiliSearchList = async (kword, progressEmitter) => {
+    logger.info("calling fetchFavList")
 
-    for (let page = 2; page <= totalPagesRequired; page++) {
-        pagesPromises.push(fetch(URL_FAV_LIST.replace('{mid}', mid).replace('{pn}', page)))
-    }
-
-    let videoInfos = []
-    await Promise.all(pagesPromises)
-        .then(async function (v) {
-            // console.log(BVidPromises)
-            for (let index = 0; index < v.length; index++) {
-                await v[index].json().then(js => js.data.medias.map(m => {
-                    if (!favList.includes(m.bvid)) {
-                        BVidPromises.push(fetchVideoInfo(m.bvid))
-                    }
-                }))
-            }
-
-            await Promise.all(BVidPromises).then(res => {
-                videoInfos = res
-            })
-        })
-
-    return videoInfos
+    return fetchBiliPaginatedAPI(
+        URL_BILI_SEARCH.replace('{keyword}', kword),
+        (data) => {return Math.min(data.numResults, data.pagesize * 2 - 1)},
+        (data) => {return data.pagesize},
+        (js) => {return js.data.result},
+        progressEmitter,
+        []
+    );
 }
 
 /**

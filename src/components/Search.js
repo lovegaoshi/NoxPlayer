@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
-import { getSongList, getFavList, getBiliSeriesList, getBiliColleList, getBiliChannelList } from '../background/DataProcess';
+import { getSongList, getFavList, getBiliSeriesList, getBiliColleList, getBiliChannelList, getBilSearchList } from '../background/DataProcess';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,21 +29,18 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliSeriesList(reExtracted[1], reExtracted[2], progressEmitter, favList)
-                .then((songs) => {return songs})
-            throw 're matched biliseries; raising a dummy error breaking loop.'
+            return list
         }
         reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliColleList(reExtracted[1], reExtracted[2], progressEmitter, favList)
-                .then((songs) => {return songs})
-            throw 're matched bilicollection; raising a dummy error breaking loop.'
+            return list
         }
         //https://www.bilibili.com/video/BV1se4y147qM/
         reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliChannelList(reExtracted[1], progressEmitter, favList)
-                .then((songs) => {return songs})
-            throw 're matched bilichannel; raising a dummy error breaking loop.'
+            return list
         }
         input = extractWith(input, [
             /(BV[^/?]+)/,
@@ -54,18 +51,14 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         ])
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
-            .then((songs) => {return songs})
         } else if (!isNaN(Number(input))) {
             list.songList = await getFavList(input, progressEmitter, favList)
-            .then((songs) => {return songs})    
         } else {
-            console.warning(input, 'search string is not valid.')
+            list.songList = await getBilSearchList(input, progressEmitter)
         }
         
     } catch (err) {
-        if (!err.startsWith('re matched')) {
-            console.warn(err)
-        }
+        console.warn(err)
     }
     return list
 }
