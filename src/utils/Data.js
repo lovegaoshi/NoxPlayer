@@ -154,6 +154,7 @@ export const fetchVideoInfoRaw = async (bvid) => {
             bvid)
         return v
     } catch (error) {
+        console.error(error)
         console.warn('Some issue happened when fetching', bvid)
     }
 }
@@ -368,7 +369,12 @@ export const fetchBiliSearchList = async (kword, progressEmitter) => {
  */
 const extractResponseJson = (json, field) => {
     if (field === 'AudioUrl') {
-        return json.data.dash.audio[0].baseUrl
+        try {
+            return json.data.dash.audio[0].baseUrl
+        } catch (e) {
+            console.error(json);
+            return "";
+        }
     } else if (field === 'CID') {
         return json.data[0].cid
     } else if (field == 'AudioInfo') {

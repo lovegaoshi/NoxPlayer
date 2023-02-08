@@ -5,7 +5,6 @@ import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
 import { UpdateSubscribeDialog } from "./dialogs/FavSettingsDialog";
-import { SettingsDialog } from "./dialogs/PlayerSettingsDialog";
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -28,7 +27,6 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
 import { CRUDBtn, outerLayerBtn, DiskIcon, reorder } from './FavList';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -37,6 +35,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useSwipeable } from "react-swipeable";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -97,7 +96,6 @@ export const FavList = memo(function ({
     const [actionFavSong, setActionFavSong] = useState(null)
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
     const [rssLoading, setRSSLoading] = useState(false)
-    const [openSettingsDialog, setOpenSettingsDialog] = useState(false)
     const [favOpen, setFavOpen] = useState(false)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')
@@ -364,9 +362,7 @@ export const FavList = memo(function ({
                         <Tooltip title="导入歌单">
                             <FileUploadIcon sx={AddFavIcon} onClick={() => importFav()} />
                         </Tooltip>
-                        <Tooltip title="播放器设置">
-                            <SettingsIcon sx={AddFavIcon} onClick={() => setOpenSettingsDialog(true)} />
-                        </Tooltip>
+                        <PlayerSettingsButton AddFavIcon={AddFavIcon}></PlayerSettingsButton>
                     </Grid>
                     <NewFavDialog
                         id="NewFav"
@@ -543,17 +539,6 @@ export const FavList = memo(function ({
                 updateSubscribeFavList(selectedList)
             }}
         />}
-        <SettingsDialog
-        id='settingsDialog'
-        openState={openSettingsDialog}
-        onClose={(settings)=>{
-            if (settings) {
-                StorageManager.setPlayerSetting(settings)
-            }
-            setOpenSettingsDialog(false)
-        }}
-        settings={StorageManager.getPlayerSetting()}
-        />
 
         </React.Fragment >
     )

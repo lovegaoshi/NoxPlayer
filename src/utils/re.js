@@ -227,6 +227,7 @@ export const reExtractSongName = (filename, uploader = '') => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
+                    /【.+】(.+)\d+\.\d+/, 
                     /【.+】(.+)/, 
                 ]);
             break;
