@@ -4,7 +4,6 @@ import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
-import { UpdateSubscribeDialog } from "./dialogs/FavSettingsDialog";
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
@@ -36,6 +35,7 @@ import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useSwipeable } from "react-swipeable";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
+import IconButton from '@mui/material/IconButton';
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -72,7 +72,7 @@ const AddFavIcon = {
     ':hover': {
         cursor: 'pointer'
     },
-    width: '40px',
+    width: '24px',
     color: colorTheme.playListIconColor,
 }
 
@@ -84,18 +84,15 @@ export const FavList = memo(function ({
     onAddFavToList, 
     onAddOneFromFav, 
     showFavList, 
-    currentAudioID, 
-    checkFavListAutoUpdate }) {
+    currentAudioID }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openAddDialog, setOpenAddDialog] = useState(false)
-    const [openUpdateSubscribeDialog, setOpenUpdateSubscribeDialog] = useState(false)
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
-    const [rssLoading, setRSSLoading] = useState(false)
     const [favOpen, setFavOpen] = useState(false)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')
@@ -119,12 +116,6 @@ export const FavList = memo(function ({
     useEffect(() => {
         setOpen(false)
     }, [])
-
-    useEffect(() => {
-        if (selectedList && checkFavListAutoUpdate({favList: selectedList})) {
-            updateSubscribeFavList(selectedList);
-        }
-    }, [selectedList])
     
     const handleClose = () => {
         if (selectedList) {
@@ -169,18 +160,8 @@ export const FavList = memo(function ({
             }
         }
     }
-    
-    const updateSubscribeURL = (listObj, urls, favListName) => {
-        setOpenUpdateSubscribeDialog(false)
-        if (listObj) {
-            listObj.subscribeUrls = urls
-            listObj.info.title = favListName
-            StorageManager.updateFavList(listObj)
-        }
-    }
 
     const updateSubscribeFavList = async (listObj) => {
-        setRSSLoading(true)
         try{
             let oldListLength = listObj.songList.length
             for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
@@ -197,14 +178,10 @@ export const FavList = memo(function ({
             }
             if (oldListLength !== listObj.songList.length) {
                 StorageManager.updateFavList(listObj)
-                // otherwise fav wont update
-                setSelectedList(null)
                 setSelectedList(listObj)
             }
         } catch(err) {
             console.error(err)
-        } finally {
-            setRSSLoading(false)
         }
     }
 
@@ -348,19 +325,12 @@ export const FavList = memo(function ({
             >
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        <Typography variant="subtitle1" style={{ color: colorTheme.myPlayListCaptionColor, paddingLeft: '18px' }}>
-                            我的歌单
-                        </Typography>
                     </Grid>
                     <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '5px', paddingLeft: '6px' }}>
                         <Tooltip title="新建歌单">
-                            <AddIcon sx={AddFavIcon} onClick={() => setOpenNewDialog(true)} />
-                        </Tooltip>
-                        <Tooltip title="导出歌单">
-                            <DownloadIcon sx={AddFavIcon} onClick={() => exportFav()} />
-                        </Tooltip>
-                        <Tooltip title="导入歌单">
-                            <FileUploadIcon sx={AddFavIcon} onClick={() => importFav()} />
+                            <IconButton size='large' onClick={() => setOpenNewDialog(true)} >
+                                <AddIcon sx={AddFavIcon}/>
+                            </IconButton>
                         </Tooltip>
                         <PlayerSettingsButton AddFavIcon={AddFavIcon}></PlayerSettingsButton>
                     </Grid>
@@ -460,11 +430,9 @@ export const FavList = memo(function ({
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
-                        setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}
-                        onRssUpdate={() => {
-                            updateSubscribeFavList(selectedList)
+                        onRssUpdate={async () => {
+                            return await updateSubscribeFavList(selectedList)
                         }}
-                        Loading={rssLoading}
                         currentAudioID={currentAudioID}
                     />}
             </Box>
@@ -530,16 +498,6 @@ export const FavList = memo(function ({
                 song={actionFavSong}
                 isMobile={true}
             />}
-        {selectedList && <UpdateSubscribeDialog
-            id="subscribeURLDialog"
-            openState={openUpdateSubscribeDialog}
-            onClose={updateSubscribeURL}
-            fromList={selectedList}
-            rssUpdate={() => {
-                updateSubscribeFavList(selectedList)
-            }}
-        />}
-
         </React.Fragment >
     )
 })

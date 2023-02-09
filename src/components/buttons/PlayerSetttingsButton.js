@@ -18,15 +18,15 @@ export default function PlayerSettingsButton({ AddFavIcon }) {
                 </IconButton>
             </Tooltip>
             <SettingsDialog
-            id='settingsDialog'
-            openState={openSettingsDialog}
-            onClose={(settings)=>{
-                if (settings) {
-                    StorageManager.setPlayerSetting(settings)
-                }
-                setOpenSettingsDialog(false)
-            }}
-            settings={StorageManager.getPlayerSetting()}
+                id='settingsDialog'
+                openState={openSettingsDialog}
+                onClose={(settings)=>{
+                    if (settings) {
+                        StorageManager.setPlayerSetting(settings)
+                    }
+                    setOpenSettingsDialog(false)
+                }}
+                settings={StorageManager.getPlayerSetting()}
             />
         </React.Fragment >
     )

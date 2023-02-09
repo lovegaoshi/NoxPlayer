@@ -43,16 +43,6 @@ export const Player = function ({ songList }) {
     const [bvidLiked, setBvidLiked] = useState(0)
     const favListAutoUpdateTimestamps = useRef({})
 
-    const checkFavListAutoUpdate = ({favList, updateInterval = 1000*60*60*24}) => {
-        if (favList.info.id === 'Search' || !playerSettings.autoRSSUpdate) return false;
-        console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps.current[favList.info.id]);
-        if (favListAutoUpdateTimestamps.current[favList.info.id] === undefined || (new Date() - favListAutoUpdateTimestamps.current[favList.info.id]) > updateInterval) {
-            favListAutoUpdateTimestamps.current[favList.info.id] = new Date();
-            return true;
-        }
-        return false;
-    }
-
     useEffect(() => {
         if (!currentAudio.name) {
             return;
@@ -267,7 +257,6 @@ export const Player = function ({ songList }) {
                 onAddFavToList={onAddFavToList}
                 onAddOneFromFav={onAddOneFromFav}
                 playerSettings={playerSettings}
-                checkFavListAutoUpdate={checkFavListAutoUpdate}
             />}
             {currentAudio.id && <LyricOverlay
                 showLyric={showLyric}

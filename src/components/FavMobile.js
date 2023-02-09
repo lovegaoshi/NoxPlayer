@@ -18,9 +18,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import RssFeedIcon from '@mui/icons-material/RssFeed';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import CircularProgress from '@mui/material/CircularProgress';
 import { songText } from './Fav';
 import { getName } from '../utils/re';
 import { skinPreset } from '../styles/skin';
@@ -28,6 +25,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import RandomGIFIcon from './buttons/randomGIF';
+import FavSettingsButtons from './buttons/FavSettingsButton';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -53,8 +51,7 @@ export const Fav = (function ({
     FavList, onSongIndexChange, onAddOneFromFav,
     handleDeleteFromSearchList, handleAddToFavClick,
     onPlaylistTitleClick,
-    setSubscribeURL, onRssUpdate, Loading,
-    currentAudioID }) {
+    onRssUpdate, currentAudioID }) {
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [songIconVisible, setSongIconVisible] = useState(false);
@@ -171,20 +168,13 @@ export const Fav = (function ({
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <IconButton size="large" onClick={() => {
                                     setSongIconVisible(!songIconVisible)
-                                }}>
+                                    }}>
                                     {songIconVisible ? <EditOffIcon /> : <EditIcon />}
-                                    </IconButton>
-                                <IconButton size="large" onClick={() => setSubscribeURL()}>
-                                    <RssFeedIcon />
-                                    </IconButton>
-                                    <IconButton 
-                                        size="large" 
-                                        onClick={() => {
-                                            onRssUpdate()
-                                        }}
-                                    >
-                                        {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
-                                    </IconButton>
+                                </IconButton>
+                                <FavSettingsButtons
+                                    currentList={currentFavList}
+                                    rssUpdate={onRssUpdate}
+                                ></FavSettingsButtons>
                             </Grid>
                             <Grid item xs={6} style={{ textAlign: 'right', padding: '0px' }}>
                                 <TextField

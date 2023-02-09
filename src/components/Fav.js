@@ -26,9 +26,6 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { zhCN } from '@mui/material/locale';
 import Tooltip from '@mui/material/Tooltip';
-import RssFeedIcon from '@mui/icons-material/RssFeed';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import CircularProgress from '@mui/material/CircularProgress';
 import { skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -38,6 +35,7 @@ import RandomGIFIcon from './buttons/randomGIF';
 import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import FavSettingsButtons from './buttons/FavSettingsButton';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -167,7 +165,7 @@ TablePaginationActions.propTypes = {
 export const Fav = (function ({ 
     FavList, onSongIndexChange, onAddOneFromFav, 
     handleDeleteFromSearchList, handleAddToFavClick,
-    setSubscribeURL, rssUpdate, Loading, playerSettings, }) {
+    rssUpdate, playerSettings, }) {
     const [currentFavList, setCurrentFavList] = useState(null);
     const [rows, setRows] = useState(null);
     const [page, setPage] = useState(0);
@@ -175,7 +173,7 @@ export const Fav = (function ({
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const [searchBarVal, setSearchBarVal] = useState('');
     const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
-
+    
     /**
      * because of delayed state update/management, we need a reliable way to get
      * the current row. return rows when currentFavList is the same as the Favlist props.
@@ -207,7 +205,7 @@ export const Fav = (function ({
         setRowsPerPage(defaultRowsPerPage)
         requestSearch({target:{value:''}})
         primePageToCurrentPlaying()
-    }, [FavList])
+    }, [FavList.info.id, FavList.songList.length])
     
     const requestSearch = (e) => {
         const searchedVal = e.target.value
@@ -320,25 +318,10 @@ export const Fav = (function ({
                                 />
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
-                                <Tooltip title="歌单设置">
-                                    <IconButton 
-                                        size="large" 
-                                        onClick={() => setSubscribeURL()}
-                                    >
-                                    <RssFeedIcon />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip title="歌单更新">
-                                    <IconButton 
-                                        size="large" 
-                                        onClick={() => {
-                                            rssUpdate()
-                                        }}
-                                        disabled={false}
-                                    >
-                                        {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
-                                    </IconButton>
-                                </Tooltip>
+                                <FavSettingsButtons
+                                    currentList={currentFavList}
+                                    rssUpdate={rssUpdate}
+                                ></FavSettingsButtons>
                                 <TextField
                                     id="outlined-basic"
                                     color="secondary"

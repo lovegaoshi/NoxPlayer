@@ -12,6 +12,12 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
   const [favListName, setFavListName] = useState("")
   const [autoRSSUpdate, setAutoRSSUpdate] = useState(false)
 
+  if (fromList === undefined) {
+    return (
+      <></>
+    );
+  }
+
   const loadRSSUrl = (subscribeUrls) => {
     try{
       console.debug('parsing fromList.subscribeUrls', subscribeUrls)
@@ -38,51 +44,49 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
   }, [fromList.info.id])
 
   return (
-    <div>
-      <Dialog open={openState}>
-        <DialogTitle>
+    <Dialog open={openState}>
+      <DialogTitle>
+      <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="歌单名称"
+          type="name"
+          variant="standard"
+          onChange={(e) => setFavListName(e.target.value)}
+          value={favListName}
+          autoComplete="off"
+        />  
+      </DialogTitle>
+      <DialogContent>
         <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="歌单名称"
-            type="name"
-            variant="standard"
-            onChange={(e) => setFavListName(e.target.value)}
-            value={favListName}
-            autoComplete="off"
-          />  
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="rssname"
-            label="订阅url"
-            type="name"
-            variant="standard"
-            onChange={(e) => setSubUrl(e.target.value)}
-            value={subUrl}
-            autoComplete="off"
-          />
-          
-        </DialogContent>
-        <DialogActions>
-          <Button 
-            onClick={() => {
-              loadFavList()
-              onClose()
-            }}>取消</Button>
-          <Button onClick={handleOnClose}>确认</Button>
-          <Button 
-            onClick={() => {
-              handleOnClose()
-              rssUpdate()
-            }}>
-            确认并更新订阅
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+          autoFocus
+          margin="dense"
+          id="rssname"
+          label="订阅url"
+          type="name"
+          variant="standard"
+          onChange={(e) => setSubUrl(e.target.value)}
+          value={subUrl}
+          autoComplete="off"
+        />
+        
+      </DialogContent>
+      <DialogActions>
+        <Button 
+          onClick={() => {
+            loadFavList()
+            onClose()
+          }}>取消</Button>
+        <Button onClick={handleOnClose}>确认</Button>
+        <Button 
+          onClick={() => {
+            handleOnClose()
+            rssUpdate()
+          }}>
+          确认并更新订阅
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

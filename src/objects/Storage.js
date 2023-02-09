@@ -72,7 +72,7 @@ const getPlayerSetting = async () => {
  * @param {string} key 
  * @returns value in playerSetting
  */
-export const getPlayerSettingKey = async(key = null) => {
+export const getPlayerSettingKey = async (key = null) => {
     let settings = await getPlayerSetting();
     if (key === null) {
         return settings;

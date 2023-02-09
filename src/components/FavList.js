@@ -4,7 +4,6 @@ import { Fav } from './Fav';
 import { ScrollBar } from "../styles/styles";
 import { AlertDialog } from "./ConfirmDialog";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
-import { UpdateSubscribeDialog } from "./dialogs/FavSettingsDialog";
 import StorageManagerCtx from '../popup/App';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -72,17 +71,15 @@ export const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings, checkFavListAutoUpdate }) {
+export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openAddDialog, setOpenAddDialog] = useState(false)
-    const [openUpdateSubscribeDialog, setOpenUpdateSubscribeDialog] = useState(false)
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
     const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
-    const [rssLoading, setRSSLoading] = useState(false)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')
 
@@ -95,12 +92,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
         //console.log(favLists)
     }, [])
-
-    useEffect(() => {
-        if (selectedList && checkFavListAutoUpdate({favList: selectedList})) {
-            updateSubscribeFavList(selectedList);
-        }
-    }, [selectedList])
 
     const handleSearch = useCallback((list) => {
         setSearchList(list)
@@ -130,7 +121,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }
     
     const updateSubscribeURL = (listObj, urls, favListName) => {
-        setOpenUpdateSubscribeDialog(false)
         if (listObj) {
             listObj.subscribeUrls = urls
             listObj.info.title = favListName
@@ -139,7 +129,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }
 
     const updateSubscribeFavList = async (listObj) => {
-        setRSSLoading(true)
         try{
             let oldListLength = listObj.songList.length
             for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
@@ -159,13 +148,10 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             if (oldListLength !== listObj.songList.length) {
                 StorageManager.updateFavList(listObj)
                 // otherwise fav wont update
-                setSelectedList(null)
-                setSelectedList(listObj)    
+                setSelectedList(listObj)
             }
         } catch(err) {
             console.error(err)
-        } finally {
-            setRSSLoading(false)
         }
     }
 
@@ -394,11 +380,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onAddOneFromFav={onAddOneFromFav}
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
-                        setSubscribeURL={() => setOpenUpdateSubscribeDialog(true)}
-                        rssUpdate={() => {
-                            updateSubscribeFavList(selectedList)
+                        rssUpdate={async () => {
+                            return await updateSubscribeFavList(selectedList)
                         }}
-                        Loading={rssLoading}
                         playerSettings={playerSettings}
                     />}
             </Box>
@@ -417,17 +401,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     favLists={favLists.map(v => v.info)}
                     song={actionFavSong}
                 />}
-
-            {selectedList && <UpdateSubscribeDialog
-                id="subscribeURLDialog"
-                openState={openUpdateSubscribeDialog}
-                onClose={updateSubscribeURL}
-                fromList={selectedList}
-                rssUpdate={() => {
-                    updateSubscribeFavList(selectedList)
-                }}
-            />}
-
         </React.Fragment >
     )
 })
