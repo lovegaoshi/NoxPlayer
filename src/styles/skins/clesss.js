@@ -83,6 +83,13 @@ export const ClessSTheme = {
                           }
                     }
                   },
+                MuiDialogContentText: {
+                    styleOverrides: {
+                        root: {
+                            color: '#d3d3d3'
+                        }
+                    }
+                },
                 MuiTextField: {
                     styleOverrides: {
                         root: {

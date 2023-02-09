@@ -99,6 +99,13 @@ export const NoxTheme = {
                           }
                     }
                   },
+                MuiDialogContentText: {
+                    styleOverrides: {
+                        root: {
+                            color: '#fff44f'
+                        }
+                    }
+                },
                 MuiTextField: {
                     styleOverrides: {
                         root: {

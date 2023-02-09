@@ -92,6 +92,13 @@ export const HeraKrisTheme = {
                           }
                     }
                   },
+                MuiDialogContentText: {
+                    styleOverrides: {
+                        root: {
+                            color: '#90ee90'
+                        }
+                    }
+                },
                 MuiTextField: {
                     styleOverrides: {
                         root: {

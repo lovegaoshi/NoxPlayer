@@ -2,7 +2,6 @@ import React, { forwardRef, useEffect, useState, useCallback, memo, useContext }
 import { searchBiliURLs, Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
-import { AlertDialog } from "./ConfirmDialog";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
 import Dialog from '@mui/material/Dialog';
 import StorageManagerCtx from '../popup/App';
@@ -15,10 +14,7 @@ import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import DownloadIcon from '@mui/icons-material/Download';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
@@ -36,6 +32,7 @@ import { useSwipeable } from "react-swipeable";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 import IconButton from '@mui/material/IconButton';
+import { useConfirm } from "material-ui-confirm";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -87,7 +84,6 @@ export const FavList = memo(function ({
     currentAudioID }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
     const [openAddDialog, setOpenAddDialog] = useState(false)
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
@@ -98,7 +94,8 @@ export const FavList = memo(function ({
     const [searchInputVal, setSearchInputVal] = useState('')
     const [open, setOpen] = useState(false);
     const StorageManager = useContext(StorageManagerCtx)
-    
+    const confirm = useConfirm()
+
     useEffect(() => {
         if (!selectedList) {
             setOpen(!open);
@@ -185,9 +182,22 @@ export const FavList = memo(function ({
         }
     }
 
-    const handleDeleteFavClick = (id) => {
-        setActionFavId(id)
-        setOpenDeleteDialog(true)
+    const handleDeleteFavClick = (playlistName, id) => {
+        confirm({ 
+            title: '删除歌单？', 
+            description: `确认要删除歌单${playlistName}吗？`,
+            confirmationText: '好的',
+            cancellationText: '算了',
+         })
+        .then( () => {
+            const newFavListIDs = favLists.filter(FavId => FavId.info.id != id)
+            StorageManager.deletFavList(id, newFavListIDs)
+            if (selectedList && selectedList.info.id == id)
+                setSelectedList(null)
+        })
+        .catch( () => {
+            console.debug('canceled playlist delete.')
+        });
     }
 
     const handleAddToFavClick = (id, song) => {
@@ -223,16 +233,6 @@ export const FavList = memo(function ({
         }
     }
 
-    const onDelteFav = (val) => {
-        setOpenDeleteDialog(false)
-        if (val) {
-            const newFavListIDs = favLists.filter(FavId => FavId.info.id != val)
-            StorageManager.deletFavList(val, newFavListIDs)
-            if (selectedList && selectedList.info.id == val)
-                setSelectedList(null)
-        }
-    }
-
     const handlePlayListClick = (FavList) => {
         onPlayAllFromFav(FavList.songList)
         handleClose()
@@ -241,15 +241,7 @@ export const FavList = memo(function ({
     const handleAddPlayListClick = (FavList) => {
         onAddFavToList(FavList.songList)
     }
-
-    const exportFav = () => {
-        StorageManager.exportStorage()
-    }
-
-    const importFav = () => {
-        StorageManager.importStorage()
-    }
-
+    
     const searchBarComponent = (playListIcon) => {
         return (
                 <Search 
@@ -308,7 +300,7 @@ export const FavList = memo(function ({
                             <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
                         </Tooltip>
                         <Tooltip title="删除歌单">
-                            <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.id)} />
+                            <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.title, v.info.id)} />
                         </Tooltip>
                     </Box>
                 </ListItemButton>
@@ -482,12 +474,6 @@ export const FavList = memo(function ({
                     </div>
                 </Dialog>
         </ThemeProvider>
-        <AlertDialog
-            id="DeleteFav"
-            openState={openDeleteDialog}
-            onClose={onDelteFav}
-            value={actionFavId}
-        />
         {favLists &&
             <AddFavDialog
                 id="AddFav"
