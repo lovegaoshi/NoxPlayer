@@ -45,7 +45,13 @@ export const PlayerMobile = function ({ songList }) {
     const StorageManager = useContext(StorageManagerCtx)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
-    const favListAutoUpdateTimestamps = useRef({})
+
+    useEffect(() => {
+        if (!currentAudio.name) {
+            return;
+        }
+        document.title = currentAudio.name;
+    }, [currentAudio.name])
 
     const updateCurrentAudioList = useCallback(({ 
         songs,

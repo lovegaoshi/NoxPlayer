@@ -21,7 +21,7 @@ import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
-import { CRUDBtn, outerLayerBtn, DiskIcon, reorder } from './FavList';
+import { CRUDBtn, outerLayerBtn, DiskIcon, reorder, updateSubscribeFavList } from './FavList';
 import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -155,30 +155,6 @@ export const FavList = memo(function ({
                 favList.subscribeUrls = [searchInputVal.slice()]
                 StorageManager.updateFavList(favList)
             }
-        }
-    }
-
-    const updateSubscribeFavList = async (listObj) => {
-        try{
-            let oldListLength = listObj.songList.length
-            for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-                listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
-            }
-            let uniqueSongList = new Map();
-            for (const tag of listObj.songList) {
-                // cid should be a unique value? its a unique identifier for videos with multiple episodes.
-                uniqueSongList.set(tag.id, tag);
-            }
-            listObj.songList = [...uniqueSongList.values()];
-            for (let i=0, n=listObj.songList.length; i < n; i++) {
-                parseSongName(listObj.songList[i])
-            }
-            if (oldListLength !== listObj.songList.length) {
-                StorageManager.updateFavList(listObj)
-                setSelectedList(listObj)
-            }
-        } catch(err) {
-            console.error(err)
         }
     }
 
@@ -422,9 +398,7 @@ export const FavList = memo(function ({
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
-                        onRssUpdate={async () => {
-                            return await updateSubscribeFavList(selectedList)
-                        }}
+                        onRssUpdate={async () => updateSubscribeFavList(selectedList, StorageManager, setSelectedList)}
                         currentAudioID={currentAudioID}
                     />}
             </Box>

@@ -71,6 +71,43 @@ export const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
+/**
+ * this function updates the input playlist by its subscription url to include the missing videos.
+ * @param {object} listObj the playlist to be updated.
+ * @param {Object} StorageManager storageManager object that is used to update chrome.storage.local.
+ * calls its updateFavList method.
+ * @param {function} setSelectedList useState setter for FavList that sets its selectedList state.
+ * this state is passed to Fav to trigger a rerender.
+ */
+export const updateSubscribeFavList = async (listObj, StorageManager, setSelectedList) => {
+    try {
+        let oldListLength = listObj.songList.length;
+        for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
+            listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList);
+        }
+        let uniqueSongList = new Map();
+        for (const tag of listObj.songList) {
+            // cid should be a unique value? its a unique identifier for videos with multiple episodes.
+            uniqueSongList.set(tag.id, tag);
+        }
+        listObj.songList = [...uniqueSongList.values()];
+        for (let i=0, n=listObj.songList.length; i < n; i++) {
+            parseSongName(listObj.songList[i]);
+        }
+        // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
+        // to have a change in list size. 
+        if (oldListLength !== listObj.songList.length) {
+            StorageManager.updateFavList(listObj);
+            setSelectedList(listObj);
+            return listObj.songList;
+        }
+        return null;
+    } catch(err) {
+        console.error(err);
+        return null;
+    }
+}
+
 export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings }) {
     const [favLists, setFavLists] = useState(null)
     const [selectedList, setSelectedList] = useState(null)
@@ -116,33 +153,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 favList.subscribeUrls = [searchInputVal.slice()]
                 StorageManager.updateFavList(favList)
             }
-        }
-    }
-
-    const updateSubscribeFavList = async (listObj) => {
-        try{
-            let oldListLength = listObj.songList.length
-            for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-                listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList)
-            }
-            let uniqueSongList = new Map();
-            for (const tag of listObj.songList) {
-                // cid should be a unique value? its a unique identifier for videos with multiple episodes.
-                uniqueSongList.set(tag.id, tag);
-            }
-            listObj.songList = [...uniqueSongList.values()];
-            for (let i=0, n=listObj.songList.length; i < n; i++) {
-                parseSongName(listObj.songList[i])
-            }
-            // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
-            // to have a change in list size. 
-            if (oldListLength !== listObj.songList.length) {
-                StorageManager.updateFavList(listObj)
-                // otherwise fav wont update
-                setSelectedList(listObj)
-            }
-        } catch(err) {
-            console.error(err)
         }
     }
 
@@ -374,9 +384,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onAddOneFromFav={onAddOneFromFav}
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
-                        rssUpdate={async () => {
-                            return await updateSubscribeFavList(selectedList)
-                        }}
+                        rssUpdate={async () => { return updateSubscribeFavList(selectedList, StorageManager, setSelectedList)} }
                         playerSettings={playerSettings}
                     />}
             </Box>

@@ -41,7 +41,6 @@ export const Player = function ({ songList }) {
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [bvidLiked, setBvidLiked] = useState(0)
-    const favListAutoUpdateTimestamps = useRef({})
 
     useEffect(() => {
         if (!currentAudio.name) {
