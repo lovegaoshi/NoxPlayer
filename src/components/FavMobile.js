@@ -26,6 +26,7 @@ import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import RandomGIFIcon from './buttons/randomGIF';
 import FavSettingsButtons from './buttons/FavSettingsButton';
+import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -56,7 +57,7 @@ export const Fav = (function ({
     const [rows, setRows] = useState(null);
     const [songIconVisible, setSongIconVisible] = useState(false);
     const FavPanelRef = useRef(null);
-    const [searchBarVal, setSearchBarVal] = useState('');
+    const searchBarVal = useRef('');
     const favPanelHeight = useRef(window.innerHeight - 320);
     
     const findInFavList = (songList, audioid) => {
@@ -75,11 +76,11 @@ export const Fav = (function ({
         // this should be saved to localStorage
         if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
         requestSearch({target:{value:''}})
-    }, [FavList.info.id, FavList.songList.length])
+    }, [FavList.info.id])
 
     const requestSearch = (e) => {
         const searchedVal = e.target.value
-        setSearchBarVal(searchedVal)
+        searchBarVal.current = searchedVal
         handleSearch(searchedVal)
     }
 
@@ -112,7 +113,9 @@ export const Fav = (function ({
                 key={index}
                 className='favItem'
                 style={{ ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden', width: '98%' } }
-                onClick={songIconVisible? () => {} : () => onSongIndexChange([song], {songList: rows})}
+                onClick={songIconVisible? () => {} : () => getPlayerSettingKey('keepSearchedSongListWhenPlaying').then((val) => {
+                    onSongIndexChange([song], {songList: val? rows : FavList.songList})
+                })}
             >
                 {songIconVisible && 
                 (<ListItemButton>
@@ -128,7 +131,7 @@ export const Fav = (function ({
                             onClick={
                                 () => {
                                     handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                                    handleSearch(searchBarVal);
+                                    handleSearch(searchBarVal.current);
                                 }
                             } />
                     </Tooltip>
@@ -173,7 +176,11 @@ export const Fav = (function ({
                                 </IconButton>
                                 <FavSettingsButtons
                                     currentList={currentFavList}
-                                    rssUpdate={onRssUpdate}
+                                    rssUpdate={ async () => {
+                                        const val = await onRssUpdate();
+                                        if (val !== null) setRows(val);
+                                        return new Promise((resolve, reject) => {resolve(1)});
+                                    }}
                                 ></FavSettingsButtons>
                             </Grid>
                             <Grid item xs={6} style={{ textAlign: 'right', padding: '0px' }}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { ScrollBar } from "../styles/styles";
 import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
@@ -171,7 +171,7 @@ export const Fav = (function ({
     const [page, setPage] = useState(0);
     const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
-    const [searchBarVal, setSearchBarVal] = useState('');
+    let searchBarVal = useRef('');
     const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
     
     /**
@@ -205,12 +205,12 @@ export const Fav = (function ({
         setRowsPerPage(defaultRowsPerPage)
         requestSearch({target:{value:''}})
         primePageToCurrentPlaying()
-    }, [FavList.info.id, FavList.songList.length])
+    }, [FavList.info.id])
     
     const requestSearch = (e) => {
         const searchedVal = e.target.value
         setPage(0)
-        setSearchBarVal(searchedVal)
+        searchBarVal.current = searchedVal
         handleSearch(searchedVal)
     }
 
@@ -221,7 +221,6 @@ export const Fav = (function ({
         }
 
         const filteredRows = FavList.songList.filter((row) => {
-            // const cleanString = row.name.replace('《') // TODO: some english char can't search
             return row.name.toLowerCase().includes(searchedVal.toLowerCase())
         })
         setRows(filteredRows)
@@ -285,7 +284,7 @@ export const Fav = (function ({
                             onClick={
                                 () => {
                                     handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                                    handleSearch(searchBarVal);
+                                    handleSearch(searchBarVal.current);
                                 }
                             } />
                     </Tooltip>
@@ -316,7 +315,11 @@ export const Fav = (function ({
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <FavSettingsButtons
                                     currentList={currentFavList}
-                                    rssUpdate={rssUpdate}
+                                    rssUpdate={ async () => {
+                                        const val = await rssUpdate();
+                                        if (val !== null) setRows(val);
+                                        return new Promise((resolve, reject) => {resolve(1)});
+                                    }}
                                 ></FavSettingsButtons>
                                 <TextField
                                     id="outlined-basic"
