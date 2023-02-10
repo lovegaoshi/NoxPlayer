@@ -28,6 +28,7 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 import { useConfirm } from "material-ui-confirm";
+import HelpPanelButton from "./buttons/HelpPanelButton";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -298,7 +299,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <ShuffleIcon sx={AddFavIcon} />
                             </IconButton>
                         </Tooltip>
-                        <PlayerSettingsButton AddFavIcon={AddFavIcon}></PlayerSettingsButton>
+                        <PlayerSettingsButton AddFavIcon={AddFavIcon} />
+                        <HelpPanelButton AddFavIcon={AddFavIcon} />
                     </Grid>
                     <NewFavDialog
                         id="NewFav"
@@ -396,6 +398,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     fromId={actionFavId}
                     favLists={favLists.map(v => v.info)}
                     song={actionFavSong}
+                    MenuProps={{ style: { maxHeight: 200 }, }}
                 />}
         </React.Fragment >
     )

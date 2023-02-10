@@ -111,68 +111,66 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
   }
 
   return (
-    <div>
-      <Dialog open={openState}>
-        <DialogTitle>播放器设置</DialogTitle>
-        <DialogContent>
-        <Box>
-          {syncSetttingButtons()}
+    <Dialog open={openState}>
+      <DialogTitle>播放器设置</DialogTitle>
+      <DialogContent>
+      <Box>
+        {syncSetttingButtons()}
+        <TextField
+          id="player-settings-sync-method-select"
+          value={settingExportLocation}
+          label="云同步选择"
+          margin="dense"
+          select
+          onChange={(e) => setSettingExportLocation(e.target.value)}
+          style={{ minWidth: 100 }}
+        >
+          {Object.values(EXPORT_OPTIONS).map((v, i) => {
+              return (<MenuItem key={i} value={v}>{v}</MenuItem>)
+          })}
+        </TextField>
+      </Box>
+        <Tooltip title={skins(skin).maintainerTooltip}>
+          <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+        </Tooltip>
           <TextField
-            id="player-settings-sync-method-select"
-            value={settingExportLocation}
-            label="云同步选择"
-            margin="dense"
+            id="player-settings-skin-select"
+            value={skin}
             select
-            onChange={(e) => setSettingExportLocation(e.target.value)}
-            style={{ minWidth: 100 }}
+            onChange={(e) => setSkin(e.target.value)}
           >
-            {Object.values(EXPORT_OPTIONS).map((v, i) => {
+            {SkinKeys.map((v, i) => {
                 return (<MenuItem key={i} value={v}>{v}</MenuItem>)
             })}
           </TextField>
-        </Box>
-          <Tooltip title={skins(skin).maintainerTooltip}>
-            <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
-          </Tooltip>
-            <TextField
-              id="player-settings-skin-select"
-              value={skin}
-              select
-              onChange={(e) => setSkin(e.target.value)}
-            >
-              {SkinKeys.map((v, i) => {
-                  return (<MenuItem key={i} value={v}>{v}</MenuItem>)
-              })}
-            </TextField>
-            <div/>
-          <Tooltip title='在歌单里显示提取后的歌名'>
-            <FormControlLabel 
-              control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
-              checked={parseSongName}
-              label="使用提取的歌名" 
-            />
-          </Tooltip>
-          <Tooltip title='每天打开歌单时自动更新歌单的订阅'>
-            <FormControlLabel 
-              control={<Checkbox onChange={e => { setAutoRSSUpdate(e.target.checked) }}/>} 
-              checked={autoRSSUpdate}
-              label="自动更新订阅"
-            />
-          </Tooltip>
           <div/>
-          <Tooltip title='搜索歌单时，按搜索的结果播放歌单'>
-            <FormControlLabel 
-              control={<Checkbox onChange={e => { setKeepSearchedSongListWhenPlaying(e.target.checked) }}/>} 
-              checked={keepSearchedSongListWhenPlaying}
-              label="播放搜索结果歌单"
-            />
-          </Tooltip>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel}>取消</Button>
-          <Button onClick={handleOK}>确认</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <Tooltip title='在歌单里显示提取后的歌名'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
+            checked={parseSongName}
+            label="使用提取的歌名" 
+          />
+        </Tooltip>
+        <Tooltip title='每天打开歌单时自动更新歌单的订阅'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setAutoRSSUpdate(e.target.checked) }}/>} 
+            checked={autoRSSUpdate}
+            label="自动更新订阅"
+          />
+        </Tooltip>
+        <div/>
+        <Tooltip title='搜索歌单时，按搜索的结果播放歌单'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setKeepSearchedSongListWhenPlaying(e.target.checked) }}/>} 
+            checked={keepSearchedSongListWhenPlaying}
+            label="播放搜索结果歌单"
+          />
+        </Tooltip>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel}>取消</Button>
+        <Button onClick={handleOK}>确认</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
