@@ -226,9 +226,6 @@ export const Fav = (function ({
         })
         setRows(filteredRows)
     }
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -239,7 +236,6 @@ export const Fav = (function ({
         setPage(0);
     };
 
-    //console.log('rener Fav')
     const className = ScrollBar().root
     // onSongIndexChange([song], {songList: rows})
     

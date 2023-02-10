@@ -51,6 +51,10 @@ export const readLocalStorage = async (key) => {
     });
 };
 
+export const setLocalStorage = async (key, val) => {
+    chrome.storage.local.set({ [key]: val })
+}
+
 /**
  * wrapper for getting the current playerSetting.
  * if setting is not initialized, initialize and return the default one.
