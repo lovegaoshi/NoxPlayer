@@ -13,7 +13,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItem from '@mui/material/ListItem';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -27,6 +26,7 @@ import { FixedSizeList as List } from 'react-window';
 import RandomGIFIcon from './buttons/randomGIF';
 import FavSettingsButtons from './buttons/FavSettingsButton';
 import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
+import SongSearchBar from './dialogs/songsearchbar';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -57,7 +57,7 @@ export const Fav = (function ({
     const [rows, setRows] = useState(null);
     const [songIconVisible, setSongIconVisible] = useState(false);
     const FavPanelRef = useRef(null);
-    const searchBarVal = useRef('');
+    const searchBarRef = useRef({current: {}});
     const favPanelHeight = useRef(window.innerHeight - 320);
     
     const findInFavList = (songList, audioid) => {
@@ -80,7 +80,6 @@ export const Fav = (function ({
 
     const requestSearch = (e) => {
         const searchedVal = e.target.value
-        searchBarVal.current = searchedVal
         handleSearch(searchedVal)
     }
 
@@ -131,7 +130,7 @@ export const Fav = (function ({
                             onClick={
                                 () => {
                                     handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                                    handleSearch(searchBarVal.current);
+                                    handleSearch(searchBarRef.current.value);
                                 }
                             } />
                     </Tooltip>
@@ -184,15 +183,7 @@ export const Fav = (function ({
                                 ></FavSettingsButtons>
                             </Grid>
                             <Grid item xs={6} style={{ textAlign: 'right', padding: '0px' }}>
-                                <TextField
-                                    id="outlined-basic"
-                                    color="secondary"
-                                    size="small"
-                                    label="搜索歌曲"
-                                    onChange={requestSearch}
-                                    align="center"
-                                    autoComplete='off'
-                                />
+                                <SongSearchBar requestSearch={requestSearch} ref={searchBarRef} />
                             </Grid>
                             
                         </Grid>

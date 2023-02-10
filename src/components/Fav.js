@@ -13,7 +13,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TableFooter from '@mui/material/TableFooter';
@@ -36,6 +35,7 @@ import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import FavSettingsButtons from './buttons/FavSettingsButton';
+import SongSearchBar from './dialogs/songsearchbar';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -171,12 +171,14 @@ export const Fav = (function ({
     const [page, setPage] = useState(0);
     const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40));
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
-    let searchBarVal = useRef('');
+    const searchBarRef = useRef({current: {}});
     const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
     
     /**
      * because of delayed state update/management, we need a reliable way to get
-     * the current row. return rows when currentFavList is the same as the Favlist props.
+     * the current playlist songs (which may be filtered by some search string). 
+     * this method returns the accurate current playlist's songs.
+     * @returns rows when currentFavList is the same as the Favlist props; or Favlist.songlist
      */
     const getCurrentRow = () => {
         if (currentFavList !== null && rows !== null && currentFavList.info.id === FavList.info.id) {
@@ -185,6 +187,11 @@ export const Fav = (function ({
         return FavList.songList;
     }
 
+    /**
+     * this method primes the current page displaying songs to the one containing the song
+     * that is currently in play. the current song is found by reading the locally stored 
+     * value "currentPlaying". this function is in a useEffect. 
+     */
     const primePageToCurrentPlaying = () => {
         try {
             const songList = getCurrentRow();
@@ -205,12 +212,16 @@ export const Fav = (function ({
         setRowsPerPage(defaultRowsPerPage)
         requestSearch({target:{value:''}})
         primePageToCurrentPlaying()
+        if (searchBarRef.current !== null) {
+            setTimeout(() => {
+                searchBarRef.current.value = "";
+            }, 100);
+        }
     }, [FavList.info.id])
     
     const requestSearch = (e) => {
         const searchedVal = e.target.value
         setPage(0)
-        searchBarVal.current = searchedVal
         handleSearch(searchedVal)
     }
 
@@ -284,7 +295,7 @@ export const Fav = (function ({
                             onClick={
                                 () => {
                                     handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                                    handleSearch(searchBarVal.current);
+                                    handleSearch(searchBarRef.current.value);
                                 }
                             } />
                     </Tooltip>
@@ -321,15 +332,7 @@ export const Fav = (function ({
                                         return new Promise((resolve, reject) => {resolve(1)});
                                     }}
                                 ></FavSettingsButtons>
-                                <TextField
-                                    id="outlined-basic"
-                                    color="secondary"
-                                    size="small"
-                                    label="搜索歌曲"
-                                    onChange={requestSearch}
-                                    autoComplete='off'
-                                    type="search"
-                                />
+                                <SongSearchBar requestSearch={requestSearch} ref={searchBarRef} />
                             </Grid>
                         </Grid>
                     </Box>

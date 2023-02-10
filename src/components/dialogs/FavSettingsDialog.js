@@ -10,7 +10,6 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
 
   const [subUrl, setSubUrl] = useState("")
   const [favListName, setFavListName] = useState("")
-  const [autoRSSUpdate, setAutoRSSUpdate] = useState(false)
 
   if (fromList === undefined) {
     return (
@@ -34,9 +33,6 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
   const loadFavList = (favList = fromList) => {
     loadRSSUrl(favList.subscribeUrls)
     setFavListName(favList.info.title)
-    if (favList.autoRSSUpdate) {
-      setAutoRSSUpdate(true)
-    }
   }
 
   useEffect( () => {
