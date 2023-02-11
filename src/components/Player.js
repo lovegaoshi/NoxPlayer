@@ -275,7 +275,7 @@ export const Player = function ({ songList }) {
                 audioName={currentAudio.name}
                 audioId={currentAudio.id}
                 audioCover={currentAudio.cover}
-                artist={currentAudio.singer}
+                artist={currentAudio.singerId}
                 closeLyric={() => setShowLyric(false)}
                 />}
 

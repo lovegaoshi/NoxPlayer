@@ -31,7 +31,7 @@ import "react-contexify/dist/ReactContexify.css";
     });
    
     function handleItemClick ({ event, props, triggerEvent, data }) {
-      console.log( 'method not implemented', props.song );
+      console.warn( 'method not implemented', props.song );
     }
   
     function copyToClipboard ({ props }) {

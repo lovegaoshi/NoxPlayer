@@ -28,15 +28,15 @@ export const extractWith = (filename, reExpressions = []) => {
 
 /**
  * extract songnames with custom regex based on the uploader.
- * @param {string} filename 
- * @param {string} uploader 
- * @returns 
+ * @param {string} filename the original video name.
+ * @param {number} uploader uploader UID. note this uses song.singerId
+ * @returns extracted song name.
  */
 export const reExtractSongName = (filename, uploader = '') => {
     let extracted = null;
-    switch (String(uploader)) {
-        case "胡桃小王":
-        case "王胡桃w":
+    switch (uploader) {
+        case 5053504://
+        case 3493085134719196: // "王胡桃w":
             // https://space.bilibili.com/5053504/channel/series
             // always {number}_{songname} by {artist}  
             // 27_星の在り処 Full Ver. (Less Vocal) [BONUS TRACK] by Falcom Sound Team jdk
@@ -52,8 +52,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                         /\[.+\] (.+) \d+/,
                     ]);
                 break;
-        case "冥侦探柯鎮悪":
-        case "冥侦探柯镇恶":
+        case 94558176: // "冥侦探柯镇恶":
             // https://space.bilibili.com/94558176/channel/series
             // seesm to be always 【{vtuber}】《{song} （his comments）》
             // eg 【ninnikuu泥泥裤】《alice（现场LIVE纯享版~古川本辅，日）》
@@ -65,9 +64,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                 ]));
             console.debug(filename); 
             break;
-        case "哆啦A0":
-        case "钢铁慈父晚大林":
-        case "-哆啦A林-":
+        case 33576761: // "-哆啦A林-":
             // https://space.bilibili.com/33576761/channel/series
             // always 【HeraKris】【stream title】{songname}
             //【赫拉Kris】【随便唱唱】三国恋
@@ -80,18 +77,18 @@ export const reExtractSongName = (filename, uploader = '') => {
                         /\d+-(.+)-.+/
                     ]));
             break;
-        case "叹氣喵":
+        case 170066: // "叹氣喵":
             // https://space.bilibili.com/170066/channel/series
             break;
             // 不安喵wrng变得太多
-        case "起名字什么的真困难啊":
+        case 355371630: // "起名字什么的真困难啊":
             // https://space.bilibili.com/355371630
             // always number.{songname}
             //11.一番の宝物
             filename = extractParenthesis(filename);
             extracted = /\d+\.(.+)/.exec(filename);
             break;
-        case "蝉时雨☆":
+        case 3421497: // "蝉时雨☆":
             // https://space.bilibili.com/3421497/channel/series
             // always 【vtuber】{songname}
             //【clessS×汐尔Sier】玫瑰少年
@@ -101,14 +98,14 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)/, 
                 ]);
             break;
-        case "HonmaMeiko":
+        case 590096: // "HonmaMeiko":
             // https://space.bilibili.com/590096
             // always number {songname}
             // 11 一番の宝物
             filename = extractParenthesis(filename);
             extracted = /\d+ (.+)/.exec(filename);
             break;
-        case "海鲜DD":
+        case 1912892773: // "海鲜DD":
             // https://space.bilibili.com/1912892773/channel/series
             // sometimes date_in_numbers{songname}; others in brackets
             // 11一番の宝物
@@ -121,7 +118,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /\d+(.+)/, 
                 ]));
             break;
-        case "夜の_":
+        case 7405415: // "夜の_":
             // https://space.bilibili.com/7405415/channel/series
             // sometimes {date_in_numbers} {songname}; someimtes {index}.{somename}
             // else song name is always in brackets.
@@ -136,14 +133,14 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /\d+\.(.+)/,
                 ]);
             break;
-        case "随心":
+        case 63326: // "随心":
             // https://space.bilibili.com/63326/channel/seriesdetail?sid=2701519
             // in specialized brackets.
             // 『露米Lumi_Official』『月牙湾』
             filename = extractParenthesis(filename);
             extracted = /.*『(.+)』.*/.exec(filename);
             break;
-        case "litmus石蕊":
+        case 159910988: // "litmus石蕊":
             // https://space.bilibili.com/159910988/channel/collectiondetail?sid=766244
             // 凉凉【露米Lumi】
             filename = extractWith(
@@ -152,7 +149,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /(.+)【.+】/, 
                 ]);
             break;
-        case "焱缪-猫猫兔":
+        case 287837: // "焱缪-猫猫兔":
             // https://space.bilibili.com/287837/channel/series
             // in specialized brackets.
             // 【折原露露 · 翻唱】乌兰巴托的夜（10.18-歌切）
@@ -162,7 +159,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)/, 
                 ]);
             break;
-        case "HACHI蜂蜜酿造厂":
+        case 9979698: // "HACHI蜂蜜酿造厂":
             /*
             https://space.bilibili.com/9979698/channel/series
             naming template switches from time to time. below is my parsing rules in python
@@ -184,13 +181,13 @@ export const reExtractSongName = (filename, uploader = '') => {
             extracted = /.*第.+首(.+)/.exec(filename);
            }
             break;
-        case "天马的冰淇淋小推车":
+        case 1304703724: // "天马的冰淇淋小推车":
             // https://www.bilibili.com/video/BV12d4y117TU/
             // seems like {MM.DD}{songname}
             filename = extractParenthesis(filename);
             extracted = /\d+\.\d+(.+)/.exec(filename);
             break;
-        case "黑修":
+        case 8136522: // "黑修":
             // https://space.bilibili.com/8136522/channel/seriesdetail?sid=2161219
             // either in brackets or not (???)
             filename = extractParenthesis(filename);
@@ -198,7 +195,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                 filename = filename.substring('【Pomelo安妮】'.length);
             }
             break;
-        case "食梦莲lotus":
+        case 5085531: // "食梦莲lotus":
             //【安妮Pomelo】1118恋爱循环
             // 阿楚姑娘0726
             filename = extractWith(
@@ -208,7 +205,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /(\D+)\d+/, 
                 ]);
             break;
-        case "真心之梦":
+        case 344906417: // "真心之梦":
             // https://space.bilibili.com/344906417/channel/seriesdetail?sid=2463652
             // 【咲间妮娜】射手座午后九时don't be late
             filename = extractWith(
@@ -217,12 +214,11 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)/, 
                 ]);
             break;
-        case "姓单名推的DD桑":
-        case "铵溶液制造工厂":
-        case "神圣的楼兰我":
-        case "狐心妖面-Huxin":
-        case "5424单推人":
-        case "记露者楼兰我":
+        case 7191181: // "姓单名推的DD桑":
+        case 3493084803369305: // "铵溶液制造工厂":
+        case 693579584: // "狐心妖面-Huxin":
+        case 1902398: // "5424单推人":
+        case 440555: // "楼兰我":
             // https://space.bilibili.com/7191181/channel/collectiondetail?sid=821187
             filename = extractWith(
                 extractParenthesis(filename), 
@@ -231,7 +227,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)/, 
                 ]);
             break;
-        case "黑泽诺亚的五元店":
+        case 1190296645: // "黑泽诺亚的五元店":
             // https://space.bilibili.com/1190296645/video
             // 【黑泽诺亚】【歌切】Hold On
             // 【黑泽诺亚】【歌切】《Starfall》
@@ -244,7 +240,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【黑泽诺亚】【.+】(.+)/,
                 ]);
             break;
-        case "我是你的电吉他":
+        case 284940670: // "我是你的电吉他":
             // https://space.bilibili.com/284940670/video
             filename = extractWith(
                 extractParenthesis(filename), 
@@ -252,8 +248,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)-.+/,
                 ]);
             break;	
-        case "瑞娅今天早睡了吗":
-        case "瑞娅Rhea的魔法记录仪":
+        case 1035062789: // "瑞娅Rhea的魔法记录仪":
             // https://space.bilibili.com/1035062789/channel/seriesdetail?sid=576862
             filename = extractWith(
                 extractParenthesis(filename), 
@@ -264,7 +259,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /【.+】(.+)/,
                 ]);
             break;
-        case "棉花mennka":
+        case 2509376: // "棉花mennka":
             // https://space.bilibili.com/2509376/channel/series
             filename = extractWith(
                 extractParenthesis(filename), 
@@ -297,5 +292,5 @@ export const getName = (song, parsed = false) => {
 }
 
 export const parseSongName = (song) => {
-    song.parsedName = reExtractSongName(song.name, song.singer)
+    song.parsedName = reExtractSongName(song.name, song.singerId)
 }

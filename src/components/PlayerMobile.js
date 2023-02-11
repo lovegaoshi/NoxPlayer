@@ -289,7 +289,7 @@ export const PlayerMobile = function ({ songList }) {
                 audioId={currentAudio.id}
                 audioCover={currentAudio.cover}
                 isMobile={true}
-                artist={currentAudio.singer}
+                artist={currentAudio.singerId}
                 closeLyric={() => setShowLyric(false)}
             />}
                 

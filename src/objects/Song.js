@@ -11,7 +11,7 @@ export default class Song {
         this.musicSrc = musicSrc
         this.lyric = lyric
         this.lyricOffset = lyricOffset
-        this.parsedName = reExtractSongName(this.name, this.singer)
+        this.parsedName = reExtractSongName(this.name, this.singerId)
     }
 
 }
