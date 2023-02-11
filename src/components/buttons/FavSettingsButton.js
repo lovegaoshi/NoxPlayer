@@ -84,11 +84,13 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
             <UpdateSubscribeDialog
                 id='FavSettingsDialog'
                 openState={openSettingsDialog}
-                onClose={(settings)=>{
-                    if (settings) {
-                        StorageManager.setPlayerSetting(settings)
+                onClose={(listObj, urls, favListName) => {
+                    if (listObj) {
+                        listObj.subscribeUrls = urls;
+                        listObj.info.title = favListName;
+                        StorageManager.updateFavList(listObj);
                     }
-                    setOpenSettingsDialog(false)
+                    setOpenSettingsDialog(false);
                 }}
                 fromList={currentList}
                 rssUpdate={rssUpdate}
