@@ -8,7 +8,7 @@ import StorageManagerCtx from '../popup/App';
 import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
-// import { oath2agent } from "../utils/dropboxauth";
+import { useHotkeys } from 'react-hotkeys-hook';
 
 // Initial Player options
 let options = {
@@ -41,6 +41,18 @@ export const Player = function ({ songList }) {
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [bvidLiked, setBvidLiked] = useState(0)
+
+    useHotkeys('space', () => {
+        if (currentAudioInst !== null) {
+            if (currentAudioInst.paused) {
+                // i have no idea why currentAudioInst doesnt have play(), but
+                // this works...
+                document.getElementsByClassName('music-player-audio')[0].play();
+            } else {
+                document.getElementsByClassName('music-player-audio')[0].pause();
+            }
+        }
+    })
 
     useEffect(() => {
         if (!currentAudio.name) {

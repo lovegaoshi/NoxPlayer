@@ -20,6 +20,7 @@ export const PomeloTheme = {
     appTitle: '电妮播放器',
     desktopTheme: 'light',
     colorTheme: {
+        generalTheme: 'light',
         // these are adapted from the original azusa player; eventually will be trnaslated into palettes.
         // color for icons such as add to current playlist, on the right panel
         playListIconColor: '#ff1493',

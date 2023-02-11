@@ -36,6 +36,8 @@ import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import FavSettingsButtons from './buttons/FavSettingsButton';
 import SongSearchBar from './dialogs/songsearchbar';
+import Menu from './menus/Favmenu';
+import { contextMenu } from "react-contexify";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -258,6 +260,14 @@ export const Fav = (function ({
             <StyledTableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                onContextMenu={(event, row, index) => {
+                    event.preventDefault();
+                    contextMenu.show({
+                    id: "favmenu",
+                    event: event,
+                    props: { song },
+                    });
+                }}
             >
                 <StyledTableCell align="left" sx={{
                     paddingLeft: '8px', width: '45%',
@@ -312,6 +322,9 @@ export const Fav = (function ({
         <React.Fragment>
             {currentFavList &&
                 <React.Fragment>
+                    <Menu
+                        theme={colorTheme.generalTheme}
+                    />
                     <Box sx={{ flexGrow: 1, maxHeight: '72px' }} style={{ paddingBottom: '8px' }}>
                         <Grid container spacing={2} style={{ paddingTop: '8px' }}>
                             <Grid item xs={5} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '4px' }} overflow="hidden">

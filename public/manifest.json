@@ -25,7 +25,8 @@
     "storage",
     "unlimitedStorage",
     "cookies",
-    "identity"
+    "identity",
+    "search"
   ],
   "host_permissions": [
     "*://*.acgvideo.com/*",

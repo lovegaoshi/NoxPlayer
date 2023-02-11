@@ -23,7 +23,6 @@ import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
 import { CRUDBtn, outerLayerBtn, DiskIcon, reorder, updateSubscribeFavList } from './FavList';
 import { skinPreset } from '../styles/skin';
-import { parseSongName } from '../utils/re';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';

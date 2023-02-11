@@ -26,18 +26,32 @@ export const NoxTheme = {
     },
     appTitle: 'Nox-player',
     colorTheme: {
-        // color for icons such as add to current playlist, on the right panel
+        /**
+         * defines the general theme is light or dark.
+         */
+        generalTheme: 'dark',
+        /**
+         * color for icons such as add to current playlist, on the right panel
+         */
         playListIconColor: '#fff44f',
         songListIconColor: '#fff44f',
         iconDisableColor: '##adadad',
-        // colors for playlist caption on the right panel
+        /**
+         * colors for playlist caption on the right panel
+         */
         myPlayListCaptionColor: '#fff44f',
-        // similar to above; depreciating?
+        /**
+         * similar to above; depreciating?
+         */
         playlistCaptionColor: '#fff44f',
-        // color for icons on hte left panel. depreciating?
+        /**
+         * color for icons on hte left panel. depreciating?
+         */
         songIconColor: '#fff44f',
         songListColumnHeaderColor: '#fff44f',
-        // colors for song caption on the left panel. depreciating?
+        /**
+         * colors for song caption on the left panel. depreciating?
+         */
         uploaderCaptionColor: '#fff44f',
         lyricActiveColor: '#c660e7',
         lyricInactiveColor: '#4d388f',

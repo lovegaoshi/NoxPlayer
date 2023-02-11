@@ -19,6 +19,7 @@ export const HeraKrisTheme = {
     },
     appTitle: 'HeraKris-player',
     colorTheme: {
+        generalTheme: 'dark',
         // color for icons such as add to current playlist, on the right panel
         playListIconColor: '#90ee90',
         songListIconColor: '#90ee90',

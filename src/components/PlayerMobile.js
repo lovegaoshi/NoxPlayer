@@ -242,6 +242,11 @@ export const PlayerMobile = function ({ songList }) {
     }, [songList])
 
     // handles swipe action: call playlist when swiping left
+    // the reason why we dont use react-swipe is because
+    // react-jinke-music-player-main is a 0x0 object.
+    // wrapping a use-swipe div around it doesnt trigger anything,
+    // but use onTouch listeners does (?) 
+
     const [touchStart, setTouchStart] = React.useState(0);
     const [touchEnd, setTouchEnd] = React.useState(0);
     
@@ -261,12 +266,11 @@ export const PlayerMobile = function ({ songList }) {
         if (touchStart - touchEnd > 50) {
             // do your stuff here for left swipe
             setShowFavList(favState => !favState);
+            setTouchEnd(null);
+            setTouchStart(null);
         }    
     }
-    // //console.log('params')
-    // //console.log(params)
-    // //console.log('lyric' + lyric)
-    // console.log(currentAudio)
+
     return (
         <React.Fragment>
             {params && <FavList currentAudioList={params.audioLists}

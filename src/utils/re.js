@@ -253,6 +253,7 @@ export const reExtractSongName = (filename, uploader = '') => {
                 ]);
             break;	
         case "瑞娅今天早睡了吗":
+        case "瑞娅Rhea的魔法记录仪":
             // https://space.bilibili.com/1035062789/channel/seriesdetail?sid=576862
             filename = extractWith(
                 extractParenthesis(filename), 

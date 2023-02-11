@@ -23,6 +23,7 @@ export const InaTheme = {
     },
     appTitle: 'Gura-player',
     colorTheme: {
+        generalTheme: 'light',
         // these are adapted from the original azusa player; eventually will be trnaslated into palettes.
         // color for icons such as add to current playlist, on the right panel
         playListIconColor: '#1e90ff',

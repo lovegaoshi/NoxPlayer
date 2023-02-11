@@ -14,6 +14,7 @@ export const ClessSTheme = {
     },
     appTitle: '克√播放器',
     colorTheme: {
+        generalTheme: 'dark',
         // color for icons such as add to current playlist, on the right panel
         playListIconColor: '#d3d3d3',
         songListIconColor: '#d3d3d3',

@@ -26,6 +26,7 @@ export const AzusaTheme = {
     },
     appTitle: 'Azusa-player',
     colorTheme: {
+        generalTheme: 'light',
         // these are adapted from the original azusa player; eventually will be trnaslated into palettes.
         // color for icons such as add to current playlist, on the right panel
         playListIconColor: '#ab5fff',
