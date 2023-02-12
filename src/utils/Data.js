@@ -16,9 +16,21 @@ const biliApiLimiter = new Bottleneck({
  */
 const URL_PLAY_URL = "https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16"
 /**
+ *  bilibili API to get an audio's stream src url.
+ * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/audio/musicstream_url.md
+ * https://api.bilibili.com/audio/music-service-c/url doesnt work.
+ * au must be removed, eg. https://www.bilibili.com/audio/music-service-c/web/url?sid=745350
+ */
+const URL_AUDIO_PLAY_URL = "https://www.bilibili.com/audio/music-service-c/web/url?sid={sid}"
+/**
  *  BVID -> CID
  */
 const URL_BVID_TO_CID = "https://api.bilibili.com/x/player/pagelist?bvid={bvid}&jsonp=jsonp"
+/**
+ *  Audio Basic Info
+ * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/audio/info.md
+ */
+const URL_AUDIO_INFO = "https://www.bilibili.com/audio/music-service-c/web/song/info?sid={sid}"
 /**
  *  Video Basic Info
  */
@@ -60,14 +72,34 @@ const URL_QQ_SEARCH = "https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key
  */
 const URL_QQ_LYRIC = "https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1"
 
+const ENUMS = {
+    audioType: 'audio',
+}
+
 /**
- * 
- * @param {string} bvid 
- * @param {string} cid 
- * @returns 
+ * a parent method that returns the media's stream url given an id.
+ * @param {string} bvid media's id.
+ * @param {string} cid optional in video; if not provided, bvid is used to fetch cid. note
+ * some videos have episodes that this may not be accurate. in other formats (eg biliAudio)
+ * its used as an identifier.
+ * @returns promise that resolves the media stream url.
  */
 export const fetchPlayUrlPromise = async (bvid, cid) => {
-    // Fetch cid from bvid if needed
+    switch (cid) {
+        case ENUMS.audioType:
+            return fetchAudioPlayUrlPromise(bvid);
+    }
+    return fetchVideoPlayUrlPromise(bvid, cid);
+}
+
+/**
+ * returns the bilibili video stream url given a bvid and cid.
+ * @param {string} bvid video's bvid. starts with BV.
+ * @param {string} cid optional; if not provided, bvid is used to fetch cid. note
+ * some videos have episodes that this may not be accurate.
+ * @returns 
+ */
+export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
     if (!cid)
         cid = await fetchCID(bvid).catch((err) => console.log(err))
 
@@ -85,6 +117,33 @@ export const fetchPlayUrlPromise = async (bvid, cid) => {
                 fetch(URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
                     .then(res => res.json())
                     .then(json => resolve(extractResponseJson(json, 'AudioUrl')))
+                    .catch((err) => reject(console.log(err)))
+            }
+        })
+    }));
+}
+
+/**
+ * returns the bilibili audio stream url given a auid/sid.
+ * @param {string} bvid audio's auid. starts with AU. eg.
+ * https://www.bilibili.com/audio/au745350
+ * @returns 
+ */
+export const fetchAudioPlayUrlPromise = async (sid) => {
+    // Returns a promise that resolves into the audio stream url
+    return (new Promise((resolve, reject) => {
+        // console.log('Data.js Calling fetchPlayUrl:' + URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
+        chrome.storage.local.get(['CurrentPlaying','PlayerSetting'], function (result) {
+            // To prohibit current playing audio from fetching a new audio stream
+            // If single loop, retreive the promise again.
+            if (result.CurrentPlaying && result.CurrentPlaying.bvid == sid && result.PlayerSetting.playMode == 'singleLoop'){
+                // fixed return point; but why when repeat is single loop, a new promise is retrieved? 
+                resolve(result.CurrentPlaying.playUrl)
+            }
+            else {
+                fetch(URL_AUDIO_PLAY_URL.replace("{sid}", sid))
+                    .then(res => res.json())
+                    .then(json => resolve(json.data.cdns[0]))
                     .catch((err) => reject(console.log(err)))
             }
         })
@@ -172,6 +231,32 @@ export const fetchVideoInfo = async (bvid, progressEmit = () => {}) => {
     })
 }
 
+/**
+ * 
+ * @param {string} sid sid of the bili audio; note au needs to be removed, this is 
+ * technically an int.
+ * @returns 
+ */
+export const fetchAudioInfoRaw = async (sid) => {
+    logger.info("calling fetcAudioInfo")
+    const res = await fetch(URL_AUDIO_INFO.replace('{sid}', sid))
+    const json = await res.json()
+    try {
+        const data = json.data
+        const v = new VideoInfo(
+            data.title,
+            data.intro,
+            1,
+            data.cover,
+            {name: data.uname, mid: data.uid},
+            [{ cid: ENUMS.audioType }],
+            sid)
+        return v
+    } catch (error) {
+        console.error(error)
+        console.warn('Some issue happened when fetching', bvid)
+    }
+}
 
 /**
  * fetch biliseries. copied from yt-dlp.

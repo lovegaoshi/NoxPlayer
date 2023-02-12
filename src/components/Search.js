@@ -1,7 +1,15 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import React, { useState } from "react";
-import { getSongList, getFavList, getBiliSeriesList, getBiliColleList, getBiliChannelList, getBilSearchList } from '../background/DataProcess';
+import { 
+    getSongList,
+    getFavList,
+    getBiliSeriesList,
+    getBiliColleList,
+    getBiliChannelList,
+    getBilSearchList,
+    getSongListFromAudio
+ } from '../background/DataProcess';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -41,6 +49,11 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliChannelList(input, progressEmitter, favList)
+            return list
+        }
+        reExtracted = /bilibili.com\/audio\/au([^/?]+)/.exec(input)
+        if (reExtracted !== null) {
+            list.songList = await getSongListFromAudio(reExtracted[1], progressEmitter, favList)
             return list
         }
         input = extractWith(input, [
