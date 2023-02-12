@@ -78,13 +78,19 @@ export const reorder = (list, startIndex, endIndex) => {
  * @param {Object} StorageManager storageManager object that is used to update chrome.storage.local.
  * calls its updateFavList method.
  * @param {function} setSelectedList useState setter for FavList that sets its selectedList state.
+ * @param {Array} subscribeUrls the subscribe urls to be checked in an array format. if not specified,
+ * this is defualted to be listObj.subscribeUrls.
  * this state is passed to Fav to trigger a rerender.
  */
-export const updateSubscribeFavList = async (listObj, StorageManager, setSelectedList) => {
+export const updateSubscribeFavList = async (listObj, StorageManager, setSelectedList, subscribeUrls = undefined) => {
     try {
-        let oldListLength = listObj.songList.length;
-        for (let i=0, n=listObj.subscribeUrls.length; i < n; i++) {
-            listObj.songList = (await searchBiliURLs(listObj.subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList);
+        const oldListLength = listObj.songList.length;
+        if (subscribeUrls === undefined) {
+            subscribeUrls = listObj.subscribeUrls;
+        }
+        if (subscribeUrls === undefined) return null;
+        for (let i=0, n=subscribeUrls.length; i < n; i++) {
+            listObj.songList = (await searchBiliURLs(subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList);
         }
         let uniqueSongList = new Map();
         for (const tag of listObj.songList) {
@@ -195,7 +201,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             let toList = favLists.find(f => f.info.id == toId)
             if (song)
                 fromList = { songList: [song] }
-            else if (fromId == 'FavList-Search')
+            else if (fromId.includes('FavList-Search'))
                 fromList = searchList
             else
                 fromList = favLists.find(f => f.info.id == fromId) // Handles both single song add and list add
@@ -386,7 +392,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         onAddOneFromFav={onAddOneFromFav}
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
-                        rssUpdate={async () => { return updateSubscribeFavList(selectedList, StorageManager, setSelectedList)} }
+                        rssUpdate={async (subscribeUrls) => { 
+                            return updateSubscribeFavList(selectedList, StorageManager, setSelectedList, subscribeUrls)
+                        } }
                         playerSettings={playerSettings}
                     />}
             </Box>

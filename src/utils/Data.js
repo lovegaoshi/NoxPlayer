@@ -279,15 +279,23 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
  * 
 // copied from ytdlp. applies to bibibili channels such as:
 // https://space.bilibili.com/355371630/video
- * @param {string} mid 
+ * @param {string} url the actual url. because url may have url search params such as tid,
+ * the actual url is needed here for further parsing, instead of simply passing the bili user UID
  * @param {function} progressEmitter 
  * @param {array} favList 
  * @returns 
  */
-export const fetchBiliChannelList = async (mid, progressEmitter, favList = []) => {
+export const fetchBiliChannelList = async (url, progressEmitter, favList = []) => {
     logger.info("calling fetchBiliChannelList")
+    const mid = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(url)[1];
+    let searchAPI = URL_BILICHANNEL_INFO.replace('{mid}', mid);
+    const urlSearchParam = new URLSearchParams(new URL(url).search);
+    if (urlSearchParam.get('tid') !== null) {
+        // TODO: do this properly with another URLSearchParams instance
+        searchAPI += `&tid=${String(urlSearchParam.get('tid'))}`;
+    }
     return fetchBiliPaginatedAPI(
-        URL_BILICHANNEL_INFO.replace('{mid}', mid),
+        searchAPI,
         (data) => {return data.page.count},
         (data) => {return data.page.ps},
         (js) => {return js.data.list.vlist},

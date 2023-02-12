@@ -343,8 +343,8 @@ export const Fav = (function ({
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
                                 <FavSettingsButtons
                                     currentList={currentFavList}
-                                    rssUpdate={ async () => {
-                                        const val = await rssUpdate();
+                                    rssUpdate={ async (subscribeUrls) => {
+                                        const val = await rssUpdate(subscribeUrls);
                                         if (val !== null) setRows(val);
                                         return new Promise((resolve, reject) => {resolve(1)});
                                     }}
@@ -375,7 +375,7 @@ export const Fav = (function ({
                                                     : colorTheme.FavBackgroundColorSolid, 
                                                 color:colorTheme.songListColumnHeaderColor }}
                                         >
-                                            {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}
+                                            {column.label}{column.id == 'name' ? '(' + rows.length + ')' : ''}
                                         </TableCell>))}
                                 </TableRow>
                             </TableHead>

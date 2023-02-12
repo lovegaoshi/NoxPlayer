@@ -79,6 +79,14 @@ export const reExtractSongName = (filename, uploader = '') => {
             break;
         case 170066: // "叹氣喵":
             // https://space.bilibili.com/170066/channel/series
+            //【诺莺Nox】[220212] 乒乒乓乓天下无双
+            filename = extractParenthesis(
+                extractWith(filename, 
+                    [
+                        /.+ - (.+)/,
+                        /【诺莺Nox】[\d+] (.+)/, 
+                        /【诺莺Nox】(.+)/, 
+                    ]));
             break;
             // 不安喵wrng变得太多
         case 355371630: // "起名字什么的真困难啊":
@@ -268,7 +276,17 @@ export const reExtractSongName = (filename, uploader = '') => {
                     /.+ - (.+)/,
                 ]);
             break;
-        case "":
+        case 731556: // 绫音aya
+            // https://space.bilibili.com/731556/video?tid=3&page=2&keyword=&order=pubdate
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /.*『(.+)』.*/,
+                    /「.+」(.+)/,
+                    /【.+】(.+)/,
+                ]);
+            break;
+        case 0:
             filename = extractWith(
                 extractParenthesis(filename), 
                 [

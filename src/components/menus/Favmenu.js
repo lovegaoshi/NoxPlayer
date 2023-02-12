@@ -58,17 +58,7 @@ import "react-contexify/dist/ReactContexify.css";
     }
   
     return (
-      <div>
-        {/* just display the menu on right click */}
-        <div onContextMenu={show}>
-          Right click inside the box
-        </div>
-        {/* run custom logic then display the menu */}
-        <div onContextMenu={displayMenu}>
-          Right click inside the box
-        </div>
-  
-        
+      <div>          
         <Menu id={MENU_ID} animation="slide" theme={theme}>
           <Item onClick={copyToClipboard}>
             <ContentCopyIcon/> &nbsp; {"Copy song name to clipboard"}

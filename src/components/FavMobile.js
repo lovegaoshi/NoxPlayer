@@ -175,8 +175,8 @@ export const Fav = (function ({
                                 </IconButton>
                                 <FavSettingsButtons
                                     currentList={currentFavList}
-                                    rssUpdate={ async () => {
-                                        const val = await onRssUpdate();
+                                    rssUpdate={ async (subscribeUrls) => {
+                                        const val = await onRssUpdate(subscribeUrls);
                                         if (val !== null) setRows(val);
                                         return new Promise((resolve, reject) => {resolve(1)});
                                     }}
@@ -214,7 +214,7 @@ export const Fav = (function ({
                                             style={{ backgroundColor: colorTheme.FavBackgroundColor, color:colorTheme.songListColumnHeaderColor }}
                                             
                                         >
-                                            {column.label}{column.id == 'name' ? '(' + currentFavList.songList.length + ')' : ''}
+                                            {column.label}{column.id == 'name' ? '(' + rows.length + ')' : ''}
                                         </TableCell>))}
                                 </TableRow>
                             </TableHead>

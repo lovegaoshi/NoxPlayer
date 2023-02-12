@@ -195,7 +195,7 @@ export const FavList = memo(function ({
             let toList = favLists.find(f => f.info.id == toId)
             if (song)
                 fromList = { songList: [song] }
-            else if (fromId == 'FavList-Search')
+            else if (fromId.includes('FavList-Search'))
                 fromList = searchList
             else
                 fromList = favLists.find(f => f.info.id == fromId) // Handles both single song add and list add
@@ -397,7 +397,9 @@ export const FavList = memo(function ({
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
-                        onRssUpdate={async () => updateSubscribeFavList(selectedList, StorageManager, setSelectedList)}
+                        onRssUpdate={async (subscribeUrls) => { 
+                            return updateSubscribeFavList(selectedList, StorageManager, setSelectedList, subscribeUrls)
+                        } }
                         currentAudioID={currentAudioID}
                     />}
             </Box>

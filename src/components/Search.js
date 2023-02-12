@@ -7,8 +7,9 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import { extractWith } from '../utils/re';
+import { v4 as uuidv4 } from 'uuid';
 
-export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('Search')} }) => {
+export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('FavList-Search-' + uuidv4())} }) => {
     return {
         songList,
         info,
@@ -39,7 +40,7 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         //https://www.bilibili.com/video/BV1se4y147qM/
         reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliChannelList(reExtracted[1], progressEmitter, favList)
+            list.songList = await getBiliChannelList(input, progressEmitter, favList)
             return list
         }
         input = extractWith(input, [

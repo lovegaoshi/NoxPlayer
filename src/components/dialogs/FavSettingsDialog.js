@@ -78,7 +78,7 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
         <Button 
           onClick={() => {
             handleOnClose()
-            rssUpdate()
+            rssUpdate(subUrl.split(';'))
           }}>
           确认并更新订阅
         </Button>
