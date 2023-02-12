@@ -168,6 +168,7 @@ export const Fav = (function ({
     FavList, onSongIndexChange, onAddOneFromFav, 
     handleDeleteFromSearchList, handleAddToFavClick,
     rssUpdate, playerSettings, }) {
+        
     // currentFavList is stored solely for keeping in check rows
     // still is FavList in props; we can make rows 
     // a dict and store the favlist.info.id with it, so 

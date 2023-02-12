@@ -67,7 +67,7 @@ import "react-contexify/dist/ReactContexify.css";
             <BiliBiliIconSVG/> &nbsp; {"Go to Bilibili page"}
           </Item>
           <Item onClick={searchOnWeb}>
-            <SearchIcon/> &nbsp; {"Search song on web"}
+            <SearchIcon/> &nbsp; {"Search song on the web"}
           </Item>
           <Item onClick={searchOnBilibili}>
             <SearchIcon/> &nbsp; {"Search song on Bilibili"}
