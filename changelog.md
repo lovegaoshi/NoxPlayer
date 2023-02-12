@@ -4,6 +4,13 @@
 react-redux？
 重构狗屎代码
 
+1.1.1.8:
+按空格可以播放和暂停
+右键菜单添加了一些莫名其妙的功能
+搜索b站用户主页视频时可以用tid限制视频分类，如
+https://space.bilibili.com/170066/video?tid=3&keyword=&order=pubdate
+支持b站音乐
+
 1.1.1.7:
 HeraKris皮肤
 私有云同步歌单
