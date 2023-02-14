@@ -9,6 +9,8 @@ import { skins, skinPreset } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import { useHotkeys } from 'react-hotkeys-hook';
+import { getName } from '../utils/re';
+import versionUpdate from '../utils/versionupdater/versionupdater';
 
 // Initial Player options
 let options = {
@@ -235,6 +237,7 @@ export const Player = function ({ songList }) {
         if (!songList || songList[0] == undefined)
             return;
         async function initPlayer() {
+            await versionUpdate();
             let setting = await StorageManager.getPlayerSetting()
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
@@ -272,10 +275,9 @@ export const Player = function ({ songList }) {
             {currentAudio.id && <LyricOverlay
                 showLyric={showLyric}
                 currentTime={currentAudio.currentTime}
-                audioName={currentAudio.name}
+                audioName={getName(currentAudio)}
                 audioId={currentAudio.id}
                 audioCover={currentAudio.cover}
-                artist={currentAudio.singerId}
                 closeLyric={() => setShowLyric(false)}
                 />}
 

@@ -5,7 +5,7 @@ import { extractSongName } from './Data';
  * @param {string} filename 
  * @returns  the extracted string
  */
-const extractParenthesis = (filename) => {
+export const extractParenthesis = (filename) => {
     return extractWith(filename, [/(.+)[（\(].+/]);
 }
 

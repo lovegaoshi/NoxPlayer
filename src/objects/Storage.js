@@ -1,10 +1,11 @@
 import { getBiliSeriesList } from '../background/DataProcess'
 import { v4 as uuidv4 } from 'uuid';
 import { fetchPlayUrlPromise } from '../utils/Data'
+import { getVersion } from '../utils/versionupdater/versionupdater'
 
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 const INITIAL_PLAYLIST = ['5053504', '2664851']
-const MY_FAV_LIST_KEY = 'MyFavList'
+export const MY_FAV_LIST_KEY = 'MyFavList'
 const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'
@@ -37,7 +38,7 @@ export const defaultSetting = {
     keepSearchedSongListWhenPlaying: false,
     settingExportLocation: EXPORT_OPTIONS.local,
     personalCloudIP: "",
-    noxVersion: '1.1.1.7',
+    noxVersion: getVersion(),
 }
 
 /**
@@ -91,6 +92,11 @@ export const getPlayerSettingKey = async (key = null) => {
     }
 }
 
+export const saveMyFavList = (newList, callbackFunc = () => {console.debug('saveMyFavList called.')} ) => {
+    chrome.storage.local.set({ MY_FAV_LIST_KEY: newList.map(v => v.info.id) }, callbackFunc)
+}
+
+
 export default class StorageManager {
     constructor() {
         this.setFavLists = () => { }
@@ -99,13 +105,13 @@ export default class StorageManager {
 
     async initFavLists() {
         const _self = this
-        chrome.storage.local.get(['MyFavList'], function (result) {
+        chrome.storage.local.get([MY_FAV_LIST_KEY], function (result) {
             //console.log(result);
             if (Object.keys(result).length != 0) {
-                _self.initWithStorage(result["MyFavList"])
+                _self.initWithStorage(result[MY_FAV_LIST_KEY])
             }
             else {
-                chrome.storage.local.set({ 'MyFavList': [] }, async function () {
+                chrome.storage.local.set({ MY_FAV_LIST_KEY: [] }, async function () {
                     _self.initWithDefault()
                     window.open('https://github.com/lovegaoshi/azusa-player/wiki/%E6%AC%A2%E8%BF%8E%E9%A1%B5')
                 });
@@ -151,7 +157,7 @@ export default class StorageManager {
         }, function () {
             //console.log('key is set to ' + value.info.id);
             //console.log('Value is set to ' + value);
-            chrome.storage.local.set({ 'MyFavList': [value.info.id] }, function () {
+            chrome.storage.local.set({ MY_FAV_LIST_KEY: [value.info.id] }, function () {
                 _self.setFavLists([value])
                 _self.latestFavLists = [value]
             })
@@ -185,7 +191,7 @@ export default class StorageManager {
 
     saveMyFavList(newList, callbackFunc = () => {console.debug('saveMyFavList called.')} ) {
         this.latestFavLists = newList
-        chrome.storage.local.set({ 'MyFavList': newList.map(v => v.info.id) }, callbackFunc)
+        chrome.storage.local.set({ MY_FAV_LIST_KEY: newList.map(v => v.info.id) }, callbackFunc)
     }
 
     updateFavList(updatedToList) {
@@ -196,7 +202,7 @@ export default class StorageManager {
             _self.latestFavLists[index].songList = updatedToList.songList
             if (updatedToList.subscribeUrls) {
                 _self.latestFavLists[index].subscribeUrls = updatedToList.subscribeUrls
-                console.debug('saving subscribe url', updatedToList.subscribeUrls)    
+                console.debug('saving subscribe url', updatedToList.subscribeUrls)
             }
             _self.setFavLists([..._self.latestFavLists])
         });

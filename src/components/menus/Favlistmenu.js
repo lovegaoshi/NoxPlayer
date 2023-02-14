@@ -5,13 +5,15 @@ import {
     Separator,
     useContextMenu
   } from "react-contexify";
-
 import YoutubeSearchedForIcon from '@mui/icons-material/YoutubeSearchedFor';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import "react-contexify/dist/ReactContexify.css";
-import  {BiliShazamOnSonglist } from '../../background/DataProcess';
+import  { BiliShazamOnSonglist } from '../../background/DataProcess';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { removeSongBiliShazamed } from '../../objects/Song';
 
 const MENU_ID = "favlistmenu";
 
@@ -30,19 +32,30 @@ export default function App({ theme }) {
   });
   
   function handleItemClick ({ event, props, triggerEvent, data }) {
-    console.warn( 'method not implemented', props.favlist.songList[0].getName() );
+    console.warn( 'method not implemented', props.favlist.songList );
   }
 
-  async function BiliShazam ({ event, props, triggerEvent, data }, options) {
-    const key = enqueueSnackbar(`正在用b站识歌标识歌单${props.favlist.info.title}`, { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
+  function updateFavlist(props, msg, option = { variant: 'success', autoHideDuration: 2000 }) {
+    props.updateFavList(props.favlist);
+    enqueueSnackbar(msg, option);
+  }
+
+  async function BiliShazam ({ event, props, triggerEvent, data }, options = { forced: false }) {
+    const key = enqueueSnackbar(`正在用b站识歌标识歌单${props.favlist.info.title}……`, { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
     try {
-      await BiliShazamOnSonglist(props.favlist.songList);
+      await BiliShazamOnSonglist(props.favlist.songList, options.forced);
     } catch (e) {
       console.warn(`b站识歌标识歌单${props.favlist.info.title}失败`, e)
     }
     closeSnackbar(key);
-    props.updateFavList(props.favlist);
-    enqueueSnackbar(`歌单${props.favlist.info.title}已经用b站识歌更新乐！`, { variant: 'success', autoHideDuration: 2000 });
+    updateFavlist(props, `歌单${props.favlist.info.title}已经用b站识歌更新乐！`);
+  }
+
+  function removeBiliShazam ({ event, props, triggerEvent, data }) {
+    for (let song of props.favlist.songList) {
+      removeSongBiliShazamed(song);
+    }
+    updateFavlist(props, `歌单${props.favlist.info.title}的b站识歌记录全部清除乐！`);
   }
 
   function displayMenu (e) {
@@ -59,8 +72,14 @@ export default function App({ theme }) {
         <Item onClick={BiliShazam}>
           <YoutubeSearchedForIcon/> &nbsp; {"Use Bilibili shazam"}
         </Item>
-        <Item onClick={(props) => BiliShazam(props, { forced : true })}>
+        <Item onClick={(props) => removeBiliShazam(props, {})}>
+          <DeleteIcon/> &nbsp; {"Remove Bilibili shazam"}
+        </Item>
+        <Item onClick={(props) => BiliShazam(props, { forced: true })}>
           <YoutubeSearchedForIcon/> &nbsp; {"Use Bilibili shazam (forced)"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <RefreshIcon/> &nbsp; {"Reload playlist from bilibili"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}
