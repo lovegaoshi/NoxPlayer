@@ -16,6 +16,11 @@ const biliApiLimiter = new Bottleneck({
  */
 const URL_PLAY_URL = "https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16"
 /**
+ *  API that gets the tag of a video. sometimes bilibili identifies the BGM used.
+ * https://api.bilibili.com/x/web-interface/view/detail/tag?bvid=BV1sY411i7jP&cid=1005921247
+ */
+const URL_VIDEO_TAGS = "https://api.bilibili.com/x/web-interface/view/detail/tag?bvid={bvid}&cid={cid}"
+/**
  *  bilibili API to get an audio's stream src url.
  * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/audio/musicstream_url.md
  * https://api.bilibili.com/audio/music-service-c/url doesnt work.
@@ -121,6 +126,49 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
             }
         })
     }));
+}
+
+/**
+ * returns the bilibili video stream url given a bvid and cid.
+ * @param {string} bvid video's bvid. starts with BV.
+ * @param {string} cid optional; if not provided, bvid is used to fetch cid. note
+ * some videos have episodes that this may not be accurate.
+ * @returns 
+ */
+const fetchVideoTagPromiseRaw = async ({bvid, cid}) => {
+    try {
+        if (!cid)
+            cid = await fetchCID(bvid).catch((err) => console.log(err))
+
+        // Returns a promise that resolves into the audio stream url
+        return (new Promise((resolve, reject) => {
+                fetch(URL_VIDEO_TAGS.replace("{bvid}", bvid).replace("{cid}", cid))
+                    .then(res => res.json())
+                    .then(json => {
+                        if (json.data[0].tag_type === 'bgm') {
+                            resolve(json.data[0].tag_name)
+                        } else {
+                            resolve(null)
+                        }
+                    })
+                    .catch((err) => reject(console.log(err)))
+            }));
+    } catch (e) {
+        console.warn(`fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`)
+        return null;
+    }
+
+}
+
+export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmit = () => {}) => {
+    return biliApiLimiter.schedule(() => {
+        progressEmit()
+        return func(params)
+    })
+}
+
+export const fetchVideoTagPromise = async ({bvid, cid}) => {
+    return biliAPILimiterWrapper({bvid, cid}, fetchVideoTagPromiseRaw);
 }
 
 /**
@@ -284,9 +332,7 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
         BVidPromises.push(fetchVideoInfo(data.archives[i].bvid, () => {progressEmitter(parseInt(100 * (i + 1) / data.archives.length))}))        
     }
     let videoInfos = []
-    await Promise.all(BVidPromises).then(res => {
-        videoInfos = res
-    })
+    await Promise.all(BVidPromises).then(res => videoInfos = res)
     return videoInfos
 }
 
@@ -305,10 +351,9 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
     const res = await fetch(url.replace('{pn}', 1))
     const json = await res.clone().json()
     const data = json.data
-
     const mediaCount = getMediaCount(data)
-    const BVids = []
-    const BVidPromises = []
+    let BVids = []
+    let BVidPromises = []
     const pagesPromises = [res]
 
     for (let page = 2; page <= 1 + Math.floor(mediaCount / getPageSize(data)); page++) {
@@ -329,9 +374,7 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
             for (let index = 0, n=BVids.length; index < n; index ++) {
                 BVidPromises.push(fetchVideoInfo(BVids[index], () => {progressEmitter(parseInt(100 * (index + 1) / mediaCount))}))
             }
-            await Promise.all(BVidPromises).then(res => {
-                videoInfos = res
-            })
+            await Promise.all(BVidPromises).then(res => videoInfos = res)
         })
 
     return videoInfos

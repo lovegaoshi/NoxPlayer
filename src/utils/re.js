@@ -298,6 +298,23 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【.+】(.+)/,
                 ]);
             break;
+        case 1632389: // 一片秦槐
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /.+ - (.+)/,
+                    /.+-(.+)/,
+                ]);
+            break;
+        case 1020055498:
+            // https://www.bilibili.com/video/BV1ya411J7M3/
+            // 1-你是我的布鲁-00.05.54-00.09.47
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /\d+-(.+)-.+-.+/
+                ]);
+            break;
         case 0:
             filename = extractWith(
                 extractParenthesis(filename), 
@@ -314,6 +331,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
 
 
 export const getName = (song, parsed = false) => {
+    if (song.biliShazamedName) return song.biliShazamedName
     if (parsed) {
         return song.parsedName? song.parsedName : song.name
     } else {

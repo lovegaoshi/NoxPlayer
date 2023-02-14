@@ -35,14 +35,12 @@ export const LyricMobile = withStyles(styles)((props) => {
     const [lyric, setLyric] = useState('')
     const [songTitle, setSongTitle] = useState('')
 
-    const { classes, currentTime, audioName, audioId, audioCover, artist } = props;
+    const { classes, currentTime, audioName, audioId, audioCover } = props;
     const StorageManager = useContext(StorageManagerCtx)
 
     useEffect(() => {
-        const extractedName = reExtractSongName(audioName, artist)
-        console.debug('Lrc changed to %s', extractedName)
         // fetchLRC(audioName, setLyric, setSongTitle)
-        setSongTitle(extractedName)
+        setSongTitle(audioName)
     }, [audioName])
 
     const onEnterPress = (e) => {

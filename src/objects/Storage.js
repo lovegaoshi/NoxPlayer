@@ -1,6 +1,7 @@
 import { getBiliSeriesList } from '../background/DataProcess'
 import { v4 as uuidv4 } from 'uuid';
 import { fetchPlayUrlPromise } from '../utils/Data'
+
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 const INITIAL_PLAYLIST = ['5053504', '2664851']
 const MY_FAV_LIST_KEY = 'MyFavList'
@@ -8,6 +9,7 @@ const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'
 const CURRENT_PLAYING = 'CurrentPlaying'
+
 export const EXPORT_OPTIONS = {
     local: '本地',
     dropbox: 'Dropbox',
@@ -35,6 +37,7 @@ export const defaultSetting = {
     keepSearchedSongListWhenPlaying: false,
     settingExportLocation: EXPORT_OPTIONS.local,
     personalCloudIP: "",
+    noxVersion: '1.1.1.7',
 }
 
 /**
@@ -104,6 +107,7 @@ export default class StorageManager {
             else {
                 chrome.storage.local.set({ 'MyFavList': [] }, async function () {
                     _self.initWithDefault()
+                    window.open('https://github.com/lovegaoshi/azusa-player/wiki/%E6%AC%A2%E8%BF%8E%E9%A1%B5')
                 });
             }
         });

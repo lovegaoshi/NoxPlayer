@@ -136,11 +136,11 @@ export const FavList = memo(function ({
     }, [searchList, selectedList])
 
     const handleDeleteFromSearchList = useCallback((listid, songid) => {
-        let favList = listid == 'Search' ? searchList : favLists.find(f => f.info.id == listid)
+        let favList = listid.includes('FavList-Search') ? searchList : favLists.find(f => f.info.id == listid)
         let index = favList.songList.findIndex((song) => song.id === songid)
         favList.songList.splice(index, 1)
         const updatedToList = { ...favList }
-        listid == 'Search' ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
+        listid.includes('FavList-Search') ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
     }, [searchList, selectedList, favLists])
 
     const onNewFav = (val) => {

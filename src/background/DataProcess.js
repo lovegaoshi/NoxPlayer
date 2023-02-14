@@ -7,11 +7,43 @@ import {
     fetchBiliChannelList, 
     fetchBiliSearchList,
     fetchAudioInfoRaw as fetchAudioInfo,
+    fetchVideoTagPromise,
  } from '../utils/Data'
 import Song from '../objects/Song'
 
 const DEFAULT_BVID = 'BV1g34y1r71w'
 const LAST_PLAY_LIST = 'LastPlayList'
+
+/**
+ * uses the bilibili tag API to acquire bilibili shazamed results to a video.
+ * @param {string} bvid must provide.
+ * @param {string} name must provide.
+ * @param {string} cid must provide.
+ * @returns 
+ */
+export const getBiliShazamedSongname = async (info) => {
+    return await fetchVideoTagPromise({bvid: info.bvid, cid: info.cid});
+    // wanna implement some logic for 王胡桃？
+    if (!isNaN(Number(info.name))) {
+        // 
+        const name = await fetchVideoTagPromise({bvid: info.bvid, cid: info.cid});
+        if (name !== null) return name;
+    }
+    return info.name;
+}
+
+export const BiliShazamOnSonglist = async (songlist, forced = false) => {
+    let promises = [];
+    for (let song of songlist) {
+        if (song.biliShazamedName === undefined || forced) {
+            promises.push(
+                getBiliShazamedSongname({bvid: song.bvid, cid: song.id, name: song.name})
+                .then(val => song.biliShazamedName = val));
+        }
+    }
+    await Promise.all(promises);
+    return songlist;
+}
 
 // Load last-playist from storage, else use DEFAULT_BVID as initial list.
 export const initSongList = async (setCurrentSongList) => {
@@ -40,7 +72,7 @@ export const getSongList = async (bvid) => {
         return ([new Song({
             cid: info.pages[0].cid,
             bvid: bvid,
-            name: info.title,
+            name: info.title, //await getBiliShazamedSongname({name: info.title, bvid: bvid, cid: info.pages[0].cid}),//
             singer: info.uploader.name,
             singerId: info.uploader.mid,
             cover: info.picSrc,
@@ -56,7 +88,7 @@ export const getSongList = async (bvid) => {
         songs.push(new Song({
             cid: page.cid,
             bvid: bvid,
-            name: page.part,
+            name: page.part, //await getBiliShazamedSongname({name: page.part, bvid: bvid, cid: page.cid}),//
             singer: info.uploader.name,
             singerId: info.uploader.mid,
             cover: info.picSrc,
