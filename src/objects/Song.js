@@ -20,10 +20,11 @@ export const setSongBiliShazamed = (song, val) => {
     song.biliShazamedName = extractParenthesis(val);
     if (!val) return;
     song.nameRaw = song.name;
-    song.name = val;
+    song.name = song.parsedName = song.biliShazamedName;
 }
 
 export const removeSongBiliShazamed = (song) => {
     song.biliShazamedName = undefined;
     song.name = song.nameRaw;
+    song.parsedName = reExtractSongName(song.name);
 }

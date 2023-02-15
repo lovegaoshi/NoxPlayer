@@ -5,11 +5,15 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Checkbox } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 
-export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, rssUpdate }) {
+export default function ({ fromList, onClose, openState, rssUpdate }) {
 
   const [subUrl, setSubUrl] = useState("")
   const [favListName, setFavListName] = useState("")
+  const [useBiliShazam, setUseBiliShazam] = useState(false)
 
   if (fromList === undefined) {
     return (
@@ -27,12 +31,18 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
   }
 
   const handleOnClose = () => {
-    onClose(fromList, subUrl.split(';'), favListName);
+    onClose({
+      listObj: fromList,
+      urls: subUrl.split(';'), 
+      favListName: favListName,
+      useBiliShazam: useBiliShazam,
+    });
   }
 
   const loadFavList = (favList = fromList) => {
     loadRSSUrl(favList.subscribeUrls)
     setFavListName(favList.info.title)
+    setUseBiliShazam(favList.info.useBiliShazam ? true : false)
   }
 
   useEffect( () => {
@@ -66,13 +76,20 @@ export const UpdateSubscribeDialog = function ({ fromList, onClose, openState, r
           value={subUrl}
           autoComplete="off"
         />
-        
+        <div/>
+        <Tooltip title='使用b站识歌API，王胡桃专用'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setUseBiliShazam(e.target.checked) }}/>} 
+            checked={useBiliShazam}
+            label="使用b站识歌API"
+          />
+        </Tooltip>
       </DialogContent>
       <DialogActions>
         <Button 
           onClick={() => {
             loadFavList()
-            onClose()
+            onClose({})
           }}>取消</Button>
         <Button onClick={handleOnClose}>确认</Button>
         <Button 

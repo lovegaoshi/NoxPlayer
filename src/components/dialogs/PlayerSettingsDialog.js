@@ -7,11 +7,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import { Checkbox } from '@mui/material';
 import { SkinKeys, skins, skinPreset } from '../../styles/skin';
+import { Checkbox } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
-import { defaultSetting, EXPORT_OPTIONS } from '../../objects/Storage';
+import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../objects/Storage';
 import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
 import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
 import { ExportSyncFavButton as PersonalExportSyncFavButton, ImportSyncFavButton as PersonalImportSyncFavButton, setPersonalCloudTextField } from "../buttons/PersonalSyncButton";
@@ -32,12 +32,12 @@ const AddFavIcon = {
 }
 
 export const SettingsDialog = function ({ onClose, openState, settings }) {
-  const [skin, setSkin] = useState(defaultSetting.skin)
+  const [skin, setSkin] = useState(DEFAULT_SETTING.skin)
   const [settingObj, setSettingObj] = useState({})
-  const [parseSongName, setParseSongName] = useState(defaultSetting.parseSongName)
-  const [autoRSSUpdate, setAutoRSSUpdate] = useState(defaultSetting.autoRSSUpdate)
-  const [settingExportLocation, setSettingExportLocation] = useState(defaultSetting.settingExportLocation)
-  const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(defaultSetting.keepSearchedSongListWhenPlaying)
+  const [parseSongName, setParseSongName] = useState(DEFAULT_SETTING.parseSongName)
+  const [autoRSSUpdate, setAutoRSSUpdate] = useState(DEFAULT_SETTING.autoRSSUpdate)
+  const [settingExportLocation, setSettingExportLocation] = useState(DEFAULT_SETTING.settingExportLocation)
+  const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(DEFAULT_SETTING.keepSearchedSongListWhenPlaying)
   const [personalCloudIP, setPersonalCloudIP] = useState("")
   
   const setSettings = (setFunc, value = undefined, defaultValue = undefined) => {

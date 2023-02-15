@@ -7,10 +7,12 @@ import {
   } from "react-contexify";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { BiliBiliIconSVG, goToBiliBili } from '../bilibiliIcon'; 
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
 import "react-contexify/dist/ReactContexify.css";
+import { getName } from '../../utils/re';
 
 const MENU_ID = "favmenu";
 
@@ -36,18 +38,18 @@ export default function App({ theme }) {
   }
 
   function copyToClipboard ({ props }) {
-    navigator.clipboard.writeText(props.song.parsedName);
+    navigator.clipboard.writeText(getName(props.song));
   }
 
   function searchOnWeb ({ props }) {
     chrome.search.query({
-        text: props.song.parsedName,
+        text: getName(props.song),
         disposition: "NEW_TAB",
       });
   }
 
   function searchOnBilibili ( {props} ) {
-    window.open(`https://search.bilibili.com/all?keyword=${props.song.parsedName}&from_source=webtop_search`);
+    window.open(`https://search.bilibili.com/all?keyword=${getName(props.song)}&from_source=webtop_search`);
   }
 
   function displayMenu (e) {
@@ -66,6 +68,9 @@ export default function App({ theme }) {
         </Item>
         <Item onClick={ ({ props }) => goToBiliBili(props.song.bvid) }>
           <BiliBiliIconSVG/> &nbsp; {"Go to Bilibili page"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <FindInPageIcon/> &nbsp; {"Search song in this playlist"}
         </Item>
         <Item onClick={searchOnWeb}>
           <SearchIcon/> &nbsp; {"Search song on the web"}

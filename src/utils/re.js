@@ -331,7 +331,6 @@ export const reExtractSongName = (filename, uploader = 0) => {
 
 
 export const getName = (song, parsed = false) => {
-    if (song.biliShazamedName) return song.biliShazamedName
     if (parsed) {
         return song.parsedName? song.parsedName : song.name
     } else {

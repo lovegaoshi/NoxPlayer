@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState, useCallback, memo, useContext } from "react";
-import { searchBiliURLs, Search } from '../components/Search';
+import { Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";

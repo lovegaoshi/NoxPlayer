@@ -8,6 +8,7 @@ import {
 import YoutubeSearchedForIcon from '@mui/icons-material/YoutubeSearchedFor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import "react-contexify/dist/ReactContexify.css";
 import  { BiliShazamOnSonglist } from '../../background/DataProcess';
@@ -32,7 +33,7 @@ export default function App({ theme }) {
   });
   
   function handleItemClick ({ event, props, triggerEvent, data }) {
-    console.warn( 'method not implemented', props.favlist.songList );
+    console.warn('method not implemented', props.favlist);
   }
 
   function updateFavlist(props, msg, option = { variant: 'success', autoHideDuration: 2000 }) {
@@ -76,10 +77,13 @@ export default function App({ theme }) {
           <DeleteIcon/> &nbsp; {"Remove Bilibili shazam"}
         </Item>
         <Item onClick={(props) => BiliShazam(props, { forced: true })}>
-          <YoutubeSearchedForIcon/> &nbsp; {"Use Bilibili shazam (forced)"}
+          <YoutubeSearchedForIcon/> &nbsp; {"Reload Bilibili shazam"}
         </Item>
         <Item onClick={handleItemClick}>
           <RefreshIcon/> &nbsp; {"Reload playlist from bilibili"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <ClearAllIcon/> &nbsp; {"Clear playlist"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}
