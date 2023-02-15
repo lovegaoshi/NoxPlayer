@@ -175,12 +175,15 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                 cid: info.pages[0].cid,
                 bvid: info.pages[0].bvid,
                 // this is stupidly slow because each of this async has to be awaited in a sync constructor?!
-                name: useBiliTag ? await getBiliShazamedSongname({name: info.title, bvid: info.pages[0].bvid, cid: info.pages[0].cid}) : info.title,
+                name: info.title,
                 singer: info.uploader.name,
                 singerId: info.uploader.mid,
                 cover: info.picSrc,
                 musicSrc: () => { return fetchPlayUrlPromise(info.pages[0].bvid, info.pages[0].cid) },
-                page: 1
+                page: 1,
+                biliShazamedName: useBiliTag 
+                ? await getBiliShazamedSongname({name: undefined, bvid: info.pages[0].bvid, cid: info.pages[0].cid}) 
+                : undefined
             }))
         }
         else {
@@ -191,12 +194,15 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                 songs.push(new Song({
                     cid: page.cid,
                     bvid: page.bvid,
-                    name: useBiliTag? await getBiliShazamedSongname({name: page.part, bvid: page.bvid, cid: page.cid}) : page.part,
+                    name: page.part,
                     singer: info.uploader.name,
                     singerId: info.uploader.mid,
                     cover: info.picSrc,
                     musicSrc: () => { return fetchPlayUrlPromise(page.bvid, page.cid) },
-                    page: index + 1
+                    page: index + 1,
+                    biliShazamedName: useBiliTag 
+                    ? await getBiliShazamedSongname({name: undefined, bvid: page.bvid, cid: page.cid}) 
+                    : undefined
                 }))
             }
         }

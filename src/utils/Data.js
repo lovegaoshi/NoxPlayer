@@ -14,9 +14,9 @@ const biliApiLimiter = new Bottleneck({
 })
 
 /**
- * limits to bilibili.tag API call to 100ms/call using bottleneck.
+ * limits to bilibili.tag API call to 100ms/call using bottleneck
  * through experiment bilibili.tag seems to be more tolerable
- * than other APIs such as getvideoinfo.
+ * than other APIs such as getvideoinfo
  */
 const biliTagApiLimiter = new Bottleneck({
     minTime: 100,
@@ -147,7 +147,7 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
  * some videos have episodes that this may not be accurate.
  * @returns 
  */
-const fetchVideoTagPromiseRaw = async ({ bvid, cid, name }) => {
+const fetchVideoTagPromiseRaw = async ({ bvid, cid, name = undefined }) => {
     const req = await fetch(URL_VIDEO_TAGS.replace("{bvid}", bvid).replace("{cid}", cid))
     const json = await req.json()
     try {
