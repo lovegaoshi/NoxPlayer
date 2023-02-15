@@ -38,22 +38,21 @@ export const searchBiliURLs = async ({
     useBiliTag = false,
 }) => {
     let list = defaultSearchList({})
-    
     try {    
         let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliSeriesList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList })
+            list.songList = await getBiliSeriesList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag })
             return list
         }
         reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliColleList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList })
+            list.songList = await getBiliColleList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag })
             return list
         }
         //https://www.bilibili.com/video/BV1se4y147qM/
         reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliChannelList({ mid: input, progressEmitter, favList })
+            list.songList = await getBiliChannelList({ mid: input, progressEmitter, favList, useBiliTag })
             return list
         }
         reExtracted = /bilibili.com\/audio\/au([^/?]+)/.exec(input)
@@ -71,9 +70,9 @@ export const searchBiliURLs = async ({
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
         } else if (!isNaN(Number(input))) {
-            list.songList = await getFavList({ mid: input, progressEmitter, favList })
+            list.songList = await getFavList({ mid: input, progressEmitter, favList, useBiliTag })
         } else {
-            list.songList = await getBilSearchList({ mid: input, progressEmitter })
+            list.songList = await getBilSearchList({ mid: input, progressEmitter, useBiliTag })
         }
         
     } catch (err) {

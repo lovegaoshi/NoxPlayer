@@ -1,4 +1,4 @@
-import { setLocalStorage, readLocalStorage, MY_FAV_LIST_KEY } from '../../objects/Storage';
+import { setLocalStorage, readLocalStorage } from '../../objects/Storage';
 
 export const getVersion = () => {
     return chrome.runtime.getManifest().version;
@@ -9,6 +9,7 @@ export const getVersion = () => {
  * unfortunately, my breaking changes actually breaks myself...
  */
 export default async () => {
+    // console.log(await chrome.storage.local.get(null));
     let settingsVersion = await readLocalStorage('nox-version');
     const currentVersion = getVersion();
     if (settingsVersion === undefined) settingsVersion = 0;

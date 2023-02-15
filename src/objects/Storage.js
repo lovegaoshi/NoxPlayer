@@ -24,7 +24,8 @@ const dummyFavList = (favName) => {
         subscribeUrls: [],
         settings: {
             autoRSSUpdate: false,
-        }
+        },
+        useBiliShazam: false,
     }
 }
 
@@ -93,7 +94,7 @@ export const getPlayerSettingKey = async (key = null) => {
 }
 
 export const saveMyFavList = (newList, callbackFunc = () => {console.debug('saveMyFavList called.')} ) => {
-    chrome.storage.local.set({ MY_FAV_LIST_KEY: newList.map(v => v.info.id) }, callbackFunc)
+    chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map(v => v.info.id) }, callbackFunc)
 }
 
 
@@ -111,7 +112,7 @@ export default class StorageManager {
                 _self.initWithStorage(result[MY_FAV_LIST_KEY])
             }
             else {
-                chrome.storage.local.set({ MY_FAV_LIST_KEY: [] }, async function () {
+                chrome.storage.local.set({ [MY_FAV_LIST_KEY]: [] }, async function () {
                     _self.initWithDefault()
                     window.open('https://github.com/lovegaoshi/azusa-player/wiki/%E6%AC%A2%E8%BF%8E%E9%A1%B5')
                 });
@@ -157,7 +158,7 @@ export default class StorageManager {
         }, function () {
             //console.log('key is set to ' + value.info.id);
             //console.log('Value is set to ' + value);
-            chrome.storage.local.set({ MY_FAV_LIST_KEY: [value.info.id] }, function () {
+            chrome.storage.local.set({ [MY_FAV_LIST_KEY]: [value.info.id] }, function () {
                 _self.setFavLists([value])
                 _self.latestFavLists = [value]
             })
@@ -191,7 +192,7 @@ export default class StorageManager {
 
     saveMyFavList(newList, callbackFunc = () => {console.debug('saveMyFavList called.')} ) {
         this.latestFavLists = newList
-        chrome.storage.local.set({ MY_FAV_LIST_KEY: newList.map(v => v.info.id) }, callbackFunc)
+        chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map(v => v.info.id) }, callbackFunc)
     }
 
     updateFavList(updatedToList) {

@@ -15,6 +15,7 @@ import  { BiliShazamOnSonglist } from '../../background/DataProcess';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { removeSongBiliShazamed } from '../../objects/Song';
+import { useConfirm } from "material-ui-confirm";
 
 const MENU_ID = "favlistmenu";
 
@@ -27,6 +28,8 @@ const MENU_ID = "favlistmenu";
 export default function App({ theme }) {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const confirm = useConfirm();
+
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
     id: MENU_ID
@@ -59,6 +62,22 @@ export default function App({ theme }) {
     updateFavlist(props, `歌单${props.favlist.info.title}的b站识歌记录全部清除乐！`);
   }
 
+  function clearPlaylist({ event, props, triggerEvent, data }) {
+    confirm({ 
+      title: '清空歌单？', 
+      description: `确认要清空歌单${props.favlist.info.title}吗？`,
+      confirmationText: '好的',
+      cancellationText: '算了',
+   })
+   .then( () => {
+    props.favlist.songList = [];
+    updateFavlist(props, `歌单${props.favlist.info.title}清空乐！`);
+   })
+   .catch(
+
+   )
+  }
+
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -82,7 +101,7 @@ export default function App({ theme }) {
         <Item onClick={handleItemClick}>
           <RefreshIcon/> &nbsp; {"Reload playlist from bilibili"}
         </Item>
-        <Item onClick={handleItemClick}>
+        <Item onClick={clearPlaylist}>
           <ClearAllIcon/> &nbsp; {"Clear playlist"}
         </Item>
         <Item onClick={handleItemClick}>

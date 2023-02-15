@@ -22,7 +22,7 @@ const LAST_PLAY_LIST = 'LastPlayList'
  * @returns 
  */
 export const getBiliShazamedSongname = async (info) => {
-    return fetchVideoTagPromise({bvid: info.bvid, cid: info.cid});
+    return fetchVideoTagPromise({ bvid: info.bvid, cid: info.cid, name: info.name });
     // wanna implement some logic for 王胡桃？
     if (!isNaN(Number(info.name))) {
         // 
@@ -157,7 +157,6 @@ const parseFavList = (favList) => {
 export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
 
     let songs = []
-
     for (const info of infos) {
         if(!info)
             return
@@ -167,7 +166,8 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
             songs.push(new Song({
                 cid: info.pages[0].cid,
                 bvid: info.pages[0].bvid,
-                name: info.title,
+                // this is stupidly slow because each of this async has to be awaited in a sync constructor?!
+                name: useBiliTag ? await getBiliShazamedSongname({name: info.title, bvid: info.pages[0].bvid, cid: info.pages[0].cid}) : info.title,
                 singer: info.uploader.name,
                 singerId: info.uploader.mid,
                 cover: info.picSrc,
@@ -182,7 +182,7 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                 songs.push(new Song({
                     cid: page.cid,
                     bvid: page.bvid,
-                    name: page.part,
+                    name: useBiliTag? await getBiliShazamedSongname({name: page.part, bvid: page.bvid, cid: page.cid}) : page.part,
                     singer: info.uploader.name,
                     singerId: info.uploader.mid,
                     cover: info.picSrc,

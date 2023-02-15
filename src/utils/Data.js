@@ -135,7 +135,7 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
  * some videos have episodes that this may not be accurate.
  * @returns 
  */
-const fetchVideoTagPromiseRaw = async ({bvid, cid}) => {
+const fetchVideoTagPromiseRaw = async ({ bvid, cid, name }) => {
     try {
         if (!cid)
             cid = await fetchCID(bvid).catch((err) => console.log(err))
@@ -148,7 +148,7 @@ const fetchVideoTagPromiseRaw = async ({bvid, cid}) => {
                         if (json.data[0].tag_type === 'bgm') {
                             resolve(json.data[0].tag_name)
                         } else {
-                            resolve(null)
+                            resolve(name)
                         }
                     })
                     .catch((err) => reject(console.log(err)))
@@ -167,8 +167,8 @@ export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmi
     })
 }
 
-export const fetchVideoTagPromise = async ({bvid, cid}) => {
-    return biliAPILimiterWrapper({bvid, cid}, fetchVideoTagPromiseRaw);
+export const fetchVideoTagPromise = async ({ bvid, cid, name }) => {
+    return biliAPILimiterWrapper({ bvid, cid, name }, fetchVideoTagPromiseRaw);
 }
 
 /**
