@@ -154,11 +154,11 @@ const parseFavList = (favList) => {
     return favListBVid
 }
 
-export const getSongsFromBVids = async (infos) => {
+export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
 
     let songs = []
 
-    infos.forEach(info => {
+    for (const info of infos) {
         if(!info)
             return
         // Case of single part video
@@ -191,7 +191,7 @@ export const getSongsFromBVids = async (infos) => {
                 }))
             }
         }
-    })
+    }
 
     return (songs)
 }
@@ -220,22 +220,22 @@ export const getSongsFromSteriaPlayer = async (infos) => {
     return (songs)
 }
 
-export const getBiliSeriesList = async (mid, sid, progressEmitter = (res) => {}, favList = []) => {
-    return getSongsFromBVids(await fetchBiliSeriesList(mid, sid, progressEmitter, parseFavList(favList)))
+export const getBiliSeriesList = async ({ mid, sid, progressEmitter = (res) => {}, favList = [], useBiliTag = false, }) => {
+    return getSongsFromBVids({ infos: await fetchBiliSeriesList(mid, sid, progressEmitter, parseFavList(favList)), useBiliTag })
 }
 
-export const getFavList = async (mid, progressEmitter = (res) => {}, favList = []) => {
-    return getSongsFromBVids(await fetchFavList(mid, progressEmitter, parseFavList(favList)))
+export const getFavList = async ({ mid, progressEmitter = (res) => {}, favList = [], useBiliTag = false, }) => {
+    return getSongsFromBVids({ infos: await fetchFavList(mid, progressEmitter, parseFavList(favList)), useBiliTag })
 }
 
-export const getBiliColleList = async (mid, sid, progressEmitter = (res) => {}, favList = []) => {
-    return getSongsFromBVids(await fetchBiliColleList(mid, sid, progressEmitter, parseFavList(favList)))
+export const getBiliColleList = async ({ mid, sid, progressEmitter = (res) => {}, favList = [], useBiliTag = false, }) => {
+    return getSongsFromBVids({ infos: await fetchBiliColleList(mid, sid, progressEmitter, parseFavList(favList)), useBiliTag })
 }
 
-export const getBiliChannelList = async (mid, progressEmitter = (res) => {}, favList = []) => {
-    return getSongsFromBVids(await fetchBiliChannelList(mid, progressEmitter, parseFavList(favList)))
+export const getBiliChannelList = async ({ mid, progressEmitter = (res) => {}, favList = [], useBiliTag = false, }) => {
+    return getSongsFromBVids({ infos: await fetchBiliChannelList(mid, progressEmitter, parseFavList(favList)), useBiliTag })
 }
 
-export const getBilSearchList = async (mid, progressEmitter = (res) => {}) => {
-    return getSongsFromBVids(await fetchBiliSearchList(mid, progressEmitter))
+export const getBilSearchList = async ({ mid, progressEmitter = (res) => {}, useBiliTag = false, }) => {
+    return getSongsFromBVids({ infos: await fetchBiliSearchList(mid, progressEmitter), useBiliTag })
 }

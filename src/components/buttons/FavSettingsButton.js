@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import { UpdateSubscribeDialog } from "../dialogs/FavSettingsDialog";
+import FavSettingsDialog from "../dialogs/FavSettingsDialog";
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import StorageManagerCtx from '../../popup/App';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -69,6 +69,23 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
         rssUpdate(subscribeUrls).then(res => setLoading(false)).catch(err => setLoading(false));            
     }
 
+    /**
+     * updates the favlist object.
+     * @param {object} listObj
+     * @param {Array} urls
+     * @param {string} favListName
+     * @param {boolean} useBiliShazam
+     */
+    const updateFavSetting = ({listObj = null, urls = null, favListName = null, useBiliShazam = null}) => {
+        if (listObj) {
+            listObj.subscribeUrls = urls;
+            listObj.info.title = favListName;
+            listObj.info.useBiliShazam = useBiliShazam;
+            StorageManager.updateFavList(listObj);
+        }
+        setOpenSettingsDialog(false);
+    }
+
     return (
         <React.Fragment >
             <Tooltip title="歌单设置">
@@ -88,17 +105,10 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
                     {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
                 </IconButton>
             </Tooltip>
-            <UpdateSubscribeDialog
+            <FavSettingsDialog
                 id='FavSettingsDialog'
                 openState={openSettingsDialog}
-                onClose={(listObj, urls, favListName) => {
-                    if (listObj) {
-                        listObj.subscribeUrls = urls;
-                        listObj.info.title = favListName;
-                        StorageManager.updateFavList(listObj);
-                    }
-                    setOpenSettingsDialog(false);
-                }}
+                onClose={updateFavSetting}
                 fromList={currentList}
                 rssUpdate={rssUpdateLoadingWrapper}
             />

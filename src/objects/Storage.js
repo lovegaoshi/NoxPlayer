@@ -28,7 +28,7 @@ const dummyFavList = (favName) => {
     }
 }
 
-export const defaultSetting = { 
+export const DEFAULT_SETTING = { 
     playMode: 'shufflePlay',
     defaultPlayMode: 'shufflePlay',
     defaultVolume: 1,
@@ -68,8 +68,8 @@ const getPlayerSetting = async () => {
     const settings = await readLocalStorage(PLAYER_SETTINGS);
     // console.log(settings)
     if (settings == undefined) {
-        this.setPlayerSetting(defaultSetting);
-        return defaultSetting;
+        this.setPlayerSetting(DEFAULT_SETTING);
+        return DEFAULT_SETTING;
     }
     return (settings);
 }
@@ -88,7 +88,7 @@ export const getPlayerSettingKey = async (key = null) => {
     if (settings.hasOwnProperty(key)) {
         return settings[key];
     } else {
-        return defaultSetting[key];
+        return DEFAULT_SETTING[key];
     }
 }
 
@@ -142,7 +142,7 @@ export default class StorageManager {
     async initWithDefault() {
         const _self = this
         let value = dummyFavList('闹闹的歌切')
-        value.songList = await getBiliSeriesList(INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1])
+        value.songList = await getBiliSeriesList({mid: INITIAL_PLAYLIST[0], sid: INITIAL_PLAYLIST[1]})
         value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851']
         // const value2 = {
         //     songList: await getSongList('BV1Ya411z7WL'),
@@ -254,8 +254,8 @@ export default class StorageManager {
         const settings = await this.readLocalStorage(PLAYER_SETTINGS)
         // console.log(settings)
         if (settings == undefined) {
-            this.setPlayerSetting(defaultSetting)
-            return defaultSetting
+            this.setPlayerSetting(DEFAULT_SETTING)
+            return DEFAULT_SETTING
         }
         return (settings)
     }

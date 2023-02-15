@@ -31,24 +31,29 @@ export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单
  * @param {function} progressEmitter    a emitter for ciurcularprogress.
  * @param {array} favList a list of old BVIds; any BVid included in this list will be skipped.
  */
-export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favList = []) => {
+export const searchBiliURLs = async ({
+    input,
+    progressEmitter = (res) => {},
+    favList = [],
+    useBiliTag = false,
+}) => {
     let list = defaultSearchList({})
     
     try {    
         let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliSeriesList(reExtracted[1], reExtracted[2], progressEmitter, favList)
+            list.songList = await getBiliSeriesList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList })
             return list
         }
         reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliColleList(reExtracted[1], reExtracted[2], progressEmitter, favList)
+            list.songList = await getBiliColleList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList })
             return list
         }
         //https://www.bilibili.com/video/BV1se4y147qM/
         reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getBiliChannelList(input, progressEmitter, favList)
+            list.songList = await getBiliChannelList({ mid: input, progressEmitter, favList })
             return list
         }
         reExtracted = /bilibili.com\/audio\/au([^/?]+)/.exec(input)
@@ -66,9 +71,9 @@ export const searchBiliURLs = async (input, progressEmitter = (res) => {}, favLi
         if (input.startsWith('BV')) {
             list.songList = await getSongList(input)
         } else if (!isNaN(Number(input))) {
-            list.songList = await getFavList(input, progressEmitter, favList)
+            list.songList = await getFavList({ mid: input, progressEmitter, favList })
         } else {
-            list.songList = await getBilSearchList(input, progressEmitter)
+            list.songList = await getBilSearchList({ mid: input, progressEmitter })
         }
         
     } catch (err) {
@@ -89,7 +94,7 @@ export const Search = function ({ handleSearch, handleOpenFav, playListIcon, han
     // id be lying if i understand any of this async stuff
     const searchBili = async (input) => {
         setLoading(true)
-        handleSearch(await searchBiliURLs(input, setProgressVal))
+        handleSearch(await searchBiliURLs({input, progressEmitter: setProgressVal}))
         setLoading(false)
     }
 

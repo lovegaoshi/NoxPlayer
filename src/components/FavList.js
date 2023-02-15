@@ -92,7 +92,11 @@ export const updateSubscribeFavList = async (listObj, StorageManager, setSelecte
         }
         if (subscribeUrls === undefined) return null;
         for (let i=0, n=subscribeUrls.length; i < n; i++) {
-            listObj.songList = (await searchBiliURLs(subscribeUrls[i], (arg) => {}, listObj.songList)).songList.concat(listObj.songList);
+            listObj.songList = (await searchBiliURLs({
+                input: subscribeUrls[i], 
+                favList: listObj.songList,
+                useBiliTag: listObj.info.useBiliShazam,
+            })).songList.concat(listObj.songList);
         }
         let uniqueSongList = new Map();
         for (const tag of listObj.songList) {
