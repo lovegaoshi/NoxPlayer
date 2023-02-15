@@ -3,6 +3,7 @@ import VideoInfo from "../objects/VideoInfo";
 import Bottleneck from "bottleneck";
 
 const logger = new Logger("Data.js")
+
 /**
  * limits to bilibili API call to 200ms/call using bottleneck. 
  * 100ms/call seems to brick IP after ~ 400 requests.
@@ -11,6 +12,17 @@ const biliApiLimiter = new Bottleneck({
     minTime: 200,
     maxConcurrent: 5,
 })
+
+/**
+ * limits to bilibili.tag API call to 100ms/call using bottleneck.
+ * through experiment bilibili.tag seems to be more tolerable
+ * than other APIs such as getvideoinfo.
+ */
+const biliTagApiLimiter = new Bottleneck({
+    minTime: 100,
+    maxConcurrent: 5,
+})
+
 /**
  *  Video src info
  */
@@ -136,25 +148,16 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
  * @returns 
  */
 const fetchVideoTagPromiseRaw = async ({ bvid, cid, name }) => {
+    const req = await fetch(URL_VIDEO_TAGS.replace("{bvid}", bvid).replace("{cid}", cid))
+    const json = await req.json()
     try {
-        if (!cid)
-            cid = await fetchCID(bvid).catch((err) => console.log(err))
-
-        // Returns a promise that resolves into the audio stream url
-        return (new Promise((resolve, reject) => {
-                fetch(URL_VIDEO_TAGS.replace("{bvid}", bvid).replace("{cid}", cid))
-                    .then(res => res.json())
-                    .then(json => {
-                        if (json.data[0].tag_type === 'bgm') {
-                            resolve(json.data[0].tag_name)
-                        } else {
-                            resolve(name)
-                        }
-                    })
-                    .catch((err) => reject(console.log(err)))
-            }));
+        if (json.data[0].tag_type === 'bgm') {
+            return json.data[0].tag_name
+        } else {
+            return name
+        }
     } catch (e) {
-        console.warn(`fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`)
+        console.warn(`fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`, e)
         return null;
     }
 
@@ -168,6 +171,9 @@ export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmi
 }
 
 export const fetchVideoTagPromise = async ({ bvid, cid, name }) => {
+    return biliTagApiLimiter.schedule(() => {
+        return fetchVideoTagPromiseRaw({ bvid, cid, name })
+    })
     return biliAPILimiterWrapper({ bvid, cid, name }, fetchVideoTagPromiseRaw);
 }
 
@@ -245,7 +251,7 @@ export const fetchLRC = async (name, setLyric, setSongTitle) => {
  * @param {string} bvid 
  * @returns 
  */
-export const fetchVideoInfoRaw = async (bvid) => {
+export const fetchVideoInfoRaw = async ({ bvid }) => {
     logger.info("calling fetchVideoInfo")
     const res = await fetch(URL_VIDEO_INFO.replace('{bvid}', bvid))
     const json = await res.json()
@@ -273,6 +279,7 @@ export const fetchVideoInfoRaw = async (bvid) => {
  * @returns 
  */
 export const fetchVideoInfo = async (bvid, progressEmit = () => {}) => {
+    return biliAPILimiterWrapper({ bvid }, fetchVideoInfoRaw, progressEmit);
     return biliApiLimiter.schedule(() => {
         progressEmit()
         return fetchVideoInfoRaw(bvid)
@@ -332,8 +339,16 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
         BVidPromises.push(fetchVideoInfo(data.archives[i].bvid, () => {progressEmitter(parseInt(100 * (i + 1) / data.archives.length))}))        
     }
     let videoInfos = []
-    await Promise.all(BVidPromises).then(res => videoInfos = res)
+    await Promise.all(BVidPromises).then(res => videoInfos = res.filter(item => item !== undefined))
     return videoInfos
+}
+
+export const fetchiliBVIDs = async (BVids, progressEmitter = () => {} ) => {
+    let BVidPromises = []
+    for (let index = 0, n=BVids.length; index < n; index ++) {
+        BVidPromises.push(fetchVideoInfo(BVids[index], () => {progressEmitter(parseInt(100 * (index + 1) / n))}))
+    }
+    return await Promise.all(BVidPromises)
 }
 
 /**
@@ -370,13 +385,10 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
                     }
                 }))
             }
-            // i dont know the smart way to do this out of the async loop, though lucky that O(2n) isnt that big of a deal
-            for (let index = 0, n=BVids.length; index < n; index ++) {
-                BVidPromises.push(fetchVideoInfo(BVids[index], () => {progressEmitter(parseInt(100 * (index + 1) / mediaCount))}))
-            }
-            await Promise.all(BVidPromises).then(res => videoInfos = res)
+            // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
+            await fetchiliBVIDs(BVids, progressEmitter).then(res => videoInfos = res.filter(item => item !== undefined))
         })
-
+    console.log(videoInfos)
     return videoInfos
 }
 

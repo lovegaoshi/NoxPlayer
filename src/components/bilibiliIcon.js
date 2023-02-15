@@ -21,8 +21,19 @@ export const BiliBiliIconSVG = function () {
  * go to a bilibili page with the given bvid. 
  * @param {string} bvid bvid of the video.
  */
-export const goToBiliBili = function (bvid) {
-    window.open('https://www.bilibili.com/video/' + bvid)
+export const toBiliBili = function ({ bvid, episode = null }) {
+    let url = 'https://www.bilibili.com/video/' + bvid;
+    if (episode) {
+        url += '?p=' + episode;
+    }
+    return url;
+}
+/**
+ * go to a bilibili page with the given bvid. 
+ * @param {string} bvid bvid of the video.
+ */
+export const goToBiliBili = function ({ bvid, episode = null }) {
+    window.open(toBiliBili({ bvid, episode }));
 }
 
 const buttonStyle = css`
@@ -39,7 +50,7 @@ export const BiliBiliIcon = ({
     liked, 
     handleThumbsUp = () => {}, 
     handleThumbedUp = () => {
-        goToBiliBili(bvid)
+        goToBiliBili({ bvid })
     }}) => {
     if (liked === 1) {
         return (

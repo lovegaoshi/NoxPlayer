@@ -262,7 +262,13 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         contextMenu.show({
                         id: "favlistmenu",
                         event: event,
-                        props: { favlist: v, updateFavList: (val) => StorageManager.updateFavList({...val}) },
+                        props: { favlist: v, updateFavList: (val) => {
+                            const newList = {...val};
+                            StorageManager.updateFavList(newList);
+                            // well, we resorted back to this...
+                            setSelectedList(null);
+                            setSelectedList(newList);
+                        } },
                     });
                     }}
                 >

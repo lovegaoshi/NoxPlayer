@@ -11,7 +11,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import "react-contexify/dist/ReactContexify.css";
-import  { BiliShazamOnSonglist } from '../../background/DataProcess';
+import  { BiliShazamOnSonglist, getBVIDList } from '../../background/DataProcess';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { removeSongBiliShazamed } from '../../objects/Song';
@@ -73,11 +73,35 @@ export default function App({ theme }) {
     props.favlist.songList = [];
     updateFavlist(props, `歌单${props.favlist.info.title}清空乐！`);
    })
-   .catch(
-
-   )
+   .catch()
   }
 
+  function reloadPlaylist ({ event, props, triggerEvent, data }) {
+    confirm({ 
+      title: '重新载入歌单？', 
+      description: `确认要清空并重新载入歌单${props.favlist.info.title}吗？`,
+      confirmationText: '好的',
+      cancellationText: '算了',
+   })
+   .then(() => {
+      const key = enqueueSnackbar(`正在重新载入歌单${props.favlist.info.title}的bv号……`, { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
+      let bvids = [];
+      for (const song of props.favlist.songList) {
+        if (!bvids.includes(song.bvid)) {
+          bvids.push(song.bvid);
+        }
+      }
+      getBVIDList({ bvids })
+      .then((val) => {
+          props.favlist.songList = val;
+          closeSnackbar(key);
+          updateFavlist(props, `歌单${props.favlist.info.title}重载了！`);
+      })
+      .catch( () => closeSnackbar(key))    
+   })
+   .catch()
+  }
+  
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -98,7 +122,7 @@ export default function App({ theme }) {
         <Item onClick={(props) => BiliShazam(props, { forced: true })}>
           <YoutubeSearchedForIcon/> &nbsp; {"Reload Bilibili shazam"}
         </Item>
-        <Item onClick={handleItemClick}>
+        <Item onClick={reloadPlaylist}>
           <RefreshIcon/> &nbsp; {"Reload playlist from bilibili"}
         </Item>
         <Item onClick={clearPlaylist}>

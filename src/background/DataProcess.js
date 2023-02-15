@@ -8,6 +8,7 @@ import {
     fetchBiliSearchList,
     fetchAudioInfoRaw as fetchAudioInfo,
     fetchVideoTagPromise,
+    fetchiliBVIDs,
  } from '../utils/Data'
 import Song, { setSongBiliShazamed } from '../objects/Song'
 
@@ -23,7 +24,7 @@ const LAST_PLAY_LIST = 'LastPlayList'
  */
 export const getBiliShazamedSongname = async (info) => {
     return fetchVideoTagPromise({ bvid: info.bvid, cid: info.cid, name: info.name });
-    // wanna implement some logic for 王胡桃？
+    // implement logic for 王胡桃？
     if (!isNaN(Number(info.name))) {
         // 
         const name = await fetchVideoTagPromise({bvid: info.bvid, cid: info.cid});
@@ -31,6 +32,7 @@ export const getBiliShazamedSongname = async (info) => {
     }
     return info.name;
 }
+
 /**
  * uses the bilibili tag API to acquire bilibili shazamed results to a list of videos.
  * @param {Array} songlist 
@@ -42,8 +44,10 @@ export const BiliShazamOnSonglist = async (songlist, forced = false) => {
     for (let song of songlist) {
         if (song.biliShazamedName === undefined || forced) {
             promises.push(
-                getBiliShazamedSongname({bvid: song.bvid, cid: song.id, name: song.name})
-                .then(val => setSongBiliShazamed(song, val)));
+                fetchVideoTagPromise({ bvid: song.bvid, cid: song.id, name: null })
+                //getBiliShazamedSongname({ bvid: song.bvid, cid: song.id, name: null })
+                .then(val => setSongBiliShazamed(song, val))
+            );
         }
     }
     await Promise.all(promises);
@@ -82,7 +86,8 @@ export const getSongList = async (bvid) => {
             singerId: info.uploader.mid,
             cover: info.picSrc,
             musicSrc: () => { return fetchPlayUrlPromise(bvid, info.pages[0].cid) },
-            lyric: lrc
+            lyric: lrc,
+            page: 1
         })])
     }
 
@@ -98,7 +103,8 @@ export const getSongList = async (bvid) => {
             singerId: info.uploader.mid,
             cover: info.picSrc,
             musicSrc: () => { return fetchPlayUrlPromise(bvid, page.cid) },
-            lyric: lrc
+            lyric: lrc,
+            page: index + 1
         }))
     }
 
@@ -121,7 +127,8 @@ export const getSongListFromAudio = async (bvid) => {
             singerId: info.uploader.mid,
             cover: info.picSrc,
             musicSrc: () => { return fetchPlayUrlPromise(bvid, info.pages[0].cid) },
-            lyric: lrc
+            lyric: lrc,
+            page: 1
         })])
     }
 
@@ -137,7 +144,8 @@ export const getSongListFromAudio = async (bvid) => {
             singerId: info.uploader.mid,
             cover: info.picSrc,
             musicSrc: () => { return fetchPlayUrlPromise(bvid, page.cid) },
-            lyric: lrc
+            lyric: lrc,
+            page: index + 1
         }))
     }
 
@@ -171,7 +179,8 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                 singer: info.uploader.name,
                 singerId: info.uploader.mid,
                 cover: info.picSrc,
-                musicSrc: () => { return fetchPlayUrlPromise(info.pages[0].bvid, info.pages[0].cid) }
+                musicSrc: () => { return fetchPlayUrlPromise(info.pages[0].bvid, info.pages[0].cid) },
+                page: 1
             }))
         }
         else {
@@ -186,8 +195,8 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                     singer: info.uploader.name,
                     singerId: info.uploader.mid,
                     cover: info.picSrc,
-                    musicSrc: () => { return fetchPlayUrlPromise(page.bvid, page.cid) }
-
+                    musicSrc: () => { return fetchPlayUrlPromise(page.bvid, page.cid) },
+                    page: index + 1
                 }))
             }
         }
@@ -238,4 +247,8 @@ export const getBiliChannelList = async ({ mid, progressEmitter = (res) => {}, f
 
 export const getBilSearchList = async ({ mid, progressEmitter = (res) => {}, useBiliTag = false, }) => {
     return getSongsFromBVids({ infos: await fetchBiliSearchList(mid, progressEmitter), useBiliTag })
+}
+
+export const getBVIDList = async ({ bvids, progressEmitter = (res) => {}, favList = [], useBiliTag = false, }) => {
+    return getSongsFromBVids({ infos: await fetchiliBVIDs(bvids, progressEmitter, parseFavList(favList)), useBiliTag })
 }

@@ -8,7 +8,8 @@ import {
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
-import { BiliBiliIconSVG, goToBiliBili } from '../bilibiliIcon'; 
+import LinkIcon from '@mui/icons-material/Link';
+import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon'; 
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
 import "react-contexify/dist/ReactContexify.css";
@@ -40,6 +41,10 @@ export default function App({ theme }) {
   function copyToClipboard ({ props }) {
     navigator.clipboard.writeText(getName(props.song));
   }
+  
+  function copyLinkToClipboard ({ props }) {
+    navigator.clipboard.writeText(toBiliBili({ bvid: props.song.bvid, episode: props.song.page }));
+  }
 
   function searchOnWeb ({ props }) {
     chrome.search.query({
@@ -66,7 +71,10 @@ export default function App({ theme }) {
         <Item onClick={copyToClipboard}>
           <ContentCopyIcon/> &nbsp; {"Copy song name to clipboard"}
         </Item>
-        <Item onClick={ ({ props }) => goToBiliBili(props.song.bvid) }>
+        <Item onClick={copyLinkToClipboard}>
+          <LinkIcon/> &nbsp; {"Copy song link to clipboard"}
+        </Item>
+        <Item onClick={ ({ props }) => goToBiliBili({ bvid: props.song.bvid, episode: props.song.page }) }>
           <BiliBiliIconSVG/> &nbsp; {"Go to Bilibili page"}
         </Item>
         <Item onClick={handleItemClick}>

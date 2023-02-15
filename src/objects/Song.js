@@ -1,7 +1,7 @@
 import { reExtractSongName, extractParenthesis } from '../utils/re';
 
 export default class Song {
-    constructor({ cid, bvid, name, singer, cover, musicSrc, singerId, lyric, lyricOffset }) {
+    constructor({ cid, bvid, name, singer, cover, musicSrc, singerId, lyric, lyricOffset, page }) {
         this.id = cid
         this.bvid = bvid
         this.name = this.nameRaw = name
@@ -13,6 +13,7 @@ export default class Song {
         this.lyricOffset = lyricOffset
         this.parsedName = reExtractSongName(this.name, this.singerId)
         this.biliShazamedName = undefined
+        this.page = page
     }
 }
 
@@ -26,5 +27,5 @@ export const setSongBiliShazamed = (song, val) => {
 export const removeSongBiliShazamed = (song) => {
     song.biliShazamedName = undefined;
     song.name = song.nameRaw;
-    song.parsedName = reExtractSongName(song.name);
+    song.parsedName = reExtractSongName(song.name, song.singerId);
 }
