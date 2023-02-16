@@ -77,7 +77,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           autoComplete="off"
         />
         <div/>
-        <Tooltip title='使用b站识歌API（单线程，很慢；王胡桃专用）'>
+        <Tooltip title='使用b站识歌API（王胡桃专用）'>
           <FormControlLabel 
             control={<Checkbox onChange={e => { setUseBiliShazam(e.target.checked) }}/>} 
             checked={useBiliShazam}

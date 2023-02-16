@@ -57,7 +57,7 @@ export const searchBiliURLs = async ({
         }
         reExtracted = /bilibili.com\/audio\/au([^/?]+)/.exec(input)
         if (reExtracted !== null) {
-            list.songList = await getSongListFromAudio(reExtracted[1], progressEmitter, favList)
+            list.songList = await getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList })
             return list
         }
         input = extractWith(input, [
@@ -68,7 +68,7 @@ export const searchBiliURLs = async ({
             /.*bilibili\.com\/medialist\/detail\/ml(\d+)/,
         ])
         if (input.startsWith('BV')) {
-            list.songList = await getSongList(input)
+            list.songList = await getSongList({ bvid: input, useBiliTag })
         } else if (!isNaN(Number(input))) {
             list.songList = await getFavList({ mid: input, progressEmitter, favList, useBiliTag })
         } else {

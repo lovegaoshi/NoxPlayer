@@ -64,13 +64,13 @@ export const initSongList = async (setCurrentSongList) => {
             setCurrentSongList(defaultSongList)
         }
         else {
-            const defaultSongList = await getSongList(DEFAULT_BVID)
+            const defaultSongList = await getSongList({ bvid: DEFAULT_BVID })
             setCurrentSongList(defaultSongList)
         }
     })
 }
 
-export const getSongList = async (bvid) => {
+export const getSongList = async ({ bvid, useBiliTag = false }) => {
     const info = await fetchVideoInfo(bvid)
     let lrc = ""
     let songs = []
@@ -81,7 +81,7 @@ export const getSongList = async (bvid) => {
         return ([new Song({
             cid: info.pages[0].cid,
             bvid: bvid,
-            name: info.title, //await getBiliShazamedSongname({name: info.title, bvid: bvid, cid: info.pages[0].cid}),//
+            name: info.title, 
             singer: info.uploader.name,
             singerId: info.uploader.mid,
             cover: info.picSrc,
@@ -98,7 +98,7 @@ export const getSongList = async (bvid) => {
         songs.push(new Song({
             cid: page.cid,
             bvid: bvid,
-            name: page.part, //await getBiliShazamedSongname({name: page.part, bvid: bvid, cid: page.cid}),//
+            name: page.part, 
             singer: info.uploader.name,
             singerId: info.uploader.mid,
             cover: info.picSrc,
@@ -107,11 +107,11 @@ export const getSongList = async (bvid) => {
             page: index + 1
         }))
     }
-
+    if (useBiliTag) await BiliShazamOnSonglist(songs);
     return (songs)
 }
 
-export const getSongListFromAudio = async (bvid) => {
+export const getSongListFromAudio = async ({ bvid }) => {
     const info = await fetchAudioInfo(bvid)
     let lrc = ""
     let songs = []
@@ -180,10 +180,7 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                 singerId: info.uploader.mid,
                 cover: info.picSrc,
                 musicSrc: () => { return fetchPlayUrlPromise(info.pages[0].bvid, info.pages[0].cid) },
-                page: 1,
-                biliShazamedName: useBiliTag 
-                ? await getBiliShazamedSongname({name: undefined, bvid: info.pages[0].bvid, cid: info.pages[0].cid}) 
-                : undefined
+                page: 1
             }))
         }
         else {
@@ -199,15 +196,12 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
                     singerId: info.uploader.mid,
                     cover: info.picSrc,
                     musicSrc: () => { return fetchPlayUrlPromise(page.bvid, page.cid) },
-                    page: index + 1,
-                    biliShazamedName: useBiliTag 
-                    ? await getBiliShazamedSongname({name: undefined, bvid: page.bvid, cid: page.cid}) 
-                    : undefined
+                    page: index + 1
                 }))
             }
         }
     }
-
+    if (useBiliTag) await BiliShazamOnSonglist(songs);
     return (songs)
 }
 
