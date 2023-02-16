@@ -217,13 +217,8 @@ export const Fav = (function ({
     useEffect(() => {
         setCurrentFavList(FavList)
         setRowsPerPage(defaultRowsPerPage)
-        requestSearch({target:{value:''}})
         primePageToCurrentPlaying()
-        if (searchBarRef.current !== null) {
-            setTimeout(() => {
-                searchBarRef.current.value = "";
-            }, 100);
-        }
+        performSearch('')
     }, [FavList.info.id])
     
     const requestSearch = (e) => {
@@ -242,6 +237,19 @@ export const Fav = (function ({
             return row.name.toLowerCase().includes(searchedVal.toLowerCase())
         })
         setRows(filteredRows)
+    }
+
+    /**
+     * forcefully search a string in the playlist.
+     * setting the searchbar ref's value directly is bugged with 
+     * the visual update of textfield's label; otherwise works just fine.
+     * @param {string} searchedVal 
+     */
+    const performSearch = (searchedVal) => {
+        setTimeout(() => {
+            searchBarRef.current.value = searchedVal;
+        }, 100);
+        requestSearch({target: {value: searchedVal}});
     }
 
     const handleChangePage = (event, newPage) => {
@@ -266,7 +274,7 @@ export const Fav = (function ({
                     contextMenu.show({
                     id: "favmenu",
                     event: event,
-                    props: { song },
+                    props: { song, performSearch },
                     });
                 }}
             >

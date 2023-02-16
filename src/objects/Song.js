@@ -19,6 +19,7 @@ export default class Song {
 }
 
 export const setSongBiliShazamed = (song, val) => {
+    song.biliShazamedName = val;
     if (!val) return;
     song.biliShazamedName = extractParenthesis(val);
     song.nameRaw = song.name;

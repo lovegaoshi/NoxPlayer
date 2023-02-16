@@ -45,33 +45,33 @@ export default function App({ theme }) {
   }
 
   async function BiliShazam ({ event, props, triggerEvent, data }, options = { forced: false }) {
-    const key = enqueueSnackbar(`正在用b站识歌标识歌单${props.favlist.info.title}……`, { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
+    const key = enqueueSnackbar(`正在用b站识歌标识歌单 ${props.favlist.info.title}……`, { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
     try {
       await BiliShazamOnSonglist(props.favlist.songList, options.forced);
     } catch (e) {
-      console.warn(`b站识歌标识歌单${props.favlist.info.title}失败`, e)
+      console.warn(`b站识歌标识歌单 ${props.favlist.info.title}失败`, e)
     }
     closeSnackbar(key);
-    updateFavlist(props, `歌单${props.favlist.info.title}已经用b站识歌更新乐！`);
+    updateFavlist(props, `歌单 ${props.favlist.info.title}已经用b站识歌更新乐！`);
   }
 
   function removeBiliShazam ({ event, props, triggerEvent, data }) {
     for (let song of props.favlist.songList) {
       removeSongBiliShazamed(song);
     }
-    updateFavlist(props, `歌单${props.favlist.info.title}的b站识歌记录全部清除乐！`);
+    updateFavlist(props, `歌单 ${props.favlist.info.title}的b站识歌记录全部清除乐！`);
   }
 
   function clearPlaylist({ event, props, triggerEvent, data }) {
     confirm({ 
       title: '清空歌单？', 
-      description: `确认要清空歌单${props.favlist.info.title}吗？`,
+      description: `确认要清空歌单 ${props.favlist.info.title}吗？`,
       confirmationText: '好的',
       cancellationText: '算了',
    })
    .then( () => {
     props.favlist.songList = [];
-    updateFavlist(props, `歌单${props.favlist.info.title}清空乐！`);
+    updateFavlist(props, `歌单 ${props.favlist.info.title}清空乐！`);
    })
    .catch()
   }
@@ -79,12 +79,14 @@ export default function App({ theme }) {
   function reloadPlaylist ({ event, props, triggerEvent, data }) {
     confirm({ 
       title: '重新载入歌单？', 
-      description: `确认要清空并重新载入歌单${props.favlist.info.title}吗？`,
+      description: `确认要清空并重新载入歌单 ${props.favlist.info.title}吗？`,
       confirmationText: '好的',
       cancellationText: '算了',
    })
    .then(() => {
-      const key = enqueueSnackbar(`正在重新载入歌单${props.favlist.info.title}的bv号……`, { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
+      const key = enqueueSnackbar(
+        `正在重新载入歌单 ${props.favlist.info.title}的bv号……`,
+        { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} });
       let bvids = [];
       for (const song of props.favlist.songList) {
         if (!bvids.includes(song.bvid)) {
@@ -95,7 +97,7 @@ export default function App({ theme }) {
       .then((val) => {
           props.favlist.songList = val;
           closeSnackbar(key);
-          updateFavlist(props, `歌单${props.favlist.info.title}重载了！`);
+          updateFavlist(props, `歌单 ${props.favlist.info.title}重载了！`);
       })
       .catch( () => closeSnackbar(key))    
    })
@@ -118,9 +120,6 @@ export default function App({ theme }) {
         </Item>
         <Item onClick={(props) => removeBiliShazam(props, {})}>
           <DeleteIcon/> &nbsp; {"Remove Bilibili shazam"}
-        </Item>
-        <Item onClick={(props) => BiliShazam(props, { forced: true })}>
-          <YoutubeSearchedForIcon/> &nbsp; {"Reload Bilibili shazam"}
         </Item>
         <Item onClick={reloadPlaylist}>
           <RefreshIcon/> &nbsp; {"Reload playlist from bilibili"}

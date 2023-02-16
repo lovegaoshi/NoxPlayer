@@ -154,7 +154,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-                    /.*『(.+)』.*/,
+                    /『(.+)』/,
                 ]);
             break;
         case 159910988: // "litmus石蕊":
@@ -195,7 +195,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 [
                     /【.+】(.+)/, 
                     /\d+\.(.+)/,
-                    /.*第.+首(.+)/,
+                    /第.+首(.+)/,
                 ]);
             break;
         case 1304703724: // "天马的冰淇淋小推车":
@@ -293,7 +293,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-                    /.*『(.+)』.*/,
+                    /『(.+)』/,
                     /「.+」(.+)/,
                     /【.+】(.+)/,
                 ]);
@@ -313,6 +313,13 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 extractParenthesis(filename), 
                 [
                     /\d+-(.+)-.+-.+/
+                ]);
+            break;
+        case 1375400985: // 安可周报
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /『(.+)』/,
                 ]);
             break;
         case 0:

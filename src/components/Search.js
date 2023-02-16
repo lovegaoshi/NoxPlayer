@@ -167,8 +167,7 @@ export const Search = function ({ handleSearch, handleOpenFav, playListIcon, han
                     { favListButton() }
                     <TextField
                         id="outlined-basic"
-                        label="BVid/fid"
-                        placeholder="BV1w44y1b7MX/1303535681"
+                        placeholder="搜索b站url"
                         onKeyDown={keyPress}
                         onChange={onSearchTextChange}
                         value={searchValue}

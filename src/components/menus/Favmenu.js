@@ -6,6 +6,7 @@ import {
     useContextMenu
   } from "react-contexify";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import LinkIcon from '@mui/icons-material/Link';
@@ -39,7 +40,7 @@ export default function App({ theme }) {
   }
 
   function copyToClipboard ({ props }) {
-    navigator.clipboard.writeText(getName(props.song));
+    navigator.clipboard.writeText(getName(props.song, true));
   }
   
   function copyLinkToClipboard ({ props }) {
@@ -48,13 +49,17 @@ export default function App({ theme }) {
 
   function searchOnWeb ({ props }) {
     chrome.search.query({
-        text: getName(props.song),
+        text: getName(props.song, true),
         disposition: "NEW_TAB",
       });
   }
 
+  function searchInFav ({ props }) {
+    props.performSearch(getName(props.song, true));
+  }
+
   function searchOnBilibili ( {props} ) {
-    window.open(`https://search.bilibili.com/all?keyword=${getName(props.song)}&from_source=webtop_search`);
+    window.open(`https://search.bilibili.com/all?keyword=${getName(props.song, true)}&from_source=webtop_search`);
   }
 
   function displayMenu (e) {
@@ -78,6 +83,9 @@ export default function App({ theme }) {
           <BiliBiliIconSVG/> &nbsp; {"Go to Bilibili page"}
         </Item>
         <Item onClick={handleItemClick}>
+          <RefreshIcon/> &nbsp; {"Reload this song's bvid"}
+        </Item>
+        <Item onClick={searchInFav}>
           <FindInPageIcon/> &nbsp; {"Search song in this playlist"}
         </Item>
         <Item onClick={searchOnWeb}>

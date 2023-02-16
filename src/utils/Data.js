@@ -147,14 +147,14 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
  * some videos have episodes that this may not be accurate.
  * @returns 
  */
-const fetchVideoTagPromiseRaw = async ({ bvid, cid, name = undefined }) => {
-    const req = await fetch(URL_VIDEO_TAGS.replace("{bvid}", bvid).replace("{cid}", cid))
-    const json = await req.json()
+const fetchVideoTagPromiseRaw = async ({ bvid, cid }) => {
+    const req = await fetch(URL_VIDEO_TAGS.replace("{bvid}", bvid).replace("{cid}", cid));
+    const json = await req.json();
     try {
         if (json.data[0].tag_type === 'bgm') {
-            return json.data[0].tag_name
+            return json.data[0].tag_name;
         } else {
-            return name
+            return null;
         }
     } catch (e) {
         console.warn(`fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`, e)
@@ -170,9 +170,9 @@ export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmi
     })
 }
 
-export const fetchVideoTagPromise = async ({ bvid, cid, name }) => {
+export const fetchVideoTagPromise = async ({ bvid, cid }) => {
     return biliTagApiLimiter.schedule(() => {
-        return fetchVideoTagPromiseRaw({ bvid, cid, name })
+        return fetchVideoTagPromiseRaw({ bvid, cid })
     })
     return biliAPILimiterWrapper({ bvid, cid, name }, fetchVideoTagPromiseRaw);
 }
@@ -388,7 +388,6 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
             // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
             await fetchiliBVIDs(BVids, progressEmitter).then(res => videoInfos = res.filter(item => item !== undefined))
         })
-    console.log(videoInfos)
     return videoInfos
 }
 
