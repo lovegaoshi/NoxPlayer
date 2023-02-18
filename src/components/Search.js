@@ -16,12 +16,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import { extractWith } from '../utils/re';
 import { v4 as uuidv4 } from 'uuid';
+import { dummyFavList } from '../objects/Storage';
 
 export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('FavList-Search-' + uuidv4())} }) => {
-    return {
-        songList,
-        info,
-    }
+    let newList = dummyFavList('');
+    newList.songList = songList;
+    newList.info = info;
+    return newList;
 }
 
 /**
@@ -39,18 +40,18 @@ export const searchBiliURLs = async ({
 }) => {
     let list = defaultSearchList({})
     try {    
-        let reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+).*/.exec(input)
+        let reExtracted = /space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliSeriesList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag })
             return list
         }
-        reExtracted = /.*space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+).*/.exec(input)
+        reExtracted = /space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliColleList({ mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag })
             return list
         }
         //https://www.bilibili.com/video/BV1se4y147qM/
-        reExtracted = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(input)
+        reExtracted = /space.bilibili\.com\/(\d+)\/video/.exec(input)
         if (reExtracted !== null) {
             list.songList = await getBiliChannelList({ mid: input, progressEmitter, favList, useBiliTag })
             return list
@@ -104,7 +105,6 @@ export const Search = function ({ handleSearch, handleOpenFav, playListIcon, han
             //console.log('value', input); // Validation of target Val    
             // Handles BV search    
             searchBili(input)
-
         }
     }
 

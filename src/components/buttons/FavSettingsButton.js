@@ -80,7 +80,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
         if (listObj) {
             listObj.subscribeUrls = urls;
             listObj.info.title = favListName;
-            listObj.info.useBiliShazam = useBiliShazam;
+            listObj.useBiliShazam = useBiliShazam;
             StorageManager.updateFavList(listObj);
         }
         setOpenSettingsDialog(false);

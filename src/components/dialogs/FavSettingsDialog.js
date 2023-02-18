@@ -42,7 +42,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
   const loadFavList = (favList = fromList) => {
     loadRSSUrl(favList.subscribeUrls)
     setFavListName(favList.info.title)
-    setUseBiliShazam(favList.info.useBiliShazam ? true : false)
+    setUseBiliShazam(favList.useBiliShazam ? true : false)
   }
 
   useEffect( () => {

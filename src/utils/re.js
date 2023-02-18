@@ -127,7 +127,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractParenthesis(extractWith(
                 filename, 
                 [
-                    /.+《(.+)》.+/, 
+                    /《(.+)》/, 
                     /\d+.+-(.+)/, 
                     /\d+(.+)/, 
                 ]));
@@ -141,10 +141,14 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
+                    /《(.+)\/(.+)》/,
                     /【.+】(.+)/, 
+                    /\d+\.\d+ (.+)\//,
                     /\d+\.\d+ (.+)/, 
                     /\d+\.(.+) - .+/,
+                    /\d+\.(.+)\//,
                     /\d+\.(.+)/,
+                    /(.+)\//,
                 ]);
             break;
         case 63326: // "随心":
@@ -320,6 +324,8 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 extractParenthesis(filename), 
                 [
                     /『(.+)』/,
+                    /【安可】(.+)/,
+                    /【安可Anko】(.+)/
                 ]);
             break;
         case 0:

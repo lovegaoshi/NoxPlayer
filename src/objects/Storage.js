@@ -17,7 +17,7 @@ export const EXPORT_OPTIONS = {
     personal: '私有云',
 }
 
-const dummyFavList = (favName) => {
+export const dummyFavList = (favName) => {
     return {
         songList: [],
         info: { title: favName, id: ('FavList-' + uuidv4()) },
@@ -26,7 +26,16 @@ const dummyFavList = (favName) => {
             autoRSSUpdate: false,
         },
         useBiliShazam: false,
+        bannedBVids: [],
     }
+}
+
+export const dummyFavListFromList = (list) => {
+    let newList = dummyFavList("");
+    for (const [key, val] of Object.entries(list)) {
+        newList[key] = val;
+    }
+    return newList;
 }
 
 export const DEFAULT_SETTING = { 

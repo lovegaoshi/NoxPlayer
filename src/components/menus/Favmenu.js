@@ -6,10 +6,12 @@ import {
     useContextMenu
   } from "react-contexify";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import EmailIcon from '@mui/icons-material/Email';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import LinkIcon from '@mui/icons-material/Link';
+import NotInterestedIcon from '@mui/icons-material/NotInterested';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon'; 
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
@@ -28,7 +30,7 @@ const MENU_ID = "favmenu";
  * search song on bilibili
  * @returns 
  */
-export default function App({ theme }) {
+export default function App ({ theme }) {
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
@@ -74,25 +76,32 @@ export default function App({ theme }) {
     <div>          
       <Menu id={MENU_ID} animation="slide" theme={theme}>
         <Item onClick={copyToClipboard}>
-          <ContentCopyIcon/> &nbsp; {"Copy song name to clipboard"}
+          <ContentCopyIcon/> &nbsp; {"把歌名复制到剪贴板"}
         </Item>
         <Item onClick={copyLinkToClipboard}>
-          <LinkIcon/> &nbsp; {"Copy song link to clipboard"}
+          <LinkIcon/> &nbsp; {"把b站链接复制到剪贴板"}
         </Item>
         <Item onClick={ ({ props }) => goToBiliBili({ bvid: props.song.bvid, episode: props.song.page }) }>
-          <BiliBiliIconSVG/> &nbsp; {"Go to Bilibili page"}
-        </Item>
-        <Item onClick={handleItemClick}>
-          <RefreshIcon/> &nbsp; {"Reload this song's bvid"}
+          <BiliBiliIconSVG/> &nbsp; {"去b站"}
         </Item>
         <Item onClick={searchInFav}>
-          <FindInPageIcon/> &nbsp; {"Search song in this playlist"}
+          <FindInPageIcon/> &nbsp; {"在歌单里搜索这首歌"}
         </Item>
         <Item onClick={searchOnWeb}>
-          <SearchIcon/> &nbsp; {"Search song on the web"}
+          <SearchIcon/> &nbsp; {"在网上搜索这首歌"}
         </Item>
         <Item onClick={searchOnBilibili}>
-          <SearchIcon/> &nbsp; {"Search song on Bilibili"}
+          <SearchIcon/> &nbsp; {"在b站搜索这首歌"}
+        </Item>
+        <Separator></Separator>
+        <Item onClick={handleItemClick}>
+          <RefreshIcon/> &nbsp; {"重载这首歌的bv号"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <NotInterestedIcon/> &nbsp; {"删除并拉黑这首歌的bv号"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <EmailIcon/> &nbsp; {"联系王胡桃改歌名"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}
