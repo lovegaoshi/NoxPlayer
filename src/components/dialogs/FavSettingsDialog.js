@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 export default function ({ fromList, onClose, openState, rssUpdate }) {
 
   const [subUrl, setSubUrl] = useState("")
+  const [bannedBVids, setBannedBVids] = useState("")
   const [favListName, setFavListName] = useState("")
   const [useBiliShazam, setUseBiliShazam] = useState(false)
 
@@ -21,26 +22,28 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
     );
   }
 
-  const loadRSSUrl = (subscribeUrls) => {
+  const setArrayAsStr = (val, setFunc = setSubUrl) => {
     try{
-      console.debug('parsing fromList.subscribeUrls', subscribeUrls)
-      setSubUrl(subscribeUrls.join(';'))
+      setFunc(val.join(';'))
     } catch {
-      setSubUrl("")
+      setFunc("")
     }
   }
 
   const handleOnClose = () => {
-    onClose({
-      listObj: fromList,
-      urls: subUrl.split(';'), 
-      favListName: favListName,
-      useBiliShazam: useBiliShazam,
-    });
+    onClose(
+      fromList,
+      {
+        subscribeUrls: subUrl.split(';'), 
+        favListName: favListName,
+        useBiliShazam: useBiliShazam,
+        bannedBVids: bannedBVids.split(';')
+      });
   }
 
   const loadFavList = (favList = fromList) => {
-    loadRSSUrl(favList.subscribeUrls)
+    setArrayAsStr(favList.subscribeUrls, setSubUrl)
+    setArrayAsStr(favList.bannedBVids, setBannedBVids)
     setFavListName(favList.info.title)
     setUseBiliShazam(favList.useBiliShazam ? true : false)
   }
@@ -77,6 +80,18 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           autoComplete="off"
         />
         <div/>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="bannedBVids"
+          label="黑名单BV号"
+          type="name"
+          variant="standard"
+          onChange={(e) => setBannedBVids(e.target.value)}
+          value={bannedBVids}
+          autoComplete="off"
+        />
+        <div/>
         <Tooltip title='使用b站识歌API（王胡桃专用）'>
           <FormControlLabel 
             control={<Checkbox onChange={e => { setUseBiliShazam(e.target.checked) }}/>} 
@@ -89,7 +104,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
         <Button 
           onClick={() => {
             loadFavList()
-            onClose({})
+            onClose()
           }}>取消</Button>
         <Button onClick={handleOnClose}>确认</Button>
         <Button 

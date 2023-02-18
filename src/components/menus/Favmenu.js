@@ -17,6 +17,7 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
 import "react-contexify/dist/ReactContexify.css";
 import { getName } from '../../utils/re';
+import { saveFav } from '../../objects/Storage';
 
 const MENU_ID = "favmenu";
 
@@ -64,6 +65,12 @@ export default function App ({ theme }) {
     window.open(`https://search.bilibili.com/all?keyword=${getName(props.song, true)}&from_source=webtop_search`);
   }
 
+  function banSongBVid ({ event, props, triggerEvent, data }) {
+    props.onDelete();
+    props.currentFavList.bannedBVids.push(props.song.bvid);
+    saveFav(props.currentFavList);
+  }
+
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -97,7 +104,7 @@ export default function App ({ theme }) {
         <Item onClick={handleItemClick}>
           <RefreshIcon/> &nbsp; {"重载这首歌的bv号"}
         </Item>
-        <Item onClick={handleItemClick}>
+        <Item onClick={banSongBVid}>
           <NotInterestedIcon/> &nbsp; {"删除并拉黑这首歌的bv号"}
         </Item>
         <Item onClick={handleItemClick}>

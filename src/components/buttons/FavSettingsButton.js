@@ -76,11 +76,13 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
      * @param {string} favListName
      * @param {boolean} useBiliShazam
      */
-    const updateFavSetting = ({listObj = null, urls = null, favListName = null, useBiliShazam = null}) => {
-        if (listObj) {
-            listObj.subscribeUrls = urls;
-            listObj.info.title = favListName;
-            listObj.useBiliShazam = useBiliShazam;
+    //const updateFavSetting = (listObj, {subscribeUrls = [], favListName = null, useBiliShazam = null, bannedBVids = []}) => {
+    const updateFavSetting = (listObj, listSetting = {}) => {
+            if (listObj) {
+            listObj.info.title = listSetting.favListName;
+            for (const [key, val] of Object.entries(listSetting)) {
+                listObj[key] = val;
+            }
             StorageManager.updateFavList(listObj);
         }
         setOpenSettingsDialog(false);

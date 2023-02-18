@@ -94,7 +94,7 @@ export const updateSubscribeFavList = async (listObj, StorageManager, setSelecte
         for (let i=0, n=subscribeUrls.length; i < n; i++) {
             listObj.songList = (await searchBiliURLs({
                 input: subscribeUrls[i], 
-                favList: listObj.songList,
+                favList: [...listObj.songList.map(val => val.bvid), ...listObj.bannedBVids],
                 useBiliTag: listObj.useBiliShazam,
             })).songList.concat(listObj.songList);
         }

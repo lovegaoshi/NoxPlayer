@@ -69,6 +69,10 @@ export const setLocalStorage = async (key, val) => {
     chrome.storage.local.set({ [key]: val })
 }
 
+export const saveFav = async (updatedToList) => {
+    return await chrome.storage.local.set({ [updatedToList.info.id]: updatedToList })
+}
+
 /**
  * wrapper for getting the current playerSetting.
  * if setting is not initialized, initialize and return the default one.

@@ -274,7 +274,12 @@ export const Fav = (function ({
                     contextMenu.show({
                     id: "favmenu",
                     event: event,
-                    props: { song, performSearch },
+                    props: { 
+                        song,
+                        performSearch,
+                        onDelete: () => handleDeleteFromSearchList(currentFavList.info.id, song.id),
+                        currentFavList: currentFavList
+                    },
                     });
                 }}
             >
