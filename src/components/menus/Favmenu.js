@@ -5,9 +5,6 @@ import {
     Separator,
     useContextMenu
   } from "react-contexify";
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import EmailIcon from '@mui/icons-material/Email';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import LinkIcon from '@mui/icons-material/Link';
@@ -101,14 +98,8 @@ export default function App ({ theme }) {
           <SearchIcon/> &nbsp; {"在b站搜索这首歌"}
         </Item>
         <Separator></Separator>
-        <Item onClick={handleItemClick}>
-          <RefreshIcon/> &nbsp; {"重载这首歌的bv号"}
-        </Item>
         <Item onClick={banSongBVid}>
           <NotInterestedIcon/> &nbsp; {"删除并拉黑这首歌的bv号"}
-        </Item>
-        <Item onClick={handleItemClick}>
-          <EmailIcon/> &nbsp; {"联系王胡桃改歌名"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}

@@ -34,10 +34,10 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
     onClose(
       fromList,
       {
-        subscribeUrls: subUrl.split(';'), 
+        subscribeUrls: Array.from(new Set(subUrl.split(';'))), 
         favListName: favListName,
         useBiliShazam: useBiliShazam,
-        bannedBVids: bannedBVids.split(';')
+        bannedBVids: Array.from(new Set(bannedBVids.split(';')))
       });
   }
 
@@ -69,7 +69,6 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
       </DialogTitle>
       <DialogContent>
         <TextField
-          autoFocus
           margin="dense"
           id="rssname"
           label="订阅url"
@@ -78,10 +77,10 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           onChange={(e) => setSubUrl(e.target.value)}
           value={subUrl}
           autoComplete="off"
+          placeholder="这些url会被订阅"
         />
         <div/>
         <TextField
-          autoFocus
           margin="dense"
           id="bannedBVids"
           label="黑名单BV号"
@@ -90,6 +89,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           onChange={(e) => setBannedBVids(e.target.value)}
           value={bannedBVids}
           autoComplete="off"
+          placeholder="这些bvid不会被订阅"
         />
         <div/>
         <Tooltip title='使用b站识歌API（王胡桃专用）'>
