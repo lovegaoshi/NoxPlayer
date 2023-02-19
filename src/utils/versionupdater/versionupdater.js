@@ -15,10 +15,8 @@ export default async () => {
     if (settingsVersion === undefined) settingsVersion = 0;
     switch (settingsVersion) {
         case (0):
-            updater1118();
-    
         case ('1.1.1.8'):
-    
+            updater1118();
     }
     setLocalStorage('nox-version', currentVersion);
 }
