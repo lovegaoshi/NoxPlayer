@@ -6,7 +6,7 @@ import RssFeedIcon from '@mui/icons-material/RssFeed';
 import StorageManagerCtx from '../../popup/App';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
-import { getPlayerSettingKey, readLocalStorage, setLocalStorage } from '../../objects/Storage';
+import { getPlayerSettingKey, readLocalStorage, setLocalStorage, FAVLIST_AUTO_UPDATE_TIMESTAMP } from '../../objects/Storage';
 
 /**
  * a component that includes a setting button; an update button; and a setting dialog.
@@ -28,7 +28,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
     // is mounted here. this has the additional benefit now that i dont have to see playlists 
     // get auto updated every time i reload the page because its now persisted through sessions
     useEffect( () => {
-        readLocalStorage('favListAutoUpdateTimestamp').then(val => {
+        readLocalStorage(FAVLIST_AUTO_UPDATE_TIMESTAMP).then(val => {
             if (val === undefined) return;
             favListAutoUpdateTimestamps.current = val;
         })
@@ -37,12 +37,12 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
     useEffect(() => {
 
         const checkFavListAutoUpdate = async ({favList, updateInterval = 1000*60*60*24}) => {
-            if (favList.info.id === 'Search' || ! await getPlayerSettingKey('autoRSSUpdate')) return false;
+            if (favList.info.id.includes('Search') || ! await getPlayerSettingKey('autoRSSUpdate')) return false;
             console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps.current[favList.info.id]);
             if (favListAutoUpdateTimestamps.current[favList.info.id] === undefined || 
                 (new Date() - new Date(favListAutoUpdateTimestamps.current[favList.info.id])) > updateInterval) {
                 favListAutoUpdateTimestamps.current[favList.info.id] = new Date().toISOString();
-                setLocalStorage('favListAutoUpdateTimestamp', favListAutoUpdateTimestamps.current);
+                setLocalStorage(FAVLIST_AUTO_UPDATE_TIMESTAMP, favListAutoUpdateTimestamps.current);
                 return true;
             }
             return false;
@@ -78,7 +78,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
      */
     //const updateFavSetting = (listObj, {subscribeUrls = [], favListName = null, useBiliShazam = null, bannedBVids = []}) => {
     const updateFavSetting = (listObj, listSetting = {}) => {
-            if (listObj) {
+        if (listObj) {
             listObj.info.title = listSetting.favListName;
             for (const [key, val] of Object.entries(listSetting)) {
                 listObj[key] = val;

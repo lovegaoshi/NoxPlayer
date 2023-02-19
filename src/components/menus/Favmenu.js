@@ -9,6 +9,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import LinkIcon from '@mui/icons-material/Link';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon'; 
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
@@ -68,6 +69,10 @@ export default function App ({ theme }) {
     saveFav(props.currentFavList);
   }
 
+  function reloadSongBVid ({ event, props, triggerEvent, data }) {
+    props.reloadBVid(props.song.bvid);
+  }
+
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -98,6 +103,9 @@ export default function App ({ theme }) {
           <SearchIcon/> &nbsp; {"在b站搜索这首歌"}
         </Item>
         <Separator></Separator>
+        <Item onClick={reloadSongBVid}>
+          <RefreshIcon/> &nbsp; {"重新载入这首歌的bv号"}
+        </Item>
         <Item onClick={banSongBVid}>
           <NotInterestedIcon/> &nbsp; {"删除并拉黑这首歌的bv号"}
         </Item>

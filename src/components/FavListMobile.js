@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState, useCallback, memo, useContext } from "react";
-import { Search } from '../components/Search';
+import { Search, defaultSearchList } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
@@ -87,7 +87,7 @@ export const FavList = memo(function ({
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
-    const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
+    const [searchList, setSearchList] = useState(defaultSearchList({}))
     const [favOpen, setFavOpen] = useState(false)
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')

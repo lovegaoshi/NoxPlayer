@@ -25,12 +25,14 @@ import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 import { useConfirm } from "material-ui-confirm";
 import HelpPanelButton from "./buttons/HelpPanelButton";
 import Menu from './menus/Favlistmenu';
 import { contextMenu } from "react-contexify";
+import { readLocalStorage, FAV_FAV_LIST_KEY } from '../objects/Storage';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -128,7 +130,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [openNewDialog, setOpenNewDialog] = useState(false)
     const [actionFavId, setActionFavId] = useState(null)
     const [actionFavSong, setActionFavSong] = useState(null)
-    const [searchList, setSearchList] = useState({ info: { title: '搜索歌单', id: 'Search' }, songList: [] })
+    const [searchList, setSearchList] = useState(defaultSearchList({}))
     const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
     const [searchInputVal, setSearchInputVal] = useState('')
     const confirm = useConfirm()
@@ -228,13 +230,22 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         onAddFavToList(FavList.songList)
     }
 
+    const loadToSearchList = (songList) => {
+        handleSearch(defaultSearchList({ songList }));
+        onPlayAllFromFav(songList);
+    }
+
     const shuffleAll = () => {
         let allFavSongList = [];
-        for (let i=0, n=favLists.length; i<n; i++ ) {
-            allFavSongList = allFavSongList.concat(favLists[i].songList);
-        } 
-        handleSearch(defaultSearchList({ songList: allFavSongList }));
-        onPlayAllFromFav(allFavSongList);
+        favLists.map((val) => allFavSongList = allFavSongList.concat(val.songList));
+        loadToSearchList(allFavSongList);
+    }
+
+    const loadMyFavToSearch = () => {
+        // where do i put this button?
+        readLocalStorage(FAV_FAV_LIST_KEY)
+        .then(val => loadToSearchList(val.songList))
+        .catch();
     }
 
     const onDragEnd = (result) => {
@@ -327,6 +338,13 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <ShuffleIcon sx={AddFavIcon} />
                             </IconButton>
                         </Tooltip>
+                        {false && 
+                            <Tooltip title="我的最爱">
+                                <IconButton size='large' onClick={() => loadMyFavToSearch()}>
+                                    <FavoriteIcon sx={AddFavIcon} />
+                                </IconButton>
+                            </Tooltip>
+                        }
                         <PlayerSettingsButton AddFavIcon={AddFavIcon} />
                         <HelpPanelButton AddFavIcon={AddFavIcon} />
                     </Grid>

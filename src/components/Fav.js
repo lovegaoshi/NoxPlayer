@@ -264,6 +264,11 @@ export const Fav = (function ({
     const className = ScrollBar().root
     // onSongIndexChange([song], {songList: rows})
     
+    const favListReloadBVid = (bvid) => {
+        currentFavList.songList = currentFavList.songList.filter(x => x.bvid !== bvid);
+        rssUpdate([bvid]);
+    }
+
     const rowRenderer = ({ song, index }) => {
         return (
             <StyledTableRow
@@ -278,7 +283,8 @@ export const Fav = (function ({
                         song,
                         performSearch,
                         onDelete: () => handleDeleteFromSearchList(currentFavList.info.id, song.id),
-                        currentFavList: currentFavList
+                        currentFavList: currentFavList,
+                        reloadBVid: favListReloadBVid
                     },
                     });
                 }}
@@ -288,9 +294,10 @@ export const Fav = (function ({
                     whiteSpace: 'nowrap'
                 }}
                 >
-                    <ListItemButton variant="text" sx={songText} onClick={() => getPlayerSettingKey('keepSearchedSongListWhenPlaying').then((val) => {
-                        onSongIndexChange([song], {songList: val? rows : FavList.songList})
-                    })}>
+                    <ListItemButton variant="text" sx={songText} onClick={() => 
+                        getPlayerSettingKey('keepSearchedSongListWhenPlaying')
+                        .then((val) => onSongIndexChange([song], {songList: val? rows : FavList.songList}))}
+                    >
                         {song.id === currentAudio.id && <ListItemIcon sx={{ minWidth: '30px' }}><PlayCircleIcon/></ListItemIcon>}
                         <ListItemText primary={getName(song, playerSettings.parseSongName)}></ListItemText>
                     </ListItemButton>
@@ -345,7 +352,6 @@ export const Fav = (function ({
                                 <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                     {currentFavList.info.title}
                                 </Typography>
-
                             </Grid>
                             <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
                                 <RandomGIFIcon 
@@ -355,14 +361,16 @@ export const Fav = (function ({
                                 />
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
-                                <FavSettingsButtons
-                                    currentList={currentFavList}
-                                    rssUpdate={ async (subscribeUrls) => {
-                                        const val = await rssUpdate(subscribeUrls);
-                                        if (val !== null) setRows(val);
-                                        return new Promise((resolve, reject) => {resolve(1)});
-                                    }}
-                                ></FavSettingsButtons>
+                                {!currentFavList.info.id.includes('Search') && 
+                                    <FavSettingsButtons
+                                        currentList={currentFavList}
+                                        rssUpdate={ async (subscribeUrls) => {
+                                            const val = await rssUpdate(subscribeUrls);
+                                            if (val !== null) setRows(val);
+                                            return new Promise((resolve, reject) => {resolve(1)});
+                                        }}
+                                    />
+                                }
                                 <SongSearchBar requestSearch={requestSearch} ref={searchBarRef} />
                             </Grid>
                         </Grid>

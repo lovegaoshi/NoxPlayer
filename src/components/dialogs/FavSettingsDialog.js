@@ -50,7 +50,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
 
   useEffect( () => {
     loadFavList()
-  }, [fromList.info.id])
+  }, [fromList.info.id, fromList.songList.length])
 
   return (
     <Dialog open={openState}>

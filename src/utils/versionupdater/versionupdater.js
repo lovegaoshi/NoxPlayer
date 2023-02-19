@@ -1,5 +1,6 @@
-import { setLocalStorage, readLocalStorage } from '../../objects/Storage';
+import { setLocalStorage, readLocalStorage, storageCleanup } from '../../objects/Storage';
 import updater1118 from './1.1.1.8';
+import updater1119 from './1.1.1.9';
 
 export const getVersion = () => {
     return chrome.runtime.getManifest().version;
@@ -17,6 +18,8 @@ export default async () => {
         case (0):
         case ('1.1.1.8'):
             updater1118();
+        case ('1.1.1.9'):
+            updater1119();
     }
     setLocalStorage('nox-version', currentVersion);
 }

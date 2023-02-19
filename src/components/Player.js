@@ -167,6 +167,10 @@ export const Player = function ({ songList }) {
     }
 
     const onAudioPlay = useCallback((audioInfo) => {
+        const biliButtonHandleClick = (val) => {
+            console.debug('like video returned', val);
+            setparams({...params, extendsContent: renderExtendsContent({ bvid: audioInfo.bvid, liked: 1 })});
+        }
         // console.log('audio playing', audioInfo)
         checkBVLiked(
             audioInfo.bvid,
@@ -174,10 +178,7 @@ export const Player = function ({ songList }) {
                 setBvidLiked(videoLikeStatus);
                 const newParam = {
                     ...params,
-                    extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: (val) => {
-                        console.debug('like video returned', val)
-                        setparams({...params, extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: 1 })})
-                    } })
+                    extendsContent: renderExtendsContent({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: biliButtonHandleClick })
                 }
                 setparams(newParam)
             })
@@ -230,6 +231,17 @@ export const Player = function ({ songList }) {
         setShowLyric(!showLyric)
     }
 
+    const renderExtendsContent = ({
+        bvid, 
+        liked, 
+        handleThumbsUp = undefined, 
+        handleThumbedUp = undefined,
+        }) => {
+        return [
+            BiliBiliIcon({ bvid, liked, handleThumbsUp, handleThumbedUp }),
+        ]
+    }
+
     // Initialization effect
     useEffect(() => {
         // using this debug message, even when songList is changed this is only initialized once. but why? 
@@ -242,9 +254,7 @@ export const Player = function ({ songList }) {
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
-            options.extendsContent = BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
-            // oath2agent.onBtnClick()
-            // chrome.storage.local.set({ ['CurrentPlaying']: {} })
+            options.extendsContent = renderExtendsContent({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
             const params = {
                 ...options,
                 ...setting,

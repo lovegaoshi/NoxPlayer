@@ -5,6 +5,7 @@ import { skins } from '../styles/skin';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { sendBVLike } from '../utils/BiliOperate';
+import { v4 as uuidv4 } from 'uuid';
 
 export const BiliBiliIconSVG = function () {
     return (
@@ -49,9 +50,8 @@ export const BiliBiliIcon = ({
     bvid, 
     liked, 
     handleThumbsUp = () => {}, 
-    handleThumbedUp = () => {
-        goToBiliBili({ bvid })
-    }}) => {
+    handleThumbedUp = () => goToBiliBili({ bvid }),
+    }) => {
     if (liked === 1) {
         return (
             <span
@@ -59,6 +59,7 @@ export const BiliBiliIcon = ({
                 css={buttonStyle}
                 onClick={handleThumbedUp}
                 title={"已点赞"}
+                key={uuidv4()}
             >
                 <ThumbUpAltIcon />
             </span>
@@ -70,6 +71,7 @@ export const BiliBiliIcon = ({
                 css={buttonStyle}
                 onClick={handleThumbedUp}
                 title={"前往视频"}
+                key={uuidv4()}
             >
                 <BiliBiliIconSVG />
             </span>
@@ -79,8 +81,9 @@ export const BiliBiliIcon = ({
         <span
             className="group audio-download"
             css={buttonStyle}
-            onClick={() => {sendBVLike(bvid, handleThumbsUp)}}
+            onClick={() => sendBVLike(bvid, handleThumbsUp)}
             title={"点赞"}
+            key={uuidv4()}
         >
             <ThumbUpOffAltIcon />
         </span>

@@ -6,7 +6,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from "@mui/material/Button";
-
+import EmailIcon from '@mui/icons-material/Email';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import ForumIcon from '@mui/icons-material/Forum';
+import { textToDialogContent } from './genericDialog';
 
 export default function ({ onClose, openState }) {
     const handleCancel = () => {
@@ -33,6 +36,10 @@ export default function ({ onClose, openState }) {
             <DialogContentText>
               - Series:合集,需整个url放入搜索框(https://space.bilibili.com/5053504/channel/seriesdetail?sid=2440602)
             </DialogContentText>
+            <p></p>
+            <Button startIcon={<EmailIcon />} onClick={() => window.open('https://message.bilibili.com/?spm_id_from=333.999.0.0#whisper/mid1989881')}>有问题？B站私信</Button><div/>
+            <Button startIcon={<GitHubIcon />} onClick={() => window.open('https://github.com/lovegaoshi/azusa-player/wiki')}>电闹播放器@Github</Button><div/>
+            <Button startIcon={<ForumIcon />} onClick={() => window.open('https://bbs.nga.cn/read.php?tid=31176308')}>来p综@nga听歌吹水</Button><div/>
           </DialogContent>
   
           <DialogActions>

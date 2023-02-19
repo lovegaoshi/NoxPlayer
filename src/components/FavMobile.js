@@ -173,14 +173,16 @@ export const Fav = (function ({
                                     }}>
                                     {songIconVisible ? <EditOffIcon /> : <EditIcon />}
                                 </IconButton>
-                                <FavSettingsButtons
-                                    currentList={currentFavList}
-                                    rssUpdate={ async (subscribeUrls) => {
-                                        const val = await onRssUpdate(subscribeUrls);
-                                        if (val !== null) setRows(val);
-                                        return new Promise((resolve, reject) => {resolve(1)});
-                                    }}
-                                ></FavSettingsButtons>
+                                {!currentFavList.info.id.includes('Search') && 
+                                    <FavSettingsButtons
+                                        currentList={currentFavList}
+                                        rssUpdate={ async (subscribeUrls) => {
+                                            const val = await onRssUpdate(subscribeUrls);
+                                            if (val !== null) setRows(val);
+                                            return new Promise((resolve, reject) => {resolve(1)});
+                                        }}
+                                    />
+                                }
                             </Grid>
                             <Grid item xs={6} style={{ textAlign: 'right', padding: '0px' }}>
                                 <SongSearchBar requestSearch={requestSearch} ref={searchBarRef} />

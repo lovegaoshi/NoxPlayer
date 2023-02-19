@@ -6,10 +6,12 @@ import { getVersion } from '../utils/versionupdater/versionupdater'
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 const INITIAL_PLAYLIST = ['5053504', '2664851']
 export const MY_FAV_LIST_KEY = 'MyFavList'
+export const FAV_FAV_LIST_KEY = 'FavFavList'
 const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'
 const CURRENT_PLAYING = 'CurrentPlaying'
+export const FAVLIST_AUTO_UPDATE_TIMESTAMP = 'favListAutoUpdateTimestamp'
 
 export const EXPORT_OPTIONS = {
     local: '本地',
@@ -112,6 +114,26 @@ export const saveMyFavList = (newList, callbackFunc = () => {console.debug('save
     chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map(v => v.info.id) }, callbackFunc)
 }
 
+/**
+ * cleans up all orphan playlists.
+ */
+export const storageCleanup = async () => {
+    chrome.storage.local.get(null).then(console.log)
+    return;
+    const locallyStored = await chrome.storage.local.get(null);
+    const playListKeyList = locallyStored[MY_FAV_LIST_KEY];
+    setLocalStorage(LYRIC_MAPPING, []);
+    setLocalStorage(LAST_PLAY_LIST, []);
+    setLocalStorage(FAVLIST_AUTO_UPDATE_TIMESTAMP, []);
+    for (const [key, val] of Object.entries(locallyStored)) {
+        if (!key.includes('FavList-')) continue;
+        if (playListKeyList.includes(key)) continue;
+        setLocalStorage(key, undefined);
+    }
+    
+const LYRIC_MAPPING = 'LyricMappings'
+const LAST_PLAY_LIST = 'LastPlayList'
+}
 
 export default class StorageManager {
     constructor() {
@@ -160,11 +182,6 @@ export default class StorageManager {
         let value = dummyFavList('闹闹的歌切')
         value.songList = await getBiliSeriesList({mid: INITIAL_PLAYLIST[0], sid: INITIAL_PLAYLIST[1]})
         value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851']
-        // const value2 = {
-        //     songList: await getSongList('BV1Ya411z7WL'),
-        //     info: { title: '默认歌单2', id: ('FavList-' + uuidv4()) }
-        // }[value2.info.id]: value2,
-
         chrome.storage.local.set({
             [value.info.id]: value,
             [LAST_PLAY_LIST]: [],
