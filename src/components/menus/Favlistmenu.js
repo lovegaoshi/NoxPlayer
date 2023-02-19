@@ -17,6 +17,8 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { removeSongBiliShazamed } from '../../objects/Song';
 import { useConfirm } from "material-ui-confirm";
+import { favListAnalytics } from '../../utils/Analytics';
+import { textToDialogContent } from '../dialogs/genericDialog';
 
 const MENU_ID = "favlistmenu";
 
@@ -105,6 +107,20 @@ export default function App ({ theme }) {
    .catch()
   }
   
+  function analyzeFavlist ({ event, props, triggerEvent, data }) {
+    const analytics = favListAnalytics(props.favlist);
+    confirm({
+      title: `歌单 ${props.favlist.info.title} 的统计信息`,
+      content: textToDialogContent([
+        '歌单内最常出现的歌：' + analytics.songTop10.map(val => `${val[0]} (${String(val[1])})`).join(", "),
+        `bv号总共有 ${String(analytics.bvid.length)}个，平均每bv号有${(analytics.totalCount / analytics.bvid.length).toFixed(1)}首歌`,
+        `shazam失败的歌数: ${String(analytics.invalidShazamCount)}\/${String(analytics.totalCount)} (${(analytics.invalidShazamCount * 100 / analytics.totalCount).toFixed(1)}%)`,
+      ]),
+      confirmationText: "好的",
+      hideCancelButton: true,
+    }).then().catch();
+  }
+
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -128,7 +144,7 @@ export default function App ({ theme }) {
         <Item onClick={clearPlaylist}>
           <ClearAllIcon/> &nbsp; {"Clear playlist"}
         </Item>
-        <Item onClick={handleItemClick}>
+        <Item onClick={analyzeFavlist}>
           <AnalyticsIcon/> &nbsp; {"Analytics"}
         </Item>
         <Item onClick={handleItemClick}>
