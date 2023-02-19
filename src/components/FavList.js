@@ -25,14 +25,12 @@ import { skinPreset } from '../styles/skin';
 import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 import { useConfirm } from "material-ui-confirm";
 import HelpPanelButton from "./buttons/HelpPanelButton";
 import Menu from './menus/Favlistmenu';
 import { contextMenu } from "react-contexify";
-import { readLocalStorage, FAV_FAV_LIST_KEY } from '../objects/Storage';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -50,8 +48,8 @@ const CRUDIcon = {
     ':hover': {
         cursor: 'pointer'
     },
-    width: '1em',
-    height: '1em',
+    width: '1.1em',
+    height: '1.1em',
     paddingBottom: '2px',
     color: colorTheme.playListIconColor,
 }
@@ -241,13 +239,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         loadToSearchList(allFavSongList);
     }
 
-    const loadMyFavToSearch = () => {
-        // where do i put this button?
-        readLocalStorage(FAV_FAV_LIST_KEY)
-        .then(val => loadToSearchList(val.songList))
-        .catch();
-    }
-
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
@@ -338,13 +329,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                                 <ShuffleIcon sx={AddFavIcon} />
                             </IconButton>
                         </Tooltip>
-                        {false && 
-                            <Tooltip title="我的最爱">
-                                <IconButton size='large' onClick={() => loadMyFavToSearch()}>
-                                    <FavoriteIcon sx={AddFavIcon} />
-                                </IconButton>
-                            </Tooltip>
-                        }
                         <PlayerSettingsButton AddFavIcon={AddFavIcon} />
                         <HelpPanelButton AddFavIcon={AddFavIcon} />
                     </Grid>

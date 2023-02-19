@@ -169,7 +169,7 @@ export const Player = function ({ songList }) {
     const onAudioPlay = useCallback((audioInfo) => {
         const biliButtonHandleClick = (val) => {
             console.debug('like video returned', val);
-            setparams({...params, extendsContent: renderExtendsContent({ bvid: audioInfo.bvid, liked: 1 })});
+            setparams({...params, extendsContent: renderExtendsContent({ song: audioInfo, liked: 1 })});
         }
         // console.log('audio playing', audioInfo)
         checkBVLiked(
@@ -178,7 +178,7 @@ export const Player = function ({ songList }) {
                 setBvidLiked(videoLikeStatus);
                 const newParam = {
                     ...params,
-                    extendsContent: renderExtendsContent({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: biliButtonHandleClick })
+                    extendsContent: renderExtendsContent({ song: audioInfo, liked: videoLikeStatus, handleThumbsUp: biliButtonHandleClick })
                 }
                 setparams(newParam)
             })
@@ -232,13 +232,13 @@ export const Player = function ({ songList }) {
     }
 
     const renderExtendsContent = ({
-        bvid, 
+        song, 
         liked, 
         handleThumbsUp = undefined, 
         handleThumbedUp = undefined,
         }) => {
         return [
-            BiliBiliIcon({ bvid, liked, handleThumbsUp, handleThumbedUp }),
+            BiliBiliIcon({ bvid: song.bvid, liked, handleThumbsUp, handleThumbedUp }),
         ]
     }
 
@@ -254,7 +254,7 @@ export const Player = function ({ songList }) {
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
-            options.extendsContent = renderExtendsContent({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
+            options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex], liked: undefined })
             const params = {
                 ...options,
                 ...setting,
