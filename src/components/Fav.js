@@ -361,7 +361,7 @@ export const Fav = (function ({
                                 />
                             </Grid>
                             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
-                                {!currentFavList.info.id.includes('Search') && 
+                                {!currentFavList.info.id.includes('Special') && 
                                     <FavSettingsButtons
                                         currentList={currentFavList}
                                         rssUpdate={ async (subscribeUrls) => {

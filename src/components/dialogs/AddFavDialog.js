@@ -90,6 +90,7 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
                 label="FavLists"
                 onChange={onfavId}
                 input={(<Input></Input>)}
+                MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
               >
                 {favLists && favLists.map((v, i) => {
                   if (v.id != fromId)

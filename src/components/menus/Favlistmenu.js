@@ -11,6 +11,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import DownloadIcon from '@mui/icons-material/Download';
 import "react-contexify/dist/ReactContexify.css";
 import  { BiliShazamOnSonglist, getBVIDList } from '../../background/DataProcess';
 import { useSnackbar } from 'notistack';
@@ -146,6 +147,9 @@ export default function App ({ theme }) {
         </Item>
         <Item onClick={analyzeFavlist}>
           <AnalyticsIcon/> &nbsp; {"Analytics"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <DownloadIcon/> &nbsp; {"Export into a yt-dlp url list"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}

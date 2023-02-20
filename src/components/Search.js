@@ -18,7 +18,7 @@ import { extractWith } from '../utils/re';
 import { v4 as uuidv4 } from 'uuid';
 import { dummyFavList } from '../objects/Storage';
 
-export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('FavList-Search-' + uuidv4())} }) => {
+export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: ('FavList-Special-Search-' + uuidv4())} }) => {
     let newList = dummyFavList('');
     newList.songList = songList;
     newList.info = info;

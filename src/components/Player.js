@@ -11,6 +11,8 @@ import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import { useHotkeys } from 'react-hotkeys-hook';
 import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
+import favoriteButton from './buttons/favoriteSongButton';
+import { FAV_FAV_LIST_KEY, setLocalStorage } from '../objects/Storage';
 
 // Initial Player options
 let options = {
@@ -42,24 +44,17 @@ export const Player = function ({ songList }) {
     const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
-    const [bvidLiked, setBvidLiked] = useState(0)
 
     useHotkeys('space', () => {
-        if (currentAudioInst !== null) {
-            if (currentAudioInst.paused) {
-                // i have no idea why currentAudioInst doesnt have play(), but
-                // this works...
-                document.getElementsByClassName('music-player-audio')[0].play();
-            } else {
-                document.getElementsByClassName('music-player-audio')[0].pause();
-            }
-        }
+        if (currentAudioInst === null) return;
+        // i have no idea why currentAudioInst doesnt have play(), but
+        // this works...
+        if (currentAudioInst.paused) document.getElementsByClassName('music-player-audio')[0].play();
+        else document.getElementsByClassName('music-player-audio')[0].pause();
     })
 
     useEffect(() => {
-        if (!currentAudio.name) {
-            return;
-        }
+        if (!currentAudio?.name) return;
         document.title = currentAudio.name + ' - ' + skins().appTitle;
     }, [currentAudio.name])
     
@@ -166,22 +161,16 @@ export const Player = function ({ songList }) {
         StorageManager.setPlayerSetting(playerSettings)
     }
 
-    const onAudioPlay = useCallback((audioInfo) => {
+    const onAudioPlay = useCallback(async (audioInfo) => {
+        const songFavorited = (await StorageManager.readLocalStorage(FAV_FAV_LIST_KEY)).songList.filter(val => val.id === audioInfo.id).length > 0;
         const biliButtonHandleClick = (val) => {
-            console.debug('like video returned', val);
-            setparams({...params, extendsContent: renderExtendsContent({ song: audioInfo, liked: 1 })});
+            console.debug(`liking bvid ${audioInfo.bvid} returned`, val)
+            processExtendsContent(renderExtendsContent({ song: audioInfo, liked: 1, songFavorited }))
         }
-        // console.log('audio playing', audioInfo)
         checkBVLiked(
             audioInfo.bvid,
-            (videoLikeStatus) => {
-                setBvidLiked(videoLikeStatus);
-                const newParam = {
-                    ...params,
-                    extendsContent: renderExtendsContent({ song: audioInfo, liked: videoLikeStatus, handleThumbsUp: biliButtonHandleClick })
-                }
-                setparams(newParam)
-            })
+            (val) => processExtendsContent(renderExtendsContent({ song: audioInfo, liked: val, handleThumbsUp: biliButtonHandleClick, songFavorited }))
+        )
         setcurrentAudio(audioInfo)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(), playUrl:audioInfo.musicSrc} })
     }, [params])
@@ -231,14 +220,30 @@ export const Player = function ({ songList }) {
         setShowLyric(!showLyric)
     }
 
-    const renderExtendsContent = ({
-        song, 
-        liked, 
-        handleThumbsUp = undefined, 
-        handleThumbedUp = undefined,
-        }) => {
+    const processExtendsContent = (extendsContent) => setparams({...params, extendsContent});
+
+    // TODO: this is most definitely wrong but I dont know the right way.
+    const renderExtendsContent = ({ song, liked, handleThumbsUp, handleThumbedUp, songFavorited = false }) => {
+        // but how do I achieve state control in here?
+        const setFavorited = async () => {
+            let favFavList = await StorageManager.readLocalStorage(FAV_FAV_LIST_KEY);
+            if (songFavorited) {
+                favFavList.songList = favFavList.songList.filter(val => val.id !== song.id);
+            } else {
+                favFavList.songList.push(song);
+            }
+            await setLocalStorage(FAV_FAV_LIST_KEY, favFavList);
+            return processExtendsContent(renderExtendsContent({ song, liked, handleThumbsUp, handleThumbedUp, songFavorited: !songFavorited }));
+        }
+
+        const handleClick = () => {
+            if (liked === undefined) return console.log('disabled.');
+            return setFavorited();
+        }
+
         return [
             BiliBiliIcon({ bvid: song.bvid, liked, handleThumbsUp, handleThumbedUp }),
+            favoriteButton({ filled: songFavorited, handleClick })
         ]
     }
 
