@@ -148,7 +148,11 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }, [searchList, selectedList])
 
     const handleDeleteFromSearchList = useCallback((listid, songid) => {
-        let favList = listid.includes('FavList-Special-Search') ? searchList : favLists.find(f => f.info.id == listid)
+        const findList = (listid) => {
+            return listid.includes('FavList-Special-Search') ? searchList : favLists.find(f => f.info.id == listid)
+        }
+        
+        let favList = findList(listid)
         let index = favList.songList.findIndex((song) => song.id === songid)
         favList.songList.splice(index, 1)
         const updatedToList = { ...favList }

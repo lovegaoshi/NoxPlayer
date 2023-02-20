@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     Menu,
     Item,
@@ -13,9 +13,11 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon'; 
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import "react-contexify/dist/ReactContexify.css";
 import { getName } from '../../utils/re';
-import { saveFav } from '../../objects/Storage';
+import { saveFav, readLocalStorage, MY_FAV_LIST_KEY } from '../../objects/Storage';
+import StorageManagerCtx from '../../popup/App';
 
 const MENU_ID = "favmenu";
 
@@ -30,6 +32,8 @@ const MENU_ID = "favmenu";
  * @returns 
  */
 export default function App ({ theme }) {
+
+  const StorageManager = useContext(StorageManagerCtx);
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
@@ -73,6 +77,20 @@ export default function App ({ theme }) {
     props.reloadBVid(props.song.bvid);
   }
 
+  async function deleteSongFromAllLists ({ props }) {
+    // HACK: works but songs may not play after this. everything looked normal though??
+    // TODO: any problems with favlist not updated its because favlist.js actually stores all favlists
+    // in a state; storageManager context manages that state. so any direct updates to favlists through,
+    // for example savFav in storage.js, wont get updated in favlist.js's state and thus appears not updated.
+    props.onDelete();
+    for (const favListKey of await readLocalStorage(MY_FAV_LIST_KEY)) {
+      let favList = await readLocalStorage(favListKey);
+      const favListLen = favList.songList.length;
+      favList.songList = favList.songList.filter(val => val.id !== props.song.id);
+      if (favListLen !== favList.songList.length) await StorageManager.updateFavList(favList);
+    }
+  }
+
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -105,6 +123,9 @@ export default function App ({ theme }) {
         <Separator></Separator>
         <Item onClick={reloadSongBVid}>
           <RefreshIcon/> &nbsp; {"重新载入这首歌的bv号"}
+        </Item>
+        <Item onClick={deleteSongFromAllLists}>
+          <DeleteForeverIcon/> &nbsp; {"在所有歌单中删除这首歌"}
         </Item>
         <Item onClick={banSongBVid}>
           <NotInterestedIcon/> &nbsp; {"删除并拉黑这首歌的bv号"}

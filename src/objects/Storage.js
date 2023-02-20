@@ -179,6 +179,9 @@ export default class StorageManager {
 
     async initWithDefault() {
         const _self = this
+        let favfavlist = dummyFavList('我的最爱')
+        list.info.id = "FavList-Special-Favorite"
+        setLocalStorage(FAV_FAV_LIST_KEY, favfavlist)
         let value = dummyFavList('闹闹的歌切')
         value.songList = await getBiliSeriesList({mid: INITIAL_PLAYLIST[0], sid: INITIAL_PLAYLIST[1]})
         value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851']
@@ -230,12 +233,16 @@ export default class StorageManager {
     updateFavList(updatedToList) {
         const _self = this
         console.debug('saving favList', updatedToList.info.title)
+        switch (updatedToList.info.id) {
+            case FAV_FAV_LIST_KEY:
+                setLocalStorage(FAV_FAV_LIST_KEY, updatedToList)
+                return
+        }
         chrome.storage.local.set({ [updatedToList.info.id]: updatedToList }, function () {
             const index = _self.latestFavLists.findIndex(f => f.info.id == updatedToList.info.id)
             _self.latestFavLists[index].songList = updatedToList.songList
             if (updatedToList.subscribeUrls) {
                 _self.latestFavLists[index].subscribeUrls = updatedToList.subscribeUrls
-                console.debug('saving subscribe url', updatedToList.subscribeUrls)
             }
             _self.setFavLists([..._self.latestFavLists])
         });

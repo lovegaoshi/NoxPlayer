@@ -200,6 +200,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【.+】(.+)/, 
                     /\d+\.(.+)/,
                     /第.+首(.+)/,
+                    /(.+) \/ HACHI/,
                 ]);
             break;
         case 1304703724: // "天马的冰淇淋小推车":
@@ -328,11 +329,19 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【安可Anko】(.+)/
                 ]);
             break;
-        case 0:
+        case 37754047: // 咻咻满
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
 
+                ]);
+            break;
+        case 0:
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /『(.+)』/,
+                    /【(.+)】/,
                 ]);
             break;
     }
