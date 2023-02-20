@@ -6,7 +6,7 @@ import { getVersion } from '../utils/versionupdater/versionupdater'
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 const INITIAL_PLAYLIST = ['5053504', '2664851']
 export const MY_FAV_LIST_KEY = 'MyFavList'
-export const FAV_FAV_LIST_KEY = 'FavFavList'
+export const FAV_FAV_LIST_KEY = 'FavFavList-Special'
 const LYRIC_MAPPING = 'LyricMappings'
 const LAST_PLAY_LIST = 'LastPlayList'
 const PLAYER_SETTINGS = 'PlayerSetting'

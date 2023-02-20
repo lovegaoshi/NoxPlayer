@@ -3,6 +3,6 @@ import { setLocalStorage, FAV_FAV_LIST_KEY, dummyFavList } from '../../objects/S
 export default async function () {
     console.debug('1.1.1.9 update: initialize fav-favlist');
     let list = dummyFavList('我的最爱');
-    list.info.id = "FavList-Special-Favorite";
+    list.info.id = FAV_FAV_LIST_KEY;
     setLocalStorage(FAV_FAV_LIST_KEY, list);
 }
