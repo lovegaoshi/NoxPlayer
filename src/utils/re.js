@@ -333,15 +333,23 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-
+                    /『(.+)』/,
+                    /【(.+)】/,
+                ]);
+            break;
+        case 1809378863: // 薇薇单推人
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【薇Steria】.+【(.+)】/,
+                    /【薇Steria】(.+)/,
                 ]);
             break;
         case 0:
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-                    /『(.+)』/,
-                    /【(.+)】/,
+
                 ]);
             break;
     }
