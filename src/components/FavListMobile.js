@@ -32,12 +32,13 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 import IconButton from '@mui/material/IconButton';
 import { useConfirm } from "material-ui-confirm";
+import rgba2rgb from "../utils/rgba2rgb";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
 
 try {
-    modifiedBackgroundPalette.components.MuiPaper.styleOverrides.root.backgroundColor = colorTheme.PCBackgroundColor;
+    modifiedBackgroundPalette.components.MuiPaper.styleOverrides.root.backgroundColor = rgba2rgb(colorTheme.PCBackgroundColor);
 } catch (e) {
     
 }

@@ -16,11 +16,10 @@ body {
   height: 100%;
   width: 100%;
   overflow: clip;
-  filter: blur(1px);
-}
-
-.homepage-bgimage {
-  object-fit: cover;
+  object-fit: fill;
+  position: absolute;
+  left: 0px;
+  z-index: -1;
 }
 
 .react-jinke-music-player-main {

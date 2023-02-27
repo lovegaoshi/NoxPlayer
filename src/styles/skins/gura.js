@@ -2,7 +2,7 @@
 import { AzusaTheme } from './azusa';
 const gifs = [
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/spin.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/cake2.gif?raw=true',
+  //'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/cake2.gif?raw=true',
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/shark_rap.gif?raw=true',
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/vacuum.gif?raw=true',
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/fitness_shark.gif?raw=true',
@@ -14,6 +14,15 @@ const gifs = [
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/rhythm_gaming.gif?raw=true',
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/plug_play.gif?raw=true',
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/supermarket.gif?raw=true',
+  'https://i.kym-cdn.com/photos/images/original/002/019/817/d79.gif',
+  'https://i.kym-cdn.com/photos/images/original/002/498/345/71b.gif',
+  //'https://i.kym-cdn.com/photos/images/original/002/536/147/6bc.gif',
+  //'https://i.kym-cdn.com/photos/images/original/002/086/857/8e3.gif',
+  'https://64.media.tumblr.com/9521b5e88c3205af6f38f98ac98f7668/81dc912cde9331b1-61/s540x810/a78f5e5072a18703dae14d2c929be5de5192be67.gifv',
+  'https://64.media.tumblr.com/095318fd7179ebc2ae7630f5f9b43b08/81dc912cde9331b1-7d/s540x810/741e71abc947d54f5879fe9571b0af689a2c883b.gifv',
+  'https://64.media.tumblr.com/810c079a61fbc64b04e7e77aa3ed47aa/81dc912cde9331b1-b6/s540x810/3f48fcd826455dda941d9a527f6bfb8b2b286836.gifv',
+  'https://64.media.tumblr.com/6579b60f6e46e7f6196a60ebc386fc88/81dc912cde9331b1-25/s540x810/a143adbc5fe899ff53f7e1b870c2c9b365ae5550.gifv',
+  'https://64.media.tumblr.com/d3893fc5906f166dfc6b54bcb808f6ba/81dc912cde9331b1-98/s540x810/97f9319f598d427dbab7c6d4db4a623b82e5d66d.gifv',
 ];  
 export const GuraTheme = {
     playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Gura/GuraBanner.png',

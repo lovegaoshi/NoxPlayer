@@ -37,7 +37,7 @@ export const HeraKrisTheme = {
         lyricInactiveColor: '#4d388f',
         songListShadowStyle: "-4px 5px 6px 2px #f0e68c, 4px -3px 2px 0px #f0e68c, 1px 1px 0px 2px #fff8dc",
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
-        PCBackgroundColor: '#1E1E1E',
+        PCBackgroundColor: 'rgba(30,30,30,0.85)',
         MobileBackgroundColor: '#1E1E1E',
         FavBackgroundColor: "rgba(30,30,30,0.5)",
         FavBackgroundColorSolid: "rgba(30,30,30,1)",

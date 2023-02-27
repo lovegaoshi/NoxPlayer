@@ -31,11 +31,14 @@ const gifs = [
     'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/gold_mining.gif?raw=true',
     'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/spicy_noodles.gif?raw=true',
     'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/sand.gif?raw=true',
+    'https://i.kym-cdn.com/photos/images/original/002/075/486/1a8.gif',
 ]; 
 export const AmeliaTheme = {
     playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Amelia/AmeliaBanner.png',
-    playerBannerMobile: 'https://cdn.donmai.us/sample/11/ac/__watson_amelia_hololive_and_1_more_drawn_by_oozora_halu__sample-11acdfd9e23432d93d241c4942d2047f.jpg',
+    playerBannerMobile: 'https://steamuserimages-a.akamaihd.net/ugc/1652223957177225502/6F39E40090B7202E4DD4D58876D58E233C5BBC4E/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
     playerBackground: 'https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg',
+    //playerBackground: 'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/994eec6c1203516f81c2db75f02c3789_preview.mp4',
+    //playerBackgroundVideo: true,
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]

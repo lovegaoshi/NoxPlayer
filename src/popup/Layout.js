@@ -52,8 +52,11 @@ export default function PageLayout({ songList }) {
                 <ConfirmProvider>
                     <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
                         <div className="container-fluid homepage-bgimage" align="center">
-                            <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
-                        </div>
+                            {skinPreset.playerBackgroundVideo
+                            ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></video>
+                            : <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
+                            }
+                        </div> 
                         <Box sx={PlayerBoxMobile} id='player-box'> 
                             <PlayerMobile songList={songList} id='player-instance'/>
                         </Box>
@@ -68,10 +71,14 @@ export default function PageLayout({ songList }) {
         <ThemeProvider theme={theme}>
             <SnackbarProvider maxSnack={1}>
                 <ConfirmProvider>
+                    <div className="container-fluid homepage-bgimage" align="center">
+                        {skinPreset.playerBackgroundVideo
+                        ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={skinPreset.playerBackground} height={window.innerHeight} width={window.innerWidth}></video>
+                        : <img id="player-bkgrd" className="homepage-bgimage" src={skinPreset.playerBackground} height={window.innerHeight} width={window.innerWidth}></img>
+                        }
+                    </div> 
                     <Box sx={OutmostBox} id='master-box' style={{ 
                         backgroundColor: colorTheme.PCBackgroundColor, 
-                        backgroundImage: `url(${skinPreset.playerBackground})`, 
-                        backgroundSize: '100% 100%', 
                         backgroundBlendMode: 'overlay' 
                         }}>
                         <Box sx={PlayerBox}> 
