@@ -345,6 +345,13 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【薇Steria】(.+)/,
                 ]);
             break;
+        case 1023630944: // 濑田水一
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /、(.+)/,
+                ]);
+            break;
         case 0:
             filename = extractWith(
                 extractParenthesis(filename), 

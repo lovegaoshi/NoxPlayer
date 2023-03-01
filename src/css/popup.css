@@ -22,6 +22,14 @@ body {
   z-index: -1;
 }
 
+.homepage-bgimage-mobile {
+  height: 100%;
+  width: 100%;
+  overflow: clip;
+  object-fit: cover;
+  z-index: -1;
+}
+
 .react-jinke-music-player-main {
   position: absolute;
   z-index: 0;
