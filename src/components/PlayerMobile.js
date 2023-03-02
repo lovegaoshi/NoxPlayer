@@ -147,14 +147,12 @@ export const PlayerMobile = function ({ songList }) {
     const onPlayModeChange = (playMode) => {
         //console.log('play mode change:', playMode)
         playerSettings.playMode = playMode
-        setPlayerSettings(playerSettings)
         StorageManager.setPlayerSetting(playerSettings)
     }
 
     const onAudioVolumeChange = (currentVolume) => {
         // console.log('audio volume change', currentVolume)
         playerSettings.defaultVolume = Math.sqrt(currentVolume)
-        setPlayerSettings(playerSettings)
         StorageManager.setPlayerSetting(playerSettings)
     }
 
@@ -165,10 +163,10 @@ export const PlayerMobile = function ({ songList }) {
                 setBvidLiked(videoLikeStatus);
                 const newParam = {
                     ...params,
-                    extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: (val) => {
+                    extendsContent: [BiliBiliIcon({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: (val) => {
                         console.debug('like video returned', val)
-                        setparams({...params, extendsContent: BiliBiliIcon({ bvid: audioInfo.bvid, liked: 1 })})
-                    } })
+                        setparams({...params, extendsContent: [BiliBiliIcon({ bvid: audioInfo.bvid, liked: 1 })]})
+                    } })]
                 }
                 setparams(newParam)
             })
@@ -230,7 +228,7 @@ export const PlayerMobile = function ({ songList }) {
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
-            options.extendsContent = BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })
+            options.extendsContent = [BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })]
             // chrome.storage.local.set({ ['CurrentPlaying']: {} })
             const params = {
                 ...options,
