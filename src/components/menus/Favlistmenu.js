@@ -134,22 +134,22 @@ export default function App ({ theme }) {
     <div>          
       <Menu id={MENU_ID} animation="slide" theme={theme}>
         <Item onClick={BiliShazam}>
-          <YoutubeSearchedForIcon/> &nbsp; {"Use Bilibili shazam"}
+          <YoutubeSearchedForIcon/> &nbsp; {"b站识歌"}
         </Item>
         <Item onClick={(props) => removeBiliShazam(props, {})}>
-          <DeleteIcon/> &nbsp; {"Remove Bilibili shazam"}
+          <DeleteIcon/> &nbsp; {"删除b站识歌"}
         </Item>
         <Item onClick={reloadPlaylist}>
-          <RefreshIcon/> &nbsp; {"Reload playlist from bilibili"}
+          <RefreshIcon/> &nbsp; {"从bv号重载歌单"}
         </Item>
         <Item onClick={clearPlaylist}>
-          <ClearAllIcon/> &nbsp; {"Clear playlist"}
+          <ClearAllIcon/> &nbsp; {"清空歌单"}
         </Item>
         <Item onClick={analyzeFavlist}>
-          <AnalyticsIcon/> &nbsp; {"Analytics"}
+          <AnalyticsIcon/> &nbsp; {"歌单统计"}
         </Item>
         <Item onClick={handleItemClick}>
-          <DownloadIcon/> &nbsp; {"Export into a yt-dlp url list"}
+          <DownloadIcon/> &nbsp; {"导出bv号为txt"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}
