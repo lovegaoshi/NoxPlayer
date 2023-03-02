@@ -623,6 +623,10 @@
   transition: box-shadow, border 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   width: 300px;
 }
+.react-jinke-music-player-mobile-cover-placeholder {
+  height: 300px;
+  width: 300px;
+}
 @media screen and (max-width: 320px) {
   .react-jinke-music-player-mobile-cover {
     height: 230px;

@@ -83,7 +83,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractParenthesis(
                 extractWith(filename, 
                     [
-                        /.+ - (.+)/,
+                        / - (.+)/,
                         /【诺莺Nox】[\d+] (.+)/, 
                         /【诺莺Nox】(.+)/, 
                     ]));
@@ -278,8 +278,8 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-                    /(.+) - .+/,
-                    /(.+) w\/ .+/,
+                    /(.+) - /,
+                    /(.+) w\/ /,
                     /【.+】\d+\.\d+ (.+)/,
                     /【.+】(.+)/,
                 ]);
@@ -289,8 +289,8 @@ export const reExtractSongName = (filename, uploader = 0) => {
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
-                    /.+ - (.+) \d+\.\d+/,
-                    /.+ - (.+)/,
+                    / - (.+) \d+\.\d+/,
+                    / - (.+)/,
                 ]);
             break;
         case 731556: // 绫音aya

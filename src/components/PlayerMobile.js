@@ -45,6 +45,10 @@ export const PlayerMobile = function ({ songList }) {
     const StorageManager = useContext(StorageManagerCtx)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
+    
+    useEffect( () => {
+        StorageManager.setPlayerSettingInst = setPlayerSettings;
+    }, [])
 
     useEffect(() => {
         if (!currentAudio.name) {
@@ -320,6 +324,7 @@ export const PlayerMobile = function ({ songList }) {
                             onCoverClick={onCoverClick}
                             onAudioListsChange={onAudioListsChange}
                             onAudioListsPanelChange={setAudioListsPanelState}
+                            hideCover={playerSettings?.hideCoverInMobile}
                         />
                     </Box>
                 </React.Fragment>}

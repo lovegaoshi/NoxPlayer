@@ -53,6 +53,7 @@ export const DEFAULT_SETTING = {
     settingExportLocation: EXPORT_OPTIONS.local,
     personalCloudIP: "",
     noxVersion: getVersion(),
+    hideCoverInMobile: false,
 }
 
 /**
@@ -138,6 +139,7 @@ const LAST_PLAY_LIST = 'LastPlayList'
 export default class StorageManager {
     constructor() {
         this.setFavLists = () => { }
+        this.setPlayerSettingInst = () => { }
         this.latestFavLists = []
     }
 
@@ -302,6 +304,7 @@ export default class StorageManager {
 
     async setPlayerSetting(newSettings) {
         chrome.storage.local.set({ [PLAYER_SETTINGS]: newSettings })
+        this.setPlayerSettingInst(newSettings)
     }
 
     async exportStorageRaw() {

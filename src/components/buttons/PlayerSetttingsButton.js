@@ -20,11 +20,9 @@ export default function PlayerSettingsButton({ AddFavIcon }) {
             <SettingsDialog
                 id='settingsDialog'
                 openState={openSettingsDialog}
-                onClose={(settings)=>{
-                    if (settings) {
-                        StorageManager.setPlayerSetting(settings)
-                    }
-                    setOpenSettingsDialog(false)
+                onClose={(settings) => {
+                    if (settings) StorageManager.setPlayerSetting(settings);
+                    setOpenSettingsDialog(false);
                 }}
                 settings={StorageManager.getPlayerSetting()}
             />

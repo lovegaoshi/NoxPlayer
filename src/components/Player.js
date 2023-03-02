@@ -47,11 +47,19 @@ export const Player = function ({ songList }) {
 
     useHotkeys('space', () => {
         if (currentAudioInst === null) return;
-        // i have no idea why currentAudioInst doesnt have play(), but
-        // this works...
+        // i have no idea why currentAudioInst doesnt have play(), but this works
+        // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
+        // listening to pause/play audio at a global level.
         if (currentAudioInst.paused) document.getElementsByClassName('music-player-audio')[0].play();
         else document.getElementsByClassName('music-player-audio')[0].pause();
-    })
+    });
+
+    useHotkeys('pagedown', () => console.debug('pagedown pressed'));
+    useHotkeys('pageup', () => console.debug('pagedown pressed'));
+
+    useEffect( () => {
+        StorageManager.setPlayerSettingInst = setPlayerSettings;
+    }, [])
 
     useEffect(() => {
         if (!currentAudio?.name) return;
@@ -148,7 +156,6 @@ export const Player = function ({ songList }) {
     const onPlayModeChange = (playMode) => {
         //console.log('play mode change:', playMode)
         playerSettings.playMode = playMode
-        setPlayerSettings(playerSettings)
         params.playMode = playMode
         StorageManager.setPlayerSetting(playerSettings)
         setparams(params)
@@ -157,7 +164,6 @@ export const Player = function ({ songList }) {
     const onAudioVolumeChange = (currentVolume) => {
         // console.log('audio volume change', currentVolume)
         playerSettings.defaultVolume = Math.sqrt(currentVolume)
-        setPlayerSettings(playerSettings)
         StorageManager.setPlayerSetting(playerSettings)
     }
 

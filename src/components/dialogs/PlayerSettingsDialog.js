@@ -11,6 +11,7 @@ import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import { Checkbox } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
+import isMobile from 'is-mobile';
 import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../objects/Storage';
 import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
 import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
@@ -32,14 +33,15 @@ const AddFavIcon = {
 }
 
 export const SettingsDialog = function ({ onClose, openState, settings }) {
-  const [skin, setSkin] = useState(DEFAULT_SETTING.skin)
-  const [settingObj, setSettingObj] = useState({})
-  const [parseSongName, setParseSongName] = useState(DEFAULT_SETTING.parseSongName)
-  const [autoRSSUpdate, setAutoRSSUpdate] = useState(DEFAULT_SETTING.autoRSSUpdate)
-  const [settingExportLocation, setSettingExportLocation] = useState(DEFAULT_SETTING.settingExportLocation)
-  const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(DEFAULT_SETTING.keepSearchedSongListWhenPlaying)
-  const [personalCloudIP, setPersonalCloudIP] = useState("")
-  
+  const [skin, setSkin] = useState(DEFAULT_SETTING.skin);
+  const [settingObj, setSettingObj] = useState({});
+  const [parseSongName, setParseSongName] = useState(DEFAULT_SETTING.parseSongName);
+  const [autoRSSUpdate, setAutoRSSUpdate] = useState(DEFAULT_SETTING.autoRSSUpdate);
+  const [settingExportLocation, setSettingExportLocation] = useState(DEFAULT_SETTING.settingExportLocation);
+  const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(DEFAULT_SETTING.keepSearchedSongListWhenPlaying);
+  const [personalCloudIP, setPersonalCloudIP] = useState("");
+  const [hideCoverInMobile, setHideCoverInMobile] = useState(DEFAULT_SETTING.hideCoverInMobile);
+
   const setSettings = (setFunc, value = undefined, defaultValue = undefined) => {
     if (value !== undefined) {
       setFunc(value);
@@ -49,39 +51,45 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
   }
 
   async function init() {
-    settings = await settings
-    setSettingObj(settings)
-    let skinIndex = SkinKeys.indexOf(settings.skin)
+    settings = await settings;
+    setSettingObj(settings);
+    let skinIndex = SkinKeys.indexOf(settings.skin);
     if (skinIndex !== -1) {
-      setSkin(settings.skin)
+      setSkin(settings.skin);
     } else {
-      setSkin(SkinKeys[0])
+      setSkin(SkinKeys[0]);
     }
     setSettings(setParseSongName, settings.parseSongName);
     setSettings(setAutoRSSUpdate, settings.autoRSSUpdate);
     setSettings(setSettingExportLocation, settings.settingExportLocation);
     setSettings(setKeepSearchedSongListWhenPlaying, settings.keepSearchedSongListWhenPlaying);
     setSettings(setPersonalCloudIP, settings.personalCloudIP, "");
+    setSettings(setHideCoverInMobile, settings.hideCoverInMobile);
   }
   // load settings into this dialog
   useEffect( () => {
-    init()
+    init();
   }, [])
 
   const handleCancel = () => {
-    init()
-    onClose()
+    init();
+    onClose();
   }
 
   const handleOK = () => {
-    let updatedSettingObj = settingObj
-    updatedSettingObj.skin = skin
-    updatedSettingObj.parseSongName = parseSongName
-    updatedSettingObj.autoRSSUpdate = autoRSSUpdate
-    updatedSettingObj.settingExportLocation = settingExportLocation
-    updatedSettingObj.keepSearchedSongListWhenPlaying = keepSearchedSongListWhenPlaying
-    updatedSettingObj.personalCloudIP = personalCloudIP
-    onClose(updatedSettingObj)
+    let updatedSettingObj = {
+      ...settingObj,
+      skin, parseSongName, autoRSSUpdate, settingExportLocation,
+      keepSearchedSongListWhenPlaying, personalCloudIP, hideCoverInMobile
+    };
+    onClose(updatedSettingObj);
+    return;
+    updatedSettingObj.skin = skin;
+    updatedSettingObj.parseSongName = parseSongName;
+    updatedSettingObj.autoRSSUpdate = autoRSSUpdate;
+    updatedSettingObj.settingExportLocation = settingExportLocation;
+    updatedSettingObj.keepSearchedSongListWhenPlaying = keepSearchedSongListWhenPlaying;
+    updatedSettingObj.personalCloudIP = personalCloudIP;
   }
 
   const syncSetttingButtons = () => {
@@ -166,6 +174,15 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
             label="播放搜索结果歌单"
           />
         </Tooltip>
+        {isMobile() && (
+          <Tooltip title='移动端不显示歌封面'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setHideCoverInMobile(e.target.checked) }}/>} 
+            checked={hideCoverInMobile}
+            label="移动端不显示歌封面"
+          />
+          </Tooltip>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>取消</Button>
