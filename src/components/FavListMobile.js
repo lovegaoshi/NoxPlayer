@@ -33,6 +33,7 @@ import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
 import IconButton from '@mui/material/IconButton';
 import { useConfirm } from "material-ui-confirm";
 import rgba2rgb from "../utils/rgba2rgb";
+import HelpPanelButton from "./buttons/HelpPanelButton";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -301,6 +302,7 @@ export const FavList = memo(function ({
                             </IconButton>
                         </Tooltip>
                         <PlayerSettingsButton AddFavIcon={AddFavIcon}></PlayerSettingsButton>
+                        <HelpPanelButton AddFavIcon={AddFavIcon} />
                     </Grid>
                     <NewFavDialog
                         id="NewFav"

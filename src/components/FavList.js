@@ -329,7 +329,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="全歌单播放">
-                            <IconButton size='large' onClick={() => shuffleAll()}>
+                            <IconButton size='large' onClick={shuffleAll}>
                                 <ShuffleIcon sx={AddFavIcon} />
                             </IconButton>
                         </Tooltip>

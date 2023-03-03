@@ -21,7 +21,7 @@ export default function ({ onClose, openState }) {
       <div>
         <Dialog open={openState}>
           <DialogTitle>帮助</DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{ maxWidth: '50vw' }}>
             <DialogContentText id='alert-dialog-description'>
               搜索目前支持以下四种:
             </DialogContentText>
