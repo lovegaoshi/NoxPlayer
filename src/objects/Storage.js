@@ -182,7 +182,7 @@ export default class StorageManager {
     async initWithDefault() {
         const _self = this
         let favfavlist = dummyFavList('我的最爱')
-        list.info.id = "FavList-Special-Favorite"
+        favfavlist.info.id = "FavList-Special-Favorite"
         setLocalStorage(FAV_FAV_LIST_KEY, favfavlist)
         let value = dummyFavList('闹闹的歌切')
         value.songList = await getBiliSeriesList({mid: INITIAL_PLAYLIST[0], sid: INITIAL_PLAYLIST[1]})
