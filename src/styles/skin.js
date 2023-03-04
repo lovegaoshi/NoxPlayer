@@ -7,6 +7,7 @@ import { AmeliaTheme } from './skins/amelia';
 import { GuraTheme } from './skins/gura';
 import { PomeloTheme } from './skins/pomelo';
 import { HeraKrisTheme } from './skins/heraKris';
+import { RinaHayashiTheme } from './skins/rinahayashi';
 // needs to enable top-level await; necessary for other modules to import current skin config
 let setting = await new StorageManager().getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
@@ -19,6 +20,7 @@ export const SkinKeys = [
     'Gawr Gura',
     'Pokemon安妮',
     '赫拉Kris',
+    '林莉奈RinaHayashi',
 ];
 
 export const skins = (key = setting.skin) => {
@@ -49,6 +51,8 @@ export const skins = (key = setting.skin) => {
             return PomeloTheme;
         case '赫拉Kris': 
             return HeraKrisTheme;
+        case '林莉奈RinaHayashi':
+            return RinaHayashiTheme;
     }
     // default is azusa skin.
     return AzusaTheme;

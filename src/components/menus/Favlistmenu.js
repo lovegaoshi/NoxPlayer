@@ -12,6 +12,7 @@ import ClearAllIcon from '@mui/icons-material/ClearAll';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import DownloadIcon from '@mui/icons-material/Download';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import "react-contexify/dist/ReactContexify.css";
 import  { BiliShazamOnSonglist, getBVIDList } from '../../background/DataProcess';
 import { useSnackbar } from 'notistack';
@@ -150,6 +151,9 @@ export default function App ({ theme }) {
         </Item>
         <Item onClick={handleItemClick}>
           <DownloadIcon/> &nbsp; {"导出bv号为txt"}
+        </Item>
+        <Item onClick={handleItemClick}>
+          <CleaningServicesIcon/> &nbsp; {"磁盘错误清理"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}
