@@ -352,13 +352,22 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /、(.+)/,
                 ]);
             break;
+        case 1243266187: // 林莉奈RinaHayashi
+        // 这么可爱…真是对不起✨「可愛くてごめん」甜美翻唱
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /「(.+)」/,
+                    /【.+】(.+)【.+】/,
+                ]);
+            break;
         case 0:
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
 
                 ]);
-            break;
+            break;    
     }
     if (extracted !== null) return extracted[1];
     // console.debug('resorting to default songname extract', filename, uploader);
