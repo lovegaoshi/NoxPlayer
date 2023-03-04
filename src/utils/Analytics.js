@@ -8,17 +8,19 @@
  */
 export const favListAnalytics = (favList) => {
     let results = {
-        bvid: [],
+        bvid: new Set(),
         totalCount: 0,
         validShazamCount: 0,
         invalidShazamCount: 0,
         songOccurrence: {},
-        songsSorted: []
+        songsSorted: [],
+        songsUnique: new Set(),
     }
     for (const song of favList.songList) {
-        if (!results.bvid.includes(song.bvid)) results.bvid.push(song.bvid);
+        results.bvid.add(song.bvid);
         results.totalCount += 1;
         if (isNaN(Number(song.parsedName))) {
+            results.songsUnique.add(song.parsedName);
             results.validShazamCount += 1;
             if (results.songOccurrence[song.parsedName] === undefined) {
                 results.songOccurrence[song.parsedName] = 0;
