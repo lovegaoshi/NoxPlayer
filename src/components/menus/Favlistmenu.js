@@ -150,7 +150,7 @@ export default function App ({ theme }) {
           <AnalyticsIcon/> &nbsp; {"歌单统计"}
         </Item>
         <Item onClick={handleItemClick}>
-          <DownloadIcon/> &nbsp; {"导出bv号为txt"}
+          <DownloadIcon/> &nbsp; {"导出bv号为csv"}
         </Item>
         <Item onClick={handleItemClick}>
           <CleaningServicesIcon/> &nbsp; {"磁盘错误清理"}

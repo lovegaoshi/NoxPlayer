@@ -23,7 +23,7 @@ export default function ({ onClose, openState }) {
       content: textToDialogContent(val.split('\n')),
       confirmationText: "好的",
       hideCancelButton: true,
-      dialogProps: { maxHeight: "40vh" },
+      dialogProps: { sx: { maxHeight: "60vh", top: '20%' } },
     }).then().catch();
   }
   const handleCancel = () => {
