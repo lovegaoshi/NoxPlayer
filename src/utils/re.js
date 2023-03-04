@@ -378,12 +378,12 @@ export const reExtractSongName = (filename, uploader = 0) => {
 
 export const getName = (song, parsed = false) => {
     if (parsed) {
-        return song.parsedName? song.parsedName : song.name
+        return song.parsedName? song.parsedName : song.name;
     } else {
-        return song.name
+        return song.name;
     }
 }
 
 export const parseSongName = (song) => {
-    song.parsedName = reExtractSongName(song.name, song.singerId)
+    song.parsedName = reExtractSongName(song.name, song.singerId);
 }
