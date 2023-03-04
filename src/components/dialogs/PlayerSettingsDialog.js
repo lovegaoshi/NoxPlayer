@@ -15,7 +15,11 @@ import isMobile from 'is-mobile';
 import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../objects/Storage';
 import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
 import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
-import { ExportSyncFavButton as PersonalExportSyncFavButton, ImportSyncFavButton as PersonalImportSyncFavButton, setPersonalCloudTextField } from "../buttons/PersonalSyncButton";
+import { 
+  ExportSyncFavButton as PersonalExportSyncFavButton,
+  ImportSyncFavButton as PersonalImportSyncFavButton,
+  setPersonalCloudTextField 
+} from "../buttons/PersonalSyncButton";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -84,12 +88,6 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     };
     onClose(updatedSettingObj);
     return;
-    updatedSettingObj.skin = skin;
-    updatedSettingObj.parseSongName = parseSongName;
-    updatedSettingObj.autoRSSUpdate = autoRSSUpdate;
-    updatedSettingObj.settingExportLocation = settingExportLocation;
-    updatedSettingObj.keepSearchedSongListWhenPlaying = keepSearchedSongListWhenPlaying;
-    updatedSettingObj.personalCloudIP = personalCloudIP;
   }
 
   const syncSetttingButtons = () => {

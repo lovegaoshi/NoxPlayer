@@ -119,6 +119,8 @@ export const Lyric = withStyles(styles)((props) => {
                                         }}
                                         placeholder={songTitle}
                                         onKeyDown={onEnterPress}
+                                        value={songTitle}
+                                        onChange={(e) => setSongTitle(e.target.value)}
                                     />
                                 </Grid>
                             </Grid>
