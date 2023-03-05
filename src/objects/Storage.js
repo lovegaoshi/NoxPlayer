@@ -31,6 +31,7 @@ export const dummyFavList = (favName) => {
         },
         useBiliShazam: false,
         bannedBVids: [],
+        showFavoriteList: false,
     }
 }
 
@@ -40,6 +41,12 @@ export const dummyFavListFromList = (list) => {
         newList[key] = val;
     }
     return newList;
+}
+
+const dummyFavFavList = () => {
+    let favfavlist = dummyFavList('我的最爱')
+    favfavlist.info.id = "FavList-Special-Favorite"
+    return favfavlist
 }
 
 export const DEFAULT_SETTING = { 
@@ -166,10 +173,9 @@ export default class StorageManager {
             let FavListsSorted = []
             // Sort result base on ID
             for (let [key, value] of Object.entries(result)) {
-                value.songList.map((v) => v['musicSrc'] = () => { return fetchPlayUrlPromise(v.bvid, v.id) })
+                // value.songList.map((v) => v['musicSrc'] = () => { return fetchPlayUrlPromise(v.bvid, v.id) })
                 FavLists.push(value)
-
-            }
+             }
             FavListIDs.map((id) => {
                 FavListsSorted.push(FavLists.find((v) => v.info.id == id))
             })
@@ -181,9 +187,7 @@ export default class StorageManager {
 
     async initWithDefault() {
         const _self = this
-        let favfavlist = dummyFavList('我的最爱')
-        favfavlist.info.id = "FavList-Special-Favorite"
-        setLocalStorage(FAV_FAV_LIST_KEY, favfavlist)
+        setLocalStorage(FAV_FAV_LIST_KEY, dummyFavFavList())
         let value = dummyFavList('闹闹的歌切')
         value.songList = await getBiliSeriesList({mid: INITIAL_PLAYLIST[0], sid: INITIAL_PLAYLIST[1]})
         value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851']
@@ -255,7 +259,7 @@ export default class StorageManager {
     }
 
     setCurrentPlaying(cid, musicSrc) {
-        chrome.storage.local.set({ [CURRENT_PLAYING]: {cid:cid, playUrl:musicSrc} })
+        chrome.storage.local.set({ [CURRENT_PLAYING]: {cid: cid, playUrl: musicSrc} })
     }
 
     async setLyricOffset(songId, lrcOffset) {
@@ -292,7 +296,25 @@ export default class StorageManager {
         });
     };
 
+    async getKey(key, defaultVal = undefined, setVal = undefined) {
+        let val = await this.readLocalStorage(key)
+        if (val === undefined && defaultVal !== undefined) {
+            val = defaultVal()
+            if (setVal === undefined) {
+                setLocalStorage(key, val)
+            } else {
+                setVal(val)
+            }
+        }
+        return val
+    }
+
+    async getFavFavList() {
+        return this.getKey(FAV_FAV_LIST_KEY, dummyFavFavList)
+    }
+
     async getPlayerSetting() {
+        // return this.getKey(PLAYER_SETTINGS, () => DEFAULT_SETTING, this.setPlayerSetting)
         const settings = await this.readLocalStorage(PLAYER_SETTINGS)
         // console.log(settings)
         if (settings == undefined) {

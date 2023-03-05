@@ -33,7 +33,6 @@ export const extractWith = (filename, reExpressions = []) => {
  * @returns extracted song name.
  */
 export const reExtractSongName = (filename, uploader = 0) => {
-    let extracted = null;
     switch (uploader) {
         case 5053504://
         case 3493085134719196: // "王胡桃w":
@@ -369,7 +368,6 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 ]);
             break;    
     }
-    if (extracted !== null) return extracted[1];
     // console.debug('resorting to default songname extract', filename, uploader);
     // if fails, first try to extract in brackets; else return as is.
     return extractSongName(filename);

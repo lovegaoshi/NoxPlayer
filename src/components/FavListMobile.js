@@ -138,13 +138,25 @@ export const FavList = memo(function ({
     }, [searchList, selectedList])
 
     const handleDeleteFromSearchList = useCallback((listid, songid) => {
-        let favList = listid.includes('FavList-Special-Search') ? searchList : favLists.find(f => f.info.id == listid)
+        const findList = (listid) => {
+            switch (listid) {
+                case favoriteList?.info?.id:
+                    return favoriteList;
+                default: 
+                    break;
+            }
+            return listid.includes('FavList-Special-Search') ? searchList : favLists.find(f => f.info.id == listid)
+        }
+        
+        let favList = findList(listid)
         let index = favList.songList.findIndex((song) => song.id === songid)
+        // if index not found, return.
+        if (index === -1) return; 
         favList.songList.splice(index, 1)
         const updatedToList = { ...favList }
         listid.includes('FavList-Special-Search') ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
     }, [searchList, selectedList, favLists])
-
+    
     const onNewFav = (val) => {
         setOpenNewDialog(false)
         if (val) {
@@ -266,10 +278,7 @@ export const FavList = memo(function ({
                         </ListItemIcon>
                         <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
                     </ListItemButton>
-                    <Box component="div" sx={CRUDBtn}  align="right">
-                        <Tooltip title="播放歌单">
-                            <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(v)}/>
-                        </Tooltip>
+                    <Box component="div" sx={CRUDBtn}  align="right" style={{ width: '136px' }}>
                         <Tooltip title="添加到播放列表">
                             <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(v)} />
                         </Tooltip>
@@ -334,10 +343,7 @@ export const FavList = memo(function ({
                                 </ListItemIcon>
                                 <ListItemText style={{ maxWidth: '50%' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
                             </ListItemButton>
-                            <Box component="div" sx={CRUDBtn} align="right">
-                                <Tooltip title="播放歌单">
-                                    <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(searchList)} />
-                                </Tooltip>
+                            <Box component="div" sx={CRUDBtn} align="right" style={{ width: '136px' }}>
                                 <Tooltip title="添加到播放列表">
                                     <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(searchList)} />
                                 </Tooltip>

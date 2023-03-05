@@ -13,6 +13,7 @@ import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import favoriteButton from './buttons/favoriteSongButton';
 import { FAV_FAV_LIST_KEY, setLocalStorage } from '../objects/Storage';
+import { fetchPlayUrlPromise } from '../utils/Data'
 
 // Initial Player options
 let options = {
@@ -178,7 +179,7 @@ export const Player = function ({ songList }) {
             (val) => processExtendsContent(renderExtendsContent({ song: audioInfo, liked: val, handleThumbsUp: biliButtonHandleClick, songFavorited }))
         )
         setcurrentAudio(audioInfo)
-        chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(), playUrl:audioInfo.musicSrc} })
+        chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
     }, [params])
 
     const onAudioListsChange = useCallback((currentPlayId, audioLists, audioInfo) => {
@@ -317,6 +318,7 @@ export const Player = function ({ songList }) {
                             onCoverClick={onCoverClick}
                             onAudioListsChange={onAudioListsChange}
                             theme={skinPreset.desktopTheme}
+                            musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
                         />
                 </React.Fragment>}
         </React.Fragment>
