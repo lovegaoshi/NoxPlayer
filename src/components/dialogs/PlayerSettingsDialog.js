@@ -143,7 +143,8 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
             id="player-settings-skin-select"
             value={skin}
             select
-            onChange={(e) => setSkin(e.target.value)}
+            SelectProps={{ MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } } }}
+            onChange={(e) => setSkin(e.target.value)}            
           >
             {SkinKeys.map((v, i) => {
                 return (<MenuItem key={i} value={v}>{v}</MenuItem>)

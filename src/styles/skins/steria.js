@@ -18,7 +18,7 @@ const gifs = [
     "http://i0.hdslb.com/bfs/garb/001887ba703fd72a87d4ab3b99cb3d6c0ecfb154.png",
 ];
 
-export default SteriaTheme = {
+export default {
     playerBanner:  "https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png",
     playerBannerMobile: "https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png",
     playerBackground: 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
@@ -123,5 +123,5 @@ export default SteriaTheme = {
       sliderColor: '#ffbcd9',
     },
     maintainer: "薇薇單推人@bilibili",
-    maintainerTooltip: "关注弃车人的骄傲spiderman安妮直播间438068",
+    maintainerTooltip: "温柔 安定 后半夜黑听天堂 直播间22924075",
 };

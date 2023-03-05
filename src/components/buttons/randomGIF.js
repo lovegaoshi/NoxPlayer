@@ -23,7 +23,7 @@ export default ({ gifs, favList, onClickCallback = () => {} }) => {
             }}
             sx={{ marginTop: -1, "&:hover": { backgroundColor: 'transparent' } }}
         >
-            <img style={{ width: '66px', height: '66px' }}
+            <img style={{ width: '72px', height: '72px' }}
                 src={gifs[randomGIFSrc]}></img>
         </IconButton>
     )

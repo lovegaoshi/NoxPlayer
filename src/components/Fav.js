@@ -345,9 +345,9 @@ export const Fav = (function ({
                     <Menu
                         theme={colorTheme.generalTheme}
                     />
-                    <Box sx={{ flexGrow: 1, maxHeight: '72px' }} style={{ paddingBottom: '8px' }}>
-                        <Grid container spacing={2} style={{ paddingTop: '8px' }}>
-                            <Grid item xs={5} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '4px' }} overflow="hidden">
+                    <Box sx={{ flexGrow: 1, maxHeight: '80px' }} style={{ paddingBottom: '8px' }}>
+                        <Grid container spacing={2} style={{ padding: '10px' }}>
+                            <Grid item xs={5} style={{ textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '12px' }} overflow="hidden">
                                 <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
                                     {currentFavList.info.title}
                                 </Typography>
@@ -359,7 +359,7 @@ export const Fav = (function ({
                                     onClickCallback={primePageToCurrentPlaying}
                                 />
                             </Grid>
-                            <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
+                            <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
                                 {!currentFavList.info.id.includes('Special') && 
                                     <FavSettingsButtons
                                         currentList={currentFavList}
