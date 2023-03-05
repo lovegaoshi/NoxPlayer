@@ -31,6 +31,7 @@ import { useConfirm } from "material-ui-confirm";
 import HelpPanelButton from "./buttons/HelpPanelButton";
 import Menu from './menus/Favlistmenu';
 import { contextMenu } from "react-contexify";
+import { dummyFavList } from "../objects/Storage";
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -133,13 +134,12 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     const [searchInputVal, setSearchInputVal] = useState('')
     const confirm = useConfirm()
     const StorageManager = useContext(StorageManagerCtx)
+    const [favoriteList, dummySetter] = useState(dummyFavList());
 
     useEffect(() => {
         // Caches setter and latest favList in StoreMng
         StorageManager.setFavLists = setFavLists
         StorageManager.initFavLists()
-
-        //console.log(favLists)
     }, [])
 
     const handleSearch = useCallback((list) => {
@@ -148,15 +148,29 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }, [searchList, selectedList])
 
     const handleDeleteFromSearchList = useCallback((listid, songid) => {
-        const findList = (listid) => {
-            return listid.includes('FavList-Special-Search') ? searchList : favLists.find(f => f.info.id == listid)
+        const findList = async (listid) => {
+            console.log(listid)
+            switch (listid) {
+                case favoriteList?.info?.id:
+                    return StorageManager.getFavFavList();
+                default: 
+                    break;
+            }
+            return listid.includes('FavList-Special-Search') 
+            ? searchList 
+            : favLists.find(f => f.info.id == listid)
         }
+        findList(listid)
+        .then( favList => {
+            console.log(favList)
+            let index = favList.songList.findIndex((song) => song.id === songid)
+            console.log(index)
+            if (index === -1) return
+            favList.songList.splice(index, 1)
+            const updatedToList = { ...favList }
+            listid.includes('FavList-Special-Search') ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
+        })
         
-        let favList = findList(listid)
-        let index = favList.songList.findIndex((song) => song.id === songid)
-        favList.songList.splice(index, 1)
-        const updatedToList = { ...favList }
-        listid.includes('FavList-Special-Search') ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
     }, [searchList, selectedList, favLists])
 
     const onNewFav = (val) => {
@@ -303,6 +317,46 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         )
     }
 
+    const renderSpecialList = (specialList, handleClick = undefined) => {
+        if (specialList === null) return;
+        if (handleClick === undefined) handleClick = () => setSelectedList(specialList);
+
+        return (
+            <React.Fragment key={specialList.info.id}>
+                <ListItemButton
+                    disableRipple
+                    sx={outerLayerBtn}
+                >
+                    <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={handleClick} id={specialList.info.id} >
+                        <ListItemIcon sx={DiskIcon}>
+                            <ManageSearchIcon />
+                        </ListItemIcon>
+                        <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={specialList.info.title} />
+                    </ListItemButton>
+                    <Box component="div" sx={CRUDBtn}>
+                        <Tooltip title="播放歌单">
+                            <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(specialList)} />
+                        </Tooltip>
+                        <Tooltip title="添加到播放列表">
+                            <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(specialList)} />
+                        </Tooltip>
+                        <Tooltip title="添加到收藏歌单">
+                            <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(specialList.info.id)} />
+                        </Tooltip>
+                        <Tooltip title="新建为歌单">
+                            <FiberNewIcon 
+                                sx={CRUDIcon} 
+                                onClick={() => {
+                                    setSongsStoredAsNewFav(specialList.songList)
+                                    setOpenNewDialog(true)
+                                }}/>
+                        </Tooltip>
+                    </Box>
+                </ListItemButton>
+            </React.Fragment>
+        )
+    }
+
     return (
         <React.Fragment>
             <Menu
@@ -350,38 +404,8 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     sx={{ width: '100%' }}
                     component="nav"
                 >
-                    <React.Fragment key={searchList.id}>
-                        <ListItemButton
-                            disableRipple
-                            sx={outerLayerBtn}
-                        >
-                            <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={() => setSelectedList(searchList)} id={searchList.info.id} >
-                                <ListItemIcon sx={DiskIcon}>
-                                    <ManageSearchIcon />
-                                </ListItemIcon>
-                                <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
-                            </ListItemButton>
-                            <Box component="div" sx={CRUDBtn}>
-                                <Tooltip title="播放歌单">
-                                    <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(searchList)} />
-                                </Tooltip>
-                                <Tooltip title="添加到播放列表">
-                                    <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(searchList)} />
-                                </Tooltip>
-                                <Tooltip title="添加到收藏歌单">
-                                    <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
-                                </Tooltip>
-                                <Tooltip title="新建为歌单">
-                                    <FiberNewIcon 
-                                        sx={CRUDIcon} 
-                                        onClick={() => {
-                                            setSongsStoredAsNewFav(searchList.songList)
-                                            setOpenNewDialog(true)
-                                        }}/>
-                                </Tooltip>
-                            </Box>
-                        </ListItemButton>
-                    </React.Fragment>
+                    {renderSpecialList(searchList)}    
+                    {false && renderSpecialList(favoriteList, () => StorageManager.getFavFavList().then(setSelectedList))}                  
                     {favLists && <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="droppable">
                             {(provided, snapshot) => (

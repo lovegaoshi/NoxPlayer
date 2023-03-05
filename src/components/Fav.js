@@ -220,7 +220,7 @@ export const Fav = (function ({
         primePageToCurrentPlaying()
         performSearch('')
     }, [FavList.info.id])
-    
+
     const requestSearch = (e) => {
         const searchedVal = e.target.value
         setPage(0)
@@ -232,7 +232,6 @@ export const Fav = (function ({
             setRows(FavList.songList)
             return
         }
-
         const filteredRows = FavList.songList.filter((row) => {
             return row.name.toLowerCase().includes(searchedVal.toLowerCase())
         })
@@ -328,8 +327,8 @@ export const Fav = (function ({
                         <DeleteOutlineOutlinedIcon 
                             sx={CRUDIcon}
                             onClick={
-                                () => {
-                                    handleDeleteFromSearchList(currentFavList.info.id, song.id);
+                                async () => {
+                                    await handleDeleteFromSearchList(currentFavList.info.id, song.id);
                                     handleSearch(searchBarRef.current.value);
                                 }
                             } />
