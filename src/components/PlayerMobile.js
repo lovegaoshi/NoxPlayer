@@ -9,6 +9,7 @@ import StorageManagerCtx from '../popup/App';
 import { skins } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
+import { fetchPlayUrlPromise } from '../utils/Data';
 
 // Initial Player options
 let options = {
@@ -323,6 +324,7 @@ export const PlayerMobile = function ({ songList }) {
                             onAudioListsChange={onAudioListsChange}
                             onAudioListsPanelChange={setAudioListsPanelState}
                             hideCover={playerSettings?.hideCoverInMobile}
+                            musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
                         />
                     </Box>
                 </React.Fragment>}

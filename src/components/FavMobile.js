@@ -48,6 +48,16 @@ const CRUDIcon = {
     color: colorTheme.songListIconColor
 }
 
+const findInFavList = (songList, audioid, key = 'id') => {
+    for (const [index, song] of Object.entries(songList)) {
+        if (song[key] === audioid) {
+            return index;
+        }
+    }
+    console.debug(audioid, 'is not found in the current playlist.');
+    return 0;
+}
+
 export const Fav = (function ({
     FavList, onSongIndexChange, onAddOneFromFav,
     handleDeleteFromSearchList, handleAddToFavClick,
@@ -59,16 +69,6 @@ export const Fav = (function ({
     const FavPanelRef = useRef(null);
     const searchBarRef = useRef({current: {}});
     const favPanelHeight = useRef(window.innerHeight - 320);
-    
-    const findInFavList = (songList, audioid) => {
-        for (let i=0, n=songList.length; i<n; i++) {
-            if (songList[i].id === audioid) {
-                return i;
-            }
-        }
-        console.debug(audioid, 'is not found in the current playlist.');
-        return 0;
-    }
 
     useEffect(() => {
         setCurrentFavList(FavList);

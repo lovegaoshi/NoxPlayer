@@ -149,7 +149,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
     const handleDeleteFromSearchList = useCallback((listid, songid) => {
         const findList = async (listid) => {
-            console.log(listid)
             switch (listid) {
                 case favoriteList?.info?.id:
                     return StorageManager.getFavFavList();

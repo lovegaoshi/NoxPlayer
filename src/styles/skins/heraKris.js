@@ -33,8 +33,6 @@ export const HeraKrisTheme = {
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
-        return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
-        .replace('{count}', Math.floor(Math.random() * 3))
     },
     appTitle: 'HeraKris-player',
     colorTheme: {

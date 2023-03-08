@@ -13,7 +13,7 @@ import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import favoriteButton from './buttons/favoriteSongButton';
 import { FAV_FAV_LIST_KEY, setLocalStorage } from '../objects/Storage';
-import { fetchPlayUrlPromise } from '../utils/Data'
+import { fetchPlayUrlPromise } from '../utils/Data';
 
 // Initial Player options
 let options = {

@@ -20,9 +20,6 @@ export const AzusaTheme = {
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
-
-        return "https://github.com/kenmingwang/azusa-player-lrcs/blob/main/aziRandomPic/{count}.gif?raw=true"
-        .replace('{count}', Math.floor(Math.random() * 12))
     },
     appTitle: 'Azusa-player',
     colorTheme: {

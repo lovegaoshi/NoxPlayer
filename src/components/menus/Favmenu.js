@@ -19,7 +19,7 @@ import { getName } from '../../utils/re';
 import { saveFav, readLocalStorage, MY_FAV_LIST_KEY } from '../../objects/Storage';
 import StorageManagerCtx from '../../popup/App';
 
-const MENU_ID = "favmenu";
+export const MENU_ID = "favmenu";
 
 /**
  * right-click context menu for Fav.

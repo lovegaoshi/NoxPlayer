@@ -24,8 +24,6 @@ export const RinaHayashiTheme = {
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
-        return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
-        .replace('{count}', Math.floor(Math.random() * 3))
     },
     appTitle: '大力播放器',
     colorTheme: {
@@ -54,7 +52,7 @@ export const RinaHayashiTheme = {
         FavAlternateBackgroundColor: "rgba(41,41,41,0.5)",
         scrollbarColor: '#00bfff',
         favMobileBorder: "1px solid white",
-        clickHoldBackground: '#00bfff',
+        clickHoldBackground: 'rebeccapurple',
         palette: {
             palette: {
               primary: {
@@ -145,7 +143,7 @@ export const RinaHayashiTheme = {
                         root: {
                             color: '#00bfff',
                             "&:hover": {
-                                backgroundColor: '#e8000d',
+                                backgroundColor: 'rebeccapurple',
                                 color: '#00bfff',
                             }
                         }
@@ -156,7 +154,7 @@ export const RinaHayashiTheme = {
                         root: {
                             color: '#00bfff',
                             "&:hover": {
-                                backgroundColor: '#e8000d',
+                                backgroundColor: 'rebeccapurple',
                                 color: '#00bfff',
                             }
                         }

@@ -2,6 +2,16 @@ const gifs = [
     'https://article.biliimg.com/bfs/article/85e8313a2dab7c845040969b4cda9a1ea967964f.gif',
     'https://article.biliimg.com/bfs/article/02ca7eb075f9f22fcf4049ddfa4df77ec3cb9ec0.gif',
     'https://article.biliimg.com/bfs/article/07e44240fa272c4d8bba77d23fe837ba02cbc74d.gif',
+    'https://wx1.sinaimg.cn/mw690/00765yQbgy1haxlkuwitlj307k079wef.jpg',
+    'https://wx2.sinaimg.cn/mw690/00765yQbgy1haxlkvotjjj303903nglf.jpg',
+    'https://wx3.sinaimg.cn/mw690/00765yQbgy1haxlkwvv4pj3028028dfm.jpg',
+    'https://wx1.sinaimg.cn/mw690/00765yQbgy1haxlkx80a1j30dw0dw74o.jpg',
+    'https://wx3.sinaimg.cn/mw690/00765yQbgy1haxlkxw3omj308c08674e.jpg',
+    'https://wx3.sinaimg.cn/mw690/00765yQbgy1haxlky9y1vj30i00i0t9x.jpg',
+    'https://wx3.sinaimg.cn/mw690/00765yQbgy1haxlkynt3dj3028028gle.jpg',
+    'https://wx2.sinaimg.cn/mw690/00765yQbgy1haxlkz17pyj30u00r7756.jpg',
+    'https://wx3.sinaimg.cn/mw690/00765yQbgy1haxlkzgjikj308c08cq31.jpg',
+    'https://wx3.sinaimg.cn/mw690/eb2876b2gy1ha9cy68za1j205k05k752.jpg',
 ];   
 export const ClessSTheme = {
     playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
@@ -9,8 +19,6 @@ export const ClessSTheme = {
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
-        return "https://github.com/lovegaoshi/azusa-player/blob/nox-player/public/img/noxRandomGIF/nox{count}.gif?raw=true"
-        .replace('{count}', Math.floor(Math.random() * 3))
     },
     appTitle: '克√播放器',
     colorTheme: {

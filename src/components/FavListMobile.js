@@ -113,6 +113,8 @@ export const FavList = memo(function ({
     // trouble with this one. alas, this patch seems to work... 
     useEffect(() => {
         setOpen(false)
+        StorageManager.setFavLists = setFavLists
+        StorageManager.initFavLists()
     }, [])
     
     const handleClose = () => {
@@ -121,14 +123,6 @@ export const FavList = memo(function ({
         } 
         setOpen(false);
     };
-
-    useEffect(() => {
-        // Caches setter and latest favList in StoreMng
-        StorageManager.setFavLists = setFavLists
-        StorageManager.initFavLists()
-
-        //console.log(favLists)
-    }, [])
 
     const handleSearch = useCallback((list) => {
         setSearchList(list)
@@ -147,7 +141,6 @@ export const FavList = memo(function ({
             }
             return listid.includes('FavList-Special-Search') ? searchList : favLists.find(f => f.info.id == listid)
         }
-        
         let favList = findList(listid)
         let index = favList.songList.findIndex((song) => song.id === songid)
         // if index not found, return.
