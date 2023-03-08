@@ -147,29 +147,31 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         setSelectedList(list)
     }, [searchList, selectedList])
 
-    const handleDeleteFromSearchList = useCallback((listid, songid) => {
-        const findList = async (listid) => {
-            switch (listid) {
-                case favoriteList?.info?.id:
-                    return StorageManager.getFavFavList();
-                default: 
-                    break;
-            }
-            return listid.includes('FavList-Special-Search') 
-            ? searchList 
-            : favLists.find(f => f.info.id == listid)
+    const findList = async (listid) => {
+        switch (listid) {
+            case favoriteList?.info?.id:
+                return StorageManager.getFavFavList()
+            default: 
+                break
         }
-        findList(listid)
-        .then( favList => {
-            console.log(favList)
-            let index = favList.songList.findIndex((song) => song.id === songid)
-            console.log(index)
-            if (index === -1) return
-            favList.songList.splice(index, 1)
-            const updatedToList = { ...favList }
-            listid.includes('FavList-Special-Search') ? setSearchList(updatedToList) : StorageManager.updateFavList(updatedToList)
-        })
-        
+        return listid.includes('FavList-Special-Search') 
+        ? searchList 
+        : favLists.find(f => f.info.id == listid)
+    }
+
+    const getUpdateListMethod = (listid) => {
+        return listid.includes('FavList-Special-Search') 
+        ? setSearchList
+        : StorageManager.updateFavList.bind(StorageManager)
+    }
+
+    const handleDeleteFromSearchList = useCallback(async (listid, songid) => {
+        let favList = await findList(listid)
+        let index = favList.songList.findIndex((song) => song.id === songid)
+        if (index === -1) return
+        favList.songList.splice(index, 1)
+        const updatedToList = { ...favList }
+        getUpdateListMethod(listid)(updatedToList)
     }, [searchList, selectedList, favLists])
 
     const onNewFav = (val) => {
@@ -216,25 +218,20 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             2. Whole searchList
             3. Whole favList 
     */
-    const onAddFav = (fromId, toId, song) => {
+    const onAddFav = async (fromId, toId, song) => {
         setOpenAddDialog(false)
-        if (toId) {
-            let fromList = []
-            let newSongList = []
-            let toList = favLists.find(f => f.info.id == toId)
-            if (song)
-                fromList = { songList: [song] }
-            else if (fromId.includes('FavList-Special-Search'))
-                fromList = searchList
-            else
-                fromList = favLists.find(f => f.info.id == fromId) // Handles both single song add and list add
-    
-            newSongList = fromList.songList.filter(s => undefined === toList.songList.find(v => v.id == s.id))
-            //console.log(fromId, toId)
+        if (!toId) return
+        let fromList, newSongList
+        let toList = await findList(toId)
+        
+        if (song) fromList = { songList: [song] }
+        else fromList = await findList(fromId)
 
-            const updatedToList = { info: toList.info, songList: newSongList.concat(toList.songList) }
-            StorageManager.updateFavList(updatedToList)
-        }
+        newSongList = fromList.songList.filter(s => undefined === toList.songList.find(v => v.id == s.id))
+        //console.log(fromId, toId)
+
+        const updatedToList = { info: toList.info, songList: newSongList.concat(toList.songList) }
+        StorageManager.updateFavList(updatedToList)
     }
 
     const handlePlayListClick = (FavList) => {

@@ -60,7 +60,6 @@ export const initSongList = async (setCurrentSongList) => {
         if (result[LAST_PLAY_LIST] && result[LAST_PLAY_LIST].length != 0) {
             // console.log(result)
             const defaultSongList = result[LAST_PLAY_LIST]
-            defaultSongList.map(v => v['musicSrc'] = () => { return fetchPlayUrlPromise(v.bvid, v.id) })
             setCurrentSongList(defaultSongList)
         }
         else {

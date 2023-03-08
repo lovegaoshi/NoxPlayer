@@ -232,12 +232,14 @@ export default class StorageManager {
     }
 
     saveMyFavList(newList, callbackFunc = () => {console.debug('saveMyFavList called.')} ) {
-        this.latestFavLists = newList
+        const _self = this
+        _self.latestFavLists = newList
         chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map(v => v.info.id) }, callbackFunc)
     }
 
     updateFavList(updatedToList) {
         const _self = this
+        console.log(_self)
         console.debug('saving favList', updatedToList.info.title)
         switch (updatedToList.info.id) {
             case FAV_FAV_LIST_KEY:

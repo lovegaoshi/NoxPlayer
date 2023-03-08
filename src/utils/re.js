@@ -154,11 +154,25 @@ export const reExtractSongName = (filename, uploader = 0) => {
             // https://space.bilibili.com/63326/channel/seriesdetail?sid=2701519
             // in specialized brackets.
             // 『露米Lumi_Official』『月牙湾』
-            filename = extractWith(
-                extractParenthesis(filename), 
+            // 『露米Lumi』-『繁华』
+            // 『露米Lumi』- 『一吻之间』
+            // 『露米Lumi』- 『好运来』
+            // 4-Part of Your World(迪士尼在逃公主）-1080P 高清-AVC
+            // 1-『天下』-1080P 60帧-AVC
+            filename = extractParenthesis(extractWith(
+                filename, 
                 [
+                    /\d+-『(.+)』-\d/,
+                    /\d+-(.+)-\d/,
+                    /\d+-(.+)/,
+                    /『露米Lumi』-『(.+)』 *『.+』/,
+                    /『.+』 *- *『(.+)』/,
+                    /『.+』 *『(.+)』/,
+                    /『.+』.+『(.+)』/,
+                    /『.+』-(.+)-\d/,
+                    /『.+』-(.+)/,
                     /『(.+)』/,
-                ]);
+                ]));
             break;
         case 159910988: // "litmus石蕊":
             // https://space.bilibili.com/159910988/channel/collectiondetail?sid=766244

@@ -3,7 +3,7 @@ import PageLayout from './Layout';
 import { initSongList } from '../background/DataProcess';
 import StorageManager from '../objects/Storage';
 import { skins } from '../styles/skin';
-import { CurrentAudioProvider } from "../contexts/CurrentAudioContext";
+import PlayerContextsProvider from "../contexts/PlayerContextWrapper";
 
  // Persist instance of the program, manages R/W to local storage.
 const StorageManagerCtx = createContext()
@@ -23,13 +23,13 @@ export const App = function () {
 
     //console.log(currentSongList)
     return (
-        <CurrentAudioProvider>
+        <PlayerContextsProvider>
             <StorageManagerCtx.Provider value={new StorageManager()}>
                 <PageLayout
                     songList={currentSongList}
                 />
             </StorageManagerCtx.Provider>
-        </CurrentAudioProvider>
+        </PlayerContextsProvider>
     )
 }
 
