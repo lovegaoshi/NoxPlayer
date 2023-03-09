@@ -154,7 +154,7 @@ export default function App ({ theme }) {
           <DownloadIcon/> &nbsp; {"导出bv号为csv"}
         </Item>
         <Item onClick={handleItemClick}>
-          <CleaningServicesIcon/> &nbsp; {"磁盘错误清理"}
+          <CleaningServicesIcon/> &nbsp; {"清理失效的bv号"}
         </Item>
         <Item onClick={handleItemClick}>
           <TerminalIcon/> &nbsp; {"console.log"}

@@ -239,7 +239,6 @@ export default class StorageManager {
 
     updateFavList(updatedToList) {
         const _self = this
-        console.log(_self)
         console.debug('saving favList', updatedToList.info.title)
         switch (updatedToList.info.id) {
             case FAV_FAV_LIST_KEY:

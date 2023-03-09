@@ -201,9 +201,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
             if (selectedList && selectedList.info.id == id)
                 setSelectedList(null)
         })
-        .catch( () => {
-            console.debug('canceled playlist delete.')
-        });
+        .catch();
     }
 
     const handleAddToFavClick = (id, song) => {
