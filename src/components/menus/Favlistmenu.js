@@ -21,6 +21,8 @@ import { removeSongBiliShazamed } from '../../objects/Song';
 import { useConfirm } from "material-ui-confirm";
 import { favListAnalytics } from '../../utils/Analytics';
 import { textToDialogContent } from '../dialogs/genericDialog';
+import { fetchVideoInfo } from '../../utils/Data';
+
 
 const MENU_ID = "favlistmenu";
 
@@ -124,6 +126,26 @@ export default function App ({ theme }) {
     }).then().catch();
   }
 
+  async function cleanInvalidBVIds ({ props }) {
+    let uniqBVIds = [];
+    let promises = [];
+    let validBVIds = [];
+    const key = enqueueSnackbar(
+      `正在查询歌单 ${props.favlist.info.title } 的bv号……`, 
+      { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} }
+    );
+    for (const song of props.favlist.songList) {
+      if (uniqBVIds.includes(song.bvid)) continue;
+      uniqBVIds.push(song.bvid);
+      // fetchVideoInfo either returns a valid object or unidentified.
+      promises.push(fetchVideoInfo(song.bvid).then(val => validBVIds.push(val?.bvid)));
+    }
+    await Promise.all(promises);
+    props.favlist.songList = props.favlist.songList.filter(val => validBVIds.includes(val.bvid));
+    closeSnackbar(key);
+    updateFavlist(props, `歌单 ${props.favlist.info.title} 清理完成，删除了${validBVIds.filter(v => v === undefined).length}个失效的bv号`);
+  }
+
   function displayMenu (e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -153,7 +175,7 @@ export default function App ({ theme }) {
         <Item onClick={handleItemClick}>
           <DownloadIcon/> &nbsp; {"导出bv号为csv"}
         </Item>
-        <Item onClick={handleItemClick}>
+        <Item onClick={cleanInvalidBVIds}>
           <CleaningServicesIcon/> &nbsp; {"清理失效的bv号"}
         </Item>
         <Item onClick={handleItemClick}>
