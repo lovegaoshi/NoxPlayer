@@ -34,10 +34,10 @@ const columns = [
     {
         id: 'operation',
         label: '操作',
-        minWidth: '10%',
+        minWidth: '100px',
         align: 'center',
     },
-    { id: 'name', label: '歌曲名', minWidth: '20%' },
+    { id: 'name', label: '歌曲名', minWidth: '275px' },
 ];
 
 const CRUDIcon = {
@@ -117,7 +117,7 @@ export const Fav = (function ({
                 })}
             >
                 {songIconVisible && 
-                (<ListItemButton>
+                (<ListItemButton style={{ maxWidth: '100px' }}>
                     <Tooltip title="添加到播放列表">
                         <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
                     </Tooltip>

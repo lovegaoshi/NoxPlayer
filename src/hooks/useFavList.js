@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import StorageManagerCtx from '../popup/App';
 import { dummyFavList } from "../objects/Storage";
-import { defaultSearchList } from '../components/Search';
+import { searchBiliURLs, defaultSearchList } from '../components/Search';
 import { useConfirm } from "material-ui-confirm";
+import { parseSongName } from '../utils/re';
 
 
 /**

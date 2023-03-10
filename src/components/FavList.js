@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, memo, useContext } from "react";
-import { searchBiliURLs, Search, defaultSearchList } from '../components/Search';
+import React, { useCallback, memo, useContext } from "react";
+import { Search, defaultSearchList } from '../components/Search';
 import { Fav } from './Fav';
 import { ScrollBar } from "../styles/styles";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
@@ -22,12 +22,10 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import IconButton from '@mui/material/IconButton';
 import { skinPreset } from '../styles/skin';
-import { parseSongName } from '../utils/re';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
-import { useConfirm } from "material-ui-confirm";
 import HelpPanelButton from "./buttons/HelpPanelButton";
 import Menu from './menus/Favlistmenu';
 import { contextMenu } from "react-contexify";
@@ -66,14 +64,6 @@ const AddFavIcon = {
 export const DiskIcon = {
     minWidth: '36px'
 }
-
-export const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-
-    return result;
-};
 
 export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings }) {
 
