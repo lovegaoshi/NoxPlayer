@@ -21,7 +21,7 @@ import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
 import Slide from '@mui/material/Slide';
-import { CRUDBtn, outerLayerBtn, DiskIcon, reorder, updateSubscribeFavList } from './FavList';
+import { CRUDBtn, outerLayerBtn, DiskIcon, reorder } from './FavList';
 import { skinPreset } from '../styles/skin';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -34,6 +34,7 @@ import IconButton from '@mui/material/IconButton';
 import { useConfirm } from "material-ui-confirm";
 import rgba2rgb from "../utils/rgba2rgb";
 import HelpPanelButton from "./buttons/HelpPanelButton";
+import useFavList, { updateSubscribeFavList } from "../hooks/useFavList";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -83,19 +84,29 @@ export const FavList = memo(function ({
     onAddOneFromFav, 
     showFavList, 
     currentAudioID }) {
-    const [favLists, setFavLists] = useState(null)
-    const [selectedList, setSelectedList] = useState(null)
-    const [openAddDialog, setOpenAddDialog] = useState(false)
-    const [openNewDialog, setOpenNewDialog] = useState(false)
-    const [actionFavId, setActionFavId] = useState(null)
-    const [actionFavSong, setActionFavSong] = useState(null)
-    const [searchList, setSearchList] = useState(defaultSearchList({}))
     const [favOpen, setFavOpen] = useState(false)
-    const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null)
-    const [searchInputVal, setSearchInputVal] = useState('')
     const [open, setOpen] = useState(false);
     const StorageManager = useContext(StorageManagerCtx)
     const confirm = useConfirm()
+    const [
+        favLists, setFavLists,
+        searchList, setSearchList,
+        favoriteList,
+        selectedList, setSelectedList,
+        setSongsStoredAsNewFav,
+        openNewDialog, setOpenNewDialog,
+        openAddDialog,
+        actionFavId,
+        actionFavSong,
+        setSearchInputVal,
+
+        handleDeleteFromSearchList,
+        onNewFav,
+        handleDeleteFavClick,
+        handleAddToFavClick,
+        onAddFav,
+        onDragEnd,
+    ] = useFavList();
 
     useEffect(() => {
         if (!selectedList) {
@@ -113,8 +124,6 @@ export const FavList = memo(function ({
     // trouble with this one. alas, this patch seems to work... 
     useEffect(() => {
         setOpen(false)
-        StorageManager.setFavLists = setFavLists
-        StorageManager.initFavLists()
     }, [])
     
     const handleClose = () => {
@@ -130,93 +139,7 @@ export const FavList = memo(function ({
         setOpen(false)
         setFavOpen(true)
     }, [searchList, selectedList])
-
-    const findList = async (listid) => {
-        switch (listid) {
-            case favoriteList?.info?.id:
-                return StorageManager.getFavFavList()
-            default: 
-                break
-        }
-        return listid.includes('FavList-Special-Search') 
-        ? searchList 
-        : favLists.find(f => f.info.id == listid)
-    }
     
-    const getUpdateListMethod = (listid) => {
-        return listid.includes('FavList-Special-Search') 
-        ? setSearchList
-        : StorageManager.updateFavList.bind(StorageManager)
-    }
-
-    const handleDeleteFromSearchList = useCallback(async (listid, songid) => {
-        let favList = await findList(listid)
-        let index = favList.songList.findIndex((song) => song.id === songid)
-        // if index not found, return.
-        if (index === -1) return; 
-        favList.songList.splice(index, 1)
-        const updatedToList = { ...favList }
-        getUpdateListMethod(listid)(updatedToList)
-    }, [searchList, selectedList, favLists])
-    
-    const onNewFav = (val) => {
-        setOpenNewDialog(false)
-        if (val) {
-            //console.log(val)
-            let favList = StorageManager.addFavList(val, favLists)
-            if (songsStoredAsNewFav) {
-                favList.songList = songsStoredAsNewFav
-                setSongsStoredAsNewFav(null)
-                favList.subscribeUrls = [searchInputVal.slice()]
-                StorageManager.updateFavList(favList)
-            }
-        }
-    }
-
-    const handleDeleteFavClick = (playlistName, id) => {
-        confirm({ 
-            title: '删除歌单？', 
-            description: `确认要删除歌单${playlistName}吗？`,
-            confirmationText: '好的',
-            cancellationText: '算了',
-         })
-        .then( () => {
-            const newFavListIDs = favLists.filter(FavId => FavId.info.id != id)
-            StorageManager.deletFavList(id, newFavListIDs)
-            if (selectedList && selectedList.info.id == id)
-                setSelectedList(null)
-        })
-        .catch();
-    }
-
-    const handleAddToFavClick = (id, song) => {
-        setActionFavId(id)
-        setActionFavSong(song)
-        setOpenAddDialog(true)
-    }
-
-    /* 
-        3 Scenarios:
-            1. Single song add, either from searchList or favList
-            2. Whole searchList
-            3. Whole favList 
-    */
-    const onAddFav = async (fromId, toId, song) => {
-        setOpenAddDialog(false)
-        if (!toId) return
-        let fromList, newSongList
-        let toList = await findList(toId)
-        
-        if (song) fromList = { songList: [song] }
-        else fromList = await findList(fromId)
-
-        newSongList = fromList.songList.filter(s => undefined === toList.songList.find(v => v.id == s.id))
-        //console.log(fromId, toId)
-
-        const updatedToList = { info: toList.info, songList: newSongList.concat(toList.songList) }
-        StorageManager.updateFavList(updatedToList)
-    }
-
     const handlePlayListClick = (FavList) => {
         onPlayAllFromFav(FavList.songList)
         handleClose()
@@ -238,21 +161,7 @@ export const FavList = memo(function ({
                 />
         )
     }
-
-    const onDragEnd = (result) => {
-        // dropped outside the list
-        if (!result.destination) {
-            return;
-        }
-        let newFavLists = reorder(
-            favLists,
-            result.source.index,
-            result.destination.index
-        );
-        setFavLists(newFavLists);
-        StorageManager.saveMyFavList(newFavLists);
-      }
-
+    
     const renderFavListItem = ({ v, i }) => {
         return (
             <React.Fragment key={i}>
@@ -401,9 +310,7 @@ export const FavList = memo(function ({
                         handleDeleteFromSearchList={handleDeleteFromSearchList}
                         handleAddToFavClick={handleAddToFavClick}
                         onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
-                        onRssUpdate={async (subscribeUrls) => { 
-                            return updateSubscribeFavList(selectedList, StorageManager, setSelectedList, subscribeUrls)
-                        } }
+                        onRssUpdate={async (subscribeUrls) => updateSubscribeFavList(selectedList, StorageManager, setSelectedList, subscribeUrls)}
                         currentAudioID={currentAudioID}
                     />}
             </Box>
