@@ -88,7 +88,7 @@ export const PlayerMobile = function ({ songList }) {
                 setparams(newParam)
             })
         setcurrentAudio(audioInfo)
-        chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
+        chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(),playUrl: audioInfo.musicSrc} })
     }, [params])
 
 

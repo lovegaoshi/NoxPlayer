@@ -65,8 +65,8 @@ export const Player = function ({ songList }) {
         else document.getElementsByClassName('music-player-audio')[0].pause();
     });
 
-    useHotkeys('pagedown', () => console.debug('pagedown pressed'));
-    useHotkeys('pageup', () => console.debug('pagedown pressed'));
+    useHotkeys('pagedown', () => window.musicplayer.onPlayNextAudio());
+    useHotkeys('pageup', () => window.musicplayer.onPlayPrevAudio());
 
     useEffect( () => {
         StorageManager.setPlayerSettingInst = setPlayerSettings;
@@ -183,6 +183,7 @@ export const Player = function ({ songList }) {
                             onAudioListsChange={onAudioListsChange}
                             theme={skinPreset.desktopTheme}
                             musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
+                            ref={(element) => {window.musicplayer = element}}
                         />
                 </React.Fragment>}
         </React.Fragment>

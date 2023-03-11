@@ -128,7 +128,7 @@ const useFavList = () => {
     const handleDeleteFavClick = (playlistName, id) => {
         confirm({ 
             title: '删除歌单？', 
-            description: `确认要删除歌单${playlistName}吗？`,
+            description: `确认要删除歌单 ${playlistName} 吗？`,
             confirmationText: '好的',
             cancellationText: '算了',
          })

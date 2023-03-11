@@ -16,7 +16,8 @@ export const favListAnalytics = (favList) => {
         songsSorted: [],
         songsUnique: new Set(),
     }
-    for (const song of favList.songList) {
+    for (let i=0, n=favList.songList.length; i<n; i++) {
+        let song = favList.songList[n-i-1];
         results.bvid.add(song.bvid);
         results.totalCount += 1;
         if (isNaN(Number(song.parsedName))) {

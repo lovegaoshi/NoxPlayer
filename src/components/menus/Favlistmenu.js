@@ -118,7 +118,8 @@ export default function App ({ theme }) {
       content: textToDialogContent([
         `歌单内总共有${(analytics.songsUnique.size)}首独特的歌`,
         '歌单内最常出现的歌：' + analytics.songTop10.map(val => `${val[0]} (${String(val[1])})`).join(", "),
-        `bv号总共有 ${String(analytics.bvid.size)}个，平均每bv号有${(analytics.totalCount / analytics.bvid.size).toFixed(1)}首歌`,
+        '最近的新歌：' + Array.from(analytics.songsUnique).slice(-10).reverse().join(", "),
+        `bv号总共有${String(analytics.bvid.size)}个，平均每bv号有${(analytics.totalCount / analytics.bvid.size).toFixed(1)}首歌`,
         `shazam失败的歌数: ${String(analytics.invalidShazamCount)}\/${String(analytics.totalCount)} (${(analytics.invalidShazamCount * 100 / analytics.totalCount).toFixed(1)}%)`,
       ]),
       confirmationText: "好的",
