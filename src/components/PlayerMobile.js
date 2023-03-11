@@ -8,8 +8,8 @@ import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins } from '../styles/skin';
 import { checkBVLiked } from '../utils/BiliOperate';
-import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import { fetchPlayUrlPromise } from '../utils/Data';
+import usePlayer from "../hooks/usePlayer";
 
 // Initial Player options
 let options = {
@@ -28,25 +28,40 @@ let options = {
 
 export const PlayerMobile = function ({ songList }) {
 
-    // Params to init music player
-    const [params, setparams] = useState(null)
-    // Playing List
-    const [playingList, setplayingList] = useState(null)
-    // Current Audio info
-    const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext)
-    // Current Audio Inst
-    const [currentAudioInst, setcurrentAudioInst] = useState(null)
-    // Lyric Dialog
-    const [showLyric, setShowLyric] = useState(false)
     // FavList Dialog
     const [showFavList, setShowFavList] = useState(false)
-    // Player Settings
-    const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
     const [bvidLiked, setBvidLiked] = useState(0)
     
+    const [
+        params, setparams,
+        setplayingList,
+        currentAudio, setcurrentAudio,
+        currentAudioInst,
+        showLyric, setShowLyric,
+        playerSettings, setPlayerSettings,
+        
+        onPlayOneFromFav2,
+        onAddOneFromFav,
+        onPlayAllFromFav,
+        onAddFavToList,
+        playByIndex,
+        onPlayModeChange,
+        onAudioVolumeChange,
+        onAudioListsChange,
+        onAudioProgress,
+        getAudioInstance,
+        customDownloader,
+        onCoverClick,
+    ] = usePlayer();
+
+    const onPlayOneFromFav = (songs, favList) => {
+        onPlayOneFromFav2(songs,favList);
+        setShowFavList(favState => !favState);
+    }
+
     useEffect( () => {
         StorageManager.setPlayerSettingInst = setPlayerSettings;
     }, [])
@@ -57,105 +72,6 @@ export const PlayerMobile = function ({ songList }) {
         }
         document.title = currentAudio.name;
     }, [currentAudio.name])
-
-    const updateCurrentAudioList = useCallback(({ 
-        songs,
-        immediatePlay = false,
-        replaceList = false,
-        newAudioListPlayIndex = 0
-    }) => {
-        //console.log("updateCurrentAudioList", params)
-        let newAudioLists = []
-        if (immediatePlay) {
-            // Click and play
-            newAudioLists = [
-                ...songs,
-                ...playingList,
-            ]
-        }
-        else if (replaceList) {
-            // OnPlayList handle
-            newAudioLists = [...songs]
-        }
-        else {
-            // AddToList handle
-            newAudioLists =
-                [
-                    ...playingList,
-                    ...songs,
-                ]
-        }
-        const newParam = {
-            ...params,
-            quietUpdate: !immediatePlay,
-            clearPriorAudioLists: immediatePlay || replaceList,
-            audioLists: newAudioLists,
-            newAudioListPlayIndex,
-        }
-        //console.log(newParam)
-        setparams(newParam)
-        setplayingList(newAudioLists)
-    }, [params, playingList])
-
-    const onPlayOneFromFav = useCallback((songs, favList) => {
-        const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
-        //console.log(existingIndex)
-        setShowFavList(favState => !favState)
-        if (playingList.length === favList.songList.length && existingIndex != -1) {
-            currentAudioInst.playByIndex(existingIndex)
-            return
-        }
-
-        updateCurrentAudioList({ 
-            songs: favList.songList,
-            replaceList: true,
-            newAudioListPlayIndex: favList.songList.findIndex((s) => s.id == songs[0].id) 
-        })
-    }, [params, playingList, currentAudioInst])
-
-    const onAddOneFromFav = useCallback((songs) => {
-
-        const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
-        //console.log(existingIndex)
-        if (existingIndex != -1) {
-            return
-        }
-        updateCurrentAudioList({ songs: songs, immediatePlay: false })
-    }, [params, playingList])
-
-    const onPlayAllFromFav = useCallback((songs) => {
-        updateCurrentAudioList({ 
-            songs: songs,
-            immediatePlay: false,
-            replaceList: true,
-            newAudioListPlayIndex: params.playMode === 'shufflePlay' 
-                ? Math.floor(Math.random() * songs.length)>>0 
-                : 0
-        })
-    }, [params])
-
-    const onAddFavToList = useCallback((songs) => {
-        //If song exists in currentPlayList, remove it
-        const newSongsInList = songs.filter(v => playingList.find(s => s.id == v.id) == undefined)
-
-        updateCurrentAudioList({ songs: newSongsInList, immediatePlay: false, replaceList: false })
-    }, [params, playingList])
-
-    const playByIndex = useCallback((index) => {
-        currentAudioInst.playByIndex(index)
-    }, [currentAudioInst])
-
-    const onPlayModeChange = (playMode) => {
-        //console.log('play mode change:', playMode)
-        playerSettings.playMode = playMode
-        StorageManager.setPlayerSetting(playerSettings)
-    }
-
-    const onAudioVolumeChange = (currentVolume) => {
-        // console.log('audio volume change', currentVolume)
-        playerSettings.defaultVolume = Math.sqrt(currentVolume)
-        StorageManager.setPlayerSetting(playerSettings)
-    }
 
     const onAudioPlay = useCallback((audioInfo) => {
         checkBVLiked(
@@ -175,12 +91,6 @@ export const PlayerMobile = function ({ songList }) {
         chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
     }, [params])
 
-    const onAudioListsChange = useCallback((currentPlayId, audioLists, audioInfo) => {
-        // Sync latest-playinglist
-        StorageManager.setLastPlayList(audioLists)
-        setplayingList(audioLists)
-        //console.log('audioListChange:', audioLists)
-    }, [params, playingList])
 
     const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
         console.error('audio error', errMsg, currentPlayId, audioLists, audioInfo)
@@ -189,34 +99,6 @@ export const PlayerMobile = function ({ songList }) {
             currentAudioInst.playByIndex(1, true)
         }, "1000")
         
-    }
-
-    const onAudioProgress = (audioInfo) => {
-        if (showLyric) {
-            setcurrentAudio(audioInfo);
-        }
-    }
-
-    const getAudioInstance = (audio) => {
-        setcurrentAudioInst(audio)
-    }
-
-    const customDownloader = (downloadInfo) => {
-        fetch(downloadInfo.src)
-            .then(res => {
-                return res.blob();
-            }).then(blob => {
-                const href = window.URL.createObjectURL(blob);
-                const link = document.createElement('a')
-                link.href = href // a.mp3
-                link.download = currentAudioInst.title + '.mp3'
-                document.body.appendChild(link)
-                link.click()
-            }).catch(err => console.error(err));
-    }
-
-    const onCoverClick = () => {
-        setShowLyric(!showLyric)
     }
 
     // Initialization effect

@@ -38,6 +38,7 @@ import FavSettingsButtons from './buttons/FavSettingsButton';
 import SongSearchBar from './dialogs/songsearchbar';
 import Menu from './menus/Favmenu';
 import { contextMenu } from "react-contexify";
+import { useHotkeys } from 'react-hotkeys-hook';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -181,6 +182,10 @@ export const Fav = (function ({
     const searchBarRef = useRef({current: {}});
     const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
     
+
+    useHotkeys('left', () => handleChangePage(null, page - 1));
+    useHotkeys('right', () => handleChangePage(null, page + 1));
+
     /**
      * because of delayed state update/management, we need a reliable way to get
      * the current playlist songs (which may be filtered by some search string). 
@@ -252,6 +257,9 @@ export const Fav = (function ({
     }
 
     const handleChangePage = (event, newPage) => {
+        let maxPage = Math.ceil(rows.length / rowsPerPage);
+        if (newPage < 0) newPage = 0;
+        else if (newPage >= maxPage) newPage = maxPage - 1;
         setPage(newPage);
     };
 

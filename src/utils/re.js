@@ -85,6 +85,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
                         / - (.+)/,
                         /【诺莺Nox】[\d+] (.+)/, 
                         /【诺莺Nox】(.+)/, 
+                        /(.+) w\//, 
                     ]));
             break;
         case 355371630: // "起名字什么的真困难啊":
@@ -116,6 +117,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 extractParenthesis(filename), 
                 [
                     /\d+ (.+)/,
+                    /\d+-(.+)/,
                 ]);
             break;
         case 1912892773: // "海鲜DD":
@@ -257,6 +259,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
         case 693579584: // "狐心妖面-Huxin":
         case 1902398: // "5424单推人":
         case 440555: // "楼兰我":
+        case 22333688:
             // https://space.bilibili.com/7191181/channel/collectiondetail?sid=821187
             filename = extractWith(
                 extractParenthesis(filename), 
