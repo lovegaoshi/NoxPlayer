@@ -52,7 +52,7 @@ export default function PageLayout({ songList }) {
                 <ConfirmProvider>
                     <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
                         <div className="container-fluid homepage-bgimage-mobile" align="center">
-                            {skinPreset.playerBackgroundVideo
+                            {skinPreset.playerBackgroundMobileVideo
                             ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></video>
                             : <img id="player-bkgrd-mobile" className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
                             }

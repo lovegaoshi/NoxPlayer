@@ -122,27 +122,6 @@ export const saveMyFavList = (newList, callbackFunc = () => {console.debug('save
     chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map(v => v.info.id) }, callbackFunc)
 }
 
-/**
- * cleans up all orphan playlists.
- */
-export const storageCleanup = async () => {
-    chrome.storage.local.get(null).then(console.log)
-    return;
-    const locallyStored = await chrome.storage.local.get(null);
-    const playListKeyList = locallyStored[MY_FAV_LIST_KEY];
-    setLocalStorage(LYRIC_MAPPING, []);
-    setLocalStorage(LAST_PLAY_LIST, []);
-    setLocalStorage(FAVLIST_AUTO_UPDATE_TIMESTAMP, []);
-    for (const [key, val] of Object.entries(locallyStored)) {
-        if (!key.includes('FavList-')) continue;
-        if (playListKeyList.includes(key)) continue;
-        setLocalStorage(key, undefined);
-    }
-    
-const LYRIC_MAPPING = 'LyricMappings'
-const LAST_PLAY_LIST = 'LastPlayList'
-}
-
 export default class StorageManager {
     constructor() {
         this.setFavLists = () => { }

@@ -14,12 +14,12 @@ import Tooltip from '@mui/material/Tooltip';
 import isMobile from 'is-mobile';
 import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../objects/Storage';
 import { ExportFavButton, ImportFavButton } from "../buttons/ImportExport";
-import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/DropboxSyncButton";
+import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/syncing/DropboxSyncButton";
 import { 
   ExportSyncFavButton as PersonalExportSyncFavButton,
   ImportSyncFavButton as PersonalImportSyncFavButton,
   setPersonalCloudTextField 
-} from "../buttons/PersonalSyncButton";
+} from "../buttons/syncing/PersonalSyncButton";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';

@@ -36,9 +36,9 @@ const gifs = [
 export const AmeliaTheme = {
     playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Amelia/AmeliaBanner.png',
     playerBannerMobile: 'https://steamuserimages-a.akamaihd.net/ugc/1652223957177225502/6F39E40090B7202E4DD4D58876D58E233C5BBC4E/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false',
-    playerBackground: 'https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg',
-    //playerBackground: 'https://cdn.donmai.us/original/f2/d0/__watson_amelia_hololive_and_5_more_drawn_by_harutimu__f2d0bea49f67b06839839762915a639d.mp4',
-    //playerBackgroundVideo: true,
+    // playerBackground: 'https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg',
+    playerBackground: 'https://newcdn.mowplayer.com/719567640886/2021/02/27/480/tpaiwanmioxmr5ln.mp4',
+    playerBackgroundVideo: true,
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
