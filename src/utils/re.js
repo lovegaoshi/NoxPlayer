@@ -254,8 +254,16 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【.+】(.+)/, 
                 ]);
             break;
-        case 7191181: // "姓单名推的DD桑":
         case 3493084803369305: // "铵溶液制造工厂":
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /\d+\. (.+)/,
+                    /【.+】(.+)\d+\.\d+/, 
+                    /【.+】(.+)/, 
+                ]);
+            break;
+        case 7191181: // "姓单名推的DD桑":
         case 693579584: // "狐心妖面-Huxin":
         case 1902398: // "5424单推人":
         case 440555: // "楼兰我":
