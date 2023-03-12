@@ -20,6 +20,12 @@ import {
   ImportSyncFavButton as PersonalImportSyncFavButton,
   setPersonalCloudTextField 
 } from "../buttons/PersonalSyncButton";
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import SettingsIcon from '@mui/icons-material/Settings';
+import BuildIcon from '@mui/icons-material/Build';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -45,6 +51,11 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
   const [keepSearchedSongListWhenPlaying, setKeepSearchedSongListWhenPlaying] = useState(DEFAULT_SETTING.keepSearchedSongListWhenPlaying);
   const [personalCloudIP, setPersonalCloudIP] = useState("");
   const [hideCoverInMobile, setHideCoverInMobile] = useState(DEFAULT_SETTING.hideCoverInMobile);
+  const [tabValue, setTabValue] = React.useState('1');
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   const setSettings = (setFunc, value = undefined, defaultValue = undefined) => {
     if (value !== undefined) {
@@ -116,26 +127,25 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     )
   }
 
-  return (
-    <Dialog open={openState}>
-      <DialogTitle>播放器设置</DialogTitle>
-      <DialogContent>
-      <Box>
-        {syncSetttingButtons()}
-        <TextField
-          id="player-settings-sync-method-select"
-          value={settingExportLocation}
-          label="云同步选择"
-          margin="dense"
-          select
-          onChange={(e) => setSettingExportLocation(e.target.value)}
-          style={{ minWidth: 100 }}
-        >
-          {Object.values(EXPORT_OPTIONS).map((v, i) => {
-              return (<MenuItem key={i} value={v}>{v}</MenuItem>)
-          })}
-        </TextField>
-      </Box>
+  const settingsPanel = () => {
+    return (
+      <React.Fragment>
+        <Box>
+          {syncSetttingButtons()}
+          <TextField
+            id="player-settings-sync-method-select"
+            value={settingExportLocation}
+            label="云同步选择"
+            margin="dense"
+            select
+            onChange={(e) => setSettingExportLocation(e.target.value)}
+            style={{ minWidth: 100 }}
+          >
+            {Object.values(EXPORT_OPTIONS).map((v, i) => {
+                return (<MenuItem key={i} value={v}>{v}</MenuItem>)
+            })}
+          </TextField>
+        </Box>
         <Tooltip title={skins(skin).maintainerTooltip}>
           <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
         </Tooltip>
@@ -182,7 +192,35 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
           />
           </Tooltip>
         )}
-      </DialogContent>
+      </React.Fragment>
+    )
+  }
+
+  return (
+    <Dialog open={openState}>
+      <DialogTitle>播放器设置</DialogTitle>
+        <DialogContent>
+          <TabContext value={tabValue}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleTabChange} aria-label="lab API tabs example">
+                <Tab icon={<SettingsIcon/>} label="设置" value="1" />
+                <Tab icon={<BuildIcon/>} label="工具箱" value="2" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              {settingsPanel()}
+            </TabPanel>
+            <TabPanel value="2">
+              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <br/>
+              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+            </TabPanel>
+          </TabContext>          
+        </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>取消</Button>
         <Button onClick={handleOK}>确认</Button>

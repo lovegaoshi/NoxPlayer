@@ -121,6 +121,14 @@ export const RinaHayashiTheme = {
                         },
                     }
                 },
+                MuiTab: {
+                    styleOverrides: {
+                        root: {
+                            backgroundColor: '1E1E1E',
+                            color: 'ivory'
+                        },
+                    }
+                },
                 MuiOutlinedInput: {
                     styleOverrides: {
                         root: {
@@ -137,6 +145,17 @@ export const RinaHayashiTheme = {
                             color: '#00bfff',
                         },
                     }
+                },
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            color: '#00bfff',
+                            "&:hover": {
+                                backgroundColor: 'rebeccapurple',
+                                color: '#00bfff',
+                            }
+                        }
+                    },
                 },
                 MuiIconButton: {
                     styleOverrides: {

@@ -62,6 +62,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@mui/icons-material": "^5.2.1",
+    "@mui/lab": "^5.0.0-alpha.122",
     "@mui/material": "^5.2.3",
     "@mui/styles": "^5.2.3",
     "@types/chrome": "0.0.177",

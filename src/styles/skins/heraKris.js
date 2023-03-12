@@ -133,6 +133,14 @@ export const HeraKrisTheme = {
                         },
                     }
                 },
+                MuiTab: {
+                    styleOverrides: {
+                        root: {
+                            backgroundColor: '1E1E1E',
+                            color: 'ivory'
+                        },
+                    }
+                },
                 MuiOutlinedInput: {
                     styleOverrides: {
                         root: {
@@ -149,6 +157,16 @@ export const HeraKrisTheme = {
                             color: '#90ee90',
                         },
                     }
+                },
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            color: '#90ee90',
+                            "&:hover": {
+                                backgroundColor: '#6F116F',
+                            }
+                        }
+                    },
                 },
                 MuiIconButton: {
                     styleOverrides: {

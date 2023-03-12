@@ -134,6 +134,14 @@ export const NoxTheme = {
                         },
                     }
                 },
+                MuiTab: {
+                    styleOverrides: {
+                        root: {
+                            backgroundColor: '1E1E1E',
+                            color: 'ivory'
+                        },
+                    }
+                },
                 MuiOutlinedInput: {
                     styleOverrides: {
                         root: {
@@ -150,6 +158,16 @@ export const NoxTheme = {
                             color: '#fff44f',
                         },
                     }
+                },
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            color: '#fff44f',
+                            "&:hover": {
+                                backgroundColor: 'green',
+                            }
+                        }
+                    },
                 },
                 MuiIconButton: {
                     styleOverrides: {

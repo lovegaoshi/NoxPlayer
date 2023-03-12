@@ -112,6 +112,14 @@ export const ClessSTheme = {
                         },
                     }
                 },
+                MuiTab: {
+                    styleOverrides: {
+                        root: {
+                            backgroundColor: '1E1E1E',
+                            color: 'ivory'
+                        },
+                    }
+                },
                 MuiOutlinedInput: {
                     styleOverrides: {
                         root: {
@@ -128,6 +136,17 @@ export const ClessSTheme = {
                             color: '#d3d3d3',
                         },
                     }
+                },
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            color: 'red',
+                            "&:hover": {
+                                backgroundColor: '#e8000d',
+                                color: '#d3d3d3',
+                            }
+                        }
+                    },
                 },
                 MuiIconButton: {
                     styleOverrides: {
