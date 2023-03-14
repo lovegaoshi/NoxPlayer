@@ -24,6 +24,7 @@ const gifs = [
     "http://i0.hdslb.com/bfs/live/7f66eebd007f52ceb63caf78ee4feb6af01914c7.png",
     "http://i0.hdslb.com/bfs/live/80e69b9a99accf247bb2621779d73b9c19b4ef26.png",
     "http://i0.hdslb.com/bfs/live/12941f62e9b58c4fbd48442bb1f09feecdd816af.png",
+    "https://i0.hdslb.com/bfs/new_dyn/8bea5f415532a0ac3a2444623718666c3220669.png",
 ];    
 
 export const HeraKrisTheme = {

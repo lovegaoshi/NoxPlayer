@@ -385,6 +385,23 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【.+】(.+)【.+】/,
                 ]);
             break;
+        case 188679: // 阿布
+            extractParenthesis(filename = extractWith(
+                filename, 
+                [
+                    /【.+】(.+)【.+】/,
+                    /【.*阿布】(.+)/,
+                    /【(.+)】/,
+                ]));
+            break;    
+        case 269345545:
+            // 想起你的时候| Cover（蔡恩雨 Priscilla Abby）
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /(.+)\|/,
+                ]);
+            break;    
         case 0:
             filename = extractWith(
                 extractParenthesis(filename), 

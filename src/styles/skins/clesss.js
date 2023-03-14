@@ -9,10 +9,12 @@ const gifs = [
     'https://i0.hdslb.com/bfs/article/8d44a10e4360d91c7071bb4ac8f03a0ee1831851.jpg',
     'https://i0.hdslb.com/bfs/article/a21c7b4f062363ce64bb37c7537d29d6eb7ef050.jpg',
     'https://i0.hdslb.com/bfs/article/44608770c11cdefbdc1d1963eceb0695710bc731.jpg',
+    'https://i0.hdslb.com/bfs/new_dyn/fe44dd6190198aa1c735544a951d9e7a1817527011.png',
 ];   
 export const ClessSTheme = {
     playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
     playerBannerMobile: 'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
+    playerBackground: 'https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg',
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
@@ -37,10 +39,11 @@ export const ClessSTheme = {
         lyricInactiveColor: '#4d388f',
         songListShadowStyle: "-4px 5px 6px 2px #ff0000, 4px -3px 2px 0px #ff0028, 1px 1px 0px 2px #ff2400",
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
-        PCBackgroundColor: '#1E1E1E',
+        PCBackgroundColor: "rgba(30,30,30,0.85)",
         MobileBackgroundColor: '#1E1E1E',
-        FavBackgroundColor: '#1E1E1E',
-        FavAlternateBackgroundColor: '#3d3d3d',
+        FavBackgroundColor: "rgba(30,30,30,0.5)",
+        FavBackgroundColorSolid: "rgba(30,30,30,1)",
+        FavAlternateBackgroundColor: "rgba(61,61,61,0.5)",
         scrollbarColor: '#dc143c',
         favMobileBorder: "1px solid white",
         clickHoldBackground: 'red',
