@@ -14,7 +14,7 @@ import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditAttributesIcon from '@mui/icons-material/EditAttributes';
+import EditIcon from '@mui/icons-material/Edit';
 import "react-contexify/dist/ReactContexify.css";
 import { getName } from '../../utils/re';
 import { saveFav, readLocalStorage, MY_FAV_LIST_KEY } from '../../objects/Storage';
@@ -93,7 +93,7 @@ export default function App ({ theme }) {
   }
 
   function editSongBVid ({ event, props, triggerEvent, data }) {
-    window.open(`https://member.bilibili.com/platform/upload/video/frame?type=edit&bvid=${props.song.bvid}`);
+    props.onSongEdit();
   }
 
   function displayMenu (e) {
@@ -127,7 +127,7 @@ export default function App ({ theme }) {
         </Item>
         <Separator></Separator>
         <Item onClick={editSongBVid}>
-          <EditAttributesIcon/> &nbsp; {"在b站投稿改歌名"}
+          <EditIcon/> &nbsp; {"改歌名"}
         </Item>
         <Item onClick={reloadSongBVid}>
           <RefreshIcon/> &nbsp; {"重新载入这首歌的bv号"}

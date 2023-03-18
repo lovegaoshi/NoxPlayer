@@ -64,7 +64,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
      * and setting to false after finishing.
      * @param {Array} subscribeUrls 
      */
-    const rssUpdateLoadingWrapper = (subscribeUrls = undefined) => {
+    const handleRssUpdate = (subscribeUrls = undefined) => {
         setLoading(true);
         rssUpdate(subscribeUrls).then(res => setLoading(false)).catch(err => setLoading(false));            
     }
@@ -101,7 +101,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
             <Tooltip title="歌单更新">
                 <IconButton 
                     size="large" 
-                    onClick={() => rssUpdateLoadingWrapper()}
+                    onClick={() => handleRssUpdate()}
                     disabled={false}
                 >
                     {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
@@ -112,7 +112,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
                 openState={openSettingsDialog}
                 onClose={updateFavSetting}
                 fromList={currentList}
-                rssUpdate={rssUpdateLoadingWrapper}
+                rssUpdate={handleRssUpdate}
             />
         </React.Fragment >
     )

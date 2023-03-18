@@ -30,7 +30,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
     }
   }
 
-  const handleOnClose = () => {
+  const handleClose = () => {
     onClose(
       fromList,
       {
@@ -106,10 +106,10 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
             loadFavList()
             onClose()
           }}>取消</Button>
-        <Button onClick={handleOnClose}>确认</Button>
+        <Button onClick={handleClose}>确认</Button>
         <Button 
           onClick={() => {
-            handleOnClose()
+            handleClose()
             rssUpdate(subUrl.split(';'))
           }}>
           确认并更新订阅

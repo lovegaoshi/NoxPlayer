@@ -243,6 +243,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 [
                     /【.+】\d+(.+)/, 
                     /(\D+)\d+/, 
+                    /【Pomelo安妮】(.+)/, 
                 ]);
             break;
         case 344906417: // "真心之梦":

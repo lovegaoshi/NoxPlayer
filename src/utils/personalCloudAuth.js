@@ -15,18 +15,25 @@ import { getPlayerSettingKey } from '../objects/Storage';
 /**
  * a simple personal cloud built with fastAPI. uses the current bili user
  * as "authentication." returns the currently logged in bilibili username.
- * @returns string
+ * @returns dict.
  */
-export const getBiliUserKey = async () => {
+export const getBiliUser = async () => {
   try {
     let val = await fetch('https://api.bilibili.com/nav');
     let res = await val.json();
-    return res.data.uname;
+    return res.data;
   } catch (e) {
-    console.error('failed to get bilibili login info. returning an empty string instead.');
-    return "";
+    console.error('failed to get bilibili login info. returning an empty dict instead.');
+    return { uname: "" };
   }
 }
+
+/**
+ * a simple personal cloud built with fastAPI. uses the current bili user
+ * as "authentication." returns the currently logged in bilibili username.
+ * @returns string
+ */
+const getBiliUserKey = async () => await getBiliUser().uname;
 
 /**
  * wraps up find noxplayer setting and download in one function;

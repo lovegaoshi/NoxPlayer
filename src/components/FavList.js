@@ -124,16 +124,19 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                     onContextMenu={(event, row, index) => {
                         event.preventDefault();
                         contextMenu.show({
-                        id: "favlistmenu",
-                        event: event,
-                        props: { favlist: v, updateFavList: (val) => {
-                            const newList = {...val};
-                            StorageManager.updateFavList(newList);
-                            // well, we resorted back to this...
-                            setSelectedList(null);
-                            setSelectedList(newList);
-                        } },
-                    });
+                            id: "favlistmenu",
+                            event: event,
+                            props: { 
+                                favlist: v,
+                                updateFavList: (val) => {
+                                    const newList = {...val};
+                                    StorageManager.updateFavList(newList);
+                                    // well, we resorted back to this...
+                                    setSelectedList(null);
+                                    setSelectedList(newList);
+                                }
+                            },
+                        });
                     }}
                 >
                     <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={() => setSelectedList(v)} id={v.info.id} >

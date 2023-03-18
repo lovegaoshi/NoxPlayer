@@ -39,6 +39,8 @@ import SongSearchBar from './dialogs/songsearchbar';
 import Menu from './menus/Favmenu';
 import { contextMenu } from "react-contexify";
 import { useHotkeys } from 'react-hotkeys-hook';
+import SongRenameDialog from "./dialogs/SongRenameDialog";
+import StorageManagerCtx from '../popup/App';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -181,10 +183,15 @@ export const Fav = (function ({
     const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
     const searchBarRef = useRef({current: {}});
     const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
-    
+    const StorageManager = useContext(StorageManagerCtx);
+
+    const [songObjEdited, setSongObjEdited] = useState({});
+    const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
 
     useHotkeys('left', () => handleChangePage(null, page - 1));
     useHotkeys('right', () => handleChangePage(null, page + 1));
+
+    const saveCurrentList = () => StorageManager.updateFavList(currentFavList);
 
     /**
      * because of delayed state update/management, we need a reliable way to get
@@ -276,6 +283,11 @@ export const Fav = (function ({
         rssUpdate([bvid]);
     }
 
+    const openSongEditDialog = (songObj) => {
+        setSongObjEdited(songObj);
+        setSongEditDialogOpen(true);
+    }
+
     const rowRenderer = ({ song, index }) => {
         return (
             <StyledTableRow
@@ -284,15 +296,16 @@ export const Fav = (function ({
                 onContextMenu={(event, row, index) => {
                     event.preventDefault();
                     contextMenu.show({
-                    id: "favmenu",
-                    event: event,
-                    props: { 
-                        song,
-                        performSearch,
-                        onDelete: () => handleDeleteFromSearchList(currentFavList.info.id, song.id),
-                        currentFavList: currentFavList,
-                        reloadBVid: favListReloadBVid
-                    },
+                        id: "favmenu",
+                        event: event,
+                        props: { 
+                            song,
+                            performSearch,
+                            onDelete: () => handleDeleteFromSearchList(currentFavList.info.id, song.id),
+                            currentFavList: currentFavList,
+                            reloadBVid: favListReloadBVid,
+                            onSongEdit: () => openSongEditDialog(song),
+                        },
                     });
                 }}
             >
@@ -348,6 +361,12 @@ export const Fav = (function ({
 
     return (
         <React.Fragment>
+            <SongRenameDialog
+                openState={songEditDialogOpen}
+                songObj={songObjEdited}
+                onClose={() => setSongEditDialogOpen(false)}
+                saveList={saveCurrentList}
+            />
             {currentFavList &&
                 <React.Fragment>
                     <Menu
