@@ -107,11 +107,16 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }
 
     const shuffleAll = () => {
-        let allFavSongList = [];
-        // favLists.map((val) => allFavSongList = allFavSongList.concat(val.songList));
-        favLists.map((favList) => 
-            favList.songList.map(val => allFavSongList.push({...val, singer: favList.info.title}))
-        );
+        let totalSongs = 0;
+        favLists.map((favList) => totalSongs += favList.songList.length);
+        let allFavSongList = new Array(totalSongs);
+        let i = 0;
+        for (const favList of favLists) {
+            for (const song of favList.songList) {
+                allFavSongList[i] = {...song, singer: favList.info.title};
+                i ++;
+            }
+        }
         loadToSearchList(allFavSongList);
     }
 
