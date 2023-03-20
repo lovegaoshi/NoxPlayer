@@ -33,7 +33,7 @@ export const getBiliUser = async () => {
  * as "authentication." returns the currently logged in bilibili username.
  * @returns string
  */
-const getBiliUserKey = async () => await getBiliUser().uname;
+const getBiliUserKey = async () => (await getBiliUser()).uname;
 
 /**
  * wraps up find noxplayer setting and download in one function;
