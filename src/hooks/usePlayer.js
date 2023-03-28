@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import StorageManagerCtx from '../popup/App';
+import { getPlayerSettingKey } from '../objects/Storage';
 
 const usePlayer = () => {
 
@@ -59,17 +60,30 @@ const usePlayer = () => {
         setplayingList(newAudioLists)
     }, [params, playingList])
 
+
+    const parseSongList = async (favList) => {
+        if (favList.info && await getPlayerSettingKey("loadPlaylistAsArtist")) {
+            let val = new Array(favList.songList.length);
+            for (let i=0; i<favList.songList.length; i++) {
+                val[i] = { ...favList.songList[i], singer: favList.info.title };
+            }
+            return val;
+        }
+        return favList.songList;
+    }
+
     const onPlayOneFromFav = useCallback((songs, favList) => {
         const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
         if (playingList.length === favList.songList.length && existingIndex != -1) {
             currentAudioInst.playByIndex(existingIndex)
             return
         }
-
-        updateCurrentAudioList({ 
-            songs: favList.songList,
-            replaceList: true,
-            newAudioListPlayIndex: favList.songList.findIndex((s) => s.id == songs[0].id) 
+        parseSongList(favList).then( val => {
+            updateCurrentAudioList({ 
+                songs: val,
+                replaceList: true,
+                newAudioListPlayIndex: val.findIndex((s) => s.id == songs[0].id) 
+            })
         })
     }, [params, playingList, currentAudioInst])
 
@@ -83,15 +97,17 @@ const usePlayer = () => {
         updateCurrentAudioList({ songs: songs, immediatePlay: false })
     }, [params, playingList])
 
-    const onPlayAllFromFav = useCallback((songs) => {
+    const onPlayAllFromFav = useCallback((favList) => {
         console.debug('current PlayMode is', params.playMode)
-        updateCurrentAudioList({ 
-            songs: songs,
-            immediatePlay: false,
-            replaceList: true,
-            newAudioListPlayIndex: params.playMode === 'shufflePlay' 
-                ? Math.floor(Math.random() * songs.length)>>0 
-                : 0
+        parseSongList(favList).then( val => {
+            updateCurrentAudioList({
+                songs: val,
+                immediatePlay: false,
+                replaceList: true,
+                newAudioListPlayIndex: params.playMode === 'shufflePlay' 
+                    ? Math.floor(Math.random() * val.length)>>0 
+                    : 0
+            })
         })
 
     }, [params])

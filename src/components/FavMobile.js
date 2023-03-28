@@ -113,7 +113,7 @@ export const Fav = (function ({
                 className='favItem'
                 style={{ ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden', width: '98%' } }
                 onClick={songIconVisible? () => {} : () => getPlayerSettingKey('keepSearchedSongListWhenPlaying').then((val) => {
-                    onSongIndexChange([song], {songList: val? rows : FavList.songList})
+                    onSongIndexChange([song], { songList: val? rows : FavList.songList, info: FavList.info })
                 })}
             >
                 {songIconVisible && 

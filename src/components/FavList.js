@@ -94,7 +94,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
     }, [searchList, selectedList])
 
     const handlePlayListClick = (FavList) => {
-        onPlayAllFromFav(FavList.songList)
+        onPlayAllFromFav(FavList)
     }
 
     const handleAddPlayListClick = (FavList) => {
@@ -103,7 +103,7 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
 
     const loadToSearchList = (songList) => {
         handleSearch(defaultSearchList({ songList }));
-        onPlayAllFromFav(songList);
+        onPlayAllFromFav({ songList });
     }
 
     const shuffleAll = () => {

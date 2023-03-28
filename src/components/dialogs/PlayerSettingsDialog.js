@@ -26,6 +26,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BuildIcon from '@mui/icons-material/Build';
+import TimerButton from '../buttons/TimerButton';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -52,6 +53,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
   const [personalCloudIP, setPersonalCloudIP] = useState("");
   const [hideCoverInMobile, setHideCoverInMobile] = useState(DEFAULT_SETTING.hideCoverInMobile);
   const [tabValue, setTabValue] = React.useState('1');
+  const [loadPlaylistAsArtist, setLoadPlaylistAsArtist] = useState(DEFAULT_SETTING.loadPlaylistAsArtist);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -80,6 +82,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     setSettings(setKeepSearchedSongListWhenPlaying, settings.keepSearchedSongListWhenPlaying);
     setSettings(setPersonalCloudIP, settings.personalCloudIP, "");
     setSettings(setHideCoverInMobile, settings.hideCoverInMobile);
+    setSettings(setLoadPlaylistAsArtist, settings.loadPlaylistAsArtist);
   }
   // load settings into this dialog
   useEffect( () => {
@@ -95,7 +98,8 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     let updatedSettingObj = {
       ...settingObj,
       skin, parseSongName, autoRSSUpdate, settingExportLocation,
-      keepSearchedSongListWhenPlaying, personalCloudIP, hideCoverInMobile
+      keepSearchedSongListWhenPlaying, personalCloudIP, hideCoverInMobile,
+      loadPlaylistAsArtist,
     };
     onClose(updatedSettingObj);
     return;
@@ -192,6 +196,13 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
           />
           </Tooltip>
         )}
+        <Tooltip title='播放歌单时显示歌手为歌单名'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setLoadPlaylistAsArtist(e.target.checked) }}/>} 
+            checked={loadPlaylistAsArtist}
+            label="播放显示歌单名称"
+          />
+        </Tooltip>
       </React.Fragment>
     )
   }
@@ -211,7 +222,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
               {settingsPanel()}
             </TabPanel>
             <TabPanel value="2">
-              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <TimerButton btnType="regular" keepMounted/>
               <Button startIcon={<BuildIcon/>}>placeholder</Button>
               <Button startIcon={<BuildIcon/>}>placeholder</Button>
               <br/>

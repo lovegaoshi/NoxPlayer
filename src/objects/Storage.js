@@ -61,6 +61,7 @@ export const DEFAULT_SETTING = {
     personalCloudIP: "",
     noxVersion: getVersion(),
     hideCoverInMobile: false,
+    loadPlaylistAsArtist: false,
 }
 
 /**

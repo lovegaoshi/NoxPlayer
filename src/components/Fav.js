@@ -316,7 +316,7 @@ export const Fav = (function ({
                 >
                     <ListItemButton variant="text" sx={songText} onClick={() => 
                         getPlayerSettingKey('keepSearchedSongListWhenPlaying')
-                        .then((val) => onSongIndexChange([song], {songList: val? rows : FavList.songList}))}
+                        .then((val) => onSongIndexChange([song], { songList: val? rows : FavList.songList, info: FavList.info }))}
                     >
                         {song.id === currentAudio.id && <ListItemIcon sx={{ minWidth: '30px' }}><PlayCircleIcon/></ListItemIcon>}
                         <ListItemText primary={getName(song, playerSettings.parseSongName)}></ListItemText>

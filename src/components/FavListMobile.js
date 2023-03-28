@@ -141,7 +141,7 @@ export const FavList = memo(function ({
     }, [searchList, selectedList])
     
     const handlePlayListClick = (FavList) => {
-        onPlayAllFromFav(FavList.songList)
+        onPlayAllFromFav(FavList)
         handleClose()
     }
 
