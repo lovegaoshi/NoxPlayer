@@ -130,7 +130,11 @@ export const NoxTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: '#1E1E1E',
-                            color: '#fff44f'
+                            color: '#fff44f',
+                            "&.Mui-disabled": {
+                                backgroundColor: '1E1E1E',
+                                color: '#fff44f',
+                            }
                         },
                     }
                 },
@@ -148,7 +152,10 @@ export const NoxTheme = {
                             color: '#fff44f'
                         },
                         input: {
-                            color: '#fff44f'
+                            color: '#fff44f',
+                            "&.Mui-disabled": {
+                                WebkitTextFillColor: "rgba(255,244,79,0.35)"
+                            }
                         },
                     }
                 },

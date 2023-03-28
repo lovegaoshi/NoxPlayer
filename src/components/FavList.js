@@ -229,11 +229,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         </Typography>
                     </Grid>
                     <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '8px' }}>
-                        <Tooltip title="新建歌单">
-                            <IconButton size='large' onClick={() => setOpenNewDialog(true)} >
-                                <AddIcon sx={AddFavIcon}/>
-                            </IconButton>
-                        </Tooltip>
                         <Tooltip title="全歌单播放">
                             <IconButton size='large' onClick={shuffleAll}>
                                 <ShuffleIcon sx={AddFavIcon} />

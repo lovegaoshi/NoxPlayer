@@ -111,7 +111,11 @@ export const ClessSTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: '1E1E1E',
-                            color: '#d3d3d3'
+                            color: '#d3d3d3',
+                            "&.Mui-disabled": {
+                                backgroundColor: '1E1E1E',
+                                color: '#d3d3d3',
+                            }
                         },
                     }
                 },
@@ -129,7 +133,11 @@ export const ClessSTheme = {
                             color: '#d3d3d3'
                         },
                         input: {
-                            color: '#d3d3d3'
+                            color: '#d3d3d3',
+                            "&.Mui-disabled": {
+                                color: '#d3d3d3',
+                                WebkitTextFillColor: "rgba(211,211,211,0.35)"
+                            }
                         },
                     }
                 },

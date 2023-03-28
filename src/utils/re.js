@@ -288,6 +288,7 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【黑泽诺亚NOIR】(.+) - (.+)/,
                     /【黑泽诺亚】【歌切】(.+)/,
                     /【黑泽诺亚】【.+】(.+)/,
+                    /【黑泽诺亚】(.+)/,
                 ]);
             break;
         case 284940670: // "我是你的电吉他":
@@ -401,6 +402,13 @@ export const reExtractSongName = (filename, uploader = 0) => {
                 extractParenthesis(filename), 
                 [
                     /(.+)\|/,
+                ]);
+            break;    
+        case 1468696:
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [ //【薇Steria】0318直播歌切 万梦星
+                    /【薇Steria】\d+直播歌切 (.+)/
                 ]);
             break;    
         case 0:

@@ -118,7 +118,10 @@ export const RinaHayashiTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: '1E1E1E',
-                            color: '#00bfff'
+                            color: '#00bfff',
+                            "&.Mui-disabled": {
+                                color: '#00bfff',
+                            }
                         },
                     }
                 },
@@ -136,7 +139,11 @@ export const RinaHayashiTheme = {
                             color: '#00bfff'
                         },
                         input: {
-                            color: '#00bfff'
+                            color: '#00bfff',
+                            "&.Mui-disabled": {
+                                color: '#00bfff',
+                                WebkitTextFillColor: "rgba(0,191,255,0.35)"
+                            }
                         },
                     }
                 },

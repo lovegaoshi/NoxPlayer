@@ -1,6 +1,7 @@
 import { Logger } from "./Logger";
 import VideoInfo from "../objects/VideoInfo";
 import Bottleneck from "bottleneck";
+import { getPlayerSettingKey } from '../objects/Storage';
 
 const logger = new Logger("Data.js")
 
@@ -496,8 +497,7 @@ export const fetchFavList = async (mid, progressEmitter, favList = []) => {
  * @returns 
  */
 export const fetchBiliSearchList = async (kword, progressEmitter) => {
-    logger.info("calling fetchFavList")
-
+    logger.info("calling fetchFavList", await getPlayerSettingKey('noCookieBiliSearch'))
     return fetchBiliPaginatedAPI(
         URL_BILI_SEARCH.replace('{keyword}', kword),
         (data) => {return Math.min(data.numResults, data.pagesize * 2 - 1)},

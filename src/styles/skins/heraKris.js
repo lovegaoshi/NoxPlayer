@@ -130,7 +130,11 @@ export const HeraKrisTheme = {
                     styleOverrides: {
                         root: {
                             backgroundColor: '#1E1E1E',
-                            color: '#90ee90'
+                            color: '#90ee90',
+                            "&.Mui-disabled": {
+                                backgroundColor: '1E1E1E',
+                                color: '#90ee90',
+                            }
                         },
                     }
                 },
@@ -148,7 +152,10 @@ export const HeraKrisTheme = {
                             color: '#90ee90'
                         },
                         input: {
-                            color: '#90ee90'
+                            color: '#90ee90',
+                            "&.Mui-disabled": {
+                                WebkitTextFillColor: "rgba(144,238,144,0.35)"
+                            }
                         },
                     }
                 },

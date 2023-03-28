@@ -30,11 +30,11 @@ import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useSwipeable } from "react-swipeable";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PlayerSettingsButton from "./buttons/PlayerSetttingsButton";
-import IconButton from '@mui/material/IconButton';
 import { useConfirm } from "material-ui-confirm";
 import rgba2rgb from "../utils/rgba2rgb";
 import HelpPanelButton from "./buttons/HelpPanelButton";
 import useFavList, { updateSubscribeFavList } from "../hooks/useFavList";
+import TimerButton from "./buttons/TimerButton";
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -209,17 +209,12 @@ export const FavList = memo(function ({
                     <Grid item xs={4}>
                     </Grid>
                     <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '5px', paddingLeft: '6px' }}>
-                        <Tooltip title="新建歌单">
-                            <IconButton size='large' onClick={() => setOpenNewDialog(true)} >
-                                <AddIcon sx={AddFavIcon}/>
-                            </IconButton>
-                        </Tooltip>
+                        <TimerButton AddFavIcon={AddFavIcon}></TimerButton>
                         <PlayerSettingsButton AddFavIcon={AddFavIcon}></PlayerSettingsButton>
                         <HelpPanelButton AddFavIcon={AddFavIcon} />
                     </Grid>
                     <NewFavDialog
                         id="NewFav"
-                        keepMounted
                         openState={openNewDialog}
                         onClose={onNewFav}
                     />
@@ -341,6 +336,7 @@ export const FavList = memo(function ({
                 onClose={handleClose}
                 hideBackdrop
                 TransitionComponent={Transition}
+                keepMounted
             >
                 <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '95%' }}>
                     { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
