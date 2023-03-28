@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { CurrentAudioProvider } from "./CurrentAudioContext";
+import { TimerProvider } from './TimerContext';
 
 export default (props) => {
     return (
       <CurrentAudioProvider>
-        {props.children}
+        <TimerProvider>
+          {props.children}
+        </TimerProvider>
       </CurrentAudioProvider>
     );
   }

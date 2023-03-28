@@ -336,7 +336,6 @@ export const FavList = memo(function ({
                 onClose={handleClose}
                 hideBackdrop
                 TransitionComponent={Transition}
-                keepMounted
             >
                 <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '95%' }}>
                     { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
