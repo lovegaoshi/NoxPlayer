@@ -62,7 +62,7 @@ const usePlayer = () => {
 
 
     const parseSongList = async (favList) => {
-        if (favList.info && await getPlayerSettingKey("loadPlaylistAsArtist")) {
+        if (favList.info && favList.info.title !== "搜索歌单" && await getPlayerSettingKey("loadPlaylistAsArtist")) {
             let val = new Array(favList.songList.length);
             for (let i=0; i<favList.songList.length; i++) {
                 val[i] = { ...favList.songList[i], singer: favList.info.title };
