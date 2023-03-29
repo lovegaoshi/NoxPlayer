@@ -2,15 +2,14 @@ import React, { useEffect, useState, useCallback, useContext, useRef } from "rea
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import { FavList } from '../components/FavList';
-import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins, skinPreset } from '../styles/skin';
-import { checkBVLiked } from '../utils/BiliOperate';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import FavoriteButton from './buttons/FavoriteSongButton';
+import ThumbsUpButton from "./buttons/ThumbsUpButton";
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from "../hooks/usePlayer";
 
@@ -77,14 +76,7 @@ export const Player = function ({ songList }) {
     }, [currentAudio.name])
 
     const onAudioPlay = useCallback(async (audioInfo) => {
-        const biliButtonHandleClick = (val) => {
-            console.debug(`liking bvid ${audioInfo.bvid} returned`, val)
-            processExtendsContent(renderExtendsContent({ song: audioInfo, liked: 1 }))
-        }
-        checkBVLiked(
-            audioInfo.bvid,
-            (val) => processExtendsContent(renderExtendsContent({ song: audioInfo, liked: val, handleThumbsUp: biliButtonHandleClick }))
-        )
+        processExtendsContent(renderExtendsContent({ song: audioInfo }))
         setcurrentAudio(audioInfo)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
     }, [params])
@@ -95,11 +87,10 @@ export const Player = function ({ songList }) {
 
     const processExtendsContent = (extendsContent) => setparams({...params, extendsContent});
 
-    const renderExtendsContent = ({ song, liked, handleThumbsUp, handleThumbedUp }) => {
-
+    const renderExtendsContent = ({ song }) => {
         return [
-            BiliBiliIcon({ bvid: song.bvid, liked, handleThumbsUp, handleThumbedUp }),
-            (<FavoriteButton song={song} key="song-fav-btns"></FavoriteButton>)
+            (<ThumbsUpButton song={song} key="song-thumbup-btn"></ThumbsUpButton>),
+            (<FavoriteButton song={song} key="song-fav-btn"></FavoriteButton>)
         ]
     }
 
@@ -115,7 +106,7 @@ export const Player = function ({ songList }) {
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
-            options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex], liked: undefined })
+            options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex] })
             const params = {
                 ...options,
                 ...setting,
