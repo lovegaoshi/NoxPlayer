@@ -10,8 +10,7 @@ import { checkBVLiked } from '../utils/BiliOperate';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
-import favoriteButton from './buttons/favoriteSongButton';
-import { FAV_FAV_LIST_KEY, setLocalStorage } from '../objects/Storage';
+import FavoriteButton from './buttons/FavoriteSongButton';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from "../hooks/usePlayer";
 
@@ -78,14 +77,13 @@ export const Player = function ({ songList }) {
     }, [currentAudio.name])
 
     const onAudioPlay = useCallback(async (audioInfo) => {
-        const songFavorited = (await StorageManager.readLocalStorage(FAV_FAV_LIST_KEY)).songList.filter(val => val.id === audioInfo.id).length > 0;
         const biliButtonHandleClick = (val) => {
             console.debug(`liking bvid ${audioInfo.bvid} returned`, val)
-            processExtendsContent(renderExtendsContent({ song: audioInfo, liked: 1, songFavorited }))
+            processExtendsContent(renderExtendsContent({ song: audioInfo, liked: 1 }))
         }
         checkBVLiked(
             audioInfo.bvid,
-            (val) => processExtendsContent(renderExtendsContent({ song: audioInfo, liked: val, handleThumbsUp: biliButtonHandleClick, songFavorited }))
+            (val) => processExtendsContent(renderExtendsContent({ song: audioInfo, liked: val, handleThumbsUp: biliButtonHandleClick }))
         )
         setcurrentAudio(audioInfo)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
@@ -97,28 +95,11 @@ export const Player = function ({ songList }) {
 
     const processExtendsContent = (extendsContent) => setparams({...params, extendsContent});
 
-    // TODO: this is most definitely wrong but I dont know the right way.
-    const renderExtendsContent = ({ song, liked, handleThumbsUp, handleThumbedUp, songFavorited = false }) => {
-        // but how do I achieve state control in here?
-        const setFavorited = async () => {
-            let favFavList = await StorageManager.readLocalStorage(FAV_FAV_LIST_KEY);
-            if (songFavorited) {
-                favFavList.songList = favFavList.songList.filter(val => val.id !== song.id);
-            } else {
-                favFavList.songList.push(song);
-            }
-            await setLocalStorage(FAV_FAV_LIST_KEY, favFavList);
-            return processExtendsContent(renderExtendsContent({ song, liked, handleThumbsUp, handleThumbedUp, songFavorited: !songFavorited }));
-        }
-
-        const handleClick = () => {
-            if (liked === undefined) return console.log('disabled.');
-            return setFavorited();
-        }
+    const renderExtendsContent = ({ song, liked, handleThumbsUp, handleThumbedUp }) => {
 
         return [
             BiliBiliIcon({ bvid: song.bvid, liked, handleThumbsUp, handleThumbedUp }),
-            favoriteButton({ filled: songFavorited, handleClick })
+            (<FavoriteButton song={song} key="song-fav-btns"></FavoriteButton>)
         ]
     }
 

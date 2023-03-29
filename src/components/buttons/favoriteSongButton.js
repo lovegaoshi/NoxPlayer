@@ -17,10 +17,32 @@ const buttonStyle = css`
     color: ${skins().desktopTheme === "light"? "7d7d7d" : "white"};
 `
 
-export default ({ handleClick, filled = false }) => {
+export default ({ song }) => {
 
-    if (filled) {
-        return (
+    const [liked, setLiked] = useState(false);
+    
+    useEffect(() => {
+        readLocalStorage(FAV_FAV_LIST_KEY).then(val => {
+            setLiked(val.songList.filter(val => val.id === song.id).length > 0);
+        });
+    }, [song.id])
+
+    const handleClick = async () => {
+        let favFavList = await readLocalStorage(FAV_FAV_LIST_KEY);
+        if (liked) {
+            favFavList.songList = favFavList.songList.filter(val => val.id !== song.id);
+        } else {
+            favFavList.songList.push(song);
+        }
+        console.log(favFavList);
+        setLocalStorage(FAV_FAV_LIST_KEY, favFavList);
+        setLiked(!liked);
+    }
+
+    return (
+        liked 
+        ? 
+        <React.Fragment >
             <span
                 className="group audio-download"
                 css={buttonStyle}
@@ -30,9 +52,9 @@ export default ({ handleClick, filled = false }) => {
             >
                 <FavoriteIcon />
             </span>
-        )
-    } else {
-        return (
+        </React.Fragment>
+        : 
+        <React.Fragment >
             <span
                 className="group audio-download"
                 css={buttonStyle}
@@ -42,6 +64,6 @@ export default ({ handleClick, filled = false }) => {
             >
                 <FavoriteBorderIcon />
             </span>
-        )
-    }
+        </React.Fragment>
+    )
 }
