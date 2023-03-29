@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
 import { skins } from '../../styles/skin';
-import { v4 as uuidv4 } from 'uuid';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { setLocalStorage, readLocalStorage, FAV_FAV_LIST_KEY } from '../../objects/Storage';
@@ -34,35 +33,19 @@ export default ({ song }) => {
         } else {
             favFavList.songList.push(song);
         }
-        console.log(favFavList);
         setLocalStorage(FAV_FAV_LIST_KEY, favFavList);
         setLiked(!liked);
     }
 
     return (
-        liked 
-        ? 
         <React.Fragment >
             <span
                 className="group audio-download"
                 css={buttonStyle}
-                onClick={() => handleClick(false)}
-                title={"不喜欢了"}
-                key={uuidv4()}
+                onClick={() => handleClick(!liked)}
+                title={liked? "不喜欢了" : "特别喜欢！"}
             >
-                <FavoriteIcon />
-            </span>
-        </React.Fragment>
-        : 
-        <React.Fragment >
-            <span
-                className="group audio-download"
-                css={buttonStyle}
-                onClick={() => handleClick(true)}
-                title={"特别喜欢！"}
-                key={uuidv4()}
-            >
-                <FavoriteBorderIcon />
+                {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </span>
         </React.Fragment>
     )
