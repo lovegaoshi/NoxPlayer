@@ -2,6 +2,7 @@ import { getBiliSeriesList } from '../background/DataProcess'
 import { v4 as uuidv4 } from 'uuid';
 import { fetchPlayUrlPromise } from '../utils/Data'
 import { getVersion } from '../utils/versionupdater/versionupdater'
+import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 const INITIAL_PLAYLIST = ['5053504', '2664851']
@@ -311,52 +312,46 @@ export default class StorageManager {
     }
 
     async exportStorageRaw() {
-        return chrome.storage.local.get(null);
+        let items = await chrome.storage.local.get(null);
+        return compressSync(strToU8(JSON.stringify(items)));
     }
 
     async exportStorage() {
-        chrome.storage.local.get(null, function (items) { // null implies all items
-            // Convert object to a string.
-            let result = JSON.stringify(items);
-            const bytes = new TextEncoder().encode(result);
+        this.exportStorageRaw().then( (bytes) => {
             const blob = new Blob([bytes], {
                 type: "application/json;charset=utf-8"
             });
-
             const href = window.URL.createObjectURL(blob);
             const link = document.createElement('a')
             link.href = href
-            link.download = 'AzusaPlayerStorage_' + new Date().toISOString().slice(0, 10) + '.json'
+            link.download = 'noxplay_' + new Date().toISOString().slice(0, 10) + '.noxBackup'
             document.body.appendChild(link)
             link.click()
         });
     }
     async importStorageRaw(content) {
         chrome.storage.local.clear(() => {
-            chrome.storage.local.set(content, () => {
+            chrome.storage.local.set(JSON.parse(strFromU8(decompressSync(content))), () => {
                 this.initFavLists()
             })
         })
     }
 
     async importStorage() {
-        const _self = this
-        const upload = document.createElement('input')
-        upload.type = "file"
-        document.body.appendChild(upload)
+        const _self = this;
+        const upload = document.createElement('input');
+        upload.type = "file";
+        document.body.appendChild(upload);
 
         upload.addEventListener("change", handleFiles, false);
         function handleFiles() {
             let fileReader = new FileReader();
             fileReader.onload = function () {
-                let parsedJSON = JSON.parse(fileReader.result);
-                console.log(parsedJSON);
-                // your code to consume the json
-                _self.importStorageRaw(parsedJSON);
+                _self.importStorageRaw(new Uint8Array(fileReader.result));
             }
-            fileReader.readAsText(this.files[0]);
+            fileReader.readAsArrayBuffer(this.files[0]);
         }
-        upload.click()
+        upload.click();
     }
 }
 

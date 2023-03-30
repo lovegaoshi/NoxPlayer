@@ -47,13 +47,11 @@ export const noxRestore = async (cloudAddress = getPlayerSettingKey('personalClo
       await cloudAddress + 'download/' + await getBiliUserKey()
     );
     if (res.status === 200) {
-      return await (res).json();
+      return new Uint8Array(await (res).arrayBuffer());
     }
   } catch {
   } 
   return null;
-  
-
 }
 
 /**
@@ -71,13 +69,12 @@ export const noxBackup = async (content, cloudAddress = getPlayerSettingKey('per
         method: "POST",
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          userid: encodeURIComponent(await getBiliUserKey()),
+          'secret-key': process.env.PERSONAL_CLOUD_SECRET,
+          'Content-Encoding': 'gzip'
         },
-        body: JSON.stringify({
-          userid: await getBiliUserKey(),
-          json_obj: content,
-          secret_key: process.env.PERSONAL_CLOUD_SECRET
-        }),
+        body: content,
       }
     );
   } catch {

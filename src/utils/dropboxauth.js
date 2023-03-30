@@ -1,6 +1,6 @@
 import { DropboxAuth, Dropbox as _Dropbox } from 'dropbox';
 
-const DEFAULT_FILE_NAME = 'nox.json';
+const DEFAULT_FILE_NAME = 'nox.noxBackup';
 const DEFAULT_FILE_PATH = '/' + DEFAULT_FILE_NAME;
 
 /** 
@@ -84,7 +84,7 @@ const upload = async (content, fpath = DEFAULT_FILE_PATH) => {
   return await dbx.filesUpload({
     path: fpath,
     mode: 'overwrite',
-    contents: JSON.stringify(content),
+    contents: content,
   })
 }
 //upload({'new': 'content'}).then(console.log)
@@ -99,8 +99,8 @@ const download = async (fpath = DEFAULT_FILE_PATH) => {
   if (fpath === null) {
     return null;
   } 
-  let blob = (await dbx.filesDownload({path: fpath})).result.fileBlob.text();
-  return JSON.parse(await blob);
+  let blob = (await dbx.filesDownload({path: fpath})).result.fileBlob.arrayBuffer();
+  return new Uint8Array(await blob);
 }
 
 /**
