@@ -10,13 +10,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
-import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from "@mui/material/Box";
@@ -25,7 +23,6 @@ import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList';
 import { skinPreset } from '../styles/skin';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useSwipeable } from "react-swipeable";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -35,6 +32,7 @@ import rgba2rgb from "../utils/rgba2rgb";
 import HelpPanelButton from "./buttons/HelpPanelButton";
 import useFavList, { updateSubscribeFavList } from "../hooks/useFavList";
 import TimerButton from "./buttons/TimerButton";
+import MenuIcon from '@mui/icons-material/Menu';
 
 let colorTheme = skinPreset.colorTheme;
 let modifiedBackgroundPalette = colorTheme.palette;
@@ -350,7 +348,7 @@ export const FavList = memo(function ({
                     TransitionComponent={Transition}
                 >
                     <div id='favSwipePlane' {...FavSwipeHandlers} style={{ height: '100%' }}>
-                        { searchBarComponent((<MoreHorizIcon fontSize='inherit'/>)) }
+                        { searchBarComponent((<MenuIcon fontSize='inherit'/>)) }
                         { favComponent() }
                     </div>
                 </Dialog>

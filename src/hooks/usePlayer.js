@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import StorageManagerCtx from '../popup/App';
 import { getPlayerSettingKey } from '../objects/Storage';
+import FavoriteButton from '../components/buttons/FavoriteSongButton';
+import ThumbsUpButton from "../components/buttons/ThumbsUpButton";
 
 const usePlayer = () => {
 
@@ -172,6 +174,15 @@ const usePlayer = () => {
 
     const onCoverClick = () => setShowLyric(!showLyric);
 
+    const processExtendsContent = (extendsContent) => setparams({...params, extendsContent});
+
+    const renderExtendsContent = ({ song }) => {
+        return [
+            (<ThumbsUpButton song={song} key="song-thumbup-btn" className="song-thumbup-btn"></ThumbsUpButton>),
+            (<FavoriteButton song={song} key="song-fav-btn" className="song-fav-btn"></FavoriteButton>)
+        ]
+    }
+
     return [
         params, setparams,
         setplayingList,
@@ -192,6 +203,8 @@ const usePlayer = () => {
         getAudioInstance,
         customDownloader,
         onCoverClick,
+        processExtendsContent,
+        renderExtendsContent,
     ];
 }
 

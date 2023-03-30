@@ -3,11 +3,10 @@ import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import Box from "@mui/material/Box";
 import { FavList } from './FavListMobile';
-import { BiliBiliIcon } from "./bilibiliIcon";
 import { LyricOverlay } from './LyricOverlay';
 import StorageManagerCtx from '../popup/App';
 import { skins } from '../styles/skin';
-import { checkBVLiked } from '../utils/BiliOperate';
+import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from "../hooks/usePlayer";
 
@@ -33,7 +32,6 @@ export const PlayerMobile = function ({ songList }) {
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
     const [audioListsPanelState, setAudioListsPanelState] = useState(false)
-    const [bvidLiked, setBvidLiked] = useState(0)
     
     const [
         params, setparams,
@@ -55,6 +53,8 @@ export const PlayerMobile = function ({ songList }) {
         getAudioInstance,
         customDownloader,
         onCoverClick,
+        processExtendsContent,
+        renderExtendsContent,
     ] = usePlayer();
 
     const onPlayOneFromFav = (songs, favList) => {
@@ -74,21 +74,9 @@ export const PlayerMobile = function ({ songList }) {
     }, [currentAudio.name])
 
     const onAudioPlay = useCallback((audioInfo) => {
-        checkBVLiked(
-            audioInfo.bvid,
-            (videoLikeStatus) => {
-                setBvidLiked(videoLikeStatus);
-                const newParam = {
-                    ...params,
-                    extendsContent: [BiliBiliIcon({ bvid: audioInfo.bvid, liked: videoLikeStatus, handleThumbsUp: (val) => {
-                        console.debug('like video returned', val)
-                        setparams({...params, extendsContent: [BiliBiliIcon({ bvid: audioInfo.bvid, liked: 1 })]})
-                    } })]
-                }
-                setparams(newParam)
-            })
+        processExtendsContent(renderExtendsContent({ song: audioInfo }))
         setcurrentAudio(audioInfo)
-        chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(),playUrl: audioInfo.musicSrc} })
+        chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
     }, [params])
 
 
@@ -103,16 +91,15 @@ export const PlayerMobile = function ({ songList }) {
 
     // Initialization effect
     useEffect(() => {
-        // console.log('ran Init useEffect - Player', songList)
         if (!songList || songList[0] == undefined)
             return;
         async function initPlayer() {
+            await versionUpdate()
             let setting = await StorageManager.getPlayerSetting()
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
             let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
-            options.extendsContent = [BiliBiliIcon({ bvid: songList[previousPlayingSongIndex].bvid, liked: undefined })]
-            // chrome.storage.local.set({ ['CurrentPlaying']: {} })
+            options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex] })
             const params = {
                 ...options,
                 ...setting,
@@ -177,8 +164,6 @@ export const PlayerMobile = function ({ songList }) {
                 artist={currentAudio.singerId}
                 closeLyric={() => setShowLyric(false)}
             />}
-                
-
             {params &&
                 <React.Fragment>
                     <Box // Bottom Grid -- Footer
@@ -191,7 +176,6 @@ export const PlayerMobile = function ({ songList }) {
                         onTouchMove={touchMoveEvent => handleTouchMove(touchMoveEvent)}
                         onTouchEnd={() => handleTouchEnd()}
                     >
-                        
                         <ReactJkMusicPlayer
                             {...params}
                             showMediaSession

@@ -38,7 +38,7 @@ export default ({ song }) => {
     }
 
     return (
-        <React.Fragment >
+        <React.Fragment>
             <span
                 className="group audio-download"
                 css={buttonStyle}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { goToBiliBili } from "../bilibiliIcon";
+import { goToBiliBili, BiliBiliIconSVG } from "../bilibiliIcon";
 import { checkBVLiked, sendBVLike } from '../../utils/BiliOperate';
 /** @jsx jsx */
 import { jsx, css } from "@emotion/react";
@@ -28,6 +28,7 @@ export default ({ song }) => {
                 sendBVLike(song.bvid, () => setLiked(1));
                 break;
             case 1:
+            case undefined:
                 goToBiliBili({ bvid: song.bvid, episode: song.page });
                 break;
         }
@@ -35,18 +36,22 @@ export default ({ song }) => {
 
     return (
         <React.Fragment >
-        <span
-            className="group audio-download"
-            css={buttonStyle}
-            onClick={onClick}
-            title={liked ? "已点赞" : "点赞"}
-        >         
-                {
-                    liked
-                    ? <ThumbUpAltIcon />
-                    : <ThumbUpOffAltIcon />
+            <span
+                className="group audio-download"
+                css={buttonStyle}
+                onClick={onClick}
+                title={
+                    liked === 1 ? "已点赞" 
+                    : liked === 0 ? "点赞"
+                    : "前往视频"
                 }
-        </span>
+            >         
+                    {
+                        liked === 1 ? <ThumbUpAltIcon />
+                        : liked === 0? <ThumbUpOffAltIcon />
+                        : <BiliBiliIconSVG/>
+                    }
+            </span>
         </React.Fragment >
     )
 }

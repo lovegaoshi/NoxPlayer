@@ -8,8 +8,6 @@ import { skins, skinPreset } from '../styles/skin';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
-import FavoriteButton from './buttons/FavoriteSongButton';
-import ThumbsUpButton from "./buttons/ThumbsUpButton";
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from "../hooks/usePlayer";
 
@@ -52,6 +50,8 @@ export const Player = function ({ songList }) {
         getAudioInstance,
         customDownloader,
         onCoverClick,
+        processExtendsContent,
+        renderExtendsContent,
     ] = usePlayer();
 
     useHotkeys('space', () => {
@@ -85,23 +85,12 @@ export const Player = function ({ songList }) {
         console.error('audio error', errMsg, audioInfo)
     }
 
-    const processExtendsContent = (extendsContent) => setparams({...params, extendsContent});
-
-    const renderExtendsContent = ({ song }) => {
-        return [
-            (<ThumbsUpButton song={song} key="song-thumbup-btn"></ThumbsUpButton>),
-            (<FavoriteButton song={song} key="song-fav-btn"></FavoriteButton>)
-        ]
-    }
-
     // Initialization effect
     useEffect(() => {
-        // using this debug message, even when songList is changed this is only initialized once. but why? 
-        console.debug('ran Init useEffect - Player', songList.length)
         if (!songList || songList[0] == undefined)
             return;
         async function initPlayer() {
-            await versionUpdate();
+            await versionUpdate()
             let setting = await StorageManager.getPlayerSetting()
             let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
             if (previousPlaying === undefined) previousPlaying = {}
