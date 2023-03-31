@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState, useCallback, memo, useContext } from "react";
-import { Search, defaultSearchList } from '../components/Search';
+import { Search } from '../components/Search';
 import { Fav } from './FavMobile';
 import { ScrollBar } from "../styles/styles";
 import { AddFavDialog, NewFavDialog } from "./dialogs/AddFavDialog";
@@ -11,7 +11,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Tooltip from '@mui/material/Tooltip';
 import Divider from '@mui/material/Divider';
@@ -181,11 +180,8 @@ export const FavList = memo(function ({
                         <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
                     </ListItemButton>
                     <Box component="div" sx={CRUDBtn}  align="right" style={{ width: '136px' }}>
-                        <Tooltip title="添加到播放列表">
-                            <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(v)} />
-                        </Tooltip>
                         <Tooltip title="添加到收藏歌单">
-                            <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
+                            <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
                         </Tooltip>
                         <Tooltip title="删除歌单">
                             <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.title, v.info.id)} />
@@ -241,11 +237,8 @@ export const FavList = memo(function ({
                                 <ListItemText style={{ maxWidth: '50%' }} primaryTypographyProps={{ fontSize: '1.1em' }} primary={searchList.info.title} />
                             </ListItemButton>
                             <Box component="div" sx={CRUDBtn} align="right" style={{ width: '136px' }}>
-                                <Tooltip title="添加到播放列表">
-                                    <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddPlayListClick(searchList)} />
-                                </Tooltip>
                                 <Tooltip title="添加到收藏歌单">
-                                    <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
+                                    <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
                                 <Tooltip title="新建为歌单">
                                     <FiberNewIcon
@@ -326,43 +319,43 @@ export const FavList = memo(function ({
 
     return (
         <React.Fragment>
-            
-        <ThemeProvider theme={theme}>
-            <Dialog
-                fullScreen
-                open={open}
-                onClose={handleClose}
-                hideBackdrop
-                TransitionComponent={Transition}
-            >
-                <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '95%' }}>
-                    { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
-                    { favListComponent() }
-                </div>
-            </Dialog>
+            <ThemeProvider theme={theme}>
                 <Dialog
                     fullScreen
-                    open={favOpen}
+                    open={open}
                     onClose={handleClose}
                     hideBackdrop
                     TransitionComponent={Transition}
                 >
-                    <div id='favSwipePlane' {...FavSwipeHandlers} style={{ height: '100%' }}>
-                        { searchBarComponent((<MenuIcon fontSize='inherit'/>)) }
-                        { favComponent() }
+                    <div id='favListSwipePlane' {...FavListSwipeHandlers} style={{ height: '95%' }}>
+                        { searchBarComponent((<ArrowBackIcon fontSize='inherit'/>)) }
+                        { favListComponent() }
                     </div>
                 </Dialog>
-        </ThemeProvider>
-        {favLists &&
-            <AddFavDialog
-                id="AddFav"
-                openState={openAddDialog}
-                onClose={onAddFav}
-                fromId={actionFavId}
-                favLists={favLists.map(v => v.info)}
-                song={actionFavSong}
-                isMobile={true}
-            />}
+                    <Dialog
+                        fullScreen
+                        open={favOpen}
+                        onClose={handleClose}
+                        hideBackdrop
+                        TransitionComponent={Transition}
+                    >
+                        <div id='favSwipePlane' {...FavSwipeHandlers} style={{ height: '100%' }}>
+                            { searchBarComponent((<MenuIcon fontSize='inherit'/>)) }
+                            { favComponent() }
+                        </div>
+                    </Dialog>
+            </ThemeProvider>
+            {favLists &&
+                <AddFavDialog
+                    id="AddFav"
+                    openState={openAddDialog}
+                    onClose={onAddFav}
+                    fromId={actionFavId}
+                    favLists={favLists.map(v => v.info)}
+                    song={actionFavSong}
+                    isMobile={true}
+                />
+            }
         </React.Fragment >
     )
 })

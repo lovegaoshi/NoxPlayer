@@ -3,7 +3,6 @@ import { ScrollBar } from "../styles/styles";
 import Table from "@mui/material/Table";
 import TableCell from '@mui/material/TableCell';
 import TableContainer from "@mui/material/TableContainer";
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -11,7 +10,6 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItem from '@mui/material/ListItem';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -25,8 +23,9 @@ import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import RandomGIFIcon from './buttons/randomGIF';
 import FavSettingsButtons from './buttons/FavSettingsButton';
-import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
+import { getPlayerSettingKey } from '../objects/Storage';
 import SongSearchBar from './dialogs/songsearchbar';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -118,11 +117,8 @@ export const Fav = (function ({
             >
                 {songIconVisible && 
                 (<ListItemButton style={{ maxWidth: '100px' }}>
-                    <Tooltip title="添加到播放列表">
-                        <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
-                    </Tooltip>
                     <Tooltip title="添加到收藏歌单">
-                        <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
+                        <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
                     </Tooltip>
                     <Tooltip title="删除歌曲">
                         <DeleteOutlineOutlinedIcon 

@@ -4,8 +4,9 @@ import StorageManagerCtx from '../popup/App';
 import { getPlayerSettingKey } from '../objects/Storage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from "../components/buttons/ThumbsUpButton";
+import MobileMoreButton from "../components/buttons/MobileMoreButton";
 
-const usePlayer = () => {
+const usePlayer = ({ isMobile = false }) => {
 
     // Params to init music player
     const [params, setparams] = useState(null)
@@ -179,7 +180,8 @@ const usePlayer = () => {
     const renderExtendsContent = ({ song }) => {
         return [
             (<ThumbsUpButton song={song} key="song-thumbup-btn" className="song-thumbup-btn"></ThumbsUpButton>),
-            (<FavoriteButton song={song} key="song-fav-btn" className="song-fav-btn"></FavoriteButton>)
+            (<FavoriteButton song={song} key="song-fav-btn" className="song-fav-btn"></FavoriteButton>),
+            isMobile ? (<MobileMoreButton song={song} key="song-more-btn" className="song-more-btn"></MobileMoreButton>) : undefined, 
         ]
     }
 

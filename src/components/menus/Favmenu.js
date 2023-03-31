@@ -22,6 +22,16 @@ import StorageManagerCtx from '../../popup/App';
 
 export const MENU_ID = "favmenu";
 
+export const searchSongOnWeb = (song) => {
+  chrome.search.query({
+    text: getName(song, true),
+    disposition: "NEW_TAB",
+  });
+}
+
+export const searchSongOnBili = (song) => 
+  window.open(`https://search.bilibili.com/all?keyword=${getName(song, true)}&from_source=webtop_search`);
+
 /**
  * right-click context menu for Fav.
  * has menu items:
@@ -32,6 +42,7 @@ export const MENU_ID = "favmenu";
  * search song on bilibili
  * @returns 
  */
+
 export default function App ({ theme }) {
 
   const StorageManager = useContext(StorageManagerCtx);
@@ -54,10 +65,7 @@ export default function App ({ theme }) {
   }
 
   function searchOnWeb ({ props }) {
-    chrome.search.query({
-        text: getName(props.song, true),
-        disposition: "NEW_TAB",
-      });
+    searchSongOnWeb(props.song);
   }
 
   function searchInFav ({ props }) {
@@ -65,7 +73,7 @@ export default function App ({ theme }) {
   }
 
   function searchOnBilibili ( {props} ) {
-    window.open(`https://search.bilibili.com/all?keyword=${getName(props.song, true)}&from_source=webtop_search`);
+    searchSongOnBili(props.song);
   }
 
   function banSongBVid ({ event, props, triggerEvent, data }) {

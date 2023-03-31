@@ -55,7 +55,7 @@ export const PlayerMobile = function ({ songList }) {
         onCoverClick,
         processExtendsContent,
         renderExtendsContent,
-    ] = usePlayer();
+    ] = usePlayer({ isMobile: true });
 
     const onPlayOneFromFav = (songs, favList) => {
         onPlayOneFromFav2(songs,favList);

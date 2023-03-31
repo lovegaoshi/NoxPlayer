@@ -52,7 +52,7 @@ export const Player = function ({ songList }) {
         onCoverClick,
         processExtendsContent,
         renderExtendsContent,
-    ] = usePlayer();
+    ] = usePlayer({});
 
     useHotkeys('space', () => {
         if (currentAudioInst === null) return;

@@ -78,7 +78,7 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
   return (
     <div>
       <Dialog open={openState}>
-        <DialogTitle>添加到歌单</DialogTitle>
+        <DialogTitle>{`添加 ${song === undefined? favLists.find(i => i.id === fromId)?.title : song?.parsedName} 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile? '50vw' : 400, minHeight: 50 }}>
             <FormControl fullWidth>

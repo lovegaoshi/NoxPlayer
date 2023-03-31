@@ -6,12 +6,10 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from "@mui/material/TableContainer";
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -41,6 +39,7 @@ import { contextMenu } from "react-contexify";
 import { useHotkeys } from 'react-hotkeys-hook';
 import SongRenameDialog from "./dialogs/SongRenameDialog";
 import StorageManagerCtx from '../popup/App';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -338,11 +337,8 @@ export const Fav = (function ({
                     whiteSpace: 'nowrap'
                 }}
                     style={{ paddingLeft: '40px', paddingRight: '8px' }}>
-                    <Tooltip title="添加到播放列表">
-                        <AddOutlinedIcon sx={CRUDIcon} onClick={() => onAddOneFromFav([song])} />
-                    </Tooltip>
                     <Tooltip title="添加到收藏歌单">
-                        <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
+                        <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
                     </Tooltip>
                     <Tooltip title="删除歌曲">
                         <DeleteOutlineOutlinedIcon 
