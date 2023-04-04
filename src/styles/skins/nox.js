@@ -252,4 +252,5 @@ export const NoxTheme = {
     },
     maintainer: 'lovegaoshi@github',
     maintainerTooltip: '关注生草精灵诺莺Nox直播间282208',
+    maintinerURL: "https://live.bilibili.com/282208",
 };

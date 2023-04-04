@@ -121,4 +121,5 @@ export const PomeloTheme = {
     },
     maintainer: "食梦莲lotus@bilibili",
     maintainerTooltip: "关注弃车人的骄傲spiderman安妮直播间438068",
+    maintinerURL: "https://live.bilibili.com/438063",
 };

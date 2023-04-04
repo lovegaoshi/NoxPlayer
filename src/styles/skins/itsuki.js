@@ -17,4 +17,5 @@ export const ItsukiTheme = {
     reactJKPlayerTheme: AzusaTheme.reactJKPlayerTheme,
     maintainer: '树小喵-录播@bilibili',
     maintainerTooltip: "",
+    maintinerURL: "https://live.bilibili.com/790566",
 };

@@ -30,11 +30,11 @@ export default function ({ openState, songObj, onClose, saveList }) {
         switch ((await getBiliUser()).mid) {
             case 3493085134719196:
                 if (songObj.singerId !== 3493085134719196) break;
+                const key = enqueueSnackbar(
+                    `正在连接歌名修订API……`, 
+                    { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} }
+                );
                 try {
-                    const key = enqueueSnackbar(
-                        `正在连接歌名修订API……`, 
-                        { variant: 'info', persist: true, action: () => {return (<CircularProgress/>)} }
-                    );
                     let res = await fetch(
                         await getPlayerSettingKey('personalCloudIP') + 
                         `noxtagfix?bvid=${songBVID}&index=${songBVIndex}&name=${songName}&secret=${process.env.PERSONAL_CLOUD_SECRET}`

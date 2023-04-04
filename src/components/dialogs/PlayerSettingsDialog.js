@@ -27,6 +27,9 @@ import TabPanel from '@mui/lab/TabPanel';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BuildIcon from '@mui/icons-material/Build';
 import TimerButton from '../buttons/TimerButton';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
+import PlayerResetButton from '../buttons/PlayerResetButton';
 
 let colorTheme = skinPreset.colorTheme;
 
@@ -151,20 +154,28 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
           </TextField>
         </Box>
         <Tooltip title={skins(skin).maintainerTooltip}>
-          <p style={{ color:colorTheme.songListColumnHeaderColor }}>播放器皮肤 (maintained by {skins(skin).maintainer})</p>
+            <Typography style={{ color:colorTheme.songListColumnHeaderColor }} display="inline">播放器皮肤 </Typography>
         </Tooltip>
-          <TextField
-            id="player-settings-skin-select"
-            value={skin}
-            select
-            SelectProps={{ MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } } }}
-            onChange={(e) => setSkin(e.target.value)}            
-          >
-            {SkinKeys.map((v, i) => {
-                return (<MenuItem key={i} value={v}>{v}</MenuItem>)
-            })}
-          </TextField>
-          <div/>
+        <Typography style={{ color:colorTheme.songListColumnHeaderColor }} display="inline">(maintained by&nbsp;</Typography>
+        {
+          skins(skin).maintinerURL
+          ? <Link style={{ color:colorTheme.songListColumnHeaderColor, fontSize: "1rem" }} href={skins(skin).maintinerURL} target="_blank" display="inline">{skins(skin).maintainer}</Link>
+          : <Typography style={{ color:colorTheme.songListColumnHeaderColor }} display="inline">{skins(skin).maintainer}</Typography>
+        }
+        <Typography style={{ color:colorTheme.songListColumnHeaderColor }} display="inline">)</Typography>
+        <br></br>
+        <TextField
+          id="player-settings-skin-select"
+          value={skin}
+          select
+          SelectProps={{ MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } } }}
+          onChange={(e) => setSkin(e.target.value)}            
+        >
+          {SkinKeys.map((v, i) => {
+              return (<MenuItem key={i} value={v}>{v}</MenuItem>)
+          })}
+        </TextField>
+        <div/>
         <Tooltip title='在歌单里显示提取后的歌名'>
           <FormControlLabel 
             control={<Checkbox onChange={e => { setParseSongName(e.target.checked) }}/>} 
@@ -222,8 +233,8 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
               {settingsPanel()}
             </TabPanel>
             <TabPanel value="2">
-              <TimerButton btnType="regular" keepMounted/>
-              <Button startIcon={<BuildIcon/>}>placeholder</Button>
+              <TimerButton btnType="regular"/>
+              <PlayerResetButton></PlayerResetButton>
               <Button startIcon={<BuildIcon/>}>placeholder</Button>
               <br/>
               <Button startIcon={<BuildIcon/>}>placeholder</Button>

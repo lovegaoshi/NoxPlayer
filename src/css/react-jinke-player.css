@@ -486,7 +486,7 @@
   animation: coverReset 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1) forwards !important;
 }
 .react-jinke-music-player-mobile {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.55);
   bottom: 0;
   color: #fff;
   display: flex;
@@ -1146,7 +1146,7 @@
   text-overflow: ellipsis;
   transition: color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   white-space: nowrap;
-  width: 100%;
+  width: auto;
 }
 .react-jinke-music-player-main
   .music-player-panel

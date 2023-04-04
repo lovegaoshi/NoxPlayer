@@ -134,14 +134,13 @@ export default class StorageManager {
     async initFavLists() {
         const _self = this
         chrome.storage.local.get([MY_FAV_LIST_KEY], function (result) {
-            //console.log(result);
             if (Object.keys(result).length != 0) {
                 _self.initWithStorage(result[MY_FAV_LIST_KEY])
             }
             else {
                 chrome.storage.local.set({ [MY_FAV_LIST_KEY]: [] }, async function () {
                     _self.initWithDefault()
-                    // window.open('https://github.com/lovegaoshi/azusa-player/wiki/%E6%AC%A2%E8%BF%8E%E9%A1%B5')
+                    window.open('https://www.bilibili.com/video/BV1bv4y1p7K4/')
                 });
             }
         });

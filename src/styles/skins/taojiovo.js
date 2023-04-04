@@ -132,4 +132,5 @@ export default {
     },
     maintainer: "薇薇單推人@bilibili",
     maintainerTooltip: "不听桃几的有难了",
+    maintinerURL: "https://live.bilibili.com/22642754",
 };

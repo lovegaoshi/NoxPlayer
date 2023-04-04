@@ -160,14 +160,13 @@ export const Search = function ({ handleSearch, handleOpenFav, playListIcon, han
                 sx={{
                     gridArea: "search",
                 }}
-                style={{ paddingTop: '12px' }}
             >
                 <Box // Serch Grid -- SearchBox
-                    sx={{ mx: "auto", textAlign: "left", overflow: 'hidden', height: '64px' }}>
+                    sx={{ mx: "auto", textAlign: "left", overflow: 'hidden', height: '64px', paddingTop: '12px' }}>
                     { favListButton() }
                     <TextField
                         id="outlined-basic"
-                        placeholder="搜索b站url"
+                        label="搜索b站url"
                         onKeyDown={keyPress}
                         onChange={onSearchTextChange}
                         value={searchValue}

@@ -15,6 +15,7 @@ const gifs = [
     "http://i0.hdslb.com/bfs/garb/88495af1ed10b159b0ea3542d21ced22358cabe7.png",
     "http://i0.hdslb.com/bfs/garb/6f5114b31816f679a2cd512bd19c49ea88b82af0.png",
     "http://i0.hdslb.com/bfs/garb/3187e53c85118a6376eec23586430f1daea995d6.png",
+    "https://i0.hdslb.com/bfs/article/dda67f2b4e8a3bce161b1981e1d4a394c9063a52.png",
 ];   
 export const RinaHayashiTheme = {
     playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
@@ -243,4 +244,5 @@ export const RinaHayashiTheme = {
     },
     maintainer: '起名字什么的真困难啊@bilibili',
     maintainerTooltip: '莉德维德我诶你！！',
+    maintinerURL: "https://live.bilibili.com/22742508",
 };

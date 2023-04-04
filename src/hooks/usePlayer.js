@@ -180,9 +180,9 @@ const usePlayer = ({ isMobile = false }) => {
     const renderExtendsContent = ({ song }) => {
         return [
             (<ThumbsUpButton song={song} key="song-thumbup-btn" className="song-thumbup-btn"></ThumbsUpButton>),
-            (<FavoriteButton song={song} key="song-fav-btn" className="song-fav-btn"></FavoriteButton>),
-            isMobile ? (<MobileMoreButton song={song} key="song-more-btn" className="song-more-btn"></MobileMoreButton>) : undefined, 
-        ]
+            !isMobile ? (<FavoriteButton song={song} key="song-fav-btn" className="song-fav-btn"></FavoriteButton>) : undefined,
+            isMobile  ? (<MobileMoreButton song={song} key="song-more-btn" className="song-more-btn"></MobileMoreButton>) : undefined, 
+        ].filter(val => val !== undefined);
     }
 
     return [

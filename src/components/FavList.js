@@ -212,8 +212,9 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                 handleSearch={handleSearch}
                 handleSetSearchInputVal={setSearchInputVal}
             />
+            <br></br>
             <Box // Mid Grid -- SideBar
-                style={{ overflow: "hidden", maxHeight: "calc(100vh - 180px)", backgroundColor: colorTheme.FavListBackgroundColor }}
+                style={{ overflow: "hidden", marginTop: "18px", maxHeight: "calc(100vh - 208px)", backgroundColor: colorTheme.FavListBackgroundColor }}
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>

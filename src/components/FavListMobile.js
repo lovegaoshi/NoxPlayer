@@ -183,6 +183,7 @@ export const FavList = memo(function ({
                         <Tooltip title="添加到收藏歌单">
                             <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
                         </Tooltip>
+                        &nbsp;&nbsp;
                         <Tooltip title="删除歌单">
                             <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.title, v.info.id)} />
                         </Tooltip>
@@ -196,7 +197,7 @@ export const FavList = memo(function ({
         return (
             <Box // Mid Grid -- SideBar
                 className={ScrollBar().root}
-                style={{ overflow: "auto", height: "90%", paddingTop: "10px", lineHeight: '24px' }}
+                style={{ overflow: "auto", height: "calc(100% - 52px)", paddingTop: "10px", lineHeight: '24px' }}
                 sx={{ gridArea: "sidebar" }}
             >
                 <Grid container spacing={2}>
@@ -240,6 +241,7 @@ export const FavList = memo(function ({
                                 <Tooltip title="添加到收藏歌单">
                                     <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(searchList.info.id)} />
                                 </Tooltip>
+                                &nbsp;&nbsp;
                                 <Tooltip title="新建为歌单">
                                     <FiberNewIcon
                                         sx={CRUDIcon} 

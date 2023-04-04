@@ -34,9 +34,15 @@ const gifs = [
 ];
 
 export default {
-    playerBanner:  "https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png",
-    playerBannerMobile: "https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png",
-    playerBackground: 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
+    playerBanner:  "https://i0.hdslb.com/bfs/article/3ff6c3cd3a88179cc0e582e55f6ac1fdf8c38f97.png",
+    playerBannerMobile: "https://i0.hdslb.com/bfs/new_dyn/2f5703dc027b86cb303ec8c894e99ca835817909.jpg",
+    playerBackground: 'https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg',
+    //'https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg',
+    //'https://i0.hdslb.com/bfs/archive/27075a55293c7e21c351623ceb66d106c01bedf6.png',
+    //'https://i0.hdslb.com/bfs/archive/933a53696340fa985fdacc8f0d0b20d21752367b.jpg',
+    //'https://i1.hdslb.com/bfs/archive/0b3e74a2e2436df6fd3746dd4cde042dc5dd7816.jpg',
+    //'https://i0.hdslb.com/bfs/new_dyn/8fe70bd7c7521b0cc7866bbb372c5bb127912295.png',
+    
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]
@@ -45,7 +51,7 @@ export default {
         .replace('{count}', Math.floor(Math.random() * 12))
     },
     appTitle: '电姨播放器',
-    desktopTheme: 'light',
+    desktopTheme: 'dark',
     colorTheme: {
         generalTheme: 'light',
         // these are adapted from the original azusa player; eventually will be trnaslated into palettes.
@@ -69,6 +75,7 @@ export default {
         lyricImgShadowStyle: " #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px",
         PCBackgroundColor: undefined,
         MobileBackgroundColor: 'white',
+        FavListBackgroundColor: "rgba(255,255,255,0.6)",
         FavBackgroundColor: "rgba(255,255,255,0.9)",
         FavBackgroundColorSolid: "rgba(255,255,255,1)",
         FavAlternateBackgroundColor: "rgba(242,242,242,0.5)",
@@ -135,8 +142,9 @@ export default {
         },
     },
     reactJKPlayerTheme: {
-      sliderColor: '#ffbcd9',
+      sliderColor: '#ff1493',
     },
-    maintainer: "薇薇單推人@bilibili",
+    maintainer: "薇薇单推人@bilibili",
     maintainerTooltip: "温柔 安定 后半夜黑听天堂 直播间22924075",
+    maintinerURL: "https://live.bilibili.com/22924075",
 };

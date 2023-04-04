@@ -79,4 +79,5 @@ export const AzusaTheme = {
     },
     maintainer: "kenmingwang@github",
     maintainerTooltip: "",
+    maintinerURL: "https://live.bilibili.com/510",
 };

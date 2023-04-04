@@ -237,4 +237,5 @@ export const ClessSTheme = {
     },
     maintainer: '内德维德的军火库@bilibili',
     maintainerTooltip: '快滚',
+    maintinerURL: "https://live.bilibili.com/5424",
 };
