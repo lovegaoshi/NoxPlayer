@@ -43,28 +43,26 @@ export default function PageLayout({ songList }) {
         return <h1>Loading...</h1>
 
     if (isMobile()) {
-        
-    return (
-        // Outmost layer of the page
-        
-        <ThemeProvider theme={theme}>
-            <SnackbarProvider maxSnack={1}>
-                <ConfirmProvider>
-                    <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
-                        <div className="container-fluid homepage-bgimage-mobile" align="center">
-                            {skinPreset.playerBackgroundMobileVideo
-                            ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></video>
-                            : <img id="player-bkgrd-mobile" className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
-                            }
-                        </div> 
-                        <Box sx={PlayerBoxMobile} id='player-box'> 
-                            <PlayerMobile songList={songList} id='player-instance'/>
+        return (
+            // Outmost layer of the page
+            <ThemeProvider theme={theme}>
+                <SnackbarProvider maxSnack={1}>
+                    <ConfirmProvider>
+                        <Box sx={OutmostBox} id='master-box' style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
+                            <div className="container-fluid homepage-bgimage-mobile" align="center">
+                                {skinPreset.playerBackgroundMobileVideo
+                                ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></video>
+                                : <img id="player-bkgrd-mobile" className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth}></img>
+                                }
+                            </div> 
+                            <Box sx={PlayerBoxMobile} id='player-box'> 
+                                <PlayerMobile songList={songList} id='player-instance'/>
+                            </Box>
                         </Box>
-                    </Box>
-                </ConfirmProvider>
-            </SnackbarProvider>
-        </ThemeProvider>
-    );
+                    </ConfirmProvider>
+                </SnackbarProvider>
+            </ThemeProvider>
+        );
     }
     return (
         // Outmost layer of the page

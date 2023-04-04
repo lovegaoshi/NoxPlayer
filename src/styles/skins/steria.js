@@ -1,3 +1,5 @@
+import { fetchVideoPlayUrlPromise } from "../../utils/Data";
+
 // this is a pink/light theme.
 
 const gifs = [
@@ -35,7 +37,9 @@ const gifs = [
 
 export default {
     playerBanner:  "https://i0.hdslb.com/bfs/article/3ff6c3cd3a88179cc0e582e55f6ac1fdf8c38f97.png",
-    playerBannerMobile: "https://i0.hdslb.com/bfs/new_dyn/2f5703dc027b86cb303ec8c894e99ca835817909.jpg",
+    playerBannerMobile: await fetchVideoPlayUrlPromise("BV1Da411M7ti", undefined, "VideoUrl"),
+    //"https://i0.hdslb.com/bfs/new_dyn/2f5703dc027b86cb303ec8c894e99ca835817909.jpg",
+    playerBackgroundMobileVideo: true,
     playerBackground: 'https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg',
     //'https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg',
     //'https://i0.hdslb.com/bfs/archive/27075a55293c7e21c351623ceb66d106c01bedf6.png',

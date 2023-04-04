@@ -117,7 +117,7 @@ export const fetchPlayUrlPromise = async (bvid, cid) => {
  * some videos have episodes that this may not be accurate.
  * @returns 
  */
-export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
+export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUrl') => {
     if (!cid)
         cid = await fetchCID(bvid).catch((err) => console.log(err))
 
@@ -134,7 +134,7 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid) => {
             else {
                 fetch(URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
                     .then(res => res.json())
-                    .then(json => resolve(extractResponseJson(json, 'AudioUrl')))
+                    .then(json => resolve(extractResponseJson(json, extractType)))
                     .catch((err) => reject(console.log(err)))
             }
         })
@@ -522,9 +522,16 @@ const extractResponseJson = (json, field) => {
             console.error(json);
             return "";
         }
+    } else if (field === 'VideoUrl') {
+        try {
+            return json.data.dash.video[0].baseUrl
+        } catch (e) {
+            console.error(json);
+            return "";
+        }
     } else if (field === 'CID') {
         return json.data[0].cid
-    } else if (field == 'AudioInfo') {
+    } else if (field === 'AudioInfo') {
         return {}
     }
 }
