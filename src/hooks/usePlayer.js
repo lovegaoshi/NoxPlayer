@@ -190,7 +190,7 @@ const usePlayer = ({ isMobile = false }) => {
 
     const sendBiliHeartbeat = async (song, debug = false) => {
         clearInterval(biliHeartbeat.current); 
-        if (!(await getPlayerSettingKey("sendBiliHeartbeat"))) return; 
+        if (await getPlayerSettingKey("sendBiliHeartbeat")) return; 
         initBiliHeartbeat({ bvid: song.bvid, cid: song.id });
         if (debug) checkBiliVideoPlayed(song.bvid);
         return;

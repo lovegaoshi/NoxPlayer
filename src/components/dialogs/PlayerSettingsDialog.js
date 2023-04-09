@@ -216,11 +216,11 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
             label="播放显示歌单名称"
           />
         </Tooltip>
-        <Tooltip title='发送b站播放API可增加视频播放数。不会使用b号cookie'>
+        <Tooltip title='不发送b站播放API（用来增加视频播放数）。不会使用b号cookie'>
           <FormControlLabel 
             control={<Checkbox onChange={e => { setSendBiliHeartbeat(e.target.checked) }}/>} 
             checked={sendBiliHeartbeat}
-            label="发送b站播放API"
+            label="不发送b站播放API"
           />
         </Tooltip>
       </React.Fragment>
