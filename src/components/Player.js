@@ -52,6 +52,7 @@ export const Player = function ({ songList }) {
         onCoverClick,
         processExtendsContent,
         renderExtendsContent,
+        sendBiliHeartbeat,
     ] = usePlayer({});
 
     useHotkeys('space', () => {
@@ -79,6 +80,7 @@ export const Player = function ({ songList }) {
         processExtendsContent(renderExtendsContent({ song: audioInfo }))
         setcurrentAudio(audioInfo)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
+        sendBiliHeartbeat(audioInfo)
     }, [params])
     
     const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {

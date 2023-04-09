@@ -1,3 +1,9 @@
+
+const BILI_LIKE_API      = 'https://api.bilibili.com/x/web-interface/archive/like';
+const BILI_VIDEOPLAY_API = 'https://api.bilibili.com/x/click-interface/click/web/h5';
+const BILI_HEARTBEAT_API = 'https://api.bilibili.com/x/click-interface/web/heartbeat';
+const BILI_VIDEOINFO_API = 'https://api.bilibili.com/x/web-interface/view?bvid=';
+
 /**
  * get a cookie using chrome.cookies.get.
  * @param {string} domain url of the cookie, eg bilibili.com
@@ -34,7 +40,7 @@ export const checkBVLiked = (bvid, onChecked = () => {}) => {
 export const sendBVLike = (bvid, onLiked = () => {}) => {
     getCookie('https://www.bilibili.com', 'bili_jct')
     .then(promised => {
-        fetch('https://api.bilibili.com/x/web-interface/archive/like', {
+        fetch(BILI_LIKE_API, {
             credentials: 'include',
             method: 'POST',
             headers: {
@@ -54,4 +60,61 @@ export const sendBVLike = (bvid, onLiked = () => {}) => {
         .then(json => onLiked(json))
         .catch(error => console.error('BVID like POST failed;', error))
     })
+}
+
+/**
+ * checks a video played count, for debug use.
+ * @param {string} bvid 
+ */
+export const checkBiliVideoPlayed = (bvid) => {
+    fetch(BILI_VIDEOINFO_API + bvid)
+    .then(res => res.json())
+    .then(json => console.debug(`${bvid} view count:${json.data.stat.view}`))
+    .catch(console.error);
+}
+
+/**
+ * see this csdn post.
+ * https://blog.csdn.net/zhaowz123456/article/details/125701001
+ * @param {string} bvid
+ * @param {number} cid 
+ */
+export const initBiliHeartbeat = async ( {bvid, cid} ) => {
+    fetch(BILI_VIDEOPLAY_API, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        mode: 'no-cors',
+        // this is necessary
+        credentials: 'omit',
+        body: new URLSearchParams({
+            bvid,
+            cid,
+        })
+    });
+}
+
+/**
+ * heartbeat api is totally not necessary to increase video viewed count. see above csdn post.
+ * @param {string} bvid
+ * @param {number} cid 
+ * @param {number} time
+ */
+export const sendBiliHeartbeat = async ( {bvid, cid, time} ) => {
+    fetch(BILI_HEARTBEAT_API, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            bvid,
+            cid,
+            realtime: time,
+            played_time: time,
+            real_played_time: time,
+            dt: 2,
+            play_type: 1,
+        })
+    });
 }

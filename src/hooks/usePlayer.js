@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useContext, useCallback, useRef } from "react";
 import { CurrentAudioContext } from "../contexts/CurrentAudioContext";
 import StorageManagerCtx from '../popup/App';
 import { getPlayerSettingKey } from '../objects/Storage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from "../components/buttons/ThumbsUpButton";
 import MobileMoreButton from "../components/buttons/MobileMoreButton";
+import { checkBiliVideoPlayed, initBiliHeartbeat, sendBiliHeartbeat as POSTBiliHeartbeat } from "../utils/BiliOperate";
 
 const usePlayer = ({ isMobile = false }) => {
 
@@ -23,6 +24,8 @@ const usePlayer = ({ isMobile = false }) => {
     const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
+
+    const biliHeartbeat = useRef(null)
 
     const updateCurrentAudioList = useCallback(({ 
         songs,
@@ -185,6 +188,26 @@ const usePlayer = ({ isMobile = false }) => {
         ].filter(val => val !== undefined);
     }
 
+    const sendBiliHeartbeat = async (song, debug = false) => {
+        clearInterval(biliHeartbeat.current); 
+        if (!(await getPlayerSettingKey("sendBiliHeartbeat"))) return; 
+        initBiliHeartbeat({ bvid: song.bvid, cid: song.id });
+        if (debug) checkBiliVideoPlayed(song.bvid);
+        return;
+        // heartbeat every 15 seconds. turns out totally unnecessary.
+        let playtime = 0;
+        biliHeartbeat.current = setInterval(() => {
+            playtime += 15;
+            console.log('sendBiliHeartbeat', song, playtime);
+            POSTBiliHeartbeat({ bvid: song.bvid, cid: song.id, time: playtime });
+            if (playtime > 60) {
+                if (debug) checkBiliVideoPlayed(song.bvid);
+                console.log('sendBiliHeartbeat stopped');
+                clearInterval(biliHeartbeat.current);
+            }
+        }, 15000);
+    }
+
     return [
         params, setparams,
         setplayingList,
@@ -207,6 +230,7 @@ const usePlayer = ({ isMobile = false }) => {
         onCoverClick,
         processExtendsContent,
         renderExtendsContent,
+        sendBiliHeartbeat,
     ];
 }
 

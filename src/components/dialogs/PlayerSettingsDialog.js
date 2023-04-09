@@ -18,7 +18,7 @@ import { ExportSyncFavButton, ImportSyncFavButton } from "../buttons/syncing/Dro
 import { 
   ExportSyncFavButton as PersonalExportSyncFavButton,
   ImportSyncFavButton as PersonalImportSyncFavButton,
-  setPersonalCloudTextField 
+  SetPersonalCloudTextField 
 } from "../buttons/syncing/PersonalSyncButton";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -57,6 +57,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
   const [hideCoverInMobile, setHideCoverInMobile] = useState(DEFAULT_SETTING.hideCoverInMobile);
   const [tabValue, setTabValue] = React.useState('1');
   const [loadPlaylistAsArtist, setLoadPlaylistAsArtist] = useState(DEFAULT_SETTING.loadPlaylistAsArtist);
+  const [sendBiliHeartbeat, setSendBiliHeartbeat] = useState(DEFAULT_SETTING.sendBiliHeartbeat);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -86,6 +87,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
     setSettings(setPersonalCloudIP, settings.personalCloudIP, "");
     setSettings(setHideCoverInMobile, settings.hideCoverInMobile);
     setSettings(setLoadPlaylistAsArtist, settings.loadPlaylistAsArtist);
+    setSettings(setSendBiliHeartbeat, settings.sendBiliHeartbeat);
   }
   // load settings into this dialog
   useEffect( () => {
@@ -102,7 +104,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
       ...settingObj,
       skin, parseSongName, autoRSSUpdate, settingExportLocation,
       keepSearchedSongListWhenPlaying, personalCloudIP, hideCoverInMobile,
-      loadPlaylistAsArtist,
+      loadPlaylistAsArtist, sendBiliHeartbeat, 
     };
     onClose(updatedSettingObj);
     return;
@@ -122,7 +124,7 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
           <React.Fragment>
             {PersonalExportSyncFavButton(AddFavIcon, personalCloudIP)}
             {PersonalImportSyncFavButton(AddFavIcon, personalCloudIP)}
-            {setPersonalCloudTextField(personalCloudIP, setPersonalCloudIP)}
+            {SetPersonalCloudTextField(personalCloudIP, setPersonalCloudIP)}
           </React.Fragment>
         )
     }
@@ -212,6 +214,13 @@ export const SettingsDialog = function ({ onClose, openState, settings }) {
             control={<Checkbox onChange={e => { setLoadPlaylistAsArtist(e.target.checked) }}/>} 
             checked={loadPlaylistAsArtist}
             label="播放显示歌单名称"
+          />
+        </Tooltip>
+        <Tooltip title='发送b站播放API可增加视频播放数。不会使用b号cookie'>
+          <FormControlLabel 
+            control={<Checkbox onChange={e => { setSendBiliHeartbeat(e.target.checked) }}/>} 
+            checked={sendBiliHeartbeat}
+            label="发送b站播放API"
           />
         </Tooltip>
       </React.Fragment>

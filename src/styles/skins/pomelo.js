@@ -1,3 +1,4 @@
+import { fetchVideoPlayUrlPromise } from "../../utils/Data";
 // this is a pink/light theme.
 
 const gifs = [
@@ -21,7 +22,9 @@ const gifs = [
 export const PomeloTheme = {
     playerBanner:  "https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png",
     playerBannerMobile: "https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png",
-    playerBackground: 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
+    playerBackground: await fetchVideoPlayUrlPromise("BV1Yv4y1C7K5", undefined, "VideoUrl"),
+    playerBackgroundVideo: true,
+    //'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
     gifs,
     gifIcon: () => {
         return gifs[Math.floor(Math.random() * gifs.length)>>0]

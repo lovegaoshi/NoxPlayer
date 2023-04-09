@@ -55,6 +55,7 @@ export const PlayerMobile = function ({ songList }) {
         onCoverClick,
         processExtendsContent,
         renderExtendsContent,
+        sendBiliHeartbeat,
     ] = usePlayer({ isMobile: true });
 
     const onPlayOneFromFav = (songs, favList) => {
@@ -77,6 +78,7 @@ export const PlayerMobile = function ({ songList }) {
         processExtendsContent(renderExtendsContent({ song: audioInfo }))
         setcurrentAudio(audioInfo)
         chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
+        sendBiliHeartbeat(audioInfo)
     }, [params])
 
 

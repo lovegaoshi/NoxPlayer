@@ -63,6 +63,7 @@ export const DEFAULT_SETTING = {
     noxVersion: getVersion(),
     hideCoverInMobile: false,
     loadPlaylistAsArtist: false,
+    sendBiliHeartbeat: false,
 }
 
 /**

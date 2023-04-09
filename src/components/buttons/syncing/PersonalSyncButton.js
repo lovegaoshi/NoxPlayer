@@ -87,7 +87,7 @@ export const ExportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
     )
 }
 
-export const setPersonalCloudTextField = (val, setVal) => {
+export const SetPersonalCloudTextField = (val, setVal) => {
     return (
         <TextField
             margin="dense"
