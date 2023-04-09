@@ -28,7 +28,7 @@ export const checkBVLiked = (bvid, onChecked = () => {}) => {
         })
         .then(res => res.json())
         .then(json => onChecked(json.data))
-        .catch(error => onChecked(undefined))
+        .catch(error => onChecked(undefined));
 }
 
 /**
@@ -86,7 +86,7 @@ export const initBiliHeartbeat = async ( {bvid, cid} ) => {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         mode: 'no-cors',
-        // this is necessary
+        // this is necessary. otherwise bili will return -400 status code errors
         credentials: 'omit',
         body: new URLSearchParams({
             bvid,
