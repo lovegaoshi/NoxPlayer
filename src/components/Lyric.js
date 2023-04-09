@@ -5,9 +5,12 @@ import { ScrollBar } from "../styles/styles";
 import TextField from "@mui/material/TextField";
 import { withStyles } from '@mui/styles';
 import Grid from "@mui/material/Grid";
-import { reExtractSongName as extractSongName } from '../utils/re'
-import { LyricSearchBar } from './LyricSearchBar'
-import StorageManagerCtx from '../popup/App'
+import { reExtractSongName } from '../utils/re';
+import { LyricSearchBar } from './LyricSearchBar';
+import StorageManagerCtx from '../popup/App';
+import { skinPreset } from '../styles/skin';
+
+let colorTheme = skinPreset.colorTheme;
 
 const INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL = 5000;
 
@@ -31,16 +34,14 @@ export const Lyric = withStyles(styles)((props) => {
     const [lyricOffset, setLyricOffset] = useState(0)
     const [lyric, setLyric] = useState('')
     const [songTitle, setSongTitle] = useState('')
-    const [favListID, setFavListID] = useState(null)
 
     const { classes, currentTime, audioName, audioId, audioCover, artist } = props;
     const StorageManager = useContext(StorageManagerCtx)
 
     useEffect(() => {
-        const extractedName = extractSongName(audioName, artist)
-        // console.log('Lrc changed to %s', extractedName)
+        //console.log('Lrc changed to %s', extractedName)
         // fetchLRC(audioName, setLyric, setSongTitle)
-        setSongTitle(extractedName)
+        setSongTitle(audioName)
     }, [audioName])
 
     const onEnterPress = (e) => {
@@ -63,7 +64,7 @@ export const Lyric = withStyles(styles)((props) => {
         return (
             <div style={{
                 textAlign: 'center',
-                color: active ? '#c660e7' : '#4d388f',
+                color: active ? colorTheme.lyricActiveColor : colorTheme.lyricInactiveColor,
                 padding: '6px 12px',
                 fontSize: active ? '18px' : '15px',
                 fontFamily: 'Georgia,\'Microsoft YaHei\',simsun,serif'
@@ -88,7 +89,7 @@ export const Lyric = withStyles(styles)((props) => {
                 <Grid align="center" sx={{ alignItems: 'center', paddingBottom: 10, overflow: "hidden", minHeight: 'calc(100% - 100px)' }} item xs={6}>
                     <Grid container spacing={0} sx={{ maxHeight: '100vh', overflow: 'hidden', marginTop: '50px' }}>
                         <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: "hidden" }} item xs={12}>
-                            <img id="LrcImg" src={audioCover} style={{ maxWidth: '500px' }}></img>
+                            <img id="LrcImg" src={audioCover} style={{ maxWidth: '500px', boxShadow: colorTheme.lyricImgShadowStyle }}></img>
                         </Grid>
                         <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: "hidden" }} item xs={12}>
                             <Grid container spacing={0} sx={{ maxHeight: '100vh', overflow: 'hidden', width: '500px' }}>
@@ -118,6 +119,8 @@ export const Lyric = withStyles(styles)((props) => {
                                         }}
                                         placeholder={songTitle}
                                         onKeyDown={onEnterPress}
+                                        value={songTitle}
+                                        onChange={(e) => setSongTitle(e.target.value)}
                                     />
                                 </Grid>
                             </Grid>

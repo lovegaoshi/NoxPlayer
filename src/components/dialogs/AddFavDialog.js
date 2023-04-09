@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
 
 export const NewFavDialog = function ({ onClose, openState }) {
   const [favName, setfavName] = useState('')
@@ -43,6 +44,7 @@ export const NewFavDialog = function ({ onClose, openState }) {
             variant='standard'
             onChange={onfavName}
             value={favName}
+            autoComplete='off'
           />
         </DialogContent>
         <DialogActions>
@@ -58,14 +60,8 @@ export const NewFavDialog = function ({ onClose, openState }) {
   );
 };
 
-export const AddFavDialog = function ({
-  onClose,
-  openState,
-  fromId,
-  favLists,
-  song,
-}) {
-  const [favId, setfavId] = useState('');
+export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song, isMobile = false }) {
+  const [favId, setfavId] = useState('')
 
   const handleCancel = () => {
     onClose();
@@ -84,9 +80,9 @@ export const AddFavDialog = function ({
   return (
     <div>
       <Dialog open={openState}>
-        <DialogTitle>添加到歌单</DialogTitle>
+        <DialogTitle>{`添加 ${song === undefined? favLists.find(i => i.id === fromId)?.title : song?.parsedName} 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
-          <Box sx={{ minWidth: 400, minHeight: 50 }}>
+          <Box sx={{ minWidth: isMobile? '50vw' : 400, minHeight: 50 }}>
             <FormControl fullWidth>
               <InputLabel id='demo-simple-select-label'>添加到歌单</InputLabel>
               <Select
@@ -95,6 +91,8 @@ export const AddFavDialog = function ({
                 value={favId}
                 label='FavLists'
                 onChange={onfavId}
+                input={(<Input></Input>)}
+                MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
               >
                 {favLists &&
                   favLists.map((v, i) => {

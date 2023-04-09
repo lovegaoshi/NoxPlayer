@@ -1,14 +1,18 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
-import ReactJkMusicPlayer from 'react-jinke-music-player'
-import '../css/react-jinke-player.css'
-import Box from "@mui/material/Box";
-import { FavList } from '../components/FavList'
-import { BiliBiliIcon } from "./bilibiliIcon";
-import { LyricOverlay } from './LyricOverlay'
-import StorageManagerCtx from '../popup/App'
+import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
+import ReactJkMusicPlayer from 'react-jinke-music-player';
+import '../css/react-jinke-player.css';
+import { FavList } from '../components/FavList';
+import { LyricOverlay } from './LyricOverlay';
+import StorageManagerCtx from '../popup/App';
+import { skins, skinPreset } from '../styles/skin';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { getName } from '../utils/re';
+import versionUpdate from '../utils/versionupdater/versionupdater';
+import { fetchPlayUrlPromise } from '../utils/Data';
+import usePlayer from "../hooks/usePlayer";
 
 // Initial Player options
-const options = {
+let options = {
     mode: 'full',
     showThemeSwitch: false,
     showLyric: false,
@@ -16,205 +20,97 @@ const options = {
     locale: 'zh_CN',
     autoPlayInitLoadPlayList: true,
     autoPlay: false,
-    defaultPlayIndex: 0
+    defaultPlayIndex: 0,
+    bannerBg: skins().playerBanner,
+    themeOverwrite: skins().reactJKPlayerTheme,
 }
 
 export const Player = function ({ songList }) {
 
-    // Params to init music player
-    const [params, setparams] = useState(null)
-    // Playing List
-    const [playingList, setplayingList] = useState(null)
-    // Current Audio info
-    const [currentAudio, setcurrentAudio] = useState(null)
-    // Current Audio Inst
-    const [currentAudioInst, setcurrentAudioInst] = useState(null)
-    // Lyric Dialog
-    const [showLyric, setShowLyric] = useState(false)
-    // Player Settings
-    const [playerSettings, setPlayerSettings] = useState(null)
     // Sync data to chromeDB
     const StorageManager = useContext(StorageManagerCtx)
 
-    const updateCurrentAudioList = useCallback(({ songs, immediatePlay = false, replaceList = false }) => {
-        //console.log("updateCurrentAudioList", params)
-        let newAudioLists = []
-        if (immediatePlay) {
-            // Click and play
-            newAudioLists = [
-                ...songs,
-                ...playingList,
-            ]
-        }
-        else if (replaceList) {
-            // OnPlayList handle
-            newAudioLists = [...songs]
-        }
-        else {
-            // AddToList handle
-            newAudioLists =
-                [
-                    ...playingList,
-                    ...songs,
-                ]
-        }
-        const newParam = {
-            ...params,
-            quietUpdate: !immediatePlay,
-            clearPriorAudioLists: immediatePlay || replaceList,
-            audioLists: newAudioLists
-        }
-        //console.log(newParam)
-        setparams(newParam)
-        setplayingList(newAudioLists)
-    }, [params, playingList])
+    const [
+        params, setparams,
+        setplayingList,
+        currentAudio, setcurrentAudio,
+        currentAudioInst,
+        showLyric, setShowLyric,
+        playerSettings, setPlayerSettings,
+        
+        onPlayOneFromFav,
+        onAddOneFromFav,
+        onPlayAllFromFav,
+        onAddFavToList,
+        playByIndex,
+        onPlayModeChange,
+        onAudioVolumeChange,
+        onAudioListsChange,
+        onAudioProgress,
+        getAudioInstance,
+        customDownloader,
+        onCoverClick,
+        processExtendsContent,
+        renderExtendsContent,
+        sendBiliHeartbeat,
+    ] = usePlayer({});
 
-    const onPlayOneFromFav = useCallback((songs) => {
+    useHotkeys('space', () => {
+        if (currentAudioInst === null) return;
+        // i have no idea why currentAudioInst doesnt have play(), but this works
+        // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
+        // listening to pause/play audio at a global level.
+        if (currentAudioInst.paused) document.getElementsByClassName('music-player-audio')[0].play();
+        else document.getElementsByClassName('music-player-audio')[0].pause();
+    });
 
-        const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
-        //console.log(existingIndex)
-        if (existingIndex != -1) {
-            currentAudioInst.playByIndex(existingIndex)
-            return
-        }
+    useHotkeys('pagedown', () => window.musicplayer.onPlayNextAudio());
+    useHotkeys('pageup', () => window.musicplayer.onPlayPrevAudio());
 
-        updateCurrentAudioList({ songs: songs, immediatePlay: true })
-    }, [params, playingList, currentAudioInst])
+    useEffect( () => {
+        StorageManager.setPlayerSettingInst = setPlayerSettings;
+    }, [])
 
-    const onAddOneFromFav = useCallback((songs) => {
+    useEffect(() => {
+        if (!currentAudio?.name) return;
+        document.title = currentAudio.name + ' - ' + skins().appTitle;
+    }, [currentAudio.name])
 
-        const existingIndex = playingList.findIndex((s) => s.id == songs[0].id)
-        //console.log(existingIndex)
-        if (existingIndex != -1) {
-            return
-        }
-        updateCurrentAudioList({ songs: songs, immediatePlay: false })
-    }, [params, playingList])
-
-    const onPlayAllFromFav = useCallback((songs) => {
-        updateCurrentAudioList({ songs: songs, immediatePlay: false, replaceList: true })
-
-    }, [params])
-
-    const onAddFavToList = useCallback((songs) => {
-        //If song exists in currentPlayList, remove it
-        const newSongsInList = songs.filter(v => playingList.find(s => s.id == v.id) == undefined)
-
-        updateCurrentAudioList({ songs: newSongsInList, immediatePlay: false, replaceList: false })
-    }, [params, playingList])
-
-    const playByIndex = useCallback((index) => {
-        currentAudioInst.playByIndex(index)
-    }, [currentAudioInst])
-
-    const onPlayModeChange = (playMode) => {
-        //console.log('play mode change:', playMode)
-        playerSettings.playMode = playMode
-        setPlayerSettings(playerSettings)
-        StorageManager.setPlayerSetting(playerSettings)
-    }
-
-    const onAudioVolumeChange = (currentVolume) => {
-        // console.log('audio volume change', currentVolume)
-        playerSettings.defaultVolume = Math.sqrt(currentVolume)
-        setPlayerSettings(playerSettings)
-        StorageManager.setPlayerSetting(playerSettings)
-    }
-
-    const onAudioPlay = useCallback((audioInfo) => {
-        // console.log('audio playing', audioInfo)
-        const link = 'https://www.bilibili.com/video/' + audioInfo.bvid
-        const newParam = {
-            ...params,
-            extendsContent: (
-                <span className="group audio-download" title="Bilibili">
-                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
-                        <BiliBiliIcon />
-                    </a>
-                </span >
-            )
-        }
-        setparams(newParam)
-        chrome.storage.local.set({ ['CurrentPlaying']: {cid:audioInfo.id.toString(),playUrl:audioInfo.musicSrc} })
-    }, [params])
-
-    const onAudioListsChange = useCallback((currentPlayId, audioLists, audioInfo) => {
-        // Sync latest-playinglist
-        StorageManager.setLastPlayList(audioLists)
-        setplayingList(audioLists)
-        //console.log('audioListChange:', audioLists)
-    }, [params, playingList])
-
-    const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
-        console.error('audio error', errMsg, currentPlayId, audioLists, audioInfo)
-    }
-
-    const onAudioProgress = (audioInfo) => {
+    const onAudioPlay = useCallback(async (audioInfo) => {
+        processExtendsContent(renderExtendsContent({ song: audioInfo }))
         setcurrentAudio(audioInfo)
-    }
-
-    const getAudioInstance = (audio) => {
-        setcurrentAudioInst(audio)
-    }
-
-    const customDownloader = (downloadInfo) => {
-        fetch(downloadInfo.src)
-            .then(res => {
-                return res.blob();
-            }).then(blob => {
-                const href = window.URL.createObjectURL(blob);
-                const link = document.createElement('a')
-                link.href = href // a.mp3
-                link.download = currentAudioInst.title + '.mp3'
-                document.body.appendChild(link)
-                link.click()
-            }).catch(err => console.error(err));
-    }
-
-    const onCoverClick = () => {
-        setShowLyric(!showLyric)
+        chrome.storage.local.set({ ['CurrentPlaying']: {cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc} })
+        sendBiliHeartbeat(audioInfo)
+    }, [params])
+    
+    const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
+        console.error('audio error', errMsg, audioInfo)
     }
 
     // Initialization effect
     useEffect(() => {
-        // console.log('ran Init useEffect - Player', songList)
         if (!songList || songList[0] == undefined)
             return;
-        chrome.storage.local.set({ ['CurrentPlaying']: {} })
-
         async function initPlayer() {
+            await versionUpdate()
             let setting = await StorageManager.getPlayerSetting()
-            // console.log('setting:' + setting)
-            if (undefined == setting) {
-                setting = { playMode: 'order', defaultVolume: 0.5 }
-                StorageManager.setPlayerSetting(setting)
-            }
-
-            const link = 'https://www.bilibili.com/video/' + songList[0].bvid
-            options.extendsContent = (
-                <span className="group audio-download" title="Bilibili">
-                    <a href={link} target="_blank" style={{ color: 'inherit', textDecloration: 'none' }}>
-                        <BiliBiliIcon />
-                    </a>
-                </span >
-            )
+            let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'))
+            if (previousPlaying === undefined) previousPlaying = {}
+            let previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id == previousPlaying.cid)))
+            options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex] })
             const params = {
                 ...options,
                 ...setting,
-                audioLists: songList
+                audioLists: songList,
+                defaultPlayIndex: previousPlayingSongIndex,
             }
             setparams(params)
             setplayingList(songList)
             setPlayerSettings(setting)
         }
-
         initPlayer()
     }, [songList])
 
-    // //console.log('params')
-    // //console.log(params)
-    // //console.log('lyric' + lyric)
-    // console.log(currentAudio)
     return (
         <React.Fragment>
             {params && <FavList currentAudioList={params.audioLists}
@@ -223,24 +119,19 @@ export const Player = function ({ songList }) {
                 onPlayAllFromFav={onPlayAllFromFav}
                 onAddFavToList={onAddFavToList}
                 onAddOneFromFav={onAddOneFromFav}
+                playerSettings={playerSettings}
             />}
-            {currentAudio && <LyricOverlay
+            {currentAudio.id && <LyricOverlay
                 showLyric={showLyric}
                 currentTime={currentAudio.currentTime}
-                audioName={currentAudio.name}
+                audioName={getName(currentAudio)}
                 audioId={currentAudio.id}
-                artist={currentAudio.singer}
-                audioCover={currentAudio.cover} />}
+                audioCover={currentAudio.cover}
+                closeLyric={() => setShowLyric(false)}
+                />}
 
             {params &&
                 <React.Fragment>
-                    <Box // Bottom Grid -- Footer
-                        display="flex"
-                        flex="1"
-                        justifyContent="space-around"
-                        style={{ maxHeight: "100%", height: "64px" }} // Relative height against the Player
-                        sx={{ gridArea: "footer" }}
-                    >
                         <ReactJkMusicPlayer
                             {...params}
                             showMediaSession
@@ -253,8 +144,10 @@ export const Player = function ({ songList }) {
                             onAudioPlay={onAudioPlay}
                             onCoverClick={onCoverClick}
                             onAudioListsChange={onAudioListsChange}
+                            theme={skinPreset.desktopTheme}
+                            musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
+                            ref={(element) => {window.musicplayer = element}}
                         />
-                    </Box>
                 </React.Fragment>}
         </React.Fragment>
     )

@@ -8,8 +8,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ProgressBar = require('progress-bar-webpack-plugin');
-
-const pkgJson = require('./package.json');
+const Dotenv = require('dotenv-webpack');
 
 const ifDirIsNotEmpty = (dir, value) => {
   return fs.readdirSync(dir).length !== 0 ? value : undefined;
@@ -65,6 +64,9 @@ module.exports = (env) => {
   var fileExtensions = ["jpg", "jpeg", "png", "gif", "eot", "otf", "svg", "ttf", "woff", "woff2", "txt"];
 
   return {
+    experiments: {
+      topLevelAwait: true
+    },
     mode: ifProd('production', 'development'),
     entry: removeEmpty({
       popup: ifDirExists('popup', path.join(__dirname, 'src/popup/index.js')),
@@ -90,7 +92,7 @@ module.exports = (env) => {
             options: {
               presets: [
                 '@babel/preset-env',
-                ['@babel/preset-react', { runtime: 'automatic' }],
+                ['@babel/preset-react', { runtime: 'classic' }],
                 '@babel/preset-typescript',
               ],
               plugins: removeEmpty([ifDev('react-refresh/babel')]),
@@ -123,6 +125,10 @@ module.exports = (env) => {
       ],
     },
     plugins: removeEmpty([
+      new Dotenv({
+        path: './.env', // Path to .env file (this is the default)
+        safe: true, // load .env.example (defaults to "false" which does not use dotenv-safe)
+      }),
       new CleanWebpackPlugin({
         cleanStaleWebpackAssets: false, // don't remove index.html when using the flag watch
       }),
@@ -190,6 +196,15 @@ module.exports = (env) => {
     ]),
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],
+      fallback: {
+        "path": require.resolve("path-browserify"),
+        "os": require.resolve("os-browserify/browser"),
+        "fs": false,
+        "util": require.resolve("util/"),
+        "crypto": require.resolve("crypto-browserify"),
+        "buffer": require.resolve("buffer/"),
+        "stream": require.resolve("stream-browserify"),
+      },
     },
     devtool: ifProd(false, 'source-map'),
     devServer: {

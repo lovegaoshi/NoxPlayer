@@ -1,7 +1,7 @@
 {
-  "name": "电梓播放器-第三方bilibili音频播放器",
-  "version": "1.2.0.0",
-  "description":"电梓播放器 / azusa-player: 一个第三方哔哩哔哩(bilibili.com)音频播放器 / A 3rd party Bilibili audio player.",
+  "name": "电闹播放器",
+  "version": "1.1.1.12",
+  "description":"电闹播放器 / nox-player: 第三方b站播放器，阿梓播放器威力加强版 / 3rd party Bilibili audio player modified from Azusa-player.",
   "manifest_version": 3,
   "background": {
     "service_worker": "serviceWorker.js"
@@ -24,8 +24,10 @@
   "permissions": [
     "declarativeNetRequest",
     "storage",
-    "contextMenus",
-    "notifications"
+    "unlimitedStorage",
+    "cookies",
+    "identity",
+    "search"
   ],
   "host_permissions": [
     "*://*.acgvideo.com/*",

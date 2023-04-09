@@ -1,6 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/react";
+import { skins } from '../styles/skin';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import { sendBVLike } from '../utils/BiliOperate';
+import { v4 as uuidv4 } from 'uuid';
 
-export const BiliBiliIcon = function () {
+export const BiliBiliIconSVG = function () {
     return (
         <svg role="img" width='26' height='26' fontSize='5px'
             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -11,3 +18,74 @@ export const BiliBiliIcon = function () {
     )
 }
 
+/**
+ * go to a bilibili page with the given bvid. 
+ * @param {string} bvid bvid of the video.
+ */
+export const toBiliBili = function ({ bvid, episode = null }) {
+    let url = 'https://www.bilibili.com/video/' + bvid;
+    if (episode) {
+        url += '?p=' + episode;
+    }
+    return url;
+}
+/**
+ * go to a bilibili page with the given bvid. 
+ * @param {string} bvid bvid of the video.
+ */
+export const goToBiliBili = function ({ bvid, episode = null }) {
+    window.open(toBiliBili({ bvid, episode }));
+}
+
+const buttonStyle = css`
+    cursor: pointer;
+    &:hover {
+        color: ${skins().reactJKPlayerTheme.sliderColor};
+    };
+    background-color: transparent;
+    color: ${skins().desktopTheme === "light"? "7d7d7d" : "white"};
+`
+
+export const BiliBiliIcon = ({
+    bvid, 
+    liked, 
+    handleThumbsUp = () => {}, 
+    handleThumbedUp = () => goToBiliBili({ bvid }),
+    }) => {
+    if (liked === 1) {
+        return (
+            <span
+                className="group audio-download"
+                css={buttonStyle}
+                onClick={handleThumbedUp}
+                title={"已点赞"}
+                key={uuidv4()}
+            >
+                <ThumbUpAltIcon />
+            </span>
+        )
+    } else if (liked === undefined) {
+        return (
+            <span
+                className="group audio-download"
+                css={buttonStyle}
+                onClick={handleThumbedUp}
+                title={"前往视频"}
+                key={uuidv4()}
+            >
+                <BiliBiliIconSVG />
+            </span>
+        )
+    }
+    return (
+        <span
+            className="group audio-download"
+            css={buttonStyle}
+            onClick={() => sendBVLike(bvid, handleThumbsUp)}
+            title={"点赞"}
+            key={uuidv4()}
+        >
+            <ThumbUpOffAltIcon />
+        </span>
+    )
+}

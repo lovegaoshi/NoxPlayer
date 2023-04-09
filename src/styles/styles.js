@@ -1,4 +1,5 @@
 import { makeStyles } from "@mui/styles";
+import { skinPreset } from './skin';
 
 export const ScrollBar = makeStyles((theme) => ({
     root: {
@@ -14,7 +15,7 @@ export const ScrollBar = makeStyles((theme) => ({
             backgroundClip: "padding-box",
             borderRadius: "7px",
             "-webkit-border-radius": "7px",
-            backgroundColor: "#c6acfc"
+            backgroundColor: skinPreset.colorTheme.scrollbarColor
         },
     },
 }));
@@ -25,4 +26,4 @@ export const btnActiveStyle = makeStyles((theme) => ({
             background: '#e6e6e694',
         },
     },
-}))
+}));
