@@ -183,12 +183,6 @@ export default class StorageManager {
             chrome.storage.local.set({ [MY_FAV_LIST_KEY]: [value.info.id] }, function () {
                 _self.setFavLists([value])
                 _self.latestFavLists = [value]
-
-              // notify sw to update context menu
-              chrome.runtime.sendMessage({
-                type: 'fav-lists-change',
-                data: _self.latestFavLists.map((v) => v.info),
-              });
             })
         });
     }
@@ -200,12 +194,6 @@ export default class StorageManager {
             chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newFavListsIds }, function () {
               _self.setFavLists(newFavLists);
               _self.latestFavLists = newFavLists;
-
-              // notify sw to update context menu
-              chrome.runtime.sendMessage({
-                type: 'fav-lists-change',
-                data: _self.latestFavLists.map((v) => v.info),
-              });
             })
         })
     }

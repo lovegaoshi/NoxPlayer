@@ -35,7 +35,7 @@ export const Lyric = withStyles(styles)((props) => {
     const [lyric, setLyric] = useState('')
     const [songTitle, setSongTitle] = useState('')
 
-    const { classes, currentTime, audioName, audioId, audioCover, artist } = props;
+    const { classes, currentTime, audioName, audioId, audioCover } = props;
     const StorageManager = useContext(StorageManagerCtx)
 
     useEffect(() => {

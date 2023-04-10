@@ -4,10 +4,6 @@ import Bottleneck from "bottleneck";
 import { getPlayerSettingKey } from '../objects/Storage';
 
 const logger = new Logger("Data.js")
-const biliApiLimiter = new Bottleneck({
-    minTime: 200, //200 msec per 
-    maxConcurrent: 5,
-})
 
 /**
  * limits to bilibili API call to 200ms/call using bottleneck. 

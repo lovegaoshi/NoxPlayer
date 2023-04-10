@@ -12,7 +12,6 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -204,12 +203,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
         )
     }
 
-    const onNewSelectedList = (list) => {
-        // Resets currentInfo
-        list.info.currentTableInfo = {}
-        setSelectedList(list)
-    }
-
     return (
         <React.Fragment>
             <Menu
@@ -244,12 +237,6 @@ export const FavList = memo(function ({ onSongListChange, onPlayOneFromFav, onPl
                         keepMounted
                         openState={openNewDialog}
                         onClose={onNewFav}
-                    />
-                    <HelpDialog
-                        id="Help"
-                        keepMounted
-                        openState={openHelpDialog}
-                        onClose={() => setOpenHelpDialog(false)}
                     />
                 </Grid>
                 <Divider light />
