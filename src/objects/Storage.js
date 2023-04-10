@@ -192,8 +192,8 @@ export default class StorageManager {
         chrome.storage.local.remove(id, function () {
             const newFavListsIds = newFavLists.map(v => v.info.id)
             chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newFavListsIds }, function () {
-                _self.setFavLists(newFavLists)
-                _self.latestFavLists = newFavLists
+              _self.setFavLists(newFavLists);
+              _self.latestFavLists = newFavLists;
             })
         })
     }
@@ -206,7 +206,7 @@ export default class StorageManager {
             _self.saveMyFavList(_self.latestFavLists, function () {
                 _self.setFavLists([..._self.latestFavLists])
 
-                //console.log('AddedFav ' + value.info.id);
+              //console.log('AddedFav ' + value.info.id);
             })
         });
         return value

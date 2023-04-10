@@ -13,11 +13,14 @@
   <a href="https://github.com/kenmingwang/azusa-player/blob/master/LICENSE">
     <img src="https://camo.githubusercontent.com/992daabc2aa4463339825f8333233ba330dd08c57068f6faf4bb598ab5a3df2e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d627269676874677265656e2e737667" alt="Software License" data-canonical-src="https://img.shields.io/badge/license-MIT-brightgreen.svg" style="max-width: 100%;">
   </a>
+  <a href="">
+    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/stars/kenmingwang/azusa-player">
+  </a>
   <a href="https://github.com/kenmingwang/azusa-player/releases">
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/kenmingwang/azusa-player">
   </a>
   <a href="https://github.com/kenmingwang/azusa-player/actions/workflows/webpack.yml">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/kenmingwang/azusa-player/NodeJS%20with%20Webpack">
+    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/kenmingwang/azusa-player/webpack.yml">
   </a>
   </br>
   <a href="https://chrome.google.com/webstore/detail/%E7%94%B5%E6%A2%93%E6%92%AD%E6%94%BE%E5%99%A8-%E7%AC%AC%E4%B8%89%E6%96%B9bilibili%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/bdplgemfnbaefommicdebhboajognnhj">
@@ -99,4 +102,4 @@ nox used a modified version of react-jinke-music-player (specified memo on audio
 
 音乐视频平台不易，请尊重版权，支持正版。<br>
 Contact: kenmingwang1234@gmail.com <br>
-Bilibili: [\_Nek](https://space.bilibili.com/1989881)
+Bilibili: [\_Nek7mi](https://space.bilibili.com/1989881)
