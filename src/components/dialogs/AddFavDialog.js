@@ -36,11 +36,11 @@ export const NewFavDialog = function ({ onClose, openState }) {
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
-            label="歌单名字"
-            type="name"
-            variant="standard"
+            margin='dense'
+            id='name'
+            label='歌单名字'
+            type='name'
+            variant='standard'
             onChange={onfavName}
             value={favName}
             autoComplete='off'
@@ -48,32 +48,33 @@ export const NewFavDialog = function ({ onClose, openState }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>取消</Button>
-          {favName == '' ?
-            <Button disabled>确认</Button> :
-            <Button onClick={handleOK}>确认</Button>}
-
+          {favName == '' ? (
+            <Button disabled>确认</Button>
+          ) : (
+            <Button onClick={handleOK}>确认</Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
 
 export const AddFavDialog = function ({ onClose, openState, fromId, favLists, song, isMobile = false }) {
   const [favId, setfavId] = useState('')
 
   const handleCancel = () => {
-    onClose()
-    setfavId('')
-  }
+    onClose();
+    setfavId('');
+  };
 
   const onfavId = (e) => {
-    setfavId(e.target.value)
-  }
+    setfavId(e.target.value);
+  };
 
   const handleOK = () => {
-    onClose(fromId, favId, song)
-    setfavId('')
-  }
+    onClose(fromId, favId, song);
+    setfavId('');
+  };
 
   return (
     <div>
@@ -82,32 +83,38 @@ export const AddFavDialog = function ({ onClose, openState, fromId, favLists, so
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile? '50vw' : 400, minHeight: 50 }}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">添加到歌单</InputLabel>
+              <InputLabel id='demo-simple-select-label'>添加到歌单</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
                 value={favId}
-                label="FavLists"
+                label='FavLists'
                 onChange={onfavId}
                 input={(<Input></Input>)}
                 MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
               >
-                {favLists && favLists.map((v, i) => {
-                  if (v.id != fromId)
-                    return (<MenuItem key={i} value={v.id}>{v.title}</MenuItem>)
-                })}
+                {favLists &&
+                  favLists.map((v, i) => {
+                    if (v.id != fromId)
+                      return (
+                        <MenuItem key={i} value={v.id}>
+                          {v.title}
+                        </MenuItem>
+                      );
+                  })}
               </Select>
             </FormControl>
           </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>取消</Button>
-          {favId == '' ?
-            <Button disabled>确认</Button> :
-            <Button onClick={handleOK}>确认</Button>}
-
+          {favId == '' ? (
+            <Button disabled>确认</Button>
+          ) : (
+            <Button onClick={handleOK}>确认</Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+};
