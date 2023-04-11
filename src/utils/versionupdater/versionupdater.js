@@ -22,6 +22,10 @@ export default async () => {
                 updater1118();
             case ('1.1.1.9'):
                 updater1119();
+            case currentVersion:
+                break;
+            default:
+                alert(`Noxplayer is updated from ${settingsVersion} to ${currentVersion}! \nRead what's new in settings.\n电闹播放器更新了！去帮助里更新说明看更新了什么鬼玩意儿。`);
         }
     }
     setLocalStorage('nox-version', currentVersion);
