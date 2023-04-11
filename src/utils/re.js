@@ -411,13 +411,28 @@ export const reExtractSongName = (filename, uploader = 0) => {
                     /【薇Steria】\d+直播歌切 (.+)/
                 ]);
             break;    
+        case 35861291:
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /\d+\.\d+\.\d+-(.+)/
+                ]);
+            break;
+        case 1381545:
+            // 【伦桑】高贵与丑-这种唱法的我.你多久没见了？还是从来没见过？来吧.高贵与丑..
+            filename = extractWith(
+                extractParenthesis(filename), 
+                [
+                    /【伦桑】(.+)-/
+                ]);
+            break;
         case 0:
             filename = extractWith(
                 extractParenthesis(filename), 
                 [
 
                 ]);
-            break;    
+            break;
     }
     // console.debug('resorting to default songname extract', filename, uploader);
     // if fails, first try to extract in brackets; else return as is.
