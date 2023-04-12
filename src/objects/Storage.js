@@ -67,6 +67,7 @@ export const DEFAULT_SETTING = {
   hideCoverInMobile: false,
   loadPlaylistAsArtist: false,
   sendBiliHeartbeat: false,
+  noCookieBiliSearch: false,
 };
 
 /**

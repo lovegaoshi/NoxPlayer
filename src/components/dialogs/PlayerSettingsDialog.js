@@ -59,6 +59,7 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
   const [tabValue, setTabValue] = React.useState('1');
   const [loadPlaylistAsArtist, setLoadPlaylistAsArtist] = useState(DEFAULT_SETTING.loadPlaylistAsArtist);
   const [sendBiliHeartbeat, setSendBiliHeartbeat] = useState(DEFAULT_SETTING.sendBiliHeartbeat);
+  const [noCookieBiliSearch, setNoCookieBiliSearch] = useState(DEFAULT_SETTING.noCookieBiliSearch);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -89,6 +90,7 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
     setSettings(setHideCoverInMobile, settings.hideCoverInMobile);
     setSettings(setLoadPlaylistAsArtist, settings.loadPlaylistAsArtist);
     setSettings(setSendBiliHeartbeat, settings.sendBiliHeartbeat);
+    setSettings(setNoCookieBiliSearch, settings.noCookieBiliSearch);
   }
   // load settings into this dialog
   useEffect(() => {
@@ -112,6 +114,7 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
       hideCoverInMobile,
       loadPlaylistAsArtist,
       sendBiliHeartbeat,
+      noCookieBiliSearch,
     };
     onClose(updatedSettingObj);
   };
@@ -228,6 +231,13 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
             control={<Checkbox onChange={(e) => { setSendBiliHeartbeat(e.target.checked); }} />}
             checked={sendBiliHeartbeat}
             label="不发送b站播放API"
+          />
+        </Tooltip>
+        <Tooltip title="不用b站cookie，关闭搜索时的b站个性化推荐。">
+          <FormControlLabel
+            control={<Checkbox onChange={(e) => { setNoCookieBiliSearch(e.target.checked); }} />}
+            checked={noCookieBiliSearch}
+            label="搜索时不使用b站cookie"
           />
         </Tooltip>
       </React.Fragment>

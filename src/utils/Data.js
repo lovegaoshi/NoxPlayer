@@ -487,8 +487,19 @@ export const fetchFavList = async (mid, progressEmitter, favList = []) => {
  * @returns
  */
 export const fetchBiliSearchList = async (kword, progressEmitter) => {
-  logger.info('calling fetchFavList', await getPlayerSettingKey('noCookieBiliSearch'));
-  return fetchBiliPaginatedAPI(
+  const noCookieSearch = await getPlayerSettingKey('noCookieBiliSearch');
+  let cookieSESSDATA = null;
+  // this API needs a random buvid3 value, or a valid SESSDATA;
+  // otherwise will return error 412. for users didnt login to bilibili,
+  // setting a random buvid3 would enable this API. should i initialize it
+  // in start up?
+  if (noCookieSearch) {
+    cookieSESSDATA = await chrome.cookies.get({ url: 'https://bilibili.com', name: 'SESSDATA' });
+    await chrome.cookies.set({
+      url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: 'dummyval',
+    });
+  }
+  const val = await fetchBiliPaginatedAPI(
     URL_BILI_SEARCH.replace('{keyword}', kword),
     (data) => { return Math.min(data.numResults, data.pagesize * 2 - 1); },
     (data) => { return data.pagesize; },
@@ -496,13 +507,12 @@ export const fetchBiliSearchList = async (kword, progressEmitter) => {
     progressEmitter,
     [],
   );
-  /*
-  await chrome.cookies.set({
-    url: 'https://api.bilibili.com',
-    name: 'buvid3',
-    value: 'some-dummy-value',
-  });
-  */
+  if (noCookieSearch) {
+    await chrome.cookies.set({
+      url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: cookieSESSDATA.value,
+    });
+  }
+  return val;
 };
 
 /**

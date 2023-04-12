@@ -41,7 +41,7 @@ const modifiedBackgroundPalette = colorTheme.palette;
 try {
   modifiedBackgroundPalette.components.MuiPaper.styleOverrides.root.backgroundColor = rgba2rgb(colorTheme.PCBackgroundColor);
 } catch (e) {
-  console.error(e);
+  console.warn(e);
 }
 
 const theme = createTheme(modifiedBackgroundPalette);
