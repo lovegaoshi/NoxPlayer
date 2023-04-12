@@ -1,9 +1,9 @@
-import "../css/popup.css";
-import { App } from "./App";
-import React from "react";
-import { render } from "react-dom";
+import '../css/popup.css';
+import React from 'react';
+import { render } from 'react-dom';
+import { App } from './App';
 
 render(
   <App />,
-  window.document.getElementById("root")
+  window.document.getElementById('root'),
 );

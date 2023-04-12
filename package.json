@@ -40,8 +40,6 @@
     "node-sass": "^5.0.0",
     "prettier": "^2.2.1",
     "progress-bar-webpack-plugin": "^2.1.0",
-    "react-jinke-music-player": "file:./Dependencies/react-jinke-music-player",
-    "react-lrc": "^2.1.4",
     "react-refresh": "^0.9.0",
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
@@ -56,6 +54,8 @@
     "not dead"
   ],
   "dependencies": {
+    "react-jinke-music-player": "file:./Dependencies/react-jinke-music-player",
+    "react-lrc": "^2.1.4",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@fontsource/roboto": "^4.5.1",

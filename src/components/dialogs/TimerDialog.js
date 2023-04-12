@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable indent */
 import React from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -12,51 +14,56 @@ import PauseIcon from '@mui/icons-material/Pause';
 import useTimer from '../../contexts/TimerContext';
 
 /**
- * 
+ *
  */
-export const TimerDialog = ({ openState, onClose }) => {
+export default ({ openState, onClose }) => {
+  const {
+    minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
+  } = useTimer();
 
-    const { minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause } = useTimer();
-
-    return (
-        <Dialog open={openState}>
-            <DialogTitle>定时停止播放</DialogTitle>
-            <DialogContent style={{ paddingTop: "6px" }}>
-                <TextField
-                    id="timer-minutes"
-                    value={minutes}
-                    onChange={(e) => setMinutes(e.target.value)}
-                    style={{ maxWidth: "6em", minWidth: "6em",  }}
-                    label="MM"
-                    disabled={startTimer}
-                    type="number"
-                />
-                ：
-                <TextField
-                    id="timer-seconds"
-                    value={seconds}
-                    onChange={(e) => setSeconds(e.target.value)}
-                    style={{ maxWidth: "6em", minWidth: "6em",  }}
-                    label="SS"
-                    disabled={startTimer}
-                    type="number"
-                />
-                {
-                    startTimer
-                    ? <IconButton onClick={timerPause}>
-                        <PauseIcon />
-                    </IconButton>
-                    : <IconButton onClick={timerStart}>
-                        <PlayArrowIcon/>
-                    </IconButton>
-                }
-                <IconButton onClick={timerRestart}>
-                    <ReplayIcon/>
-                </IconButton>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose}>确认</Button>
-            </DialogActions>
-        </Dialog>
-    )
-} 
+  return (
+    <Dialog open={openState}>
+      <DialogTitle>定时停止播放</DialogTitle>
+      <DialogContent style={{ paddingTop: '6px' }}>
+        <TextField
+          id="timer-minutes"
+          value={minutes}
+          onChange={(e) => setMinutes(e.target.value)}
+          style={{ maxWidth: '6em', minWidth: '6em' }}
+          label="MM"
+          disabled={startTimer}
+          type="number"
+        />
+        ：
+        <TextField
+          id="timer-seconds"
+          value={seconds}
+          onChange={(e) => setSeconds(e.target.value)}
+          style={{ maxWidth: '6em', minWidth: '6em' }}
+          label="SS"
+          disabled={startTimer}
+          type="number"
+        />
+        {
+          startTimer
+          ? (
+              <IconButton onClick={timerPause}>
+                <PauseIcon />
+              </IconButton>
+            )
+          : (
+              <IconButton onClick={timerStart}>
+                <PlayArrowIcon />
+              </IconButton>
+            )
+        }
+        <IconButton onClick={timerRestart}>
+          <ReplayIcon />
+        </IconButton>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>确认</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

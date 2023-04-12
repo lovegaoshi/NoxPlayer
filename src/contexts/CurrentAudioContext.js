@@ -9,6 +9,6 @@ const CurrentAudioProvider = (props) => {
       {props.children}
     </CurrentAudioContext.Provider>
   );
-}
+};
 
 export { CurrentAudioContext, CurrentAudioProvider };

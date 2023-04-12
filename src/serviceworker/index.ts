@@ -1,9 +1,8 @@
-
-chrome.action.onClicked.addListener(function (tab) {
-    //console.log('onClicked')
-    chrome.tabs.create({
-        'url': chrome.runtime.getURL("popup.html")
-    });
+chrome.action.onClicked.addListener((tab) => {
+  // console.log('onClicked')
+  chrome.tabs.create({
+    url: chrome.runtime.getURL('popup.html'),
+  });
 });
 
 // https://stackoverflow.com/questions/72736806/use-declarativenetrequest-to-set-the-referer-header-when-using-fetch-in-a-ch
@@ -18,12 +17,12 @@ chrome.runtime.onInstalled.addListener(async () => {
           {
             header: 'Referer',
             operation: 'set',
-            value: "https://www.bilibili.com",
+            value: 'https://www.bilibili.com',
           },
           {
             header: 'Origin',
             operation: 'set',
-            value: "https://www.bilibili.com",
+            value: 'https://www.bilibili.com',
           },
         ],
       },
@@ -34,10 +33,10 @@ chrome.runtime.onInstalled.addListener(async () => {
       },
     },
   ];
-  
-  chrome.declarativeNetRequest.getDynamicRules(previousRules => {
-    const previousRuleIds = previousRules.map(rule => rule.id);
-    chrome.declarativeNetRequest.updateDynamicRules({removeRuleIds: previousRuleIds, addRules: rules});
+
+  chrome.declarativeNetRequest.getDynamicRules((previousRules) => {
+    const previousRuleIds = previousRules.map((rule) => rule.id);
+    chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds: previousRuleIds, addRules: rules });
   });
 });
 

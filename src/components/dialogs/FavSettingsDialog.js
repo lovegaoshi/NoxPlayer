@@ -9,12 +9,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
-export default function ({ fromList, onClose, openState, rssUpdate }) {
-
-  const [subUrl, setSubUrl] = useState("")
-  const [bannedBVids, setBannedBVids] = useState("")
-  const [favListName, setFavListName] = useState("")
-  const [useBiliShazam, setUseBiliShazam] = useState(false)
+export default function FavSettingsDialog ({
+  fromList, onClose, openState, rssUpdate,
+}) {
+  const [subUrl, setSubUrl] = useState('');
+  const [bannedBVids, setBannedBVids] = useState('');
+  const [favListName, setFavListName] = useState('');
+  const [useBiliShazam, setUseBiliShazam] = useState(false);
 
   if (fromList === undefined) {
     return (
@@ -23,39 +24,40 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
   }
 
   const setArrayAsStr = (val, setFunc = setSubUrl) => {
-    try{
-      setFunc(val.join(';'))
+    try {
+      setFunc(val.join(';'));
     } catch {
-      setFunc("")
+      setFunc('');
     }
-  }
+  };
 
   const handleClose = () => {
     onClose(
       fromList,
       {
-        subscribeUrls: Array.from(new Set(subUrl.split(';'))), 
-        favListName: favListName,
-        useBiliShazam: useBiliShazam,
-        bannedBVids: Array.from(new Set(bannedBVids.split(';')))
-      });
-  }
+        subscribeUrls: Array.from(new Set(subUrl.split(';'))),
+        favListName,
+        useBiliShazam,
+        bannedBVids: Array.from(new Set(bannedBVids.split(';'))),
+      },
+    );
+  };
 
   const loadFavList = (favList = fromList) => {
-    setArrayAsStr(favList.subscribeUrls, setSubUrl)
-    setArrayAsStr(favList.bannedBVids, setBannedBVids)
-    setFavListName(favList.info.title)
-    setUseBiliShazam(favList.useBiliShazam ? true : false)
-  }
+    setArrayAsStr(favList.subscribeUrls, setSubUrl);
+    setArrayAsStr(favList.bannedBVids, setBannedBVids);
+    setFavListName(favList.info.title);
+    setUseBiliShazam(!!favList.useBiliShazam);
+  };
 
-  useEffect( () => {
-    loadFavList()
-  }, [fromList.info.id, fromList.songList.length])
+  useEffect(() => {
+    loadFavList();
+  }, [fromList.info.id, fromList.songList.length]);
 
   return (
     <Dialog open={openState}>
       <DialogTitle>
-      <TextField
+        <TextField
           autoFocus
           margin="dense"
           id="name"
@@ -65,7 +67,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           onChange={(e) => setFavListName(e.target.value)}
           value={favListName}
           autoComplete="off"
-        />  
+        />
       </DialogTitle>
       <DialogContent>
         <TextField
@@ -79,7 +81,7 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           autoComplete="off"
           placeholder="这些url会被订阅"
         />
-        <div/>
+        <div />
         <TextField
           margin="dense"
           id="bannedBVids"
@@ -91,27 +93,30 @@ export default function ({ fromList, onClose, openState, rssUpdate }) {
           autoComplete="off"
           placeholder="这些bvid不会被订阅"
         />
-        <div/>
-        <Tooltip title='使用b站识歌API（王胡桃专用）'>
-          <FormControlLabel 
-            control={<Checkbox onChange={e => { setUseBiliShazam(e.target.checked) }}/>} 
+        <div />
+        <Tooltip title="使用b站识歌API（王胡桃专用）">
+          <FormControlLabel
+            control={<Checkbox onChange={(e) => { setUseBiliShazam(e.target.checked); }} />}
             checked={useBiliShazam}
             label="使用b站识歌API"
           />
         </Tooltip>
       </DialogContent>
       <DialogActions>
-        <Button 
+        <Button
           onClick={() => {
-            loadFavList()
-            onClose()
-          }}>取消</Button>
+            loadFavList();
+            onClose();
+          }}
+        >取消
+        </Button>
         <Button onClick={handleClose}>确认</Button>
-        <Button 
+        <Button
           onClick={() => {
-            handleClose()
-            rssUpdate(subUrl.split(';'))
-          }}>
+            handleClose();
+            rssUpdate(subUrl.split(';'));
+          }}
+        >
           确认并更新订阅
         </Button>
       </DialogActions>
