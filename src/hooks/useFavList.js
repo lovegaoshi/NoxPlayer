@@ -24,6 +24,10 @@ export const updateSubscribeFavList = async (listObj, StorageManager, setSelecte
       subscribeUrls = listObj.subscribeUrls;
     }
     if (subscribeUrls === undefined) return null;
+    // TODO: this is stupid. needs to change:
+    // 1. set the unique map first with listObj, then
+    // in loop set new stuff into it, instead of concat lists
+    // 2. order this correctly. this for loop needs to be reversed
     for (let i = 0, n = subscribeUrls.length; i < n; i++) {
       listObj.songList = (await searchBiliURLs({
         input: subscribeUrls[i],
