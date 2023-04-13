@@ -81,7 +81,7 @@ export default function Player ({ songList }) {
   const onAudioPlay = useCallback(async (audioInfo) => {
     processExtendsContent(renderExtendsContent({ song: audioInfo }));
     setcurrentAudio(audioInfo);
-    chrome.storage.local.set({ CurrentPlaying: { cid: audioInfo.id.toString(), playUrl: audioInfo.musicSrc } });
+    chrome.storage.local.set({ CurrentPlaying: { cid: audioInfo.id, playUrl: audioInfo.musicSrc } });
     sendBiliHeartbeat(audioInfo);
   }, [params]);
 
