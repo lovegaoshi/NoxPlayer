@@ -244,10 +244,12 @@ export const reExtractSongName = (filename, uploader = 0) => {
     case 8136522: // "黑修":
       // https://space.bilibili.com/8136522/channel/seriesdetail?sid=2161219
       // either in brackets or not (???)
-      filename = extractParenthesis(filename);
-      if (filename.startsWith('【Pomelo安妮】')) {
-        filename = filename.substring('【Pomelo安妮】'.length);
-      }
+      filename = extractWith(
+        extractParenthesis(filename),
+        [
+          /【.+】(.+)/,
+        ],
+      );
       break;
     case 5085531: // "食梦莲lotus":
       // 【安妮Pomelo】1118恋爱循环
