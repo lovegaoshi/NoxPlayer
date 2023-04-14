@@ -121,7 +121,6 @@ export default function Player ({ songList }) {
         onPlayOneFromFav={onPlayOneFromFav}
         onPlayAllFromFav={onPlayAllFromFav}
         onAddFavToList={onAddFavToList}
-        onAddOneFromFav={onAddOneFromFav}
         playerSettings={playerSettings}
       />
       )}

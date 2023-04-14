@@ -18,7 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import { songText } from './Fav';
+import { songText, reParseSearch } from './Fav';
 import { getName } from '../utils/re';
 import { skinPreset } from '../styles/skin';
 import RandomGIFIcon from './buttons/randomGIF';
@@ -57,8 +57,8 @@ const findInFavList = (songList, audioid, key = 'id') => {
   return 0;
 };
 
-export default (function ({
-  FavList, onSongIndexChange, onAddOneFromFav,
+export default (function Fav({
+  FavList, onSongIndexChange,
   handleDeleteFromSearchList, handleAddToFavClick,
   onPlaylistTitleClick,
   onRssUpdate, currentAudioID,
@@ -88,12 +88,7 @@ export default (function ({
       setRows(FavList.songList);
       return;
     }
-
-    const filteredRows = FavList.songList.filter((row) => {
-      // const cleanString = row.name.replace('《') // TODO: some english char can't search
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    setRows(filteredRows);
+    setRows(reParseSearch(searchedVal, FavList.songList));
   };
 
   // console.log('rener Fav')

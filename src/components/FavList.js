@@ -66,7 +66,7 @@ export const DiskIcon = {
 };
 
 export const FavList = memo(({
-  onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, onAddOneFromFav, playerSettings,
+  onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, playerSettings,
 }) => {
   const StorageManager = useContext(StorageManagerCtx);
   const [
@@ -293,7 +293,6 @@ export const FavList = memo(({
             FavList={selectedList}
             onSongListChange={onSongListChange}
             onSongIndexChange={onPlayOneFromFav}
-            onAddOneFromFav={onAddOneFromFav}
             handleDeleteFromSearchList={handleDeleteFromSearchList}
             handleAddToFavClick={handleAddToFavClick}
             rssUpdate={async (subscribeUrls) => updateSubscribeFavList(selectedList, StorageManager, setSelectedList, subscribeUrls)}

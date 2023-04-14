@@ -37,3 +37,5 @@ build.crx
 Dependencies/react-jinke-music-player
 package-lock.json
 src/utils/credentials.json
+*.cred
+*.xlsx

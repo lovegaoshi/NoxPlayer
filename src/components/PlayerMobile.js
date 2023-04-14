@@ -152,7 +152,6 @@ export default function PlayerMobile ({ songList }) {
         onPlayOneFromFav={onPlayOneFromFav}
         onPlayAllFromFav={onPlayAllFromFav}
         onAddFavToList={onAddFavToList}
-        onAddOneFromFav={onAddOneFromFav}
         showFavList={showFavList}
         currentAudioID={currentAudio ? currentAudio.id : -1}
       />

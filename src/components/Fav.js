@@ -174,8 +174,34 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export const Fav = (function ({
-  FavList, onSongIndexChange, onAddOneFromFav,
+/**
+ * search using regex defining search conditions.
+ * conditions are separated by |.
+ */
+export const reParseSearch = (searchStr, rows, defaultExtract = (someRows, searchstr) => someRows.filter((row) => row.name.toLowerCase().includes(searchstr.toLowerCase()))) => {
+  const reExtractions = [
+    [/parsed:(.+)/, (val, someRows) => someRows.filter((row) => row.parsedName === val[1])],
+  ];
+  let defaultExtraction = true;
+  for (const searchSubStr of searchStr.split('|')) {
+    for (const reExtraction of reExtractions) {
+      const extracted = reExtraction[0].exec(searchSubStr, rows);
+      if (extracted !== null) {
+        rows = reExtraction[1](extracted, rows);
+        defaultExtraction = false;
+        break;
+      }
+    }
+  }
+  // if none matches, treat as a generic search, check if any field contains the search string
+  if (defaultExtraction) {
+    rows = defaultExtract(rows, searchStr);
+  }
+  return rows;
+};
+
+export const Fav = (function Fav ({
+  FavList, onSongIndexChange,
   handleDeleteFromSearchList, handleAddToFavClick,
   rssUpdate, playerSettings,
 }) {
@@ -252,10 +278,7 @@ export const Fav = (function ({
       setRows(FavList.songList);
       return;
     }
-    const filteredRows = FavList.songList.filter((row) => {
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    setRows(filteredRows);
+    setRows(reParseSearch(searchedVal, FavList.songList));
   };
 
   /**

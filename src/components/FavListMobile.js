@@ -78,7 +78,6 @@ export default memo(({
   onPlayOneFromFav,
   onPlayAllFromFav,
   onAddFavToList,
-  onAddOneFromFav,
   showFavList,
   currentAudioID,
 }) => {
@@ -305,7 +304,6 @@ export default memo(({
           FavList={selectedList}
           onSongListChange={onSongListChange}
           onSongIndexChange={onPlayOneFromFav}
-          onAddOneFromFav={onAddOneFromFav}
           handleDeleteFromSearchList={handleDeleteFromSearchList}
           handleAddToFavClick={handleAddToFavClick}
           onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
