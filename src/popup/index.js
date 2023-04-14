@@ -1,9 +1,8 @@
 import '../css/popup.css';
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { App } from './App';
 
-render(
-  <App />,
-  window.document.getElementById('root'),
-);
+const container = window.document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(<App />);

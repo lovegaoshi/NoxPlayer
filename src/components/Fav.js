@@ -389,11 +389,11 @@ export const Fav = (function Fav ({
             <DeleteOutlineOutlinedIcon
               sx={CRUDIcon}
               onClick={
-                                async () => {
-                                  await handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                                  handleSearch(searchBarRef.current.value);
-                                }
-                            }
+                async () => {
+                  await handleDeleteFromSearchList(currentFavList.info.id, song.id);
+                  handleSearch(searchBarRef.current.value);
+                }
+              }
             />
           </Tooltip>
         </StyledTableCell>

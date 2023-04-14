@@ -47,11 +47,10 @@ const usePlayer = ({ isMobile = false }) => {
       newAudioLists = [...songs];
     } else {
       // AddToList handle
-      newAudioLists =
-                [
-                  ...playingList,
-                  ...songs,
-                ];
+      newAudioLists = [
+        ...playingList,
+        ...songs,
+      ];
     }
     const newParam = {
       ...params,
@@ -61,8 +60,8 @@ const usePlayer = ({ isMobile = false }) => {
       newAudioListPlayIndex,
     };
     // console.log(newParam)
-    setparams(newParam);
     setplayingList(newAudioLists);
+    setparams(newParam);
   }, [params, playingList]);
 
   const parseSongList = async (favList) => {
