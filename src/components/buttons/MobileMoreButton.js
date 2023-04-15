@@ -8,7 +8,7 @@ import { AddFavDialog } from '../dialogs/AddFavDialog';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { searchSongOnWeb, searchSongOnBili } from '../menus/Favmenu';
 
-export default function({ song }) {
+export default function mobileMoreButton({ song }) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
   const [anchorEl, setAnchorEl] = React.useState(null);

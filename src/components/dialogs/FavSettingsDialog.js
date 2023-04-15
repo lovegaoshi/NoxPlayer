@@ -17,11 +17,7 @@ export default function FavSettingsDialog ({
   const [favListName, setFavListName] = useState('');
   const [useBiliShazam, setUseBiliShazam] = useState(false);
 
-  if (fromList === undefined) {
-    return (
-      <></>
-    );
-  }
+  if (fromList === undefined) return;
 
   const setArrayAsStr = (val, setFunc = setSubUrl) => {
     try {

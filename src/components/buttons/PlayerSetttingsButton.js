@@ -5,7 +5,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsDialog from '../dialogs/PlayerSettingsDialog';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 
-export default function PlayerSettingsButton({ AddFavIcon }) {
+export default function playerSettingsButton({ AddFavIcon }) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
 

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useConfirm } from 'material-ui-confirm';
 
-export default () => {
+export default function playerResetButton() {
   const confirm = useConfirm();
 
   const onClick = () => {
@@ -20,4 +20,4 @@ export default () => {
   return (
     <Button startIcon={<ReplayIcon />} onClick={onClick}>重置播放器</Button>
   );
-};
+}

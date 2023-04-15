@@ -1,3 +1,5 @@
+// except its actually a valid property...
+/* eslint-disable react/no-unknown-property */
 import React, { useEffect } from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
@@ -56,12 +58,12 @@ const buttonStyle = css`
     color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
-export const BiliBiliIcon = ({
+export function BiliBiliIcon({
   bvid,
   liked,
   handleThumbsUp = () => {},
   handleThumbedUp = () => goToBiliBili({ bvid }),
-}) => {
+}) {
   if (liked === 1) {
     return (
       <span
@@ -104,4 +106,4 @@ export const BiliBiliIcon = ({
       <ThumbUpOffAltIcon />
     </span>
   );
-};
+}

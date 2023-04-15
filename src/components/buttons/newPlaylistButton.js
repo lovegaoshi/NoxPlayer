@@ -10,7 +10,7 @@ import { NewFavDialog } from '../dialogs/AddFavDialog';
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function NewPlaylistButton ({ AddFavIcon, onClosedDialogFunc }) {
+export default function newPlaylistButton ({ AddFavIcon, onClosedDialogFunc }) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   return (

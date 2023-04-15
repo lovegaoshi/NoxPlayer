@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import {
   Menu,
@@ -34,6 +35,7 @@ const MENU_ID = 'favlistmenu';
 export default function App ({ theme }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const confirm = useConfirm();
+  const circularProgress = () => (<CircularProgress />);
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
@@ -54,7 +56,7 @@ export default function App ({ theme }) {
   async function BiliShazam ({
     event, props, triggerEvent, data,
   }, options = { forced: false }) {
-    const key = enqueueSnackbar(`正在用b站识歌标识歌单 ${props.favlist.info.title}……`, { variant: 'info', persist: true, action: () => { return (<CircularProgress />); } });
+    const key = enqueueSnackbar(`正在用b站识歌标识歌单 ${props.favlist.info.title}……`, { variant: 'info', persist: true, action: circularProgress });
     try {
       await BiliShazamOnSonglist(props.favlist.songList, options.forced);
     } catch (e) {
@@ -101,7 +103,7 @@ export default function App ({ theme }) {
       .then(() => {
         const key = enqueueSnackbar(
           `正在重新载入歌单 ${props.favlist.info.title} 的bv号……`,
-          { variant: 'info', persist: true, action: () => { return (<CircularProgress />); } },
+          { variant: 'info', persist: true, action: circularProgress },
         );
         const bvids = [];
         for (const song of props.favlist.songList) {
@@ -131,7 +133,7 @@ export default function App ({ theme }) {
         `歌单内最常出现的歌：${analytics.songTop10.map((val) => `${val[0]} (${String(val[1])})`).join(', ')}`,
         `最近的新歌：${Array.from(analytics.songsUnique).slice(-10).reverse().join(', ')}`,
         `bv号总共有${String(analytics.bvid.size)}个，平均每bv号有${(analytics.totalCount / analytics.bvid.size).toFixed(1)}首歌`,
-        `shazam失败的歌数: ${String(analytics.invalidShazamCount)}\/${String(analytics.totalCount)} (${(analytics.invalidShazamCount * 100 / analytics.totalCount).toFixed(1)}%)`,
+        `shazam失败的歌数: ${String(analytics.invalidShazamCount)}/${String(analytics.totalCount)} (${(analytics.invalidShazamCount * 100 / analytics.totalCount).toFixed(1)}%)`,
       ]),
       confirmationText: '好的',
       hideCancelButton: true,
@@ -144,7 +146,7 @@ export default function App ({ theme }) {
     const validBVIds = [];
     const key = enqueueSnackbar(
       `正在查询歌单 ${props.favlist.info.title} 的bv号……`,
-      { variant: 'info', persist: true, action: () => { return (<CircularProgress />); } },
+      { variant: 'info', persist: true, action: circularProgress },
     );
     for (const song of props.favlist.songList) {
       if (uniqBVIds.includes(song.bvid)) continue;

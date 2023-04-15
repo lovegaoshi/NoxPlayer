@@ -60,7 +60,7 @@ export default withStyles(styles)((props) => {
     StorageManager.setLyricOffset(audioId, e.target.value);
   };
 
-  function lineRenderer({ line: { startMillisecond, content }, index, active }) {
+  const lineRenderer = useCallback(({ line: { startMillisecond, content }, index, active }) => {
     // //console.log(content)
     return (
       <div style={{
@@ -74,7 +74,7 @@ export default withStyles(styles)((props) => {
         {content}
       </div>
     );
-  }
+  });
 
   function onCurrentLineChange({ line, index }) {
     return (

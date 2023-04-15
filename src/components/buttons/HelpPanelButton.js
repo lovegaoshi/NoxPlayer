@@ -10,7 +10,7 @@ import Dialog from '../dialogs/HelpDialog';
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function HelpPanelButton ({ AddFavIcon, onClosedDialogFunc = () => {} }) {
+export default function helpPanelButton({ AddFavIcon, onClosedDialogFunc = () => {} }) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   return (

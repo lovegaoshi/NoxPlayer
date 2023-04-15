@@ -16,7 +16,7 @@ const buttonStyle = css`
     color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
-export default ({ song }) => {
+export default function thumbsUpButton({ song }) {
   const [liked, setLiked] = useState(0);
 
   useEffect(() => checkBVLiked(song.bvid, setLiked), [song.id]);
@@ -37,6 +37,7 @@ export default ({ song }) => {
     <React.Fragment>
       <span
         className="group audio-download"
+        // eslint-disable-next-line react/no-unknown-property
         css={buttonStyle}
         onClick={onClick}
         title={
@@ -58,4 +59,4 @@ export default ({ song }) => {
       </span>
     </React.Fragment>
   );
-};
+}
