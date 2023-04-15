@@ -37,7 +37,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import RandomGIFIcon from './buttons/randomGIF';
-import { getPlayerSettingKey, readLocalStorage } from '../objects/Storage';
+import { getPlayerSettingKey, readLocalStorage } from '../utils/ChromeStorage';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import FavSettingsButtons from './buttons/FavSettingsButton';
 import SongSearchBar from './dialogs/songsearchbar';

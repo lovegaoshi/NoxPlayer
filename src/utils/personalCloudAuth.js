@@ -10,7 +10,7 @@
  * check out the fastAPI docker I set up to your router/NAS/VPS to get started.
  *
  */
-import { getPlayerSettingKey } from '../objects/Storage';
+import { getPlayerSettingKey } from './ChromeStorage';
 
 /**
  * a simple personal cloud built with fastAPI. uses the current bili user

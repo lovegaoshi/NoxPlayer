@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
-import { dummyFavList } from '../objects/Storage';
+import { dummyFavList } from '../utils/ChromeStorage';
 import { searchBiliURLs, defaultSearchList } from '../components/Search';
 import { parseSongName } from '../utils/re';
 

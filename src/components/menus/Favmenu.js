@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+/* eslint-disable react/jsx-no-bind */
+import React, { useContext, useCallback } from 'react';
 import {
   Menu,
   Item,
@@ -17,7 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 import 'react-contexify/dist/ReactContexify.css';
 import { getName } from '../../utils/re';
-import { saveFav, readLocalStorage, MY_FAV_LIST_KEY } from '../../objects/Storage';
+import { saveFav, readLocalStorage, MY_FAV_LIST_KEY } from '../../utils/ChromeStorage';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 
 export const MENU_ID = 'favmenu';

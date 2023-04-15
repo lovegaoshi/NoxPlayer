@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
-import { getPlayerSettingKey } from '../objects/Storage';
+import { getPlayerSettingKey } from '../utils/ChromeStorage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from '../components/buttons/ThumbsUpButton';
 import MobileMoreButton from '../components/buttons/MobileMoreButton';

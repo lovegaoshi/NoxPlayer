@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { skins } from '../../styles/skin';
-import { setLocalStorage, readLocalStorage, FAV_FAV_LIST_KEY } from '../../objects/Storage';
+import { setLocalStorage, readLocalStorage, FAV_FAV_LIST_KEY } from '../../utils/ChromeStorage';
 
 const buttonStyle = css`
     cursor: pointer;
@@ -15,7 +15,7 @@ const buttonStyle = css`
     color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
-export default ({ song }) => {
+export default function favoriteSongButton({ song }) {
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
@@ -39,6 +39,7 @@ export default ({ song }) => {
     <React.Fragment>
       <span
         className="group audio-download"
+        // eslint-disable-next-line react/no-unknown-property
         css={buttonStyle}
         onClick={() => handleClick(!liked)}
         title={liked ? '不喜欢了' : '特别喜欢！'}
@@ -49,4 +50,4 @@ export default ({ song }) => {
       </span>
     </React.Fragment>
   );
-};
+}

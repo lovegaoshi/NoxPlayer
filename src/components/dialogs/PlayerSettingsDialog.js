@@ -28,7 +28,7 @@ import {
 } from '../buttons/syncing/PersonalSyncButton';
 import { ExportSyncFavButton, ImportSyncFavButton } from '../buttons/syncing/DropboxSyncButton';
 import { ExportFavButton, ImportFavButton } from '../buttons/ImportExport';
-import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../objects/Storage';
+import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../utils/ChromeStorage';
 import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import PlayerResetButton from '../buttons/PlayerResetButton';
 

@@ -10,7 +10,7 @@ import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import FavSettingsDialog from '../dialogs/FavSettingsDialog';
 import {
   getPlayerSettingKey, readLocalStorage, setLocalStorage, FAVLIST_AUTO_UPDATE_TIMESTAMP,
-} from '../../objects/Storage';
+} from '../../utils/ChromeStorage';
 
 /**
  * a component that includes a setting button; an update button; and a setting dialog.

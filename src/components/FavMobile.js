@@ -23,7 +23,7 @@ import { getName } from '../utils/re';
 import { skinPreset } from '../styles/skin';
 import RandomGIFIcon from './buttons/randomGIF';
 import FavSettingsButtons from './buttons/FavSettingsButton';
-import { getPlayerSettingKey } from '../objects/Storage';
+import { getPlayerSettingKey } from '../utils/ChromeStorage';
 import SongSearchBar from './dialogs/songsearchbar';
 import { ScrollBar } from '../styles/styles';
 

@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getBiliUser } from '../../utils/personalCloudAuth';
-import { getPlayerSettingKey } from '../../objects/Storage';
+import { getPlayerSettingKey } from '../../utils/ChromeStorage';
 
 export default function songRenameDialog({
   openState, songObj, onClose, saveList,

@@ -1,4 +1,17 @@
-import { extractSongName } from './Data';
+/**
+ * use regex to extract songnames from a string. default to whatever in 《》
+ * @param {string} name
+ * @returns parsed songname.
+ */
+export const extractSongName = (name) => {
+  const nameReg = /《.*》/; // For single-list BVID, we need to extract name from title
+  const res = nameReg.exec(name);
+  if (res) { return (res.length > 0 ? res[0].substring(1, res[0].length - 1) : ''); } // Remove the brackets
+
+  // var nameReg = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/ // Check if name is just one string, no special chars
+  // if(!nameReg.test(name))
+  return (name);
+};
 
 /**
  * truncate the first left parenthesis and return the leftover string.
@@ -71,25 +84,29 @@ export const reExtractSongName = (filename, uploader = 0) => {
       // 【赫拉Kris】【随便唱唱】三国恋
       // in some videos, its number-song-name
       filename = extractParenthesis(
-        extractWith(filename,
+        extractWith(
+          filename,
           [
             /【赫拉Kris】【.+】(.+)/,
             /【赫拉Kris.*】(.+)/,
             /\d+-(.+)-.+/,
-          ]),
+          ],
+        ),
       );
       break;
     case 170066: // "叹氣喵":
       // https://space.bilibili.com/170066/channel/series
       // 【诺莺Nox】[220212] 乒乒乓乓天下无双
       filename = extractParenthesis(
-        extractWith(filename,
+        extractWith(
+          filename,
           [
             / - (.+)/,
             /【诺莺Nox】[\d+] (.+)/,
             /【诺莺Nox】(.+)/,
             /(.+) w\//,
-          ]),
+          ],
+        ),
       );
       break;
     case 355371630: // "起名字什么的真困难啊":

@@ -1,7 +1,8 @@
 import Bottleneck from 'bottleneck';
 import Logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
-import { getPlayerSettingKey } from '../objects/Storage';
+import { getPlayerSettingKey } from './ChromeStorage';
+import { extractSongName } from './re';
 
 const logger = new Logger('Data.js');
 
@@ -541,21 +542,6 @@ const extractResponseJson = (json, field) => {
   } else if (field === 'AudioInfo') {
     return {};
   }
-};
-
-/**
- * use regex to extract songnames from a string. default to whatever in 《》
- * @param {string} name
- * @returns parsed songname.
- */
-export const extractSongName = (name) => {
-  const nameReg = new RegExp('《.*》'); // For single-list BVID, we need to extract name from title
-  const res = nameReg.exec(name);
-  if (res) { return (res.length > 0 ? res[0].substring(1, res[0].length - 1) : ''); } // Remove the brackets
-
-  // var nameReg = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/ // Check if name is just one string, no special chars
-  // if(!nameReg.test(name))
-  return (name);
 };
 
 export const searchLyricOptions = async (searchKey, setOptions) => {

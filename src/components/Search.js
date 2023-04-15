@@ -16,7 +16,7 @@ import {
   getBilSearchList,
   getSongListFromAudio,
 } from '../background/DataProcess';
-import { dummyFavList } from '../objects/Storage';
+import { dummyFavList } from '../utils/ChromeStorage';
 
 export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: (`FavList-Special-Search-${uuidv4()}`) } }) => {
   const newList = dummyFavList('');
@@ -170,30 +170,28 @@ export const Search = function ({
 
   // <QueueMusicIcon fontSize='inherit'/>
   return (
-    <React.Fragment>
-      <Box // Top Grid -- Search
+    <Box // Top Grid -- Search
+      sx={{
+        gridArea: 'search',
+      }}
+    >
+      <Box // Serch Grid -- SearchBox
         sx={{
-          gridArea: 'search',
+          mx: 'auto', textAlign: 'left', overflow: 'hidden', height: '64px', paddingTop: '12px',
         }}
       >
-        <Box // Serch Grid -- SearchBox
-          sx={{
-            mx: 'auto', textAlign: 'left', overflow: 'hidden', height: '64px', paddingTop: '12px',
-          }}
-        >
-          { favListButton() }
-          <TextField
-            id="outlined-basic"
-            label="搜索b站url"
-            onKeyDown={keyPress}
-            onChange={onSearchTextChange}
-            value={searchValue}
-            type="search"
-            sx={{ width: '55%' }}
-          />
-          { progressBar() }
-        </Box>
+        { favListButton() }
+        <TextField
+          id="outlined-basic"
+          label="搜索b站url"
+          onKeyDown={keyPress}
+          onChange={onSearchTextChange}
+          value={searchValue}
+          type="search"
+          sx={{ width: '55%' }}
+        />
+        { progressBar() }
       </Box>
-    </React.Fragment>
+    </Box>
   );
 };
