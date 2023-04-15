@@ -1,8 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, {
+  useState, useContext, useEffect, useMemo,
+} from 'react';
 
 const TimerContext = React.createContext();
 
-export const TimerProvider = (props) => {
+export function TimerProvider(props) {
   const [minutes, setMinutes] = useState(30);
   const [seconds, setSeconds] = useState(0);
   const [originalMMSS, setOriginalMMSS] = useState([]);
@@ -52,15 +54,15 @@ export const TimerProvider = (props) => {
     };
   });
 
+  const value = useMemo(() => ({
+    minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
+  }), [minutes, seconds, startTimer]);
   return (
-    <TimerContext.Provider value={{
-      minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
-    }}
-    >
+    <TimerContext.Provider value={value}>
       {props.children}
     </TimerContext.Provider>
   );
-};
+}
 
 export default function useTimer() {
   const {

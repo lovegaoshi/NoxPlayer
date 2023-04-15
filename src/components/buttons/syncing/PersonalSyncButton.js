@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import { noxBackup, noxRestore } from '../../../utils/personalCloudAuth';
 import StorageManagerCtx from '../../../popup/App';
 
-export const ImportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
+export function ImportSyncFavButton(AddFavIcon, cloudAddress = undefined) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -45,9 +45,9 @@ export const ImportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
       </IconButton>
     </Tooltip>
   );
-};
+}
 
-export const ExportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
+export function ExportSyncFavButton(AddFavIcon, cloudAddress = undefined) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -83,9 +83,9 @@ export const ExportSyncFavButton = (AddFavIcon, cloudAddress = undefined) => {
       </IconButton>
     </Tooltip>
   );
-};
+}
 
-export const SetPersonalCloudTextField = (val, setVal) => {
+export function SetPersonalCloudTextField(val, setVal) {
   return (
     <TextField
       margin="dense"
@@ -98,4 +98,4 @@ export const SetPersonalCloudTextField = (val, setVal) => {
       placeholder="末尾带/"
     />
   );
-};
+}

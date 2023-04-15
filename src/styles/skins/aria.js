@@ -22,6 +22,11 @@ const gifs = [
   'https://i0.hdslb.com/bfs/garb/1c00ffe909e7324eb31c4925221cf90a7fa35cdd.png',
   'https://i0.hdslb.com/bfs/garb/22d1dfcea94c544a12f624aa5a9715c927a60516.png',
   'https://i0.hdslb.com/bfs/garb/5e4463c9fee7f78a8fcc0c5725c0353f1ff1d60f.png',
+  'https://i0.hdslb.com/bfs/new_dyn/b89a12f0fe3dfe431332d83cc26e6209527836.png',
+  'https://i0.hdslb.com/bfs/new_dyn/3934abd85fd904c58a20f5e9e37873e8389308.gif',
+  'https://i0.hdslb.com/bfs/new_dyn/42d391120ff6f84b43f7c5c2cb43c7ab10850238.jpg',
+  'https://i0.hdslb.com/bfs/new_dyn/a81baa9a225b8cb2b4bfbcfc47ae911c10850238.jpg',
+  'https://i0.hdslb.com/bfs/new_dyn/20597fb26855d4f2f29076bfe99821aa19193176.png',
 ];
 const dump = [
   'http://i0.hdslb.com/bfs/live/7764acb857ae97ce072f21985655dbb8509abdaa.png',

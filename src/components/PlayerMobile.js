@@ -169,7 +169,6 @@ export default function PlayerMobile ({ songList }) {
       />
       )}
       {params && (
-      <React.Fragment>
         <Box // Bottom Grid -- Footer
           display="flex"
           flex="1"
@@ -197,7 +196,6 @@ export default function PlayerMobile ({ songList }) {
             musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
           />
         </Box>
-      </React.Fragment>
       )}
     </React.Fragment>
   );

@@ -10,13 +10,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { getBiliUser } from '../../utils/personalCloudAuth';
 import { getPlayerSettingKey } from '../../objects/Storage';
 
-export default function ({
+export default function songRenameDialog({
   openState, songObj, onClose, saveList,
 }) {
   const [songBVID, setSongBVID] = useState('');
   const [songBVIndex, setSongBVIndex] = useState('');
   const [songName, setSongName] = useState('');
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const circularProgress = () => (<CircularProgress />);
 
   useEffect(() => {
     setSongBVID(songObj.bvid);
@@ -35,7 +36,7 @@ export default function ({
         // eslint-disable-next-line no-case-declarations
         const key = enqueueSnackbar(
           '正在连接歌名修订API……',
-          { variant: 'info', persist: true, action: () => { return (<CircularProgress />); } },
+          { variant: 'info', persist: true, action: circularProgress },
         );
         try {
           const res = await fetch(

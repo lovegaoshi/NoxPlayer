@@ -237,7 +237,7 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
           <FormControlLabel
             control={<Checkbox onChange={(e) => { setNoCookieBiliSearch(e.target.checked); }} />}
             checked={noCookieBiliSearch}
-            label="搜索时不使用b站cookie"
+            label="搜索时不用b号个性化推荐"
           />
         </Tooltip>
       </React.Fragment>
