@@ -27,7 +27,7 @@ export const checkBVLiked = (bvid, onChecked = () => {}) => {
   })
     .then((res) => res.json())
     .then((json) => onChecked(json.data))
-    .catch((error) => onChecked(undefined));
+    .catch(() => onChecked(undefined));
 };
 
 /**

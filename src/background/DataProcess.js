@@ -225,9 +225,9 @@ export const getBiliColleList = async ({
 };
 
 export const getBiliChannelList = async ({
-  mid, progressEmitter = (res) => {}, favList = [], useBiliTag = false,
+  url, progressEmitter = (res) => {}, favList = [], useBiliTag = false,
 }) => {
-  return getSongsFromBVids({ infos: await fetchBiliChannelList(mid, progressEmitter, favList), useBiliTag });
+  return getSongsFromBVids({ infos: await fetchBiliChannelList(url, progressEmitter, favList), useBiliTag });
 };
 
 export const getBilSearchList = async ({ mid, progressEmitter = (res) => {}, useBiliTag = false }) => {

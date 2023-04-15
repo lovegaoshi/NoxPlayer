@@ -4,10 +4,13 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import IconButton from '@mui/material/IconButton';
 import { useSnackbar } from 'notistack';
 import Tooltip from '@mui/material/Tooltip';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
+import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
 
 export function ExportFavButton(AddFavIcon) {
   const StorageManager = useContext(StorageManagerCtx);
+  // alls sync buttons are loaded/unloaded depending on the current sync setting;
+  // thus they all must have exactly the same states for react to mount and unmount to another set.
+  // even though they are not used.
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
   return (

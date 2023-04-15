@@ -25,6 +25,59 @@ export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单
   return newList;
 };
 
+const extractBiliSeries = ({
+  reExtracted, progressEmitter, favList, useBiliTag,
+}) => getBiliSeriesList({
+  mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag,
+});
+
+const extractBiliColle = ({
+  reExtracted, progressEmitter, favList, useBiliTag,
+}) => getBiliColleList({
+  mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag,
+});
+
+const extractBiliChannel = ({
+  url, progressEmitter, favList, useBiliTag,
+}) => getBiliChannelList({
+  url, progressEmitter, favList, useBiliTag,
+});
+
+const extractBiliAudio = ({
+  reExtracted, progressEmitter, favList,
+}) => getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList });
+
+const extractBiliVideo = ({
+  reExtracted, useBiliTag,
+}) => getSongList({ bvid: reExtracted[1], useBiliTag });
+
+const extractBiliFavList = ({
+  reExtracted, useBiliTag,
+}) => getFavList({
+  mid: reExtracted[1], progressEmitter, favList, useBiliTag,
+});
+
+const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
+  const reExtractions = [
+    [/space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/, extractBiliSeries],
+    [/space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/, extractBiliColle],
+    [/space.bilibili\.com\/(\d+)\/video/, extractBiliChannel],
+    [/bilibili.com\/audio\/au([^/?]+)/, extractBiliAudio],
+    [/(BV[^/?]+)/, extractBiliVideo],
+    [/.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/, extractBiliFavList],
+    [/.*bilibili\.com\/medialist\/detail\/ml(\d+)/, extractBiliFavList],
+  ];
+  for (const reExtraction of reExtractions) {
+    const reExtracted = reExtraction[0].exec(url);
+    if (reExtracted !== null) {
+      return await reExtraction[1]({
+        reExtracted, progressEmitter, favList, useBiliTag, url,
+      });
+    }
+  }
+  return await getBilSearchList({ mid: url, progressEmitter });
+};
+
 /**
  * searches various types of supported bilibili url (BVid, collection, series, favlist) and
  * returns the serached result.
@@ -40,49 +93,7 @@ export const searchBiliURLs = async ({
 }) => {
   const list = defaultSearchList({});
   try {
-    let reExtracted = /space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/.exec(input);
-    if (reExtracted !== null) {
-      list.songList = await getBiliSeriesList({
-        mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag,
-      });
-      return list;
-    }
-    reExtracted = /space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/.exec(input);
-    if (reExtracted !== null) {
-      list.songList = await getBiliColleList({
-        mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag,
-      });
-      return list;
-    }
-    // https://www.bilibili.com/video/BV1se4y147qM/
-    reExtracted = /space.bilibili\.com\/(\d+)\/video/.exec(input);
-    if (reExtracted !== null) {
-      list.songList = await getBiliChannelList({
-        mid: input, progressEmitter, favList, useBiliTag,
-      });
-      return list;
-    }
-    reExtracted = /bilibili.com\/audio\/au([^/?]+)/.exec(input);
-    if (reExtracted !== null) {
-      list.songList = await getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList });
-      return list;
-    }
-    input = extractWith(input, [
-      /(BV[^/?]+)/,
-      // favlist url from a channel page: https://space.bilibili.com/429765143/favlist?fid=452404943
-      /.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/,
-      // https://www.bilibili.com/medialist/detail/ml452404943?type=1
-      /.*bilibili\.com\/medialist\/detail\/ml(\d+)/,
-    ]);
-    if (input.startsWith('BV')) {
-      list.songList = await getSongList({ bvid: input, useBiliTag });
-    } else if (!Number.isNaN(Number(input))) {
-      list.songList = await getFavList({
-        mid: input, progressEmitter, favList, useBiliTag,
-      });
-    } else {
-      list.songList = await getBilSearchList({ mid: input, progressEmitter, useBiliTag });
-    }
+    list.songList = await reExtractSearch(input, progressEmitter, favList, useBiliTag);
   } catch (err) {
     console.warn(err);
   }

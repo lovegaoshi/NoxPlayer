@@ -27,7 +27,7 @@ import {
   SetPersonalCloudTextField,
 } from '../buttons/syncing/PersonalSyncButton';
 import { ExportSyncFavButton, ImportSyncFavButton } from '../buttons/syncing/DropboxSyncButton';
-import { ExportFavButton, ImportFavButton } from '../buttons/ImportExport';
+import { ExportFavButton, ImportFavButton } from '../buttons/syncing/LocalSyncButton';
 import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../utils/ChromeStorage';
 import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import PlayerResetButton from '../buttons/PlayerResetButton';
