@@ -7,7 +7,7 @@ import '../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FavList } from './FavList';
 import LyricOverlay from './LyricOverlay';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins, skinPreset } from '../styles/skin';
 import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
@@ -136,24 +136,22 @@ export default function Player ({ songList }) {
       )}
 
       {params && (
-      <React.Fragment>
-        <ReactJkMusicPlayer
-          {...params}
-          showMediaSession
-          onAudioVolumeChange={onAudioVolumeChange}
-          onPlayModeChange={onPlayModeChange}
-          onAudioError={onAudioError}
-          customDownloader={customDownloader}
-          onAudioProgress={onAudioProgress}
-          getAudioInstance={getAudioInstance}
-          onAudioPlay={onAudioPlay}
-          onCoverClick={onCoverClick}
-          onAudioListsChange={onAudioListsChange}
-          theme={skinPreset.desktopTheme}
-          musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
-          ref={(element) => { window.musicplayer = element; }}
-        />
-      </React.Fragment>
+      <ReactJkMusicPlayer
+        {...params}
+        showMediaSession
+        onAudioVolumeChange={onAudioVolumeChange}
+        onPlayModeChange={onPlayModeChange}
+        onAudioError={onAudioError}
+        customDownloader={customDownloader}
+        onAudioProgress={onAudioProgress}
+        getAudioInstance={getAudioInstance}
+        onAudioPlay={onAudioPlay}
+        onCoverClick={onCoverClick}
+        onAudioListsChange={onAudioListsChange}
+        theme={skinPreset.desktopTheme}
+        musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
+        ref={(element) => { window.musicplayer = element; }}
+      />
       )}
     </React.Fragment>
   );

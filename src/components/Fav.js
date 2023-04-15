@@ -43,7 +43,7 @@ import FavSettingsButtons from './buttons/FavSettingsButton';
 import SongSearchBar from './dialogs/songsearchbar';
 import Menu from './menus/Favmenu';
 import SongRenameDialog from './dialogs/SongRenameDialog';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { ScrollBar } from '../styles/styles';
 
 const { colorTheme } = skinPreset;

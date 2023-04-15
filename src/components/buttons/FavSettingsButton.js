@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
-import StorageManagerCtx from '../../popup/App';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import FavSettingsDialog from '../dialogs/FavSettingsDialog';
 import {
   getPlayerSettingKey, readLocalStorage, setLocalStorage, FAVLIST_AUTO_UPDATE_TIMESTAMP,
@@ -56,7 +56,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
     checkFavListAutoUpdate({ favList: currentList }).then((val) => {
       if (val) {
         setLoading(true);
-        rssUpdate().then((res) => setLoading(false)).catch((err) => setLoading(false));
+        rssUpdate().then(() => setLoading(false)).catch(() => setLoading(false));
       }
     });
   }, [currentList]);
@@ -68,7 +68,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
      */
   const handleRssUpdate = (subscribeUrls = undefined) => {
     setLoading(true);
-    rssUpdate(subscribeUrls).then((res) => setLoading(false)).catch((err) => setLoading(false));
+    rssUpdate(subscribeUrls).then(() => setLoading(false)).catch(() => setLoading(false));
   };
 
   /**

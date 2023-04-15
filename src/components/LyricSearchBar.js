@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { searchLyricOptions, searchLyric } from '../utils/Data';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 
 export default function LyricSearchBar ({
   SearchKey, SongId, setLyric, setLyricOffset,

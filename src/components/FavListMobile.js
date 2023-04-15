@@ -29,7 +29,7 @@ import rgba2rgb from '../utils/rgba2rgb';
 import HelpPanelButton from './buttons/HelpPanelButton';
 import useFavList, { updateSubscribeFavList } from '../hooks/useFavList';
 import TimerButton from './buttons/TimerButton';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
 import Fav from './FavMobile';

@@ -5,10 +5,10 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { AddFavDialog } from '../dialogs/AddFavDialog';
-import StorageManagerCtx from '../../popup/App';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { searchSongOnWeb, searchSongOnBili } from '../menus/Favmenu';
 
-export default ({ song }) => {
+export default function({ song }) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -56,4 +56,4 @@ export default ({ song }) => {
       />
     </React.Fragment>
   );
-};
+}

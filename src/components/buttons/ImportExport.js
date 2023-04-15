@@ -4,9 +4,9 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import IconButton from '@mui/material/IconButton';
 import { useSnackbar } from 'notistack';
 import Tooltip from '@mui/material/Tooltip';
-import StorageManagerCtx from '../../popup/App';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 
-export const ExportFavButton = (AddFavIcon) => {
+export function ExportFavButton(AddFavIcon) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -17,9 +17,9 @@ export const ExportFavButton = (AddFavIcon) => {
       </IconButton>
     </Tooltip>
   );
-};
+}
 
-export const ImportFavButton = (AddFavIcon) => {
+export function ImportFavButton(AddFavIcon) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -30,4 +30,4 @@ export const ImportFavButton = (AddFavIcon) => {
       </IconButton>
     </Tooltip>
   );
-};
+}

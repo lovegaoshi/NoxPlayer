@@ -3,7 +3,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsDialog from '../dialogs/PlayerSettingsDialog';
-import StorageManagerCtx from '../../popup/App';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 
 export default function PlayerSettingsButton({ AddFavIcon }) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);

@@ -2,7 +2,7 @@ import React, {
   useEffect, useState, useContext, useCallback,
 } from 'react';
 import { useConfirm } from 'material-ui-confirm';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { dummyFavList } from '../objects/Storage';
 import { searchBiliURLs, defaultSearchList } from '../components/Search';
 import { parseSongName } from '../utils/re';

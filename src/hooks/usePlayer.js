@@ -2,7 +2,7 @@ import React, {
   useEffect, useState, useContext, useCallback, useRef,
 } from 'react';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { getPlayerSettingKey } from '../objects/Storage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from '../components/buttons/ThumbsUpButton';

@@ -1,14 +1,10 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from './Layout';
 import { initSongList } from '../background/DataProcess';
-import StorageManager from '../objects/Storage';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
 
-// Persist instance of the program, manages R/W to local storage.
-const StorageManagerCtx = createContext();
-
-export const App = function App () {
+export default function App () {
   // The current playing list
   const [currentSongList, setCurrentSongList] = useState(null);
 
@@ -23,13 +19,9 @@ export const App = function App () {
   // console.log(currentSongList)
   return (
     <PlayerContextsProvider>
-      <StorageManagerCtx.Provider value={new StorageManager()}>
-        <PageLayout
-          songList={currentSongList}
-        />
-      </StorageManagerCtx.Provider>
+      <PageLayout
+        songList={currentSongList}
+      />
     </PlayerContextsProvider>
   );
-};
-
-export default StorageManagerCtx;
+}

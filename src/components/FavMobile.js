@@ -149,8 +149,7 @@ export default (function Fav({
   };
 
   return (
-    <React.Fragment>
-      {currentFavList && (
+    currentFavList && (
       <div>
         <Box sx={{ flexGrow: 1, height: '144px' }}>
           <Grid container spacing={2} style={{ paddingTop: '18px', paddingBottom: '8px' }}>
@@ -219,7 +218,7 @@ export default (function Fav({
                         {column.label}{column.id === 'name' ? `(${rows.length})` : ''}
                       </TableCell>
                     ))
-}
+                }
               </TableRow>
             </TableHead>
           </Table>
@@ -243,7 +242,6 @@ export default (function Fav({
           </div>
         </TableContainer>
       </div>
-      )}
-    </React.Fragment>
+    )
   );
 });

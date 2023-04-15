@@ -12,4 +12,4 @@ function StorageManagerProvider(props) {
   );
 }
 
-export { StorageManagerContext, StorageManagerProvider };
+export { StorageManagerContext as StorageManagerCtx, StorageManagerProvider };

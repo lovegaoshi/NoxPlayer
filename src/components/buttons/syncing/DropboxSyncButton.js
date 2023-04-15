@@ -6,9 +6,9 @@ import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { noxBackup, noxRestore, loginDropbox } from '../../../utils/dropboxauth';
-import StorageManagerCtx from '../../../popup/App';
+import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
 
-export const ImportSyncFavButton = (AddFavIcon) => {
+export function ImportSyncFavButton(AddFavIcon) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -48,9 +48,9 @@ export const ImportSyncFavButton = (AddFavIcon) => {
       </IconButton>
     </Tooltip>
   );
-};
+}
 
-export const ExportSyncFavButton = (AddFavIcon) => {
+export function ExportSyncFavButton(AddFavIcon) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -90,4 +90,4 @@ export const ExportSyncFavButton = (AddFavIcon) => {
       </IconButton>
     </Tooltip>
   );
-};
+}

@@ -8,7 +8,7 @@ import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 import { ScrollBar } from '../styles/styles';
 import LyricSearchBar from './LyricSearchBar';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skinPreset } from '../styles/skin';
 
 const { colorTheme } = skinPreset;
@@ -85,71 +85,67 @@ export default withStyles(styles)((props) => {
   const className = ScrollBar().root;
 
   return (
-    <React.Fragment>
-
-      <Grid container spacing={1} sx={{ maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' }}>
-        <Grid align="center" sx={{ alignItems: 'center', paddingBottom: 10, overflow: 'hidden' }} item xs={12}>
-          <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', marginTop: '10px' }}>
-            <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: 'hidden' }} item xs={12}>
-              <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', width: '90vw' }}>
-                <Grid align="right" sx={{ paddingTop: '8px', paddingRight: '2px', overflow: 'hidden' }} style={{ maxWidth: 'fit-content' }} item xs={3}>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    label="歌词补偿(ms)"
-                    InputProps={{
-                      className: classes.inputOffset,
-                      min: -9999,
-                      max: 9999,
-                    }}
-                    value={lyricOffset}
-                    onChange={onLrcOffsetChange}
-                  />
-                </Grid>
-                <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '8px', overflow: 'hidden' }} item xs={9}>
-                  <TextField
-                    variant="outlined"
-                    label="歌词搜索"
-                    InputProps={{
-                      className: classes.inputLrc,
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder={songTitle}
-                    onKeyDown={onEnterPress}
-                    type="search"
-                  />
-                </Grid>
+    <Grid container spacing={1} sx={{ maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' }}>
+      <Grid align="center" sx={{ alignItems: 'center', paddingBottom: 10, overflow: 'hidden' }} item xs={12}>
+        <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', marginTop: '10px' }}>
+          <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: 'hidden' }} item xs={12}>
+            <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', width: '90vw' }}>
+              <Grid align="right" sx={{ paddingTop: '8px', paddingRight: '2px', overflow: 'hidden' }} style={{ maxWidth: 'fit-content' }} item xs={3}>
+                <TextField
+                  type="number"
+                  variant="outlined"
+                  label="歌词补偿(ms)"
+                  InputProps={{
+                    className: classes.inputOffset,
+                    min: -9999,
+                    max: 9999,
+                  }}
+                  value={lyricOffset}
+                  onChange={onLrcOffsetChange}
+                />
+              </Grid>
+              <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '8px', overflow: 'hidden' }} item xs={9}>
+                <TextField
+                  variant="outlined"
+                  label="歌词搜索"
+                  InputProps={{
+                    className: classes.inputLrc,
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  placeholder={songTitle}
+                  onKeyDown={onEnterPress}
+                  type="search"
+                />
               </Grid>
             </Grid>
-
-            <Grid align="center" sx={{ paddingTop: '8px', overflow: 'hidden', width: '90vw' }} item xs={12}>
-              <LyricSearchBar
-                SearchKey={songTitle}
-                SongId={audioId}
-                setLyricOffset={setLyricOffset}
-                setLyric={onSongTitleChange}
-              />
-            </Grid>
-
           </Grid>
-        </Grid>
-        <Grid style={{ paddingBottom: 10, overflow: 'auto', maxHeight: '80%' }} item xs={12}>
-          <Lrc
-            className={className}
-            style={{ maxHeight: '100%' }}
-            lrc={lyric}
-            autoScroll
-            lineRenderer={lineRenderer}
-            currentMillisecond={+currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
-            intervalOfRecoveringAutoScrollAfterUserScroll={
-              INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL
-            }
-          />
+
+          <Grid align="center" sx={{ paddingTop: '8px', overflow: 'hidden', width: '90vw' }} item xs={12}>
+            <LyricSearchBar
+              SearchKey={songTitle}
+              SongId={audioId}
+              setLyricOffset={setLyricOffset}
+              setLyric={onSongTitleChange}
+            />
+          </Grid>
+
         </Grid>
       </Grid>
-
-    </React.Fragment>
+      <Grid style={{ paddingBottom: 10, overflow: 'auto', maxHeight: '80%' }} item xs={12}>
+        <Lrc
+          className={className}
+          style={{ maxHeight: '100%' }}
+          lrc={lyric}
+          autoScroll
+          lineRenderer={lineRenderer}
+          currentMillisecond={+currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
+          intervalOfRecoveringAutoScrollAfterUserScroll={
+              INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL
+            }
+        />
+      </Grid>
+    </Grid>
   );
 });

@@ -11,9 +11,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
@@ -24,7 +22,7 @@ import { skinPreset } from '../styles/skin';
 import PlayerSettingsButton from './buttons/PlayerSetttingsButton';
 import HelpPanelButton from './buttons/HelpPanelButton';
 import Menu from './menus/Favlistmenu';
-import StorageManagerCtx from '../popup/App';
+import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
 import { Fav } from './Fav';
@@ -96,10 +94,6 @@ export const FavList = memo(({
 
   const handlePlayListClick = (FavList2) => {
     onPlayAllFromFav(FavList2);
-  };
-
-  const handleAddPlayListClick = (FavList2) => {
-    onAddFavToList(FavList2.songList);
   };
 
   const loadToSearchList = (songList) => {
