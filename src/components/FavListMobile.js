@@ -142,10 +142,6 @@ export default memo(({
     handleClose();
   };
 
-  const handleAddPlayListClick = (FavList) => {
-    onAddFavToList(FavList.songList);
-  };
-
   const searchBarComponent = (playListIcon) => {
     return (
       <Search

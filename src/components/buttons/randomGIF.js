@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
-import { getRandomNumberExclude } from '../../styles/skins/utils';
+
+const getRandomNumberExclude = (randRange, exclude = -1) => {
+  if (exclude > 0) {
+    const val = Math.floor(Math.random() * (randRange - 1)) >> 0;
+    if (val === exclude) {
+      return randRange - 1;
+    }
+    return val;
+  }
+  return Math.floor(Math.random() * randRange) >> 0;
+};
 
 /**
  * returns a button that shows a random gif from the input array. when clicked, change the gif into another one.
@@ -8,7 +18,7 @@ import { getRandomNumberExclude } from '../../styles/skins/utils';
  * @param {array} favList an identifier/signal that changes the gif.
  * @param {function} onClickCallback extra onclick function when button is clicked.
  */
-export default ({ gifs, favList, onClickCallback = () => {} }) => {
+export default function randomGIFButton({ gifs, favList, onClickCallback = () => {} }) {
   const [randomGIFSrc, setRandomGIFSrc] = useState(getRandomNumberExclude(gifs.length, -1));
 
   useEffect(() => {
@@ -30,4 +40,4 @@ export default ({ gifs, favList, onClickCallback = () => {} }) => {
       />
     </IconButton>
   );
-};
+}

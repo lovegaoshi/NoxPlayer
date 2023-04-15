@@ -47,7 +47,7 @@ export default function PageLayout({ songList }) {
         <SnackbarProvider maxSnack={1}>
           <ConfirmProvider>
             <Box sx={OutmostBox} id="master-box" style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
-              <div className="container-fluid homepage-bgimage-mobile" align="center">
+              <div className="container-fluid homepage-bgimage-mobile">
                 {skinPreset.playerBackgroundMobileVideo
                   ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth} />
                   : <img id="player-bkgrd-mobile" alt="" className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth} />}
@@ -66,7 +66,7 @@ export default function PageLayout({ songList }) {
     <ThemeProvider theme={theme}>
       <SnackbarProvider maxSnack={1}>
         <ConfirmProvider>
-          <div className="container-fluid homepage-bgimage" align="center">
+          <div className="container-fluid homepage-bgimage">
             {skinPreset.playerBackgroundVideo
               ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={skinPreset.playerBackground} height={window.innerHeight} width={window.innerWidth} />
               : <img id="player-bkgrd" alt="" className="homepage-bgimage" src={skinPreset.playerBackground} height={window.innerHeight} width={window.innerWidth} />}
