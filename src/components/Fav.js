@@ -218,7 +218,7 @@ export const Fav = (function Fav ({
   const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
   const StorageManager = useContext(StorageManagerCtx);
 
-  const [songObjEdited, setSongObjEdited] = useState({});
+  const [songObjEdited, setSongObjEdited] = useState({ bvid: '', parsedName: '', index: '' });
   const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
 
   useHotkeys('left', () => handleChangePage(null, page - 1));

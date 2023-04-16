@@ -1,4 +1,5 @@
 import Bottleneck from 'bottleneck';
+import Youtube from 'youtube-stream-url';
 import Logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey } from './ChromeStorage';
@@ -47,7 +48,7 @@ const URL_AUDIO_PLAY_URL = 'https://www.bilibili.com/audio/music-service-c/web/u
 const URL_BVID_TO_CID = 'https://api.bilibili.com/x/player/pagelist?bvid={bvid}&jsonp=jsonp';
 /**
  *  Audio Basic Info
- * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/audio/info.md
+ * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/audio/info.md
  */
 const URL_AUDIO_INFO = 'https://www.bilibili.com/audio/music-service-c/web/song/info?sid={sid}';
 /**
@@ -91,8 +92,9 @@ const URL_QQ_SEARCH = 'https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key
  */
 const URL_QQ_LYRIC = 'https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1';
 
-const ENUMS = {
+export const ENUMS = {
   audioType: 'audio',
+  youtube: 'youtube.video',
 };
 
 /**
@@ -104,12 +106,33 @@ const ENUMS = {
  * @returns promise that resolves the media stream url.
  */
 export const fetchPlayUrlPromise = async (bvid, cid) => {
-  switch (cid) {
-    case ENUMS.audioType:
-      return fetchAudioPlayUrlPromise(bvid);
-    default:
-      return fetchVideoPlayUrlPromise(bvid, cid);
+  const cidStr = cid.toString();
+  if (cidStr.startsWith(ENUMS.audioType)) {
+    return fetchAudioPlayUrlPromise(bvid);
+  } if (cidStr.startsWith(ENUMS.youtube)) {
+    return fetchYoutubePromise(bvid);
   }
+  return fetchVideoPlayUrlPromise(bvid, cid);
+};
+
+export const fetchYoutubeVideo = async (ytbid) => {
+  return Youtube.getInfo({ url: ytbid, throwOnError: true });
+};
+
+/**
+ * extracts youtube hlp url using library youtube-stream-url
+ * https://github.com/dangdungcntt/youtube-stream-url
+ * @param {string} ytbid youtube video identifier.
+ */
+const fetchYoutubePromise = async (ytbid) => {
+  const extractedVideoInfo = await fetchYoutubeVideo(ytbid);
+  let maxAudioQualityStream = { bitrate: 0 };
+  for (const videoStream of extractedVideoInfo.formats) {
+    if (videoStream.loudnessDb && videoStream.bitrate > maxAudioQualityStream.bitrate) {
+      maxAudioQualityStream = videoStream;
+    }
+  }
+  return maxAudioQualityStream.url;
 };
 
 /**

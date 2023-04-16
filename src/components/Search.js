@@ -15,6 +15,7 @@ import {
   getBiliChannelList,
   getBilSearchList,
   getSongListFromAudio,
+  getYoutubeVideo,
 } from '../background/DataProcess';
 import { dummyFavList } from '../utils/ChromeStorage';
 
@@ -38,9 +39,9 @@ const extractBiliColle = ({
 });
 
 const extractBiliChannel = ({
-  url, progressEmitter, favList, useBiliTag,
+  reExtracted, progressEmitter, favList, useBiliTag,
 }) => getBiliChannelList({
-  url, progressEmitter, favList, useBiliTag,
+  url: reExtracted.input, progressEmitter, favList, useBiliTag,
 });
 
 const extractBiliAudio = ({
@@ -57,6 +58,14 @@ const extractBiliFavList = ({
   mid: reExtracted[1], progressEmitter, favList, useBiliTag,
 });
 
+/**
+ * assign the proper extractor based on the provided url. uses regex.
+ * @param {string} url
+ * @param {function} progressEmitter
+ * @param {array} favList
+ * @param {boolean} useBiliTag
+ * @returns
+ */
 const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
   const reExtractions = [
     [/space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/, extractBiliSeries],
@@ -66,12 +75,13 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
     [/(BV[^/?]+)/, extractBiliVideo],
     [/.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/, extractBiliFavList],
     [/.*bilibili\.com\/medialist\/detail\/ml(\d+)/, extractBiliFavList],
+    [/youtu(?:.*\/v\/|.*v=|\.be\/)([A-Za-z0-9_-]{11})/, ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] })],
   ];
   for (const reExtraction of reExtractions) {
     const reExtracted = reExtraction[0].exec(url);
     if (reExtracted !== null) {
       return await reExtraction[1]({
-        reExtracted, progressEmitter, favList, useBiliTag, url,
+        reExtracted, progressEmitter, favList, useBiliTag,
       });
     }
   }

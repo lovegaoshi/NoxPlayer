@@ -21,7 +21,7 @@ export default function songRenameDialog({
 
   useEffect(() => {
     setSongBVID(songObj.bvid);
-    setSongBVIndex(songObj.page);
+    setSongBVIndex(songObj.page ? songObj.page : '');
     setSongName(songObj.parsedName);
   }, [songObj]);
 
@@ -70,11 +70,10 @@ export default function songRenameDialog({
       </DialogTitle>
       <DialogContent>
         <TextField
-          autoFocus
           margin="dense"
-          id="name"
+          id="BVID"
           label="BVID"
-          type="name"
+          type="text"
           variant="standard"
           style={{ maxWidth: '11em' }}
           onChange={(e) => setSongBVID(e.target.value)}
@@ -83,11 +82,10 @@ export default function songRenameDialog({
         />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <TextField
-          autoFocus
           margin="dense"
-          id="name"
+          id="index"
           label="index"
-          type="name"
+          type="text"
           variant="standard"
           style={{ maxWidth: '3em' }}
           onChange={(e) => setSongBVIndex(e.target.value)}
@@ -100,7 +98,7 @@ export default function songRenameDialog({
           margin="dense"
           id="name"
           label="new name"
-          type="name"
+          type="text"
           variant="standard"
           onChange={(e) => setSongName(e.target.value)}
           value={songName}

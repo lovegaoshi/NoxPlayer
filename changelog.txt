@@ -1,6 +1,11 @@
 功能愿望单：
 白毛皮肤
 
+2.0.0.0:
+从react17升级到react18
+歌名搜索框用parsed:{歌名}即为完全匹配
+youtube支持alpha
+
 1.2.0.0:
 sync up电梓播放器 1.2.0.0
 整合b站click/web/h5 API，增加视频播放数

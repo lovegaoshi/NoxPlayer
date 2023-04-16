@@ -9,11 +9,34 @@ import {
   fetchAudioInfoRaw as fetchAudioInfo,
   fetchVideoTagPromise,
   fetchiliBVIDs,
+  fetchYoutubeVideo,
+  ENUMS,
 } from '../utils/Data';
 import Song, { setSongBiliShazamed } from '../objects/Song';
 
 const DEFAULT_BVID = 'BV1g34y1r71w';
 const LAST_PLAY_LIST = 'LastPlayList';
+/**
+ * extract.
+ * @param {string} bvid youtube video id.
+ * @returns
+ */
+export const getYoutubeVideo = async ({ bvid }) => {
+  const fullYoutubeUrl = `https://www.youtube.com/watch?v=${bvid}`;
+  const info = (await fetchYoutubeVideo(fullYoutubeUrl)).videoDetails;
+  console.log(await fetchYoutubeVideo(fullYoutubeUrl));
+  return ([new Song({
+    cid: `${ENUMS.youtube}-${bvid}`,
+    bvid: fullYoutubeUrl,
+    name: info.title,
+    singer: info.author,
+    singerId: info.channelId,
+    cover: info.thumbnail.thumbnails.slice(-1)[0].url,
+    musicSrc: () => { return fetchPlayUrlPromise(bvid, ENUMS.youtube); },
+    lyric: '',
+    page: 1,
+  })]);
+};
 
 /**
  * uses the bilibili tag API to acquire bilibili shazamed results to a video.
@@ -111,7 +134,7 @@ export const getSongListFromAudio = async ({ bvid }) => {
   if (info.pages.length === 1) {
     // lrc = await fetchLRC(info.title)
     return ([new Song({
-      cid: info.pages[0].cid,
+      cid: `${info.pages[0].cid}-${bvid}`,
       bvid,
       name: info.title,
       singer: info.uploader.name,
@@ -128,7 +151,7 @@ export const getSongListFromAudio = async ({ bvid }) => {
     const page = info.pages[index];
     // lrc = fetchLRC(page.part)
     songs.push(new Song({
-      cid: page.cid,
+      cid: `${page.cid}-${bvid}`,
       bvid,
       name: page.part,
       singer: info.uploader.name,
