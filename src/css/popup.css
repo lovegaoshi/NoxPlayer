@@ -69,3 +69,74 @@ body {
   background-color: #ffffff80;
   backdrop-filter: blur(35px);
 }
+
+@-webkit-keyframes fill { 
+  from {background-size: 100% 100%;}
+    to {
+        background-size: 100% 0; 
+    }
+}  
+
+@keyframes fill { 
+  from {background-size: 100% 100%;}
+    to { 
+        background-size: 100% 0;
+    }
+}
+
+@keyframes wiggle {
+  0% {-webkit-transform: rotate(10deg);}
+  5% {-webkit-transform: rotate(-10deg);}
+  10% {-webkit-transform: rotate(10deg);}
+  15% {-webkit-transform: rotate(-10deg);}
+  20% {-webkit-transform: rotate(10deg);}
+  25% {-webkit-transform: rotate(-10deg);}
+  30% {-webkit-transform: rotate(10deg);}
+  35% {-webkit-transform: rotate(-10deg);}
+  40% {-webkit-transform: rotate(10deg);}
+  45% {-webkit-transform: rotate(-10deg);}
+  50% {-webkit-transform: rotate(10deg);}
+  55% {-webkit-transform: rotate(-10deg);}
+  60% {-webkit-transform: rotate(10deg);}
+  65% {-webkit-transform: rotate(-10deg);}
+  70% {-webkit-transform: rotate(10deg);}
+  75% {-webkit-transform: rotate(-10deg);}
+  80% {-webkit-transform: rotate(10deg);}
+  85% {-webkit-transform: rotate(-10deg);}
+  90% {-webkit-transform: rotate(10deg);}
+  95% {-webkit-transform: rotate(-10deg);}
+  100% {-webkit-transform: rotate(10deg);}
+}
+
+@-webkit-keyframes wiggle {
+  0% {-webkit-transform: rotate(10deg);}
+  5% {-webkit-transform: rotate(-10deg);}
+  10% {-webkit-transform: rotate(10deg);}
+  15% {-webkit-transform: rotate(-10deg);}
+  20% {-webkit-transform: rotate(10deg);}
+  25% {-webkit-transform: rotate(-10deg);}
+  30% {-webkit-transform: rotate(10deg);}
+  35% {-webkit-transform: rotate(-10deg);}
+  40% {-webkit-transform: rotate(10deg);}
+  45% {-webkit-transform: rotate(-10deg);}
+  50% {-webkit-transform: rotate(10deg);}
+  55% {-webkit-transform: rotate(-10deg);}
+  60% {-webkit-transform: rotate(10deg);}
+  65% {-webkit-transform: rotate(-10deg);}
+  70% {-webkit-transform: rotate(10deg);}
+  75% {-webkit-transform: rotate(-10deg);}
+  80% {-webkit-transform: rotate(10deg);}
+  85% {-webkit-transform: rotate(-10deg);}
+  90% {-webkit-transform: rotate(10deg);}
+  95% {-webkit-transform: rotate(-10deg);}
+  100% {-webkit-transform: rotate(10deg);}
+}
+
+.cnh_holding {
+  background: -webkit-linear-gradient( white , white) rgb(255,215,235) no-repeat 0 0;
+  background: linear-gradient( white , white) rgb(255,215,235) no-repeat 0 0;
+  mix-blend-mode: multiply;
+  background-size: 100% 100%;
+  -webkit-animation: fill 2s forwards, wiggle 2s;
+  animation: fill 2s forwards, wiggle 2s;
+}

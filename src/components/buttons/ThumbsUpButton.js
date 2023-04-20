@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { jsx, css } from '@emotion/react';
+import ClickNHold from 'react-click-n-hold';
 import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
-import { checkBVLiked, sendBVLike } from '../../utils/BiliOperate';
+import { checkBVLiked, sendBVLike, sendBVTriple } from '../../utils/BiliOperate';
 /** @jsx jsx */
 import { skins } from '../../styles/skin';
 
@@ -33,13 +34,32 @@ export default function thumbsUpButton({ song }) {
     }
   };
 
+  function ThumbsUpClickNHold() {
+    const start = () => {};
+    const clickNHold = () => sendBVTriple(song.bvid, () => setLiked(1));
+    const end = (e, enough) => {
+      if (enough) return;
+      sendBVLike(song.bvid, () => setLiked(1));
+    };
+
+    return (
+      <ClickNHold
+        time={2} // Time to keep pressing. Default is 2
+        onStart={start} // Start callback
+        onClickNHold={clickNHold} // Timeout callback
+        onEnd={end}
+      >
+        <ThumbUpOffAltIcon />
+      </ClickNHold>
+    );
+  }
+
   return (
     <React.Fragment>
       <span
         className="group audio-download"
         // eslint-disable-next-line react/no-unknown-property
         css={buttonStyle}
-        onClick={onClick}
         title={
           liked === 1
             ? '已点赞'
@@ -52,9 +72,9 @@ export default function thumbsUpButton({ song }) {
 
       >
         {
-            liked === 1 ? <ThumbUpAltIcon />
-              : liked === 0 ? <ThumbUpOffAltIcon />
-                : <BiliBiliIconSVG />
+            liked === 1 ? <ThumbUpAltIcon onClick={onClick} />
+              : liked === 0 ? <ThumbsUpClickNHold />
+                : <BiliBiliIconSVG onClick={onClick} />
                     }
       </span>
     </React.Fragment>
