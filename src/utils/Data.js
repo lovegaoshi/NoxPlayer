@@ -4,6 +4,7 @@ import Logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey } from './ChromeStorage';
 import { extractSongName } from './re';
+import functionPromiseRetry from './retry';
 
 const logger = new Logger('Data.js');
 
@@ -193,9 +194,7 @@ export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmi
 };
 
 export const fetchVideoTagPromise = async ({ bvid, cid }) => {
-  return biliTagApiLimiter.schedule(() => {
-    return fetchVideoTagPromiseRaw({ bvid, cid });
-  });
+  return biliTagApiLimiter.schedule(() => fetchVideoTagPromiseRaw({ bvid, cid }));
 };
 
 /**
@@ -386,23 +385,25 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
   const BVids = [];
   const pagesPromises = [res];
 
-  for (let page = 2; page <= 1 + Math.floor(mediaCount / getPageSize(data)); page++) {
-    pagesPromises.push(fetch(url.replace('{pn}', page)));
+  for (let page = 2, n = 1 + Math.floor(mediaCount / getPageSize(data)); page < n; page++) {
+    pagesPromises.push(biliTagApiLimiter.schedule(() => fetch(url.replace('{pn}', page))));
   }
 
   let videoInfos = [];
-  await Promise.all(pagesPromises)
-    .then(async (v) => {
-      for (let index = 0, n = v.length; index < n; index++) {
-        // eslint-disable-next-line no-await-in-loop
-        await v[index].json().then((js) => getItems(js).map((m) => {
-          if (!favList.includes(m.bvid)) BVids.push(m.bvid);
-          return null;
-        }));
-      }
-      // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-      await fetchiliBVIDs(BVids, progressEmitter).then((resp) => videoInfos = resp.filter((item) => item !== undefined));
-    });
+  const processedPromises = await Promise.all(pagesPromises);
+  for (const pages of processedPromises) {
+    try {
+      const parsedJson = await pages.json();
+      getItems(parsedJson).map((m) => {
+        if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+        return null;
+      });
+    } catch {
+      console.error(pages);
+    }
+  }
+  // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
+  await fetchiliBVIDs(BVids, progressEmitter).then((resp) => videoInfos = resp.filter((item) => item !== undefined));
   return videoInfos;
 };
 
