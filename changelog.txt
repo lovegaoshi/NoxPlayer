@@ -1,5 +1,9 @@
 功能愿望单：
 白毛皮肤
+migrate to typescript
+
+2.1.0.0:
+按住点赞一键三连
 
 2.0.0.0:
 从react17升级到react18

@@ -10,7 +10,7 @@ export default {
   gifs,
   gifIcon: () => {
     return 'http://150.158.139.227:9527/getimg?imgserve=itsuki&file=ItsukiRandomGIF/Itsuki{count}.gif'
-      .replace('{count}', Math.floor(Math.random() * 2));
+      .replace('{count}', String(Math.floor(Math.random() * 2)));
   },
   appTitle: 'Itsuki-player',
   colorTheme: AzusaTheme.colorTheme,

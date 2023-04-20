@@ -1,5 +1,5 @@
 import {
-  setLocalStorage, readLocalStorage, storageCleanup, MY_FAV_LIST_KEY,
+  setLocalStorage, readLocalStorage, MY_FAV_LIST_KEY,
 } from '../ChromeStorage';
 import updater1118 from './1.1.1.8';
 import updater1119 from './1.1.1.9';

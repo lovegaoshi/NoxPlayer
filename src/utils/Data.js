@@ -139,7 +139,7 @@ const fetchYoutubePromise = async (ytbid) => {
 /**
  * returns the bilibili video stream url given a bvid and cid.
  * @param {string} bvid video's bvid. starts with BV.
- * @param {string} cid optional; if not provided, bvid is used to fetch cid. note
+ * @param {string | undefined} cid optional; if not provided, bvid is used to fetch cid. note
  * some videos have episodes that this may not be accurate.
  * @returns
  */
