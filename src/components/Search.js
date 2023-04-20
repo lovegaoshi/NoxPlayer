@@ -53,7 +53,7 @@ const extractBiliVideo = ({
 }) => getSongList({ bvid: reExtracted[1], useBiliTag });
 
 const extractBiliFavList = ({
-  reExtracted, useBiliTag,
+  reExtracted, progressEmitter, favList, useBiliTag,
 }) => getFavList({
   mid: reExtracted[1], progressEmitter, favList, useBiliTag,
 });
