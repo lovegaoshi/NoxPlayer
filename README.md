@@ -103,3 +103,5 @@ nox used a modified version of react-jinke-music-player (specified memo on audio
 音乐视频平台不易，请尊重版权，支持正版。<br>
 Contact: kenmingwang1234@gmail.com <br>
 Bilibili: [\_Nek7mi](https://space.bilibili.com/1989881)
+
+New-Item -ItemType SymbolicLink -Path "D:\PythonLib\github\azusa-player\Dependencies\react-jinke-music-player" -Target D:\PythonLib\github\react-music-player

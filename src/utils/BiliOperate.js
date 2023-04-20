@@ -79,6 +79,7 @@ export const checkBiliVideoPlayed = (bvid) => {
  * @param {number} cid
  */
 export const initBiliHeartbeat = async ({ bvid, cid }) => {
+  if (Number.isNaN(parseInt(cid, 10))) return;
   fetch(BILI_VIDEOPLAY_API, {
     method: 'POST',
     headers: {

@@ -523,18 +523,24 @@ export const fetchBiliSearchList = async (kword, progressEmitter) => {
       url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: 'dummyval',
     });
   }
-  const val = await fetchBiliPaginatedAPI(
-    URL_BILI_SEARCH.replace('{keyword}', kword),
-    (data) => { return Math.min(data.numResults, data.pagesize * 2 - 1); },
-    (data) => { return data.pagesize; },
-    (js) => { return js.data.result; },
-    progressEmitter,
-    [],
-  );
-  if (noCookieSearch) {
-    await chrome.cookies.set({
-      url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: cookieSESSDATA.value,
-    });
+  let val = [];
+  try {
+    val = await fetchBiliPaginatedAPI(
+      URL_BILI_SEARCH.replace('{keyword}', kword),
+      (data) => { return Math.min(data.numResults, data.pagesize * 2 - 1); },
+      (data) => { return data.pagesize; },
+      (js) => { return js.data.result; },
+      progressEmitter,
+      [],
+    );
+  } catch (e) {
+    console.error(e);
+  } finally {
+    if (noCookieSearch) {
+      await chrome.cookies.set({
+        url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: cookieSESSDATA.value,
+      });
+    }
   }
   return val;
 };
