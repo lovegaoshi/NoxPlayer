@@ -245,6 +245,7 @@ export const reExtractSongName = (filename: string, uploader: number = 0) => {
         [
           /【.+】(.+)/,
           /\d+\.(.+)/,
+          /\d+ (.+)/,
           /第.+首(.+)/,
           /(.+) \/ HACHI/,
         ],
