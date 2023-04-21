@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
  * @param {*} texts
  */
 // eslint-disable-next-line import/prefer-default-export
-export const textToDialogContent = (texts) => {
+export const textToDialogContent = (texts: Array<string>) => {
   return (
     <DialogContent>
       {texts.map((val) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 
-export default React.forwardRef(({ requestSearch }, ref) => {
+export default React.forwardRef(({ requestSearch } : { requestSearch: (e: any) => void }, ref) => {
   return (
     <TextField
       id="outlined-basic"
