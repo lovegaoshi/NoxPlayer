@@ -5,8 +5,11 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { SnackbarProvider } from 'notistack';
 import { skinPreset } from '../styles/skin';
-import PlayerMobile from '../components/PlayerMobile';
-import Player from '../components/Player';
+// import PlayerMobile from '../components/PlayerMobile';
+// import Player from '../components/Player';
+
+const PlayerMobile = React.lazy(() => import('../components/PlayerMobile'));
+const Player = React.lazy(() => import('../components/Player'));
 
 const { colorTheme } = skinPreset;
 
@@ -43,6 +46,7 @@ export default function PageLayout({ songList, backgroundSrc }) {
   if (isMobile()) {
     return (
     // Outmost layer of the page
+    <React.Suspense fallback = {<h1>Loading...</h1>}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={1}>
           <ConfirmProvider>
@@ -59,32 +63,35 @@ export default function PageLayout({ songList, backgroundSrc }) {
           </ConfirmProvider>
         </SnackbarProvider>
       </ThemeProvider>
+    </React.Suspense>
     );
   }
   return (
-  // Outmost layer of the page
-    <ThemeProvider theme={theme}>
-      <SnackbarProvider maxSnack={1}>
-        <ConfirmProvider>
-          <div className="container-fluid homepage-bgimage">
-            {skinPreset.playerBackgroundVideo
-              ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />
-              : <img id="player-bkgrd" alt="" className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />}
-          </div>
-          <Box
-            sx={OutmostBox}
-            id="master-box"
-            style={{
-              backgroundColor: colorTheme.PCBackgroundColor,
-              backgroundBlendMode: 'overlay',
-            }}
-          >
-            <Box sx={PlayerBox}>
-              <Player songList={songList} />
+    // Outmost layer of the page
+    <React.Suspense fallback = {<h1>Loading...</h1>}>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={1}>
+          <ConfirmProvider>
+            <div className="container-fluid homepage-bgimage">
+              {skinPreset.playerBackgroundVideo
+                ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />
+                : <img id="player-bkgrd" alt="" className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />}
+            </div>
+            <Box
+              sx={OutmostBox}
+              id="master-box"
+              style={{
+                backgroundColor: colorTheme.PCBackgroundColor,
+                backgroundBlendMode: 'overlay',
+              }}
+            >
+              <Box sx={PlayerBox}>
+                <Player songList={songList} />
+              </Box>
             </Box>
-          </Box>
-        </ConfirmProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
+          </ConfirmProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </React.Suspense>
   );
 }
