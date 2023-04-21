@@ -139,7 +139,7 @@ const fetchYoutubePromise = async (ytbid) => {
 /**
  * returns the bilibili video stream url given a bvid and cid.
  * @param {string} bvid video's bvid. starts with BV.
- * @param {string} cid optional; if not provided, bvid is used to fetch cid. note
+ * @param {string | undefined} cid optional; if not provided, bvid is used to fetch cid. note
  * some videos have episodes that this may not be accurate.
  * @returns
  */
@@ -348,7 +348,7 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
   const BVidPromises = [];
   for (let i = 0, n = data.archives.length; i < n; i++) {
     if (favList.includes(data.archives[i].bvid)) {
-      console.debug('skipped duplicate bvid during rss feed update', data.archives[i].bvid);
+      console.debug('fetchBiliSeriesList: skipped duplicate bvid during rss feed update', data.archives[i].bvid);
       continue;
     }
     BVidPromises.push(fetchVideoInfo(data.archives[i].bvid, () => { progressEmitter(parseInt(100 * (i + 1) / data.archives.length)); }));
@@ -384,11 +384,9 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
-
-  for (let page = 2, n = 1 + Math.floor(mediaCount / getPageSize(data)); page < n; page++) {
+  for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
     pagesPromises.push(biliTagApiLimiter.schedule(() => fetch(url.replace('{pn}', page))));
   }
-
   let videoInfos = [];
   const processedPromises = await Promise.all(pagesPromises);
   for (const pages of processedPromises) {
@@ -528,7 +526,7 @@ export const fetchBiliSearchList = async (kword, progressEmitter) => {
   try {
     val = await fetchBiliPaginatedAPI(
       URL_BILI_SEARCH.replace('{keyword}', kword),
-      (data) => { return Math.min(data.numResults, data.pagesize * 2 - 1); },
+      (data) => { return Math.min(data.numResults, data.pagesize * 2); },
       (data) => { return data.pagesize; },
       (js) => { return js.data.result; },
       progressEmitter,

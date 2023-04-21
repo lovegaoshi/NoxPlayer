@@ -1,3 +1,5 @@
+import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+
 const gifs = [
   'https://i0.hdslb.com/bfs/article/956a1680d1408517d60e901b63eded873fe1ed5f.gif',
   'https://i0.hdslb.com/bfs/article/b845058b7aaff1f51228c7369b473999ffcb7ee7.gif',
@@ -15,8 +17,9 @@ const gifs = [
 ];
 export default {
   playerBanner: 'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
-  playerBannerMobile: 'https://cdn.donmai.us/sample/b8/10/__azusa_nijisanji_and_2_more_drawn_by_bsmycc__sample-b8106d3890e42fc9bfcd896a648a6c80.jpg',
-  playerBackground: 'http://i0.hdslb.com/bfs/live/room_bg/36d425e9205e7b0e583580fe44a5b80bb0a70b0d.jpg',
+  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/sample/b8/10/__azusa_nijisanji_and_2_more_drawn_by_bsmycc__sample-b8106d3890e42fc9bfcd896a648a6c80.jpg'); }),
+  playerBackground: async () => await fetchVideoPlayUrlPromise('BV11S4y1d7v9', undefined, 'VideoUrl'), // BV1Sb4y1i79D
+  playerBackgroundVideo: true,
   gifs,
   gifIcon: () => {
     return gifs[Math.floor(Math.random() * gifs.length) >> 0];

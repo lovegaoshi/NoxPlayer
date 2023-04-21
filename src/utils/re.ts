@@ -1,9 +1,10 @@
+import Song from '../objects/Song';
 /**
  * use regex to extract songnames from a string. default to whatever in 《》
  * @param {string} name
  * @returns parsed songname.
  */
-export const extractSongName = (name) => {
+export const extractSongName = (name: string) => {
   const nameReg = /《.*》/; // For single-list BVID, we need to extract name from title
   const res = nameReg.exec(name);
   if (res) { return (res.length > 0 ? res[0].substring(1, res[0].length - 1) : ''); } // Remove the brackets
@@ -18,7 +19,7 @@ export const extractSongName = (name) => {
  * @param {string} filename
  * @returns  the extracted string
  */
-export const extractParenthesis = (filename) => {
+export const extractParenthesis = (filename: string) => {
   return extractWith(filename, [/(.+)[（(].+/]);
 };
 
@@ -29,10 +30,10 @@ export const extractParenthesis = (filename) => {
  * @param {Array} reExpressions
  * @returns the extracted string
  */
-export const extractWith = (filename, reExpressions = []) => {
-  for (let i = 0, n = reExpressions.length; i < n; i++) {
-    const extracted = reExpressions[i].exec(filename);
-    if (extracted !== null) {
+export const extractWith = (filename: string, reExpressions: Array<RegExp> = []) => {
+  for (const regex of reExpressions) {
+    const extracted = regex.exec(filename);
+    if (extracted !== null && extracted[1]) {
       return extracted[1];
     }
   }
@@ -45,7 +46,7 @@ export const extractWith = (filename, reExpressions = []) => {
  * @param {number} uploader uploader UID. note this uses song.singerId
  * @returns extracted song name.
  */
-export const reExtractSongName = (filename, uploader = 0) => {
+export const reExtractSongName = (filename: string, uploader: number = 0) => {
   switch (uploader) {
     case 5053504://
     case 3493085134719196: // "王胡桃w":
@@ -402,6 +403,15 @@ export const reExtractSongName = (filename, uploader = 0) => {
         ],
       );
       break;
+    case 440738032: // 安可周报
+    // 【超可爱2D演绎】强风大背头，假发都吹掉了！「強風オールバック」
+      filename = extractWith(
+        extractParenthesis(filename),
+        [
+          /「(.+)」/,
+        ],
+      );
+      break;
     case 37754047: // 咻咻满
       filename = extractWith(
         extractParenthesis(filename),
@@ -497,13 +507,13 @@ export const reExtractSongName = (filename, uploader = 0) => {
   return extractSongName(filename);
 };
 
-export const getName = (song, parsed = false) => {
+export const getName = (song: Song, parsed = false) => {
   if (parsed) {
     return song.parsedName ? song.parsedName : song.name;
   }
   return song.name;
 };
 
-export const parseSongName = (song) => {
+export const parseSongName = (song: Song) => {
   song.parsedName = reExtractSongName(song.name, song.singerId);
 };

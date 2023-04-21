@@ -1,3 +1,20 @@
+import Song from '../objects/Song';
+
+interface SongOccurenceDict {
+  [name: string] : number
+}
+
+interface AnalyticsResult {
+  bvid: Set<string>,
+  totalCount: number,
+  validShazamCount: number,
+  invalidShazamCount: number,
+  songOccurrence: SongOccurenceDict,
+  songsSorted: Array<[string, number]>,
+  songsUnique: Set<string>,
+  songTop10: Array<[string, number]>,
+}
+
 /**
  * top 10 most common songs
  * # of songs with valid names vs just numbers
@@ -5,8 +22,8 @@
  * use mui-confirm with a provided content
  * @param {*} favList
  */
-export default (favList) => {
-  const results = {
+export default (favList: { songList: Array<Song> }) => {
+  const results: AnalyticsResult = {
     bvid: new Set(),
     totalCount: 0,
     validShazamCount: 0,
@@ -14,9 +31,10 @@ export default (favList) => {
     songOccurrence: {},
     songsSorted: [],
     songsUnique: new Set(),
+    songTop10: [],
   };
   for (let i = 0, n = favList.songList.length; i < n; i++) {
-    const song = favList.songList[n - i - 1];
+    const song = favList.songList[n - i - 1]!;
     results.bvid.add(song.bvid);
     results.totalCount += 1;
     if (Number.isNaN(Number(song.parsedName))) {

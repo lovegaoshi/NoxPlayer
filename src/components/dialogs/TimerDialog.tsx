@@ -16,7 +16,7 @@ import useTimer from '../../contexts/TimerContext';
 /**
  *
  */
-export default function({ openState, onClose }) {
+export default function TimerDialog({ openState, onClose } : {openState: boolean, onClose: () => void}) {
   const {
     minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
   } = useTimer();

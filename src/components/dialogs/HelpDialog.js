@@ -13,7 +13,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { textToDialogContent } from './genericDialog';
 import changelogTxt from '../../../changelog.txt';
 
-export default function({ onClose, openState }) {
+export default function HelpDialog({ onClose, openState }) {
   const confirm = useConfirm();
   const openChangelogWindow = (val) => {
     confirm({

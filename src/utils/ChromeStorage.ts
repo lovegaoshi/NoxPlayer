@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import Song from '../objects/Song';
 
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 export const INITIAL_PLAYLIST = ['5053504', '2664851'];
@@ -16,7 +17,38 @@ export const EXPORT_OPTIONS = {
   personal: '私有云',
 };
 
-export const dummyFavList = (favName) => {
+interface PlayerSettingDict {
+  playMode: string;
+  defaultPlayMode: string;
+  defaultVolume: number,
+  autoRSSUpdate: boolean,
+  skin: string,
+  parseSongName: boolean,
+  keepSearchedSongListWhenPlaying: boolean,
+  settingExportLocation: string,
+  personalCloudIP: string,
+  noxVersion: string,
+  hideCoverInMobile: boolean,
+  loadPlaylistAsArtist: boolean,
+  sendBiliHeartbeat: boolean,
+  noCookieBiliSearch: boolean,
+  [key: string]: any;
+}
+
+export interface PlayListDict {
+  songList: Array<Song>;
+  info: { title: string, id: string };
+  subscribeUrls: Array<string>;
+  settings: {
+    autoRSSUpdate: boolean,
+  };
+  useBiliShazam: boolean;
+  bannedBVids: Array<string>;
+  showFavoriteList: boolean;
+  [key: string]: any;
+}
+
+export const dummyFavList = (favName: string): PlayListDict => {
   return {
     songList: [],
     info: { title: favName, id: (`FavList-${uuidv4()}`) },
@@ -32,7 +64,7 @@ export const dummyFavList = (favName) => {
   };
 };
 
-export const dummyFavListFromList = (list) => {
+export const dummyFavListFromList = (list: PlayListDict) => {
   const newList = dummyFavList('');
   for (const [key, val] of Object.entries(list)) {
     newList[key] = val;
@@ -46,7 +78,7 @@ export const dummyFavFavList = () => {
   return favfavlist;
 };
 
-export const DEFAULT_SETTING = {
+export const DEFAULT_SETTING: PlayerSettingDict = {
   playMode: 'shufflePlay',
   defaultPlayMode: 'shufflePlay',
   defaultVolume: 1,
@@ -69,7 +101,7 @@ export const DEFAULT_SETTING = {
  * @param {string} key
  * @returns
  */
-export const readLocalStorage = async (key) => {
+export const readLocalStorage = async (key: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([key], (result) => {
       resolve(result[key]);
@@ -77,11 +109,11 @@ export const readLocalStorage = async (key) => {
   });
 };
 
-export const setLocalStorage = async (key, val) => {
+export const setLocalStorage = async (key: string, val: object | string) => {
   chrome.storage.local.set({ [key]: val });
 };
 
-export const saveFav = async (updatedToList) => {
+export const saveFav = async (updatedToList: PlayListDict) => {
   return await chrome.storage.local.set({ [updatedToList.info.id]: updatedToList });
 };
 
@@ -90,11 +122,10 @@ export const saveFav = async (updatedToList) => {
  * if setting is not initialized, initialize and return the default one.
  * @returns playerSetting
  */
-export const getPlayerSetting = async () => {
-  const settings = await readLocalStorage(PLAYER_SETTINGS);
+export const getPlayerSetting = async (): Promise<PlayerSettingDict> => {
+  const settings = await readLocalStorage(PLAYER_SETTINGS) as PlayerSettingDict;
   // console.log(settings)
   if (settings === undefined) {
-    this.setPlayerSetting(DEFAULT_SETTING);
     return DEFAULT_SETTING;
   }
   return (settings);
@@ -106,9 +137,9 @@ export const getPlayerSetting = async () => {
  * @param {string} key
  * @returns value in playerSetting
  */
-export const getPlayerSettingKey = async (key = null) => {
-  const settings = await getPlayerSetting();
-  if (key === null) {
+export const getPlayerSettingKey = async (key: string | undefined = undefined) => {
+  const settings = (await getPlayerSetting())!;
+  if (key === undefined) {
     return settings;
   }
   // eslint-disable-next-line no-prototype-builtins
@@ -118,6 +149,6 @@ export const getPlayerSettingKey = async (key = null) => {
   return DEFAULT_SETTING[key];
 };
 
-export const saveMyFavList = (newList, callbackFunc = () => { console.debug('saveMyFavList called.'); }) => {
-  chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map((v) => v.info.id) }, callbackFunc);
+export const saveMyFavList = (newList: PlayListDict, callbackFunc = () => { console.debug('saveMyFavList called.'); }) => {
+  chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.info.id) }, callbackFunc);
 };

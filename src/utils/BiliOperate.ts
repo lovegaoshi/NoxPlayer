@@ -10,7 +10,7 @@ const BILI_VIDEOINFO_API = 'https://api.bilibili.com/x/web-interface/view?bvid='
  * @param {string} name name of the cookie, eg SESSIONDATA
  * @returns
  */
-const getCookie = async (domain, name) => {
+const getCookie = async (domain: string, name: string) => {
   return chrome.cookies.get({ url: domain, name });
 };
 
@@ -21,10 +21,10 @@ const getCookie = async (domain, name) => {
  * @param {function} onChecked callback  function with the input parameter of the
  * looked up json API return.
  */
-export const checkBVLiked = (bvid, onChecked = () => {}) => {
+export const checkBVLiked = (bvid: string, onChecked: Function = () => {}) => {
   fetch(`https://api.bilibili.com/x/web-interface/archive/has/like?bvid=${bvid}`, {
     credentials: 'include',
-    referer: `https://www.bilibili.com/video/${bvid}/`,
+    referrer: `https://www.bilibili.com/video/${bvid}/`,
   })
     .then((res) => res.json())
     .then((json) => onChecked(json.data))
@@ -37,7 +37,7 @@ export const checkBVLiked = (bvid, onChecked = () => {}) => {
  * @param {function} onLiked callback function with the input parameter of the
  * looked up json API return.
  */
-export const sendBVLike = (bvid, onLiked = () => {}) => {
+export const sendBVLike = (bvid: string, onLiked = (json: object) => {}) => {
   getCookie('https://www.bilibili.com', 'bili_jct')
     .then((promised) => {
       fetch(BILI_LIKE_API, {
@@ -48,12 +48,11 @@ export const sendBVLike = (bvid, onLiked = () => {}) => {
         },
         // i dont think this is necessary anymore?
         referrerPolicy: 'unsafe-url',
-        origin: 'https://www.bilibili.com',
-        referer: `https://www.bilibili.com/video/${bvid}/`,
+        referrer: `https://www.bilibili.com/video/${bvid}/`,
         body: new URLSearchParams({
           bvid,
           like: '1',
-          csrf: promised.value,
+          csrf: promised ? promised.value : '',
         }),
       })
         .then((res) => res.json())
@@ -62,7 +61,7 @@ export const sendBVLike = (bvid, onLiked = () => {}) => {
     });
 };
 
-export const sendBVTriple = (bvid, onLiked = () => {}) => {
+export const sendBVTriple = (bvid: string, onLiked = (json: object) => {}) => {
   getCookie('https://www.bilibili.com', 'bili_jct')
     .then((promised) => {
       fetch(BILI_TRIP_API, {
@@ -73,11 +72,10 @@ export const sendBVTriple = (bvid, onLiked = () => {}) => {
         },
         // i dont think this is necessary anymore?
         referrerPolicy: 'unsafe-url',
-        origin: 'https://www.bilibili.com',
-        referer: `https://www.bilibili.com/video/${bvid}/`,
+        referrer: `https://www.bilibili.com/video/${bvid}/`,
         body: new URLSearchParams({
           bvid,
-          csrf: promised.value,
+          csrf: promised ? promised.value : '',
         }),
       })
         .then((res) => res.json())
@@ -90,7 +88,7 @@ export const sendBVTriple = (bvid, onLiked = () => {}) => {
  * checks a video played count, for debug use.
  * @param {string} bvid
  */
-export const checkBiliVideoPlayed = (bvid) => {
+export const checkBiliVideoPlayed = (bvid: string) => {
   fetch(BILI_VIDEOINFO_API + bvid)
     .then((res) => res.json())
     .then((json) => console.debug(`${bvid} view count:${json.data.stat.view}`))
@@ -103,7 +101,7 @@ export const checkBiliVideoPlayed = (bvid) => {
  * @param {string} bvid
  * @param {number} cid
  */
-export const initBiliHeartbeat = async ({ bvid, cid }) => {
+export const initBiliHeartbeat = async ({ bvid, cid }: { bvid: string, cid: string }) => {
   if (Number.isNaN(parseInt(cid, 10))) return;
   fetch(BILI_VIDEOPLAY_API, {
     method: 'POST',
@@ -126,7 +124,7 @@ export const initBiliHeartbeat = async ({ bvid, cid }) => {
  * @param {number} cid
  * @param {number} time
  */
-export const sendBiliHeartbeat = async ({ bvid, cid, time }) => {
+export const sendBiliHeartbeat = async ({ bvid, cid, time }: { bvid: string, cid: string, time: string }) => {
   fetch(BILI_HEARTBEAT_API, {
     method: 'POST',
     headers: {
@@ -138,8 +136,8 @@ export const sendBiliHeartbeat = async ({ bvid, cid, time }) => {
       realtime: time,
       played_time: time,
       real_played_time: time,
-      dt: 2,
-      play_type: 1,
+      dt: '2',
+      play_type: '1',
     }),
   });
 };

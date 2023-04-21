@@ -38,8 +38,6 @@ export default function TimerButton ({ AddFavIcon, btnType = 'IconButton' }) {
         id="TimerDialog"
         openState={openSettingsDialog}
         onClose={() => setOpenSettingsDialog(false)}
-        onTimerUp={() => document.getElementsByClassName('music-player-audio')[0].pause()}
-        keepMounted
       />
     </React.Fragment>
   );

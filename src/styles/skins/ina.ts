@@ -1,17 +1,20 @@
 import AzusaTheme from './azusa';
 
 const gifs = [
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/roki.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/recorder.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/calliop3.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/interrupted_by_bird.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/toilet_rap.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/drinking_party.gif?raw=true',
-  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/cantaloupe.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/violet.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/dance.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/cake1.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/pogo.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/mixing.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/gravity_gun.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/wake.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/bonk.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/tako_drawing.gif?raw=true',
+  'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/consume_noodles.gif?raw=true',
 ];
 export default {
   playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Gura/GuraBanner.png',
-  playerBannerMobile: 'https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg',
+  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg'); }),
   // 'https://cdn.donmai.us/sample/0d/19/__gawr_gura_and_bloop_hololive_and_1_more_drawn_by_rukako__sample-0d19f403ca5f21106aa2a6cbd1afdb80.jpg',
   // https://cdn.donmai.us/sample/98/69/__gawr_gura_hololive_and_1_more_drawn_by_gueya__sample-98697219522d92d9b39ed6c79d09c456.jpg
   gifs,

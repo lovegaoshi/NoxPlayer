@@ -62,7 +62,7 @@ export const noxRestore = async (cloudAddress = getPlayerSettingKey('personalClo
  * @param {string} cloudAddress web address for your personal cloud.
  * @returns
  */
-export const noxBackup = async (content, cloudAddress = getPlayerSettingKey('personalCloudIP')) => {
+export const noxBackup = async (content: Blob, cloudAddress = getPlayerSettingKey('personalCloudIP')) => {
   try {
     return await fetch(
       `${await cloudAddress}upload`,
@@ -72,7 +72,7 @@ export const noxBackup = async (content, cloudAddress = getPlayerSettingKey('per
           Accept: 'application/json',
           'Content-Type': 'application/json',
           userid: encodeURIComponent(await getBiliUserKey()),
-          'secret-key': process.env.PERSONAL_CLOUD_SECRET,
+          'secret-key': process.env.PERSONAL_CLOUD_SECRET!,
           'Content-Encoding': 'gzip',
         },
         body: content,

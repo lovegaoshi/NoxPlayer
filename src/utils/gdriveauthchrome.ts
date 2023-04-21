@@ -1,5 +1,5 @@
 let authUrl = 'https://accounts.google.com/o/oauth2/auth?';
-const clientId = process.env.CHROMEAPP_CLIENT_ID; // must be Web Application type
+const clientId = process.env.CHROMEAPP_CLIENT_ID!; // must be Web Application type
 // https://stackoverflow.com/questions/40411493/can-chrome-identity-launchwebauthflow-be-used-to-authenticate-against-google-api
 export default () => {
   console.debug(chrome.identity.getRedirectURL());
