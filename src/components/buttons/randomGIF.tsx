@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
+import { PlayListDict } from '../../utils/ChromeStorage';
 
-const getRandomNumberExclude = (randRange, exclude = -1) => {
+const getRandomNumberExclude = (randRange: number, exclude = -1) => {
   if (exclude > 0) {
     const val = Math.floor(Math.random() * (randRange - 1)) >> 0;
     if (val === exclude) {
@@ -12,13 +13,19 @@ const getRandomNumberExclude = (randRange, exclude = -1) => {
   return Math.floor(Math.random() * randRange) >> 0;
 };
 
+interface randomGIFParam {
+  gifs: Array<string>;
+  favList: string;
+  onClickCallback: () => void;
+}
+
 /**
  * returns a button that shows a random gif from the input array. when clicked, change the gif into another one.
  * @param {array} gifs a list of gifs.
  * @param {array} favList an identifier/signal that changes the gif.
  * @param {function} onClickCallback extra onclick function when button is clicked.
  */
-export default function randomGIFButton({ gifs, favList, onClickCallback = () => {} }) {
+export default function randomGIFButton({ gifs, favList, onClickCallback = () => {} } : randomGIFParam) {
   const [randomGIFSrc, setRandomGIFSrc] = useState(getRandomNumberExclude(gifs.length, -1));
 
   useEffect(() => {

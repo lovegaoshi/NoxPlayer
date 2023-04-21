@@ -101,7 +101,7 @@ export const DEFAULT_SETTING: PlayerSettingDict = {
  * @param {string} key
  * @returns
  */
-export const readLocalStorage = async (key: string) => {
+export const readLocalStorage = async (key: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([key], (result) => {
       resolve(result[key]);
