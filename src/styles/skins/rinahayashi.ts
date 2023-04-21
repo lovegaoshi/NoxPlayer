@@ -19,9 +19,9 @@ const gifs = [
 ];
 export default {
   playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
-  playerBannerMobile: 'https://img-baofun.zhhainiao.com/pcwallpaper_ugc_mobile/preview/6c47b1ed421707815dc3e28f74a5a6db_preview.mp4',
+  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc_mobile/preview/6c47b1ed421707815dc3e28f74a5a6db_preview.mp4'); }),
   playerBackgroundMobileVideo: true,
-  playerBackground: 'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/994eec6c1203516f81c2db75f02c3789_preview.mp4',
+  playerBackground: async () => new Promise((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/994eec6c1203516f81c2db75f02c3789_preview.mp4'); }),
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => {

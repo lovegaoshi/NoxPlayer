@@ -26,8 +26,8 @@ const gifs = [
 ];
 export default {
   playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Gura/GuraBanner.png',
-  playerBannerMobile: 'https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg',
-  playerBackground: 'https://konachan.com/image/4181f11e3cf92c84f3c9600245631972/Konachan.com%20-%20316909%20animal%20aqua_eyes%20dress%20fish%20flat_chest%20gawr_gura%20hase_neet%20hololive%20hoodie%20short_hair%20tail%20water%20weapon%20white_hair.jpg',
+  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg'); }),
+  playerBackground: async () => new Promise((resolve) => { resolve('https://konachan.com/image/4181f11e3cf92c84f3c9600245631972/Konachan.com%20-%20316909%20animal%20aqua_eyes%20dress%20fish%20flat_chest%20gawr_gura%20hase_neet%20hololive%20hoodie%20short_hair%20tail%20water%20weapon%20white_hair.jpg'); }),
   // 'https://cdn.donmai.us/sample/0d/19/__gawr_gura_and_bloop_hololive_and_1_more_drawn_by_rukako__sample-0d19f403ca5f21106aa2a6cbd1afdb80.jpg',
   // https://cdn.donmai.us/sample/98/69/__gawr_gura_hololive_and_1_more_drawn_by_gueya__sample-98697219522d92d9b39ed6c79d09c456.jpg
   gifs,

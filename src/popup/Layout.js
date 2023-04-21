@@ -37,8 +37,8 @@ const PlayerBoxMobile = {
   maxHeight: '0%',
 };
 
-export default function PageLayout({ songList }) {
-  if (!songList) { return <h1>Loading...</h1>; }
+export default function PageLayout({ songList, backgroundSrc }) {
+  if (!songList || !backgroundSrc) { return <h1>Loading...</h1>; }
 
   if (isMobile()) {
     return (
@@ -49,8 +49,8 @@ export default function PageLayout({ songList }) {
             <Box sx={OutmostBox} id="master-box" style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
               <div className="container-fluid homepage-bgimage-mobile">
                 {skinPreset.playerBackgroundMobileVideo
-                  ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth} />
-                  : <img id="player-bkgrd-mobile" alt="" className="homepage-bgimage-mobile" src={skinPreset.playerBannerMobile} height={window.innerHeight} width={window.innerWidth} />}
+                  ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />
+                  : <img id="player-bkgrd-mobile" alt="" className="homepage-bgimage-mobile" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />}
               </div>
               <Box sx={PlayerBoxMobile} id="player-box">
                 <PlayerMobile songList={songList} id="player-instance" />
@@ -68,8 +68,8 @@ export default function PageLayout({ songList }) {
         <ConfirmProvider>
           <div className="container-fluid homepage-bgimage">
             {skinPreset.playerBackgroundVideo
-              ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={skinPreset.playerBackground} height={window.innerHeight} width={window.innerWidth} />
-              : <img id="player-bkgrd" alt="" className="homepage-bgimage" src={skinPreset.playerBackground} height={window.innerHeight} width={window.innerWidth} />}
+              ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />
+              : <img id="player-bkgrd" alt="" className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />}
           </div>
           <Box
             sx={OutmostBox}

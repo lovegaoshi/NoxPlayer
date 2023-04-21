@@ -44,8 +44,8 @@ const dump = [
 export default {
   playerBanner: PomeloTheme.playerBanner,
   playerBannerMobile: PomeloTheme.playerBannerMobile,
-  // playerBackground: 'https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg',
-  playerBackground: await fetchVideoPlayUrlPromise('BV1VM411q7j6', undefined, 'VideoUrl'),
+  // playerBackground: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg'); }),
+  playerBackground: async () => await fetchVideoPlayUrlPromise('BV1VM411q7j6', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => {

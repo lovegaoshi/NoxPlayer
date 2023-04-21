@@ -17,8 +17,8 @@ const gifs = [
 ];
 export default {
   playerBanner: 'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
-  playerBannerMobile: 'https://cdn.donmai.us/sample/b8/10/__azusa_nijisanji_and_2_more_drawn_by_bsmycc__sample-b8106d3890e42fc9bfcd896a648a6c80.jpg',
-  playerBackground: await fetchVideoPlayUrlPromise('BV11S4y1d7v9', undefined, 'VideoUrl'), // BV1Sb4y1i79D
+  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/sample/b8/10/__azusa_nijisanji_and_2_more_drawn_by_bsmycc__sample-b8106d3890e42fc9bfcd896a648a6c80.jpg'); }),
+  playerBackground: async () => await fetchVideoPlayUrlPromise('BV11S4y1d7v9', undefined, 'VideoUrl'), // BV1Sb4y1i79D
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => {

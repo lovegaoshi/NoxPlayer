@@ -15,10 +15,10 @@ const gifs = [
 ];
 export default {
   playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
-  playerBannerMobile: 'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
-  playerBackground: await fetchVideoPlayUrlPromise('BV15e411u7T9', undefined, 'VideoUrl'),
+  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png'); }),
+  playerBackground: async () => await fetchVideoPlayUrlPromise('BV15e411u7T9', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
-  // playerBackground: 'https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg',
+  // playerBackground: async () => new Promise((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,
   gifIcon: () => {
     return gifs[Math.floor(Math.random() * gifs.length) >> 0];
