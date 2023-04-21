@@ -88,7 +88,7 @@ export default {
         MuiPaper: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: '#00bfff',
             },
           },
@@ -110,7 +110,7 @@ export default {
         MuiTextField: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: '#00bfff',
             },
           },
@@ -118,7 +118,7 @@ export default {
         MuiInputLabel: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: '#00bfff',
               '&.Mui-disabled': {
                 color: '#00bfff',
@@ -129,7 +129,7 @@ export default {
         MuiTab: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: 'ivory',
             },
           },
