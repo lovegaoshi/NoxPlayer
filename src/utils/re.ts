@@ -403,6 +403,15 @@ export const reExtractSongName = (filename: string, uploader: number = 0) => {
         ],
       );
       break;
+    case 440738032: // 安可周报
+    // 【超可爱2D演绎】强风大背头，假发都吹掉了！「強風オールバック」
+      filename = extractWith(
+        extractParenthesis(filename),
+        [
+          /「(.+)」/,
+        ],
+      );
+      break;
     case 37754047: // 咻咻满
       filename = extractWith(
         extractParenthesis(filename),
