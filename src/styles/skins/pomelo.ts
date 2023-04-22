@@ -21,7 +21,7 @@ const gifs = [
   'http://i0.hdslb.com/bfs/garb/74bbe0803168dc873a7e97334b0bab85d337a39c.png',
 ];
 export default skinTemplate({
-  playerBanner: 'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
+  playerBanner: 'http://i0.hdslb.com/bfs/space/ac7ed8c017edce6d376707b7ce3a68302edb3c50.png',
   playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
   playerBackground: async () => await fetchVideoPlayUrlPromise('BV1Yv4y1C7K5', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
@@ -29,7 +29,7 @@ export default skinTemplate({
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
   appTitle: '电妮播放器',
-  desktopTheme: 'light',
+  desktopTheme: 'dark',
   colorTheme: {
     generalTheme: 'light',
     // these are adapted from the original azusa player; eventually will be trnaslated into palettes.
