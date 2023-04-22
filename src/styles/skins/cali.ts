@@ -1,4 +1,5 @@
 import AzusaTheme from './azusa';
+import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/roki.gif?raw=true',
@@ -9,15 +10,13 @@ const gifs = [
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/drinking_party.gif?raw=true',
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/cantaloupe.gif?raw=true',
 ];
-export default {
+export default skinTemplate({
   playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Gura/GuraBanner.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg'); }),
   // 'https://cdn.donmai.us/sample/0d/19/__gawr_gura_and_bloop_hololive_and_1_more_drawn_by_rukako__sample-0d19f403ca5f21106aa2a6cbd1afdb80.jpg',
   // https://cdn.donmai.us/sample/98/69/__gawr_gura_hololive_and_1_more_drawn_by_gueya__sample-98697219522d92d9b39ed6c79d09c456.jpg
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: 'Gura-player',
   colorTheme: {
     generalTheme: 'light',
@@ -73,4 +72,4 @@ export default {
   },
   maintainer: 'lovegaoshi@github',
   maintainerTooltip: 'A',
-};
+});

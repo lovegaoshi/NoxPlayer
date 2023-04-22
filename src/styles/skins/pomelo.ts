@@ -1,4 +1,5 @@
 import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+import skinTemplate, { randomChoice } from './template';
 // this is a pink/light theme.
 
 const gifs = [
@@ -19,16 +20,14 @@ const gifs = [
   'http://i0.hdslb.com/bfs/garb/ec5cc3729cffbfd6acafa9f6c7b9171f585299e3.png',
   'http://i0.hdslb.com/bfs/garb/74bbe0803168dc873a7e97334b0bab85d337a39c.png',
 ];
-export default {
+export default skinTemplate({
   playerBanner: 'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
   playerBackground: async () => await fetchVideoPlayUrlPromise('BV1Yv4y1C7K5', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
   // 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: '电妮播放器',
   desktopTheme: 'light',
   colorTheme: {
@@ -125,4 +124,4 @@ export default {
   maintainer: '食梦莲lotus@bilibili',
   maintainerTooltip: '关注弃车人的骄傲spiderman安妮直播间438068',
   maintinerURL: 'https://live.bilibili.com/438063',
-};
+});

@@ -1,5 +1,6 @@
 import PomeloTheme from './pomelo';
 import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
   'https://i0.hdslb.com/bfs/garb/6e41af761ef1ba1857a8c2bb94b0fdbbbcde4eb0.png',
@@ -41,20 +42,18 @@ const dump = [
   'http://i0.hdslb.com/bfs/live/1b7096c2e33787b15b0022ab444473e7b20258c0.png',
 ];
 
-export default {
+export default skinTemplate({
   playerBanner: PomeloTheme.playerBanner,
   playerBannerMobile: PomeloTheme.playerBannerMobile,
-  // playerBackground: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg'); }),
+  // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg'); }),
   playerBackground: async () => await fetchVideoPlayUrlPromise('BV1VM411q7j6', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: '电鱼播放器',
   desktopTheme: 'light',
   colorTheme: PomeloTheme.colorTheme,
   reactJKPlayerTheme: PomeloTheme.reactJKPlayerTheme,
   maintainer: '铵溶液制造工厂@bilibili',
   maintainerTooltip: '塞克西开~人人爱~',
-};
+});

@@ -1,4 +1,5 @@
 import NoxTheme from './nox';
+import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
   'https://walfiegif.files.wordpress.com/2022/03/out-transparent.gif',
@@ -33,19 +34,17 @@ const gifs = [
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/sand.gif?raw=true',
   'https://i.kym-cdn.com/photos/images/original/002/075/486/1a8.gif',
 ];
-export default {
+export default skinTemplate({
   playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Amelia/AmeliaBanner.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://steamuserimages-a.akamaihd.net/ugc/1652223957177225502/6F39E40090B7202E4DD4D58876D58E233C5BBC4E/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'); }),
-  // playerBackground: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg'); }),
-  playerBackground: async () => new Promise((resolve) => { resolve('https://newcdn.mowplayer.com/719567640886/2021/02/27/480/tpaiwanmioxmr5ln.mp4'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://steamuserimages-a.akamaihd.net/ugc/1652223957177225502/6F39E40090B7202E4DD4D58876D58E233C5BBC4E/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'); }),
+  // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg'); }),
+  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://newcdn.mowplayer.com/719567640886/2021/02/27/480/tpaiwanmioxmr5ln.mp4'); }),
   playerBackgroundVideo: true,
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: 'Amelia-player',
   colorTheme: NoxTheme.colorTheme,
   reactJKPlayerTheme: NoxTheme.reactJKPlayerTheme,
   maintainer: NoxTheme.maintainer,
   maintainerTooltip: '华生，你发现了盲点',
-};
+});

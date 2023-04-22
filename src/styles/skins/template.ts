@@ -28,19 +28,33 @@ export interface skinInterface {
   [key: string]: any;
 }
 
-const skinTemplate: skinInterface = {
-  playerBanner: '',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve(''); }),
-  playerBackgroundMobileVideo: false,
-  playerBackground: async () => new Promise((resolve) => { resolve(''); }),
-  playerBackgroundVideo: false,
-  gifs: [],
-  gifIcon: () => '',
-  appTitle: 'noxplayer',
-  desktopTheme: 'dark',
-  colorTheme: {},
-  reactJKPlayerTheme: {},
-  maintainer: 'lovegaoshi',
-  maintainerTooltip: "he's too lazy to leave anything here.",
-  maintainerURL: '',
+const skinTemplate = (): skinInterface => {
+  return {
+    playerBanner: '',
+    playerBannerMobile: async () => new Promise<string>((resolve) => { resolve(''); }),
+    playerBackgroundMobileVideo: false,
+    playerBackground: async () => new Promise<string>((resolve) => { resolve(''); }),
+    playerBackgroundVideo: false,
+    gifs: [],
+    gifIcon: () => '',
+    appTitle: 'noxplayer',
+    desktopTheme: 'dark',
+    colorTheme: {},
+    reactJKPlayerTheme: {},
+    maintainer: 'lovegaoshi',
+    maintainerTooltip: "he's too lazy to leave anything here.",
+    maintainerURL: '',
+  };
 };
+
+export function randomChoice(list: Array<any>) {
+  return list[Math.floor(Math.random() * list.length) >> 0];
+}
+
+export default function template(skin: {[key: string]: any}) {
+  const newTemplate = skinTemplate();
+  for (const [key, val] of Object.entries(skin)) {
+    newTemplate[key] = val;
+  }
+  return newTemplate;
+}

@@ -1,3 +1,5 @@
+import skinTemplate, { randomChoice } from './template';
+
 const gifs = [
   'https://i0.hdslb.com/bfs/garb/05b4eae551b81e3804e0611fb543829d240686d4.png',
   'http://i0.hdslb.com/bfs/garb/4b44860cf1d6e78b2654bed0fc98eb23081036dd.png',
@@ -37,14 +39,12 @@ const gifs = [
   'https://i0.hdslb.com/bfs/new_dyn/8bea5f415532a0ac3a2444623718666c3220669.png',
 ];
 
-export default {
+export default skinTemplate({
   playerBanner: 'https://article.biliimg.com/bfs/article/9c49d0133498d844869438569cf36d96ffe56234.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png'); }),
-  playerBackground: async () => new Promise((resolve) => { resolve('http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png'); }),
+  playerBackground: async () => new Promise<string>((resolve) => { resolve('http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg'); }),
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: 'HeraKris-player',
   colorTheme: {
     generalTheme: 'dark',
@@ -263,4 +263,4 @@ export default {
   maintainer: '-哆啦A林-@bilibili',
   maintainerTooltip: '给你一拳',
   maintinerURL: 'https://live.bilibili.com/28861834',
-};
+});

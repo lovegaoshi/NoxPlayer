@@ -1,4 +1,5 @@
 import AzusaTheme from './azusa';
+import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
   'https://github.com/jonowo/walfie-gif-dl/blob/main/gifs/spin.gif?raw=true',
@@ -24,16 +25,14 @@ const gifs = [
   'https://64.media.tumblr.com/6579b60f6e46e7f6196a60ebc386fc88/81dc912cde9331b1-25/s540x810/a143adbc5fe899ff53f7e1b870c2c9b365ae5550.gifv',
   'https://64.media.tumblr.com/d3893fc5906f166dfc6b54bcb808f6ba/81dc912cde9331b1-98/s540x810/97f9319f598d427dbab7c6d4db4a623b82e5d66d.gifv',
 ];
-export default {
+export default skinTemplate({
   playerBanner: 'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Gura/GuraBanner.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg'); }),
-  playerBackground: async () => new Promise((resolve) => { resolve('https://konachan.com/image/4181f11e3cf92c84f3c9600245631972/Konachan.com%20-%20316909%20animal%20aqua_eyes%20dress%20fish%20flat_chest%20gawr_gura%20hase_neet%20hololive%20hoodie%20short_hair%20tail%20water%20weapon%20white_hair.jpg'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg'); }),
+  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://konachan.com/image/4181f11e3cf92c84f3c9600245631972/Konachan.com%20-%20316909%20animal%20aqua_eyes%20dress%20fish%20flat_chest%20gawr_gura%20hase_neet%20hololive%20hoodie%20short_hair%20tail%20water%20weapon%20white_hair.jpg'); }),
   // 'https://cdn.donmai.us/sample/0d/19/__gawr_gura_and_bloop_hololive_and_1_more_drawn_by_rukako__sample-0d19f403ca5f21106aa2a6cbd1afdb80.jpg',
   // https://cdn.donmai.us/sample/98/69/__gawr_gura_hololive_and_1_more_drawn_by_gueya__sample-98697219522d92d9b39ed6c79d09c456.jpg
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: 'Gura-player',
   colorTheme: {
     generalTheme: 'light',
@@ -91,4 +90,4 @@ export default {
   },
   maintainer: 'lovegaoshi@github',
   maintainerTooltip: 'A',
-};
+});

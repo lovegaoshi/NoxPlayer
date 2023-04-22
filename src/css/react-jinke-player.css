@@ -1061,6 +1061,7 @@
   transition: background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   width: 100%;
   z-index: 99;
+  background-position: center;
 }
 .react-jinke-music-player-main .music-player-panel .panel-content {
   align-items: center;

@@ -1,3 +1,5 @@
+import skinTemplate, { randomChoice } from './template';
+
 const gifs = [
   'http://i0.hdslb.com/bfs/garb/2dcdd8d6b07907eab66ca12eccf36a5f142b1a18.png',
   'http://i0.hdslb.com/bfs/garb/361b8f691b0e1f68e45dc0feca00ed0198922026.png',
@@ -17,16 +19,14 @@ const gifs = [
   'http://i0.hdslb.com/bfs/garb/3187e53c85118a6376eec23586430f1daea995d6.png',
   'https://i0.hdslb.com/bfs/article/dda67f2b4e8a3bce161b1981e1d4a394c9063a52.png',
 ];
-export default {
+export default skinTemplate({
   playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc_mobile/preview/6c47b1ed421707815dc3e28f74a5a6db_preview.mp4'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc_mobile/preview/6c47b1ed421707815dc3e28f74a5a6db_preview.mp4'); }),
   playerBackgroundMobileVideo: true,
-  playerBackground: async () => new Promise((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/994eec6c1203516f81c2db75f02c3789_preview.mp4'); }),
+  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/994eec6c1203516f81c2db75f02c3789_preview.mp4'); }),
   playerBackgroundVideo: true,
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: '大力播放器',
   colorTheme: {
     generalTheme: 'dark',
@@ -245,4 +245,4 @@ export default {
   maintainer: '起名字什么的真困难啊@bilibili',
   maintainerTooltip: '莉德维德我诶你！！',
   maintinerURL: 'https://live.bilibili.com/22742508',
-};
+});

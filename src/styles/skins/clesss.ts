@@ -1,4 +1,5 @@
 import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
   'https://article.biliimg.com/bfs/article/85e8313a2dab7c845040969b4cda9a1ea967964f.gif',
@@ -13,16 +14,14 @@ const gifs = [
   'https://i0.hdslb.com/bfs/article/44608770c11cdefbdc1d1963eceb0695710bc731.jpg',
   'https://i0.hdslb.com/bfs/new_dyn/fe44dd6190198aa1c735544a951d9e7a1817527011.png',
 ];
-export default {
+export default skinTemplate({
   playerBanner: 'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png'); }),
   playerBackground: async () => await fetchVideoPlayUrlPromise('BV15e411u7T9', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
-  // playerBackground: async () => new Promise((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
+  // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: '克√播放器',
   colorTheme: {
     generalTheme: 'dark',
@@ -84,7 +83,7 @@ export default {
         MuiPaper: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: '#d3d3d3',
             },
           },
@@ -106,7 +105,7 @@ export default {
         MuiTextField: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: '#d3d3d3',
             },
           },
@@ -114,10 +113,10 @@ export default {
         MuiInputLabel: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: '#d3d3d3',
               '&.Mui-disabled': {
-                backgroundColor: '1E1E1E',
+                backgroundColor: '#1E1E1E',
                 color: '#d3d3d3',
               },
             },
@@ -126,7 +125,7 @@ export default {
         MuiTab: {
           styleOverrides: {
             root: {
-              backgroundColor: '1E1E1E',
+              backgroundColor: '#1E1E1E',
               color: 'ivory',
             },
           },
@@ -242,4 +241,4 @@ export default {
   maintainer: '内德维德的军火库@bilibili',
   maintainerTooltip: '快滚',
   maintinerURL: 'https://live.bilibili.com/5424',
-};
+});

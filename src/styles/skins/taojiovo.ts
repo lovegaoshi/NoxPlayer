@@ -1,3 +1,4 @@
+import skinTemplate, { randomChoice } from './template';
 // this is a pink/light theme.
 
 const gifs = [
@@ -28,15 +29,13 @@ const gifs = [
   'http://i0.hdslb.com/bfs/live/e0d222ec4217401987554641025011248b6e871d.png',
 ];
 
-export default {
+export default skinTemplate({
   playerBanner: 'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
-  playerBannerMobile: async () => new Promise((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
-  playerBackground: async () => new Promise((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2d4813a4df47201b40f8be2a71d60bf1_preview.mp4'); }),
+  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
+  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2d4813a4df47201b40f8be2a71d60bf1_preview.mp4'); }),
   playerBackgroundVideo: true,
   gifs,
-  gifIcon: () => {
-    return gifs[Math.floor(Math.random() * gifs.length) >> 0];
-  },
+  gifIcon: () => randomChoice(gifs) as string,
   appTitle: '电姨播放器',
   desktopTheme: 'light',
   colorTheme: {
@@ -133,4 +132,4 @@ export default {
   maintainer: '薇薇單推人@bilibili',
   maintainerTooltip: '不听桃几的有难了',
   maintinerURL: 'https://live.bilibili.com/22642754',
-};
+});
