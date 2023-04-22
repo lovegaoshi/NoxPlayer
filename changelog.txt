@@ -1,9 +1,10 @@
 功能愿望单：
-白毛皮肤
-migrate to typescript
+noir皮肤
+塞克西废墟皮肤
 
 2.1.0.0:
 按住点赞一键三连
+partially migrated to typescript
 
 2.0.0.0:
 从react17升级到react18
@@ -14,7 +15,6 @@ youtube支持alpha
 sync up电梓播放器 1.2.0.0
 整合b站click/web/h5 API，增加视频播放数
 b站搜索时重置cookie，关闭个性化搜索推荐
-塞克西废墟皮肤占位
 
 1.1.1.12:
 定时关闭功能
