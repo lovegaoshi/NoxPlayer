@@ -493,6 +493,18 @@ export const reExtractSongName = (filename: string, uploader: number = 0) => {
         ],
       );
       break;
+    case 36908799: // V区歌老嗨
+      filename = extractWith(
+        // 【薇Steria】桜色舞うころ
+        // 雨后日记-单依纯
+
+        extractParenthesis(filename),
+        [
+          /(.+)-/,
+          /【.+】(.+)/,
+        ],
+      );
+      break;
     case 0:
       filename = extractWith(
         extractParenthesis(filename),
