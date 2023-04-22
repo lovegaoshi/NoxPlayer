@@ -40,7 +40,7 @@ const randomPortraitBackground = randomChoice([
 export default skinTemplate({
   playerBanner: 'https://i0.hdslb.com/bfs/garb/item/4d1c96b086ff60d13e3a12d4e514baa028dbec1d.jpg',
   playerBannerMobile: async () => new Promise<string>((resolve) => { resolve(randomPortraitBackground); }),
-  playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4') ? true : false,
+  playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
   playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i2.hdslb.com/bfs/archive/ec91f760738bd0a7af955b4f2797d70f0fcab40a.jpg'); }),
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,
