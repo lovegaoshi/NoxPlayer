@@ -1,4 +1,4 @@
-import Song from '../objects/Song';
+import Song from '../objects/SongInterface';
 /**
  * use regex to extract songnames from a string. default to whatever in 《》
  * @param {string} name
@@ -46,7 +46,7 @@ export const extractWith = (filename: string, reExpressions: Array<RegExp> = [])
  * @param {number} uploader uploader UID. note this uses song.singerId
  * @returns extracted song name.
  */
-export const reExtractSongName = (filename: string, uploader: number = 0) => {
+export const reExtractSongName = (filename: string, uploader: string | number = 0) => {
   switch (uploader) {
     case 5053504://
     case 3493085134719196: // "王胡桃w":
