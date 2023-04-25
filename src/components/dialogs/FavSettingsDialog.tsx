@@ -16,17 +16,18 @@ interface props {
   openState: boolean;
   rssUpdate: Function;
   onCancel: Function;
+  id: string;
 }
 
 export default function FavSettingsDialog ({
-  fromList, onClose, openState, rssUpdate, onCancel,
+  fromList, onClose, openState, rssUpdate, onCancel, id,
 }: props) {
   const [subUrl, setSubUrl] = useState('');
   const [bannedBVids, setBannedBVids] = useState('');
   const [favListName, setFavListName] = useState('');
   const [useBiliShazam, setUseBiliShazam] = useState(false);
 
-  if (fromList === undefined) return;
+  if (fromList === undefined) return null;
 
   const setArrayAsStr = (val: Array<string>, setFunc = setSubUrl) => {
     try {
@@ -60,7 +61,7 @@ export default function FavSettingsDialog ({
   }, [fromList.info.id, fromList.songList.length]);
 
   return (
-    <Dialog open={openState}>
+    <Dialog open={openState} id={id}>
       <DialogTitle>
         <TextField
           autoFocus

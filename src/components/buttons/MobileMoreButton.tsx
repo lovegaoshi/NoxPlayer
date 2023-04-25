@@ -7,11 +7,13 @@ import MenuItem from '@mui/material/MenuItem';
 import { AddFavDialog } from '../dialogs/AddFavDialog';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { searchSongOnWeb, searchSongOnBili } from '../menus/Favmenu';
+import Song from '../../objects/SongInterface';
+import { PlayListDict } from '../../utils/ChromeStorage';
 
-export default function mobileMoreButton({ song }) {
+export default function mobileMoreButton({ song }: { song: Song }) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null as Element | null | undefined);
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -47,11 +49,11 @@ export default function mobileMoreButton({ song }) {
         <MenuItem onClick={handleClose}>在所有歌单中删除这首歌</MenuItem>
       </Menu>
       <AddFavDialog
-        id="song-menu-add-fav"
         openState={openAddDialog}
         onClose={() => setOpenAddDialog(false)}
-        favLists={StorageManager.latestFavLists.map((v) => v.info)}
+        favLists={StorageManager.latestFavLists.map((v: PlayListDict) => v.info)}
         song={song}
+        fromId={undefined}
         isMobile
       />
     </React.Fragment>

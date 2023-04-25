@@ -4,13 +4,17 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import { NewFavDialog } from '../dialogs/AddFavDialog';
 
+interface props {
+  AddFavIcon: Object;
+  onClosedDialogFunc: Function;
+}
 /**
  * a component that includes a
  * @param {Object} AddFavIcon styles of the icon used inside.
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function newPlaylistButton ({ AddFavIcon, onClosedDialogFunc }) {
+export default function newPlaylistButton ({ AddFavIcon, onClosedDialogFunc }: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   return (
@@ -21,9 +25,8 @@ export default function newPlaylistButton ({ AddFavIcon, onClosedDialogFunc }) {
         </IconButton>
       </Tooltip>
       <NewFavDialog
-        id="newFavDialog"
         openState={openSettingsDialog}
-        onClose={(val) => {
+        onClose={(val: string) => {
           onClosedDialogFunc(val);
           setOpenSettingsDialog(false);
         }}
