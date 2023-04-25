@@ -26,9 +26,19 @@ export default function songRenameDialog({
   }, [songObj]);
 
   const handleClose = async () => {
-    const result = { songBVID, songBVIndex, songName };
-    songObj.name = songName;
-    songObj.parsedName = songName;
+    // 歌曲名：卡宝殿下，歌手名：甜儿，专辑名：
+    const regExtractQQMusicName = (name) => {
+      const extractedName = /歌曲名：(.+)，歌手名/.exec(name);
+      if (extractedName) {
+        setSongName(extractedName);
+        return extractedName[1];
+      }
+      return name;
+    };
+    const extractedSongName = regExtractQQMusicName(songName);
+    const result = { songBVID, songBVIndex, extractedSongName };
+    songObj.name = extractedSongName;
+    songObj.parsedName = extractedSongName;
     onClose(result);
     switch ((await getBiliUser()).mid) {
       case 3493085134719196:
@@ -41,7 +51,7 @@ export default function songRenameDialog({
         try {
           const res = await fetch(
             `${await getPlayerSettingKey('personalCloudIP')
-            }noxtagfix?bvid=${songBVID}&index=${songBVIndex}&name=${songName}&secret=${process.env.PERSONAL_CLOUD_SECRET}`,
+            }noxtagfix?bvid=${songBVID}&index=${songBVIndex}&name=${extractedSongName}&secret=${process.env.PERSONAL_CLOUD_SECRET}`,
           );
           if (res.status === 200) {
             closeSnackbar(key);

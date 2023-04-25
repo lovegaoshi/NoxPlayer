@@ -226,14 +226,14 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
             label="播放显示歌单名称"
           />
         </Tooltip>
-        <Tooltip title="不发送b站播放API（用来增加视频播放数）。API不会使用b号cookie。">
+        <Tooltip title="不发送b站播放API（用来增加视频播放数）。API不会使用b号cookie">
           <FormControlLabel
             control={<Checkbox onChange={(e) => { setSendBiliHeartbeat(e.target.checked); }} />}
             checked={sendBiliHeartbeat}
             label="不发送b站播放API"
           />
         </Tooltip>
-        <Tooltip title="不用b站cookie，关闭搜索时的b站个性化推荐。用重置cookie实现，出现错误会让b站登录失效">
+        <Tooltip title="不用b站cookie，关闭搜索时的b站个性化推荐">
           <FormControlLabel
             control={<Checkbox onChange={(e) => { setNoCookieBiliSearch(e.target.checked); }} />}
             checked={noCookieBiliSearch}
