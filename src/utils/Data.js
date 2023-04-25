@@ -28,6 +28,13 @@ const biliTagApiLimiter = new Bottleneck({
 });
 
 /**
+ * limits API call to 200ms/call, max 1 concurrency using bottleneck.
+ */
+const soloLimiter = new Bottleneck({
+  minTime: 1000,
+  maxConcurrent: 1,
+});
+/**
  *  Video src info
  */
 const URL_PLAY_URL = 'https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16';
@@ -63,11 +70,11 @@ const URL_BILISERIES_INFO = 'https://api.bilibili.com/x/series/archives?mid={mid
 /**
  *  channel series API Extract Info
  */
-const URL_BILICOLLE_INFO = 'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=30';
+const URL_BILICOLLE_INFO = 'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=100';
 /**
  *  channel API Extract Info
  */
-const URL_BILICHANNEL_INFO = 'https://api.bilibili.com/x/space/arc/search?mid={mid}&pn={pn}&jsonp=jsonp';
+const URL_BILICHANNEL_INFO = 'https://api.bilibili.com/x/space/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50';
 /**
  *  Fav List
  */
@@ -375,27 +382,64 @@ export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
  * @param {array} favList
  * @returns
  */
-export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = []) => {
+export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = [], limiter = biliApiLimiter) => {
   const res = await fetch(url.replace('{pn}', 1));
   const { data } = await res.clone().json();
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
   for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
-    pagesPromises.push(biliTagApiLimiter.schedule(() => fetch(url.replace('{pn}', page))));
+    pagesPromises.push(limiter.schedule(() => fetch(url.replace('{pn}', page))));
   }
   const resolvedPromises = await Promise.all(pagesPromises);
-  await Promise.all((resolvedPromises).map((pages) => {
-    try {
-      return pages.json().then((parsedJson) => {
+  await Promise.all(resolvedPromises.map(async (pages) => {
+    return pages.json()
+      .then((parsedJson) => {
         getItems(parsedJson).forEach((m) => {
           if (!favList.includes(m.bvid)) BVids.push(m.bvid);
         });
+      })
+      .catch((err) => {
+        console.error(err, pages);
+        pages.text().then(console.log);
       });
-    } catch {
-      console.error(pages);
-      return null;
-    }
+  }));
+  // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
+  return (await fetchiliBVIDs(BVids, progressEmitter)).filter((item) => item !== undefined);
+};
+
+/**
+ * a universal bvid retriever for all bilibili paginated APIs. used to reduce
+ * redundant codes in bilibili collection, favlist and channel.
+ * @param {string} url
+ * @param {function} getMediaCount
+ * @param {function} getPageSize
+ * @param {function} getItems
+ * @param {function} progressEmitter
+ * @param {array} favList
+ * @returns
+ */
+export const fetchAwaitBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = [], limiter = biliApiLimiter) => {
+  const res = await fetch(url.replace('{pn}', 1));
+  const { data } = await res.clone().json();
+  const mediaCount = getMediaCount(data);
+  const BVids = [];
+  const pagesPromises = [res];
+  for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
+    pagesPromises.push(limiter.schedule(() => fetch(url.replace('{pn}', page))));
+  }
+  const resolvedPromises = await Promise.all(pagesPromises);
+  await Promise.all(resolvedPromises.map(async (pages) => {
+    return pages.json()
+      .then((parsedJson) => {
+        getItems(parsedJson).forEach((m) => {
+          if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+        });
+      })
+      .catch((err) => {
+        console.error(err, pages);
+        pages.text().then(console.log);
+      });
   }));
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
   return (await fetchiliBVIDs(BVids, progressEmitter)).filter((item) => item !== undefined);
