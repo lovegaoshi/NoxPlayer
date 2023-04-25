@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -6,12 +7,13 @@ import { useSnackbar } from 'notistack';
 import Tooltip from '@mui/material/Tooltip';
 import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
 
-export function ExportFavButton(AddFavIcon) {
+export function ExportFavButton(AddFavIcon: Object) {
   const StorageManager = useContext(StorageManagerCtx);
   // alls sync buttons are loaded/unloaded depending on the current sync setting;
   // thus they all must have exactly the same states for react to mount and unmount to another set.
   // even though they are not used.
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const dummy = enqueueSnackbar;
   const [loading, setLoading] = useState(false);
   return (
     <Tooltip title="导入歌单">
@@ -22,9 +24,10 @@ export function ExportFavButton(AddFavIcon) {
   );
 }
 
-export function ImportFavButton(AddFavIcon) {
+export function ImportFavButton(AddFavIcon: Object) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const dummy = enqueueSnackbar;
   const [loading, setLoading] = useState(false);
   return (
     <Tooltip title="导出歌单">

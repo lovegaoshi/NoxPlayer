@@ -4,8 +4,9 @@ import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsDialog from '../dialogs/PlayerSettingsDialog';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
+import { PlayerSettingDict } from '../../utils/ChromeStorage';
 
-export default function playerSettingsButton({ AddFavIcon }) {
+export default function playerSettingsButton({ AddFavIcon }: { AddFavIcon: Object }) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
 
@@ -17,9 +18,8 @@ export default function playerSettingsButton({ AddFavIcon }) {
         </IconButton>
       </Tooltip>
       <SettingsDialog
-        id="settingsDialog"
         openState={openSettingsDialog}
-        onClose={(settings) => {
+        onClose={(settings: PlayerSettingDict) => {
           if (settings) StorageManager.setPlayerSetting(settings);
           setOpenSettingsDialog(false);
         }}
