@@ -28,7 +28,7 @@ import {
 } from '../buttons/syncing/PersonalSyncButton';
 import { ExportSyncFavButton, ImportSyncFavButton } from '../buttons/syncing/DropboxSyncButton';
 import { ExportFavButton, ImportFavButton } from '../buttons/syncing/LocalSyncButton';
-import { DEFAULT_SETTING, EXPORT_OPTIONS } from '../../utils/ChromeStorage';
+import { DEFAULT_SETTING, EXPORT_OPTIONS, PlayerSettingDict } from '../../utils/ChromeStorage';
 import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import PlayerResetButton from '../buttons/PlayerResetButton';
 
@@ -47,7 +47,12 @@ const AddFavIcon = {
   paddingRight: '8px',
 };
 
-export default function SettingsDialog ({ onClose, openState, settings }) {
+interface props {
+  onClose: Function;
+  openState: boolean;
+  settings: PlayerSettingDict;
+}
+export default function SettingsDialog ({ onClose, openState, settings }: props) {
   const [skin, setSkin] = useState(DEFAULT_SETTING.skin);
   const [settingObj, setSettingObj] = useState({});
   const [parseSongName, setParseSongName] = useState(DEFAULT_SETTING.parseSongName);
@@ -61,11 +66,11 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
   const [sendBiliHeartbeat, setSendBiliHeartbeat] = useState(DEFAULT_SETTING.sendBiliHeartbeat);
   const [noCookieBiliSearch, setNoCookieBiliSearch] = useState(DEFAULT_SETTING.noCookieBiliSearch);
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
 
-  const setSettings = (setFunc, value = undefined, defaultValue = undefined) => {
+  const setSettings = (setFunc: Function, value: any = undefined, defaultValue: any = undefined) => {
     if (value !== undefined) {
       setFunc(value);
     } else if (defaultValue !== undefined) {
@@ -80,7 +85,7 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
     if (skinIndex !== -1) {
       setSkin(settings.skin);
     } else {
-      setSkin(SkinKeys[0]);
+      setSkin(SkinKeys[0]!);
     }
     setSettings(setParseSongName, settings.parseSongName);
     setSettings(setAutoRSSUpdate, settings.autoRSSUpdate);
@@ -259,7 +264,7 @@ export default function SettingsDialog ({ onClose, openState, settings }) {
             {settingsPanel()}
           </TabPanel>
           <TabPanel value="2">
-            <TimerButton btnType="regular" />
+            <TimerButton AddFavIcon={undefined} btnType="regular" />
             <PlayerResetButton />
             <Button startIcon={<BuildIcon />}>placeholder</Button>
             <br />

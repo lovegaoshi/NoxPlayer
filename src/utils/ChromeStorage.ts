@@ -17,7 +17,7 @@ export const EXPORT_OPTIONS = {
   personal: '私有云',
 };
 
-interface PlayerSettingDict {
+export interface PlayerSettingDict {
   playMode: string;
   defaultPlayMode: string;
   defaultVolume: number,

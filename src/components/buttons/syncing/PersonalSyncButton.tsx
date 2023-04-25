@@ -9,12 +9,12 @@ import TextField from '@mui/material/TextField';
 import { noxBackup, noxRestore } from '../../../utils/PersonalCloudAuth';
 import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
 
-export function ImportSyncFavButton(AddFavIcon, cloudAddress = undefined) {
+export function ImportSyncFavButton(AddFavIcon: Object, cloudAddress: string | undefined = undefined) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-  const errorHandling = (e, msg = '歌单同步自私有云失败，错误记录在控制台里') => {
+  const errorHandling = (e: Object, msg = '歌单同步自私有云失败，错误记录在控制台里') => {
     console.error(e);
     enqueueSnackbar(msg, {
       variant: 'error',
@@ -47,12 +47,12 @@ export function ImportSyncFavButton(AddFavIcon, cloudAddress = undefined) {
   );
 }
 
-export function ExportSyncFavButton(AddFavIcon, cloudAddress = undefined) {
+export function ExportSyncFavButton(AddFavIcon: Object, cloudAddress: string | undefined = undefined) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-  const errorHandling = (e) => {
+  const errorHandling = (e: Object) => {
     console.error(e);
     enqueueSnackbar('歌单上传到私有云失败，错误记录在控制台里', {
       variant: 'error',
@@ -85,7 +85,7 @@ export function ExportSyncFavButton(AddFavIcon, cloudAddress = undefined) {
   );
 }
 
-export function SetPersonalCloudTextField(val, setVal) {
+export function SetPersonalCloudTextField(val: string, setVal: Function) {
   return (
     <TextField
       margin="dense"

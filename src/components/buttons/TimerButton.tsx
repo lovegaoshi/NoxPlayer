@@ -5,16 +5,20 @@ import TimerIcon from '@mui/icons-material/Timer';
 import Button from '@mui/material/Button';
 import TimerDialog from '../dialogs/TimerDialog';
 
+interface props {
+  AddFavIcon: Object | undefined;
+  btnType: string;
+}
 /**
  * a component that includes a
  * @param {Object} AddFavIcon styles of the icon used inside.
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function TimerButton ({ AddFavIcon, btnType = 'IconButton' }) {
+export default function TimerButton ({ AddFavIcon = undefined, btnType = 'IconButton' }: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
-  const buttonType = (type) => {
+  const buttonType = (type: string) => {
     switch (type) {
       case 'IconButton':
         return (
@@ -35,7 +39,6 @@ export default function TimerButton ({ AddFavIcon, btnType = 'IconButton' }) {
     <React.Fragment>
       {buttonType(btnType)}
       <TimerDialog
-        id="TimerDialog"
         openState={openSettingsDialog}
         onClose={() => setOpenSettingsDialog(false)}
       />
