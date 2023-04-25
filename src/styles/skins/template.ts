@@ -52,9 +52,5 @@ export function randomChoice(list: Array<any>) {
 }
 
 export default function template(skin: {[key: string]: any}) {
-  const newTemplate = skinTemplate();
-  for (const [key, val] of Object.entries(skin)) {
-    newTemplate[key] = val;
-  }
-  return newTemplate;
+  return { ...skinTemplate(), ...skin };
 }

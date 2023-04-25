@@ -80,13 +80,9 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
      */
   // const updateFavSetting = (listObj, {subscribeUrls = [], favListName = null, useBiliShazam = null, bannedBVids = []}) => {
   const updateFavSetting = (listObj, listSetting = {}) => {
-    if (listObj) {
-      listObj.info.title = listSetting.favListName;
-      for (const [key, val] of Object.entries(listSetting)) {
-        listObj[key] = val;
-      }
-      StorageManager.updateFavList(listObj);
-    }
+    listObj.info.title = listSetting.favListName;
+    listObj = { ...listObj, ...listSetting };
+    StorageManager.updateFavList(listObj);
     setOpenSettingsDialog(false);
   };
 
@@ -113,6 +109,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }) {
         id="FavSettingsDialog"
         openState={openSettingsDialog}
         onClose={updateFavSetting}
+        onCancel={() => setOpenSettingsDialog(false)}
         fromList={currentList}
         rssUpdate={handleRssUpdate}
       />

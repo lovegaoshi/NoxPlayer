@@ -10,7 +10,7 @@ import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function FavSettingsDialog ({
-  fromList, onClose, openState, rssUpdate,
+  fromList, onClose, openState, rssUpdate, onCancel,
 }) {
   const [subUrl, setSubUrl] = useState('');
   const [bannedBVids, setBannedBVids] = useState('');
@@ -102,7 +102,7 @@ export default function FavSettingsDialog ({
         <Button
           onClick={() => {
             loadFavList();
-            onClose();
+            onCancel();
           }}
         >取消
         </Button>

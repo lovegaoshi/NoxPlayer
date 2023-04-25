@@ -36,10 +36,7 @@ export const updateSubscribeFavList = async (listObj, StorageManager, setSelecte
       })).songList.concat(listObj.songList);
     }
     const uniqueSongList = new Map();
-    for (const tag of listObj.songList) {
-      // cid should be a unique value? its a unique identifier for videos with multiple episodes.
-      uniqueSongList.set(tag.id, tag);
-    }
+    listObj.songList.forEach((tag) => uniqueSongList.set(tag.id, tag));
     listObj.songList = [...uniqueSongList.values()];
     for (let i = 0, n = listObj.songList.length; i < n; i++) {
       parseSongName(listObj.songList[i]);

@@ -41,18 +41,10 @@ export default class StorageManager {
   async initWithStorage(FavListIDs) {
     const _self = this;
     chrome.storage.local.get(FavListIDs, (result) => {
-      const FavLists = [];
       const FavListsSorted = [];
       // Sort result base on ID
-      for (const [key, value] of Object.entries(result)) {
-        // value.songList.map((v) => v['musicSrc'] = () => { return fetchPlayUrlPromise(v.bvid, v.id) })
-        FavLists.push(value);
-      }
-      FavListIDs.map((id) => {
-        FavListsSorted.push(FavLists.find((v) => v.info.id === id));
-        return null;
-      });
-      // console.log(FavListsSorted)
+      const FavLists = Object.entries(result).map((v) => v[1]);
+      FavListIDs.forEach((id) => FavListsSorted.push(FavLists.find((v) => v.info.id === id)));
       _self.setFavLists(FavListsSorted);
       _self.latestFavLists = FavListsSorted;
     });

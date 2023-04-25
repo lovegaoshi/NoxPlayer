@@ -69,9 +69,7 @@ export default function App ({ theme }) {
   function removeBiliShazam ({
     event, props, triggerEvent, data,
   }) {
-    for (const song of props.favlist.songList) {
-      removeSongBiliShazamed(song);
-    }
+    props.favlist.songList.forEach((song) => removeSongBiliShazamed(song));
     updateFavlist(props, `歌单 ${props.favlist.info.title} 的b站识歌记录全部清除乐！`);
   }
 
@@ -105,13 +103,9 @@ export default function App ({ theme }) {
           `正在重新载入歌单 ${props.favlist.info.title} 的bv号……`,
           { variant: 'info', persist: true, action: circularProgress },
         );
-        const bvids = [];
-        for (const song of props.favlist.songList) {
-          if (!bvids.includes(song.bvid)) {
-            bvids.push(song.bvid);
-          }
-        }
-        getBVIDList({ bvids })
+        const bvids = new Set();
+        props.favlist.songList.forEach((song) => bvids.add(song));
+        getBVIDList({ bvids: Array.from(bvids) })
           .then((val) => {
             props.favlist.songList = val;
             closeSnackbar(key);

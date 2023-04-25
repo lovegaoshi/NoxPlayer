@@ -144,7 +144,7 @@ const fetchYoutubePromise = async (ytbid) => {
  * @returns
  */
 export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUrl') => {
-  if (!cid) { cid = await fetchCID(bvid).catch((err) => console.log(err)); }
+  if (!cid) { cid = await fetchCID(bvid).catch((err) => console.error(err)); }
 
   // Returns a promise that resolves into the audio stream url
   return (new Promise((resolve, reject) => {
@@ -159,7 +159,7 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUr
         fetch(URL_PLAY_URL.replace('{bvid}', bvid).replace('{cid}', cid))
           .then((res) => res.json())
           .then((json) => resolve(extractResponseJson(json, extractType)))
-          .catch((err) => reject(console.log(err)));
+          .catch((err) => reject(console.error(err)));
       }
     });
   }));
@@ -217,7 +217,7 @@ export const fetchAudioPlayUrlPromise = async (sid) => {
         fetch(URL_AUDIO_PLAY_URL.replace('{sid}', sid))
           .then((res) => res.json())
           .then((json) => resolve(json.data.cdns[0]))
-          .catch((err) => reject(console.log(err)));
+          .catch((err) => reject(console.error(err)));
       }
     });
   }));
@@ -353,9 +353,7 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
     }
     BVidPromises.push(fetchVideoInfo(data.archives[i].bvid, () => { progressEmitter(parseInt(100 * (i + 1) / data.archives.length)); }));
   }
-  let videoInfos = [];
-  await Promise.all(BVidPromises).then((resp) => videoInfos = resp.filter((item) => item !== undefined));
-  return videoInfos;
+  return (await Promise.all(BVidPromises)).filter((item) => item !== undefined);
 };
 
 export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
@@ -379,30 +377,28 @@ export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
  */
 export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = []) => {
   const res = await fetch(url.replace('{pn}', 1));
-  const json = await res.clone().json();
-  const { data } = json;
+  const { data } = await res.clone().json();
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
   for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
     pagesPromises.push(biliTagApiLimiter.schedule(() => fetch(url.replace('{pn}', page))));
   }
-  let videoInfos = [];
-  const processedPromises = await Promise.all(pagesPromises);
-  for (const pages of processedPromises) {
+  const resolvedPromises = await Promise.all(pagesPromises);
+  await Promise.all((resolvedPromises).map((pages) => {
     try {
-      const parsedJson = await pages.json();
-      getItems(parsedJson).map((m) => {
-        if (!favList.includes(m.bvid)) BVids.push(m.bvid);
-        return null;
+      return pages.json().then((parsedJson) => {
+        getItems(parsedJson).forEach((m) => {
+          if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+        });
       });
     } catch {
       console.error(pages);
+      return null;
     }
-  }
+  }));
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  await fetchiliBVIDs(BVids, progressEmitter).then((resp) => videoInfos = resp.filter((item) => item !== undefined));
-  return videoInfos;
+  return (await fetchiliBVIDs(BVids, progressEmitter)).filter((item) => item !== undefined);
 };
 
 /**

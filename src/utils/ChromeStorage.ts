@@ -65,11 +65,7 @@ export const dummyFavList = (favName: string): PlayListDict => {
 };
 
 export const dummyFavListFromList = (list: PlayListDict) => {
-  const newList = dummyFavList('');
-  for (const [key, val] of Object.entries(list)) {
-    newList[key] = val;
-  }
-  return newList;
+  return { ...dummyFavList(''), ...list };
 };
 
 export const dummyFavFavList = () => {
