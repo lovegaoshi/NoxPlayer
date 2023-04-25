@@ -103,6 +103,7 @@ export default function songRenameDialog({
           onChange={(e) => setSongName(e.target.value)}
           value={songName}
           autoComplete="off"
+          onKeyDown={(e) => { if (e.code === 'Enter') handleClose(); }}
         />
       </DialogContent>
       <DialogActions>
