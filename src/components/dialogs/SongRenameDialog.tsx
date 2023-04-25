@@ -9,10 +9,18 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getBiliUser } from '../../utils/PersonalCloudAuth';
 import { getPlayerSettingKey } from '../../utils/ChromeStorage';
+import Song from '../../objects/SongInterface';
+
+interface props {
+  openState: boolean;
+  songObj: Song;
+  onClose: Function;
+  saveList: Function;
+}
 
 export default function songRenameDialog({
   openState, songObj, onClose, saveList,
-}) {
+}: props) {
   const [songBVID, setSongBVID] = useState('');
   const [songBVIndex, setSongBVIndex] = useState('');
   const [songName, setSongName] = useState('');
@@ -21,17 +29,17 @@ export default function songRenameDialog({
 
   useEffect(() => {
     setSongBVID(songObj.bvid);
-    setSongBVIndex(songObj.page ? songObj.page : '');
+    setSongBVIndex(songObj.page ? String(songObj.page) : '');
     setSongName(songObj.parsedName);
   }, [songObj]);
 
   const handleClose = async () => {
     // 歌曲名：卡宝殿下，歌手名：甜儿，专辑名：
-    const regExtractQQMusicName = (name) => {
+    const regExtractQQMusicName = (name: string) => {
       const extractedName = /歌曲名：(.+)，歌手名/.exec(name);
       if (extractedName) {
-        setSongName(extractedName);
-        return extractedName[1];
+        setSongName(extractedName[1]!);
+        return extractedName[1]!;
       }
       return name;
     };
@@ -57,7 +65,8 @@ export default function songRenameDialog({
             closeSnackbar(key);
             enqueueSnackbar('歌名修订API连接成功', { variant: 'success' });
           } else {
-            throw new Error(res);
+            console.error(res);
+            throw new Error('connect to song rename API failed; res status is not 200');
           }
         } catch (e) {
           closeSnackbar(key);
@@ -117,7 +126,7 @@ export default function songRenameDialog({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}> 取消 </Button>
+        <Button onClick={() => onClose()}> 取消 </Button>
         <Button onClick={handleClose}> 好的 </Button>
       </DialogActions>
     </Dialog>

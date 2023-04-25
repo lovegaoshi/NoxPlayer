@@ -4,7 +4,7 @@ export default interface Song {
   name: string;
   nameRaw: string;
   singer: string;
-  singerId: string;
+  singerId: string | number;
   cover: string;
   musicSrc: string;
   lyric: string;

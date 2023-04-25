@@ -8,10 +8,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import { PlayListDict } from '../../utils/ChromeStorage';
+
+interface props {
+  fromList: PlayListDict;
+  onClose: Function;
+  openState: boolean;
+  rssUpdate: Function;
+  onCancel: Function;
+}
 
 export default function FavSettingsDialog ({
   fromList, onClose, openState, rssUpdate, onCancel,
-}) {
+}: props) {
   const [subUrl, setSubUrl] = useState('');
   const [bannedBVids, setBannedBVids] = useState('');
   const [favListName, setFavListName] = useState('');
@@ -19,7 +28,7 @@ export default function FavSettingsDialog ({
 
   if (fromList === undefined) return;
 
-  const setArrayAsStr = (val, setFunc = setSubUrl) => {
+  const setArrayAsStr = (val: Array<string>, setFunc = setSubUrl) => {
     try {
       setFunc(val.join(';'));
     } catch {
