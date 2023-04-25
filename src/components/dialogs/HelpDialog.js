@@ -13,7 +13,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { textToDialogContent } from './genericDialog';
 import changelogTxt from '../../../changelog.txt';
 
-export default function HelpDialog({ onClose, openState }) {
+export default function HelpDialog({ onClose, openState, id }) {
   const confirm = useConfirm();
   const openChangelogWindow = (val) => {
     confirm({
@@ -24,13 +24,10 @@ export default function HelpDialog({ onClose, openState }) {
       dialogProps: { sx: { maxHeight: '60vh', top: '20%' } },
     }).then().catch();
   };
-  const handleCancel = () => {
-    onClose();
-  };
 
   return (
     <div>
-      <Dialog open={openState}>
+      <Dialog open={openState} id={id}>
         <DialogTitle>帮助</DialogTitle>
         <DialogContent sx={{ maxWidth: '50vw' }}>
           <DialogContentText id="alert-dialog-description">
@@ -56,7 +53,7 @@ export default function HelpDialog({ onClose, openState }) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleCancel}>好的</Button>
+          <Button onClick={() => onClose()}>好的</Button>
         </DialogActions>
       </Dialog>
     </div>

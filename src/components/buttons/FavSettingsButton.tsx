@@ -71,7 +71,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate } : props) {
      * and setting to false after finishing.
      * @param {Array} subscribeUrls
      */
-  const handleRssUpdate = (subscribeUrls: Array<string> = []) => {
+  const handleRssUpdate = (subscribeUrls: Array<string> | undefined = undefined) => {
     setLoading(true);
     rssUpdate(subscribeUrls).then(() => setLoading(false)).catch(() => setLoading(false));
   };
