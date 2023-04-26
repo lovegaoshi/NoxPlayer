@@ -28,13 +28,6 @@ const biliTagApiLimiter = new Bottleneck({
 });
 
 /**
- * limits API call to 200ms/call, max 1 concurrency using bottleneck.
- */
-const soloLimiter = new Bottleneck({
-  minTime: 1000,
-  maxConcurrent: 1,
-});
-/**
  *  Video src info
  */
 const URL_PLAY_URL = 'https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16';
@@ -382,7 +375,7 @@ export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
  * @param {array} favList
  * @returns
  */
-export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = [], limiter = biliApiLimiter) => {
+export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = [], limiter = biliTagApiLimiter) => {
   const res = await fetch(url.replace('{pn}', 1));
   const { data } = await res.clone().json();
   const mediaCount = getMediaCount(data);
@@ -419,17 +412,16 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
  * @param {array} favList
  * @returns
  */
-export const fetchAwaitBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = [], limiter = biliApiLimiter) => {
+export const fetchAwaitBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = []) => {
   const res = await fetch(url.replace('{pn}', 1));
   const { data } = await res.clone().json();
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
   for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
-    pagesPromises.push(limiter.schedule(() => fetch(url.replace('{pn}', page))));
+    pagesPromises.push(await fetch(url.replace('{pn}', page)));
   }
-  const resolvedPromises = await Promise.all(pagesPromises);
-  await Promise.all(resolvedPromises.map(async (pages) => {
+  await Promise.all(pagesPromises.map(async (pages) => {
     return pages.json()
       .then((parsedJson) => {
         getItems(parsedJson).forEach((m) => {
