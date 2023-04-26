@@ -13,6 +13,7 @@ import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';
+import { setLocalStorage, CURRENT_PLAYING } from '../utils/ChromeStorage';
 
 // Initial Player options
 const options = {
@@ -81,7 +82,7 @@ export default function Player ({ songList }) {
   const onAudioPlay = useCallback(async (audioInfo) => {
     processExtendsContent(renderExtendsContent({ song: audioInfo }));
     setcurrentAudio(audioInfo);
-    chrome.storage.local.set({ CurrentPlaying: { cid: audioInfo.id, playUrl: audioInfo.musicSrc } });
+    setLocalStorage(CURRENT_PLAYING, { cid: audioInfo.id, playUrl: audioInfo.musicSrc });
     sendBiliHeartbeat(audioInfo);
   }, [params]);
 

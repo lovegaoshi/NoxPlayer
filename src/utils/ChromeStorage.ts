@@ -105,12 +105,24 @@ export const readLocalStorage = async (key: string): Promise<any> => {
   });
 };
 
+export const readLocalStorages = async (keys: Array<string>): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get(keys, (result) => {
+      resolve(result);
+    });
+  });
+};
+
 export const setLocalStorage = async (key: string, val: object | string) => {
   chrome.storage.local.set({ [key]: val });
 };
 
 export const saveFav = async (updatedToList: PlayListDict) => {
   return await chrome.storage.local.set({ [updatedToList.info.id]: updatedToList });
+};
+
+export const clearStorage = async () => {
+  chrome.storage.local.clear();
 };
 
 /**

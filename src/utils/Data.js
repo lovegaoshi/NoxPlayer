@@ -2,7 +2,7 @@ import Bottleneck from 'bottleneck';
 import Youtube from 'youtube-stream-url';
 import Logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
-import { getPlayerSettingKey } from './ChromeStorage';
+import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
 import { extractSongName } from './re';
 import functionPromiseRetry from './retry';
 
@@ -156,10 +156,10 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUr
   // Returns a promise that resolves into the audio stream url
   return (new Promise((resolve, reject) => {
     // console.log('Data.js Calling fetchPlayUrl:' + URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
-    chrome.storage.local.get(['CurrentPlaying', 'PlayerSetting'], (result) => {
+    readLocalStorages(['CurrentPlaying', 'PlayerSetting']).then((result) => {
       // To prohibit current playing audio from fetching a new audio stream
       // If single loop, retreive the promise again.
-      if (result.CurrentPlaying && result.CurrentPlaying.cid === cid && result.PlayerSetting.playMode === 'singleLoop') {
+      if (result.CurrentPlaying?.cid === cid && result.PlayerSetting?.playMode === 'singleLoop') {
         // fixed return point; but why when repeat is single loop, a new promise is retrieved?
         resolve(result.CurrentPlaying.playUrl);
       } else {
@@ -214,10 +214,10 @@ export const fetchAudioPlayUrlPromise = async (sid) => {
   // Returns a promise that resolves into the audio stream url
   return (new Promise((resolve, reject) => {
     // console.log('Data.js Calling fetchPlayUrl:' + URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
-    chrome.storage.local.get(['CurrentPlaying', 'PlayerSetting'], (result) => {
+    readLocalStorages(['CurrentPlaying', 'PlayerSetting']).then((result) => {
       // To prohibit current playing audio from fetching a new audio stream
       // If single loop, retreive the promise again.
-      if (result.CurrentPlaying && result.CurrentPlaying.bvid === sid && result.PlayerSetting.playMode === 'singleLoop') {
+      if (result.CurrentPlaying?.bvid === sid && result.PlayerSetting?.playMode === 'singleLoop') {
         // fixed return point; but why when repeat is single loop, a new promise is retrieved?
         resolve(result.CurrentPlaying.playUrl);
       } else {

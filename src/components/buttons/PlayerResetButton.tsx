@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useConfirm } from 'material-ui-confirm';
+import { clearStorage } from '../../utils/ChromeStorage';
 
 export default function playerResetButton() {
   const confirm = useConfirm();
@@ -13,7 +14,7 @@ export default function playerResetButton() {
       confirmationText: '好的',
       cancellationText: '算了',
     })
-      .then(() => chrome.storage.local.clear())
+      .then(clearStorage)
       .catch();
   };
 

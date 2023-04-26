@@ -13,6 +13,7 @@ import {
   ENUMS,
 } from '../utils/Data';
 import Song, { setSongBiliShazamed } from '../objects/Song';
+import { readLocalStorage } from '../utils/ChromeStorage';
 
 const DEFAULT_BVID = 'BV1g34y1r71w';
 const LAST_PLAY_LIST = 'LastPlayList';
@@ -113,16 +114,15 @@ export const getSongList = async ({ bvid, useBiliTag = false }) => {
 
 // Load last-playist from storage, else use DEFAULT_BVID as initial list.
 export const initSongList = async (setCurrentSongList) => {
-  chrome.storage.local.get([LAST_PLAY_LIST], async (result) => {
-    if (result[LAST_PLAY_LIST] && result[LAST_PLAY_LIST].length !== 0) {
-      // console.log(result)
-      const defaultSongList = result[LAST_PLAY_LIST];
-      setCurrentSongList(defaultSongList);
-    } else {
-      const defaultSongList = await getSongList({ bvid: DEFAULT_BVID });
-      setCurrentSongList(defaultSongList);
-    }
-  });
+  const result = await readLocalStorage(LAST_PLAY_LIST);
+  if (result && result.length !== 0) {
+    // console.log(result)
+    const defaultSongList = result;
+    setCurrentSongList(defaultSongList);
+  } else {
+    const defaultSongList = await getSongList({ bvid: DEFAULT_BVID });
+    setCurrentSongList(defaultSongList);
+  }
 };
 
 export const getSongListFromAudio = async ({ bvid }) => {
