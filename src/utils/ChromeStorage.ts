@@ -20,27 +20,27 @@ export const EXPORT_OPTIONS = {
 export interface PlayerSettingDict {
   playMode: string;
   defaultPlayMode: string;
-  defaultVolume: number,
-  autoRSSUpdate: boolean,
-  skin: string,
-  parseSongName: boolean,
-  keepSearchedSongListWhenPlaying: boolean,
-  settingExportLocation: string,
-  personalCloudIP: string,
-  noxVersion: string,
-  hideCoverInMobile: boolean,
-  loadPlaylistAsArtist: boolean,
-  sendBiliHeartbeat: boolean,
-  noCookieBiliSearch: boolean,
+  defaultVolume: number;
+  autoRSSUpdate: boolean;
+  skin: string;
+  parseSongName: boolean;
+  keepSearchedSongListWhenPlaying: boolean;
+  settingExportLocation: string;
+  personalCloudIP: string;
+  noxVersion: string;
+  hideCoverInMobile: boolean;
+  loadPlaylistAsArtist: boolean;
+  sendBiliHeartbeat: boolean;
+  noCookieBiliSearch: boolean;
   [key: string]: any;
 }
 
 export interface PlayListDict {
   songList: Array<Song>;
-  info: { title: string, id: string };
+  info: { title: string; id: string };
   subscribeUrls: Array<string>;
   settings: {
-    autoRSSUpdate: boolean,
+    autoRSSUpdate: boolean;
   };
   useBiliShazam: boolean;
   bannedBVids: Array<string>;
@@ -51,7 +51,7 @@ export interface PlayListDict {
 export const dummyFavList = (favName: string): PlayListDict => {
   return {
     songList: [],
-    info: { title: favName, id: (`FavList-${uuidv4()}`) },
+    info: { title: favName, id: `FavList-${uuidv4()}` },
     // this is not a Set because we need to serialize this
     // for importing/exporting playlists.
     subscribeUrls: [],
@@ -118,7 +118,9 @@ export const setLocalStorage = async (key: string, val: object | string) => {
 };
 
 export const saveFav = async (updatedToList: PlayListDict) => {
-  return await chrome.storage.local.set({ [updatedToList.info.id]: updatedToList });
+  return await chrome.storage.local.set({
+    [updatedToList.info.id]: updatedToList,
+  });
 };
 
 export const clearStorage = async () => {
@@ -131,12 +133,14 @@ export const clearStorage = async () => {
  * @returns playerSetting
  */
 export const getPlayerSetting = async (): Promise<PlayerSettingDict> => {
-  const settings = await readLocalStorage(PLAYER_SETTINGS) as PlayerSettingDict;
+  const settings = (await readLocalStorage(
+    PLAYER_SETTINGS,
+  )) as PlayerSettingDict;
   // console.log(settings)
   if (settings === undefined) {
     return DEFAULT_SETTING;
   }
-  return (settings);
+  return settings;
 };
 
 /**
@@ -145,7 +149,9 @@ export const getPlayerSetting = async (): Promise<PlayerSettingDict> => {
  * @param {string} key
  * @returns value in playerSetting
  */
-export const getPlayerSettingKey = async (key: string | undefined = undefined) => {
+export const getPlayerSettingKey = async (
+  key: string | undefined = undefined,
+) => {
   const settings = (await getPlayerSetting())!;
   if (key === undefined) {
     return settings;
@@ -157,6 +163,14 @@ export const getPlayerSettingKey = async (key: string | undefined = undefined) =
   return DEFAULT_SETTING[key];
 };
 
-export const saveMyFavList = (newList: PlayListDict, callbackFunc = () => { console.debug('saveMyFavList called.'); }) => {
-  chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.info.id) }, callbackFunc);
+export const saveMyFavList = (
+  newList: PlayListDict,
+  callbackFunc = () => {
+    console.debug('saveMyFavList called.');
+  },
+) => {
+  chrome.storage.local.set(
+    { [MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.info.id) },
+    callbackFunc,
+  );
 };
