@@ -30,68 +30,83 @@ const biliTagApiLimiter = new Bottleneck({
 /**
  *  Video src info
  */
-const URL_PLAY_URL = 'https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16';
+const URL_PLAY_URL =
+  'https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16';
 /**
  *  API that gets the tag of a video. sometimes bilibili identifies the BGM used.
  * https://api.bilibili.com/x/web-interface/view/detail/tag?bvid=BV1sY411i7jP&cid=1005921247
  */
-const URL_VIDEO_TAGS = 'https://api.bilibili.com/x/web-interface/view/detail/tag?bvid={bvid}&cid={cid}';
+const URL_VIDEO_TAGS =
+  'https://api.bilibili.com/x/web-interface/view/detail/tag?bvid={bvid}&cid={cid}';
 /**
  *  bilibili API to get an audio's stream src url.
  * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/audio/musicstream_url.md
  * https://api.bilibili.com/audio/music-service-c/url doesnt work.
  * au must be removed, eg. https://www.bilibili.com/audio/music-service-c/web/url?sid=745350
  */
-const URL_AUDIO_PLAY_URL = 'https://www.bilibili.com/audio/music-service-c/web/url?sid={sid}';
+const URL_AUDIO_PLAY_URL =
+  'https://www.bilibili.com/audio/music-service-c/web/url?sid={sid}';
 /**
  *  BVID -> CID
  */
-const URL_BVID_TO_CID = 'https://api.bilibili.com/x/player/pagelist?bvid={bvid}&jsonp=jsonp';
+const URL_BVID_TO_CID =
+  'https://api.bilibili.com/x/player/pagelist?bvid={bvid}&jsonp=jsonp';
 /**
  *  Audio Basic Info
  * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/audio/info.md
  */
-const URL_AUDIO_INFO = 'https://www.bilibili.com/audio/music-service-c/web/song/info?sid={sid}';
+const URL_AUDIO_INFO =
+  'https://www.bilibili.com/audio/music-service-c/web/song/info?sid={sid}';
 /**
  *  Video Basic Info
  */
-const URL_VIDEO_INFO = 'http://api.bilibili.com/x/web-interface/view?bvid={bvid}';
+const URL_VIDEO_INFO =
+  'http://api.bilibili.com/x/web-interface/view?bvid={bvid}';
 /**
  *  channel series API Extract Info
  */
-const URL_BILISERIES_INFO = 'https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30';
+const URL_BILISERIES_INFO =
+  'https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30';
 /**
  *  channel series API Extract Info
  */
-const URL_BILICOLLE_INFO = 'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=100';
+const URL_BILICOLLE_INFO =
+  'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=100';
 /**
  *  channel API Extract Info
  */
-const URL_BILICHANNEL_INFO = 'https://api.bilibili.com/x/space/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50';
+const URL_BILICHANNEL_INFO =
+  'https://api.bilibili.com/x/space/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50';
 /**
  *  Fav List
  */
-const URL_FAV_LIST = 'https://api.bilibili.com/x/v3/fav/resource/list?media_id={mid}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web&jsonp=jsonp';
+const URL_FAV_LIST =
+  'https://api.bilibili.com/x/v3/fav/resource/list?media_id={mid}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web&jsonp=jsonp';
 /**
  *  BILIBILI search API.
  */
-const URL_BILI_SEARCH = 'https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}';
+const URL_BILI_SEARCH =
+  'https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}';
 /**
  *  LRC Mapping
  */
-const URL_LRC_MAPPING = 'https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/mappings.txt';
+const URL_LRC_MAPPING =
+  'https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/mappings.txt';
 /**
  *  LRC Base
  */
-const URL_LRC_BASE = 'https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/{songFile}';
+const URL_LRC_BASE =
+  'https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/{songFile}';
 /**
  *  QQ SongSearch API
  */
-const URL_QQ_SEARCH = 'https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key={KeyWord}';
+const URL_QQ_SEARCH =
+  'https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key={KeyWord}';
 /**
  *  QQ LyricSearchAPI
  */
-const URL_QQ_LYRIC = 'https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1';
+const URL_QQ_LYRIC =
+  'https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1';
 
 export const ENUMS = {
   audioType: 'audio',
@@ -110,7 +125,8 @@ export const fetchPlayUrlPromise = async (bvid, cid) => {
   const cidStr = cid.toString();
   if (cidStr.startsWith(ENUMS.audioType)) {
     return fetchAudioPlayUrlPromise(bvid);
-  } if (cidStr.startsWith(ENUMS.youtube)) {
+  }
+  if (cidStr.startsWith(ENUMS.youtube)) {
     return fetchYoutubePromise(bvid);
   }
   return fetchVideoPlayUrlPromise(bvid, cid);
@@ -129,7 +145,10 @@ const fetchYoutubePromise = async (ytbid) => {
   const extractedVideoInfo = await fetchYoutubeVideo(ytbid);
   let maxAudioQualityStream = { bitrate: 0 };
   for (const videoStream of extractedVideoInfo.formats) {
-    if (videoStream.loudnessDb && videoStream.bitrate > maxAudioQualityStream.bitrate) {
+    if (
+      videoStream.loudnessDb &&
+      videoStream.bitrate > maxAudioQualityStream.bitrate
+    ) {
       maxAudioQualityStream = videoStream;
     }
   }
@@ -143,16 +162,25 @@ const fetchYoutubePromise = async (ytbid) => {
  * some videos have episodes that this may not be accurate.
  * @returns
  */
-export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUrl') => {
-  if (!cid) { cid = await fetchCID(bvid).catch((err) => console.error(err)); }
+export const fetchVideoPlayUrlPromise = async (
+  bvid,
+  cid,
+  extractType = 'AudioUrl',
+) => {
+  if (!cid) {
+    cid = await fetchCID(bvid).catch((err) => console.error(err));
+  }
 
   // Returns a promise that resolves into the audio stream url
-  return (new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     // console.log('Data.js Calling fetchPlayUrl:' + URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
     readLocalStorages(['CurrentPlaying', 'PlayerSetting']).then((result) => {
       // To prohibit current playing audio from fetching a new audio stream
       // If single loop, retreive the promise again.
-      if (result.CurrentPlaying?.cid === cid && result.PlayerSetting?.playMode === 'singleLoop') {
+      if (
+        result.CurrentPlaying?.cid === cid &&
+        result.PlayerSetting?.playMode === 'singleLoop'
+      ) {
         // fixed return point; but why when repeat is single loop, a new promise is retrieved?
         resolve(result.CurrentPlaying.playUrl);
       } else {
@@ -162,7 +190,7 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUr
           .catch((err) => reject(console.error(err)));
       }
     });
-  }));
+  });
 };
 
 /**
@@ -173,7 +201,9 @@ export const fetchVideoPlayUrlPromise = async (bvid, cid, extractType = 'AudioUr
  * @returns
  */
 const fetchVideoTagPromiseRaw = async ({ bvid, cid }) => {
-  const req = await fetch(URL_VIDEO_TAGS.replace('{bvid}', bvid).replace('{cid}', cid));
+  const req = await fetch(
+    URL_VIDEO_TAGS.replace('{bvid}', bvid).replace('{cid}', cid),
+  );
   const json = await req.json();
   try {
     if (json.data[0].tag_type === 'bgm') {
@@ -181,12 +211,19 @@ const fetchVideoTagPromiseRaw = async ({ bvid, cid }) => {
     }
     return null;
   } catch (e) {
-    console.warn(`fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`, e);
+    console.warn(
+      `fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`,
+      e,
+    );
     return null;
   }
 };
 
-export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmit = () => {}) => {
+export const biliAPILimiterWrapper = async (
+  params,
+  func = () => {},
+  progressEmit = () => {},
+) => {
   return biliApiLimiter.schedule(() => {
     progressEmit();
     return func(params);
@@ -194,7 +231,9 @@ export const biliAPILimiterWrapper = async (params, func = () => {}, progressEmi
 };
 
 export const fetchVideoTagPromise = async ({ bvid, cid }) => {
-  return biliTagApiLimiter.schedule(() => fetchVideoTagPromiseRaw({ bvid, cid }));
+  return biliTagApiLimiter.schedule(() =>
+    fetchVideoTagPromiseRaw({ bvid, cid }),
+  );
 };
 
 /**
@@ -205,12 +244,15 @@ export const fetchVideoTagPromise = async ({ bvid, cid }) => {
  */
 export const fetchAudioPlayUrlPromise = async (sid) => {
   // Returns a promise that resolves into the audio stream url
-  return (new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     // console.log('Data.js Calling fetchPlayUrl:' + URL_PLAY_URL.replace("{bvid}", bvid).replace("{cid}", cid))
     readLocalStorages(['CurrentPlaying', 'PlayerSetting']).then((result) => {
       // To prohibit current playing audio from fetching a new audio stream
       // If single loop, retreive the promise again.
-      if (result.CurrentPlaying?.bvid === sid && result.PlayerSetting?.playMode === 'singleLoop') {
+      if (
+        result.CurrentPlaying?.bvid === sid &&
+        result.PlayerSetting?.playMode === 'singleLoop'
+      ) {
         // fixed return point; but why when repeat is single loop, a new promise is retrieved?
         resolve(result.CurrentPlaying.playUrl);
       } else {
@@ -220,7 +262,7 @@ export const fetchAudioPlayUrlPromise = async (sid) => {
           .catch((err) => reject(console.error(err)));
       }
     });
-  }));
+  });
 };
 
 /**
@@ -280,7 +322,9 @@ export const fetchVideoInfoRaw = async ({ bvid }) => {
       data.videos,
       data.pic,
       data.owner,
-      data.pages.map((s) => { return ({ bvid, part: s.part, cid: s.cid }); }),
+      data.pages.map((s) => {
+        return { bvid, part: s.part, cid: s.cid };
+      }),
       bvid,
     );
     return v;
@@ -338,20 +382,36 @@ export const fetchAudioInfoRaw = async (sid) => {
  * @param {array} favList
  * @returns
  */
-export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = []) => {
+export const fetchBiliSeriesList = async (
+  mid,
+  sid,
+  progressEmitter,
+  favList = [],
+) => {
   logger.info('calling fetchBiliSeriesList');
   const page = 0;
-  const res = await fetch(URL_BILISERIES_INFO.replace('{mid}', mid).replace('{sid}', sid).replace('{pn}', page));
+  const res = await fetch(
+    URL_BILISERIES_INFO.replace('{mid}', mid)
+      .replace('{sid}', sid)
+      .replace('{pn}', page),
+  );
   const json = await res.json();
   const { data } = json;
 
   const BVidPromises = [];
   for (let i = 0, n = data.archives.length; i < n; i++) {
     if (favList.includes(data.archives[i].bvid)) {
-      console.debug('fetchBiliSeriesList: skipped duplicate bvid during rss feed update', data.archives[i].bvid);
+      console.debug(
+        'fetchBiliSeriesList: skipped duplicate bvid during rss feed update',
+        data.archives[i].bvid,
+      );
       continue;
     }
-    BVidPromises.push(fetchVideoInfo(data.archives[i].bvid, () => { progressEmitter(parseInt(100 * (i + 1) / data.archives.length)); }));
+    BVidPromises.push(
+      fetchVideoInfo(data.archives[i].bvid, () => {
+        progressEmitter(parseInt((100 * (i + 1)) / data.archives.length));
+      }),
+    );
   }
   return (await Promise.all(BVidPromises)).filter((item) => item !== undefined);
 };
@@ -359,7 +419,11 @@ export const fetchBiliSeriesList = async (mid, sid, progressEmitter, favList = [
 export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
   const BVidPromises = [];
   for (let index = 0, n = BVids.length; index < n; index++) {
-    BVidPromises.push(fetchVideoInfo(BVids[index], () => { progressEmitter(parseInt(100 * (index + 1) / n)); }));
+    BVidPromises.push(
+      fetchVideoInfo(BVids[index], () => {
+        progressEmitter(parseInt((100 * (index + 1)) / n));
+      }),
+    );
   }
   return await Promise.all(BVidPromises);
 };
@@ -375,30 +439,58 @@ export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
  * @param {array} favList
  * @returns
  */
-export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = [], limiter = biliTagApiLimiter) => {
+export const fetchBiliPaginatedAPI = async (
+  url,
+  getMediaCount,
+  getPageSize,
+  getItems,
+  progressEmitter,
+  favList = [],
+  limiter = biliTagApiLimiter,
+) => {
   const res = await fetch(url.replace('{pn}', 1));
-  const { data } = await res.clone().json();
+  const { data } = await extract509Json(res.clone());
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
-  for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
-    pagesPromises.push(limiter.schedule(() => fetch(url.replace('{pn}', page))));
+  for (
+    let page = 2, n = Math.ceil(mediaCount / getPageSize(data));
+    page <= n;
+    page++
+  ) {
+    pagesPromises.push(
+      limiter.schedule(() => fetch(url.replace('{pn}', page))),
+    );
   }
   const resolvedPromises = await Promise.all(pagesPromises);
-  await Promise.all(resolvedPromises.map(async (pages) => {
-    return pages.json()
-      .then((parsedJson) => {
-        getItems(parsedJson).forEach((m) => {
-          if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+  await Promise.all(
+    resolvedPromises.map(async (pages) => {
+      return extract509Json(pages)
+        .then((parsedJson) => {
+          getItems(parsedJson).forEach((m) => {
+            if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+          });
+        })
+        .catch((err) => {
+          console.error(err, pages);
         });
-      })
-      .catch((err) => {
-        console.error(err, pages);
-        pages.text().then(console.log);
-      });
-  }));
+    }),
+  );
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  return (await fetchiliBVIDs(BVids, progressEmitter)).filter((item) => item !== undefined);
+  return (await fetchiliBVIDs(BVids, progressEmitter)).filter(
+    (item) => item !== undefined,
+  );
+};
+
+const extract509Json = async (res) => {
+  let resText = await res.text();
+  if (resText.includes('"code":-509,')) {
+    resText = resText
+      .slice(resText.indexOf('}') + 1)
+      .replaceAll('\n', '')
+      .replaceAll('\r', '');
+  }
+  return JSON.parse(resText);
 };
 
 /**
@@ -412,29 +504,45 @@ export const fetchBiliPaginatedAPI = async (url, getMediaCount, getPageSize, get
  * @param {array} favList
  * @returns
  */
-export const fetchAwaitBiliPaginatedAPI = async (url, getMediaCount, getPageSize, getItems, progressEmitter, favList = []) => {
+export const fetchAwaitBiliPaginatedAPI = async (
+  url,
+  getMediaCount,
+  getPageSize,
+  getItems,
+  progressEmitter,
+  favList = [],
+) => {
   const res = await fetch(url.replace('{pn}', 1));
   const { data } = await res.clone().json();
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
-  for (let page = 2, n = Math.ceil(mediaCount / getPageSize(data)); page <= n; page++) {
+  for (
+    let page = 2, n = Math.ceil(mediaCount / getPageSize(data));
+    page <= n;
+    page++
+  ) {
     pagesPromises.push(await fetch(url.replace('{pn}', page)));
   }
-  await Promise.all(pagesPromises.map(async (pages) => {
-    return pages.json()
-      .then((parsedJson) => {
-        getItems(parsedJson).forEach((m) => {
-          if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+  await Promise.all(
+    pagesPromises.map(async (pages) => {
+      return pages
+        .json()
+        .then((parsedJson) => {
+          getItems(parsedJson).forEach((m) => {
+            if (!favList.includes(m.bvid)) BVids.push(m.bvid);
+          });
+        })
+        .catch((err) => {
+          console.error(err, pages);
+          pages.text().then(console.log);
         });
-      })
-      .catch((err) => {
-        console.error(err, pages);
-        pages.text().then(console.log);
-      });
-  }));
+    }),
+  );
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  return (await fetchiliBVIDs(BVids, progressEmitter)).filter((item) => item !== undefined);
+  return (await fetchiliBVIDs(BVids, progressEmitter)).filter(
+    (item) => item !== undefined,
+  );
 };
 
 /**
@@ -447,14 +555,19 @@ export const fetchAwaitBiliPaginatedAPI = async (url, getMediaCount, getPageSize
  * @param {array} favList
  * @returns
  */
-export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []) => {
+export const fetchBiliColleList = async (
+  mid,
+  sid,
+  progressEmitter,
+  favList = [],
+) => {
   logger.info('calling fetchBiliColleList');
 
   return fetchBiliPaginatedAPI(
     URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid),
-    (data) => { return data.meta.total; },
-    (data) => { return data.page.page_size; },
-    (js) => { return js.data.archives; },
+    (data) => data.meta.total,
+    (data) => data.page.page_size,
+    (js) => js.data.archives,
     progressEmitter,
     favList,
   );
@@ -470,7 +583,11 @@ export const fetchBiliColleList = async (mid, sid, progressEmitter, favList = []
  * @param {array} favList
  * @returns
  */
-export const fetchBiliChannelList = async (url, progressEmitter, favList = []) => {
+export const fetchBiliChannelList = async (
+  url,
+  progressEmitter,
+  favList = [],
+) => {
   logger.info('calling fetchBiliChannelList');
   const mid = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(url)[1];
   let searchAPI = URL_BILICHANNEL_INFO.replace('{mid}', mid);
@@ -481,9 +598,9 @@ export const fetchBiliChannelList = async (url, progressEmitter, favList = []) =
   }
   return fetchBiliPaginatedAPI(
     searchAPI,
-    (data) => { return data.page.count; },
-    (data) => { return data.page.ps; },
-    (js) => { return js.data.list.vlist; },
+    (data) => data.page.count,
+    (data) => data.page.ps,
+    (js) => js.data.list.vlist,
     progressEmitter,
     favList,
   );
@@ -496,7 +613,11 @@ export const fetchBiliChannelList = async (url, progressEmitter, favList = []) =
  * @param {array} favList
  * @returns
  */
-export const fetchGenericPaginatedList = async (url, progressEmitter, favList = []) => {
+export const fetchGenericPaginatedList = async (
+  url,
+  progressEmitter,
+  favList = [],
+) => {
   logger.info('calling fetchGenricPaginatedList');
   const exampleUrl = 'https://steria.vplayer.tk/api/musics/{pn}';
   const res = await fetch(url.replace('{pn}', 1));
@@ -524,9 +645,9 @@ export const fetchFavList = async (mid, progressEmitter, favList = []) => {
 
   return fetchBiliPaginatedAPI(
     URL_FAV_LIST.replace('{mid}', mid),
-    (data) => { return data.info.media_count; },
-    (data) => { return 20; },
-    (js) => { return js.data.medias; },
+    (data) => data.info.media_count,
+    (data) => 20,
+    (js) => js.data.medias,
     progressEmitter,
     favList,
   );
@@ -549,18 +670,24 @@ export const fetchBiliSearchList = async (kword, progressEmitter) => {
   // setting a random buvid3 would enable this API. should i initialize it
   // in start up?
   if (noCookieSearch) {
-    cookieSESSDATA = await chrome.cookies.get({ url: 'https://bilibili.com', name: 'SESSDATA' });
+    cookieSESSDATA = await chrome.cookies.get({
+      url: 'https://bilibili.com',
+      name: 'SESSDATA',
+    });
     await chrome.cookies.set({
-      url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: 'dummyval',
+      url: 'https:api.bilibili.com',
+      domain: '.bilibili.com',
+      name: 'SESSDATA',
+      value: 'dummyval',
     });
   }
   let val = [];
   try {
     val = await fetchBiliPaginatedAPI(
       URL_BILI_SEARCH.replace('{keyword}', kword),
-      (data) => { return Math.min(data.numResults, data.pagesize * 2); },
-      (data) => { return data.pagesize; },
-      (js) => { return js.data.result; },
+      (data) => Math.min(data.numResults, data.pagesize * 2),
+      (data) => data.pagesize,
+      (js) => js.data.result,
       progressEmitter,
       [],
     );
@@ -569,7 +696,10 @@ export const fetchBiliSearchList = async (kword, progressEmitter) => {
   } finally {
     if (noCookieSearch) {
       await chrome.cookies.set({
-        url: 'https:api.bilibili.com', domain: '.bilibili.com', name: 'SESSDATA', value: cookieSESSDATA.value,
+        url: 'https:api.bilibili.com',
+        domain: '.bilibili.com',
+        name: 'SESSDATA',
+        value: cookieSESSDATA.value,
       });
     }
   }
@@ -613,7 +743,13 @@ export const searchLyricOptions = async (searchKey, setOptions) => {
   const res = await fetch(URL_QQ_SEARCH.replace('{KeyWord}', searchKey));
   const json = await res.json();
   const data = json.data.song.itemlist;
-  const slimData = data.map((s, v) => { return { key: s.mid, songMid: s.mid, label: `${v}. ${s.name} / ${s.singer}` }; });
+  const slimData = data.map((s, v) => {
+    return {
+      key: s.mid,
+      songMid: s.mid,
+      label: `${v}. ${s.name} / ${s.singer}`,
+    };
+  });
 
   setOptions(slimData);
 };
@@ -630,7 +766,9 @@ export const searchLyric = async (searchMID, setLyric) => {
   let finalLrc = json.lyric;
 
   // Merge trans Lyrics
-  if (json.trans) { finalLrc = `${json.trans}\n${finalLrc}`; }
+  if (json.trans) {
+    finalLrc = `${json.trans}\n${finalLrc}`;
+  }
 
   // console.log(finalLrc)
   setLyric(finalLrc);
