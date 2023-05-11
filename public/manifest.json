@@ -1,7 +1,7 @@
 {
   "name": "电闹播放器",
-  "version": "2.1.0.0",
-  "description":"电闹播放器 / nox-player: 第三方b站播放器，阿梓播放器威力加强版 / 3rd party Bilibili audio player modified from Azusa-player.",
+  "version": "2.1.1.0",
+  "description": "电闹播放器 / nox-player: 第三方b站播放器，阿梓播放器威力加强版 / 3rd party Bilibili audio player modified from Azusa-player.",
   "manifest_version": 3,
   "background": {
     "service_worker": "serviceWorker.js"
@@ -39,10 +39,12 @@
     "*://*.bilivideo.cn/*"
   ],
   "declarative_net_request": {
-    "rule_resources": [{
-      "id": "ruleset_1",
-      "enabled": true,
-      "path": "rules.json"
-    }]
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
   }
 }

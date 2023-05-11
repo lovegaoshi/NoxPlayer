@@ -3,6 +3,10 @@ noir皮肤
 塞克西废墟皮肤
 rynia皮肤yarn
 
+2.1.1.0:
+fix biliChannel fetch polluted with 504 too many requests for ME! ME! ME!
+steria animated background
+
 2.1.0.0:
 按住点赞一键三连
 partially migrated to typescript
