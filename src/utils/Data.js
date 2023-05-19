@@ -570,6 +570,7 @@ export const fetchBiliColleList = async (
     (js) => js.data.archives,
     progressEmitter,
     favList,
+    biliApiLimiter,
   );
 };
 

@@ -13,6 +13,7 @@ import SteriaTheme from './skins/steria';
 import AriaTheme from './skins/aria';
 import NoirTheme from './skins/noir';
 import RyniaTheme from './skins/rynia';
+import NiyaTheme from './skins/nyiaibu';
 // needs to enable top-level await; necessary for other modules to import current skin config
 const setting = await new StorageManager().getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
@@ -31,17 +32,18 @@ export const SkinKeys = [
   '阿蕊娅Aria',
   '黑泽诺亚NOIR',
   '莱妮娅Rynia',
+  '阿布',
 ];
 
 export const skins = (key = setting.skin) => {
   /**
-     * skin requires:
-     * player banner (~2000*80)
-     * mobile player banner (~600*400)
-     * gif icon (60*60)
-     * various color themes
-     *
-     */
+   * skin requires:
+   * player banner (~2000*80)
+   * mobile player banner (~600*400)
+   * gif icon (60*60)
+   * various color themes
+   *
+   */
   if (!key) {
     key = '诺莺nox';
   }
@@ -72,6 +74,8 @@ export const skins = (key = setting.skin) => {
       return NoirTheme;
     case '莱妮娅Rynia':
       return RyniaTheme;
+    case '阿布':
+      return NiyaTheme;
     default:
       // default is azusa skin.
       return AzusaTheme;
