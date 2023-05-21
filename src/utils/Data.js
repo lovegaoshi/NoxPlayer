@@ -17,6 +17,11 @@ const biliApiLimiter = new Bottleneck({
   maxConcurrent: 5,
 });
 
+const awaitLimiter = new Bottleneck({
+  minTime: 2000,
+  maxConcurrent: 1,
+});
+
 /**
  * limits to bilibili.tag API call to 100ms/call using bottleneck
  * through experiment bilibili.tag seems to be more tolerable
@@ -76,7 +81,7 @@ const URL_BILICOLLE_INFO =
  *  channel API Extract Info
  */
 const URL_BILICHANNEL_INFO =
-  'https://api.bilibili.com/x/space/wbi/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50';
+  'https://api.bilibili.com/x/space/wbi/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50&order_avoided=true&w_rid=5741a58656bd29a1c9b1e739736e6593&wts=1684683195';
 /**
  *  Fav List
  */
@@ -604,6 +609,7 @@ export const fetchBiliChannelList = async (
     (js) => js.data.list.vlist,
     progressEmitter,
     favList,
+    awaitLimiter,
   );
 };
 
