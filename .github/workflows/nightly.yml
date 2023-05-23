@@ -31,6 +31,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"  
+        
       - name: get custom react music player
         run: git clone https://github.com/lovegaoshi/react-music-player.git Dependencies/react-jinke-music-player
         
@@ -51,5 +55,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: nightly
+          tag_name: nightly-${{ steps.date.outputs.date }}
           files: build.zip
