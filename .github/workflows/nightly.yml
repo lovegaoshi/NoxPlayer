@@ -34,9 +34,12 @@ jobs:
       - name: Get current date
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+      
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
         
       - name: get custom react music player
-        run: rm -rf Dependencies/react-jinke-music-player && git clone https://github.com/lovegaoshi/react-music-player.git Dependencies/react-jinke-music-player
+        run: git clone https://github.com/lovegaoshi/react-music-player.git Dependencies/react-jinke-music-player
         
       - name: build rjmp
         run: cd Dependencies/react-jinke-music-player && yarn && yarn build
