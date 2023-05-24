@@ -4,6 +4,7 @@ import Logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
 import { extractSongName } from './re';
+import { wbiQuery } from '../stores/wbi';
 import functionPromiseRetry from './retry';
 
 const logger = new Logger('Data.js');
@@ -18,7 +19,7 @@ const biliApiLimiter = new Bottleneck({
 });
 
 const awaitLimiter = new Bottleneck({
-  minTime: 2000,
+  minTime: 4000,
   maxConcurrent: 1,
 });
 
@@ -81,7 +82,7 @@ const URL_BILICOLLE_INFO =
  *  channel API Extract Info
  */
 const URL_BILICHANNEL_INFO =
-  'https://api.bilibili.com/x/space/wbi/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50&order_avoided=true&w_rid=5741a58656bd29a1c9b1e739736e6593&wts=1684683195';
+  'https://api.bilibili.com/x/space/wbi/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50';
 /**
  *  Fav List
  */
@@ -453,8 +454,9 @@ export const fetchBiliPaginatedAPI = async (
   favList = [],
   limiter = biliTagApiLimiter,
 ) => {
-  const res = await fetch(url.replace('{pn}', 1));
-  const { data } = await extract509Json(res.clone());
+  const wbiAwareFetch = url.includes('/wbi/') ? wbiQuery : fetch;
+  const res = await wbiAwareFetch(url.replace('{pn}', 1));
+  const { data } = await res.clone().json();
   const mediaCount = getMediaCount(data);
   const BVids = [];
   const pagesPromises = [res];
@@ -464,13 +466,14 @@ export const fetchBiliPaginatedAPI = async (
     page++
   ) {
     pagesPromises.push(
-      limiter.schedule(() => fetch(url.replace('{pn}', page))),
+      limiter.schedule(() => wbiAwareFetch(url.replace('{pn}', page))),
     );
   }
   const resolvedPromises = await Promise.all(pagesPromises);
   await Promise.all(
     resolvedPromises.map(async (pages) => {
-      return extract509Json(pages)
+      return pages
+        .json()
         .then((parsedJson) => {
           getItems(parsedJson).forEach((m) => {
             if (!favList.includes(m.bvid)) BVids.push(m.bvid);
@@ -487,28 +490,6 @@ export const fetchBiliPaginatedAPI = async (
   );
 };
 
-const extract509Json = async (res) => {
-  let resText = await res.text();
-  if (resText.includes('"code":-509,')) {
-    resText = resText
-      .slice(resText.indexOf('}') + 1)
-      .replaceAll('\n', '')
-      .replaceAll('\r', '');
-  }
-  return JSON.parse(resText);
-};
-
-/**
- * a universal bvid retriever for all bilibili paginated APIs. used to reduce
- * redundant codes in bilibili collection, favlist and channel.
- * @param {string} url
- * @param {function} getMediaCount
- * @param {function} getPageSize
- * @param {function} getItems
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
 export const fetchAwaitBiliPaginatedAPI = async (
   url,
   getMediaCount,
@@ -516,34 +497,39 @@ export const fetchAwaitBiliPaginatedAPI = async (
   getItems,
   progressEmitter,
   favList = [],
+  limiter = biliTagApiLimiter,
 ) => {
-  const res = await fetch(url.replace('{pn}', 1));
-  const { data } = await res.clone().json();
-  const mediaCount = getMediaCount(data);
+  const wbiAwareFetch = url.includes('/wbi/') ? wbiQuery : fetch;
+  // helper function that returns true if more page resolving is needed.
+  const resolvePageJson = async (BVids, json) => {
+    for (const item of getItems(json)) {
+      if (favList.includes(item.bvid)) {
+        return false;
+      }
+      BVids.push(item.bvid);
+    }
+    return true;
+  };
+
+  const res = await wbiAwareFetch(url.replace('{pn}', 1));
+  const json = await res.json();
+  const mediaCount = getMediaCount(json.data);
   const BVids = [];
-  const pagesPromises = [res];
-  for (
-    let page = 2, n = Math.ceil(mediaCount / getPageSize(data));
-    page <= n;
-    page++
-  ) {
-    pagesPromises.push(await fetch(url.replace('{pn}', page)));
+  if (await resolvePageJson(BVids, json)) {
+    for (
+      let page = 2, n = Math.ceil(mediaCount / getPageSize(data));
+      page <= n;
+      page++
+    ) {
+      const subRes = await limiter.schedule(() =>
+        wbiAwareFetch(url.replace('{pn}', page)),
+      );
+      const subJson = await subRes.json();
+      if (!(await resolvePageJson(BVids, subJson))) {
+        break;
+      }
+    }
   }
-  await Promise.all(
-    pagesPromises.map(async (pages) => {
-      return pages
-        .json()
-        .then((parsedJson) => {
-          getItems(parsedJson).forEach((m) => {
-            if (!favList.includes(m.bvid)) BVids.push(m.bvid);
-          });
-        })
-        .catch((err) => {
-          console.error(err, pages);
-          pages.text().then(console.log);
-        });
-    }),
-  );
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
   return (await fetchiliBVIDs(BVids, progressEmitter)).filter(
     (item) => item !== undefined,
@@ -602,7 +588,7 @@ export const fetchBiliChannelList = async (
     // TODO: do this properly with another URLSearchParams instance
     searchAPI += `&tid=${String(urlSearchParam.get('tid'))}`;
   }
-  return fetchBiliPaginatedAPI(
+  return fetchAwaitBiliPaginatedAPI(
     searchAPI,
     (data) => data.page.count,
     (data) => data.page.ps,
