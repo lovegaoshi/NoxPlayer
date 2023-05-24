@@ -517,7 +517,7 @@ export const fetchAwaitBiliPaginatedAPI = async (
   const BVids = [];
   if (await resolvePageJson(BVids, json)) {
     for (
-      let page = 2, n = Math.ceil(mediaCount / getPageSize(data));
+      let page = 2, n = Math.ceil(mediaCount / getPageSize(json.data));
       page <= n;
       page++
     ) {
