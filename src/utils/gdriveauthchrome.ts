@@ -13,9 +13,12 @@ export default () => {
   const url = new URLSearchParams(Object.entries(authParams));
   url.toString();
   authUrl += url;
-  chrome.identity.launchWebAuthFlow({ url: authUrl, interactive: true }, (responseUrl) => {
-    console.log(responseUrl);
-  });
+  chrome.identity.launchWebAuthFlow(
+    { url: authUrl, interactive: true },
+    (responseUrl) => {
+      console.log(responseUrl);
+    },
+  );
 };
 
 // https://stackoverflow.com/questions/65625854/how-to-integrate-gapi-in-chrome-extensions-manifest-v3

@@ -1,9 +1,10 @@
 /* eslint-disable no-shadow */
-import React, {
-  useEffect, useState, useContext, useRef,
-} from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import {
-  styled, createTheme, ThemeProvider, useTheme,
+  styled,
+  createTheme,
+  ThemeProvider,
+  useTheme,
 } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Table from '@mui/material/Table';
@@ -60,7 +61,10 @@ const theme = createTheme(
 const columns = [
   { id: 'name', label: '歌曲名', minWidth: '20%' },
   {
-    id: 'uploader', label: 'UP主', align: 'center', padding: '0px',
+    id: 'uploader',
+    label: 'UP主',
+    align: 'center',
+    padding: '0px',
   },
   {
     id: 'operation',
@@ -109,9 +113,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 export function TablePaginationActions(props) {
   const theme = useTheme();
-  const {
-    count, page, rowsPerPage, onPageChange,
-  } = props;
+  const { count, page, rowsPerPage, onPageChange } = props;
 
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
@@ -134,7 +136,7 @@ export function TablePaginationActions(props) {
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
-        aria-label="first page"
+        aria-label='first page'
         style={{ color: colorTheme.playListIconColor }}
       >
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
@@ -142,23 +144,31 @@ export function TablePaginationActions(props) {
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
-        aria-label="previous page"
+        aria-label='previous page'
         style={{ color: colorTheme.playListIconColor }}
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        {theme.direction === 'rtl' ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
+        aria-label='next page'
         style={{ color: colorTheme.playListIconColor }}
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {theme.direction === 'rtl' ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
+        aria-label='last page'
         style={{ color: colorTheme.playListIconColor }}
       >
         {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
@@ -178,9 +188,19 @@ TablePaginationActions.propTypes = {
  * search using regex defining search conditions.
  * conditions are separated by |.
  */
-export const reParseSearch = (searchStr, rows, defaultExtract = (someRows, searchstr) => someRows.filter((row) => row.name.toLowerCase().includes(searchstr.toLowerCase()))) => {
+export const reParseSearch = (
+  searchStr,
+  rows,
+  defaultExtract = (someRows, searchstr) =>
+    someRows.filter((row) =>
+      row.name.toLowerCase().includes(searchstr.toLowerCase()),
+    ),
+) => {
   const reExtractions = [
-    [/parsed:(.+)/, (val, someRows) => someRows.filter((row) => row.parsedName === val[1])],
+    [
+      /parsed:(.+)/,
+      (val, someRows) => someRows.filter((row) => row.parsedName === val[1]),
+    ],
   ];
   let defaultExtraction = true;
   for (const searchSubStr of searchStr.split('|')) {
@@ -200,10 +220,13 @@ export const reParseSearch = (searchStr, rows, defaultExtract = (someRows, searc
   return rows;
 };
 
-export const Fav = (function Fav ({
-  FavList, onSongIndexChange,
-  handleDeleteFromSearchList, handleAddToFavClick,
-  rssUpdate, playerSettings,
+export const Fav = function Fav({
+  FavList,
+  onSongIndexChange,
+  handleDeleteFromSearchList,
+  handleAddToFavClick,
+  rssUpdate,
+  playerSettings,
 }) {
   // currentFavList is stored solely for keeping in check rows
   // still is FavList in props; we can make rows
@@ -212,13 +235,20 @@ export const Fav = (function Fav ({
   const [currentFavList, setCurrentFavList] = useState(null);
   const [rows, setRows] = useState(null);
   const [page, setPage] = useState(0);
-  const defaultRowsPerPage = Math.max(1, Math.floor((window.innerHeight - 305) / 40));
+  const defaultRowsPerPage = Math.max(
+    1,
+    Math.floor((window.innerHeight - 305) / 40),
+  );
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef({ current: {} });
   const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
   const StorageManager = useContext(StorageManagerCtx);
 
-  const [songObjEdited, setSongObjEdited] = useState({ bvid: '', parsedName: '', index: '' });
+  const [songObjEdited, setSongObjEdited] = useState({
+    bvid: '',
+    parsedName: '',
+    index: '',
+  });
   const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
 
   useHotkeys('left', () => handleChangePage(null, page - 1));
@@ -227,23 +257,27 @@ export const Fav = (function Fav ({
   const saveCurrentList = () => StorageManager.updateFavList(currentFavList);
 
   /**
-     * because of delayed state update/management, we need a reliable way to get
-     * the current playlist songs (which may be filtered by some search string).
-     * this method returns the accurate current playlist's songs.
-     * @returns rows when currentFavList is the same as the Favlist props; or Favlist.songlist
-     */
+   * because of delayed state update/management, we need a reliable way to get
+   * the current playlist songs (which may be filtered by some search string).
+   * this method returns the accurate current playlist's songs.
+   * @returns rows when currentFavList is the same as the Favlist props; or Favlist.songlist
+   */
   const getCurrentRow = () => {
-    if (currentFavList !== null && rows !== null && currentFavList.info.id === FavList.info.id) {
+    if (
+      currentFavList !== null &&
+      rows !== null &&
+      currentFavList.info.id === FavList.info.id
+    ) {
       return rows;
     }
     return FavList.songList;
   };
 
   /**
-     * this method primes the current page displaying songs to the one containing the song
-     * that is currently in play. the current song is found by reading the locally stored
-     * value "currentPlaying". this function is in a useEffect.
-     */
+   * this method primes the current page displaying songs to the one containing the song
+   * that is currently in play. the current song is found by reading the locally stored
+   * value "currentPlaying". this function is in a useEffect.
+   */
   const primePageToCurrentPlaying = () => {
     try {
       const songList = getCurrentRow();
@@ -282,11 +316,11 @@ export const Fav = (function Fav ({
   };
 
   /**
-     * forcefully search a string in the playlist.
-     * setting the searchbar ref's value directly is bugged with
-     * the visual update of textfield's label; otherwise works just fine.
-     * @param {string} searchedVal
-     */
+   * forcefully search a string in the playlist.
+   * setting the searchbar ref's value directly is bugged with
+   * the visual update of textfield's label; otherwise works just fine.
+   * @param {string} searchedVal
+   */
   const performSearch = (searchedVal) => {
     setTimeout(() => {
       searchBarRef.current.value = searchedVal;
@@ -310,7 +344,9 @@ export const Fav = (function Fav ({
   // onSongIndexChange([song], {songList: rows})
 
   const favListReloadBVid = (bvid) => {
-    currentFavList.songList = currentFavList.songList.filter((x) => x.bvid !== bvid);
+    currentFavList.songList = currentFavList.songList.filter(
+      (x) => x.bvid !== bvid,
+    );
     rssUpdate([bvid]);
   };
 
@@ -332,7 +368,8 @@ export const Fav = (function Fav ({
             props: {
               song,
               performSearch,
-              onDelete: () => handleDeleteFromSearchList(currentFavList.info.id, song.id),
+              onDelete: () =>
+                handleDeleteFromSearchList(currentFavList.info.id, song.id),
               currentFavList,
               reloadBVid: favListReloadBVid,
               onSongEdit: () => openSongEditDialog(song),
@@ -341,7 +378,7 @@ export const Fav = (function Fav ({
         }}
       >
         <StyledTableCell
-          align="left"
+          align='left'
           sx={{
             paddingLeft: '8px',
             width: '45%',
@@ -349,17 +386,30 @@ export const Fav = (function Fav ({
           }}
         >
           <ListItemButton
-            variant="text"
+            variant='text'
             sx={songText}
-            onClick={() => getPlayerSettingKey('keepSearchedSongListWhenPlaying')
-              .then((val) => onSongIndexChange([song], { songList: val ? rows : FavList.songList, info: FavList.info }))}
+            onClick={() =>
+              getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
+                (val) =>
+                  onSongIndexChange([song], {
+                    songList: val ? rows : FavList.songList,
+                    info: FavList.info,
+                  }),
+              )
+            }
           >
-            {song.id === currentAudio.id && <ListItemIcon sx={{ minWidth: '30px' }}><PlayCircleIcon /></ListItemIcon>}
-            <ListItemText primary={getName(song, playerSettings.parseSongName)} />
+            {song.id === currentAudio.id && (
+              <ListItemIcon sx={{ minWidth: '30px' }}>
+                <PlayCircleIcon />
+              </ListItemIcon>
+            )}
+            <ListItemText
+              primary={getName(song, playerSettings.parseSongName)}
+            />
           </ListItemButton>
         </StyledTableCell>
         <StyledTableCell
-          align="center"
+          align='center'
           sx={{
             width: '10%',
             fontSize: 4,
@@ -369,12 +419,17 @@ export const Fav = (function Fav ({
           }}
           style={{ overflow: 'visible' }}
         >
-          <a href={`https://space.bilibili.com/${song.singerId}`} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a
+            href={`https://space.bilibili.com/${song.singerId}`}
+            target='_blank'
+            rel='noreferrer'
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
             {song.singer}
           </a>
         </StyledTableCell>
         <StyledTableCell
-          align="right"
+          align='right'
           sx={{
             paddingRight: '8px',
             width: '45%',
@@ -382,18 +437,22 @@ export const Fav = (function Fav ({
           }}
           style={{ paddingLeft: '40px', paddingRight: '8px' }}
         >
-          <Tooltip title="添加到收藏歌单">
-            <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
+          <Tooltip title='添加到收藏歌单'>
+            <PlaylistAddIcon
+              sx={CRUDIcon}
+              onClick={() => handleAddToFavClick(currentFavList.info.id, song)}
+            />
           </Tooltip>
-          <Tooltip title="删除歌曲">
+          <Tooltip title='删除歌曲'>
             <DeleteOutlineOutlinedIcon
               sx={CRUDIcon}
-              onClick={
-                async () => {
-                  await handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                  handleSearch(searchBarRef.current.value);
-                }
-              }
+              onClick={async () => {
+                await handleDeleteFromSearchList(
+                  currentFavList.info.id,
+                  song.id,
+                );
+                handleSearch(searchBarRef.current.value);
+              }}
             />
           </Tooltip>
         </StyledTableCell>
@@ -410,107 +469,139 @@ export const Fav = (function Fav ({
         saveList={saveCurrentList}
       />
       {currentFavList && (
-      <React.Fragment>
-        <Menu
-          theme={colorTheme.generalTheme}
-        />
-        <Box sx={{ flexGrow: 1, maxHeight: '80px' }} style={{ paddingBottom: '8px' }}>
-          <Grid container spacing={2} style={{ padding: '10px' }}>
-            <Grid
-              item
-              xs={5}
-              style={{
-                textAlign: 'left', padding: '0px', paddingLeft: '12px', paddingTop: '12px',
-              }}
-              overflow="hidden"
-            >
-              <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
-                {currentFavList.info.title}
-              </Typography>
-            </Grid>
-            <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
-              <RandomGIFIcon
-                gifs={skinPreset.gifs}
-                favList={currentFavList.info.id + page.toString()}
-                onClickCallback={primePageToCurrentPlaying}
-              />
-            </Grid>
-            <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
-              {!currentFavList.info.id.includes('Special') && (
-              <FavSettingsButtons
-                currentList={currentFavList}
-                rssUpdate={async (subscribeUrls) => {
-                  const val = await rssUpdate(subscribeUrls);
-                  if (val !== null) setRows(val);
-                  return new Promise((resolve, reject) => { resolve(1); });
+        <React.Fragment>
+          <Menu theme={colorTheme.generalTheme} />
+          <Box
+            sx={{ flexGrow: 1, maxHeight: '80px' }}
+            style={{ paddingBottom: '8px' }}
+          >
+            <Grid container spacing={2} style={{ padding: '10px' }}>
+              <Grid
+                item
+                xs={5}
+                style={{
+                  textAlign: 'left',
+                  padding: '0px',
+                  paddingLeft: '12px',
+                  paddingTop: '12px',
                 }}
-              />
-              )}
-              <SongSearchBar requestSearch={requestSearch} ref={searchBarRef} />
-            </Grid>
-          </Grid>
-        </Box>
-        <TableContainer
-          className={className}
-          id="FavTable"
-          component={Paper}
-          sx={{ maxHeight: 'calc(100% - 65px)' }}
-          style={{ overflow: 'auto', boxShadow: colorTheme.songListShadowStyle, backgroundColor: colorTheme.FavBackgroundColor }}
-        >
-
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
-                    style={{
-                      backgroundColor: colorTheme.FavBackgroundColorSolid === undefined
-                        ? colorTheme.FavBackgroundColor
-                        : colorTheme.FavBackgroundColorSolid,
-                      color: colorTheme.songListColumnHeaderColor,
+                overflow='hidden'
+              >
+                <Typography
+                  variant='h6'
+                  style={{
+                    color: colorTheme.playlistCaptionColor,
+                    whiteSpace: 'nowrap',
+                    fontSize: '2rem',
+                  }}
+                >
+                  {currentFavList.info.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
+                <RandomGIFIcon
+                  gifs={skinPreset.gifs}
+                  favList={currentFavList.info.id + page.toString()}
+                  onClickCallback={primePageToCurrentPlaying}
+                />
+              </Grid>
+              <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
+                {!currentFavList.info.id.includes('Special') && (
+                  <FavSettingsButtons
+                    currentList={currentFavList}
+                    rssUpdate={async (subscribeUrls) => {
+                      const val = await rssUpdate(subscribeUrls);
+                      if (val !== null) setRows(val);
+                      return new Promise((resolve, reject) => {
+                        resolve(1);
+                      });
                     }}
-                  >
-                    {column.label}{column.id === 'name' ? `(${rows.length})` : ''}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0
-                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : rows
-              ).map((song, index) => rowRenderer({ song, index }))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <ThemeProvider theme={theme}>
-                  <TablePagination
-                    rowsPerPageOptions={[defaultRowsPerPage, 99, currentFavList.songList.length]}
-                    colSpan={3}
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    SelectProps={{
-                      inputProps: {
-                        'aria-label': 'rows per page',
-                      },
-                      native: true,
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    ActionsComponent={TablePaginationActions}
-                    style={{ color: colorTheme.playListIconColor }}
                   />
-                </ThemeProvider>
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-      </React.Fragment>
+                )}
+                <SongSearchBar
+                  requestSearch={requestSearch}
+                  ref={searchBarRef}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <TableContainer
+            className={className}
+            id='FavTable'
+            component={Paper}
+            sx={{ maxHeight: 'calc(100% - 65px)' }}
+            style={{
+              overflow: 'auto',
+              boxShadow: colorTheme.songListShadowStyle,
+              backgroundColor: colorTheme.FavBackgroundColor,
+            }}
+          >
+            <Table stickyHeader aria-label='sticky table'>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      sx={{
+                        width: column.minWidth,
+                        paddingLeft: column.paddingLeft,
+                        padding: column.padding,
+                      }}
+                      style={{
+                        backgroundColor:
+                          colorTheme.FavBackgroundColorSolid === undefined
+                            ? colorTheme.FavBackgroundColor
+                            : colorTheme.FavBackgroundColorSolid,
+                        color: colorTheme.songListColumnHeaderColor,
+                      }}
+                    >
+                      {column.label}
+                      {column.id === 'name' ? `(${rows.length})` : ''}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? rows.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage,
+                    )
+                  : rows
+                ).map((song, index) => rowRenderer({ song, index }))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <ThemeProvider theme={theme}>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        defaultRowsPerPage,
+                        99,
+                        currentFavList.songList.length,
+                      ]}
+                      colSpan={3}
+                      count={rows.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      SelectProps={{
+                        inputProps: {
+                          'aria-label': 'rows per page',
+                        },
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                      style={{ color: colorTheme.playListIconColor }}
+                    />
+                  </ThemeProvider>
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </React.Fragment>
       )}
     </React.Fragment>
   );
-});
+};

@@ -1,18 +1,18 @@
 import Song from '../objects/Song';
 
 interface SongOccurenceDict {
-  [name: string] : number
+  [name: string]: number;
 }
 
 interface AnalyticsResult {
-  bvid: Set<string>,
-  totalCount: number,
-  validShazamCount: number,
-  invalidShazamCount: number,
-  songOccurrence: SongOccurenceDict,
-  songsSorted: Array<[string, number]>,
-  songsUnique: Set<string>,
-  songTop10: Array<[string, number]>,
+  bvid: Set<string>;
+  totalCount: number;
+  validShazamCount: number;
+  invalidShazamCount: number;
+  songOccurrence: SongOccurenceDict;
+  songsSorted: Array<[string, number]>;
+  songsUnique: Set<string>;
+  songTop10: Array<[string, number]>;
 }
 
 /**
@@ -48,7 +48,9 @@ export default (favList: { songList: Array<Song> }) => {
       results.invalidShazamCount += 1;
     }
   }
-  results.songsSorted = Object.entries(results.songOccurrence).sort((a, b) => -(a[1] - b[1]));
+  results.songsSorted = Object.entries(results.songOccurrence).sort(
+    (a, b) => -(a[1] - b[1]),
+  );
   results.songTop10 = results.songsSorted.slice(0, 10);
   return results;
 };

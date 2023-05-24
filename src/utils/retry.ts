@@ -5,7 +5,11 @@
  * @param retryDelay retry delay in ms, default 3k
  * @returns functionPromise's return
  */
-export default function functionPromiseRetry(functionPromise: Function, maxRetry: number = 3, retryDelay: number = 3000) {
+export default function functionPromiseRetry(
+  functionPromise: Function,
+  maxRetry: number = 3,
+  retryDelay: number = 3000,
+) {
   let retryCnt = 0;
 
   function delay(t: number) {
@@ -15,10 +19,13 @@ export default function functionPromiseRetry(functionPromise: Function, maxRetry
   }
 
   function run() {
-    return functionPromise().catch((err: { statusText: any; }) => {
+    return functionPromise().catch((err: { statusText: any }) => {
       ++retryCnt;
       if (retryCnt > maxRetry) {
-        console.error('Max retries exceeded. There was an error!', err.statusText);
+        console.error(
+          'Max retries exceeded. There was an error!',
+          err.statusText,
+        );
         throw err;
       }
       console.error(`Retry #${retryCnt} after error`, err.statusText);

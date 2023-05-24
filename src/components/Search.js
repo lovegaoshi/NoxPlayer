@@ -19,7 +19,10 @@ import {
 } from '../background/DataProcess';
 import { dummyFavList } from '../utils/ChromeStorage';
 
-export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单', id: (`FavList-Special-Search-${uuidv4()}`) } }) => {
+export const defaultSearchList = ({
+  songList = [],
+  info = { title: '搜索歌单', id: `FavList-Special-Search-${uuidv4()}` },
+}) => {
   const newList = dummyFavList('');
   newList.songList = songList;
   newList.info = info;
@@ -27,36 +30,64 @@ export const defaultSearchList = ({ songList = [], info = { title: '搜索歌单
 };
 
 const extractBiliSeries = ({
-  reExtracted, progressEmitter, favList, useBiliTag,
-}) => getBiliSeriesList({
-  mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag,
-});
+  reExtracted,
+  progressEmitter,
+  favList,
+  useBiliTag,
+}) =>
+  getBiliSeriesList({
+    mid: reExtracted[1],
+    sid: reExtracted[2],
+    progressEmitter,
+    favList,
+    useBiliTag,
+  });
 
 const extractBiliColle = ({
-  reExtracted, progressEmitter, favList, useBiliTag,
-}) => getBiliColleList({
-  mid: reExtracted[1], sid: reExtracted[2], progressEmitter, favList, useBiliTag,
-});
+  reExtracted,
+  progressEmitter,
+  favList,
+  useBiliTag,
+}) =>
+  getBiliColleList({
+    mid: reExtracted[1],
+    sid: reExtracted[2],
+    progressEmitter,
+    favList,
+    useBiliTag,
+  });
 
 const extractBiliChannel = ({
-  reExtracted, progressEmitter, favList, useBiliTag,
-}) => getBiliChannelList({
-  url: reExtracted.input, progressEmitter, favList, useBiliTag,
-});
+  reExtracted,
+  progressEmitter,
+  favList,
+  useBiliTag,
+}) =>
+  getBiliChannelList({
+    url: reExtracted.input,
+    progressEmitter,
+    favList,
+    useBiliTag,
+  });
 
-const extractBiliAudio = ({
-  reExtracted, progressEmitter, favList,
-}) => getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList });
+const extractBiliAudio = ({ reExtracted, progressEmitter, favList }) =>
+  getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList });
 
-const extractBiliVideo = ({
-  reExtracted, useBiliTag,
-}) => getSongList({ bvid: reExtracted[1], useBiliTag });
+const extractBiliVideo = ({ reExtracted, useBiliTag }) =>
+  getSongList({ bvid: reExtracted[1], useBiliTag });
 
 const extractBiliFavList = ({
-  reExtracted, progressEmitter, favList, useBiliTag,
-}) => getFavList({
-  mid: reExtracted[1], progressEmitter, favList, useBiliTag,
-});
+  reExtracted,
+  progressEmitter,
+  favList,
+  useBiliTag,
+}) =>
+  getFavList({
+    mid: reExtracted[1],
+    progressEmitter,
+    favList,
+    useBiliTag,
+  });
 
 /**
  * assign the proper extractor based on the provided url. uses regex.
@@ -68,20 +99,32 @@ const extractBiliFavList = ({
  */
 const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
   const reExtractions = [
-    [/space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/, extractBiliSeries],
-    [/space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/, extractBiliColle],
+    [
+      /space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/,
+      extractBiliSeries,
+    ],
+    [
+      /space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/,
+      extractBiliColle,
+    ],
     [/space.bilibili\.com\/(\d+)\/video/, extractBiliChannel],
     [/bilibili.com\/audio\/au([^/?]+)/, extractBiliAudio],
     [/(BV[^/?]+)/, extractBiliVideo],
     [/.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/, extractBiliFavList],
     [/.*bilibili\.com\/medialist\/detail\/ml(\d+)/, extractBiliFavList],
-    [/youtu(?:.*\/v\/|.*v=|\.be\/)([A-Za-z0-9_-]{11})/, ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] })],
+    [
+      /youtu(?:.*\/v\/|.*v=|\.be\/)([A-Za-z0-9_-]{11})/,
+      ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] }),
+    ],
   ];
   for (const reExtraction of reExtractions) {
     const reExtracted = reExtraction[0].exec(url);
     if (reExtracted !== null) {
       return await reExtraction[1]({
-        reExtracted, progressEmitter, favList, useBiliTag,
+        reExtracted,
+        progressEmitter,
+        favList,
+        useBiliTag,
       });
     }
   }
@@ -103,7 +146,12 @@ export const searchBiliURLs = async ({
 }) => {
   const list = defaultSearchList({});
   try {
-    list.songList = await reExtractSearch(input, progressEmitter, favList, useBiliTag);
+    list.songList = await reExtractSearch(
+      input,
+      progressEmitter,
+      favList,
+      useBiliTag,
+    );
   } catch (err) {
     console.warn(err);
   }
@@ -111,7 +159,10 @@ export const searchBiliURLs = async ({
 };
 
 export const Search = function ({
-  handleSearch, handleOpenFav, playListIcon, handleSetSearchInputVal,
+  handleSearch,
+  handleOpenFav,
+  playListIcon,
+  handleSetSearchInputVal,
 }) {
   const [searchValue, setSearchValue] = useState('');
   const [progressVal, setProgressVal] = useState(100);
@@ -123,7 +174,9 @@ export const Search = function ({
   // id be lying if i understand any of this async stuff
   const searchBili = async (input) => {
     setLoading(true);
-    handleSearch(await searchBiliURLs({ input, progressEmitter: setProgressVal }));
+    handleSearch(
+      await searchBiliURLs({ input, progressEmitter: setProgressVal }),
+    );
     setLoading(false);
   };
 
@@ -141,34 +194,40 @@ export const Search = function ({
     if (Loading) {
       if (progressVal === 100) {
         return (
-          <CircularProgress sx={{
-            paddingLeft: '16px', paddingRight: '16px', paddingTop: '8px', paddingBottom: '8px',
-          }}
+          <CircularProgress
+            sx={{
+              paddingLeft: '16px',
+              paddingRight: '16px',
+              paddingTop: '8px',
+              paddingBottom: '8px',
+            }}
           />
         );
       }
       return (
         <CircularProgress
           sx={{
-            paddingLeft: '16px', paddingRight: '16px', paddingTop: '8px', paddingBottom: '8px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            paddingTop: '8px',
+            paddingBottom: '8px',
           }}
-          variant="determinate"
+          variant='determinate'
           value={progressVal}
         />
       );
     }
     return (
-
-      <Tooltip title="搜索">
+      <Tooltip title='搜索'>
         <IconButton
-          size="large"
+          size='large'
           onClick={() => {
             searchBili(searchValue);
             handleSetSearchInputVal(searchValue);
           }}
           sx={{ fontSize: '40px' }}
         >
-          <SearchIcon fontSize="inherit" />
+          <SearchIcon fontSize='inherit' />
         </IconButton>
       </Tooltip>
     );
@@ -180,8 +239,10 @@ export const Search = function ({
     }
     return (
       <IconButton
-        size="large"
-        onClick={() => { handleOpenFav(); }}
+        size='large'
+        onClick={() => {
+          handleOpenFav();
+        }}
         sx={{ fontSize: '40px', marginTop: Loading ? '-42px' : '0px' }}
       >
         {playListIcon}
@@ -198,20 +259,24 @@ export const Search = function ({
     >
       <Box // Serch Grid -- SearchBox
         sx={{
-          mx: 'auto', textAlign: 'left', overflow: 'hidden', height: '64px', paddingTop: '12px',
+          mx: 'auto',
+          textAlign: 'left',
+          overflow: 'hidden',
+          height: '64px',
+          paddingTop: '12px',
         }}
       >
-        { favListButton() }
+        {favListButton()}
         <TextField
-          id="outlined-basic"
-          label="搜索b站url"
+          id='outlined-basic'
+          label='搜索b站url'
           onKeyDown={keyPress}
           onChange={onSearchTextChange}
           value={searchValue}
-          type="search"
+          type='search'
           sx={{ width: '55%' }}
         />
-        { progressBar() }
+        {progressBar()}
       </Box>
     </Box>
   );

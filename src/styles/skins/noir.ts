@@ -27,7 +27,6 @@ const gifs = [
   'https://i0.hdslb.com/bfs/garb/item/fea9a28709ff6c3b5d77a2a36850b67205e82851.png',
   'https://i0.hdslb.com/bfs/garb/item/1fbfa0a7ffb494fb10c3ded3e2a4a7dfe28153fd.png',
   'https://i0.hdslb.com/bfs/garb/item/42b5c3b8f41e804c3e045df69d9d0a4a8f2c399c.png',
-
 ];
 
 const randomPortraitBackground = randomChoice([
@@ -38,10 +37,19 @@ const randomPortraitBackground = randomChoice([
 ]) as string;
 
 export default skinTemplate({
-  playerBanner: 'https://i0.hdslb.com/bfs/garb/item/4d1c96b086ff60d13e3a12d4e514baa028dbec1d.jpg',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve(randomPortraitBackground); }),
+  playerBanner:
+    'https://i0.hdslb.com/bfs/garb/item/4d1c96b086ff60d13e3a12d4e514baa028dbec1d.jpg',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(randomPortraitBackground);
+    }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i2.hdslb.com/bfs/archive/ec91f760738bd0a7af955b4f2797d70f0fcab40a.jpg'); }),
+  playerBackground: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://i2.hdslb.com/bfs/archive/ec91f760738bd0a7af955b4f2797d70f0fcab40a.jpg',
+      );
+    }),
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,
   gifIcon: () => randomChoice(gifs) as string,

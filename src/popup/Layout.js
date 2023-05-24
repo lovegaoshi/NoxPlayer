@@ -41,45 +41,87 @@ const PlayerBoxMobile = {
 };
 
 export default function PageLayout({ songList, backgroundSrc }) {
-  if (!songList || !backgroundSrc) { return <h1>Loading...</h1>; }
+  if (!songList || !backgroundSrc) {
+    return <h1>Loading...</h1>;
+  }
 
   if (isMobile()) {
     return (
-    // Outmost layer of the page
-    <React.Suspense fallback = {<h1>Loading...</h1>}>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={1}>
-          <ConfirmProvider>
-            <Box sx={OutmostBox} id="master-box" style={{ backgroundColor: colorTheme.MobileBackgroundColor }}>
-              <div className="container-fluid homepage-bgimage-mobile">
-                {skinPreset.playerBackgroundMobileVideo
-                  ? <video id="player-bkgrd-mobile" autoPlay loop muted className="homepage-bgimage-mobile" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />
-                  : <img id="player-bkgrd-mobile" alt="" className="homepage-bgimage-mobile" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />}
-              </div>
-              <Box sx={PlayerBoxMobile} id="player-box">
-                <PlayerMobile songList={songList} id="player-instance" />
+      // Outmost layer of the page
+      <React.Suspense fallback={<h1>Loading...</h1>}>
+        <ThemeProvider theme={theme}>
+          <SnackbarProvider maxSnack={1}>
+            <ConfirmProvider>
+              <Box
+                sx={OutmostBox}
+                id='master-box'
+                style={{ backgroundColor: colorTheme.MobileBackgroundColor }}
+              >
+                <div className='container-fluid homepage-bgimage-mobile'>
+                  {skinPreset.playerBackgroundMobileVideo ? (
+                    <video
+                      id='player-bkgrd-mobile'
+                      autoPlay
+                      loop
+                      muted
+                      className='homepage-bgimage-mobile'
+                      src={backgroundSrc}
+                      height={window.innerHeight}
+                      width={window.innerWidth}
+                    />
+                  ) : (
+                    <img
+                      id='player-bkgrd-mobile'
+                      alt=''
+                      className='homepage-bgimage-mobile'
+                      src={backgroundSrc}
+                      height={window.innerHeight}
+                      width={window.innerWidth}
+                    />
+                  )}
+                </div>
+                <Box sx={PlayerBoxMobile} id='player-box'>
+                  <PlayerMobile songList={songList} id='player-instance' />
+                </Box>
               </Box>
-            </Box>
-          </ConfirmProvider>
-        </SnackbarProvider>
-      </ThemeProvider>
-    </React.Suspense>
+            </ConfirmProvider>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </React.Suspense>
     );
   }
   return (
     // Outmost layer of the page
-    <React.Suspense fallback = {<h1>Loading...</h1>}>
+    <React.Suspense fallback={<h1>Loading...</h1>}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={1}>
           <ConfirmProvider>
-            <div className="container-fluid homepage-bgimage">
-              {skinPreset.playerBackgroundVideo
-                ? <video id="player-bkgrd" autoPlay loop muted className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />
-                : <img id="player-bkgrd" alt="" className="homepage-bgimage" src={backgroundSrc} height={window.innerHeight} width={window.innerWidth} />}
+            <div className='container-fluid homepage-bgimage'>
+              {skinPreset.playerBackgroundVideo ? (
+                <video
+                  id='player-bkgrd'
+                  autoPlay
+                  loop
+                  muted
+                  className='homepage-bgimage'
+                  src={backgroundSrc}
+                  height={window.innerHeight}
+                  width={window.innerWidth}
+                />
+              ) : (
+                <img
+                  id='player-bkgrd'
+                  alt=''
+                  className='homepage-bgimage'
+                  src={backgroundSrc}
+                  height={window.innerHeight}
+                  width={window.innerWidth}
+                />
+              )}
             </div>
             <Box
               sx={OutmostBox}
-              id="master-box"
+              id='master-box'
               style={{
                 backgroundColor: colorTheme.PCBackgroundColor,
                 backgroundBlendMode: 'overlay',

@@ -16,9 +16,22 @@ import useTimer from '../../contexts/TimerContext';
 /**
  *
  */
-export default function TimerDialog({ openState, onClose } : {openState: boolean, onClose: () => void}) {
+export default function TimerDialog({
+  openState,
+  onClose,
+}: {
+  openState: boolean;
+  onClose: () => void;
+}) {
   const {
-    minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
+    minutes,
+    seconds,
+    startTimer,
+    setMinutes,
+    setSeconds,
+    timerRestart,
+    timerStart,
+    timerPause,
   } = useTimer();
 
   return (
@@ -26,37 +39,33 @@ export default function TimerDialog({ openState, onClose } : {openState: boolean
       <DialogTitle>定时停止播放</DialogTitle>
       <DialogContent style={{ paddingTop: '6px' }}>
         <TextField
-          id="timer-minutes"
+          id='timer-minutes'
           value={minutes}
           onChange={(e) => setMinutes(e.target.value)}
           style={{ maxWidth: '6em', minWidth: '6em' }}
-          label="MM"
+          label='MM'
           disabled={startTimer}
-          type="number"
+          type='number'
         />
         ：
         <TextField
-          id="timer-seconds"
+          id='timer-seconds'
           value={seconds}
           onChange={(e) => setSeconds(e.target.value)}
           style={{ maxWidth: '6em', minWidth: '6em' }}
-          label="SS"
+          label='SS'
           disabled={startTimer}
-          type="number"
+          type='number'
         />
-        {
-          startTimer
-          ? (
-              <IconButton onClick={timerPause}>
-                <PauseIcon />
-              </IconButton>
-            )
-          : (
-              <IconButton onClick={timerStart}>
-                <PlayArrowIcon />
-              </IconButton>
-            )
-        }
+        {startTimer ? (
+          <IconButton onClick={timerPause}>
+            <PauseIcon />
+          </IconButton>
+        ) : (
+          <IconButton onClick={timerStart}>
+            <PlayArrowIcon />
+          </IconButton>
+        )}
         <IconButton onClick={timerRestart}>
           <ReplayIcon />
         </IconButton>

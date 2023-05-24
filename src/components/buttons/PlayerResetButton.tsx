@@ -19,6 +19,8 @@ export default function playerResetButton() {
   };
 
   return (
-    <Button startIcon={<ReplayIcon />} onClick={onClick}>重置播放器</Button>
+    <Button startIcon={<ReplayIcon />} onClick={onClick}>
+      重置播放器
+    </Button>
   );
 }

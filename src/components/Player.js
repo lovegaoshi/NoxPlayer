@@ -1,6 +1,4 @@
-import React, {
-  useEffect, useCallback, useContext,
-} from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
@@ -29,17 +27,21 @@ const options = {
   themeOverwrite: skins().reactJKPlayerTheme,
 };
 
-export default function Player ({ songList }) {
+export default function Player({ songList }) {
   // Sync data to chromeDB
   const StorageManager = useContext(StorageManagerCtx);
 
   const [
-    params, setparams,
+    params,
+    setparams,
     setplayingList,
-    currentAudio, setcurrentAudio,
+    currentAudio,
+    setcurrentAudio,
     currentAudioInst,
-    showLyric, setShowLyric,
-    playerSettings, setPlayerSettings,
+    showLyric,
+    setShowLyric,
+    playerSettings,
+    setPlayerSettings,
 
     onPlayOneFromFav,
     onAddOneFromFav,
@@ -63,7 +65,8 @@ export default function Player ({ songList }) {
     // i have no idea why currentAudioInst doesnt have play(), but this works
     // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
     // listening to pause/play audio at a global level.
-    if (currentAudioInst.paused) document.getElementsByClassName('music-player-audio')[0].play();
+    if (currentAudioInst.paused)
+      document.getElementsByClassName('music-player-audio')[0].play();
     else document.getElementsByClassName('music-player-audio')[0].pause();
   });
 
@@ -79,12 +82,18 @@ export default function Player ({ songList }) {
     document.title = `${currentAudio.name} - ${skins().appTitle}`;
   }, [currentAudio.name]);
 
-  const onAudioPlay = useCallback(async (audioInfo) => {
-    processExtendsContent(renderExtendsContent({ song: audioInfo }));
-    setcurrentAudio(audioInfo);
-    setLocalStorage(CURRENT_PLAYING, { cid: audioInfo.id, playUrl: audioInfo.musicSrc });
-    sendBiliHeartbeat(audioInfo);
-  }, [params]);
+  const onAudioPlay = useCallback(
+    async (audioInfo) => {
+      processExtendsContent(renderExtendsContent({ song: audioInfo }));
+      setcurrentAudio(audioInfo);
+      setLocalStorage(CURRENT_PLAYING, {
+        cid: audioInfo.id,
+        playUrl: audioInfo.musicSrc,
+      });
+      sendBiliHeartbeat(audioInfo);
+    },
+    [params],
+  );
 
   const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
     console.error('audio error', errMsg, audioInfo);
@@ -92,14 +101,23 @@ export default function Player ({ songList }) {
 
   // Initialization effect
   useEffect(() => {
-    if (!songList || songList[0] === undefined) { return; }
+    if (!songList || songList[0] === undefined) {
+      return;
+    }
     async function initPlayer() {
       await versionUpdate();
       const setting = await StorageManager.getPlayerSetting();
-      let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'));
+      let previousPlaying = await StorageManager.readLocalStorage(
+        'CurrentPlaying',
+      );
       if (previousPlaying === undefined) previousPlaying = {};
-      const previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id === previousPlaying.cid)));
-      options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex] });
+      const previousPlayingSongIndex = Math.max(
+        0,
+        songList.findIndex((s) => s.id === previousPlaying.cid),
+      );
+      options.extendsContent = renderExtendsContent({
+        song: songList[previousPlayingSongIndex],
+      });
       const params2 = {
         ...options,
         ...setting,
@@ -116,43 +134,45 @@ export default function Player ({ songList }) {
   return (
     <React.Fragment>
       {params && (
-      <FavList
-        currentAudioList={params.audioLists}
-        onSongIndexChange={playByIndex}
-        onPlayOneFromFav={onPlayOneFromFav}
-        onPlayAllFromFav={onPlayAllFromFav}
-        onAddFavToList={onAddFavToList}
-        playerSettings={playerSettings}
-      />
+        <FavList
+          currentAudioList={params.audioLists}
+          onSongIndexChange={playByIndex}
+          onPlayOneFromFav={onPlayOneFromFav}
+          onPlayAllFromFav={onPlayAllFromFav}
+          onAddFavToList={onAddFavToList}
+          playerSettings={playerSettings}
+        />
       )}
       {currentAudio.id && (
-      <LyricOverlay
-        showLyric={showLyric}
-        currentTime={currentAudio.currentTime}
-        audioName={getName(currentAudio)}
-        audioId={currentAudio.id}
-        audioCover={currentAudio.cover}
-        closeLyric={() => setShowLyric(false)}
-      />
+        <LyricOverlay
+          showLyric={showLyric}
+          currentTime={currentAudio.currentTime}
+          audioName={getName(currentAudio)}
+          audioId={currentAudio.id}
+          audioCover={currentAudio.cover}
+          closeLyric={() => setShowLyric(false)}
+        />
       )}
 
       {params && (
-      <ReactJkMusicPlayer
-        {...params}
-        showMediaSession
-        onAudioVolumeChange={onAudioVolumeChange}
-        onPlayModeChange={onPlayModeChange}
-        onAudioError={onAudioError}
-        customDownloader={customDownloader}
-        onAudioProgress={onAudioProgress}
-        getAudioInstance={getAudioInstance}
-        onAudioPlay={onAudioPlay}
-        onCoverClick={onCoverClick}
-        onAudioListsChange={onAudioListsChange}
-        theme={skinPreset.desktopTheme}
-        musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
-        ref={(element) => { window.musicplayer = element; }}
-      />
+        <ReactJkMusicPlayer
+          {...params}
+          showMediaSession
+          onAudioVolumeChange={onAudioVolumeChange}
+          onPlayModeChange={onPlayModeChange}
+          onAudioError={onAudioError}
+          customDownloader={customDownloader}
+          onAudioProgress={onAudioProgress}
+          getAudioInstance={getAudioInstance}
+          onAudioPlay={onAudioPlay}
+          onCoverClick={onCoverClick}
+          onAudioListsChange={onAudioListsChange}
+          theme={skinPreset.desktopTheme}
+          musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
+          ref={(element) => {
+            window.musicplayer = element;
+          }}
+        />
       )}
     </React.Fragment>
   );

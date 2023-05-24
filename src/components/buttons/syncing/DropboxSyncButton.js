@@ -5,7 +5,11 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
-import { noxBackup, noxRestore, loginDropbox } from '../../../utils/dropboxauth';
+import {
+  noxBackup,
+  noxRestore,
+  loginDropbox,
+} from '../../../utils/dropboxauth';
 import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
 
 export function ImportSyncFavButton(AddFavIcon) {
@@ -13,7 +17,10 @@ export function ImportSyncFavButton(AddFavIcon) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-  const errorHandling = (e, msg = '歌单同步自Dropbox失败，错误记录在控制台里') => {
+  const errorHandling = (
+    e,
+    msg = '歌单同步自Dropbox失败，错误记录在控制台里',
+  ) => {
     console.error(e);
     enqueueSnackbar(msg, {
       variant: 'error',
@@ -25,7 +32,10 @@ export function ImportSyncFavButton(AddFavIcon) {
     const response = await noxRestore();
     if (response !== null) {
       await StorageManager.importStorageRaw(response);
-      enqueueSnackbar('歌单同步自Dropbox成功！', { variant: 'success', autoHideDuration: 4000 });
+      enqueueSnackbar('歌单同步自Dropbox成功！', {
+        variant: 'success',
+        autoHideDuration: 4000,
+      });
     } else {
       errorHandling('云端歌单不存在', '云端歌单不存在');
     }
@@ -39,12 +49,14 @@ export function ImportSyncFavButton(AddFavIcon) {
   };
 
   return (
-    <Tooltip title="下载歌单自Dropbox">
-      <IconButton size="large" onClick={loading ? () => {} : loginAndDownload}>
-        { loading
-        // for the love of bloody mary, why is 1em 28px here but 24px next?
-          ? <CircularProgress sx={AddFavIcon} size="24px" />
-          : <CloudDownloadIcon sx={AddFavIcon} />}
+    <Tooltip title='下载歌单自Dropbox'>
+      <IconButton size='large' onClick={loading ? () => {} : loginAndDownload}>
+        {loading ? (
+          // for the love of bloody mary, why is 1em 28px here but 24px next?
+          <CircularProgress sx={AddFavIcon} size='24px' />
+        ) : (
+          <CloudDownloadIcon sx={AddFavIcon} />
+        )}
       </IconButton>
     </Tooltip>
   );
@@ -67,7 +79,10 @@ export function ExportSyncFavButton(AddFavIcon) {
     const exportedDict = await StorageManager.exportStorageRaw();
     const response = await noxBackup(exportedDict);
     if (response.status === 200) {
-      enqueueSnackbar('歌单上传到Dropbox成功！', { variant: 'success', autoHideDuration: 4000 });
+      enqueueSnackbar('歌单上传到Dropbox成功！', {
+        variant: 'success',
+        autoHideDuration: 4000,
+      });
     } else {
       errorHandling(response);
     }
@@ -81,12 +96,14 @@ export function ExportSyncFavButton(AddFavIcon) {
   };
 
   return (
-    <Tooltip title="上传歌单到Dropbox">
-      <IconButton size="large" onClick={loading ? () => {} : loginAndUpload}>
-        { loading
-        // for the love of bloody mary, why is 1em 28px here but 24px next?
-          ? <CircularProgress sx={AddFavIcon} size="24px" />
-          : <CloudUploadIcon sx={AddFavIcon} />}
+    <Tooltip title='上传歌单到Dropbox'>
+      <IconButton size='large' onClick={loading ? () => {} : loginAndUpload}>
+        {loading ? (
+          // for the love of bloody mary, why is 1em 28px here but 24px next?
+          <CircularProgress sx={AddFavIcon} size='24px' />
+        ) : (
+          <CloudUploadIcon sx={AddFavIcon} />
+        )}
       </IconButton>
     </Tooltip>
   );

@@ -16,8 +16,8 @@ export function ExportFavButton(AddFavIcon: Object) {
   const dummy = enqueueSnackbar;
   const [loading, setLoading] = useState(false);
   return (
-    <Tooltip title="导入歌单">
-      <IconButton size="large" onClick={() => StorageManager.importStorage()}>
+    <Tooltip title='导入歌单'>
+      <IconButton size='large' onClick={() => StorageManager.importStorage()}>
         <FileUploadIcon sx={AddFavIcon} />
       </IconButton>
     </Tooltip>
@@ -30,8 +30,8 @@ export function ImportFavButton(AddFavIcon: Object) {
   const dummy = enqueueSnackbar;
   const [loading, setLoading] = useState(false);
   return (
-    <Tooltip title="导出歌单">
-      <IconButton size="large" onClick={() => StorageManager.exportStorage()}>
+    <Tooltip title='导出歌单'>
+      <IconButton size='large' onClick={() => StorageManager.exportStorage()}>
         <DownloadIcon sx={AddFavIcon} />
       </IconButton>
     </Tooltip>

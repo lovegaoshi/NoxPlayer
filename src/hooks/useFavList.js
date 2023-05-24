@@ -1,6 +1,4 @@
-import React, {
-  useEffect, useState, useContext, useCallback,
-} from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { dummyFavList } from '../utils/ChromeStorage';
@@ -17,7 +15,12 @@ import { parseSongName } from '../utils/re';
  * this is defualted to be listObj.subscribeUrls.
  * this state is passed to Fav to trigger a rerender.
  */
-export const updateSubscribeFavList = async (listObj, StorageManager, setSelectedList, subscribeUrls = undefined) => {
+export const updateSubscribeFavList = async (
+  listObj,
+  StorageManager,
+  setSelectedList,
+  subscribeUrls = undefined,
+) => {
   try {
     const oldListLength = listObj.songList.length;
     if (subscribeUrls === undefined) {
@@ -29,11 +32,16 @@ export const updateSubscribeFavList = async (listObj, StorageManager, setSelecte
     // in loop set new stuff into it, instead of concat lists
     // 2. order this correctly. this for loop needs to be reversed
     for (let i = 0, n = subscribeUrls.length; i < n; i++) {
-      listObj.songList = (await searchBiliURLs({
-        input: subscribeUrls[i],
-        favList: [...listObj.songList.map((val) => val.bvid), ...listObj.bannedBVids],
-        useBiliTag: listObj.useBiliShazam,
-      })).songList.concat(listObj.songList);
+      listObj.songList = (
+        await searchBiliURLs({
+          input: subscribeUrls[i],
+          favList: [
+            ...listObj.songList.map((val) => val.bvid),
+            ...listObj.bannedBVids,
+          ],
+          useBiliTag: listObj.useBiliShazam,
+        })
+      ).songList.concat(listObj.songList);
     }
     const uniqueSongList = new Map();
     listObj.songList.forEach((tag) => uniqueSongList.set(tag.id, tag));
@@ -103,14 +111,17 @@ const useFavList = () => {
       : StorageManager.updateFavList.bind(StorageManager);
   };
 
-  const handleDeleteFromSearchList = useCallback(async (listid, songid) => {
-    const favList = await findList(listid);
-    const index = favList.songList.findIndex((song) => song.id === songid);
-    if (index === -1) return;
-    favList.songList.splice(index, 1);
-    const updatedToList = { ...favList };
-    getUpdateListMethod(listid)(updatedToList);
-  }, [searchList, selectedList, favLists]);
+  const handleDeleteFromSearchList = useCallback(
+    async (listid, songid) => {
+      const favList = await findList(listid);
+      const index = favList.songList.findIndex((song) => song.id === songid);
+      if (index === -1) return;
+      favList.songList.splice(index, 1);
+      const updatedToList = { ...favList };
+      getUpdateListMethod(listid)(updatedToList);
+    },
+    [searchList, selectedList, favLists],
+  );
 
   const onNewFav = (val) => {
     setOpenNewDialog(false);
@@ -156,10 +167,15 @@ const useFavList = () => {
     if (song) fromList = { songList: [song] };
     else fromList = await findList(fromId);
 
-    const newSongList = fromList.songList.filter((s) => undefined === toList.songList.find((v) => v.id === s.id));
+    const newSongList = fromList.songList.filter(
+      (s) => undefined === toList.songList.find((v) => v.id === s.id),
+    );
     // console.log(fromId, toId)
 
-    const updatedToList = { info: toList.info, songList: newSongList.concat(toList.songList) };
+    const updatedToList = {
+      info: toList.info,
+      songList: newSongList.concat(toList.songList),
+    };
     StorageManager.updateFavList(updatedToList);
   };
 
@@ -178,12 +194,16 @@ const useFavList = () => {
   };
 
   return [
-    favLists, setFavLists,
-    searchList, setSearchList,
+    favLists,
+    setFavLists,
+    searchList,
+    setSearchList,
     favoriteList,
-    selectedList, setSelectedList,
+    selectedList,
+    setSelectedList,
     setSongsStoredAsNewFav,
-    openNewDialog, setOpenNewDialog,
+    openNewDialog,
+    setOpenNewDialog,
     openAddDialog,
     actionFavId,
     actionFavSong,

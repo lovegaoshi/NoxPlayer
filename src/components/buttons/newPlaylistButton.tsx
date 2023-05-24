@@ -14,13 +14,16 @@ interface props {
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function newPlaylistButton ({ AddFavIcon, onClosedDialogFunc }: props) {
+export default function newPlaylistButton({
+  AddFavIcon,
+  onClosedDialogFunc,
+}: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   return (
     <React.Fragment>
-      <Tooltip title="新建歌单">
-        <IconButton size="large" onClick={() => setOpenSettingsDialog(true)}>
+      <Tooltip title='新建歌单'>
+        <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
           <AddIcon sx={AddFavIcon} />
         </IconButton>
       </Tooltip>

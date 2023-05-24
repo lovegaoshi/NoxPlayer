@@ -31,6 +31,7 @@
     "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
@@ -77,6 +78,7 @@
     "fs": "^0.0.1-security",
     "is-mobile": "^4.0.0",
     "material-ui-confirm": "^3.0.8",
+    "md5": "^2.3.0",
     "notistack": "^3.0.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
@@ -93,6 +95,7 @@
     "react-window": "^1.8.8",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
-    "youtube-stream-url": "^2.4.1"
+    "youtube-stream-url": "^2.4.1",
+    "zustand": "^4.3.8"
   }
 }

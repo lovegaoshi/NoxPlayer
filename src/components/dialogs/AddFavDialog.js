@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 
-export const NewFavDialog = function NewFavDialog ({ onClose, openState }) {
+export const NewFavDialog = function NewFavDialog({ onClose, openState }) {
   const [favName, setfavName] = useState('');
 
   const handleCancel = () => {
@@ -36,14 +36,14 @@ export const NewFavDialog = function NewFavDialog ({ onClose, openState }) {
         <DialogContent>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
-            label="歌单名字"
-            type="name"
-            variant="standard"
+            margin='dense'
+            id='name'
+            label='歌单名字'
+            type='name'
+            variant='standard'
             onChange={onfavName}
             value={favName}
-            autoComplete="off"
+            autoComplete='off'
           />
         </DialogContent>
         <DialogActions>
@@ -59,8 +59,13 @@ export const NewFavDialog = function NewFavDialog ({ onClose, openState }) {
   );
 };
 
-export const AddFavDialog = function AddFavDialog ({
-  onClose, openState, fromId, favLists, song, isMobile = false,
+export const AddFavDialog = function AddFavDialog({
+  onClose,
+  openState,
+  fromId,
+  favLists,
+  song,
+  isMobile = false,
 }) {
   const [favId, setfavId] = useState('');
 
@@ -81,18 +86,22 @@ export const AddFavDialog = function AddFavDialog ({
   return (
     <div>
       <Dialog open={openState}>
-        <DialogTitle>{`添加 ${song === undefined ? favLists.find((i) => i.id === fromId)?.title : song?.parsedName} 到歌单`}</DialogTitle>
+        <DialogTitle>{`添加 ${
+          song === undefined
+            ? favLists.find((i) => i.id === fromId)?.title
+            : song?.parsedName
+        } 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile ? '50vw' : 400, minHeight: 50 }}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">添加到歌单</InputLabel>
+              <InputLabel id='demo-simple-select-label'>添加到歌单</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
                 value={favId}
-                label="FavLists"
+                label='FavLists'
                 onChange={onfavId}
-                input={(<Input />)}
+                input={<Input />}
                 MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
               >
                 {favLists &&

@@ -1,6 +1,4 @@
-import React, {
-  useEffect, useState, useCallback, useContext,
-} from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { Lrc } from 'react-lrc';
 
 import TextField from '@mui/material/TextField';
@@ -35,9 +33,7 @@ export default withStyles(styles)((props) => {
   const [lyric, setLyric] = useState('');
   const [songTitle, setSongTitle] = useState('');
 
-  const {
-    classes, currentTime, audioName, audioId, audioCover,
-  } = props;
+  const { classes, currentTime, audioName, audioId, audioCover } = props;
   const StorageManager = useContext(StorageManagerCtx);
 
   useEffect(() => {
@@ -51,50 +47,88 @@ export default withStyles(styles)((props) => {
       setSongTitle(e.target.value);
     }
   };
-  const onSongTitleChange = useCallback((lrc) => {
-    setLyric(lrc);
-  }, [audioName]);
+  const onSongTitleChange = useCallback(
+    (lrc) => {
+      setLyric(lrc);
+    },
+    [audioName],
+  );
 
   const onLrcOffsetChange = (e) => {
     setLyricOffset(e.target.value);
     StorageManager.setLyricOffset(audioId, e.target.value);
   };
 
-  const lineRenderer = useCallback(({ line: { startMillisecond, content }, index, active }) => {
-    // //console.log(content)
-    return (
-      <div style={{
-        textAlign: 'center',
-        color: active ? colorTheme.lyricActiveColor : colorTheme.lyricInactiveColor,
-        padding: '6px 12px',
-        fontSize: active ? '18px' : '15px',
-        fontFamily: 'Georgia,\'Microsoft YaHei\',simsun,serif',
-      }}
-      >
-        {content}
-      </div>
-    );
-  });
+  const lineRenderer = useCallback(
+    ({ line: { startMillisecond, content }, index, active }) => {
+      // //console.log(content)
+      return (
+        <div
+          style={{
+            textAlign: 'center',
+            color: active
+              ? colorTheme.lyricActiveColor
+              : colorTheme.lyricInactiveColor,
+            padding: '6px 12px',
+            fontSize: active ? '18px' : '15px',
+            fontFamily: "Georgia,'Microsoft YaHei',simsun,serif",
+          }}
+        >
+          {content}
+        </div>
+      );
+    },
+  );
 
   function onCurrentLineChange({ line, index }) {
-    return (
-      console.log(index, line)
-    );
+    return console.log(index, line);
   }
   // //console.log(+currentTime * 1000 + +lyricOffset)
   const className = ScrollBar().root;
 
   return (
-    <Grid container spacing={1} sx={{ maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' }}>
-      <Grid align="center" sx={{ alignItems: 'center', paddingBottom: 10, overflow: 'hidden' }} item xs={12}>
-        <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', marginTop: '10px' }}>
-          <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: 'hidden' }} item xs={12}>
-            <Grid container spacing={0} sx={{ maxHeight: '20vh', overflow: 'hidden', width: '90vw' }}>
-              <Grid align="right" sx={{ paddingTop: '8px', paddingRight: '2px', overflow: 'hidden' }} style={{ maxWidth: 'fit-content' }} item xs={3}>
+    <Grid
+      container
+      spacing={1}
+      sx={{ maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' }}
+    >
+      <Grid
+        align='center'
+        sx={{ alignItems: 'center', paddingBottom: 10, overflow: 'hidden' }}
+        item
+        xs={12}
+      >
+        <Grid
+          container
+          spacing={0}
+          sx={{ maxHeight: '20vh', overflow: 'hidden', marginTop: '10px' }}
+        >
+          <Grid
+            align='center'
+            sx={{ paddingTop: '8px', paddingLeft: '2px', overflow: 'hidden' }}
+            item
+            xs={12}
+          >
+            <Grid
+              container
+              spacing={0}
+              sx={{ maxHeight: '20vh', overflow: 'hidden', width: '90vw' }}
+            >
+              <Grid
+                align='right'
+                sx={{
+                  paddingTop: '8px',
+                  paddingRight: '2px',
+                  overflow: 'hidden',
+                }}
+                style={{ maxWidth: 'fit-content' }}
+                item
+                xs={3}
+              >
                 <TextField
-                  type="number"
-                  variant="outlined"
-                  label="歌词补偿(ms)"
+                  type='number'
+                  variant='outlined'
+                  label='歌词补偿(ms)'
                   InputProps={{
                     className: classes.inputOffset,
                     min: -9999,
@@ -104,10 +138,19 @@ export default withStyles(styles)((props) => {
                   onChange={onLrcOffsetChange}
                 />
               </Grid>
-              <Grid align="center" sx={{ paddingTop: '8px', paddingLeft: '8px', overflow: 'hidden' }} item xs={9}>
+              <Grid
+                align='center'
+                sx={{
+                  paddingTop: '8px',
+                  paddingLeft: '8px',
+                  overflow: 'hidden',
+                }}
+                item
+                xs={9}
+              >
                 <TextField
-                  variant="outlined"
-                  label="歌词搜索"
+                  variant='outlined'
+                  label='歌词搜索'
                   InputProps={{
                     className: classes.inputLrc,
                   }}
@@ -116,13 +159,18 @@ export default withStyles(styles)((props) => {
                   }}
                   placeholder={songTitle}
                   onKeyDown={onEnterPress}
-                  type="search"
+                  type='search'
                 />
               </Grid>
             </Grid>
           </Grid>
 
-          <Grid align="center" sx={{ paddingTop: '8px', overflow: 'hidden', width: '90vw' }} item xs={12}>
+          <Grid
+            align='center'
+            sx={{ paddingTop: '8px', overflow: 'hidden', width: '90vw' }}
+            item
+            xs={12}
+          >
             <LyricSearchBar
               SearchKey={songTitle}
               SongId={audioId}
@@ -130,10 +178,13 @@ export default withStyles(styles)((props) => {
               setLyric={onSongTitleChange}
             />
           </Grid>
-
         </Grid>
       </Grid>
-      <Grid style={{ paddingBottom: 10, overflow: 'auto', maxHeight: '80%' }} item xs={12}>
+      <Grid
+        style={{ paddingBottom: 10, overflow: 'auto', maxHeight: '80%' }}
+        item
+        xs={12}
+      >
         <Lrc
           className={className}
           style={{ maxHeight: '100%' }}
@@ -142,8 +193,8 @@ export default withStyles(styles)((props) => {
           lineRenderer={lineRenderer}
           currentMillisecond={+currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
           intervalOfRecoveringAutoScrollAfterUserScroll={
-              INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL
-            }
+            INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL
+          }
         />
       </Grid>
     </Grid>

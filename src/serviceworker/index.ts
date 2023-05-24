@@ -27,7 +27,8 @@ chrome.runtime.onInstalled.addListener(async () => {
           {
             header: 'User-Agent',
             operation: 'set',
-            value: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.62",
+            value:
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.62',
           },
         ],
       },
@@ -41,8 +42,11 @@ chrome.runtime.onInstalled.addListener(async () => {
 
   chrome.declarativeNetRequest.getDynamicRules((previousRules) => {
     const previousRuleIds = previousRules.map((rule) => rule.id);
-    chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds: previousRuleIds, addRules: rules });
+    chrome.declarativeNetRequest.updateDynamicRules({
+      removeRuleIds: previousRuleIds,
+      addRules: rules,
+    });
   });
 });
 
-export { }; // stops ts error that the file isn't a module
+export {}; // stops ts error that the file isn't a module

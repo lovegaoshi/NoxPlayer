@@ -5,17 +5,20 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { skins } from '../../styles/skin';
 import {
-  setLocalStorage, readLocalStorage, FAV_FAV_LIST_KEY, PlayListDict,
+  setLocalStorage,
+  readLocalStorage,
+  FAV_FAV_LIST_KEY,
+  PlayListDict,
 } from '../../utils/ChromeStorage';
 import Song from '../../objects/Song';
 
 const buttonStyle = css`
-    cursor: pointer;
-    &:hover {
-        color: ${skins().reactJKPlayerTheme.sliderColor};
-    };
-    background-color: transparent;
-    color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
+  cursor: pointer;
+  &:hover {
+    color: ${skins().reactJKPlayerTheme.sliderColor};
+  }
+  background-color: transparent;
+  color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
 export default function favoriteSongButton({ song }: { song: Song }) {
@@ -28,9 +31,13 @@ export default function favoriteSongButton({ song }: { song: Song }) {
   }, [song.id]);
 
   const handleClick = async () => {
-    const favFavList = await readLocalStorage(FAV_FAV_LIST_KEY) as PlayListDict;
+    const favFavList = (await readLocalStorage(
+      FAV_FAV_LIST_KEY,
+    )) as PlayListDict;
     if (liked) {
-      favFavList.songList = favFavList.songList.filter((val) => val.id !== song.id);
+      favFavList.songList = favFavList.songList.filter(
+        (val) => val.id !== song.id,
+      );
     } else {
       favFavList.songList.push(song);
     }
@@ -41,12 +48,12 @@ export default function favoriteSongButton({ song }: { song: Song }) {
   return (
     <React.Fragment>
       <span
-        className="group audio-download"
+        className='group audio-download'
         // eslint-disable-next-line react/no-unknown-property
         css={buttonStyle}
         onClick={() => handleClick()}
         title={liked ? '不喜欢了' : '特别喜欢！'}
-        role="button"
+        role='button'
         tabIndex={0}
       >
         {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}

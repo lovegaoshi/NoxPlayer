@@ -4,8 +4,11 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { searchLyricOptions, searchLyric } from '../utils/Data';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 
-export default function LyricSearchBar ({
-  SearchKey, SongId, setLyric, setLyricOffset,
+export default function LyricSearchBar({
+  SearchKey,
+  SongId,
+  setLyric,
+  setLyricOffset,
 }) {
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState('');
@@ -17,12 +20,16 @@ export default function LyricSearchBar ({
   }, [SearchKey]);
 
   useEffect(() => {
-    if (options.length === 0) { return; }
+    if (options.length === 0) {
+      return;
+    }
     async function initLyric() {
       const detail = await StorageManager.getLyricDetail(SongId.toString());
       if (undefined !== detail) {
         setLyricOffset(detail.lrcOffset);
-        const index = options.findIndex((v) => v.songMid === detail.lrc.songMid);
+        const index = options.findIndex(
+          (v) => v.songMid === detail.lrc.songMid,
+        );
         if (index !== -1) {
           onOptionSet({}, options[index]);
           return;
@@ -52,12 +59,14 @@ export default function LyricSearchBar ({
         disableClearable
         onChange={onOptionSet}
         value={value}
-        id="LyricSearchBar"
+        id='LyricSearchBar'
         options={options}
         sx={{ width: 500 }}
-        size="small"
-        renderInput={(params) => <TextField {...params} label="歌词选择" />}
-        isOptionEqualToValue={(option, value2) => option.songMid === value2.songMid}
+        size='small'
+        renderInput={(params) => <TextField {...params} label='歌词选择' />}
+        isOptionEqualToValue={(option, value2) =>
+          option.songMid === value2.songMid
+        }
       />
     </div>
   );

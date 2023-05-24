@@ -1,6 +1,4 @@
-import React, {
-  useState, useContext, useEffect, useMemo,
-} from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 
 const TimerContext = React.createContext();
 
@@ -31,7 +29,8 @@ export function TimerProvider(props) {
     setSeconds(originalMMSS[1]);
   };
 
-  const onTimerUp = () => document.getElementsByClassName('music-player-audio')[0].pause();
+  const onTimerUp = () =>
+    document.getElementsByClassName('music-player-audio')[0].pause();
 
   useEffect(() => {
     if (!startTimer) return () => {};
@@ -54,9 +53,19 @@ export function TimerProvider(props) {
     };
   });
 
-  const value = useMemo(() => ({
-    minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
-  }), [minutes, seconds, startTimer]);
+  const value = useMemo(
+    () => ({
+      minutes,
+      seconds,
+      startTimer,
+      setMinutes,
+      setSeconds,
+      timerRestart,
+      timerStart,
+      timerPause,
+    }),
+    [minutes, seconds, startTimer],
+  );
   return (
     <TimerContext.Provider value={value}>
       {props.children}
@@ -66,9 +75,23 @@ export function TimerProvider(props) {
 
 export default function useTimer() {
   const {
-    minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
+    minutes,
+    seconds,
+    startTimer,
+    setMinutes,
+    setSeconds,
+    timerRestart,
+    timerStart,
+    timerPause,
   } = useContext(TimerContext);
   return {
-    minutes, seconds, startTimer, setMinutes, setSeconds, timerRestart, timerStart, timerPause,
+    minutes,
+    seconds,
+    startTimer,
+    setMinutes,
+    setSeconds,
+    timerRestart,
+    timerStart,
+    timerPause,
   };
 }

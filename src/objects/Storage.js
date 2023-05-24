@@ -1,7 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import {
-  strToU8, strFromU8, compressSync, decompressSync,
-} from 'fflate';
+import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 import { getBiliSeriesList } from '../background/DataProcess';
 import {
   INITIAL_PLAYLIST,
@@ -19,8 +17,8 @@ import {
 
 export default class StorageManager {
   constructor() {
-    this.setFavLists = () => { };
-    this.setPlayerSettingInst = () => { };
+    this.setFavLists = () => {};
+    this.setPlayerSettingInst = () => {};
     this.latestFavLists = [];
   }
 
@@ -44,7 +42,9 @@ export default class StorageManager {
       const FavListsSorted = [];
       // Sort result base on ID
       const FavLists = Object.entries(result).map((v) => v[1]);
-      FavListIDs.forEach((id) => FavListsSorted.push(FavLists.find((v) => v.info.id === id)));
+      FavListIDs.forEach((id) =>
+        FavListsSorted.push(FavLists.find((v) => v.info.id === id)),
+      );
       _self.setFavLists(FavListsSorted);
       _self.latestFavLists = FavListsSorted;
     });
@@ -54,21 +54,29 @@ export default class StorageManager {
     const _self = this;
     setLocalStorage(FAV_FAV_LIST_KEY, dummyFavFavList());
     const value = dummyFavList('闹闹的歌切');
-    value.songList = await getBiliSeriesList({ mid: INITIAL_PLAYLIST[0], sid: INITIAL_PLAYLIST[1] });
-    value.subscribeUrls = ['https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851'];
-    chrome.storage.local.set({
-      [value.info.id]: value,
-      [LAST_PLAY_LIST]: [],
-      [LYRIC_MAPPING]: [],
-      [CURRENT_PLAYING]: { cid: null, playUrl: null },
-    }, () => {
-      // console.log('key is set to ' + value.info.id);
-      // console.log('Value is set to ' + value);
-      chrome.storage.local.set({ [MY_FAV_LIST_KEY]: [value.info.id] }, () => {
-        _self.setFavLists([value]);
-        _self.latestFavLists = [value];
-      });
+    value.songList = await getBiliSeriesList({
+      mid: INITIAL_PLAYLIST[0],
+      sid: INITIAL_PLAYLIST[1],
     });
+    value.subscribeUrls = [
+      'https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851',
+    ];
+    chrome.storage.local.set(
+      {
+        [value.info.id]: value,
+        [LAST_PLAY_LIST]: [],
+        [LYRIC_MAPPING]: [],
+        [CURRENT_PLAYING]: { cid: null, playUrl: null },
+      },
+      () => {
+        // console.log('key is set to ' + value.info.id);
+        // console.log('Value is set to ' + value);
+        chrome.storage.local.set({ [MY_FAV_LIST_KEY]: [value.info.id] }, () => {
+          _self.setFavLists([value]);
+          _self.latestFavLists = [value];
+        });
+      },
+    );
   }
 
   deletFavList(id, newFavLists) {
@@ -96,10 +104,18 @@ export default class StorageManager {
     return value;
   }
 
-  saveMyFavList(newList, callbackFunc = () => { console.debug('saveMyFavList called.'); }) {
+  saveMyFavList(
+    newList,
+    callbackFunc = () => {
+      console.debug('saveMyFavList called.');
+    },
+  ) {
     const _self = this;
     _self.latestFavLists = newList;
-    chrome.storage.local.set({ [MY_FAV_LIST_KEY]: newList.map((v) => v.info.id) }, callbackFunc);
+    chrome.storage.local.set(
+      { [MY_FAV_LIST_KEY]: newList.map((v) => v.info.id) },
+      callbackFunc,
+    );
   }
 
   updateFavList(updatedToList) {
@@ -112,7 +128,9 @@ export default class StorageManager {
       default:
     }
     chrome.storage.local.set({ [updatedToList.info.id]: updatedToList }, () => {
-      const index = _self.latestFavLists.findIndex((f) => f.info.id === updatedToList.info.id);
+      const index = _self.latestFavLists.findIndex(
+        (f) => f.info.id === updatedToList.info.id,
+      );
       _self.latestFavLists[index].songList = updatedToList.songList;
       if (updatedToList.subscribeUrls) {
         _self.latestFavLists[index].subscribeUrls = updatedToList.subscribeUrls;
@@ -145,7 +163,10 @@ export default class StorageManager {
       lyricMappings[detailIndex].lrc = lrc;
     } else {
       lyricMappings.push({
-        key: songId, id: songId, lrc, lrcOffset: 0,
+        key: songId,
+        id: songId,
+        lrc,
+        lrcOffset: 0,
       });
     }
     chrome.storage.local.set({ [LYRIC_MAPPING]: lyricMappings });
@@ -190,7 +211,7 @@ export default class StorageManager {
       this.setPlayerSetting(DEFAULT_SETTING);
       return DEFAULT_SETTING;
     }
-    return (settings);
+    return settings;
   }
 
   async setPlayerSetting(newSettings) {
@@ -211,7 +232,9 @@ export default class StorageManager {
       const href = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = href;
-      link.download = `noxplay_${new Date().toISOString().slice(0, 10)}.noxBackup`;
+      link.download = `noxplay_${new Date()
+        .toISOString()
+        .slice(0, 10)}.noxBackup`;
       document.body.appendChild(link);
       link.click();
     });
@@ -219,9 +242,12 @@ export default class StorageManager {
 
   async importStorageRaw(content) {
     chrome.storage.local.clear(() => {
-      chrome.storage.local.set(JSON.parse(strFromU8(decompressSync(content))), () => {
-        this.initFavLists();
-      });
+      chrome.storage.local.set(
+        JSON.parse(strFromU8(decompressSync(content))),
+        () => {
+          this.initFavLists();
+        },
+      );
     });
   }
 

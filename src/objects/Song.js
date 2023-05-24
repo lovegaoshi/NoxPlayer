@@ -2,7 +2,17 @@ import { reExtractSongName, extractParenthesis } from '../utils/re';
 
 export default class Song {
   constructor({
-    cid, bvid, name, singer, cover, musicSrc, singerId, lyric, lyricOffset, page, biliShazamedName,
+    cid,
+    bvid,
+    name,
+    singer,
+    cover,
+    musicSrc,
+    singerId,
+    lyric,
+    lyricOffset,
+    page,
+    biliShazamedName,
   }) {
     this.id = cid;
     this.bvid = bvid;

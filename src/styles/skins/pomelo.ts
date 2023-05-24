@@ -21,9 +21,16 @@ const gifs = [
   'http://i0.hdslb.com/bfs/garb/74bbe0803168dc873a7e97334b0bab85d337a39c.png',
 ];
 export default skinTemplate({
-  playerBanner: 'http://i0.hdslb.com/bfs/space/ac7ed8c017edce6d376707b7ce3a68302edb3c50.png',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
-  playerBackground: async () => await fetchVideoPlayUrlPromise('BV1Yv4y1C7K5', undefined, 'VideoUrl'),
+  playerBanner:
+    'http://i0.hdslb.com/bfs/space/ac7ed8c017edce6d376707b7ce3a68302edb3c50.png',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png',
+      );
+    }),
+  playerBackground: async () =>
+    await fetchVideoPlayUrlPromise('BV1Yv4y1C7K5', undefined, 'VideoUrl'),
   playerBackgroundVideo: true,
   // 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
   gifs,
@@ -49,8 +56,10 @@ export default skinTemplate({
     uploaderCaptionColor: '#ff1493',
     lyricActiveColor: '#c660e7',
     lyricInactiveColor: '#4d388f',
-    songListShadowStyle: '-4px 5px 6px 2px #ffc1cc, 4px -3px 2px 0px #ffc1cc, 1px 1px 0px 2px #ffcff1',
-    lyricImgShadowStyle: ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
+    songListShadowStyle:
+      '-4px 5px 6px 2px #ffc1cc, 4px -3px 2px 0px #ffc1cc, 1px 1px 0px 2px #ffcff1',
+    lyricImgShadowStyle:
+      ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
     PCBackgroundColor: undefined,
     MobileBackgroundColor: 'white',
     FavBackgroundColor: 'rgba(255,255,255,0.9)',

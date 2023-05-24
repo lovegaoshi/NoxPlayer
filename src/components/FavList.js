@@ -63,248 +63,319 @@ export const DiskIcon = {
   minWidth: '36px',
 };
 
-export const FavList = memo(({
-  onSongListChange, onPlayOneFromFav, onPlayAllFromFav, onAddFavToList, playerSettings,
-}) => {
-  const StorageManager = useContext(StorageManagerCtx);
-  const [
-    favLists, setFavLists,
-    searchList, setSearchList,
-    favoriteList,
-    selectedList, setSelectedList,
-    setSongsStoredAsNewFav,
-    openNewDialog, setOpenNewDialog,
-    openAddDialog,
-    actionFavId,
-    actionFavSong,
-    setSearchInputVal,
+export const FavList = memo(
+  ({
+    onSongListChange,
+    onPlayOneFromFav,
+    onPlayAllFromFav,
+    onAddFavToList,
+    playerSettings,
+  }) => {
+    const StorageManager = useContext(StorageManagerCtx);
+    const [
+      favLists,
+      setFavLists,
+      searchList,
+      setSearchList,
+      favoriteList,
+      selectedList,
+      setSelectedList,
+      setSongsStoredAsNewFav,
+      openNewDialog,
+      setOpenNewDialog,
+      openAddDialog,
+      actionFavId,
+      actionFavSong,
+      setSearchInputVal,
 
-    handleDeleteFromSearchList,
-    onNewFav,
-    handleDeleteFavClick,
-    handleAddToFavClick,
-    onAddFav,
-    onDragEnd,
-  ] = useFavList();
+      handleDeleteFromSearchList,
+      onNewFav,
+      handleDeleteFavClick,
+      handleAddToFavClick,
+      onAddFav,
+      onDragEnd,
+    ] = useFavList();
 
-  const handleSearch = useCallback((list) => {
-    setSearchList(list);
-    setSelectedList(list);
-  }, [searchList, selectedList]);
+    const handleSearch = useCallback(
+      (list) => {
+        setSearchList(list);
+        setSelectedList(list);
+      },
+      [searchList, selectedList],
+    );
 
-  const handlePlayListClick = (FavList2) => {
-    onPlayAllFromFav(FavList2);
-  };
+    const handlePlayListClick = (FavList2) => {
+      onPlayAllFromFav(FavList2);
+    };
 
-  const loadToSearchList = (songList) => {
-    handleSearch(defaultSearchList({ songList }));
-    onPlayAllFromFav({ songList });
-  };
+    const loadToSearchList = (songList) => {
+      handleSearch(defaultSearchList({ songList }));
+      onPlayAllFromFav({ songList });
+    };
 
-  const shuffleAll = () => {
-    let totalSongs = 0;
-    favLists.map((favList) => totalSongs += favList.songList.length);
-    const allFavSongList = new Array(totalSongs);
-    let i = 0;
-    for (const favList of favLists) {
-      for (const song of favList.songList) {
-        allFavSongList[i] = { ...song, singer: favList.info.title };
-        i++;
+    const shuffleAll = () => {
+      let totalSongs = 0;
+      favLists.map((favList) => (totalSongs += favList.songList.length));
+      const allFavSongList = new Array(totalSongs);
+      let i = 0;
+      for (const favList of favLists) {
+        for (const song of favList.songList) {
+          allFavSongList[i] = { ...song, singer: favList.info.title };
+          i++;
+        }
       }
-    }
-    loadToSearchList(allFavSongList);
-  };
+      loadToSearchList(allFavSongList);
+    };
 
-  const renderFavListItem = ({ v, i }) => {
-    return (
-      <React.Fragment key={i}>
-        <ListItemButton
-          disableRipple
-          sx={outerLayerBtn}
-          onContextMenu={(event, row, index) => {
-            event.preventDefault();
-            contextMenu.show({
-              id: 'favlistmenu',
-              event,
-              props: {
-                favlist: v,
-                updateFavList: (val) => {
-                  const newList = { ...val };
-                  StorageManager.updateFavList(newList);
-                  // well, we resorted back to this...
-                  setSelectedList(null);
-                  setSelectedList(newList);
+    const renderFavListItem = ({ v, i }) => {
+      return (
+        <React.Fragment key={i}>
+          <ListItemButton
+            disableRipple
+            sx={outerLayerBtn}
+            onContextMenu={(event, row, index) => {
+              event.preventDefault();
+              contextMenu.show({
+                id: 'favlistmenu',
+                event,
+                props: {
+                  favlist: v,
+                  updateFavList: (val) => {
+                    const newList = { ...val };
+                    StorageManager.updateFavList(newList);
+                    // well, we resorted back to this...
+                    setSelectedList(null);
+                    setSelectedList(newList);
+                  },
                 },
-              },
-            });
-          }}
-        >
-          <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={() => setSelectedList(v)} id={v.info.id}>
-            <ListItemIcon sx={DiskIcon}>
-              <AlbumOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={v.info.title} />
+              });
+            }}
+          >
+            <ListItemButton
+              style={{ maxWidth: 'calc(100% - 84px)' }}
+              onClick={() => setSelectedList(v)}
+              id={v.info.id}
+            >
+              <ListItemIcon sx={DiskIcon}>
+                <AlbumOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText
+                primaryTypographyProps={{ fontSize: '1.1em' }}
+                primary={v.info.title}
+              />
+            </ListItemButton>
+            <Box component='div' sx={CRUDBtn}>
+              <Tooltip title='播放歌单'>
+                <PlaylistPlayIcon
+                  sx={CRUDIcon}
+                  onClick={() => handlePlayListClick(v)}
+                />
+              </Tooltip>
+              <Tooltip title='添加到收藏歌单'>
+                <AddBoxOutlinedIcon
+                  sx={CRUDIcon}
+                  onClick={() => handleAddToFavClick(v.info.id)}
+                />
+              </Tooltip>
+              <Tooltip title='删除歌单'>
+                <DeleteOutlineOutlinedIcon
+                  sx={CRUDIcon}
+                  onClick={() => handleDeleteFavClick(v.info.title, v.info.id)}
+                />
+              </Tooltip>
+            </Box>
           </ListItemButton>
-          <Box component="div" sx={CRUDBtn}>
-            <Tooltip title="播放歌单">
-              <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(v)} />
-            </Tooltip>
-            <Tooltip title="添加到收藏歌单">
-              <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(v.info.id)} />
-            </Tooltip>
-            <Tooltip title="删除歌单">
-              <DeleteOutlineOutlinedIcon sx={CRUDIcon} onClick={() => handleDeleteFavClick(v.info.title, v.info.id)} />
-            </Tooltip>
-          </Box>
-        </ListItemButton>
-      </React.Fragment>
-    );
-  };
+        </React.Fragment>
+      );
+    };
 
-  const renderSpecialList = (specialList, handleClick = undefined) => {
-    if (specialList === null) return;
-    if (handleClick === undefined) handleClick = () => setSelectedList(specialList);
+    const renderSpecialList = (specialList, handleClick = undefined) => {
+      if (specialList === null) return;
+      if (handleClick === undefined)
+        handleClick = () => setSelectedList(specialList);
+
+      return (
+        <React.Fragment key={specialList.info.id}>
+          <ListItemButton disableRipple sx={outerLayerBtn}>
+            <ListItemButton
+              style={{ maxWidth: 'calc(100% - 84px)' }}
+              onClick={handleClick}
+              id={specialList.info.id}
+            >
+              <ListItemIcon sx={DiskIcon}>
+                <ManageSearchIcon />
+              </ListItemIcon>
+              <ListItemText
+                primaryTypographyProps={{ fontSize: '1.1em' }}
+                primary={specialList.info.title}
+              />
+            </ListItemButton>
+            <Box component='div' sx={CRUDBtn}>
+              <Tooltip title='播放歌单'>
+                <PlaylistPlayIcon
+                  sx={CRUDIcon}
+                  onClick={() => handlePlayListClick(specialList)}
+                />
+              </Tooltip>
+              <Tooltip title='添加到收藏歌单'>
+                <AddBoxOutlinedIcon
+                  sx={CRUDIcon}
+                  onClick={() => handleAddToFavClick(specialList.info.id)}
+                />
+              </Tooltip>
+              <Tooltip title='新建为歌单'>
+                <FiberNewIcon
+                  sx={CRUDIcon}
+                  onClick={() => {
+                    setSongsStoredAsNewFav(specialList.songList);
+                    setOpenNewDialog(true);
+                  }}
+                />
+              </Tooltip>
+            </Box>
+          </ListItemButton>
+        </React.Fragment>
+      );
+    };
 
     return (
-      <React.Fragment key={specialList.info.id}>
-        <ListItemButton
-          disableRipple
-          sx={outerLayerBtn}
+      <React.Fragment>
+        <Menu theme={colorTheme.generalTheme} />
+        <Search
+          handleSearch={handleSearch}
+          handleSetSearchInputVal={setSearchInputVal}
+        />
+        <br />
+        <Box // Mid Grid -- SideBar
+          style={{
+            overflow: 'hidden',
+            marginTop: '18px',
+            maxHeight: 'calc(100vh - 208px)',
+            backgroundColor: colorTheme.FavListBackgroundColor,
+          }}
+          sx={{ gridArea: 'sidebar' }}
         >
-          <ListItemButton style={{ maxWidth: 'calc(100% - 84px)' }} onClick={handleClick} id={specialList.info.id}>
-            <ListItemIcon sx={DiskIcon}>
-              <ManageSearchIcon />
-            </ListItemIcon>
-            <ListItemText primaryTypographyProps={{ fontSize: '1.1em' }} primary={specialList.info.title} />
-          </ListItemButton>
-          <Box component="div" sx={CRUDBtn}>
-            <Tooltip title="播放歌单">
-              <PlaylistPlayIcon sx={CRUDIcon} onClick={() => handlePlayListClick(specialList)} />
-            </Tooltip>
-            <Tooltip title="添加到收藏歌单">
-              <AddBoxOutlinedIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(specialList.info.id)} />
-            </Tooltip>
-            <Tooltip title="新建为歌单">
-              <FiberNewIcon
-                sx={CRUDIcon}
-                onClick={() => {
-                  setSongsStoredAsNewFav(specialList.songList);
-                  setOpenNewDialog(true);
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Typography
+                variant='subtitle1'
+                style={{
+                  color: colorTheme.myPlayListCaptionColor,
+                  paddingLeft: '8px',
+                  paddingTop: '12px',
                 }}
-              />
-            </Tooltip>
-          </Box>
-        </ListItemButton>
-      </React.Fragment>
-    );
-  };
-
-  return (
-    <React.Fragment>
-      <Menu
-        theme={colorTheme.generalTheme}
-      />
-      <Search
-        handleSearch={handleSearch}
-        handleSetSearchInputVal={setSearchInputVal}
-      />
-      <br />
-      <Box // Mid Grid -- SideBar
-        style={{
-          overflow: 'hidden', marginTop: '18px', maxHeight: 'calc(100vh - 208px)', backgroundColor: colorTheme.FavListBackgroundColor,
-        }}
-        sx={{ gridArea: 'sidebar' }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Typography variant="subtitle1" style={{ color: colorTheme.myPlayListCaptionColor, paddingLeft: '8px', paddingTop: '12px' }}>
-              我的歌单
-            </Typography>
+              >
+                我的歌单
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={8}
+              style={{ textAlign: 'right', paddingRight: '8px' }}
+            >
+              <Tooltip title='全歌单播放'>
+                <IconButton size='large' onClick={shuffleAll}>
+                  <ShuffleIcon sx={AddFavIcon} />
+                </IconButton>
+              </Tooltip>
+              <PlayerSettingsButton AddFavIcon={AddFavIcon} />
+              <HelpPanelButton AddFavIcon={AddFavIcon} />
+            </Grid>
+            <NewFavDialog
+              id='NewFav'
+              keepMounted
+              openState={openNewDialog}
+              onClose={onNewFav}
+            />
           </Grid>
-          <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '8px' }}>
-            <Tooltip title="全歌单播放">
-              <IconButton size="large" onClick={shuffleAll}>
-                <ShuffleIcon sx={AddFavIcon} />
-              </IconButton>
-            </Tooltip>
-            <PlayerSettingsButton AddFavIcon={AddFavIcon} />
-            <HelpPanelButton AddFavIcon={AddFavIcon} />
-          </Grid>
-          <NewFavDialog
-            id="NewFav"
-            keepMounted
-            openState={openNewDialog}
-            onClose={onNewFav}
-          />
-        </Grid>
-        <Divider light />
-        <List
-          style={{ overflow: 'auto', maxHeight: 'calc(100% - 50px)' }}
-          className={ScrollBar().root}
-          sx={{ width: '100%' }}
-          component="nav"
-        >
-          {renderSpecialList(searchList)}
-          {false && renderSpecialList(favoriteList, () => StorageManager.getFavFavList().then(setSelectedList))}
-          {favLists && (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {(provided, snapshot) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {favLists.map((item, index) => (
-                    <Draggable key={`item-${index}`} draggableId={`item-${index}`} index={index}>
-                      {(provided2, snapshot2) => (
-                        <div
-                          ref={provided2.innerRef}
-                          {...provided2.draggableProps}
-                          {...provided2.dragHandleProps}
-                          style={{ background: snapshot2.isDragging ? colorTheme.clickHoldBackground : null, ...provided2.draggableProps.style }}
-                        >
-                          {renderFavListItem({ v: item, i: index })}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
+          <Divider light />
+          <List
+            style={{ overflow: 'auto', maxHeight: 'calc(100% - 50px)' }}
+            className={ScrollBar().root}
+            sx={{ width: '100%' }}
+            component='nav'
+          >
+            {renderSpecialList(searchList)}
+            {false &&
+              renderSpecialList(favoriteList, () =>
+                StorageManager.getFavFavList().then(setSelectedList),
               )}
-            </Droppable>
-          </DragDropContext>
+            {favLists && (
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId='droppable'>
+                  {(provided, snapshot) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                      {favLists.map((item, index) => (
+                        <Draggable
+                          key={`item-${index}`}
+                          draggableId={`item-${index}`}
+                          index={index}
+                        >
+                          {(provided2, snapshot2) => (
+                            <div
+                              ref={provided2.innerRef}
+                              {...provided2.draggableProps}
+                              {...provided2.dragHandleProps}
+                              style={{
+                                background: snapshot2.isDragging
+                                  ? colorTheme.clickHoldBackground
+                                  : null,
+                                ...provided2.draggableProps.style,
+                              }}
+                            >
+                              {renderFavListItem({ v: item, i: index })}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            )}
+          </List>
+        </Box>
+        <Box // Mid Grid -- Fav Detail
+          style={{
+            maxHeight: '100%',
+            paddingTop: '20px',
+            paddingLeft: '20px',
+            overflow: 'auto',
+          }}
+          sx={{ gridArea: 'Lrc', padding: '0.2em' }}
+        >
+          {selectedList && (
+            <Fav
+              FavList={selectedList}
+              onSongListChange={onSongListChange}
+              onSongIndexChange={onPlayOneFromFav}
+              handleDeleteFromSearchList={handleDeleteFromSearchList}
+              handleAddToFavClick={handleAddToFavClick}
+              rssUpdate={async (subscribeUrls) =>
+                updateSubscribeFavList(
+                  selectedList,
+                  StorageManager,
+                  setSelectedList,
+                  subscribeUrls,
+                )
+              }
+              playerSettings={playerSettings}
+            />
           )}
-        </List>
-      </Box>
-      <Box // Mid Grid -- Fav Detail
-        style={{
-          maxHeight: '100%', paddingTop: '20px', paddingLeft: '20px', overflow: 'auto',
-        }}
-        sx={{ gridArea: 'Lrc', padding: '0.2em' }}
-      >
-        {selectedList && (
-          <Fav
-            FavList={selectedList}
-            onSongListChange={onSongListChange}
-            onSongIndexChange={onPlayOneFromFav}
-            handleDeleteFromSearchList={handleDeleteFromSearchList}
-            handleAddToFavClick={handleAddToFavClick}
-            rssUpdate={async (subscribeUrls) => updateSubscribeFavList(selectedList, StorageManager, setSelectedList, subscribeUrls)}
-            playerSettings={playerSettings}
+        </Box>
+        {favLists && (
+          <AddFavDialog
+            id='AddFav'
+            openState={openAddDialog}
+            onClose={onAddFav}
+            fromId={actionFavId}
+            favLists={StorageManager.latestFavLists.map((v) => v.info)}
+            song={actionFavSong}
+            MenuProps={{ style: { maxHeight: 200 } }}
           />
         )}
-      </Box>
-      {favLists && (
-      <AddFavDialog
-        id="AddFav"
-        openState={openAddDialog}
-        onClose={onAddFav}
-        fromId={actionFavId}
-        favLists={StorageManager.latestFavLists.map((v) => v.info)}
-        song={actionFavSong}
-        MenuProps={{ style: { maxHeight: 200 } }}
-      />
-      )}
-    </React.Fragment>
-  );
-});
+      </React.Fragment>
+    );
+  },
+);

@@ -19,13 +19,16 @@ interface props {
 }
 
 export default function songRenameDialog({
-  openState, songObj, onClose, saveList,
+  openState,
+  songObj,
+  onClose,
+  saveList,
 }: props) {
   const [songBVID, setSongBVID] = useState('');
   const [songBVIndex, setSongBVIndex] = useState('');
   const [songName, setSongName] = useState('');
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const circularProgress = () => (<CircularProgress />);
+  const circularProgress = () => <CircularProgress />;
 
   useEffect(() => {
     setSongBVID(songObj.bvid);
@@ -52,21 +55,27 @@ export default function songRenameDialog({
       case 3493085134719196:
         if (songObj.singerId !== 3493085134719196) break;
         // eslint-disable-next-line no-case-declarations
-        const key = enqueueSnackbar(
-          '正在连接歌名修订API……',
-          { variant: 'info', persist: true, action: circularProgress },
-        );
+        const key = enqueueSnackbar('正在连接歌名修订API……', {
+          variant: 'info',
+          persist: true,
+          action: circularProgress,
+        });
         try {
           const res = await fetch(
-            `${await getPlayerSettingKey('personalCloudIP')
-            }noxtagfix?bvid=${songBVID}&index=${songBVIndex}&name=${extractedSongName}&secret=${process.env.PERSONAL_CLOUD_SECRET}`,
+            `${await getPlayerSettingKey(
+              'personalCloudIP',
+            )}noxtagfix?bvid=${songBVID}&index=${songBVIndex}&name=${extractedSongName}&secret=${
+              process.env.PERSONAL_CLOUD_SECRET
+            }`,
           );
           if (res.status === 200) {
             closeSnackbar(key);
             enqueueSnackbar('歌名修订API连接成功', { variant: 'success' });
           } else {
             console.error(res);
-            throw new Error('connect to song rename API failed; res status is not 200');
+            throw new Error(
+              'connect to song rename API failed; res status is not 200',
+            );
           }
         } catch (e) {
           closeSnackbar(key);
@@ -75,7 +84,9 @@ export default function songRenameDialog({
         }
         break;
       case songObj.singerId:
-        window.open(`https://member.bilibili.com/platform/upload/video/frame?type=edit&bvid=${songObj.bvid}`);
+        window.open(
+          `https://member.bilibili.com/platform/upload/video/frame?type=edit&bvid=${songObj.bvid}`,
+        );
         break;
       default:
     }
@@ -84,45 +95,45 @@ export default function songRenameDialog({
 
   return (
     <Dialog open={openState}>
-      <DialogTitle>
-        更改歌名
-      </DialogTitle>
+      <DialogTitle>更改歌名</DialogTitle>
       <DialogContent>
         <TextField
-          margin="dense"
-          id="BVID"
-          label="BVID"
-          type="text"
-          variant="standard"
+          margin='dense'
+          id='BVID'
+          label='BVID'
+          type='text'
+          variant='standard'
           style={{ maxWidth: '11em' }}
           onChange={(e) => setSongBVID(e.target.value)}
           value={songBVID}
-          autoComplete="off"
+          autoComplete='off'
         />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <TextField
-          margin="dense"
-          id="index"
-          label="index"
-          type="text"
-          variant="standard"
+          margin='dense'
+          id='index'
+          label='index'
+          type='text'
+          variant='standard'
           style={{ maxWidth: '3em' }}
           onChange={(e) => setSongBVIndex(e.target.value)}
           value={songBVIndex}
-          autoComplete="off"
+          autoComplete='off'
         />
         <br />
         <TextField
           autoFocus
-          margin="dense"
-          id="name"
-          label="new name"
-          type="text"
-          variant="standard"
+          margin='dense'
+          id='name'
+          label='new name'
+          type='text'
+          variant='standard'
           onChange={(e) => setSongName(e.target.value)}
           value={songName}
-          autoComplete="off"
-          onKeyDown={(e) => { if (e.code === 'Enter') handleClose(); }}
+          autoComplete='off'
+          onKeyDown={(e) => {
+            if (e.code === 'Enter') handleClose();
+          }}
         />
       </DialogContent>
       <DialogActions>

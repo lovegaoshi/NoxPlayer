@@ -25,8 +25,14 @@ interface randomGIFParam {
  * @param {array} favList an identifier/signal that changes the gif.
  * @param {function} onClickCallback extra onclick function when button is clicked.
  */
-export default function randomGIFButton({ gifs, favList, onClickCallback = () => {} } : randomGIFParam) {
-  const [randomGIFSrc, setRandomGIFSrc] = useState(getRandomNumberExclude(gifs.length, -1));
+export default function randomGIFButton({
+  gifs,
+  favList,
+  onClickCallback = () => {},
+}: randomGIFParam) {
+  const [randomGIFSrc, setRandomGIFSrc] = useState(
+    getRandomNumberExclude(gifs.length, -1),
+  );
 
   useEffect(() => {
     setRandomGIFSrc(getRandomNumberExclude(gifs.length, randomGIFSrc));
@@ -43,7 +49,7 @@ export default function randomGIFButton({ gifs, favList, onClickCallback = () =>
       <img
         style={{ width: '72px', height: '72px' }}
         src={gifs[randomGIFSrc]}
-        alt=""
+        alt=''
       />
     </IconButton>
   );

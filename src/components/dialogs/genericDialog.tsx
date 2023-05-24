@@ -13,7 +13,11 @@ export const textToDialogContent = (texts: Array<string>) => {
     <DialogContent>
       {texts.map((val) => {
         return (
-          <Typography gutterBottom key={uuidv4()} style={{ whiteSpace: 'pre-wrap' }}>
+          <Typography
+            gutterBottom
+            key={uuidv4()}
+            style={{ whiteSpace: 'pre-wrap' }}
+          >
             {val.length === 1 ? ' ' : val}
           </Typography>
         );

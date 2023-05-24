@@ -1,5 +1,9 @@
 import React, {
-  useEffect, useState, useContext, useCallback, useRef,
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useRef,
 } from 'react';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
@@ -7,7 +11,11 @@ import { getPlayerSettingKey } from '../utils/ChromeStorage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from '../components/buttons/ThumbsUpButton';
 import MobileMoreButton from '../components/buttons/MobileMoreButton';
-import { checkBiliVideoPlayed, initBiliHeartbeat, sendBiliHeartbeat as POSTBiliHeartbeat } from '../utils/BiliOperate';
+import {
+  checkBiliVideoPlayed,
+  initBiliHeartbeat,
+  sendBiliHeartbeat as POSTBiliHeartbeat,
+} from '../utils/BiliOperate';
 
 const usePlayer = ({ isMobile = false }) => {
   // Params to init music player
@@ -28,44 +36,45 @@ const usePlayer = ({ isMobile = false }) => {
 
   const biliHeartbeat = useRef(null);
 
-  const updateCurrentAudioList = useCallback(({
-    songs,
-    immediatePlay = false,
-    replaceList = false,
-    newAudioListPlayIndex = 0,
-  }) => {
-    // console.log("updateCurrentAudioList", params)
-    let newAudioLists = [];
-    if (immediatePlay) {
-      // Click and play
-      newAudioLists = [
-        ...songs,
-        ...playingList,
-      ];
-    } else if (replaceList) {
-      // OnPlayList handle
-      newAudioLists = [...songs];
-    } else {
-      // AddToList handle
-      newAudioLists = [
-        ...playingList,
-        ...songs,
-      ];
-    }
-    const newParam = {
-      ...params,
-      quietUpdate: !immediatePlay,
-      clearPriorAudioLists: immediatePlay || replaceList,
-      audioLists: newAudioLists,
-      newAudioListPlayIndex,
-    };
-    // console.log(newParam)
-    setplayingList(newAudioLists);
-    setparams(newParam);
-  }, [params, playingList]);
+  const updateCurrentAudioList = useCallback(
+    ({
+      songs,
+      immediatePlay = false,
+      replaceList = false,
+      newAudioListPlayIndex = 0,
+    }) => {
+      // console.log("updateCurrentAudioList", params)
+      let newAudioLists = [];
+      if (immediatePlay) {
+        // Click and play
+        newAudioLists = [...songs, ...playingList];
+      } else if (replaceList) {
+        // OnPlayList handle
+        newAudioLists = [...songs];
+      } else {
+        // AddToList handle
+        newAudioLists = [...playingList, ...songs];
+      }
+      const newParam = {
+        ...params,
+        quietUpdate: !immediatePlay,
+        clearPriorAudioLists: immediatePlay || replaceList,
+        audioLists: newAudioLists,
+        newAudioListPlayIndex,
+      };
+      // console.log(newParam)
+      setplayingList(newAudioLists);
+      setparams(newParam);
+    },
+    [params, playingList],
+  );
 
   const parseSongList = async (favList) => {
-    if (favList.info && favList.info.title !== '搜索歌单' && await getPlayerSettingKey('loadPlaylistAsArtist')) {
+    if (
+      favList.info &&
+      favList.info.title !== '搜索歌单' &&
+      (await getPlayerSettingKey('loadPlaylistAsArtist'))
+    ) {
       const val = new Array(favList.songList.length);
       for (let i = 0; i < favList.songList.length; i++) {
         val[i] = { ...favList.songList[i], singer: favList.info.title };
@@ -75,54 +84,79 @@ const usePlayer = ({ isMobile = false }) => {
     return favList.songList;
   };
 
-  const onPlayOneFromFav = useCallback((songs, favList) => {
-    const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
-    if (playingList.length === favList.songList.length && existingIndex !== -1) {
-      currentAudioInst.playByIndex(existingIndex);
-      return;
-    }
-    parseSongList(favList).then((val) => {
-      updateCurrentAudioList({
-        songs: val,
-        replaceList: true,
-        newAudioListPlayIndex: val.findIndex((s) => s.id === songs[0].id),
+  const onPlayOneFromFav = useCallback(
+    (songs, favList) => {
+      const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
+      if (
+        playingList.length === favList.songList.length &&
+        existingIndex !== -1
+      ) {
+        currentAudioInst.playByIndex(existingIndex);
+        return;
+      }
+      parseSongList(favList).then((val) => {
+        updateCurrentAudioList({
+          songs: val,
+          replaceList: true,
+          newAudioListPlayIndex: val.findIndex((s) => s.id === songs[0].id),
+        });
       });
-    });
-  }, [params, playingList, currentAudioInst]);
+    },
+    [params, playingList, currentAudioInst],
+  );
 
-  const onAddOneFromFav = useCallback((songs) => {
-    const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
-    // console.log(existingIndex)
-    if (existingIndex !== -1) {
-      return;
-    }
-    updateCurrentAudioList({ songs, immediatePlay: false });
-  }, [params, playingList]);
+  const onAddOneFromFav = useCallback(
+    (songs) => {
+      const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
+      // console.log(existingIndex)
+      if (existingIndex !== -1) {
+        return;
+      }
+      updateCurrentAudioList({ songs, immediatePlay: false });
+    },
+    [params, playingList],
+  );
 
-  const onPlayAllFromFav = useCallback((favList) => {
-    console.debug('current PlayMode is', params.playMode);
-    parseSongList(favList).then((val) => {
+  const onPlayAllFromFav = useCallback(
+    (favList) => {
+      console.debug('current PlayMode is', params.playMode);
+      parseSongList(favList).then((val) => {
+        updateCurrentAudioList({
+          songs: val,
+          immediatePlay: false,
+          replaceList: true,
+          newAudioListPlayIndex:
+            params.playMode === 'shufflePlay'
+              ? Math.floor(Math.random() * val.length) >> 0
+              : 0,
+        });
+      });
+    },
+    [params],
+  );
+
+  const onAddFavToList = useCallback(
+    (songs) => {
+      // If song exists in currentPlayList, remove it
+      const newSongsInList = songs.filter(
+        (v) => playingList.find((s) => s.id === v.id) === undefined,
+      );
+
       updateCurrentAudioList({
-        songs: val,
+        songs: newSongsInList,
         immediatePlay: false,
-        replaceList: true,
-        newAudioListPlayIndex: params.playMode === 'shufflePlay'
-          ? Math.floor(Math.random() * val.length) >> 0
-          : 0,
+        replaceList: false,
       });
-    });
-  }, [params]);
+    },
+    [params, playingList],
+  );
 
-  const onAddFavToList = useCallback((songs) => {
-    // If song exists in currentPlayList, remove it
-    const newSongsInList = songs.filter((v) => playingList.find((s) => s.id === v.id) === undefined);
-
-    updateCurrentAudioList({ songs: newSongsInList, immediatePlay: false, replaceList: false });
-  }, [params, playingList]);
-
-  const playByIndex = useCallback((index) => {
-    currentAudioInst.playByIndex(index);
-  }, [currentAudioInst]);
+  const playByIndex = useCallback(
+    (index) => {
+      currentAudioInst.playByIndex(index);
+    },
+    [currentAudioInst],
+  );
 
   const onPlayModeChange = (playMode) => {
     // console.log('play mode change:', playMode)
@@ -138,12 +172,15 @@ const usePlayer = ({ isMobile = false }) => {
     StorageManager.setPlayerSetting(playerSettings);
   };
 
-  const onAudioListsChange = useCallback((currentPlayId, audioLists, audioInfo) => {
-    // Sync latest-playinglist
-    StorageManager.setLastPlayList(audioLists);
-    setplayingList(audioLists);
-    // console.log('audioListChange:', audioLists)
-  }, [params, playingList]);
+  const onAudioListsChange = useCallback(
+    (currentPlayId, audioLists, audioInfo) => {
+      // Sync latest-playinglist
+      StorageManager.setLastPlayList(audioLists);
+      setplayingList(audioLists);
+      // console.log('audioListChange:', audioLists)
+    },
+    [params, playingList],
+  );
 
   const onAudioProgress = (audioInfo) => {
     // this is updated every 0.1sec or so. disabling this seems to make playing >3000 songs list
@@ -161,25 +198,44 @@ const usePlayer = ({ isMobile = false }) => {
     fetch(downloadInfo.src)
       .then((res) => {
         return res.blob();
-      }).then((blob) => {
+      })
+      .then((blob) => {
         const href = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = href; // a.mp3
         link.download = `${currentAudioInst.title}.mp3`;
         document.body.appendChild(link);
         link.click();
-      }).catch((err) => console.error(err));
+      })
+      .catch((err) => console.error(err));
   };
 
   const onCoverClick = () => setShowLyric(!showLyric);
 
-  const processExtendsContent = (extendsContent) => setparams({ ...params, extendsContent });
+  const processExtendsContent = (extendsContent) =>
+    setparams({ ...params, extendsContent });
 
   const renderExtendsContent = ({ song }) => {
     return [
-      (<ThumbsUpButton song={song} key="song-thumbup-btn" className="song-thumbup-btn" />),
-      !isMobile ? (<FavoriteButton song={song} key="song-fav-btn" className="song-fav-btn" />) : undefined,
-      isMobile ? (<MobileMoreButton song={song} key="song-more-btn" className="song-more-btn" />) : undefined,
+      <ThumbsUpButton
+        song={song}
+        key='song-thumbup-btn'
+        className='song-thumbup-btn'
+      />,
+      !isMobile ? (
+        <FavoriteButton
+          song={song}
+          key='song-fav-btn'
+          className='song-fav-btn'
+        />
+      ) : undefined,
+      isMobile ? (
+        <MobileMoreButton
+          song={song}
+          key='song-more-btn'
+          className='song-more-btn'
+        />
+      ) : undefined,
     ].filter((val) => val !== undefined);
   };
 
@@ -205,12 +261,16 @@ const usePlayer = ({ isMobile = false }) => {
   };
 
   return [
-    params, setparams,
+    params,
+    setparams,
     setplayingList,
-    currentAudio, setcurrentAudio,
+    currentAudio,
+    setcurrentAudio,
     currentAudioInst,
-    showLyric, setShowLyric,
-    playerSettings, setPlayerSettings,
+    showLyric,
+    setShowLyric,
+    playerSettings,
+    setPlayerSettings,
 
     onPlayOneFromFav,
     onAddOneFromFav,

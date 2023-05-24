@@ -1,6 +1,4 @@
-import React, {
-  useState, useContext, useRef, useEffect,
-} from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
@@ -9,7 +7,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import FavSettingsDialog from '../dialogs/FavSettingsDialog';
 import {
-  getPlayerSettingKey, readLocalStorage, setLocalStorage, FAVLIST_AUTO_UPDATE_TIMESTAMP, PlayListDict,
+  getPlayerSettingKey,
+  readLocalStorage,
+  setLocalStorage,
+  FAVLIST_AUTO_UPDATE_TIMESTAMP,
+  PlayListDict,
 } from '../../utils/ChromeStorage';
 
 interface props {
@@ -25,7 +27,7 @@ interface props {
  * @param {function} rssUpdate function that updates the playlist's content, fetching its subscription urls.
  * @returns
  */
-export default function FavSettingsButtons({ currentList, rssUpdate } : props) {
+export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
   const [Loading, setLoading] = useState(false);
@@ -43,13 +45,34 @@ export default function FavSettingsButtons({ currentList, rssUpdate } : props) {
   }, []);
 
   useEffect(() => {
-    const checkFavListAutoUpdate = async (favList: PlayListDict, updateInterval = 1000 * 60 * 60 * 24) => {
-      if (favList.info.id.includes('Search') || !await getPlayerSettingKey('autoRSSUpdate')) return false;
-      console.debug(favList.info.title, 'previous updated timestamp is:', favListAutoUpdateTimestamps.current[favList.info.id]);
-      if (favListAutoUpdateTimestamps.current[favList.info.id] === undefined ||
-                (Date.now() - new Date(favListAutoUpdateTimestamps.current[favList.info.id]!).getTime()) > updateInterval) {
-        favListAutoUpdateTimestamps.current[favList.info.id] = new Date().toISOString();
-        setLocalStorage(FAVLIST_AUTO_UPDATE_TIMESTAMP, favListAutoUpdateTimestamps.current);
+    const checkFavListAutoUpdate = async (
+      favList: PlayListDict,
+      updateInterval = 1000 * 60 * 60 * 24,
+    ) => {
+      if (
+        favList.info.id.includes('Search') ||
+        !(await getPlayerSettingKey('autoRSSUpdate'))
+      )
+        return false;
+      console.debug(
+        favList.info.title,
+        'previous updated timestamp is:',
+        favListAutoUpdateTimestamps.current[favList.info.id],
+      );
+      if (
+        favListAutoUpdateTimestamps.current[favList.info.id] === undefined ||
+        Date.now() -
+          new Date(
+            favListAutoUpdateTimestamps.current[favList.info.id]!,
+          ).getTime() >
+          updateInterval
+      ) {
+        favListAutoUpdateTimestamps.current[favList.info.id] =
+          new Date().toISOString();
+        setLocalStorage(
+          FAVLIST_AUTO_UPDATE_TIMESTAMP,
+          favListAutoUpdateTimestamps.current,
+        );
         return true;
       }
       return false;
@@ -61,30 +84,39 @@ export default function FavSettingsButtons({ currentList, rssUpdate } : props) {
     checkFavListAutoUpdate(currentList).then((val) => {
       if (val) {
         setLoading(true);
-        rssUpdate().then(() => setLoading(false)).catch(() => setLoading(false));
+        rssUpdate()
+          .then(() => setLoading(false))
+          .catch(() => setLoading(false));
       }
     });
   }, [currentList]);
 
   /**
-     * a wrapper for rssUpdate, with setting the loading state true before starting
-     * and setting to false after finishing.
-     * @param {Array} subscribeUrls
-     */
-  const handleRssUpdate = (subscribeUrls: Array<string> | undefined = undefined) => {
+   * a wrapper for rssUpdate, with setting the loading state true before starting
+   * and setting to false after finishing.
+   * @param {Array} subscribeUrls
+   */
+  const handleRssUpdate = (
+    subscribeUrls: Array<string> | undefined = undefined,
+  ) => {
     setLoading(true);
-    rssUpdate(subscribeUrls).then(() => setLoading(false)).catch(() => setLoading(false));
+    rssUpdate(subscribeUrls)
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
   };
 
   /**
-     * updates the favlist object.
-     * @param {object} listObj
-     * @param {Array} urls
-     * @param {string} favListName
-     * @param {boolean} useBiliShazam
-     */
+   * updates the favlist object.
+   * @param {object} listObj
+   * @param {Array} urls
+   * @param {string} favListName
+   * @param {boolean} useBiliShazam
+   */
   // const updateFavSetting = (listObj, {subscribeUrls = [], favListName = null, useBiliShazam = null, bannedBVids = []}) => {
-  const updateFavSetting = (listObj: PlayListDict, listSetting: { [key: string]: any } = {}) => {
+  const updateFavSetting = (
+    listObj: PlayListDict,
+    listSetting: { [key: string]: any } = {},
+  ) => {
     listObj.info.title = listSetting.favListName;
     listObj = { ...listObj, ...listSetting };
     StorageManager.updateFavList(listObj);
@@ -93,17 +125,14 @@ export default function FavSettingsButtons({ currentList, rssUpdate } : props) {
 
   return (
     <React.Fragment>
-      <Tooltip title="歌单设置">
-        <IconButton
-          size="large"
-          onClick={() => setOpenSettingsDialog(true)}
-        >
+      <Tooltip title='歌单设置'>
+        <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
           <RssFeedIcon />
         </IconButton>
       </Tooltip>
-      <Tooltip title="歌单更新">
+      <Tooltip title='歌单更新'>
         <IconButton
-          size="large"
+          size='large'
           onClick={() => handleRssUpdate()}
           disabled={false}
         >
@@ -111,7 +140,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate } : props) {
         </IconButton>
       </Tooltip>
       <FavSettingsDialog
-        id="FavSettingsDialog"
+        id='FavSettingsDialog'
         openState={openSettingsDialog}
         onClose={updateFavSetting}
         onCancel={() => setOpenSettingsDialog(false)}

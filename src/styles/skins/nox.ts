@@ -12,48 +12,60 @@ const gifs = [
   'https://article.biliimg.com/bfs/article/d52dd3ef32408d62a172d6834332a572af95a5bc.jpg',
   'https://article.biliimg.com/bfs/article/3f1fa01d6bb5f5874e7bfa91933bc5f19daf079b.jpg',
   'https://article.biliimg.com/bfs/article/a64a32a63ea592edaa7f3da0d48946d0487b8341.png',
-
 ];
 
 export default skinTemplate({
-  playerBanner: 'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://cdn.donmai.us/original/ea/ec/__nox_nijisanji_and_3_more_drawn_by_netural__eaec50f6d554b731ffe4fcace255d0bd.png'); }),
-  playerBackground: async () => new Promise<string>((resolve) => { resolve('http://i0.hdslb.com/bfs/live/room_bg/1428a93e4a983a7a6e7ba3dc62b064e403fc8354.png@1920w_1080h.webp'); }),
+  playerBanner:
+    'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://cdn.donmai.us/original/ea/ec/__nox_nijisanji_and_3_more_drawn_by_netural__eaec50f6d554b731ffe4fcace255d0bd.png',
+      );
+    }),
+  playerBackground: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'http://i0.hdslb.com/bfs/live/room_bg/1428a93e4a983a7a6e7ba3dc62b064e403fc8354.png@1920w_1080h.webp',
+      );
+    }),
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
   appTitle: 'Nox-player',
   colorTheme: {
     /**
-         * defines the general theme is light or dark.
-         */
+     * defines the general theme is light or dark.
+     */
     generalTheme: 'dark',
     /**
-         * color for icons such as add to current playlist, on the right panel
-         */
+     * color for icons such as add to current playlist, on the right panel
+     */
     playListIconColor: '#fff44f',
     songListIconColor: '#fff44f',
     iconDisableColor: '##adadad',
     /**
-         * colors for playlist caption on the right panel
-         */
+     * colors for playlist caption on the right panel
+     */
     myPlayListCaptionColor: '#fff44f',
     /**
-         * similar to above; depreciating?
-         */
+     * similar to above; depreciating?
+     */
     playlistCaptionColor: '#fff44f',
     /**
-         * color for icons on hte left panel. depreciating?
-         */
+     * color for icons on hte left panel. depreciating?
+     */
     songIconColor: '#fff44f',
     songListColumnHeaderColor: '#fff44f',
     /**
-         * colors for song caption on the left panel. depreciating?
-         */
+     * colors for song caption on the left panel. depreciating?
+     */
     uploaderCaptionColor: '#fff44f',
     lyricActiveColor: '#c660e7',
     lyricInactiveColor: '#4d388f',
-    songListShadowStyle: '-4px 5px 6px 2px #f0e68c, 4px -3px 2px 0px #f0e68c, 1px 1px 0px 2px #fff8dc',
-    lyricImgShadowStyle: ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
+    songListShadowStyle:
+      '-4px 5px 6px 2px #f0e68c, 4px -3px 2px 0px #f0e68c, 1px 1px 0px 2px #fff8dc',
+    lyricImgShadowStyle:
+      ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
     PCBackgroundColor: 'rgba(30,30,30,0.85)',
     MobileBackgroundColor: '#1E1E1E',
     FavBackgroundColor: 'rgba(30,30,30,0.5)',

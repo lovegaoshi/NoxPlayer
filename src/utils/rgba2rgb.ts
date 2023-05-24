@@ -8,7 +8,9 @@ export default function rgba2rgb(rgbaVal: string) {
   const extracted = /rgba\((\d+),(\d+),(\d+),.+\)/.exec(rgbaVal)!;
   const toHex = (val: string) => parseInt(val).toString(16);
   try {
-    return `#${toHex(extracted[1]!).padStart(2, '0')}${toHex(extracted[2]!).padStart(2, '0')}${toHex(extracted[3]!).padStart(2, '0')}`;
+    return `#${toHex(extracted[1]!).padStart(2, '0')}${toHex(
+      extracted[2]!,
+    ).padStart(2, '0')}${toHex(extracted[3]!).padStart(2, '0')}`;
   } catch {
     return rgbaVal;
   }

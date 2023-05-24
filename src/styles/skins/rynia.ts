@@ -29,10 +29,19 @@ const randomPortraitBackground = randomChoice([
 ]) as string;
 
 export default skinTemplate({
-  playerBanner: 'https://i0.hdslb.com/bfs/garb/13a4374fcf3079b009ef1c61eb7cf23ab92560d8.png',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve(randomPortraitBackground); }),
+  playerBanner:
+    'https://i0.hdslb.com/bfs/garb/13a4374fcf3079b009ef1c61eb7cf23ab92560d8.png',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(randomPortraitBackground);
+    }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/archive/430a3a6e90f342d25ef44ecf2e14b32e6fb71083.jpg'); }),
+  playerBackground: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://i0.hdslb.com/bfs/archive/430a3a6e90f342d25ef44ecf2e14b32e6fb71083.jpg',
+      );
+    }),
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
   appTitle: '小马播放器',
@@ -53,8 +62,10 @@ export default skinTemplate({
     uploaderCaptionColor: '#d3d3d3',
     lyricActiveColor: '#c660e7',
     lyricInactiveColor: '#4d388f',
-    songListShadowStyle: '-4px 5px 6px 2px #ff0000, 4px -3px 2px 0px #ff0028, 1px 1px 0px 2px #ff2400',
-    lyricImgShadowStyle: ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
+    songListShadowStyle:
+      '-4px 5px 6px 2px #ff0000, 4px -3px 2px 0px #ff0028, 1px 1px 0px 2px #ff2400',
+    lyricImgShadowStyle:
+      ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
     PCBackgroundColor: 'rgba(30,30,30,0.85)',
     MobileBackgroundColor: '#1E1E1E',
     FavBackgroundColor: 'rgba(30,30,30,0.5)',

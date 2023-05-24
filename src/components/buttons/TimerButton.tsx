@@ -15,22 +15,33 @@ interface props {
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function TimerButton ({ AddFavIcon = undefined, btnType = 'IconButton' }: props) {
+export default function TimerButton({
+  AddFavIcon = undefined,
+  btnType = 'IconButton',
+}: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   const buttonType = (type: string) => {
     switch (type) {
       case 'IconButton':
         return (
-          <Tooltip title="定时停止播放">
-            <IconButton size="large" onClick={() => setOpenSettingsDialog(true)}>
+          <Tooltip title='定时停止播放'>
+            <IconButton
+              size='large'
+              onClick={() => setOpenSettingsDialog(true)}
+            >
               <TimerIcon sx={AddFavIcon} />
             </IconButton>
           </Tooltip>
         );
       default:
         return (
-          <Button startIcon={<TimerIcon />} onClick={() => setOpenSettingsDialog(true)}>定时停止播放</Button>
+          <Button
+            startIcon={<TimerIcon />}
+            onClick={() => setOpenSettingsDialog(true)}
+          >
+            定时停止播放
+          </Button>
         );
     }
   };

@@ -14,9 +14,20 @@ const gifs = [
 ];
 
 export default skinTemplate({
-  playerBanner: 'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png'); }),
-  playerBackground: async () => new Promise<string>((resolve) => { resolve('https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2d4813a4df47201b40f8be2a71d60bf1_preview.mp4'); }),
+  playerBanner:
+    'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png',
+      );
+    }),
+  playerBackground: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2d4813a4df47201b40f8be2a71d60bf1_preview.mp4',
+      );
+    }),
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
@@ -41,8 +52,10 @@ export default skinTemplate({
     uploaderCaptionColor: '#ff1493',
     lyricActiveColor: '#c660e7',
     lyricInactiveColor: '#4d388f',
-    songListShadowStyle: '-4px 5px 6px 2px #ffc1cc, 4px -3px 2px 0px #ffc1cc, 1px 1px 0px 2px #ffcff1',
-    lyricImgShadowStyle: ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
+    songListShadowStyle:
+      '-4px 5px 6px 2px #ffc1cc, 4px -3px 2px 0px #ffc1cc, 1px 1px 0px 2px #ffcff1',
+    lyricImgShadowStyle:
+      ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
     PCBackgroundColor: undefined,
     MobileBackgroundColor: 'white',
     FavBackgroundColor: 'rgba(255,255,255,0.9)',

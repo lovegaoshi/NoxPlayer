@@ -1,13 +1,13 @@
 interface backgroundResolveFn {
-  (): Promise<string>
+  (): Promise<string>;
 }
 
 interface gifIconResolveFn {
-  (): string
+  (): string;
 }
 
 interface overrideMUITheme {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface skinInterface {
@@ -31,9 +31,15 @@ export interface skinInterface {
 const skinTemplate = (): skinInterface => {
   return {
     playerBanner: '',
-    playerBannerMobile: async () => new Promise<string>((resolve) => { resolve(''); }),
+    playerBannerMobile: async () =>
+      new Promise<string>((resolve) => {
+        resolve('');
+      }),
     playerBackgroundMobileVideo: false,
-    playerBackground: async () => new Promise<string>((resolve) => { resolve(''); }),
+    playerBackground: async () =>
+      new Promise<string>((resolve) => {
+        resolve('');
+      }),
     playerBackgroundVideo: false,
     gifs: [],
     gifIcon: () => '',
@@ -51,6 +57,6 @@ export function randomChoice(list: Array<any>) {
   return list[Math.floor(Math.random() * list.length) >> 0];
 }
 
-export default function template(skin: {[key: string]: any}) {
+export default function template(skin: { [key: string]: any }) {
   return { ...skinTemplate(), ...skin };
 }

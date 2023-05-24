@@ -12,5 +12,5 @@ export default interface Song {
   parsedName: string;
   biliShazamedName: string;
   page: number | undefined;
-// eslint-disable-next-line semi
+  // eslint-disable-next-line semi
 }

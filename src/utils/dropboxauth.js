@@ -10,7 +10,7 @@ const DEFAULT_FILE_PATH = `/${DEFAULT_FILE_NAME}`;
  * to properly initialize dba.
  * make sure that dropbox's accepted URI also contains
  * chrome.identity.getRedirectURL().
-*/
+ */
 const dba = new DropboxAuth({
   clientId: process.env.DROPBOX_KEY,
   clientSecret: process.env.DROPBOX_SECRET,
@@ -32,22 +32,28 @@ let dbx = new _Dropbox({
  * @param {function} callback function that process the returned url after oauth2.
  * @param {function} errorHandling
  */
-export const getAuth = async (callback = () => checkAuthentication().then(console.log), errorHandling = console.error) => {
-  chrome.identity.launchWebAuthFlow({
-    url: await dba.getAuthenticationUrl(chrome.identity.getRedirectURL()),
-    interactive: true,
-  }, (responseUrl) => {
-    if (responseUrl === undefined) {
-      errorHandling('no response url returned. auth aborted by user.');
-    } else {
-      const urlHash = responseUrl.split('#')[1];
-      const params = new URLSearchParams(urlHash);
-      dbx = new _Dropbox({
-        accessToken: params.get('access_token'),
-      });
-      callback(responseUrl);
-    }
-  });
+export const getAuth = async (
+  callback = () => checkAuthentication().then(console.log),
+  errorHandling = console.error,
+) => {
+  chrome.identity.launchWebAuthFlow(
+    {
+      url: await dba.getAuthenticationUrl(chrome.identity.getRedirectURL()),
+      interactive: true,
+    },
+    (responseUrl) => {
+      if (responseUrl === undefined) {
+        errorHandling('no response url returned. auth aborted by user.');
+      } else {
+        const urlHash = responseUrl.split('#')[1];
+        const params = new URLSearchParams(urlHash);
+        dbx = new _Dropbox({
+          accessToken: params.get('access_token'),
+        });
+        callback(responseUrl);
+      }
+    },
+  );
 };
 
 /**
@@ -99,7 +105,9 @@ const download = async (fpath = DEFAULT_FILE_PATH) => {
   if (fpath === null) {
     return null;
   }
-  const blob = (await dbx.filesDownload({ path: fpath })).result.fileBlob.arrayBuffer();
+  const blob = (
+    await dbx.filesDownload({ path: fpath })
+  ).result.fileBlob.arrayBuffer();
   return new Uint8Array(await blob);
 };
 
@@ -142,9 +150,12 @@ const checkAuthentication = async () => {
  * @param {function} errorCallback
  * @returns
  */
-export const loginDropbox = async (callback = () => {}, errorCallback = console.error) => {
+export const loginDropbox = async (
+  callback = () => {},
+  errorCallback = console.error,
+) => {
   try {
-    if (!await checkAuthentication()) {
+    if (!(await checkAuthentication())) {
       console.debug('dropbox token expired, need to log in');
       await getAuth(callback, errorCallback);
     } else {

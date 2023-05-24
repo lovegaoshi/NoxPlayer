@@ -58,10 +58,13 @@ const findInFavList = (songList, audioid, key = 'id') => {
 };
 
 export default (function Fav({
-  FavList, onSongIndexChange,
-  handleDeleteFromSearchList, handleAddToFavClick,
+  FavList,
+  onSongIndexChange,
+  handleDeleteFromSearchList,
+  handleAddToFavClick,
   onPlaylistTitleClick,
-  onRssUpdate, currentAudioID,
+  onRssUpdate,
+  currentAudioID,
 }) {
   const [currentFavList, setCurrentFavList] = useState(null);
   const [rows, setRows] = useState(null);
@@ -105,38 +108,58 @@ export default (function Fav({
     return (
       <ListItem
         key={index}
-        className="favItem"
+        className='favItem'
         style={{
-          ...style, borderBottom: colorTheme.favMobileBorder, listStyle: 'none', overflow: 'hidden', width: '98%',
+          ...style,
+          borderBottom: colorTheme.favMobileBorder,
+          listStyle: 'none',
+          overflow: 'hidden',
+          width: '98%',
         }}
-        onClick={songIconVisible ? () => {} : () => getPlayerSettingKey('keepSearchedSongListWhenPlaying').then((val) => {
-          onSongIndexChange([song], { songList: val ? rows : FavList.songList, info: FavList.info });
-        })}
+        onClick={
+          songIconVisible
+            ? () => {}
+            : () =>
+                getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
+                  (val) => {
+                    onSongIndexChange([song], {
+                      songList: val ? rows : FavList.songList,
+                      info: FavList.info,
+                    });
+                  },
+                )
+        }
       >
-        {songIconVisible &&
-                (
-                <ListItemButton style={{ maxWidth: '100px' }}>
-                  <Tooltip title="添加到收藏歌单">
-                    <PlaylistAddIcon sx={CRUDIcon} onClick={() => handleAddToFavClick(currentFavList.info.id, song)} />
-                  </Tooltip>
-                  <Tooltip title="删除歌曲">
-                    <DeleteOutlineOutlinedIcon
-                      sx={CRUDIcon}
-                      onClick={
-                                () => {
-                                  handleDeleteFromSearchList(currentFavList.info.id, song.id);
-                                  handleSearch(searchBarRef.current.value);
-                                }
-                            }
-                    />
-                  </Tooltip>
-                </ListItemButton>
-                )}
+        {songIconVisible && (
+          <ListItemButton style={{ maxWidth: '100px' }}>
+            <Tooltip title='添加到收藏歌单'>
+              <PlaylistAddIcon
+                sx={CRUDIcon}
+                onClick={() =>
+                  handleAddToFavClick(currentFavList.info.id, song)
+                }
+              />
+            </Tooltip>
+            <Tooltip title='删除歌曲'>
+              <DeleteOutlineOutlinedIcon
+                sx={CRUDIcon}
+                onClick={() => {
+                  handleDeleteFromSearchList(currentFavList.info.id, song.id);
+                  handleSearch(searchBarRef.current.value);
+                }}
+              />
+            </Tooltip>
+          </ListItemButton>
+        )}
         <ListItemButton
-          variant="text"
+          variant='text'
           sx={songText}
           style={{ overflow: 'hidden' }}
-          onClick={songIconVisible ? () => onSongIndexChange([song], { songList: rows }) : () => {}}
+          onClick={
+            songIconVisible
+              ? () => onSongIndexChange([song], { songList: rows })
+              : () => {}
+          }
         >
           {getName(song, true)}
         </ListItemButton>
@@ -152,20 +175,46 @@ export default (function Fav({
     currentFavList && (
       <div>
         <Box sx={{ flexGrow: 1, height: '144px' }}>
-          <Grid container spacing={2} style={{ paddingTop: '18px', paddingBottom: '8px' }}>
-            <Grid item xs={8} style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}>
+          <Grid
+            container
+            spacing={2}
+            style={{ paddingTop: '18px', paddingBottom: '8px' }}
+          >
+            <Grid
+              item
+              xs={8}
+              style={{ textAlign: 'left', padding: '0px', paddingLeft: '16px' }}
+            >
               <Button onClick={onPlaylistTitleClick}>
-                <Typography variant="h6" style={{ color: colorTheme.playlistCaptionColor, whiteSpace: 'nowrap', fontSize: '2rem' }}>
+                <Typography
+                  variant='h6'
+                  style={{
+                    color: colorTheme.playlistCaptionColor,
+                    whiteSpace: 'nowrap',
+                    fontSize: '2rem',
+                  }}
+                >
                   {playlistTitleParse(currentFavList.info.title)}
                 </Typography>
               </Button>
             </Grid>
-            <Grid item xs={4} style={{ textAlign: 'right', padding: '0px', paddingRight: '8px' }}>
-              <RandomGIFIcon gifs={skinPreset.gifs} favList={currentFavList.info.id} />
+            <Grid
+              item
+              xs={4}
+              style={{
+                textAlign: 'right',
+                padding: '0px',
+                paddingRight: '8px',
+              }}
+            >
+              <RandomGIFIcon
+                gifs={skinPreset.gifs}
+                favList={currentFavList.info.id}
+              />
             </Grid>
             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
               <IconButton
-                size="large"
+                size='large'
                 onClick={() => {
                   setSongIconVisible(!songIconVisible);
                 }}
@@ -173,25 +222,26 @@ export default (function Fav({
                 {songIconVisible ? <EditOffIcon /> : <EditIcon />}
               </IconButton>
               {!currentFavList.info.id.includes('Search') && (
-              <FavSettingsButtons
-                currentList={currentFavList}
-                rssUpdate={async (subscribeUrls) => {
-                  const val = await onRssUpdate(subscribeUrls);
-                  if (val !== null) setRows(val);
-                  return new Promise((resolve, reject) => { resolve(1); });
-                }}
-              />
+                <FavSettingsButtons
+                  currentList={currentFavList}
+                  rssUpdate={async (subscribeUrls) => {
+                    const val = await onRssUpdate(subscribeUrls);
+                    if (val !== null) setRows(val);
+                    return new Promise((resolve, reject) => {
+                      resolve(1);
+                    });
+                  }}
+                />
               )}
             </Grid>
             <Grid item xs={6} style={{ textAlign: 'right', padding: '0px' }}>
               <SongSearchBar requestSearch={requestSearch} ref={searchBarRef} />
             </Grid>
-
           </Grid>
         </Box>
         <TableContainer
           className={className}
-          id="FavTable"
+          id='FavTable'
           component={Paper}
           sx={{ maxHeight: 'calc(100% - 180px)', maxWidth: '95%' }}
           style={{
@@ -201,31 +251,34 @@ export default (function Fav({
             backgroundColor: colorTheme.FavBackgroundColor,
           }}
         >
-          <Table stickyHeader aria-label="sticky table">
+          <Table stickyHeader aria-label='sticky table'>
             <TableHead>
               <TableRow>
-                {
-                  (songIconVisible
-                    ? columns
-                    : columns.slice(1))
-                    .map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        sx={{ width: column.minWidth, paddingLeft: column.paddingLeft, padding: column.padding }}
-                        style={{ backgroundColor: colorTheme.FavBackgroundColor, color: colorTheme.songListColumnHeaderColor }}
-                      >
-                        {column.label}{column.id === 'name' ? `(${rows.length})` : ''}
-                      </TableCell>
-                    ))
-                }
+                {(songIconVisible ? columns : columns.slice(1)).map(
+                  (column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      sx={{
+                        width: column.minWidth,
+                        paddingLeft: column.paddingLeft,
+                        padding: column.padding,
+                      }}
+                      style={{
+                        backgroundColor: colorTheme.FavBackgroundColor,
+                        color: colorTheme.songListColumnHeaderColor,
+                      }}
+                    >
+                      {column.label}
+                      {column.id === 'name' ? `(${rows.length})` : ''}
+                    </TableCell>
+                  ),
+                )}
               </TableRow>
             </TableHead>
           </Table>
-          <div className="FavPanel-content">
-            {
-              rows
-              && (
+          <div className='FavPanel-content'>
+            {rows && (
               <List
                 className={className}
                 height={favPanelHeight.current}
@@ -237,8 +290,7 @@ export default (function Fav({
               >
                 {Row}
               </List>
-              )
-            }
+            )}
           </div>
         </TableContainer>
       </div>

@@ -1,8 +1,12 @@
 const BILI_LIKE_API = 'https://api.bilibili.com/x/web-interface/archive/like';
-const BILI_TRIP_API = 'https://api.bilibili.com/x/web-interface/archive/like/triple';
-const BILI_VIDEOPLAY_API = 'https://api.bilibili.com/x/click-interface/click/web/h5';
-const BILI_HEARTBEAT_API = 'https://api.bilibili.com/x/click-interface/web/heartbeat';
-const BILI_VIDEOINFO_API = 'https://api.bilibili.com/x/web-interface/view?bvid=';
+const BILI_TRIP_API =
+  'https://api.bilibili.com/x/web-interface/archive/like/triple';
+const BILI_VIDEOPLAY_API =
+  'https://api.bilibili.com/x/click-interface/click/web/h5';
+const BILI_HEARTBEAT_API =
+  'https://api.bilibili.com/x/click-interface/web/heartbeat';
+const BILI_VIDEOINFO_API =
+  'https://api.bilibili.com/x/web-interface/view?bvid=';
 
 /**
  * get a cookie using chrome.cookies.get.
@@ -22,10 +26,13 @@ const getCookie = async (domain: string, name: string) => {
  * looked up json API return.
  */
 export const checkBVLiked = (bvid: string, onChecked: Function = () => {}) => {
-  fetch(`https://api.bilibili.com/x/web-interface/archive/has/like?bvid=${bvid}`, {
-    credentials: 'include',
-    referrer: `https://www.bilibili.com/video/${bvid}/`,
-  })
+  fetch(
+    `https://api.bilibili.com/x/web-interface/archive/has/like?bvid=${bvid}`,
+    {
+      credentials: 'include',
+      referrer: `https://www.bilibili.com/video/${bvid}/`,
+    },
+  )
     .then((res) => res.json())
     .then((json) => onChecked(json.data))
     .catch(() => onChecked(undefined));
@@ -38,50 +45,48 @@ export const checkBVLiked = (bvid: string, onChecked: Function = () => {}) => {
  * looked up json API return.
  */
 export const sendBVLike = (bvid: string, onLiked = (json: object) => {}) => {
-  getCookie('https://www.bilibili.com', 'bili_jct')
-    .then((promised) => {
-      fetch(BILI_LIKE_API, {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        // i dont think this is necessary anymore?
-        referrerPolicy: 'unsafe-url',
-        referrer: `https://www.bilibili.com/video/${bvid}/`,
-        body: new URLSearchParams({
-          bvid,
-          like: '1',
-          csrf: promised ? promised.value : '',
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => onLiked(json))
-        .catch((error) => console.error('BVID like POST failed;', error));
-    });
+  getCookie('https://www.bilibili.com', 'bili_jct').then((promised) => {
+    fetch(BILI_LIKE_API, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      // i dont think this is necessary anymore?
+      referrerPolicy: 'unsafe-url',
+      referrer: `https://www.bilibili.com/video/${bvid}/`,
+      body: new URLSearchParams({
+        bvid,
+        like: '1',
+        csrf: promised ? promised.value : '',
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => onLiked(json))
+      .catch((error) => console.error('BVID like POST failed;', error));
+  });
 };
 
 export const sendBVTriple = (bvid: string, onLiked = (json: object) => {}) => {
-  getCookie('https://www.bilibili.com', 'bili_jct')
-    .then((promised) => {
-      fetch(BILI_TRIP_API, {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        // i dont think this is necessary anymore?
-        referrerPolicy: 'unsafe-url',
-        referrer: `https://www.bilibili.com/video/${bvid}/`,
-        body: new URLSearchParams({
-          bvid,
-          csrf: promised ? promised.value : '',
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => onLiked(json))
-        .catch((error) => console.error('BVID triple POST failed;', error));
-    });
+  getCookie('https://www.bilibili.com', 'bili_jct').then((promised) => {
+    fetch(BILI_TRIP_API, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      // i dont think this is necessary anymore?
+      referrerPolicy: 'unsafe-url',
+      referrer: `https://www.bilibili.com/video/${bvid}/`,
+      body: new URLSearchParams({
+        bvid,
+        csrf: promised ? promised.value : '',
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => onLiked(json))
+      .catch((error) => console.error('BVID triple POST failed;', error));
+  });
 };
 
 /**
@@ -101,7 +106,13 @@ export const checkBiliVideoPlayed = (bvid: string) => {
  * @param {string} bvid
  * @param {number} cid
  */
-export const initBiliHeartbeat = async ({ bvid, cid }: { bvid: string, cid: string }) => {
+export const initBiliHeartbeat = async ({
+  bvid,
+  cid,
+}: {
+  bvid: string;
+  cid: string;
+}) => {
   if (Number.isNaN(parseInt(cid, 10))) return;
   fetch(BILI_VIDEOPLAY_API, {
     method: 'POST',
@@ -124,7 +135,15 @@ export const initBiliHeartbeat = async ({ bvid, cid }: { bvid: string, cid: stri
  * @param {number} cid
  * @param {number} time
  */
-export const sendBiliHeartbeat = async ({ bvid, cid, time }: { bvid: string, cid: string, time: string }) => {
+export const sendBiliHeartbeat = async ({
+  bvid,
+  cid,
+  time,
+}: {
+  bvid: string;
+  cid: string;
+  time: string;
+}) => {
   fetch(BILI_HEARTBEAT_API, {
     method: 'POST',
     headers: {

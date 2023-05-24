@@ -23,7 +23,9 @@ export const getBiliUser = async () => {
     const res = await val.json();
     return res.data;
   } catch (e) {
-    console.error('failed to get bilibili login info. returning an empty dict instead.');
+    console.error(
+      'failed to get bilibili login info. returning an empty dict instead.',
+    );
     return { uname: '' };
   }
 };
@@ -41,13 +43,15 @@ const getBiliUserKey = async () => (await getBiliUser()).uname;
  * @returns playerSetting object, or null
  * @param {string} cloudAddress web address for your personal cloud.
  */
-export const noxRestore = async (cloudAddress = getPlayerSettingKey('personalCloudIP')) => {
+export const noxRestore = async (
+  cloudAddress = getPlayerSettingKey('personalCloudIP'),
+) => {
   try {
     const res = await fetch(
       `${await cloudAddress}download/${await getBiliUserKey()}`,
     );
     if (res.status === 200) {
-      return new Uint8Array(await (res).arrayBuffer());
+      return new Uint8Array(await res.arrayBuffer());
     }
   } catch (e) {
     console.error(e);
@@ -62,25 +66,25 @@ export const noxRestore = async (cloudAddress = getPlayerSettingKey('personalClo
  * @param {string} cloudAddress web address for your personal cloud.
  * @returns
  */
-export const noxBackup = async (content: Blob, cloudAddress: string | undefined = undefined) => {
+export const noxBackup = async (
+  content: Blob,
+  cloudAddress: string | undefined = undefined,
+) => {
   try {
     if (cloudAddress === undefined) {
-      cloudAddress = await getPlayerSettingKey('personalCloudIP') as string;
+      cloudAddress = (await getPlayerSettingKey('personalCloudIP')) as string;
     }
-    return await fetch(
-      `${cloudAddress}upload`,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          userid: encodeURIComponent(await getBiliUserKey()),
-          'secret-key': process.env.PERSONAL_CLOUD_SECRET!,
-          'Content-Encoding': 'gzip',
-        },
-        body: content,
+    return await fetch(`${cloudAddress}upload`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        userid: encodeURIComponent(await getBiliUserKey()),
+        'secret-key': process.env.PERSONAL_CLOUD_SECRET!,
+        'Content-Encoding': 'gzip',
       },
-    );
+      body: content,
+    });
   } catch {
     return { status: 'fetch failed.' };
   }

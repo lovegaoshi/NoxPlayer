@@ -5,7 +5,7 @@ import { initSongList } from '../background/DataProcess';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
 
-export default function App () {
+export default function App() {
   // The current playing list
   const [currentSongList, setCurrentSongList] = useState(null);
   const [backgroundSrc, setBackgroundSrc] = useState(null);
@@ -14,7 +14,11 @@ export default function App () {
     initSongList(setCurrentSongList);
     async function resolveBackgroundSrc() {
       try {
-        setBackgroundSrc(isMobile() ? await skins().playerBannerMobile() : await skins().playerBackground());
+        setBackgroundSrc(
+          isMobile()
+            ? await skins().playerBannerMobile()
+            : await skins().playerBackground(),
+        );
       } catch {
         setBackgroundSrc('');
       }
@@ -29,10 +33,7 @@ export default function App () {
   // console.log(currentSongList)
   return (
     <PlayerContextsProvider>
-      <PageLayout
-        songList={currentSongList}
-        backgroundSrc={backgroundSrc}
-      />
+      <PageLayout songList={currentSongList} backgroundSrc={backgroundSrc} />
     </PlayerContextsProvider>
   );
 }

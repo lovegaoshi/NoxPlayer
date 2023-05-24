@@ -1,5 +1,9 @@
 import React, {
-  useEffect, useState, useCallback, useContext, useRef,
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+  useRef,
 } from 'react';
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
@@ -27,7 +31,7 @@ const options = {
   themeOverwrite: skins().reactJKPlayerTheme,
 };
 
-export default function PlayerMobile ({ songList }) {
+export default function PlayerMobile({ songList }) {
   // FavList Dialog
   const [showFavList, setShowFavList] = useState(false);
   // Sync data to chromeDB
@@ -35,12 +39,16 @@ export default function PlayerMobile ({ songList }) {
   const [audioListsPanelState, setAudioListsPanelState] = useState(false);
 
   const [
-    params, setparams,
+    params,
+    setparams,
     setplayingList,
-    currentAudio, setcurrentAudio,
+    currentAudio,
+    setcurrentAudio,
     currentAudioInst,
-    showLyric, setShowLyric,
-    playerSettings, setPlayerSettings,
+    showLyric,
+    setShowLyric,
+    playerSettings,
+    setPlayerSettings,
 
     onPlayOneFromFav2,
     onAddOneFromFav,
@@ -75,12 +83,17 @@ export default function PlayerMobile ({ songList }) {
     document.title = currentAudio.name;
   }, [currentAudio.name]);
 
-  const onAudioPlay = useCallback((audioInfo) => {
-    processExtendsContent(renderExtendsContent({ song: audioInfo }));
-    setcurrentAudio(audioInfo);
-    chrome.storage.local.set({ CurrentPlaying: { cid: audioInfo.id, playUrl: audioInfo.musicSrc } });
-    sendBiliHeartbeat(audioInfo);
-  }, [params]);
+  const onAudioPlay = useCallback(
+    (audioInfo) => {
+      processExtendsContent(renderExtendsContent({ song: audioInfo }));
+      setcurrentAudio(audioInfo);
+      chrome.storage.local.set({
+        CurrentPlaying: { cid: audioInfo.id, playUrl: audioInfo.musicSrc },
+      });
+      sendBiliHeartbeat(audioInfo);
+    },
+    [params],
+  );
 
   const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
     console.error('audio error', errMsg, currentPlayId, audioLists, audioInfo);
@@ -92,14 +105,23 @@ export default function PlayerMobile ({ songList }) {
 
   // Initialization effect
   useEffect(() => {
-    if (!songList || songList[0] === undefined) { return; }
+    if (!songList || songList[0] === undefined) {
+      return;
+    }
     async function initPlayer() {
       await versionUpdate();
       const setting = await StorageManager.getPlayerSetting();
-      let previousPlaying = (await StorageManager.readLocalStorage('CurrentPlaying'));
+      let previousPlaying = await StorageManager.readLocalStorage(
+        'CurrentPlaying',
+      );
       if (previousPlaying === undefined) previousPlaying = {};
-      const previousPlayingSongIndex = Math.max(0, (songList.findIndex((s) => s.id === previousPlaying.cid)));
-      options.extendsContent = renderExtendsContent({ song: songList[previousPlayingSongIndex] });
+      const previousPlayingSongIndex = Math.max(
+        0,
+        songList.findIndex((s) => s.id === previousPlaying.cid),
+      );
+      options.extendsContent = renderExtendsContent({
+        song: songList[previousPlayingSongIndex],
+      });
       const params2 = {
         ...options,
         ...setting,
@@ -146,33 +168,33 @@ export default function PlayerMobile ({ songList }) {
   return (
     <React.Fragment>
       {params && (
-      <FavList
-        currentAudioList={params.audioLists}
-        onSongIndexChange={playByIndex}
-        onPlayOneFromFav={onPlayOneFromFav}
-        onPlayAllFromFav={onPlayAllFromFav}
-        onAddFavToList={onAddFavToList}
-        showFavList={showFavList}
-        currentAudioID={currentAudio ? currentAudio.id : -1}
-      />
+        <FavList
+          currentAudioList={params.audioLists}
+          onSongIndexChange={playByIndex}
+          onPlayOneFromFav={onPlayOneFromFav}
+          onPlayAllFromFav={onPlayAllFromFav}
+          onAddFavToList={onAddFavToList}
+          showFavList={showFavList}
+          currentAudioID={currentAudio ? currentAudio.id : -1}
+        />
       )}
       {currentAudio && (
-      <LyricOverlay
-        showLyric={showLyric}
-        currentTime={currentAudio.currentTime}
-        audioName={currentAudio.name}
-        audioId={currentAudio.id}
-        audioCover={currentAudio.cover}
-        isMobile
-        artist={currentAudio.singerId}
-        closeLyric={() => setShowLyric(false)}
-      />
+        <LyricOverlay
+          showLyric={showLyric}
+          currentTime={currentAudio.currentTime}
+          audioName={currentAudio.name}
+          audioId={currentAudio.id}
+          audioCover={currentAudio.cover}
+          isMobile
+          artist={currentAudio.singerId}
+          closeLyric={() => setShowLyric(false)}
+        />
       )}
       {params && (
         <Box // Bottom Grid -- Footer
-          display="flex"
-          flex="1"
-          justifyContent="space-around"
+          display='flex'
+          flex='1'
+          justifyContent='space-around'
           style={{ maxHeight: '0%', height: '0px' }} // Relative height against the Player
           sx={{ gridArea: 'footer' }}
           onTouchStart={(touchStartEvent) => handleTouchStart(touchStartEvent)}

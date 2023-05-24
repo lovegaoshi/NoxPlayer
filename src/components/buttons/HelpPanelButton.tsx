@@ -15,18 +15,21 @@ interface props {
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function helpPanelButton({ AddFavIcon, onClosedDialogFunc = () => {} }: props) {
+export default function helpPanelButton({
+  AddFavIcon,
+  onClosedDialogFunc = () => {},
+}: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   return (
     <React.Fragment>
-      <Tooltip title="帮助">
-        <IconButton size="large" onClick={() => setOpenSettingsDialog(true)}>
+      <Tooltip title='帮助'>
+        <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
           <HelpOutlineIcon sx={AddFavIcon} />
         </IconButton>
       </Tooltip>
       <Dialog
-        id="HelpDialog"
+        id='HelpDialog'
         openState={openSettingsDialog}
         onClose={() => {
           onClosedDialogFunc();

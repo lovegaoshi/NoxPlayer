@@ -40,9 +40,20 @@ const gifs = [
 ];
 
 export default skinTemplate({
-  playerBanner: 'https://article.biliimg.com/bfs/article/9c49d0133498d844869438569cf36d96ffe56234.png',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve('https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png'); }),
-  playerBackground: async () => new Promise<string>((resolve) => { resolve('http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg'); }),
+  playerBanner:
+    'https://article.biliimg.com/bfs/article/9c49d0133498d844869438569cf36d96ffe56234.png',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png',
+      );
+    }),
+  playerBackground: async () =>
+    new Promise<string>((resolve) => {
+      resolve(
+        'http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg',
+      );
+    }),
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
   appTitle: 'HeraKris-player',
@@ -63,8 +74,10 @@ export default skinTemplate({
     uploaderCaptionColor: '#90ee90',
     lyricActiveColor: '#c660e7',
     lyricInactiveColor: '#4d388f',
-    songListShadowStyle: '-4px 5px 6px 2px #90ee90, 4px -3px 2px 0px #90ee90, 1px 1px 0px 2px #00ff7f',
-    lyricImgShadowStyle: ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
+    songListShadowStyle:
+      '-4px 5px 6px 2px #90ee90, 4px -3px 2px 0px #90ee90, 1px 1px 0px 2px #00ff7f',
+    lyricImgShadowStyle:
+      ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
     PCBackgroundColor: 'rgba(30,30,30,0.85)',
     MobileBackgroundColor: '#1E1E1E',
     FavBackgroundColor: 'rgba(30,30,30,0.5)',

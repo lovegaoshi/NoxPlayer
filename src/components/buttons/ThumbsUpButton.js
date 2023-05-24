@@ -4,17 +4,21 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { jsx, css } from '@emotion/react';
 import ClickNHold from 'react-click-n-hold';
 import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
-import { checkBVLiked, sendBVLike, sendBVTriple } from '../../utils/BiliOperate';
+import {
+  checkBVLiked,
+  sendBVLike,
+  sendBVTriple,
+} from '../../utils/BiliOperate';
 /** @jsx jsx */
 import { skins } from '../../styles/skin';
 
 const buttonStyle = css`
-    cursor: pointer;
-    &:hover {
-        color: ${skins().reactJKPlayerTheme.sliderColor};
-    };
-    background-color: transparent;
-    color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
+  cursor: pointer;
+  &:hover {
+    color: ${skins().reactJKPlayerTheme.sliderColor};
+  }
+  background-color: transparent;
+  color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
 export default function thumbsUpButton({ song }) {
@@ -57,25 +61,20 @@ export default function thumbsUpButton({ song }) {
   return (
     <React.Fragment>
       <span
-        className="group audio-download"
+        className='group audio-download'
         // eslint-disable-next-line react/no-unknown-property
         css={buttonStyle}
-        title={
-          liked === 1
-            ? '已点赞'
-            : liked === 0
-              ? '点赞'
-              : '前往视频'
-        }
-        role="button"
+        title={liked === 1 ? '已点赞' : liked === 0 ? '点赞' : '前往视频'}
+        role='button'
         tabIndex={0}
-
       >
-        {
-            liked === 1 ? <ThumbUpAltIcon onClick={onClick} />
-              : liked === 0 ? <ThumbsUpClickNHold />
-                : <BiliBiliIconSVG onClick={onClick} />
-                    }
+        {liked === 1 ? (
+          <ThumbUpAltIcon onClick={onClick} />
+        ) : liked === 0 ? (
+          <ThumbsUpClickNHold />
+        ) : (
+          <BiliBiliIconSVG onClick={onClick} />
+        )}
       </span>
     </React.Fragment>
   );

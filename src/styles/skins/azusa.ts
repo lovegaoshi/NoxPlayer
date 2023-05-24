@@ -33,10 +33,15 @@ const randomPortraitBackground = randomChoice([
 ]) as string;
 
 export default skinTemplate({
-  playerBanner: 'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
-  playerBannerMobile: async () => new Promise<string>((resolve) => { resolve(randomPortraitBackground); }),
+  playerBanner:
+    'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
+  playerBannerMobile: async () =>
+    new Promise<string>((resolve) => {
+      resolve(randomPortraitBackground);
+    }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-  playerBackground: async () => await fetchVideoPlayUrlPromise('BV11S4y1d7v9', undefined, 'VideoUrl'), // BV1Sb4y1i79D
+  playerBackground: async () =>
+    await fetchVideoPlayUrlPromise('BV11S4y1d7v9', undefined, 'VideoUrl'), // BV1Sb4y1i79D
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
@@ -60,8 +65,10 @@ export default skinTemplate({
     uploaderCaptionColor: '#ab5fff',
     lyricActiveColor: '#c660e7',
     lyricInactiveColor: '#4d388f',
-    songListShadowStyle: '-4px 5px 6px 2px #a658f933, 4px -3px 2px 0px #a658f933, 1px 1px 0px 2px #0000001f',
-    lyricImgShadowStyle: ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
+    songListShadowStyle:
+      '-4px 5px 6px 2px #a658f933, 4px -3px 2px 0px #a658f933, 1px 1px 0px 2px #0000001f',
+    lyricImgShadowStyle:
+      ' #725af866 5px 5px, #985cf14d 10px 10px, #925af730 15px 15px, #ac7ff01a 20px 20px, #9477e50d 25px 25px',
     PCBackgroundColor: undefined,
     MobileBackgroundColor: 'white',
     FavListBackgroundColor: 'rgba(255,255,255,0.6)',

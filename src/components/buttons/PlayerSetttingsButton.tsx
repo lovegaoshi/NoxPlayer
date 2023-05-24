@@ -6,14 +6,18 @@ import SettingsDialog from '../dialogs/PlayerSettingsDialog';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { PlayerSettingDict } from '../../utils/ChromeStorage';
 
-export default function playerSettingsButton({ AddFavIcon }: { AddFavIcon: Object }) {
+export default function playerSettingsButton({
+  AddFavIcon,
+}: {
+  AddFavIcon: Object;
+}) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
 
   return (
     <React.Fragment>
-      <Tooltip title="播放器设置">
-        <IconButton size="large" onClick={() => setOpenSettingsDialog(true)}>
+      <Tooltip title='播放器设置'>
+        <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
           <SettingsIcon sx={AddFavIcon} />
         </IconButton>
       </Tooltip>

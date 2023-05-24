@@ -13,7 +13,9 @@ import { PlayListDict } from '../../utils/ChromeStorage';
 export default function mobileMoreButton({ song }: { song: Song }) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
-  const [anchorEl, setAnchorEl] = React.useState(null as Element | null | undefined);
+  const [anchorEl, setAnchorEl] = React.useState(
+    null as Element | null | undefined,
+  );
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -22,19 +24,19 @@ export default function mobileMoreButton({ song }: { song: Song }) {
 
   return (
     <React.Fragment>
-      <Tooltip title="帮助">
+      <Tooltip title='帮助'>
         <IconButton
-          size="large"
+          size='large'
           onClick={(event) => setAnchorEl(event.currentTarget)}
           aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
+          aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
         >
           <MoreHorizIcon />
         </IconButton>
       </Tooltip>
       <Menu
-        id="basic-menu"
+        id='basic-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -42,16 +44,39 @@ export default function mobileMoreButton({ song }: { song: Song }) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={() => { setOpenAddDialog(true); handleClose(); }}>将歌送往歌单……</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setOpenAddDialog(true);
+            handleClose();
+          }}
+        >
+          将歌送往歌单……
+        </MenuItem>
         <MenuItem onClick={handleClose}>console.log</MenuItem>
-        <MenuItem onClick={() => { searchSongOnWeb(song); handleClose(); }}>在网上搜索这首歌</MenuItem>
-        <MenuItem onClick={() => { searchSongOnBili(song); handleClose(); }}>在b站搜索这首歌</MenuItem>
+        <MenuItem
+          onClick={() => {
+            searchSongOnWeb(song);
+            handleClose();
+          }}
+        >
+          在网上搜索这首歌
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            searchSongOnBili(song);
+            handleClose();
+          }}
+        >
+          在b站搜索这首歌
+        </MenuItem>
         <MenuItem onClick={handleClose}>在所有歌单中删除这首歌</MenuItem>
       </Menu>
       <AddFavDialog
         openState={openAddDialog}
         onClose={() => setOpenAddDialog(false)}
-        favLists={StorageManager.latestFavLists.map((v: PlayListDict) => v.info)}
+        favLists={StorageManager.latestFavLists.map(
+          (v: PlayListDict) => v.info,
+        )}
         song={song}
         fromId={undefined}
         isMobile

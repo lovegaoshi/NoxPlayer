@@ -19,8 +19,13 @@ interface props {
   id: string;
 }
 
-export default function FavSettingsDialog ({
-  fromList, onClose, openState, rssUpdate, onCancel, id,
+export default function FavSettingsDialog({
+  fromList,
+  onClose,
+  openState,
+  rssUpdate,
+  onCancel,
+  id,
 }: props) {
   const [subUrl, setSubUrl] = useState('');
   const [bannedBVids, setBannedBVids] = useState('');
@@ -38,15 +43,12 @@ export default function FavSettingsDialog ({
   };
 
   const handleClose = () => {
-    onClose(
-      fromList,
-      {
-        subscribeUrls: Array.from(new Set(subUrl.split(';'))),
-        favListName,
-        useBiliShazam,
-        bannedBVids: Array.from(new Set(bannedBVids.split(';'))),
-      },
-    );
+    onClose(fromList, {
+      subscribeUrls: Array.from(new Set(subUrl.split(';'))),
+      favListName,
+      useBiliShazam,
+      bannedBVids: Array.from(new Set(bannedBVids.split(';'))),
+    });
   };
 
   const loadFavList = (favList = fromList) => {
@@ -65,46 +67,52 @@ export default function FavSettingsDialog ({
       <DialogTitle>
         <TextField
           autoFocus
-          margin="dense"
-          id="name"
-          label="歌单名称"
-          type="name"
-          variant="standard"
+          margin='dense'
+          id='name'
+          label='歌单名称'
+          type='name'
+          variant='standard'
           onChange={(e) => setFavListName(e.target.value)}
           value={favListName}
-          autoComplete="off"
+          autoComplete='off'
         />
       </DialogTitle>
       <DialogContent>
         <TextField
-          margin="dense"
-          id="rssname"
-          label="订阅url"
-          type="name"
-          variant="standard"
+          margin='dense'
+          id='rssname'
+          label='订阅url'
+          type='name'
+          variant='standard'
           onChange={(e) => setSubUrl(e.target.value)}
           value={subUrl}
-          autoComplete="off"
-          placeholder="这些url会被订阅"
+          autoComplete='off'
+          placeholder='这些url会被订阅'
         />
         <div />
         <TextField
-          margin="dense"
-          id="bannedBVids"
-          label="黑名单BV号"
-          type="name"
-          variant="standard"
+          margin='dense'
+          id='bannedBVids'
+          label='黑名单BV号'
+          type='name'
+          variant='standard'
           onChange={(e) => setBannedBVids(e.target.value)}
           value={bannedBVids}
-          autoComplete="off"
-          placeholder="这些bvid不会被订阅"
+          autoComplete='off'
+          placeholder='这些bvid不会被订阅'
         />
         <div />
-        <Tooltip title="使用b站识歌API（王胡桃专用）">
+        <Tooltip title='使用b站识歌API（王胡桃专用）'>
           <FormControlLabel
-            control={<Checkbox onChange={(e) => { setUseBiliShazam(e.target.checked); }} />}
+            control={
+              <Checkbox
+                onChange={(e) => {
+                  setUseBiliShazam(e.target.checked);
+                }}
+              />
+            }
             checked={useBiliShazam}
-            label="使用b站识歌API"
+            label='使用b站识歌API'
           />
         </Tooltip>
       </DialogContent>
@@ -114,7 +122,8 @@ export default function FavSettingsDialog ({
             loadFavList();
             onCancel();
           }}
-        >取消
+        >
+          取消
         </Button>
         <Button onClick={handleClose}>确认</Button>
         <Button
