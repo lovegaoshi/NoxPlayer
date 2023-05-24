@@ -3,6 +3,9 @@ noir皮肤
 塞克西废墟皮肤
 rynia皮肤yarn
 
+2.2.0.0:
+添加wbi签名，修正b站空间获取
+
 2.1.1.0:
 fix biliChannel fetch polluted with 504 too many requests for ME! ME! ME!
 steria animated background
