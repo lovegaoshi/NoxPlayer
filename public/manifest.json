@@ -36,6 +36,7 @@
     "*://*.hdslb.com/*",
     "*://*.cgvideo.com/*",
     "*://*.y.qq.com/*",
+    "*://*.akamaized.net/*",
     "*://*.bilivideo.cn/*"
   ],
   "declarative_net_request": {
