@@ -33,5 +33,5 @@
         ]
       },
       "condition": { "urlFilter" : "akamaized.net" }
-    },
+    }
   ]
