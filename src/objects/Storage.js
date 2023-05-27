@@ -240,15 +240,45 @@ export default class StorageManager {
     });
   }
 
+  async clearPlaylists() {
+    const playlists = (await chrome.storage.local.get([MY_FAV_LIST_KEY]))[
+      MY_FAV_LIST_KEY
+    ];
+    chrome.storage.local.remove(playlists);
+  }
+
   async importStorageRaw(content) {
-    chrome.storage.local.clear(() => {
-      chrome.storage.local.set(
-        JSON.parse(strFromU8(decompressSync(content))),
-        () => {
-          this.initFavLists();
-        },
+    const parsedContent = JSON.parse(strFromU8(decompressSync(content)));
+    // compatibility from azusa-player-mobile that its an array of key-value pair.
+    if (Array.isArray(parsedContent)) {
+      console.warn(
+        'import playlist is azusamobile variant. now importing just the playlist...',
       );
-    });
+      const parsedContentDict = parsedContent.reduce(
+        (acc, curr) => ({ ...acc, [curr[0]]: curr[1] }),
+        {},
+      );
+      const playlists = JSON.parse(parsedContentDict[MY_FAV_LIST_KEY]) || [];
+      await this.clearPlaylists();
+      await chrome.storage.local.set({ [MY_FAV_LIST_KEY]: playlists });
+      for (const playlistID of playlists) {
+        const playlist = JSON.parse(parsedContentDict[playlistID]);
+        console.debug(playlist);
+        chrome.storage.local.set({
+          [playlist.id]: {
+            ...playlist,
+            songList: playlist.songList.reduce(
+              (acc, curr) => acc.concat(JSON.parse(parsedContentDict[curr])),
+              [],
+            ),
+          },
+        });
+      }
+    } else {
+      await chrome.storage.local.clear();
+      await chrome.storage.local.set(parsedContent);
+    }
+    this.initFavLists();
   }
 
   async importStorage() {

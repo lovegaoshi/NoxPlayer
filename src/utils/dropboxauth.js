@@ -105,9 +105,8 @@ const download = async (fpath = DEFAULT_FILE_PATH) => {
   if (fpath === null) {
     return null;
   }
-  const blob = (
-    await dbx.filesDownload({ path: fpath })
-  ).result.fileBlob.arrayBuffer();
+  const downloadedFile = await dbx.filesDownload({ path: fpath });
+  const blob = downloadedFile.result.fileBlob.arrayBuffer();
   return new Uint8Array(await blob);
 };
 
