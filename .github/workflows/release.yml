@@ -44,6 +44,16 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
+      - name: Get Recent Commit Tag
+        id: get_commit_tag
+        run: |
+          COMMIT_TAG=$(git describe --tags --abbrev=0)
+          echo "COMMIT_TAG=${COMMIT_TAG}" >> $GITHUB_ENV
+
+      - name: Display Commit Tag
+        run: |
+          echo "Commit Tag: $COMMIT_TAG"
+
       - name: yarn build
         run: yarn build
 
@@ -55,6 +65,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.date.outputs.date }} Release
+          tag_name: $COMMIT_TAG
           files: build.zip
           generate_release_notes: true
