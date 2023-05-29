@@ -215,7 +215,7 @@ export default function PlayerMobile({ songList }) {
             onAudioListsChange={onAudioListsChange}
             onAudioListsPanelChange={setAudioListsPanelState}
             hideCover={playerSettings?.hideCoverInMobile}
-            musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
+            musicSrcParser={(v) => fetchPlayUrlPromise(v)}
           />
         </Box>
       )}

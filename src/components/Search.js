@@ -6,6 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
+
 import { extractWith } from '../utils/re';
 import {
   getSongList,
@@ -18,6 +19,7 @@ import {
   getYoutubeVideo,
 } from '../background/DataProcess';
 import { dummyFavList } from '../utils/ChromeStorage';
+import steriatkFetch from '../utils/mediafetch/steriatk';
 
 export const defaultSearchList = ({
   songList = [],
@@ -116,6 +118,7 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
       /youtu(?:.*\/v\/|.*v=|\.be\/)([A-Za-z0-9_-]{11})/,
       ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] }),
     ],
+    [steriatkFetch.regexSearchMatch, steriatkFetch.regexFetch],
   ];
   for (const reExtraction of reExtractions) {
     const reExtracted = reExtraction[0].exec(url);

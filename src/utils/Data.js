@@ -5,7 +5,8 @@ import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
 import { extractSongName } from './re';
 import { wbiQuery } from '../stores/wbi';
-import functionPromiseRetry from './retry';
+
+import steriatkFetch from './mediafetch/steriatk';
 
 const logger = new Logger('Data.js');
 
@@ -127,7 +128,18 @@ export const ENUMS = {
  * its used as an identifier.
  * @returns promise that resolves the media stream url.
  */
-export const fetchPlayUrlPromise = async (bvid, cid) => {
+export const fetchPlayUrlPromise = async (v) => {
+  const cid = v.id;
+  const regexResolveURLs = [
+    [steriatkFetch.regexResolveURLMatch, steriatkFetch.resolveURL],
+  ];
+  for (const reExtraction of regexResolveURLs) {
+    const reExtracted = reExtraction[0].exec(cid);
+    if (reExtracted !== null) {
+      return reExtraction[1](v);
+    }
+  }
+  const { bvid } = v;
   const cidStr = cid.toString();
   if (cidStr.startsWith(ENUMS.audioType)) {
     return fetchAudioPlayUrlPromise(bvid);

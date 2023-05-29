@@ -168,7 +168,7 @@ export default function Player({ songList }) {
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}
           theme={skinPreset.desktopTheme}
-          musicSrcParser={(v) => fetchPlayUrlPromise(v.bvid, v.id)}
+          musicSrcParser={(v) => fetchPlayUrlPromise(v)}
           ref={(element) => {
             window.musicplayer = element;
           }}

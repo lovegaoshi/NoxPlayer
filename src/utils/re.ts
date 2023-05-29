@@ -56,6 +56,9 @@ export const reExtractSongName = (
   uploader: string | number = 0,
 ) => {
   switch (String(uploader)) {
+    case 'steria.vplayer.tk':
+      filename = extractWith(extractParenthesis(filename), [/\d+-\d+-(.+)/]);
+      break;
     case '5053504': //
     case '3493085134719196': // "王胡桃w":
       // https://space.bilibili.com/5053504/channel/series
@@ -78,7 +81,6 @@ export const reExtractSongName = (
       filename = extractParenthesis(
         extractWith(filename, [/【.+】《(.+)》/, /《(.+)》/, /【.+】(.+)/]),
       );
-      console.debug(filename);
       break;
     case '33576761': // "-哆啦A林-":
       // https://space.bilibili.com/33576761/channel/series

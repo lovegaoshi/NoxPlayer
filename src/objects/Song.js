@@ -13,6 +13,7 @@ export default class Song {
     lyricOffset,
     page,
     biliShazamedName,
+    duration,
   }) {
     this.id = cid;
     this.bvid = bvid;
@@ -27,6 +28,7 @@ export default class Song {
     this.parsedName = reExtractSongName(this.name, this.singerId);
     this.biliShazamedName = biliShazamedName;
     this.page = page;
+    this.duration = duration;
     setSongBiliShazamed(this, this.biliShazamedName);
   }
 }
