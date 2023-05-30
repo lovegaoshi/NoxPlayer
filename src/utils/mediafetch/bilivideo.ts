@@ -59,6 +59,17 @@ export const fetchVideoInfo = async (
     return fetchVideoInfoRaw(bvid);
   });
 
+export const fetchiliBVIDs = async (
+  BVids: string[],
+  progressEmitter: (val: number) => void = () => undefined,
+) => {
+  const BVidLen = BVids.length;
+  const BVidPromises = BVids.map((bvid, index) =>
+    fetchVideoInfo(bvid, () => progressEmitter((100 * (index + 1)) / BVidLen)),
+  );
+  return await Promise.all(BVidPromises);
+};
+
 export const songFetch = async ({
   videoinfos,
   useBiliTag,
@@ -93,7 +104,7 @@ export const songFetch = async ({
 
 const regexFetch = async ({ reExtracted, useBiliTag }: regexFetchProps) => {
   return songFetch({
-    videoinfos: [await fetchVideoInfo(reExtracted[1]!)],
+    videoinfos: [await fetchVideoInfo(reExtracted[1]!)], // await fetchiliBVID([reExtracted[1]!])
     useBiliTag: useBiliTag || false,
   });
 };

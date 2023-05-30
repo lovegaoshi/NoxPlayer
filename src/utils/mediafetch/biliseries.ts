@@ -9,7 +9,6 @@
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
 import { regexFetchProps } from './generic';
-import { biliApiLimiter } from './throttle';
 
 import logger from '../Logger';
 import { songFetch, fetchVideoInfo } from './bilivideo';

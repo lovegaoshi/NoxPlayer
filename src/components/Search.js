@@ -21,6 +21,7 @@ import { dummyFavList } from '../utils/ChromeStorage';
 import steriatkFetch from '../utils/mediafetch/steriatk';
 import bilivideoFetch from '../utils/mediafetch/bilivideo';
 import biliseriesFetch from '../utils/mediafetch/biliseries';
+import bilicolleFetch from '../utils/mediafetch/bilicolle';
 
 export const defaultSearchList = ({
   songList = [],
@@ -103,10 +104,7 @@ const extractBiliFavList = ({
 const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
   const reExtractions = [
     [biliseriesFetch.regexSearchMatch, biliseriesFetch.regexFetch],
-    [
-      /space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/,
-      extractBiliColle,
-    ],
+    [bilicolleFetch.regexSearchMatch, bilicolleFetch.regexFetch],
     [/space.bilibili\.com\/(\d+)\/video/, extractBiliChannel],
     [/bilibili.com\/audio\/au([^/?]+)/, extractBiliAudio],
     [/.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/, extractBiliFavList],

@@ -1,5 +1,6 @@
 import Bottleneck from 'bottleneck';
-import { wbiQuery } from '../../stores/wbi';
+import { biliApiLimiter } from './throttle';
+import VideoInfo from '../../objects/VideoInfo';
 
 /**
  * the purpose of this media fetch library is to
@@ -10,26 +11,17 @@ import { wbiQuery } from '../../stores/wbi';
  * regex.
  */
 
-/**
- * default throttler, 100ms/call using bottleneck,
- * max 5 concurrent
- */
-const pageAPILimiter = new Bottleneck({
-  minTime: 100,
-  maxConcurrent: 5,
-});
-
 type ProgressEmitter = (progress: number) => void;
 
-interface FetcherProps {
+export interface FetcherProps {
   url: string;
   getMediaCount: (val: any) => number;
   getPageSize: (val: any) => number;
   getItems: (val: any) => Array<any>;
-  resolveBiliBVID: (
+  resolveBiliBVID?: (
     bvobjs: any,
     progressEmitter: ProgressEmitter,
-  ) => Promise<NoxMediaInfo.VideoInfo[]>;
+  ) => Promise<VideoInfo[]>;
   progressEmitter?: ProgressEmitter;
   favList?: Array<any>;
   limiter?: Bottleneck;
@@ -51,17 +43,16 @@ export const fetchPaginatedAPI = async ({
   getMediaCount,
   getPageSize,
   getItems,
-  resolveBiliBVID,
+  resolveBiliBVID = async () => [],
   progressEmitter = () => undefined,
   favList = [],
-  limiter = pageAPILimiter,
+  limiter = biliApiLimiter,
   params = undefined,
   jsonify = (res) => res.json(),
   getBVID = (val: any) => val.bvid,
   getJSONData = (json: any) => json.data,
   fetcher = fetch,
 }: FetcherProps) => {
-  // const wbiAwareFetch = url.includes('/wbi/') ? wbiQuery : fetch;
   const res = await fetcher(url.replace('{pn}', String(1)), params);
   const data = getJSONData(await jsonify(res.clone()));
   const mediaCount = getMediaCount(data);
@@ -113,10 +104,10 @@ export const fetchAwaitPaginatedAPI = async ({
   getMediaCount,
   getPageSize,
   getItems,
-  resolveBiliBVID,
+  resolveBiliBVID = async () => [],
   progressEmitter = () => undefined,
   favList = [],
-  limiter = pageAPILimiter,
+  limiter = biliApiLimiter,
   params = undefined,
   jsonify = (res) => res.json(),
   getBVID = (val: any) => val.bvid,
@@ -133,7 +124,6 @@ export const fetchAwaitPaginatedAPI = async ({
     return true;
   };
 
-  // const wbiAwareFetch = url.includes('/wbi/') ? wbiQuery : fetch;
   const res = await limiter.schedule(() =>
     fetcher(url.replace('{pn}', String(1)), params),
   );
