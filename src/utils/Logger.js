@@ -1,4 +1,4 @@
-export default class Logger {
+class Logger {
   constructor(namespace) {
     this.namespace = namespace;
   }
@@ -28,3 +28,5 @@ export default class Logger {
     console.error(this.generateMessage(message));
   }
 }
+
+export default new Logger('Data.js');

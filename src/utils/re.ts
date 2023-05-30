@@ -57,7 +57,10 @@ export const reExtractSongName = (
 ) => {
   switch (String(uploader)) {
     case 'steria.vplayer.tk':
-      filename = extractWith(extractParenthesis(filename), [/\d+-\d+-(.+)/]);
+      filename = extractWith(extractParenthesis(filename), [
+        /\d+-\d+-\d+-(.+)/,
+        /\d+-\d+-(.+)/,
+      ]);
       break;
     case '5053504': //
     case '3493085134719196': // "王胡桃w":

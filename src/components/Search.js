@@ -7,7 +7,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 
-import { extractWith } from '../utils/re';
 import {
   getSongList,
   getFavList,
@@ -20,6 +19,8 @@ import {
 } from '../background/DataProcess';
 import { dummyFavList } from '../utils/ChromeStorage';
 import steriatkFetch from '../utils/mediafetch/steriatk';
+import bilivideoFetch from '../utils/mediafetch/bilivideo';
+import biliseriesFetch from '../utils/mediafetch/biliseries';
 
 export const defaultSearchList = ({
   songList = [],
@@ -101,17 +102,13 @@ const extractBiliFavList = ({
  */
 const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
   const reExtractions = [
-    [
-      /space.bilibili\.com\/(\d+)\/channel\/seriesdetail\?sid=(\d+)/,
-      extractBiliSeries,
-    ],
+    [biliseriesFetch.regexSearchMatch, biliseriesFetch.regexFetch],
     [
       /space.bilibili\.com\/(\d+)\/channel\/collectiondetail\?sid=(\d+)/,
       extractBiliColle,
     ],
     [/space.bilibili\.com\/(\d+)\/video/, extractBiliChannel],
     [/bilibili.com\/audio\/au([^/?]+)/, extractBiliAudio],
-    [/(BV[^/?]+)/, extractBiliVideo],
     [/.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/, extractBiliFavList],
     [/.*bilibili\.com\/medialist\/detail\/ml(\d+)/, extractBiliFavList],
     [
@@ -119,6 +116,7 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
       ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] }),
     ],
     [steriatkFetch.regexSearchMatch, steriatkFetch.regexFetch],
+    [bilivideoFetch.regexSearchMatch, bilivideoFetch.regexFetch],
   ];
   for (const reExtraction of reExtractions) {
     const reExtracted = reExtraction[0].exec(url);

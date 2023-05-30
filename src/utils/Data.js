@@ -1,14 +1,12 @@
 import Bottleneck from 'bottleneck';
 import Youtube from 'youtube-stream-url';
-import Logger from './Logger';
+import logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
 import { extractSongName } from './re';
 import { wbiQuery } from '../stores/wbi';
 
 import steriatkFetch from './mediafetch/steriatk';
-
-const logger = new Logger('Data.js');
 
 /**
  * limits to bilibili API call to 200ms/call using bottleneck.

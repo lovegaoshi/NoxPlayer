@@ -29,7 +29,7 @@ interface FetcherProps {
   resolveBiliBVID: (
     bvobjs: any,
     progressEmitter: ProgressEmitter,
-  ) => Promise<NoxMedia.Song[]>;
+  ) => Promise<NoxMediaInfo.VideoInfo[]>;
   progressEmitter?: ProgressEmitter;
   favList?: Array<any>;
   limiter?: Bottleneck;

@@ -49,20 +49,11 @@ const songFetch = (videoinfos: any[]) => {
   });
 };
 
-const actualFetch = async ({
-  reExtracted,
+const regexFetch = async ({
   progressEmitter,
   favList,
 }: Partial<regexFetchProps>) => {
   return songFetch(await paginatedFetch({ progressEmitter, favList }));
-};
-
-const regexFetch = ({
-  reExtracted,
-  progressEmitter,
-  favList,
-}: Partial<regexFetchProps>) => {
-  return actualFetch({ reExtracted, progressEmitter, favList });
 };
 
 const resolveURL = (song: NoxMedia.Song) => song.id.slice(9);

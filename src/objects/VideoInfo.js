@@ -1,5 +1,14 @@
 export default class VideoInfo {
-  constructor(title, desc, videoCount, picSrc, uploader, pages, bvid) {
+  constructor(
+    title,
+    desc,
+    videoCount,
+    picSrc,
+    uploader,
+    pages,
+    bvid,
+    duration,
+  ) {
     this.title = title;
     this.desc = desc;
     this.videoCount = videoCount;
@@ -7,6 +16,7 @@ export default class VideoInfo {
     this.uploader = uploader;
     this.pages = pages;
     this.bvid = bvid;
+    this.duration = duration;
   }
 
   isMutiPartVideo() {

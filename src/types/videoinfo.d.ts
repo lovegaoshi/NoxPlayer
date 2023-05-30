@@ -3,7 +3,12 @@ declare namespace NoxMediaInfo {
    * this interface serves
    * http://api.bilibili.com/x/web-interface/view?bvid=BV1bv4y1p7K4
    */
-  export interface VideoInfoJsonData {
+
+  export interface VideoInfo {
+    [key: string]: any;
+  }
+
+  export interface VideoInfoJsonData extends VideoInfo {
     bvid: string;
     aid: number;
     videos: number;
@@ -24,14 +29,13 @@ declare namespace NoxMediaInfo {
       [key: string]: any;
     }>;
     duration: number;
-    [key: string]: any;
   }
 
   /**
    * this interface serves
    * https://www.bilibili.com/audio/music-service-c/web/song/info?sid=13598
    */
-  export interface AudioInfoJsonData {
+  export interface AudioInfoJsonData extends VideoInfo {
     title: string;
     id: number;
     duration: number;
@@ -42,6 +46,5 @@ declare namespace NoxMediaInfo {
     uname: string;
     author: string;
     uid: number;
-    [key: string]: any;
   }
 }
