@@ -8,11 +8,6 @@ import Tooltip from '@mui/material/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-  getSongList,
-  getFavList,
-  getBiliSeriesList,
-  getBiliColleList,
-  getBiliChannelList,
   getBilSearchList,
   getSongListFromAudio,
   getYoutubeVideo,
@@ -23,6 +18,7 @@ import bilivideoFetch from '../utils/mediafetch/bilivideo';
 import biliseriesFetch from '../utils/mediafetch/biliseries';
 import bilicolleFetch from '../utils/mediafetch/bilicolle';
 import bilifavlistFetch from '../utils/mediafetch/bilifavlist';
+import bilichannelFetch from '../utils/mediafetch/bilichannel';
 
 export const defaultSearchList = ({
   songList = [],
@@ -34,65 +30,8 @@ export const defaultSearchList = ({
   return newList;
 };
 
-const extractBiliSeries = ({
-  reExtracted,
-  progressEmitter,
-  favList,
-  useBiliTag,
-}) =>
-  getBiliSeriesList({
-    mid: reExtracted[1],
-    sid: reExtracted[2],
-    progressEmitter,
-    favList,
-    useBiliTag,
-  });
-
-const extractBiliColle = ({
-  reExtracted,
-  progressEmitter,
-  favList,
-  useBiliTag,
-}) =>
-  getBiliColleList({
-    mid: reExtracted[1],
-    sid: reExtracted[2],
-    progressEmitter,
-    favList,
-    useBiliTag,
-  });
-
-const extractBiliChannel = ({
-  reExtracted,
-  progressEmitter,
-  favList,
-  useBiliTag,
-}) =>
-  getBiliChannelList({
-    url: reExtracted.input,
-    progressEmitter,
-    favList,
-    useBiliTag,
-  });
-
 const extractBiliAudio = ({ reExtracted, progressEmitter, favList }) =>
   getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList });
-
-const extractBiliVideo = ({ reExtracted, useBiliTag }) =>
-  getSongList({ bvid: reExtracted[1], useBiliTag });
-
-const extractBiliFavList = ({
-  reExtracted,
-  progressEmitter,
-  favList,
-  useBiliTag,
-}) =>
-  getFavList({
-    mid: reExtracted[1],
-    progressEmitter,
-    favList,
-    useBiliTag,
-  });
 
 /**
  * assign the proper extractor based on the provided url. uses regex.
@@ -106,7 +45,7 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
   const reExtractions = [
     [biliseriesFetch.regexSearchMatch, biliseriesFetch.regexFetch],
     [bilicolleFetch.regexSearchMatch, bilicolleFetch.regexFetch],
-    [/space.bilibili\.com\/(\d+)\/video/, extractBiliChannel],
+    [bilichannelFetch.regexSearchMatch, bilichannelFetch.regexFetch],
     [/bilibili.com\/audio\/au([^/?]+)/, extractBiliAudio],
     [bilifavlistFetch.regexSearchMatch, bilifavlistFetch.regexFetch],
     [bilifavlistFetch.regexSearchMatch2, bilifavlistFetch.regexFetch],
