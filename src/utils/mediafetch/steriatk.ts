@@ -14,6 +14,7 @@ import SongTS from '../../objects/SongTS';
 
 const VIDEOINFO_API = `https://steria.vplayer.tk/api/musics/{pn}`;
 // https://steria.vplayer.tk/api/musics/1
+const CIDPREFIX = 'steriatk-';
 
 const paginatedFetch = ({
   progressEmitter,
@@ -27,15 +28,15 @@ const paginatedFetch = ({
     resolveBiliBVID: (BVobjs) => BVobjs,
     progressEmitter,
     favList,
-    getBVID: (item) => `steriatk-${item.id}`,
+    getBVID: (item) => `${CIDPREFIX}${item.id}`,
   });
 };
 
 const songFetch = (videoinfos: any[]) => {
   return videoinfos.map((videoinfo) => {
     return SongTS({
-      cid: `steriatk-${videoinfo.url}`,
-      bvid: `steriatk-${videoinfo.id}`,
+      cid: `${CIDPREFIX}${videoinfo.url}`,
+      bvid: `${CIDPREFIX}${videoinfo.id}`,
       name: videoinfo.name,
       nameRaw: videoinfo.name,
       singer: videoinfo.artist,

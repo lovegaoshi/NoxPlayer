@@ -7,6 +7,7 @@ import { extractSongName } from './re';
 import { wbiQuery } from '../stores/wbi';
 
 import steriatkFetch from './mediafetch/steriatk';
+import biliaudioFetch from './mediafetch/biliaudio';
 
 /**
  * limits to bilibili API call to 200ms/call using bottleneck.
@@ -130,6 +131,7 @@ export const fetchPlayUrlPromise = async (v) => {
   const cid = v.id;
   const regexResolveURLs = [
     [steriatkFetch.regexResolveURLMatch, steriatkFetch.resolveURL],
+    [biliaudioFetch.regexResolveURLMatch, biliaudioFetch.resolveURL],
   ];
   for (const reExtraction of regexResolveURLs) {
     const reExtracted = reExtraction[0].exec(cid);
