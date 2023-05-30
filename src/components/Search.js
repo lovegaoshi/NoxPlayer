@@ -7,11 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 
-import {
-  getBilSearchList,
-  getSongListFromAudio,
-  getYoutubeVideo,
-} from '../background/DataProcess';
+import { getYoutubeVideo } from '../background/DataProcess';
 import { dummyFavList } from '../utils/ChromeStorage';
 import steriatkFetch from '../utils/mediafetch/steriatk';
 import bilivideoFetch from '../utils/mediafetch/bilivideo';
@@ -20,6 +16,7 @@ import bilicolleFetch from '../utils/mediafetch/bilicolle';
 import bilifavlistFetch from '../utils/mediafetch/bilifavlist';
 import bilichannelFetch from '../utils/mediafetch/bilichannel';
 import biliaudioFetch from '../utils/mediafetch/biliaudio';
+import bilisearchFetch from '../utils/mediafetch/bilisearch';
 
 export const defaultSearchList = ({
   songList = [],
@@ -30,9 +27,6 @@ export const defaultSearchList = ({
   newList.info = info;
   return newList;
 };
-
-const extractBiliAudio = ({ reExtracted, progressEmitter, favList }) =>
-  getSongListFromAudio({ bvid: reExtracted[1], progressEmitter, favList });
 
 /**
  * assign the proper extractor based on the provided url. uses regex.
@@ -50,12 +44,12 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
     [biliaudioFetch.regexSearchMatch, biliaudioFetch.regexFetch],
     [bilifavlistFetch.regexSearchMatch, bilifavlistFetch.regexFetch],
     [bilifavlistFetch.regexSearchMatch2, bilifavlistFetch.regexFetch],
+    [steriatkFetch.regexSearchMatch, steriatkFetch.regexFetch],
+    [bilivideoFetch.regexSearchMatch, bilivideoFetch.regexFetch],
     [
       /youtu(?:.*\/v\/|.*v=|\.be\/)([A-Za-z0-9_-]{11})/,
       ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] }),
     ],
-    [steriatkFetch.regexSearchMatch, steriatkFetch.regexFetch],
-    [bilivideoFetch.regexSearchMatch, bilivideoFetch.regexFetch],
   ];
   for (const reExtraction of reExtractions) {
     const reExtracted = reExtraction[0].exec(url);
@@ -68,7 +62,7 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
       });
     }
   }
-  return await getBilSearchList({ mid: url, progressEmitter });
+  return await bilisearchFetch.regexFetch({ url, progressEmitter });
 };
 
 /**

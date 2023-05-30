@@ -67,7 +67,7 @@ const URL_AUDIO_INFO =
  *  Video Basic Info
  */
 const URL_VIDEO_INFO =
-  'http://api.bilibili.com/x/web-interface/view?bvid={bvid}';
+  'https://api.bilibili.com/x/web-interface/view?bvid={bvid}';
 /**
  *  channel series API Extract Info
  */
