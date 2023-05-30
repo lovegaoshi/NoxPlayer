@@ -46,7 +46,7 @@ const fetchVideoInfoRaw = async (bvid: string) => {
   } catch (error: any) {
     logger.error(error.message);
     logger.warn(`Some issue happened when fetching ${bvid}`);
-    throw error;
+    // throw error;
   }
 };
 
@@ -67,7 +67,8 @@ export const fetchiliBVIDs = async (
   const BVidPromises = BVids.map((bvid, index) =>
     fetchVideoInfo(bvid, () => progressEmitter((100 * (index + 1)) / BVidLen)),
   );
-  return await Promise.all(BVidPromises);
+  const resolvedBVIDs = await Promise.all(BVidPromises);
+  return resolvedBVIDs.filter((val) => val) as VideoInfo[];
 };
 
 export const songFetch = async ({
@@ -78,12 +79,13 @@ export const songFetch = async ({
   useBiliTag: boolean;
 }) => {
   const aggregateVideoInfo = (info: VideoInfo) =>
-    info.pages.map((page: any, index: number) =>
-      SongTS({
+    info.pages.map((page: any, index: number) => {
+      const filename = info.pages.length === 1 ? info.title : page.part;
+      return SongTS({
         cid: page.cid,
         bvid: info.bvid,
-        name: page.part,
-        nameRaw: page.part,
+        name: filename,
+        nameRaw: filename,
         singer: info.uploader.name,
         singerId: info.uploader.mid,
         cover: info.picSrc,
@@ -91,9 +93,8 @@ export const songFetch = async ({
         page: index + 1,
         duration: page.duration,
         album: info.title,
-      }),
-    );
-
+      });
+    });
   let songs = videoinfos.reduce(
     (acc, curr) => acc.concat(aggregateVideoInfo(curr)),
     [],
@@ -104,7 +105,7 @@ export const songFetch = async ({
 
 const regexFetch = async ({ reExtracted, useBiliTag }: regexFetchProps) => {
   return songFetch({
-    videoinfos: [await fetchVideoInfo(reExtracted[1]!)], // await fetchiliBVID([reExtracted[1]!])
+    videoinfos: await fetchiliBVIDs([reExtracted[1]!]), // await fetchiliBVID([reExtracted[1]!])
     useBiliTag: useBiliTag || false,
   });
 };

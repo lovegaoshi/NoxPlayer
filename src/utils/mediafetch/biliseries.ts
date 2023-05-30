@@ -12,6 +12,7 @@ import { regexFetchProps } from './generic';
 
 import logger from '../Logger';
 import { songFetch, fetchVideoInfo } from './bilivideo';
+import VideoInfo from '../../objects/VideoInfo';
 
 const URL_BILISERIES_INFO =
   'https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30';
@@ -45,7 +46,9 @@ const fetchBiliSeriesList = async (
       }),
     );
   }
-  return (await Promise.all(BVidPromises)).filter((item) => item !== undefined);
+  return (await Promise.all(BVidPromises)).filter(
+    (item) => item,
+  ) as VideoInfo[];
 };
 
 const regexFetch = async ({

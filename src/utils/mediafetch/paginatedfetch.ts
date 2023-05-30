@@ -89,9 +89,8 @@ export const fetchPaginatedAPI = async ({
     }),
   );
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  return (await resolveBiliBVID(BVids, progressEmitter)).filter(
-    (item) => item !== undefined,
-  );
+  const resolvedBiliBVID = await resolveBiliBVID(BVids, progressEmitter);
+  return resolvedBiliBVID.filter((item) => item);
 };
 
 /**
@@ -147,7 +146,5 @@ export const fetchAwaitPaginatedAPI = async ({
     }
   }
   // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  return (await resolveBiliBVID(BVids, progressEmitter)).filter(
-    (item) => item !== undefined,
-  );
+  return (await resolveBiliBVID(BVids, progressEmitter)).filter((item) => item);
 };

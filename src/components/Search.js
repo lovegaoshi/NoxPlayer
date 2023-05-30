@@ -22,6 +22,7 @@ import steriatkFetch from '../utils/mediafetch/steriatk';
 import bilivideoFetch from '../utils/mediafetch/bilivideo';
 import biliseriesFetch from '../utils/mediafetch/biliseries';
 import bilicolleFetch from '../utils/mediafetch/bilicolle';
+import bilifavlistFetch from '../utils/mediafetch/bilifavlist';
 
 export const defaultSearchList = ({
   songList = [],
@@ -107,8 +108,8 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
     [bilicolleFetch.regexSearchMatch, bilicolleFetch.regexFetch],
     [/space.bilibili\.com\/(\d+)\/video/, extractBiliChannel],
     [/bilibili.com\/audio\/au([^/?]+)/, extractBiliAudio],
-    [/.*bilibili\.com\/\d+\/favlist\?fid=(\d+)/, extractBiliFavList],
-    [/.*bilibili\.com\/medialist\/detail\/ml(\d+)/, extractBiliFavList],
+    [bilifavlistFetch.regexSearchMatch, bilifavlistFetch.regexFetch],
+    [bilifavlistFetch.regexSearchMatch2, bilifavlistFetch.regexFetch],
     [
       /youtu(?:.*\/v\/|.*v=|\.be\/)([A-Za-z0-9_-]{11})/,
       ({ reExtracted }) => getYoutubeVideo({ bvid: reExtracted[1] }),
