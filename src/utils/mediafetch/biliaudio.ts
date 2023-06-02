@@ -93,8 +93,8 @@ export const songFetch = async ({
     });
   const songs = videoinfos.reduce(
     (acc, curr) => acc.concat(aggregateVideoInfo(curr)),
-    [],
-  ) as NoxMedia.Song[];
+    [] as NoxMedia.Song[],
+  );
   return songs;
 };
 

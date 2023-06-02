@@ -30,7 +30,7 @@ jobs:
 
       - name: Check Last Commit
         run: |
-          if [[ $TIME_DIFF -gt $((60*60*24*7)) ]]; then
+          if [[ $TIME_DIFF -gt $((60*60*24)) ]]; then
             echo "Last commit is older than a week."
             echo "is_old_commit=true" >> $GITHUB_OUTPUT
           else
