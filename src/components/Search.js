@@ -17,6 +17,7 @@ import bilifavlistFetch from '../utils/mediafetch/bilifavlist';
 import bilichannelFetch from '../utils/mediafetch/bilichannel';
 import biliaudioFetch from '../utils/mediafetch/biliaudio';
 import bilisearchFetch from '../utils/mediafetch/bilisearch';
+import bilichannelAudioFetch from '../utils/mediafetch/bilichannelAudio';
 
 export const defaultSearchList = ({
   songList = [],
@@ -41,6 +42,7 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
     [biliseriesFetch.regexSearchMatch, biliseriesFetch.regexFetch],
     [bilicolleFetch.regexSearchMatch, bilicolleFetch.regexFetch],
     [bilichannelFetch.regexSearchMatch, bilichannelFetch.regexFetch],
+    [bilichannelAudioFetch.regexSearchMatch, bilichannelAudioFetch.regexFetch],
     [biliaudioFetch.regexSearchMatch, biliaudioFetch.regexFetch],
     [bilifavlistFetch.regexSearchMatch, bilifavlistFetch.regexFetch],
     [bilifavlistFetch.regexSearchMatch2, bilifavlistFetch.regexFetch],
