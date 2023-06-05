@@ -21,6 +21,7 @@ import {
 import favListAnalytics from '../../utils/Analytics';
 import { textToDialogContent } from '../dialogs/genericDialog';
 import { fetchVideoInfo } from '../../utils/Data';
+import {getOrInsertBiliFavlist} from '../../utils/Bilibili/bilifavOperate';
 
 const MENU_ID = 'favlistmenu';
 
@@ -42,6 +43,7 @@ export default function App({ theme }) {
 
   function handleItemClick({ event, props, triggerEvent, data }) {
     console.warn('method not implemented', props.favlist);
+    getOrInsertBiliFavlist(props.favlist.info.title);
   }
 
   function updateFavlist(
