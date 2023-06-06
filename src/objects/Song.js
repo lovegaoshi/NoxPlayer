@@ -14,6 +14,8 @@ export default class Song {
     page,
     biliShazamedName,
     duration,
+    album = undefined,
+    addedDate = 0,
   }) {
     this.id = cid;
     this.bvid = bvid;
@@ -29,6 +31,8 @@ export default class Song {
     this.biliShazamedName = biliShazamedName;
     this.page = page;
     this.duration = duration;
+    this.album = album;
+    this.addedDate = addedDate;
     setSongBiliShazamed(this, this.biliShazamedName);
   }
 }

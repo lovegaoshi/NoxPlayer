@@ -13,6 +13,8 @@ import 'react-contexify/dist/ReactContexify.css';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useConfirm } from 'material-ui-confirm';
+import SyncIcon from '@mui/icons-material/Sync';
+
 import { removeSongBiliShazamed } from '../../objects/Song';
 import {
   BiliShazamOnSonglist,
@@ -21,7 +23,11 @@ import {
 import favListAnalytics from '../../utils/Analytics';
 import { textToDialogContent } from '../dialogs/genericDialog';
 import { fetchVideoInfo } from '../../utils/Data';
-import {getOrInsertBiliFavlist} from '../../utils/Bilibili/bilifavOperate';
+import {
+  getOrInsertBiliFavlist,
+  addToBiliFavlist,
+} from '../../utils/Bilibili/bilifavOperate';
+import { getBiliUser } from '../../utils/PersonalCloudAuth';
 
 const MENU_ID = 'favlistmenu';
 
@@ -41,9 +47,33 @@ export default function App({ theme }) {
     id: MENU_ID,
   });
 
-  function handleItemClick({ event, props, triggerEvent, data }) {
+  async function handleItemClick({ event, props, triggerEvent, data }) {
     console.warn('method not implemented', props.favlist);
-    getOrInsertBiliFavlist(props.favlist.info.title);
+  }
+
+  async function syncFavlist({ event, props, triggerEvent, data }) {
+    const key = enqueueSnackbar(
+      `正在同步歌单 ${props.favlist.info.title} 到b站收藏夹……`,
+      { variant: 'info', persist: true, action: circularProgress },
+    );
+    const favid = await getOrInsertBiliFavlist(
+      (
+        await getBiliUser()
+      ).mid,
+      props.favlist.info.title.slice(0, 19),
+    );
+    const uniqBVIDs = Array.from(
+      props.favlist.songList.reduce(
+        (accumulator, currentValue) => accumulator.add(currentValue.bvid),
+        new Set(),
+      ),
+    );
+    await addToBiliFavlist(
+      favid,
+      uniqBVIDs.filter((val) => val.startsWith('BV')),
+    );
+    closeSnackbar(key);
+    enqueueSnackbar('done!', { variant: 'success', autoHideDuration: 2000 });
   }
 
   function updateFavlist(
@@ -192,6 +222,9 @@ export default function App({ theme }) {
   return (
     <div>
       <Menu id={MENU_ID} animation='slide' theme={theme}>
+        <Item onClick={syncFavlist}>
+          <SyncIcon /> &nbsp; 同步到b站收藏夹
+        </Item>
         <Item onClick={BiliShazam}>
           <YoutubeSearchedForIcon /> &nbsp; b站识歌
         </Item>

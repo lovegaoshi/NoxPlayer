@@ -10,6 +10,13 @@ const biliApiLimiter = new Bottleneck({
 });
 
 /**
+ * a 1s/call limiter. sounds more like human?
+ */
+const humanishApiLimiter = new Bottleneck({
+  minTime: 1000,
+  maxConcurrent: 5,
+});
+/**
  * limits to bilibili.tag API call to 100ms/call using bottleneck
  * through experiment bilibili.tag seems to be more tolerable
  * than other APIs such as getvideoinfo
@@ -29,4 +36,10 @@ const bilih5ApiLimiter = new Bottleneck({
   maxConcurrent: 1,
 });
 
-export { biliApiLimiter, biliTagApiLimiter, bilih5ApiLimiter, awaitLimiter };
+export {
+  biliApiLimiter,
+  biliTagApiLimiter,
+  bilih5ApiLimiter,
+  awaitLimiter,
+  humanishApiLimiter,
+};

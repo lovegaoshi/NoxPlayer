@@ -1,3 +1,5 @@
+import { bvidToAid } from './bvid';
+
 const BILI_LIKE_API = 'https://api.bilibili.com/x/web-interface/archive/like';
 const BILI_TRIP_API =
   'https://api.bilibili.com/x/web-interface/archive/like/triple';
@@ -8,9 +10,6 @@ const BILI_HEARTBEAT_API =
   'https://api.bilibili.com/x/click-interface/web/heartbeat';
 const BILI_VIDEOINFO_API =
   'https://api.bilibili.com/x/web-interface/view?bvid=';
-import {
-  bvidToAid,
-} from './bvid'
 
 /**
  * get a cookie using chrome.cookies.get.
@@ -93,10 +92,14 @@ export const sendBVTriple = (bvid: string, onLiked = (json: object) => {}) => {
   });
 };
 
-export const sendBVFavorite = async (bvid: string, addfav: string[] = [], removefav: string[] = []) => {
+export const sendBVFavorite = async (
+  bvid: string,
+  addfav: string[] = [],
+  removefav: string[] = [],
+) => {
   try {
     const biliject = await getCookie('https://www.bilibili.com', 'bili_jct');
-    const res = await fetch(BILI_TRIP_API, {
+    const res = await fetch(BILI_FAV_API, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -107,12 +110,13 @@ export const sendBVFavorite = async (bvid: string, addfav: string[] = [], remove
         rid: String(bvidToAid(bvid)),
         add_media_ids: addfav.join(','),
         del_media_ids: removefav.join(','),
-        csrf: biliject?.value as string || '',
+        csrf: (biliject?.value as string) || '',
+        type: '2',
       }),
     });
     return await res.json();
   } catch (e) {
-    console.error('BVID favorite POST failed;', e)
+    console.error('BVID favorite POST failed;', e);
   }
 };
 
