@@ -23,11 +23,7 @@ import {
 import favListAnalytics from '../../utils/Analytics';
 import { textToDialogContent } from '../dialogs/genericDialog';
 import { fetchVideoInfo } from '../../utils/Data';
-import {
-  getOrInsertBiliFavlist,
-  addToBiliFavlist,
-} from '../../utils/Bilibili/bilifavOperate';
-import { getBiliUser } from '../../utils/PersonalCloudAuth';
+import { syncFavlist } from '../../utils/Bilibili/bilifavOperate';
 
 const MENU_ID = 'favlistmenu';
 
@@ -51,27 +47,12 @@ export default function App({ theme }) {
     console.warn('method not implemented', props.favlist);
   }
 
-  async function syncFavlist({ event, props, triggerEvent, data }) {
+  async function syncFavlistToBilibili({ event, props, triggerEvent, data }) {
     const key = enqueueSnackbar(
       `正在同步歌单 ${props.favlist.info.title} 到b站收藏夹……`,
       { variant: 'info', persist: true, action: circularProgress },
     );
-    const favid = await getOrInsertBiliFavlist(
-      (
-        await getBiliUser()
-      ).mid,
-      props.favlist.info.title.slice(0, 19),
-    );
-    const uniqBVIDs = Array.from(
-      props.favlist.songList.reduce(
-        (accumulator, currentValue) => accumulator.add(currentValue.bvid),
-        new Set(),
-      ),
-    );
-    await addToBiliFavlist(
-      favid,
-      uniqBVIDs.filter((val) => val.startsWith('BV')),
-    );
+    await syncFavlist(props.favlist);
     closeSnackbar(key);
     enqueueSnackbar('done!', { variant: 'success', autoHideDuration: 2000 });
   }
@@ -222,7 +203,7 @@ export default function App({ theme }) {
   return (
     <div>
       <Menu id={MENU_ID} animation='slide' theme={theme}>
-        <Item onClick={syncFavlist}>
+        <Item onClick={syncFavlistToBilibili}>
           <SyncIcon /> &nbsp; 同步到b站收藏夹
         </Item>
         <Item onClick={BiliShazam}>

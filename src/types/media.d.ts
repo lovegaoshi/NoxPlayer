@@ -18,6 +18,9 @@ declare namespace NoxMedia {
   }
 
   export interface Playlist {
+    info: {
+      title: string;
+    };
     songList: Array<NoxMedia.Song>;
     title: string;
     id: string;
