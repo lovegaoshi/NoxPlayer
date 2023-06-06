@@ -52,9 +52,12 @@ export default function App({ theme }) {
       `正在同步歌单 ${props.favlist.info.title} 到b站收藏夹……`,
       { variant: 'info', persist: true, action: circularProgress },
     );
-    await syncFavlist(props.favlist);
     closeSnackbar(key);
-    enqueueSnackbar('done!', { variant: 'success', autoHideDuration: 2000 });
+    if (await syncFavlist(props.favlist)) {
+      enqueueSnackbar('done!', { variant: 'success', autoHideDuration: 2000 });
+    } else {
+      enqueueSnackbar('ERROR!', { variant: 'error', autoHideDuration: 2000 });
+    }
   }
 
   function updateFavlist(

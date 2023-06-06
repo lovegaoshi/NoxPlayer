@@ -1,4 +1,5 @@
 import { getCookie, sendBVFavorite } from '../BiliOperate';
+import { PlayListDict } from '../ChromeStorage';
 import { getFavListBVID } from '../mediafetch/bilifavlist';
 import { humanishApiLimiter } from '../mediafetch/throttle';
 import { getBiliUser } from '../PersonalCloudAuth';
@@ -96,11 +97,11 @@ export const addToBiliFavlist = async (
   );
 };
 
-export const syncFavlist = async (favlist: NoxMedia.Playlist) => {
+export const syncFavlist = async (favlist: PlayListDict) => {
+  const user = await getBiliUser();
+  if (!user.mid) return false;
   const favid = await getOrInsertBiliFavlist(
-    (
-      await getBiliUser()
-    ).mid,
+    user.mid,
     favlist.info.title.slice(0, 19),
   );
   const uniqBVIDs = Array.from(
@@ -113,4 +114,5 @@ export const syncFavlist = async (favlist: NoxMedia.Playlist) => {
     favid,
     uniqBVIDs.filter((val) => val.startsWith('BV')),
   );
+  return true;
 };

@@ -43,6 +43,7 @@ export interface PlayListDict {
     autoRSSUpdate: boolean;
   };
   useBiliShazam: boolean;
+  biliSync: boolean;
   bannedBVids: Array<string>;
   showFavoriteList: boolean;
   [key: string]: any;
@@ -59,6 +60,7 @@ export const dummyFavList = (favName: string): PlayListDict => {
       autoRSSUpdate: false,
     },
     useBiliShazam: false,
+    biliSync: false,
     bannedBVids: [],
     showFavoriteList: false,
   };

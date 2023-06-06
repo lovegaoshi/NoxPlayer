@@ -13,6 +13,7 @@ import {
   FAVLIST_AUTO_UPDATE_TIMESTAMP,
   PlayListDict,
 } from '../../utils/ChromeStorage';
+import { syncFavlist } from '../../utils/Bilibili/bilifavOperate';
 
 interface props {
   currentList: PlayListDict;
@@ -59,6 +60,9 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
         'previous updated timestamp is:',
         favListAutoUpdateTimestamps.current[favList.info.id],
       );
+      if (favList.biliSync) {
+        syncFavlist(favList);
+      }
       if (
         favListAutoUpdateTimestamps.current[favList.info.id] === undefined ||
         Date.now() -

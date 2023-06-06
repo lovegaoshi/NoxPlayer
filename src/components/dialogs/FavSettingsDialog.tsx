@@ -31,6 +31,7 @@ export default function FavSettingsDialog({
   const [bannedBVids, setBannedBVids] = useState('');
   const [favListName, setFavListName] = useState('');
   const [useBiliShazam, setUseBiliShazam] = useState(false);
+  const [biliSync, setBiliSync] = useState(false);
 
   if (fromList === undefined) return null;
 
@@ -47,6 +48,7 @@ export default function FavSettingsDialog({
       subscribeUrls: Array.from(new Set(subUrl.split(';'))),
       favListName,
       useBiliShazam,
+      biliSync,
       bannedBVids: Array.from(new Set(bannedBVids.split(';'))),
     });
   };
@@ -56,6 +58,7 @@ export default function FavSettingsDialog({
     setArrayAsStr(favList.bannedBVids, setBannedBVids);
     setFavListName(favList.info.title);
     setUseBiliShazam(!!favList.useBiliShazam);
+    setBiliSync(!!favList.biliSync);
   };
 
   useEffect(() => {
@@ -113,6 +116,20 @@ export default function FavSettingsDialog({
             }
             checked={useBiliShazam}
             label='使用b站识歌API'
+          />
+        </Tooltip>
+        <div />
+        <Tooltip title='自动同步为b站收藏夹'>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={(e) => {
+                  setBiliSync(e.target.checked);
+                }}
+              />
+            }
+            checked={biliSync}
+            label='自动同步为b站收藏夹'
           />
         </Tooltip>
       </DialogContent>

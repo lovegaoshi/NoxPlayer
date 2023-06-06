@@ -27,6 +27,7 @@ declare namespace NoxMedia {
     subscribeUrl: Array<string>;
     blacklistedUrl: Array<string>;
     useBiliShazam: boolean;
+    biliSync: boolean;
     lastSubscribed: number;
     type: string;
   }
