@@ -68,6 +68,7 @@ jobs:
           name: 'Unpacked ${{env.COMMIT_TAG}}'
           files: build.zip
           generate_release_notes: true
+
       - name: Edge Publish
         uses: wdzeng/edge-addon@v1
         with:
