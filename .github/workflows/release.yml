@@ -68,3 +68,12 @@ jobs:
           name: 'Unpacked ${{env.COMMIT_TAG}}'
           files: build.zip
           generate_release_notes: true
+
+      - name: Edge Publish
+        uses: wdzeng/edge-addon@v1
+        with:
+          product-id: ${{ secrets.EDGE_PRODUCT_ID }}
+          zip-path: build.zip
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
+          client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
+          access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
