@@ -1,6 +1,10 @@
 import { wbiQuery } from '../../stores/wbi';
 import { fetchiliBVIDs } from './bilivideo';
-import { fetchPaginatedAPI, FetcherProps } from './paginatedfetch';
+import {
+  fetchPaginatedAPI,
+  fetchAwaitPaginatedAPI,
+  FetcherProps,
+} from './paginatedfetch';
 import { biliApiLimiter } from './throttle';
 
 export const fetchBiliPaginatedAPI = async ({
@@ -47,7 +51,7 @@ export const fetchAwaitBiliPaginatedAPI = async ({
       progressEmitter2,
     ),
 }: FetcherProps) => {
-  return fetchPaginatedAPI({
+  return fetchAwaitPaginatedAPI({
     url,
     getMediaCount,
     getPageSize,
