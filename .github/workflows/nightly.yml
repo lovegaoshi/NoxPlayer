@@ -84,3 +84,4 @@ jobs:
         with:
           tag_name: nightly-${{ steps.date.outputs.date }}
           files: build.zip
+          prerelease: true
