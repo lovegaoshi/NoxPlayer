@@ -14,6 +14,7 @@ import AriaTheme from './skins/aria';
 import NoirTheme from './skins/noir';
 import RyniaTheme from './skins/rynia';
 import NiyaTheme from './skins/nyiaibu';
+import LumiTheme from './skins/lumi';
 // needs to enable top-level await; necessary for other modules to import current skin config
 const setting = await new StorageManager().getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
@@ -33,6 +34,7 @@ export const SkinKeys = [
   '黑泽诺亚NOIR',
   '莱妮娅Rynia',
   '阿布',
+  '露米Lumi',
 ];
 
 export const skins = (key = setting.skin) => {
@@ -76,6 +78,8 @@ export const skins = (key = setting.skin) => {
       return RyniaTheme;
     case '阿布':
       return NiyaTheme;
+    case '露米Lumi':
+      return LumiTheme;
     default:
       // default is azusa skin.
       return AzusaTheme;
