@@ -12,7 +12,8 @@ import { regexFetchProps } from './generic';
 import { fetchAwaitPaginatedAPI } from './paginatedfetch';
 import SongTS from '../../objects/SongTS';
 
-const VIDEOINFO_API = `https://steria.vplayer.tk/api/musics/{pn}`;
+const pagesize = 500;
+const VIDEOINFO_API = `https://steria.vplayer.tk/api/musics/{pn}?size=${pagesize}`;
 // https://steria.vplayer.tk/api/musics/1
 const CIDPREFIX = 'steriatk-';
 
@@ -23,7 +24,7 @@ const paginatedFetch = ({
   return fetchAwaitPaginatedAPI({
     url: VIDEOINFO_API,
     getMediaCount: (json) => json.total,
-    getPageSize: () => 10,
+    getPageSize: () => pagesize,
     getItems: (json) => json.data,
     resolveBiliBVID: (BVobjs) => BVobjs,
     progressEmitter,
