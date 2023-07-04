@@ -6,11 +6,11 @@ const gifs = [
   'https://i0.hdslb.com/bfs/new_dyn/3d61f99a8b5114fa9648e5a572cc6c421846208014.jpg',
   'https://i0.hdslb.com/bfs/new_dyn/2c10f6fba49ce0ff52e8fc5c010374531846208014.jpg',
   'https://i0.hdslb.com/bfs/new_dyn/1d87a5ed22d20aca658a6e96675a08af1846208014.jpg',
-  'https://i0.hdslb.com/bfs/new_dyn/4a32a8f461331a7667f4386397b7f8191846208014.jpg@720w_720h_1e_1c_!web-dynamic.avif',
-  'https://i0.hdslb.com/bfs/new_dyn/002902bf229e9d9d8f20315bf926c0684115836.png@416w_416h_1e_1c_!web-dynamic.avif',
-  'https://i0.hdslb.com/bfs/new_dyn/f7bc2c0904f5fff8b2b9a4fb37d817eb1846208014.png@960w_960h_1e_1c_!web-dynamic.avif',
-  'https://i0.hdslb.com/bfs/new_dyn/2058010a3b63bf62ee2ce73b11eddfeb1846208014.jpg@960w_1080h_1e_1c_!web-dynamic.avif',
-  'https://i0.hdslb.com/bfs/new_dyn/bcfb0864fd23e2abded663fa9daa91a11846208014.jpg@720w_720h_1e_1c_!web-dynamic.avif',
+  'https://i0.hdslb.com/bfs/new_dyn/4a32a8f461331a7667f4386397b7f8191846208014.jpg',
+  'https://i0.hdslb.com/bfs/new_dyn/002902bf229e9d9d8f20315bf926c0684115836.png',
+  'https://i0.hdslb.com/bfs/new_dyn/f7bc2c0904f5fff8b2b9a4fb37d817eb1846208014.png',
+  'https://i0.hdslb.com/bfs/new_dyn/2058010a3b63bf62ee2ce73b11eddfeb1846208014.jpg',
+  'https://i0.hdslb.com/bfs/new_dyn/bcfb0864fd23e2abded663fa9daa91a11846208014.jpg',
 ];
 
 export default skinTemplate({
