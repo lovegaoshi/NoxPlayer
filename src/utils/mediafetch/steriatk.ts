@@ -30,6 +30,7 @@ const paginatedFetch = ({
     progressEmitter,
     favList,
     getBVID: (item) => `${CIDPREFIX}${item.id}`,
+    getJSONData: (val) => val,
   });
 };
 

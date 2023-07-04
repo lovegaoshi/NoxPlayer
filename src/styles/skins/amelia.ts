@@ -47,7 +47,7 @@ export default skinTemplate({
   playerBackground: async () =>
     new Promise<string>((resolve) => {
       resolve(
-        'https://newcdn.mowplayer.com/719567640886/2021/02/27/480/tpaiwanmioxmr5ln.mp4',
+        'https://rare-gallery.com/livewalls/imgpreview/143356-gawr-gura-and-amelia-watson-vibing-near-a-campfire.mp4',
       );
     }),
   playerBackgroundVideo: true,
