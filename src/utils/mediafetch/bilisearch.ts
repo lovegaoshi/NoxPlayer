@@ -10,20 +10,55 @@
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
 // eslint-disable-next-line import/no-extraneous-dependencies
+import { v4 as uuidv4 } from 'uuid';
 
 import { getPlayerSettingKey } from '../ChromeStorage';
 import logger from '../Logger';
 import { songFetch } from './bilivideo';
 import { fetchBiliPaginatedAPI } from './paginatedbili';
 import VideoInfo from '../../objects/VideoInfo';
+import { timestampToSeconds } from '../Utils';
 
 const URL_BILI_SEARCH =
   'https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}&tids=3';
 
 export const fetchBiliSearchList = async (
   kword: string,
-  progressEmitter: (val: number) => void = () => undefined,
+  progressEmitter: (val: number) => void = () => undefined
 ) => {
+
+  const fastSearchResolveBVID = async (bvobjs: any[]) => {
+    /**
+     * cids should be resolved at this stage,
+     * or on the fly using fetchCID. the latter saves
+     * search time but now song.id loses identification.
+    const resolvedCIDs = await Promise.all(
+      bvobjs.map(obj => fetchCID(obj.bvid))
+    );
+     */
+    return bvobjs.map(
+      (obj, index) =>
+        new VideoInfo(
+          obj.title.replaceAll(/<[^<>]*em[^<>]*>/g, ''),
+          obj.description,
+          1,
+          `https:${obj.pic}`,
+          { mid: obj.mid, name: obj.author, face: obj.upic },
+          [
+            {
+              bvid: obj.bvid,
+              part: '1',
+              cid: `null-${uuidv4()}`, // resolvedCids[index]
+              duration: timestampToSeconds(obj.duration),
+            },
+          ],
+          obj.bvid,
+          timestampToSeconds(obj.duration)
+        )
+    );
+  };
+
+  const fastSearch = await getPlayerSettingKey('fastBiliSearch');
   const noCookieSearch = await getPlayerSettingKey('noCookieBiliSearch');
   let cookieSESSDATA = null;
   // this API needs a random buvid3 value, or a valid SESSDATA;
@@ -50,6 +85,9 @@ export const fetchBiliSearchList = async (
       getPageSize: (data) => data.pagesize,
       getItems: (js) => js.data.result,
       progressEmitter,
+      resolveBiliBVID: fastSearch
+        ? async (bvobjs) => await fastSearchResolveBVID(bvobjs)
+        : undefined,
     });
   } catch (e) {
     console.error(e);
@@ -70,12 +108,14 @@ interface regexFetchProps {
   url: string;
   progressEmitter: () => void;
   useBiliTag: boolean;
+  fastSearch?: boolean;
+  cookiedSearch?: boolean;
 }
 
 const regexFetch = async ({
   url,
   progressEmitter = () => undefined,
-  useBiliTag,
+  useBiliTag
 }: regexFetchProps) => {
   return songFetch({
     videoinfos: await fetchBiliSearchList(url, progressEmitter),

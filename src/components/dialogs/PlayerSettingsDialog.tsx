@@ -94,6 +94,9 @@ export default function SettingsDialog({
   const [noCookieBiliSearch, setNoCookieBiliSearch] = useState(
     DEFAULT_SETTING.noCookieBiliSearch,
   );
+  const [fastBiliSearch, setFastBiliSearch] = useState(
+    DEFAULT_SETTING.fastBiliSearch,
+  );
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
@@ -132,6 +135,7 @@ export default function SettingsDialog({
     setSettings(setLoadPlaylistAsArtist, settings.loadPlaylistAsArtist);
     setSettings(setSendBiliHeartbeat, settings.sendBiliHeartbeat);
     setSettings(setNoCookieBiliSearch, settings.noCookieBiliSearch);
+    setSettings(setFastBiliSearch, settings.fastBiliSearch);
   }
   // load settings into this dialog
   useEffect(() => {
@@ -156,6 +160,7 @@ export default function SettingsDialog({
       loadPlaylistAsArtist,
       sendBiliHeartbeat,
       noCookieBiliSearch,
+      fastBiliSearch
     };
     onClose(updatedSettingObj);
   };
@@ -361,6 +366,19 @@ export default function SettingsDialog({
             }
             checked={noCookieBiliSearch}
             label='搜索时不用b号个性化推荐'
+          />
+        </Tooltip>
+        <Tooltip title='fast bili search'>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onChange={(e) => {
+                  setFastBiliSearch(e.target.checked);
+                }}
+              />
+            }
+            checked={fastBiliSearch}
+            label='fast bili search'
           />
         </Tooltip>
       </React.Fragment>

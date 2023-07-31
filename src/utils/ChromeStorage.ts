@@ -32,6 +32,7 @@ export interface PlayerSettingDict {
   loadPlaylistAsArtist: boolean;
   sendBiliHeartbeat: boolean;
   noCookieBiliSearch: boolean;
+  fastBiliSearch: boolean;
   [key: string]: any;
 }
 
@@ -91,6 +92,7 @@ export const DEFAULT_SETTING: PlayerSettingDict = {
   loadPlaylistAsArtist: false,
   sendBiliHeartbeat: false,
   noCookieBiliSearch: false,
+  fastBiliSearch: true,
 };
 
 /**
