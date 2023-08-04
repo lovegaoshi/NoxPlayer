@@ -185,7 +185,7 @@ export const fetchVideoPlayUrlPromise = async (
   cid,
   extractType = 'AudioUrl',
 ) => {
-  if (!cid) {
+  if (!cid || cid.startsWith('null-')) {
     cid = await fetchCID(bvid).catch((err) => console.error(err));
   }
 

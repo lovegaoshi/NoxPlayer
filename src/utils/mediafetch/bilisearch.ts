@@ -24,9 +24,8 @@ const URL_BILI_SEARCH =
 
 export const fetchBiliSearchList = async (
   kword: string,
-  progressEmitter: (val: number) => void = () => undefined
+  progressEmitter: (val: number) => void = () => undefined,
 ) => {
-
   const fastSearchResolveBVID = async (bvobjs: any[]) => {
     /**
      * cids should be resolved at this stage,
@@ -53,8 +52,8 @@ export const fetchBiliSearchList = async (
             },
           ],
           obj.bvid,
-          timestampToSeconds(obj.duration)
-        )
+          timestampToSeconds(obj.duration),
+        ),
     );
   };
 
@@ -115,7 +114,7 @@ interface regexFetchProps {
 const regexFetch = async ({
   url,
   progressEmitter = () => undefined,
-  useBiliTag
+  useBiliTag,
 }: regexFetchProps) => {
   return songFetch({
     videoinfos: await fetchBiliSearchList(url, progressEmitter),

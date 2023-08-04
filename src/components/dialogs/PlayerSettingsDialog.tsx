@@ -160,7 +160,7 @@ export default function SettingsDialog({
       loadPlaylistAsArtist,
       sendBiliHeartbeat,
       noCookieBiliSearch,
-      fastBiliSearch
+      fastBiliSearch,
     };
     onClose(updatedSettingObj);
   };
@@ -368,7 +368,7 @@ export default function SettingsDialog({
             label='搜索时不用b号个性化推荐'
           />
         </Tooltip>
-        <Tooltip title='fast bili search'>
+        <Tooltip title='搜索时不解析分p内容'>
           <FormControlLabel
             control={
               <Checkbox
@@ -378,7 +378,7 @@ export default function SettingsDialog({
               />
             }
             checked={fastBiliSearch}
-            label='fast bili search'
+            label='快速b站搜索'
           />
         </Tooltip>
       </React.Fragment>
