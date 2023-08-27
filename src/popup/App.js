@@ -4,11 +4,16 @@ import PageLayout from './Layout';
 import { initSongList } from '../background/DataProcess';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
+import { initialize } from '../stores/appStore';
 
 export default function App() {
   // The current playing list
   const [currentSongList, setCurrentSongList] = useState(null);
   const [backgroundSrc, setBackgroundSrc] = useState(null);
+
+  useEffect(() => {
+    initialize();
+  }, []);
 
   useEffect(() => {
     initSongList(setCurrentSongList);

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { reExtractSongName, extractParenthesis } from '../utils/re';
+import { extractParenthesis } from '../utils/re';
+import { reExtractSongName } from '../stores/appStore';
 
 export const DEFAULT_NULL_URL = 'NULL';
 export const NULL_TRACK = { url: DEFAULT_NULL_URL, urlRefreshTimeStamp: 0 };

@@ -3,7 +3,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { dummyFavList } from '../utils/ChromeStorage';
 import { searchBiliURLs, defaultSearchList } from '../components/Search';
-import { parseSongName } from '../utils/re';
+import { parseSongName } from '../stores/appStore';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.

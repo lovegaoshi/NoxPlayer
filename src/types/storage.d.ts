@@ -1,5 +1,10 @@
-import { EXPORT_OPTIONS } from '../enums/Sync';
-
+// eslint-disable-next-line no-unused-vars, no-shadow
+enum EXPORT_OPTIONS {
+  LOCAL = '本地',
+  DROPBOX = 'Dropbox',
+  PERSONAL = '私有云',
+  GITEE = 'Gitee',
+}
 declare namespace NoxStorage {
   export interface PlayerSettingDict {
     autoRSSUpdate: boolean;

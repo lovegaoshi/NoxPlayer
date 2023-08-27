@@ -1,4 +1,5 @@
-import { reExtractSongName, extractParenthesis } from '../utils/re';
+import { extractParenthesis } from '../utils/re';
+import { reExtractSongName } from '../stores/appStore';
 
 export default class Song {
   constructor({
