@@ -19,7 +19,7 @@ import { getPlayerSettingKey } from './ChromeStorage';
  */
 export const getBiliUser = async () => {
   try {
-    const val = await fetch('https://api.bilibili.com/nav');
+    const val = await fetch('https://api.bilibili.com/x/web-interface/nav');
     const res = await val.json();
     return res.data;
   } catch (e) {
