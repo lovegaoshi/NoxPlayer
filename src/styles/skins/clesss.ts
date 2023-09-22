@@ -15,6 +15,24 @@ const gifs = [
   'https://i0.hdslb.com/bfs/new_dyn/fe44dd6190198aa1c735544a951d9e7a1817527011.png',
   'https://img.nga.178.com/attachments/mon_202304/29/-zue37Q18k-go1rZoT3cSew-ce.gif',
 ];
+
+const backgroundBundle: [() => Promise<string>, boolean] = randomChoice([
+  [
+    async () =>
+      await fetchVideoPlayUrlPromise('BV15e411u7T9', undefined, 'VideoUrl'),
+    true,
+  ],
+  [
+    async () =>
+      new Promise<string>((resolve) => {
+        resolve(
+          'https://img.nga.178.com/attachments/mon_202309/22/-zue37Q18w-baydXmZ67.jpeg',
+        );
+      }),
+    false,
+  ],
+]);
+
 export default skinTemplate({
   playerBanner:
     'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
@@ -24,9 +42,8 @@ export default skinTemplate({
         'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
       );
     }),
-  playerBackground: async () =>
-    await fetchVideoPlayUrlPromise('BV15e411u7T9', undefined, 'VideoUrl'),
-  playerBackgroundVideo: true,
+  playerBackground: backgroundBundle[0],
+  playerBackgroundVideo: backgroundBundle[1],
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,
   gifIcon: () => randomChoice(gifs) as string,
