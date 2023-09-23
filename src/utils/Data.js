@@ -1,5 +1,4 @@
 import Bottleneck from 'bottleneck';
-import Youtube from 'youtube-stream-url';
 import logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
@@ -8,6 +7,7 @@ import { wbiQuery } from '../stores/wbi';
 
 import steriatkFetch from './mediafetch/steriatk';
 import biliaudioFetch from './mediafetch/biliaudio';
+import ytvideoFetch from './mediafetch/ytvideo';
 
 /**
  * limits to bilibili API call to 200ms/call using bottleneck.
@@ -132,6 +132,7 @@ export const fetchPlayUrlPromise = async (v) => {
   const regexResolveURLs = [
     [steriatkFetch.regexResolveURLMatch, steriatkFetch.resolveURL],
     [biliaudioFetch.regexResolveURLMatch, biliaudioFetch.resolveURL],
+    [ytvideoFetch.regexResolveURLMatch, ytvideoFetch.resolveURL],
   ];
   for (const reExtraction of regexResolveURLs) {
     const reExtracted = reExtraction[0].exec(cid);
@@ -144,33 +145,7 @@ export const fetchPlayUrlPromise = async (v) => {
   if (cidStr.startsWith(ENUMS.audioType)) {
     return fetchAudioPlayUrlPromise(bvid);
   }
-  if (cidStr.startsWith(ENUMS.youtube)) {
-    return fetchYoutubePromise(bvid);
-  }
   return fetchVideoPlayUrlPromise(bvid, cid);
-};
-
-export const fetchYoutubeVideo = async (ytbid) => {
-  return Youtube.getInfo({ url: ytbid, throwOnError: true });
-};
-
-/**
- * extracts youtube hlp url using library youtube-stream-url
- * https://github.com/dangdungcntt/youtube-stream-url
- * @param {string} ytbid youtube video identifier.
- */
-const fetchYoutubePromise = async (ytbid) => {
-  const extractedVideoInfo = await fetchYoutubeVideo(ytbid);
-  let maxAudioQualityStream = { bitrate: 0 };
-  for (const videoStream of extractedVideoInfo.formats) {
-    if (
-      videoStream.loudnessDb &&
-      videoStream.bitrate > maxAudioQualityStream.bitrate
-    ) {
-      maxAudioQualityStream = videoStream;
-    }
-  }
-  return maxAudioQualityStream.url;
 };
 
 /**

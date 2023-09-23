@@ -9,9 +9,9 @@ import {
   fetchAudioInfoRaw as fetchAudioInfo,
   fetchVideoTagPromise,
   fetchiliBVIDs,
-  fetchYoutubeVideo,
   ENUMS,
 } from '../utils/Data';
+import { fetchYoutubeVideo } from '../utils/mediafetch/ytvideo';
 import Song, { setSongBiliShazamed } from '../objects/Song';
 import { readLocalStorage } from '../utils/ChromeStorage';
 
