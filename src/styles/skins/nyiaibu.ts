@@ -31,7 +31,11 @@ export default skinTemplate({
     }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
   playerBackground: async () =>
-    await fetchVideoPlayUrlPromise('BV1rh4y1b7wU', undefined, 'VideoUrl'), // BV1Sb4y1i79D
+    await fetchVideoPlayUrlPromise(
+      randomChoice(['BV1rh4y1b7wU', 'BV1SH4y1o7rk']),
+      undefined,
+      'VideoUrl',
+    ), // BV1Sb4y1i79D
   playerBackgroundVideo: true,
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,
