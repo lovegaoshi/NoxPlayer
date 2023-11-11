@@ -24,13 +24,12 @@ jobs:
         id: time_diff
         run: |
           CURRENT_DATE=$(date +%s)
-          SECONDS_IN_WEEK=$((60*60*24))
           TIME_DIFF=$((CURRENT_DATE - LAST_COMMIT_DATE))
           echo "TIME_DIFF=${TIME_DIFF}" >> $GITHUB_ENV
 
       - name: Check Last Commit
         run: |
-          if [[ $TIME_DIFF -gt $((60*60*24)) ]]; then
+          if [[ $TIME_DIFF -gt $((60*60*24*7)) ]]; then
             echo "Last commit is older than a week."
             echo "is_old_commit=true" >> $GITHUB_OUTPUT
           else
