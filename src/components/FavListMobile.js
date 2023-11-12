@@ -32,7 +32,7 @@ import { skinPreset } from '../styles/skin';
 import PlayerSettingsButton from './buttons/PlayerSetttingsButton';
 import rgba2rgb from '../utils/rgba2rgb';
 import HelpPanelButton from './buttons/HelpPanelButton';
-import useFavList, { updateSubscribeFavList } from '../hooks/useFavList';
+import useFavList from '../hooks/useFavList';
 import TimerButton from './buttons/TimerButton';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
@@ -108,6 +108,7 @@ export default memo(
       actionFavSong,
       setSearchInputVal,
 
+      updateSubscribeFavList,
       handleDeleteFromSearchList,
       onNewFav,
       handleDeleteFavClick,
@@ -355,12 +356,12 @@ export default memo(
               handleAddToFavClick={handleAddToFavClick}
               onPlaylistTitleClick={() => handlePlayListClick(selectedList)}
               onRssUpdate={async (subscribeUrls) =>
-                updateSubscribeFavList(
-                  selectedList,
+                updateSubscribeFavList({
+                  playlist: selectedList,
                   StorageManager,
                   setSelectedList,
                   subscribeUrls,
-                )
+                })
               }
               currentAudioID={currentAudioID}
             />

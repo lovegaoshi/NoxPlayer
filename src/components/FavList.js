@@ -27,7 +27,7 @@ import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
 import { Fav } from './Fav/Fav';
 import { Search, defaultSearchList } from './Search';
-import useFavList, { updateSubscribeFavList } from '../hooks/useFavList';
+import useFavList from '../hooks/useFavList';
 
 const { colorTheme } = skinPreset;
 
@@ -94,6 +94,7 @@ export const FavList = memo(
       handleAddToFavClick,
       onAddFav,
       onDragEnd,
+      updateSubscribeFavList,
     ] = useFavList();
 
     const handleSearch = useCallback(
@@ -353,12 +354,12 @@ export const FavList = memo(
               handleDeleteFromSearchList={handleDeleteFromSearchList}
               handleAddToFavClick={handleAddToFavClick}
               rssUpdate={async (subscribeUrls) =>
-                updateSubscribeFavList(
-                  selectedList,
+                updateSubscribeFavList({
+                  playlist: selectedList,
                   StorageManager,
                   setSelectedList,
                   subscribeUrls,
-                )
+                })
               }
               playerSettings={playerSettings}
             />

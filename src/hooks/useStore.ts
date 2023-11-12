@@ -7,7 +7,7 @@ interface NoxStore {
 }
 
 const useNoxStore = create<NoxStore>((set, get) => ({
-  playlistRefreshProgress: 0,
+  playlistRefreshProgress: 100,
   setPlaylistRefreshProgress: (val: number) =>
     set({
       playlistRefreshProgress: val,
