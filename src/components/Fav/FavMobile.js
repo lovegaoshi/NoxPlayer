@@ -19,13 +19,13 @@ import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { songText, reParseSearch } from './Fav';
-import { getName } from '../utils/re';
-import { skinPreset } from '../styles/skin';
-import RandomGIFIcon from './buttons/randomGIF';
-import FavSettingsButtons from './buttons/FavSettingsButton';
-import { getPlayerSettingKey } from '../utils/ChromeStorage';
-import SongSearchBar from './dialogs/songsearchbar';
-import { ScrollBar } from '../styles/styles';
+import { getName } from '../../utils/re';
+import { skinPreset } from '../../styles/skin';
+import RandomGIFIcon from '../buttons/randomGIF';
+import FavSettingsButtons from './FavSetting/FavSettingsButton';
+import { getPlayerSettingKey } from '../../utils/ChromeStorage';
+import SongSearchBar from '../dialogs/songsearchbar';
+import { ScrollBar } from '../../styles/styles';
 
 const { colorTheme } = skinPreset;
 

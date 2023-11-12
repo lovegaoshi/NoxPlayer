@@ -32,6 +32,7 @@ module.exports = {
           ['@objects', './src/objects'],
           ['@background', './src/background'],
           ['@stores', './src/stores'],
+          ['@hooks', './src/hooks'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json'],
       },

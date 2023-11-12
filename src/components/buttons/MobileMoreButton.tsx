@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 import Song from '@objects/SongInterface';
 import { PlayListDict } from '@utils/ChromeStorage';
-import { searchSongOnWeb, searchSongOnBili } from '../menus/Favmenu';
+import { searchSongOnWeb, searchSongOnBili } from '../Fav/Favmenu';
 import { AddFavDialog } from '../dialogs/AddFavDialog';
 
 export default function mobileMoreButton({ song }: { song: Song }) {

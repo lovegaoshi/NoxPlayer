@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
+
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import {
   getPlayerSettingKey,
@@ -13,7 +14,8 @@ import {
   PlayListDict,
 } from '@utils/ChromeStorage';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import FavSettingsDialog from '../dialogs/FavSettingsDialog';
+import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
+import FavSettingLoading from './FavSettingLoading';
 
 interface props {
   currentList: PlayListDict;
@@ -140,7 +142,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
           onClick={() => handleRssUpdate()}
           disabled={false}
         >
-          {Loading ? <CircularProgress size={24} /> : <AutorenewIcon />}
+          <FavSettingLoading loading={Loading} />
         </IconButton>
       </Tooltip>
       <FavSettingsDialog

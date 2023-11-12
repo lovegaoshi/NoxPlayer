@@ -37,7 +37,7 @@ import TimerButton from './buttons/TimerButton';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
-import Fav from './FavMobile';
+import Fav from './Fav/FavMobile';
 import { Search } from './Search';
 
 const { colorTheme } = skinPreset;

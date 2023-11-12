@@ -25,7 +25,7 @@ import Menu from './menus/Favlistmenu';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
-import { Fav } from './Fav';
+import { Fav } from './Fav/Fav';
 import { Search, defaultSearchList } from './Search';
 import useFavList, { updateSubscribeFavList } from '../hooks/useFavList';
 
