@@ -3,23 +3,11 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { jsx, css } from '@emotion/react';
 import ClickNHold from 'react-click-n-hold';
-import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
-import {
-  checkBVLiked,
-  sendBVLike,
-  sendBVTriple,
-} from '../../utils/BiliOperate';
-/** @jsx jsx */
-import { skins } from '../../styles/skin';
 
-const buttonStyle = css`
-  cursor: pointer;
-  &:hover {
-    color: ${skins().reactJKPlayerTheme.sliderColor};
-  }
-  background-color: transparent;
-  color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
-`;
+import { checkBVLiked, sendBVLike, sendBVTriple } from '@utils/BiliOperate';
+/** @jsx jsx */
+import { skins } from '@styles/skin';
+import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
 
 export default function thumbsUpButton({ song }) {
   const [liked, setLiked] = useState(0);
@@ -79,3 +67,12 @@ export default function thumbsUpButton({ song }) {
     </React.Fragment>
   );
 }
+
+const buttonStyle = css`
+  cursor: pointer;
+  &:hover {
+    color: ${skins().reactJKPlayerTheme.sliderColor};
+  }
+  background-color: transparent;
+  color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
+`;

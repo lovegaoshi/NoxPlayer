@@ -5,12 +5,9 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
-import {
-  noxBackup,
-  noxRestore,
-  loginDropbox,
-} from '../../../utils/dropboxauth';
-import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
+
+import { noxBackup, noxRestore, loginDropbox } from '@utils/dropboxauth';
+import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
 export function ImportSyncFavButton(AddFavIcon) {
   const StorageManager = useContext(StorageManagerCtx);

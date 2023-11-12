@@ -8,11 +8,10 @@
  * steps to refactor:
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
+import VideoInfo from '@objects/VideoInfo';
 import { regexFetchProps } from './generic';
-
 import logger from '../Logger';
 import { songFetch, fetchVideoInfo } from './bilivideo';
-import VideoInfo from '../../objects/VideoInfo';
 
 const URL_BILISERIES_INFO =
   'https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30';

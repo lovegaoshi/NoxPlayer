@@ -9,6 +9,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ProgressBar = require('progress-bar-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const ifDirIsNotEmpty = (dir, value) => {
   return fs.readdirSync(dir).length !== 0 ? value : undefined;
@@ -61,11 +63,23 @@ module.exports = (env) => {
     return _e;
   };
 
-  var fileExtensions = ["jpg", "jpeg", "png", "gif", "eot", "otf", "svg", "ttf", "woff", "woff2", "txt"];
+  const fileExtensions = [
+    'jpg',
+    'jpeg',
+    'png',
+    'gif',
+    'eot',
+    'otf',
+    'svg',
+    'ttf',
+    'woff',
+    'woff2',
+    'txt',
+  ];
 
   return {
     experiments: {
-      topLevelAwait: true
+      topLevelAwait: true,
     },
     mode: ifProd('production', 'development'),
     entry: removeEmpty({
@@ -109,11 +123,11 @@ module.exports = (env) => {
           ]),
         },
         {
-          test: new RegExp('\.(' + fileExtensions.join('|') + ')$'),
+          test: new RegExp(`\.(${fileExtensions.join('|')})$`),
           use: {
-            loader: "file-loader?name=[name].[ext]",
+            loader: 'file-loader?name=[name].[ext]',
           },
-          exclude: /node_modules/
+          exclude: /node_modules/,
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
@@ -188,22 +202,34 @@ module.exports = (env) => {
               const rulesJson = JSON.parse(buffer.toString());
               return Buffer.from(JSON.stringify(rulesJson));
             },
-          }
+          },
         ]),
       }),
       ifDev(new ReactRefreshWebpackPlugin()),
       ifProd(new ProgressBar()),
     ]),
     resolve: {
+      plugins: [new TsconfigPathsPlugin()],
+      alias: {
+        '@utils': path.resolve(__dirname, 'src/utils'),
+        '@hooks': path.resolve(__dirname, 'src/hooks'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@constants': path.resolve(__dirname, 'src/constants'),
+        '@contexts': path.resolve(__dirname, 'src/contexts'),
+        '@styles': path.resolve(__dirname, 'src/styles'),
+        '@objects': path.resolve(__dirname, 'src/objects'),
+        '@background': path.resolve(__dirname, 'src/background'),
+        '@stores': path.resolve(__dirname, 'src/stores'),
+      },
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],
       fallback: {
-        "path": require.resolve("path-browserify"),
-        "os": require.resolve("os-browserify/browser"),
-        "fs": false,
-        "util": require.resolve("util/"),
-        "crypto": require.resolve("crypto-browserify"),
-        "buffer": require.resolve("buffer/"),
-        "stream": require.resolve("stream-browserify"),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+        fs: false,
+        util: require.resolve('util/'),
+        crypto: require.resolve('crypto-browserify'),
+        buffer: require.resolve('buffer/'),
+        stream: require.resolve('stream-browserify'),
       },
     },
     devtool: ifProd(false, 'source-map'),

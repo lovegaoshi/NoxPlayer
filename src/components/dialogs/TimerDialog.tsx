@@ -11,7 +11,8 @@ import DialogActions from '@mui/material/DialogActions';
 import ReplayIcon from '@mui/icons-material/Replay';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import useTimer from '../../contexts/TimerContext';
+
+import useTimer from '@contexts/TimerContext';
 
 /**
  *

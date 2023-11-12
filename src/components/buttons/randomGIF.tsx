@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
-import { PlayListDict } from '../../utils/ChromeStorage';
 
 const getRandomNumberExclude = (randRange: number, exclude = -1) => {
   if (exclude > 0) {

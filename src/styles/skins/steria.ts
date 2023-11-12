@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+import { fetchVideoPlayUrlPromise } from '@utils/Data';
 import skinTemplate, { randomChoice } from './template';
 
 // this is a pink/light theme.
@@ -44,7 +44,11 @@ export default skinTemplate({
   // "https://i0.hdslb.com/bfs/new_dyn/2f5703dc027b86cb303ec8c894e99ca835817909.jpg",
   playerBackgroundMobileVideo: true,
   playerBackground: async () =>
-    await fetchVideoPlayUrlPromise(randomChoice(['BV1h24y1T78N', 'BV13w411m7iV']), undefined, 'VideoUrl'),
+    await fetchVideoPlayUrlPromise(
+      randomChoice(['BV1h24y1T78N', 'BV13w411m7iV']),
+      undefined,
+      'VideoUrl',
+    ),
   playerBackgroundVideo: true,
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg'); }),
   // 'https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg',

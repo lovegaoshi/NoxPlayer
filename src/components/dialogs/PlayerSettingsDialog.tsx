@@ -20,6 +20,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import BuildIcon from '@mui/icons-material/Build';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+
+import {
+  DEFAULT_SETTING,
+  EXPORT_OPTIONS,
+  PlayerSettingDict,
+} from '@utils/ChromeStorage';
+import { SkinKeys, skins, skinPreset } from '@styles/skin';
 import TimerButton from '../buttons/TimerButton';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
@@ -34,12 +41,6 @@ import {
   ExportFavButton,
   ImportFavButton,
 } from '../buttons/syncing/LocalSyncButton';
-import {
-  DEFAULT_SETTING,
-  EXPORT_OPTIONS,
-  PlayerSettingDict,
-} from '../../utils/ChromeStorage';
-import { SkinKeys, skins, skinPreset } from '../../styles/skin';
 import PlayerResetButton from '../buttons/PlayerResetButton';
 
 const { colorTheme } = skinPreset;

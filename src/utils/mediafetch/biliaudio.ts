@@ -8,11 +8,10 @@
  * steps to refactor:
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
+import VideoInfo from '@objects/VideoInfo';
+import SongTS from '@objects/SongTS';
 import { regexFetchProps } from './generic';
 import { biliApiLimiter } from './throttle';
-
-import VideoInfo from '../../objects/VideoInfo';
-import SongTS from '../../objects/SongTS';
 import logger from '../Logger';
 
 const URL_AUDIO_INFO =

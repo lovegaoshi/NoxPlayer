@@ -50,7 +50,7 @@ export interface PlayListDict {
   [key: string]: any;
 }
 
-export const dummyFavList = (favName: string): PlayListDict => {
+export const dummyFavList = (favName: string): NoxMedia.Playlist => {
   return {
     songList: [],
     info: { title: favName, id: `FavList-${uuidv4()}` },

@@ -1,6 +1,5 @@
 // vanilla store of zustand serving playbackServices.
 import { createStore } from 'zustand/vanilla';
-import Song from '../objects/SongInterface';
 
 import rejson from '../utils/rejson.json';
 import { LoadJSONRegExtractors } from '../utils/re';
@@ -41,7 +40,7 @@ export const initialize = async () => {
 export const reExtractSongName = (name: string, uploader: string | number) =>
   appStore.getState().reExtractSongName(name, String(uploader));
 
-export const parseSongName = (song: Song) => {
+export const parseSongName = (song: NoxMedia.Song) => {
   song.parsedName = reExtractSongName(song.name, song.singerId);
 };
 

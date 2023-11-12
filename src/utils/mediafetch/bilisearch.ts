@@ -12,11 +12,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 as uuidv4 } from 'uuid';
 
+import VideoInfo from '@objects/VideoInfo';
 import { getPlayerSettingKey } from '../ChromeStorage';
-import logger from '../Logger';
 import { songFetch } from './bilivideo';
 import { fetchBiliPaginatedAPI } from './paginatedbili';
-import VideoInfo from '../../objects/VideoInfo';
 import { timestampToSeconds } from '../Utils';
 
 const URL_BILI_SEARCH =

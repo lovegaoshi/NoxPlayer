@@ -33,7 +33,7 @@ export default function HelpDialog({ onClose, openState, id }) {
         <DialogTitle>帮助</DialogTitle>
         <DialogContent sx={{ maxWidth: '50vw' }}>
           <DialogContentText id='alert-dialog-description'>
-            搜索目前支持以下四种:
+            搜索目前支持以下四种2:
           </DialogContentText>
           <DialogContentText>
             - BVID: 视频的BVID(ex.BV1wr4y1v7TA)

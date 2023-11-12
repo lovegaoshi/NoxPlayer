@@ -25,9 +25,9 @@ import Menu from './menus/Favlistmenu';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
-import { Fav } from './Fav';
+import { Fav } from './Fav/Fav';
 import { Search, defaultSearchList } from './Search';
-import useFavList, { updateSubscribeFavList } from '../hooks/useFavList';
+import useFavList from '../hooks/useFavList';
 
 const { colorTheme } = skinPreset;
 
@@ -72,7 +72,7 @@ export const FavList = memo(
     playerSettings,
   }) => {
     const StorageManager = useContext(StorageManagerCtx);
-    const [
+    const {
       favLists,
       setFavLists,
       searchList,
@@ -94,8 +94,8 @@ export const FavList = memo(
       handleAddToFavClick,
       onAddFav,
       onDragEnd,
-    ] = useFavList();
-
+      updateSubscribeFavList,
+    } = useFavList();
     const handleSearch = useCallback(
       (list) => {
         setSearchList(list);
@@ -352,13 +352,13 @@ export const FavList = memo(
               onSongIndexChange={onPlayOneFromFav}
               handleDeleteFromSearchList={handleDeleteFromSearchList}
               handleAddToFavClick={handleAddToFavClick}
-              rssUpdate={async (subscribeUrls) =>
-                updateSubscribeFavList(
-                  selectedList,
+              rssUpdate={(subscribeUrls) =>
+                updateSubscribeFavList({
+                  playlist: selectedList,
                   StorageManager,
                   setSelectedList,
                   subscribeUrls,
-                )
+                })
               }
               playerSettings={playerSettings}
             />

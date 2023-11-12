@@ -3,14 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { jsx, css } from '@emotion/react';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { skins } from '../../styles/skin';
+
+import { skins } from '@styles/skin';
 import {
   setLocalStorage,
   readLocalStorage,
   FAV_FAV_LIST_KEY,
   PlayListDict,
-} from '../../utils/ChromeStorage';
-import Song from '../../objects/Song';
+} from '@utils/ChromeStorage';
+import Song from '@objects/Song';
 
 const buttonStyle = css`
   cursor: pointer;

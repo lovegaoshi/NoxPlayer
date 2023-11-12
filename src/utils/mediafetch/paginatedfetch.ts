@@ -1,6 +1,6 @@
 import Bottleneck from 'bottleneck';
+import VideoInfo from '@objects/VideoInfo';
 import { biliApiLimiter } from './throttle';
-import VideoInfo from '../../objects/VideoInfo';
 
 /**
  * the purpose of this media fetch library is to

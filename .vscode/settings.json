@@ -1,7 +1,10 @@
 {
-    "editor.tabSize": 2,
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "eslint.validate": ["javascript"]
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript"],
+  "search.exclude": {
+    "azusa-player-mobile": true
+  }
 }

@@ -15,15 +15,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useConfirm } from 'material-ui-confirm';
 import SyncIcon from '@mui/icons-material/Sync';
 
-import { removeSongBiliShazamed } from '../../objects/Song';
-import {
-  BiliShazamOnSonglist,
-  getBVIDList,
-} from '../../background/DataProcess';
-import favListAnalytics from '../../utils/Analytics';
+import { removeSongBiliShazamed } from '@objects/Song';
+import favListAnalytics from '@utils/Analytics';
+import { fetchVideoInfo } from '@utils/Data';
+import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
+import { BiliShazamOnSonglist, getBVIDList } from '@background/DataProcess';
 import { textToDialogContent } from '../dialogs/genericDialog';
-import { fetchVideoInfo } from '../../utils/Data';
-import { syncFavlist } from '../../utils/Bilibili/bilifavOperate';
 
 const MENU_ID = 'favlistmenu';
 

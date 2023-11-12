@@ -10,15 +10,16 @@ import TerminalIcon from '@mui/icons-material/Terminal';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 import 'react-contexify/dist/ReactContexify.css';
-import { getName } from '../../utils/re';
+
+import { getName } from '@utils/re';
 import {
   saveFav,
   readLocalStorage,
   MY_FAV_LIST_KEY,
-} from '../../utils/ChromeStorage';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
+} from '@utils/ChromeStorage';
+import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 
 export const MENU_ID = 'favmenu';
 

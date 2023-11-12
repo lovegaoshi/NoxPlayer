@@ -20,16 +20,17 @@ declare namespace NoxMedia {
   export interface Playlist {
     info: {
       title: string;
+      id: string;
     };
     songList: Array<NoxMedia.Song>;
-    title: string;
-    id: string;
-    subscribeUrl: Array<string>;
-    blacklistedUrl: Array<string>;
+    settings: {
+      autoRSSUpdate: boolean;
+    };
+    subscribeUrls: Array<string>;
     useBiliShazam: boolean;
     biliSync: boolean;
-    lastSubscribed: number;
-    type: string;
+    bannedBVids: Array<string>;
+    showFavoriteList: boolean;
   }
 
   export interface LyricDetail {

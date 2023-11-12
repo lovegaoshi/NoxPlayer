@@ -67,13 +67,6 @@ const reExtractSearch = async (url, progressEmitter, favList, useBiliTag) => {
   return await bilisearchFetch.regexFetch({ url, progressEmitter });
 };
 
-/**
- * searches various types of supported bilibili url (BVid, collection, series, favlist) and
- * returns the serached result.
- * @param {string}  input  input, can be a biliseries list url, or bvid, or fid
- * @param {function} progressEmitter    a emitter for ciurcularprogress.
- * @param {array} favList a list of old BVIds; any BVid included in this list will be skipped.
- */
 export const searchBiliURLs = async ({
   input,
   progressEmitter = (res) => {},
@@ -128,18 +121,6 @@ export const Search = function ({
 
   const progressBar = () => {
     if (Loading) {
-      if (progressVal === 100) {
-        return (
-          <CircularProgress
-            sx={{
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
-            }}
-          />
-        );
-      }
       return (
         <CircularProgress
           sx={{
@@ -148,7 +129,7 @@ export const Search = function ({
             paddingTop: '8px',
             paddingBottom: '8px',
           }}
-          variant='determinate'
+          variant={progressVal === 100 ? 'indeterminate' : 'determinate'}
           value={progressVal}
         />
       );

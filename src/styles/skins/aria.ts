@@ -1,5 +1,5 @@
+import { fetchVideoPlayUrlPromise } from '@utils/Data';
 import PomeloTheme from './pomelo';
-import { fetchVideoPlayUrlPromise } from '../../utils/Data';
 import skinTemplate, { randomChoice } from './template';
 
 const gifs = [

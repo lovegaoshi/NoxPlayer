@@ -5,7 +5,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import IconButton from '@mui/material/IconButton';
 import { useSnackbar } from 'notistack';
 import Tooltip from '@mui/material/Tooltip';
-import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
+
+import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
 export function ExportFavButton(AddFavIcon: Object) {
   const StorageManager = useContext(StorageManagerCtx);

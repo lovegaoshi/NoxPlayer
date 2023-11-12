@@ -35,17 +35,20 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { contextMenu } from 'react-contexify';
 import { useHotkeys } from 'react-hotkeys-hook';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import { skinPreset } from '../styles/skin';
-import { getName } from '../utils/re';
-import RandomGIFIcon from './buttons/randomGIF';
-import { getPlayerSettingKey, readLocalStorage } from '../utils/ChromeStorage';
-import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
-import FavSettingsButtons from './buttons/FavSettingsButton';
-import SongSearchBar from './dialogs/songsearchbar';
-import Menu from './menus/Favmenu';
-import SongRenameDialog from './dialogs/SongRenameDialog';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
-import { ScrollBar } from '../styles/styles';
+import { skinPreset } from '../../styles/skin';
+import { getName } from '../../utils/re';
+import RandomGIFIcon from '../buttons/randomGIF';
+import {
+  getPlayerSettingKey,
+  readLocalStorage,
+} from '../../utils/ChromeStorage';
+import { CurrentAudioContext } from '../../contexts/CurrentAudioContext';
+import FavSettingsButtons from './FavSetting/FavSettingsButton';
+import SongSearchBar from '../dialogs/songsearchbar';
+import Menu from './Favmenu';
+import SongRenameDialog from '../dialogs/SongRenameDialog';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
+import { ScrollBar } from '../../styles/styles';
 
 const { colorTheme } = skinPreset;
 

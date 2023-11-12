@@ -2,9 +2,10 @@ import React, { useState, useContext } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+
+import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import { PlayerSettingDict } from '@utils/ChromeStorage';
 import SettingsDialog from '../dialogs/PlayerSettingsDialog';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
-import { PlayerSettingDict } from '../../utils/ChromeStorage';
 
 export default function playerSettingsButton({
   AddFavIcon,

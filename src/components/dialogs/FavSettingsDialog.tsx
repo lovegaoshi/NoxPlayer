@@ -8,7 +8,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
-import { PlayListDict } from '../../utils/ChromeStorage';
+
+import { PlayListDict } from '@utils/ChromeStorage';
 
 interface props {
   fromList: PlayListDict;
