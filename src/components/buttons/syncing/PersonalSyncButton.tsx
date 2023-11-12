@@ -6,8 +6,9 @@ import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
-import { noxBackup, noxRestore } from '../../../utils/PersonalCloudAuth';
-import { StorageManagerCtx } from '../../../contexts/StorageManagerContext';
+
+import { noxBackup, noxRestore } from '@utils/PersonalCloudAuth';
+import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
 export function ImportSyncFavButton(
   AddFavIcon: Object,

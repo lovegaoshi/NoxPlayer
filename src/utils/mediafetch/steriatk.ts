@@ -8,9 +8,9 @@
  * steps to refactor:
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
+import SongTS from '@objects/SongTS';
 import { regexFetchProps } from './generic';
 import { fetchAwaitPaginatedAPI } from './paginatedfetch';
-import SongTS from '../../objects/SongTS';
 
 const pagesize = 500;
 const VIDEOINFO_API = `https://steria.vplayer.tk/api/musics/{pn}?size=${pagesize}`;

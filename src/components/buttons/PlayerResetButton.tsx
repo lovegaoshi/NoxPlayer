@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useConfirm } from 'material-ui-confirm';
-import { clearStorage } from '../../utils/ChromeStorage';
+
+import { clearStorage } from '@utils/ChromeStorage';
 
 export default function playerResetButton() {
   const confirm = useConfirm();

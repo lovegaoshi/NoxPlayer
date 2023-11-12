@@ -1,6 +1,6 @@
 import skinTemplate, { randomChoice } from './template';
 import clesss from './clesss';
-import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+import { fetchVideoPlayUrlPromise } from '@utils/Data';
 
 const gifs = [
   'http://i0.hdslb.com/bfs/live/66ec3ed6855202f34996ae18c3a91a844addfd1a.png',

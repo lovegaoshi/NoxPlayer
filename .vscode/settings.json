@@ -3,5 +3,10 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "eslint.validate": ["javascript"]
+    "eslint.validate": [
+        "javascript"
+    ],
+    "files.exclude": {
+        "azusa-player-mobile": true
+    }
 }

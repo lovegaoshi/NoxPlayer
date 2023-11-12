@@ -43,12 +43,12 @@ const getBiliUserKey = async () => (await getBiliUser()).uname;
  * @returns playerSetting object, or null
  * @param {string} cloudAddress web address for your personal cloud.
  */
-export const noxRestore = async (
-  cloudAddress = getPlayerSettingKey('personalCloudIP'),
-) => {
+export const noxRestore = async (cloudAddress?: string) => {
   try {
     const res = await fetch(
-      `${await cloudAddress}download/${await getBiliUserKey()}`,
+      `${
+        cloudAddress || (await getPlayerSettingKey('personalCloudIP'))
+      }download/${await getBiliUserKey()}`,
     );
     if (res.status === 200) {
       return new Uint8Array(await res.arrayBuffer());

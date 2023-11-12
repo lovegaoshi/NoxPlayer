@@ -8,10 +8,10 @@
  * steps to refactor:
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
+import VideoInfo from '@objects/VideoInfo';
 import logger from '../Logger';
 import { regexFetchProps } from './generic';
 import { songFetch, fetchVideoInfo } from './bilivideo';
-import VideoInfo from '../../objects/VideoInfo';
 import { fetchBiliPaginatedAPI } from './paginatedbili';
 
 const URL_FAV_LIST =

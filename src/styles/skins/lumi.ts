@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '../../utils/Data';
+import { fetchVideoPlayUrlPromise } from '@utils/Data';
 import skinTemplate, { randomChoice } from './template';
 // this is a pink/light theme.
 
