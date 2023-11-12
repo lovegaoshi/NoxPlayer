@@ -92,7 +92,7 @@ export default memo(
     const [open, setOpen] = useState(false);
     const StorageManager = useContext(StorageManagerCtx);
     const confirm = useConfirm();
-    const [
+    const {
       favLists,
       setFavLists,
       searchList,
@@ -115,7 +115,7 @@ export default memo(
       handleAddToFavClick,
       onAddFav,
       onDragEnd,
-    ] = useFavList();
+    } = useFavList();
 
     useEffect(() => {
       if (!selectedList) {

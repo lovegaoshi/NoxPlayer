@@ -72,7 +72,7 @@ export const FavList = memo(
     playerSettings,
   }) => {
     const StorageManager = useContext(StorageManagerCtx);
-    const [
+    const {
       favLists,
       setFavLists,
       searchList,
@@ -95,8 +95,7 @@ export const FavList = memo(
       onAddFav,
       onDragEnd,
       updateSubscribeFavList,
-    ] = useFavList();
-
+    } = useFavList();
     const handleSearch = useCallback(
       (list) => {
         setSearchList(list);
@@ -353,7 +352,7 @@ export const FavList = memo(
               onSongIndexChange={onPlayOneFromFav}
               handleDeleteFromSearchList={handleDeleteFromSearchList}
               handleAddToFavClick={handleAddToFavClick}
-              rssUpdate={async (subscribeUrls) =>
+              rssUpdate={(subscribeUrls) =>
                 updateSubscribeFavList({
                   playlist: selectedList,
                   StorageManager,

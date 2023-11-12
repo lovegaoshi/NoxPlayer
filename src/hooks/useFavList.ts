@@ -183,6 +183,7 @@ const useFavList = () => {
       for (let i = 0, n = subscribeUrls.length; i < n; i++) {
         playlist.songList = (
           await searchBiliURLs({
+            progressEmitter: setPlaylistRefreshProgress,
             input: subscribeUrls[i],
             favList: [
               ...playlist.songList.map((val) => val.bvid),
@@ -211,7 +212,7 @@ const useFavList = () => {
     }
   };
 
-  return [
+  return {
     favLists,
     setFavLists,
     searchList,
@@ -233,7 +234,7 @@ const useFavList = () => {
     handleAddToFavClick,
     onAddFav,
     onDragEnd,
-  ];
+  };
 };
 
 export default useFavList;
