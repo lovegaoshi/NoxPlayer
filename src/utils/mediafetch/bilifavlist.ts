@@ -63,6 +63,7 @@ const regexFetch = async ({
   return songFetch({
     videoinfos: await fetchFavList(reExtracted[1]!, progressEmitter, favList),
     useBiliTag: useBiliTag || false,
+    progressEmitter,
   });
 };
 

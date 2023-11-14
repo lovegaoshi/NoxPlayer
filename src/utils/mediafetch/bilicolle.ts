@@ -48,6 +48,7 @@ const regexFetch = async ({
       favList,
     ),
     useBiliTag: useBiliTag || false,
+    progressEmitter,
   });
 };
 

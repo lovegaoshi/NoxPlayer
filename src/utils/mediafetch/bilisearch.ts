@@ -118,6 +118,7 @@ const regexFetch = async ({
   return songFetch({
     videoinfos: await fetchBiliSearchList(url, progressEmitter),
     useBiliTag: useBiliTag || false,
+    progressEmitter,
   });
 };
 

@@ -6915,7 +6915,7 @@ react-is@^18.2.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-"react-jinke-music-player@file:./Dependencies/react-jinke-music-player":
+"react-jinke-music-player@file:../react-music-player":
   version "4.24.2"
   dependencies:
     "@emotion/css" "^11.10.5"

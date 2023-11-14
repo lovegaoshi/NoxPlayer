@@ -70,13 +70,16 @@ export const fetchiliBVIDs = async (
   return resolvedBVIDs.filter((val) => val) as VideoInfo[];
 };
 
+interface SongFetchProps {
+  videoinfos: VideoInfo[];
+  useBiliTag: boolean;
+  progressEmitter?: () => void;
+}
 export const songFetch = async ({
   videoinfos,
   useBiliTag,
-}: {
-  videoinfos: VideoInfo[];
-  useBiliTag: boolean;
-}) => {
+  progressEmitter = () => undefined,
+}: SongFetchProps) => {
   const aggregateVideoInfo = (info: VideoInfo) =>
     info.pages.map((page: any, index: number) => {
       const filename = info.pages.length === 1 ? info.title : page.part;
@@ -98,14 +101,21 @@ export const songFetch = async ({
     (acc, curr) => acc.concat(aggregateVideoInfo(curr)),
     [],
   ) as NoxMedia.Song[];
-  if (useBiliTag) songs = await BiliShazamOnSonglist(songs);
+  if (useBiliTag)
+    // @ts-ignore TODO: fix me
+    songs = await BiliShazamOnSonglist(songs, false, progressEmitter);
   return songs;
 };
 
-const regexFetch = async ({ reExtracted, useBiliTag }: regexFetchProps) => {
+const regexFetch = async ({
+  reExtracted,
+  useBiliTag,
+  progressEmitter,
+}: regexFetchProps) => {
   return songFetch({
     videoinfos: await fetchiliBVIDs([reExtracted[1]!]), // await fetchiliBVID([reExtracted[1]!])
     useBiliTag: useBiliTag || false,
+    progressEmitter,
   });
 };
 
