@@ -5,6 +5,7 @@
   },
   "eslint.validate": ["javascript"],
   "search.exclude": {
-    "azusa-player-mobile": true
+    "azusa-player-mobile": true,
+    "src/azusa-player-mobile": true
   }
 }

@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import { v4 as uuidv4 } from 'uuid';
 
+import BiliSearch from '@APM/utils/BiliSearch';
 import { getYoutubeVideo } from '../background/DataProcess';
 import { dummyFavList } from '../utils/ChromeStorage';
 import steriatkFetch from '../utils/mediafetch/steriatk';

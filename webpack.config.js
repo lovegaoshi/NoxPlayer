@@ -11,6 +11,7 @@ const ProgressBar = require('progress-bar-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const webpack = require('webpack');
 
 const ifDirIsNotEmpty = (dir, value) => {
   return fs.readdirSync(dir).length !== 0 ? value : undefined;
@@ -207,6 +208,10 @@ module.exports = (env) => {
       }),
       ifDev(new ReactRefreshWebpackPlugin()),
       ifProd(new ProgressBar()),
+      new webpack.NormalModuleReplacementPlugin(
+        /react-native/,
+        require.resolve('./mocks/react-native.js'),
+      ),
     ]),
     resolve: {
       plugins: [new TsconfigPathsPlugin()],
