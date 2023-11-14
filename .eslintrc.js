@@ -33,6 +33,8 @@ module.exports = {
           ['@background', './src/background'],
           ['@stores', './src/stores'],
           ['@hooks', './src/hooks'],
+          ['@enums', './src/azusa-player-mobile/src/enums'],
+          ['@APM', './src/azusa-player-mobile/src'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json'],
       },

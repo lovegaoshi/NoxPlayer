@@ -220,6 +220,8 @@ module.exports = (env) => {
         '@objects': path.resolve(__dirname, 'src/objects'),
         '@background': path.resolve(__dirname, 'src/background'),
         '@stores': path.resolve(__dirname, 'src/stores'),
+        '@enums': path.resolve(__dirname, 'src/azusa-player-mobile/src/enums'),
+        '@APM': path.resolve(__dirname, 'src/azusa-player-mobile/src'),
       },
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],
       fallback: {

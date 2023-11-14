@@ -11,7 +11,9 @@
       "@contexts/*": ["./src/contexts/*"],
       "@styles/*": ["./src/styles/*"],
       "@objects/*": ["./src/objects/*"],
-      "@background/*": ["./src/background/*"]
+      "@background/*": ["./src/background/*"],
+      "@enums/*": ["./src/azusa-player-mobile/src/enums/*"],
+      "@APM/*": ["./src/azusa-player-mobile/src/*"]
     },
     "target": "es2017",
     "module": "esnext",
