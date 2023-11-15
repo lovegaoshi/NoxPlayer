@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import React, { useState } from 'react';
@@ -5,46 +6,40 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
-import { v4 as uuidv4 } from 'uuid';
 
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
-import { dummyFavList } from '../utils/ChromeStorage';
 
-export { searchBiliURLs } from '@APM/utils/BiliSearch';
-
-export const defaultSearchList = ({
-  songList = [],
-  info = { title: '搜索歌单', id: `FavList-Special-Search-${uuidv4()}` },
-}) => {
-  const newList = dummyFavList('');
-  newList.songList = songList;
-  newList.info = info;
-  return newList;
-};
-
-export const Search = function ({
+interface Props {
+  handleSearch: (input: string) => void;
+  handleOpenFav: () => void;
+  playListIcon: JSX.Element;
+  handleSetSearchInputVal: (input: string) => void;
+}
+export default function Search({
   handleSearch,
   handleOpenFav,
   playListIcon,
   handleSetSearchInputVal,
-}) {
+}: Props) {
   const [searchValue, setSearchValue] = useState('');
   const [progressVal, setProgressVal] = useState(100);
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onSearchTextChange = (e) => {
+  // TODO: type
+  const onSearchTextChange = (e: any) => {
     setSearchValue(e.target.value);
   };
-  // id be lying if i understand any of this async stuff
-  const searchBili = async (input) => {
+
+  const searchBili = async (input: string) => {
     setLoading(true);
+    // handleSearch
     console.log(
       await searchBiliURLs({ input, progressEmitter: setProgressVal }),
     );
     setLoading(false);
   };
 
-  const keyPress = (e) => {
+  const keyPress = (e: any) => {
     // Enter clicked
     if (e.keyCode === 13) {
       const input = e.target.value;
@@ -55,7 +50,7 @@ export const Search = function ({
   };
 
   const progressBar = () => {
-    if (Loading) {
+    if (loading) {
       return (
         <CircularProgress
           sx={{
@@ -85,23 +80,6 @@ export const Search = function ({
     );
   };
 
-  const favListButton = () => {
-    if (!handleOpenFav) {
-      return;
-    }
-    return (
-      <IconButton
-        size='large'
-        onClick={() => {
-          handleOpenFav();
-        }}
-        sx={{ fontSize: '40px', marginTop: Loading ? '-42px' : '0px' }}
-      >
-        {playListIcon}
-      </IconButton>
-    );
-  };
-
   // <QueueMusicIcon fontSize='inherit'/>
   return (
     <Box // Top Grid -- Search
@@ -118,7 +96,9 @@ export const Search = function ({
           paddingTop: '12px',
         }}
       >
-        {favListButton()}
+        <FavListButton loading={loading} handleOpenFav={handleOpenFav}>
+          {playListIcon}
+        </FavListButton>
         <TextField
           id='outlined-basic'
           label='搜索b站url'
@@ -132,4 +112,32 @@ export const Search = function ({
       </Box>
     </Box>
   );
-};
+}
+
+interface FavListButtonProps {
+  handleOpenFav?: () => void;
+  loading: boolean;
+  children: JSX.Element;
+}
+
+function FavListButton({
+  handleOpenFav,
+  loading,
+  children,
+}: FavListButtonProps) {
+  if (!handleOpenFav) {
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return <></>;
+  }
+  return (
+    <IconButton
+      size='large'
+      onClick={() => {
+        handleOpenFav();
+      }}
+      sx={{ fontSize: '40px', marginTop: loading ? '-42px' : '0px' }}
+    >
+      {children}
+    </IconButton>
+  );
+}

@@ -9,7 +9,8 @@
     "start": "webpack serve --env dev",
     "watch": "webpack --env devBuild --watch",
     "dev": "webpack --env devBuild",
-    "build": "webpack --env prod"
+    "build": "webpack --env prod",
+    "dep": "git submodule update --remote --merge"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",
@@ -102,6 +103,7 @@
     "util": "^0.12.5",
     "uuid": "^9.0.0",
     "youtube-stream-url": "^2.4.2",
+    "ytdl-core": "git+https://lovegaoshi@github.com/lovegaoshi/node-ytdl-core.git",
     "zustand": "^4.4.6"
   }
 }
