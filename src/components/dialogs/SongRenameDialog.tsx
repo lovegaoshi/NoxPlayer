@@ -10,11 +10,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import { getBiliUser } from '@utils/PersonalCloudAuth';
 import { getPlayerSettingKey } from '@utils/ChromeStorage';
-import Song from '@objects/SongInterface';
 
 interface props {
   openState: boolean;
-  songObj: Song;
+  songObj: NoxMedia.Song;
   onClose: Function;
   saveList: Function;
 }

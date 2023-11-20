@@ -1,5 +1,4 @@
 import ENUMUTIL from '../enums/Utils';
-import Song from '../objects/SongInterface';
 
 const operation2RegExtractor = (operation: NoxRegExt.Operation) => {
   const regExps = operation[1]?.map((val) => new RegExp(val));
@@ -42,7 +41,7 @@ export const LoadJSONRegExtractors = (json: NoxRegExt.JSONExtractor[]) => {
 export const extractSongName = (name: string) => {
   const nameReg = /《.*》/; // For single-list BVID, we need to extract name from title
   const res = nameReg.exec(name);
-  if (res) {
+  if (res && res[0] !== undefined) {
     return res.length > 0 ? res[0].substring(1, res[0].length - 1) : '';
   } // Remove the brackets
 
@@ -80,7 +79,7 @@ export const extractWith = (
   return filename;
 };
 
-export const getName = (song: Song, parsed = false) => {
+export const getName = (song: NoxMedia.Song, parsed = false) => {
   if (parsed) {
     return song.parsedName ? song.parsedName : song.name;
   }

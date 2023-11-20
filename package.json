@@ -10,7 +10,8 @@
     "watch": "webpack --env devBuild --watch",
     "dev": "webpack --env devBuild",
     "build": "webpack --env prod",
-    "dep": "git submodule update --remote --merge"
+    "dep": "git submodule update --remote --merge",
+    "compile": "tsc"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",

@@ -50,5 +50,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "public", "azusa-player-mobile"]
+  "exclude": ["node_modules", "build", "public", "src/azusa-player-mobile"]
 }
