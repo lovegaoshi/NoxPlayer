@@ -22,7 +22,7 @@ export const getYoutubeVideo = async ({ bvid }) => {
   const info = (await fetchYoutubeVideo(fullYoutubeUrl)).videoDetails;
   console.log(await fetchYoutubeVideo(fullYoutubeUrl));
   return [
-    new Song({
+    Song({
       cid: `${ENUMS.youtube}-${bvid}`,
       bvid: fullYoutubeUrl,
       name: info.title,
@@ -74,7 +74,7 @@ export const getSongList = async ({ bvid, useBiliTag = false }) => {
   if (info.pages.length === 1) {
     // lrc = await fetchLRC(info.title)
     return [
-      new Song({
+      Song({
         cid: info.pages[0].cid,
         bvid,
         name: info.title,
@@ -95,7 +95,7 @@ export const getSongList = async ({ bvid, useBiliTag = false }) => {
     const page = info.pages[index];
     // lrc = fetchLRC(page.part)
     songs.push(
-      new Song({
+      Song({
         cid: page.cid,
         bvid,
         name: page.part,
@@ -137,7 +137,7 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
     if (info.pages.length === 1) {
       // lrc = await fetchLRC(info.title)
       songs.push(
-        new Song({
+        Song({
           cid: info.pages[0].cid,
           bvid: info.pages[0].bvid,
           // this is stupidly slow because each of this async has to be awaited in a sync constructor?!
@@ -157,7 +157,7 @@ export const getSongsFromBVids = async ({ infos, useBiliTag = false }) => {
         const page = info.pages[index];
         // lrc = fetchLRC(page.part)
         songs.push(
-          new Song({
+          Song({
             cid: page.cid,
             bvid: page.bvid,
             name: page.part,

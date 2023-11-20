@@ -38,7 +38,7 @@ export const Search = function ({
   // id be lying if i understand any of this async stuff
   const searchBili = async (input) => {
     setLoading(true);
-    console.log(
+    handleSearch(
       await searchBiliURLs({ input, progressEmitter: setProgressVal }),
     );
     setLoading(false);

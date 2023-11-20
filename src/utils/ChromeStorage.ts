@@ -53,6 +53,8 @@ export const dummyFavList = (favName: string): NoxMedia.Playlist => {
   return {
     songList: [],
     info: { title: favName, id: `FavList-${uuidv4()}` },
+    title: favName,
+    id: `FavList-${uuidv4()}`,
     // this is not a Set because we need to serialize this
     // for importing/exporting playlists.
     subscribeUrls: [],
