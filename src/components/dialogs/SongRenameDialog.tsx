@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { getBiliUser } from '@utils/PersonalCloudAuth';
+import { getBiliUser } from '@utils/sync/PersonalCloudAuth';
 import { getPlayerSettingKey } from '@utils/ChromeStorage';
 
 interface props {
