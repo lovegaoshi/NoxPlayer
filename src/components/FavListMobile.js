@@ -27,7 +27,9 @@ import { useSwipeable } from 'react-swipeable';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useConfirm } from 'material-ui-confirm';
 import MenuIcon from '@mui/icons-material/Menu';
-import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList';
+
+import Search from './FavList/Search';
+import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList/FavList';
 import { skinPreset } from '../styles/skin';
 import PlayerSettingsButton from './buttons/PlayerSetttingsButton';
 import rgba2rgb from '../utils/rgba2rgb';
@@ -38,7 +40,6 @@ import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
 import Fav from './Fav/FavMobile';
-import { Search } from './Search';
 
 const { colorTheme } = skinPreset;
 const modifiedBackgroundPalette = colorTheme.palette;

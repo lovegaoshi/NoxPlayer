@@ -31,6 +31,7 @@ module.exports = {
           ['@styles', './src/styles'],
           ['@objects', './src/objects'],
           ['@background', './src/background'],
+          ['@components', './src/components'],
           ['@stores', './src/stores'],
           ['@hooks', './src/hooks'],
           ['@enums', './src/azusa-player-mobile/src/enums'],

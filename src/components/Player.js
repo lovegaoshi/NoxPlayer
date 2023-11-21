@@ -3,7 +3,7 @@ import React, { useEffect, useCallback, useContext } from 'react';
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { FavList } from './FavList';
+import { FavList } from './FavList/FavList';
 import LyricOverlay from './LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins, skinPreset } from '../styles/skin';
@@ -107,9 +107,8 @@ export default function Player({ songList }) {
     async function initPlayer() {
       await versionUpdate();
       const setting = await StorageManager.getPlayerSetting();
-      let previousPlaying = await StorageManager.readLocalStorage(
-        'CurrentPlaying',
-      );
+      let previousPlaying =
+        await StorageManager.readLocalStorage('CurrentPlaying');
       if (previousPlaying === undefined) previousPlaying = {};
       const previousPlayingSongIndex = Math.max(
         0,

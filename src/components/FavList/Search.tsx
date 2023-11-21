@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
+import { defaultSearchList } from '@objects/Playlist';
 
 interface Props {
   handleSearch: (input: string) => void;
@@ -33,7 +34,7 @@ export default function Search({
   const searchBili = async (input: string) => {
     setLoading(true);
     // handleSearch
-    console.log(
+    handleSearch(
       await searchBiliURLs({ input, progressEmitter: setProgressVal }),
     );
     setLoading(false);

@@ -5,7 +5,8 @@ import useNoxStore from '@hooks/useStore';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 import { dummyFavList } from '@utils/ChromeStorage';
 import { parseSongName } from '@stores/appStore';
-import { searchBiliURLs, defaultSearchList } from '../components/Search';
+import { defaultSearchList } from '@objects/Playlist';
+import { searchBiliURLs } from '@APM/utils/BiliSearch';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.
