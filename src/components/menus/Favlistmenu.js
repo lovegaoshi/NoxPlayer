@@ -19,7 +19,8 @@ import { removeSongBiliShazamed } from '@objects/Song';
 import favListAnalytics from '@utils/Analytics';
 import { fetchVideoInfo } from '@utils/Data';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
-import { BiliShazamOnSonglist, getBVIDList } from '@background/DataProcess';
+import { getBVIDList } from '@background/DataProcess';
+import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
 import { textToDialogContent } from '../dialogs/genericDialog';
 
 const MENU_ID = 'favlistmenu';
@@ -75,7 +76,10 @@ export default function App({ theme }) {
       { variant: 'info', persist: true, action: circularProgress },
     );
     try {
-      await BiliShazamOnSonglist(props.favlist.songList, options.forced);
+      props.favlist.songList = await biliShazamOnSonglist(
+        props.favlist.songList,
+        options.forced,
+      );
     } catch (e) {
       console.warn(`b站识歌标识歌单 ${props.favlist.info.title} 失败`, e);
     }

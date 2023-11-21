@@ -8,7 +8,7 @@
  * steps to refactor:
  * each site needs a fetch to parse regex extracted, a videoinfo fetcher and a song fetcher.
  */
-import { BiliShazamOnSonglist } from '@background/DataProcess';
+import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
 import VideoInfo from '@objects/VideoInfo';
 import SongTS from '@objects/SongTS';
 import { biliApiLimiter } from './throttle';
@@ -106,7 +106,7 @@ export const songFetch = async ({
     (acc, curr) => acc.concat(aggregateVideoInfo(curr)),
     [],
   ) as NoxMedia.Song[];
-  if (useBiliTag) songs = await BiliShazamOnSonglist(songs);
+  if (useBiliTag) songs = await biliShazamOnSonglist(songs);
   return songs;
 };
 
