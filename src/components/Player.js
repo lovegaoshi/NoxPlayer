@@ -13,6 +13,7 @@ import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';
 import { setLocalStorage, CURRENT_PLAYING } from '../utils/ChromeStorage';
+import ffmpeg from '../utils/ffmpeg';
 
 // Initial Player options
 const options = {
@@ -168,7 +169,11 @@ export default function Player({ songList }) {
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}
           theme={skinPreset.desktopTheme}
-          musicSrcParser={(v) => fetchPlayUrlPromise(v)}
+          musicSrcParser={(v) => {
+            const url = fetchPlayUrlPromise(v);
+            ffmpeg(url);
+            return url;
+          }}
           ref={(element) => {
             window.musicplayer = element;
           }}
