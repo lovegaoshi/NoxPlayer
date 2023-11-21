@@ -11,7 +11,7 @@ import { searchBiliURLs } from '@APM/utils/BiliSearch';
 import { defaultSearchList } from '@objects/Playlist';
 
 interface Props {
-  handleSearch: (input: string) => void;
+  handleSearch: (input: NoxMedia.Playlist) => void;
   handleOpenFav: () => void;
   playListIcon: JSX.Element;
   handleSetSearchInputVal: (input: string) => void;
@@ -35,7 +35,12 @@ export default function Search({
     setLoading(true);
     // handleSearch
     handleSearch(
-      await searchBiliURLs({ input, progressEmitter: setProgressVal }),
+      defaultSearchList({
+        songList: await searchBiliURLs({
+          input,
+          progressEmitter: setProgressVal,
+        }),
+      }),
     );
     setLoading(false);
   };
