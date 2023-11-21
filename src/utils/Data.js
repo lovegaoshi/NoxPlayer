@@ -1,13 +1,14 @@
 import Bottleneck from 'bottleneck';
+
+import steriatkFetch from '@APM/utils/mediafetch/steriatk';
+import biliaudioFetch from '@APM/utils/mediafetch/biliaudio';
+import ytvideoFetch from './mediafetch/ytvideo';
+
 import logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
 import { extractSongName } from './re';
 import { wbiQuery } from '../stores/wbi';
-
-import steriatkFetch from './mediafetch/steriatk';
-import biliaudioFetch from './mediafetch/biliaudio';
-import ytvideoFetch from './mediafetch/ytvideo';
 
 /**
  * limits to bilibili API call to 200ms/call using bottleneck.
