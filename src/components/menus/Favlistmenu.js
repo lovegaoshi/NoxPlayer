@@ -16,8 +16,8 @@ import { useConfirm } from 'material-ui-confirm';
 import SyncIcon from '@mui/icons-material/Sync';
 
 import bilivideoFetch from '@APM/utils/mediafetch/bilivideo';
+import favListAnalytics from '@APM/utils/Analytics';
 import { removeSongBiliShazamed } from '@objects/Song';
-import favListAnalytics from '@utils/Analytics';
 import { fetchVideoInfo } from '@utils/Data';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
