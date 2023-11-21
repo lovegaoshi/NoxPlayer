@@ -15,7 +15,7 @@ import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
   sendBiliHeartbeat as POSTBiliHeartbeat,
-} from '../utils/BiliOperate';
+} from '../utils/Bilibili/BiliOperate';
 
 const usePlayer = ({ isMobile = false }) => {
   // Params to init music player

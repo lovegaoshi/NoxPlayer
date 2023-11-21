@@ -1,4 +1,4 @@
-import { bvidToAid } from './bvid';
+import { bvidToAid } from '@APM/utils/bvid';
 
 const BILI_LIKE_API = 'https://api.bilibili.com/x/web-interface/archive/like';
 const BILI_TRIP_API =

@@ -1,7 +1,7 @@
 import { humanishApiLimiter } from '@APM/utils/mediafetch/throttle';
 import { getFavListBVID } from '@APM/utils/mediafetch/bilifavlist';
 import getBiliUser from '@APM/utils/Bilibili/BiliUser';
-import { getCookie, sendBVFavorite } from '../BiliOperate';
+import { getCookie, sendBVFavorite } from './BiliOperate';
 import { PlayListDict } from '../ChromeStorage';
 
 const BILI_GETFAVLIST_API =

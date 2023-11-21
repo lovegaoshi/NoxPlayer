@@ -4,7 +4,11 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { jsx, css } from '@emotion/react';
 import ClickNHold from 'react-click-n-hold';
 
-import { checkBVLiked, sendBVLike, sendBVTriple } from '@utils/BiliOperate';
+import {
+  checkBVLiked,
+  sendBVLike,
+  sendBVTriple,
+} from '@utils/Bilibili/BiliOperate';
 /** @jsx jsx */
 import { skins } from '@styles/skin';
 import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
