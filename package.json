@@ -9,7 +9,9 @@
     "start": "webpack serve --env dev",
     "watch": "webpack --env devBuild --watch",
     "dev": "webpack --env devBuild",
-    "build": "webpack --env prod"
+    "build": "webpack --env prod",
+    "dep": "git submodule update --remote --merge",
+    "compile": "tsc"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",
@@ -94,7 +96,7 @@
     "react-contexify": "^6.0.0",
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.0",
-    "react-jinke-music-player": "file:./Dependencies/react-jinke-music-player",
+    "react-jinke-music-player": "file:../react-music-player",
     "react-lrc": "^3.0.2",
     "react-swipeable": "^7.0.0",
     "react-window": "^1.8.8",
@@ -102,6 +104,7 @@
     "util": "^0.12.5",
     "uuid": "^9.0.0",
     "youtube-stream-url": "^2.4.2",
+    "ytdl-core": "git+https://lovegaoshi@github.com/lovegaoshi/node-ytdl-core.git",
     "zustand": "^4.4.6"
   }
 }

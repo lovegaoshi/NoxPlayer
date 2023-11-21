@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
-import { noxBackup, noxRestore } from '@utils/PersonalCloudAuth';
+import { noxBackup, noxRestore } from '@utils/sync/PersonalCloudAuth';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
 export function ImportSyncFavButton(

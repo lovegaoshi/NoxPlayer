@@ -18,16 +18,18 @@ import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { contextMenu } from 'react-contexify';
-import { skinPreset } from '../styles/skin';
-import PlayerSettingsButton from './buttons/PlayerSetttingsButton';
-import HelpPanelButton from './buttons/HelpPanelButton';
-import Menu from './menus/Favlistmenu';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
-import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
-import { ScrollBar } from '../styles/styles';
-import { Fav } from './Fav/Fav';
-import { Search, defaultSearchList } from './Search';
-import useFavList from '../hooks/useFavList';
+
+import { defaultSearchList } from '@objects/Playlist';
+import Search from './Search';
+import { skinPreset } from '../../styles/skin';
+import PlayerSettingsButton from '../buttons/PlayerSetttingsButton';
+import HelpPanelButton from '../buttons/HelpPanelButton';
+import Menu from '../menus/Favlistmenu';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
+import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
+import { ScrollBar } from '../../styles/styles';
+import { Fav } from '../Fav/Fav';
+import useFavList from '../../hooks/useFavList';
 
 const { colorTheme } = skinPreset;
 

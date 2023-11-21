@@ -10,25 +10,9 @@
  * check out the fastAPI docker I set up to your router/NAS/VPS to get started.
  *
  */
-import { getPlayerSettingKey } from './ChromeStorage';
 
-/**
- * a simple personal cloud built with fastAPI. uses the current bili user
- * as "authentication." returns the currently logged in bilibili username.
- * @returns dict.
- */
-export const getBiliUser = async () => {
-  try {
-    const val = await fetch('https://api.bilibili.com/x/web-interface/nav');
-    const res = await val.json();
-    return res.data;
-  } catch (e) {
-    console.error(
-      'failed to get bilibili login info. returning an empty dict instead.',
-    );
-    return { uname: '' };
-  }
-};
+import getBiliUser from '@APM/utils/Bilibili/BiliUser';
+import { getPlayerSettingKey } from '../ChromeStorage';
 
 /**
  * a simple personal cloud built with fastAPI. uses the current bili user

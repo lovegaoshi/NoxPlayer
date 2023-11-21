@@ -6,7 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { noxBackup, noxRestore, loginDropbox } from '@utils/dropboxauth';
+import { noxBackup, noxRestore, loginDropbox } from '@utils/sync/dropboxauth';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
 export function ImportSyncFavButton(AddFavIcon) {

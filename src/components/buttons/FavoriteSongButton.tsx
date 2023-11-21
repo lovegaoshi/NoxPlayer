@@ -11,7 +11,6 @@ import {
   FAV_FAV_LIST_KEY,
   PlayListDict,
 } from '@utils/ChromeStorage';
-import Song from '@objects/Song';
 
 const buttonStyle = css`
   cursor: pointer;
@@ -22,7 +21,7 @@ const buttonStyle = css`
   color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
-export default function favoriteSongButton({ song }: { song: Song }) {
+export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import { jsx, css } from '@emotion/react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { v4 as uuidv4 } from 'uuid';
-import { sendBVLike } from '../utils/BiliOperate';
+import { sendBVLike } from '../utils/Bilibili/BiliOperate';
 import { skins } from '../styles/skin';
 
 export const BiliBiliIconSVG = function BiliBiliIconSVG() {

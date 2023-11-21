@@ -1,8 +1,8 @@
-import { getCookie, sendBVFavorite } from '../BiliOperate';
+import { humanishApiLimiter } from '@APM/utils/mediafetch/throttle';
+import { getFavListBVID } from '@APM/utils/mediafetch/bilifavlist';
+import getBiliUser from '@APM/utils/Bilibili/BiliUser';
+import { getCookie, sendBVFavorite } from './BiliOperate';
 import { PlayListDict } from '../ChromeStorage';
-import { getFavListBVID } from '../mediafetch/bilifavlist';
-import { humanishApiLimiter } from '../mediafetch/throttle';
-import { getBiliUser } from '../PersonalCloudAuth';
 
 const BILI_GETFAVLIST_API =
   'https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid={mid}';

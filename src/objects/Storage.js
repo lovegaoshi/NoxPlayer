@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
-import { getBiliSeriesList } from '../background/DataProcess';
+
+import biliseriesFetch from '@APM/utils/mediafetch/biliseries';
 import {
   INITIAL_PLAYLIST,
   MY_FAV_LIST_KEY,
@@ -54,9 +55,8 @@ export default class StorageManager {
     const _self = this;
     setLocalStorage(FAV_FAV_LIST_KEY, dummyFavFavList());
     const value = dummyFavList('闹闹的歌切');
-    value.songList = await getBiliSeriesList({
-      mid: INITIAL_PLAYLIST[0],
-      sid: INITIAL_PLAYLIST[1],
+    value.songList = await biliseriesFetch.regexFetch({
+      reExtracted: [0, INITIAL_PLAYLIST[0], INITIAL_PLAYLIST[1]],
     });
     value.subscribeUrls = [
       'https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851',

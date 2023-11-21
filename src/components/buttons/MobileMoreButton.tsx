@@ -6,12 +6,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import Song from '@objects/SongInterface';
 import { PlayListDict } from '@utils/ChromeStorage';
 import { searchSongOnWeb, searchSongOnBili } from '../Fav/Favmenu';
 import { AddFavDialog } from '../dialogs/AddFavDialog';
 
-export default function mobileMoreButton({ song }: { song: Song }) {
+export default function mobileMoreButton({ song }: { song: NoxMedia.Song }) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const StorageManager = useContext(StorageManagerCtx);
   const [anchorEl, setAnchorEl] = React.useState(

@@ -1,8 +1,8 @@
 // vanilla store of zustand serving playbackServices.
 import { createStore } from 'zustand/vanilla';
 
+import { LoadJSONRegExtractors } from '@APM/utils/re';
 import rejson from '../utils/rejson.json';
-import { LoadJSONRegExtractors } from '../utils/re';
 import Logger from '../utils/Logger';
 
 interface AppStore {

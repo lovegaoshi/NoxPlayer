@@ -29,4 +29,6 @@ class Logger {
   }
 }
 
-export default new Logger('Data.js');
+export const logger = new Logger('Data.js');
+
+export default logger;

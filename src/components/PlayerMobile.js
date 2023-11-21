@@ -111,9 +111,8 @@ export default function PlayerMobile({ songList }) {
     async function initPlayer() {
       await versionUpdate();
       const setting = await StorageManager.getPlayerSetting();
-      let previousPlaying = await StorageManager.readLocalStorage(
-        'CurrentPlaying',
-      );
+      let previousPlaying =
+        await StorageManager.readLocalStorage('CurrentPlaying');
       if (previousPlaying === undefined) previousPlaying = {};
       const previousPlayingSongIndex = Math.max(
         0,

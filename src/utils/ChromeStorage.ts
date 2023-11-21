@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import Song from '../objects/Song';
 
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 export const INITIAL_PLAYLIST = ['5053504', '2664851'];
@@ -37,7 +36,7 @@ export interface PlayerSettingDict {
 }
 
 export interface PlayListDict {
-  songList: Array<Song>;
+  songList: Array<NoxMedia.Song>;
   info: { title: string; id: string };
   subscribeUrls: Array<string>;
   settings: {
@@ -54,6 +53,8 @@ export const dummyFavList = (favName: string): NoxMedia.Playlist => {
   return {
     songList: [],
     info: { title: favName, id: `FavList-${uuidv4()}` },
+    title: favName,
+    id: `FavList-${uuidv4()}`,
     // this is not a Set because we need to serialize this
     // for importing/exporting playlists.
     subscribeUrls: [],
