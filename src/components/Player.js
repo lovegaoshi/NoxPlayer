@@ -3,11 +3,12 @@ import React, { useEffect, useCallback, useContext } from 'react';
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
+
+import { getName } from '@APM/utils/re';
 import { FavList } from './FavList/FavList';
 import LyricOverlay from './LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins, skinPreset } from '../styles/skin';
-import { getName } from '../utils/re';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';

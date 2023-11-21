@@ -12,7 +12,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import 'react-contexify/dist/ReactContexify.css';
 
-import { getName } from '@utils/re';
+import { getName } from '@APM/utils/re';
 import {
   saveFav,
   readLocalStorage,

@@ -18,8 +18,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+
+import { getName } from '@APM/utils/re';
 import { songText, reParseSearch } from './Fav';
-import { getName } from '../../utils/re';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from '../buttons/randomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';

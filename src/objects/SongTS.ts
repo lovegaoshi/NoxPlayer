@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { extractParenthesis } from '../utils/re';
+
+import { extractParenthesis } from '@APM/utils/re';
 import { reExtractSongName } from '../stores/appStore';
 
 export const DEFAULT_NULL_URL = 'NULL';

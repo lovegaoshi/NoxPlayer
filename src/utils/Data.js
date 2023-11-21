@@ -1,5 +1,6 @@
 import Bottleneck from 'bottleneck';
 
+import { extractSongName } from '@APM/utils/re';
 import steriatkFetch from '@APM/utils/mediafetch/steriatk';
 import biliaudioFetch from '@APM/utils/mediafetch/biliaudio';
 import ytvideoFetch from './mediafetch/ytvideo';
@@ -7,7 +8,6 @@ import ytvideoFetch from './mediafetch/ytvideo';
 import logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
-import { extractSongName } from './re';
 import { wbiQuery } from '../stores/wbi';
 
 /**

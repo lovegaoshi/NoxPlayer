@@ -35,8 +35,9 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { contextMenu } from 'react-contexify';
 import { useHotkeys } from 'react-hotkeys-hook';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+
+import { getName } from '@APM/utils/re';
 import { skinPreset } from '../../styles/skin';
-import { getName } from '../../utils/re';
 import RandomGIFIcon from '../buttons/randomGIF';
 import {
   getPlayerSettingKey,
