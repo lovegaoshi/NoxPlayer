@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import isMobile from 'is-mobile';
 import PageLayout from './Layout';
-import { initSongList } from '../background/DataProcess';
+import initSongList from '../background/DataProcess';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
 import { initialize } from '../stores/appStore';

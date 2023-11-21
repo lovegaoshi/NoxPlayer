@@ -15,11 +15,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useConfirm } from 'material-ui-confirm';
 import SyncIcon from '@mui/icons-material/Sync';
 
+import bilivideoFetch from '@APM/utils/mediafetch/bilivideo';
 import { removeSongBiliShazamed } from '@objects/Song';
 import favListAnalytics from '@utils/Analytics';
 import { fetchVideoInfo } from '@utils/Data';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
-import { getBVIDList } from '@background/DataProcess';
 import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
 import { textToDialogContent } from '../dialogs/genericDialog';
 
@@ -119,20 +119,28 @@ export default function App({ theme }) {
       confirmationText: '好的',
       cancellationText: '算了',
     })
-      .then(() => {
+      .then(async () => {
         const key = enqueueSnackbar(
           `正在重新载入歌单 ${props.favlist.info.title} 的bv号……`,
           { variant: 'info', persist: true, action: circularProgress },
         );
         const bvids = new Set();
         props.favlist.songList.forEach((song) => bvids.add(song));
-        getBVIDList({ bvids: Array.from(bvids) })
-          .then((val) => {
-            props.favlist.songList = val;
-            closeSnackbar(key);
-            updateFavlist(props, `歌单 ${props.favlist.info.title} 重载了！`);
-          })
-          .catch(() => closeSnackbar(key));
+        try {
+          const songs = (
+            await Promise.all(
+              bvids.map((bvid) =>
+                bilivideoFetch.regexFetch({ reExtracted: [0, bvid] }),
+              ),
+            )
+          ).flat();
+          props.favlist.songList = songs;
+          updateFavlist(props, `歌单 ${props.favlist.info.title} 重载了！`);
+        } catch {
+          console.error('failed to reload playlist', props.favlist.info.title);
+        } finally {
+          closeSnackbar(key);
+        }
       })
       .catch();
   }
