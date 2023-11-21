@@ -192,8 +192,7 @@ const useFavList = () => {
             ],
             useBiliTag: playlist.useBiliShazam,
           })
-        ).songList // @ts-ignore
-          .concat(playlist.songList);
+        ).concat(playlist.songList);
       }
       const uniqueSongList = new Map();
       playlist.songList.forEach((tag) => uniqueSongList.set(tag.id, tag));
