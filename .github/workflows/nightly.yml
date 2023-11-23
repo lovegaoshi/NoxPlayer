@@ -58,13 +58,13 @@ jobs:
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: get custom react music player
-        run: git clone https://github.com/lovegaoshi/react-music-player.git Dependencies/react-jinke-music-player
+        run: git clone https://github.com/lovegaoshi/react-music-player.git ../react-jinke-music-player
 
       - name: build rjmp
-        run: cd Dependencies/react-jinke-music-player && yarn && yarn build
+        run: cd ../react-jinke-music-player && yarn && yarn build
 
       - name: Install dependencies
-        run: yarn
+        run: yarn; git submodule update --init --recursive
 
       - name: 'Create env file'
         run: |
