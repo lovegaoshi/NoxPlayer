@@ -2,7 +2,16 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 
 const ffmpeg = new FFmpeg();
-ffmpeg.on('log', (log) => console.log(log));
+let r128gain = 0;
+
+ffmpeg.on('log', ({ message }) => {
+  const parseTrackGain = /track_gain = (-?\d+\.\d+) dB/.exec(message);
+  if (parseTrackGain !== null) {
+    // eslint-disable-next-line prefer-destructuring
+    r128gain = Number(parseTrackGain[1]!);
+  }
+  console.debug(message);
+});
 await ffmpeg.load({
   coreURL: chrome.runtime.getURL('js/ffmpeg-core.js'),
 });
@@ -19,4 +28,6 @@ export default async (url: string) => {
     'null',
     '-',
   ]);
+  console.log(`[r128gain] found r128gain: ${r128gain}`);
+  return r128gain;
 };

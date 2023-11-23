@@ -13,7 +13,6 @@ import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';
 import { setLocalStorage, CURRENT_PLAYING } from '../utils/ChromeStorage';
-import ffmpeg from '../utils/ffmpeg';
 
 // Initial Player options
 const options = {
