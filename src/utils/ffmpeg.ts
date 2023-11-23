@@ -3,7 +3,9 @@ import { fetchFile } from '@ffmpeg/util';
 
 const ffmpeg = new FFmpeg();
 ffmpeg.on('log', (log) => console.log(log));
-await ffmpeg.load();
+await ffmpeg.load({
+  coreURL: chrome.runtime.getURL('js/ffmpeg-core.js'),
+});
 
 export default async (url: string) => {
   await ffmpeg.writeFile('temp.m4a', await fetchFile(url));

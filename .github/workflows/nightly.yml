@@ -65,7 +65,7 @@ jobs:
         run: cd ../react-jinke-music-player && yarn && yarn build
 
       - name: Install dependencies
-        run: yarn
+        run: yarn; git submodule update --init --recursive
 
       - name: 'Create env file'
         run: |

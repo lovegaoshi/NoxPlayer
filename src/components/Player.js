@@ -169,11 +169,7 @@ export default function Player({ songList }) {
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}
           theme={skinPreset.desktopTheme}
-          musicSrcParser={(v) => {
-            const url = fetchPlayUrlPromise(v);
-            ffmpeg(url);
-            return url;
-          }}
+          musicSrcParser={(v) => fetchPlayUrlPromise(v)}
           ref={(element) => {
             window.musicplayer = element;
           }}

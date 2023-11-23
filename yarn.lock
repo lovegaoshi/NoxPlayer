@@ -1251,6 +1251,11 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.53.0.tgz#bea56f2ed2b5baea164348ff4d5a879f6f81f20d"
   integrity sha512-Kn7K8dx/5U6+cT1yEhpX1w4PCSg0M+XyRILPgvwcEBjerFWCwQj5sbr3/VmxqV0JGHCBCzyd6LxypEuehypY1w==
 
+"@ffmpeg/core@^0.12.4":
+  version "0.12.4"
+  resolved "https://registry.npmjs.org/@ffmpeg/core/-/core-0.12.4.tgz#8303680922b3af021b8ca9cfdf7cafa6f81b84ec"
+  integrity sha512-m+H+P66TSEPlf1vK5WwVDr+Uksd1GULi7jk4o/447X5HQouTLaZjicAXC00C/IrrmyqJ8YX/8cfhqMryvNZGSg==
+
 "@ffmpeg/ffmpeg@^0.12.7":
   version "0.12.7"
   resolved "https://registry.npmjs.org/@ffmpeg/ffmpeg/-/ffmpeg-0.12.7.tgz#fbe8b28cae2183ff74456d77fdc2803e54048df0"
