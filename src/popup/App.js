@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import isMobile from 'is-mobile';
 
-import { initializeR128Gain } from '@APM/utils/ffmpeg/r128Store';
 import PageLayout from './Layout';
 import initSongList from '../background/DataProcess';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
-import { initializeAppStore } from '../stores/appStore';
+import initializeStores from '../stores/initializeStores';
 
 export default function App() {
   // The current playing list
@@ -14,8 +13,7 @@ export default function App() {
   const [backgroundSrc, setBackgroundSrc] = useState(null);
 
   useEffect(() => {
-    initializeAppStore();
-    initializeR128Gain();
+    initializeStores();
     initSongList(setCurrentSongList);
     async function resolveBackgroundSrc() {
       try {

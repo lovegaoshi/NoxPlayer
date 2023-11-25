@@ -33,7 +33,7 @@ export default function Player({ songList }) {
   // Sync data to chromeDB
   const StorageManager = useContext(StorageManagerCtx);
 
-  const [
+  const {
     params,
     setparams,
     setplayingList,
@@ -46,7 +46,6 @@ export default function Player({ songList }) {
     setPlayerSettings,
 
     onPlayOneFromFav,
-    onAddOneFromFav,
     onPlayAllFromFav,
     onAddFavToList,
     playByIndex,
@@ -60,7 +59,7 @@ export default function Player({ songList }) {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
-  ] = usePlayer({});
+  } = usePlayer({});
 
   useHotkeys('space', () => {
     if (currentAudioInst === null) return;

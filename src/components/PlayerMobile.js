@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  useContext,
-  useRef,
-} from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
@@ -38,7 +32,7 @@ export default function PlayerMobile({ songList }) {
   const StorageManager = useContext(StorageManagerCtx);
   const [audioListsPanelState, setAudioListsPanelState] = useState(false);
 
-  const [
+  const {
     params,
     setparams,
     setplayingList,
@@ -51,7 +45,6 @@ export default function PlayerMobile({ songList }) {
     setPlayerSettings,
 
     onPlayOneFromFav2,
-    onAddOneFromFav,
     onPlayAllFromFav,
     onAddFavToList,
     playByIndex,
@@ -65,7 +58,7 @@ export default function PlayerMobile({ songList }) {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
-  ] = usePlayer({ isMobile: true });
+  } = usePlayer({ isMobile: true });
 
   const onPlayOneFromFav = (songs, favList) => {
     onPlayOneFromFav2(songs, favList);

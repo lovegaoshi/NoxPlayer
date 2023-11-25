@@ -260,7 +260,7 @@ const usePlayer = ({ isMobile = false }) => {
     }, 15000);
   };
 
-  return [
+  return {
     params,
     setparams,
     setplayingList,
@@ -287,7 +287,7 @@ const usePlayer = ({ isMobile = false }) => {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
-  ];
+  };
 };
 
 export default usePlayer;

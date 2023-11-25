@@ -26,6 +26,14 @@ export const getR128GainMapping = (): Promise<NoxStorage.R128Dict> =>
 export const saveR128GainMapping = (val: NoxStorage.R128Dict) =>
   saveItem(STORAGE_KEYS.R128GAIN_MAPPING, val);
 
+export const saveSettings = async (setting: NoxStorage.PlayerSettingDict) =>
+  saveItem(STORAGE_KEYS.PLAYER_SETTING_KEY, setting);
+
+export const getSettings = async (): Promise<NoxStorage.PlayerSettingDict> => ({
+  ...DEFAULT_SETTING,
+  ...((await getItem(STORAGE_KEYS.PLAYER_SETTING_KEY)) || {}),
+});
+
 /**
  * wrapper for chrome.storage.local.get. return the
  * local stored objects given a key.
@@ -77,17 +85,7 @@ export const clearStorage = async () => {
  * if setting is not initialized, initialize and return the default one.
  * @returns playerSetting
  */
-export const getPlayerSetting =
-  async (): Promise<NoxStorage.PlayerSettingDict> => {
-    const settings = (await readLocalStorage(
-      PLAYER_SETTINGS,
-    )) as NoxStorage.PlayerSettingDict;
-    // console.log(settings)
-    if (settings === undefined) {
-      return DEFAULT_SETTING;
-    }
-    return settings;
-  };
+export const getPlayerSetting = getSettings;
 
 /**
  * wrapper for getting the current playerSetting's value given a key.
