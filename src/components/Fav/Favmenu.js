@@ -13,12 +13,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import 'react-contexify/dist/ReactContexify.css';
 
 import { getName } from '@APM/utils/re';
-import {
-  saveFav,
-  readLocalStorage,
-  MY_FAV_LIST_KEY,
-} from '@utils/ChromeStorage';
+import { saveFav, readLocalStorage } from '@utils/ChromeStorage';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import { MY_FAV_LIST_KEY } from '@objects/Storage2';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 
 export const MENU_ID = 'favmenu';

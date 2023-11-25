@@ -1,22 +1,9 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import type { NoxStorage } from '@APM/types/storage';
 import {
-  DEFAULT_SETTING as DEFAULT_SETTING_BASE,
-  EXPORT_OPTIONS,
-} from '@APM/enums/Storage';
-
-export { EXPORT_OPTIONS } from '@APM/enums/Storage';
-
-// https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
-export const INITIAL_PLAYLIST = ['5053504', '2664851'];
-export const MY_FAV_LIST_KEY = 'MyFavList';
-export const FAV_FAV_LIST_KEY = 'FavFavList-Special';
-export const LYRIC_MAPPING = 'LyricMappings';
-export const LAST_PLAY_LIST = 'LastPlayList';
-export const PLAYER_SETTINGS = 'PlayerSetting';
-export const CURRENT_PLAYING = 'CurrentPlaying';
-export const FAVLIST_AUTO_UPDATE_TIMESTAMP = 'favListAutoUpdateTimestamp';
+  DEFAULT_SETTING,
+  MY_FAV_LIST_KEY,
+  PLAYER_SETTINGS,
+} from '@objects/Storage2';
 
 export interface PlayListDict {
   songList: Array<NoxMedia.Song>;
@@ -31,55 +18,6 @@ export interface PlayListDict {
   showFavoriteList: boolean;
   [key: string]: any;
 }
-
-export const dummyFavList = (favName: string): NoxMedia.Playlist => {
-  return {
-    songList: [],
-    info: { title: favName, id: `FavList-${uuidv4()}` },
-    title: favName,
-    id: `FavList-${uuidv4()}`,
-    // this is not a Set because we need to serialize this
-    // for importing/exporting playlists.
-    subscribeUrls: [],
-    settings: {
-      autoRSSUpdate: false,
-    },
-    useBiliShazam: false,
-    biliSync: false,
-    bannedBVids: [],
-    showFavoriteList: false,
-  };
-};
-
-export const dummyFavListFromList = (list: PlayListDict) => {
-  return { ...dummyFavList(''), ...list };
-};
-
-export const dummyFavFavList = () => {
-  const favfavlist = dummyFavList('我的最爱');
-  favfavlist.info.id = 'FavList-Special-Favorite';
-  return favfavlist;
-};
-
-export const DEFAULT_SETTING: NoxStorage.PlayerSettingDict = {
-  ...DEFAULT_SETTING_BASE,
-
-  playMode: 'shufflePlay',
-  defaultPlayMode: 'shufflePlay',
-  defaultVolume: 1,
-  autoRSSUpdate: false,
-  skin: '诺莺nox',
-  parseSongName: false,
-  keepSearchedSongListWhenPlaying: false,
-  settingExportLocation: EXPORT_OPTIONS.LOCAL,
-  personalCloudIP: '',
-  noxVersion: chrome.runtime.getManifest().version,
-  hideCoverInMobile: false,
-  loadPlaylistAsArtist: false,
-  sendBiliHeartbeat: false,
-  noCookieBiliSearch: false,
-  fastBiliSearch: true,
-};
 
 /**
  * wrapper for chrome.storage.local.get. return the

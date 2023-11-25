@@ -2,18 +2,16 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import {
   getPlayerSettingKey,
   readLocalStorage,
   setLocalStorage,
-  FAVLIST_AUTO_UPDATE_TIMESTAMP,
   PlayListDict,
 } from '@utils/ChromeStorage';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import { FAVLIST_AUTO_UPDATE_TIMESTAMP } from '@objects/Storage2';
 import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
 import FavSettingLoading from './FavSettingLoading';
 

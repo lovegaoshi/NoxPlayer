@@ -5,6 +5,7 @@ import '../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
+import { CURRENT_PLAYING } from '@objects/Storage2';
 import { FavList } from './FavList/FavList';
 import LyricOverlay from './LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
@@ -12,7 +13,7 @@ import { skins, skinPreset } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';
-import { setLocalStorage, CURRENT_PLAYING } from '../utils/ChromeStorage';
+import { setLocalStorage } from '../utils/ChromeStorage';
 
 // Initial Player options
 const options = {

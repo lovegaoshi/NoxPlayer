@@ -16,7 +16,7 @@ const appStore = createStore<AppStore>((set, get) => ({
   },
 }));
 
-export const initialize = async () => {
+export const initializeAppStore = async () => {
   let savedRegExt = rejson as NoxRegExt.JSONExtractor[];
   let reExtractSongName;
   try {

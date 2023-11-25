@@ -22,8 +22,8 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 import type { NoxStorage } from '@APM/types/storage';
-import { DEFAULT_SETTING, EXPORT_OPTIONS } from '@utils/ChromeStorage';
 import { SkinKeys, skins, skinPreset } from '@styles/skin';
+import { DEFAULT_SETTING, EXPORT_OPTIONS } from '@objects/Storage2';
 import TimerButton from '../buttons/TimerButton';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
