@@ -3,8 +3,8 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+import type { NoxStorage } from '@APM/types/storage';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import { PlayerSettingDict } from '@utils/ChromeStorage';
 import SettingsDialog from '../dialogs/PlayerSettingsDialog';
 
 export default function playerSettingsButton({
@@ -24,7 +24,7 @@ export default function playerSettingsButton({
       </Tooltip>
       <SettingsDialog
         openState={openSettingsDialog}
-        onClose={(settings: PlayerSettingDict) => {
+        onClose={(settings: NoxStorage.PlayerSettingDict) => {
           if (settings) StorageManager.setPlayerSetting(settings);
           setOpenSettingsDialog(false);
         }}
