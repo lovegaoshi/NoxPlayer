@@ -1,10 +1,6 @@
 import type { NoxStorage } from '@APM/types/storage';
 import { STORAGE_KEYS } from '@enums/Storage';
-import {
-  DEFAULT_SETTING,
-  MY_FAV_LIST_KEY,
-  PLAYER_SETTINGS,
-} from '@objects/Storage2';
+import { DEFAULT_SETTING, MY_FAV_LIST_KEY } from '@objects/Storage2';
 
 export interface PlayListDict {
   songList: Array<NoxMedia.Song>;

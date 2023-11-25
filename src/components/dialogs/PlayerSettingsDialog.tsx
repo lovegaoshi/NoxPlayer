@@ -42,20 +42,18 @@ import PlayerResetButton from '../buttons/PlayerResetButton';
 
 const { colorTheme } = skinPreset;
 
-const AddFavIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.playListIconColor,
-  // padding added to account for the textfield label margin:dense
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '8px',
-  paddingRight: '8px',
-};
+const BOOL_SETTINGS = [
+  'parseSongName',
+  'autoRSSUpdate',
+  'keepSearchedSongListWhenPlaying',
+  'loadPlaylistAsArtist',
+  'sendBiliHeartbeat',
+  'noCookieBiliSearch',
+  'fastBiliSearch',
+  'r128gain',
+];
 
-interface props {
+interface Props {
   onClose: Function;
   openState: boolean;
   settings: NoxStorage.PlayerSettingDict;
@@ -64,7 +62,7 @@ export default function SettingsDialog({
   onClose,
   openState,
   settings,
-}: props) {
+}: Props) {
   const [skin, setSkin] = useState(DEFAULT_SETTING.skin);
   const [settingObj, setSettingObj] = useState({});
   const [parseSongName, setParseSongName] = useState(
@@ -418,3 +416,16 @@ export default function SettingsDialog({
     </Dialog>
   );
 }
+
+const AddFavIcon = {
+  ':hover': {
+    cursor: 'pointer',
+  },
+  width: '1em',
+  color: colorTheme.playListIconColor,
+  // padding added to account for the textfield label margin:dense
+  paddingTop: '8px',
+  paddingBottom: '8px',
+  paddingLeft: '8px',
+  paddingRight: '8px',
+};

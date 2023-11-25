@@ -59,6 +59,7 @@ export default function Player({ songList }) {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
+    musicSrcParser,
   } = usePlayer({});
 
   useHotkeys('space', () => {
@@ -168,7 +169,7 @@ export default function Player({ songList }) {
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}
           theme={skinPreset.desktopTheme}
-          musicSrcParser={(v) => fetchPlayUrlPromise(v)}
+          musicSrcParser={musicSrcParser}
           ref={(element) => {
             window.musicplayer = element;
           }}
