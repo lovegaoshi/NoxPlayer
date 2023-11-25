@@ -1,4 +1,5 @@
 import type { NoxStorage } from '@APM/types/storage';
+import { STORAGE_KEYS } from '@enums/Storage';
 import {
   DEFAULT_SETTING,
   MY_FAV_LIST_KEY,
@@ -19,19 +20,33 @@ export interface PlayListDict {
   [key: string]: any;
 }
 
+export const getR128GainMapping = (): Promise<NoxStorage.R128Dict> =>
+  getItem(STORAGE_KEYS.R128GAIN_MAPPING, {});
+
+export const saveR128GainMapping = (val: NoxStorage.R128Dict) =>
+  saveItem(STORAGE_KEYS.R128GAIN_MAPPING, val);
+
 /**
  * wrapper for chrome.storage.local.get. return the
  * local stored objects given a key.
  * @param {string} key
  * @returns
  */
-export const readLocalStorage = async (key: string): Promise<any> => {
+export const readLocalStorage = (
+  key: string,
+  defaultVal: unknown = undefined,
+): Promise<any> => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([key], (result) => {
+      if (result[key] === undefined) {
+        resolve(defaultVal);
+      }
       resolve(result[key]);
     });
   });
 };
+
+const getItem = readLocalStorage;
 
 export const readLocalStorages = async (keys: Array<string>): Promise<any> => {
   return new Promise((resolve, reject) => {
@@ -44,6 +59,8 @@ export const readLocalStorages = async (keys: Array<string>): Promise<any> => {
 export const setLocalStorage = async (key: string, val: object | string) => {
   chrome.storage.local.set({ [key]: val });
 };
+
+const saveItem = setLocalStorage;
 
 export const saveFav = async (updatedToList: PlayListDict) => {
   return await chrome.storage.local.set({
