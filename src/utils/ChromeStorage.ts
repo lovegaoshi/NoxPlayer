@@ -1,5 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import type { NoxStorage } from '@APM/types/storage';
+import {
+  DEFAULT_SETTING as DEFAULT_SETTING_BASE,
+  EXPORT_OPTIONS,
+} from '@APM/enums/Storage';
+
+export { EXPORT_OPTIONS } from '@APM/enums/Storage';
+
 // https://space.bilibili.com/5053504/channel/seriesdetail?sid=2664851
 export const INITIAL_PLAYLIST = ['5053504', '2664851'];
 export const MY_FAV_LIST_KEY = 'MyFavList';
@@ -9,31 +17,6 @@ export const LAST_PLAY_LIST = 'LastPlayList';
 export const PLAYER_SETTINGS = 'PlayerSetting';
 export const CURRENT_PLAYING = 'CurrentPlaying';
 export const FAVLIST_AUTO_UPDATE_TIMESTAMP = 'favListAutoUpdateTimestamp';
-
-export const EXPORT_OPTIONS = {
-  local: '本地',
-  dropbox: 'Dropbox',
-  personal: '私有云',
-};
-
-export interface PlayerSettingDict {
-  playMode: string;
-  defaultPlayMode: string;
-  defaultVolume: number;
-  autoRSSUpdate: boolean;
-  skin: string;
-  parseSongName: boolean;
-  keepSearchedSongListWhenPlaying: boolean;
-  settingExportLocation: string;
-  personalCloudIP: string;
-  noxVersion: string;
-  hideCoverInMobile: boolean;
-  loadPlaylistAsArtist: boolean;
-  sendBiliHeartbeat: boolean;
-  noCookieBiliSearch: boolean;
-  fastBiliSearch: boolean;
-  [key: string]: any;
-}
 
 export interface PlayListDict {
   songList: Array<NoxMedia.Song>;
@@ -78,7 +61,9 @@ export const dummyFavFavList = () => {
   return favfavlist;
 };
 
-export const DEFAULT_SETTING: PlayerSettingDict = {
+export const DEFAULT_SETTING: NoxStorage.PlayerSettingDict = {
+  ...DEFAULT_SETTING_BASE,
+
   playMode: 'shufflePlay',
   defaultPlayMode: 'shufflePlay',
   defaultVolume: 1,
@@ -86,7 +71,7 @@ export const DEFAULT_SETTING: PlayerSettingDict = {
   skin: '诺莺nox',
   parseSongName: false,
   keepSearchedSongListWhenPlaying: false,
-  settingExportLocation: EXPORT_OPTIONS.local,
+  settingExportLocation: EXPORT_OPTIONS.LOCAL,
   personalCloudIP: '',
   noxVersion: chrome.runtime.getManifest().version,
   hideCoverInMobile: false,
@@ -137,16 +122,17 @@ export const clearStorage = async () => {
  * if setting is not initialized, initialize and return the default one.
  * @returns playerSetting
  */
-export const getPlayerSetting = async (): Promise<PlayerSettingDict> => {
-  const settings = (await readLocalStorage(
-    PLAYER_SETTINGS,
-  )) as PlayerSettingDict;
-  // console.log(settings)
-  if (settings === undefined) {
-    return DEFAULT_SETTING;
-  }
-  return settings;
-};
+export const getPlayerSetting =
+  async (): Promise<NoxStorage.PlayerSettingDict> => {
+    const settings = (await readLocalStorage(
+      PLAYER_SETTINGS,
+    )) as NoxStorage.PlayerSettingDict;
+    // console.log(settings)
+    if (settings === undefined) {
+      return DEFAULT_SETTING;
+    }
+    return settings;
+  };
 
 /**
  * wrapper for getting the current playerSetting's value given a key.

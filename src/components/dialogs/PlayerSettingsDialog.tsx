@@ -21,11 +21,8 @@ import BuildIcon from '@mui/icons-material/Build';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-import {
-  DEFAULT_SETTING,
-  EXPORT_OPTIONS,
-  PlayerSettingDict,
-} from '@utils/ChromeStorage';
+import type { NoxStorage } from '@APM/types/storage';
+import { DEFAULT_SETTING, EXPORT_OPTIONS } from '@utils/ChromeStorage';
 import { SkinKeys, skins, skinPreset } from '@styles/skin';
 import TimerButton from '../buttons/TimerButton';
 import {
@@ -61,7 +58,7 @@ const AddFavIcon = {
 interface props {
   onClose: Function;
   openState: boolean;
-  settings: PlayerSettingDict;
+  settings: NoxStorage.PlayerSettingDict;
 }
 export default function SettingsDialog({
   onClose,
@@ -168,14 +165,14 @@ export default function SettingsDialog({
 
   const syncSetttingButtons = () => {
     switch (settingExportLocation) {
-      case EXPORT_OPTIONS.dropbox:
+      case EXPORT_OPTIONS.DROPBOX:
         return (
           <React.Fragment>
             {ExportSyncFavButton(AddFavIcon)}
             {ImportSyncFavButton(AddFavIcon)}
           </React.Fragment>
         );
-      case EXPORT_OPTIONS.personal:
+      case EXPORT_OPTIONS.PERSONAL:
         return (
           <React.Fragment>
             {PersonalExportSyncFavButton(AddFavIcon, personalCloudIP)}
@@ -204,7 +201,9 @@ export default function SettingsDialog({
             label='云同步选择'
             margin='dense'
             select
-            onChange={(e) => setSettingExportLocation(e.target.value)}
+            onChange={(e) =>
+              setSettingExportLocation(e.target.value as EXPORT_OPTIONS)
+            }
             style={{ minWidth: 100 }}
           >
             {Object.values(EXPORT_OPTIONS).map((v, i) => {
