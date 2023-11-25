@@ -13,9 +13,6 @@ export default function App() {
 
   useEffect(() => {
     initialize();
-  }, []);
-
-  useEffect(() => {
     initSongList(setCurrentSongList);
     async function resolveBackgroundSrc() {
       try {
