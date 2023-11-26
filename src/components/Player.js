@@ -7,7 +7,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { getName } from '@APM/utils/re';
 import { CURRENT_PLAYING } from '@objects/Storage2';
 import { FavList } from './FavList/FavList';
-import LyricOverlay from './LyricOverlay';
+import LyricOverlay from './lyric/LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins, skinPreset } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';

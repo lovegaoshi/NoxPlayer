@@ -3,7 +3,7 @@ import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 import FavList from './FavListMobile';
-import LyricOverlay from './LyricOverlay';
+import LyricOverlay from './lyric/LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';

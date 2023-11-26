@@ -4,10 +4,10 @@ import { Lrc } from 'react-lrc';
 import TextField from '@mui/material/TextField';
 import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
-import { ScrollBar } from '../styles/styles';
+import { ScrollBar } from '../../styles/styles';
 import LyricSearchBar from './LyricSearchBar';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
-import { skinPreset } from '../styles/skin';
+import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
+import { skinPreset } from '../../styles/skin';
 
 const { colorTheme } = skinPreset;
 

@@ -11,15 +11,12 @@ import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
   ImportSyncFavButton as PersonalImportSyncFavButton,
   SetPersonalCloudTextField,
-} from '../buttons/syncing/PersonalSyncButton';
+} from './sync/PersonalSyncButton';
 import {
   ExportSyncFavButton,
   ImportSyncFavButton,
-} from '../buttons/syncing/DropboxSyncButton';
-import {
-  ExportFavButton,
-  ImportFavButton,
-} from '../buttons/syncing/LocalSyncButton';
+} from './sync/DropboxSyncButton';
+import { ExportFavButton, ImportFavButton } from './sync/LocalSyncButton';
 
 function SyncSetttingButtons() {
   const playerSettings = useStore(
