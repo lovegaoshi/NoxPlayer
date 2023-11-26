@@ -51,27 +51,25 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
       updateInterval = 1000 * 60 * 60 * 24,
     ) => {
       if (
-        favList.info.id.includes('Search') ||
+        favList.id.includes('Search') ||
         !(await getPlayerSettingKey('autoRSSUpdate'))
       )
         return false;
       console.debug(
-        favList.info.title,
+        favList.title,
         'previous updated timestamp is:',
-        favListAutoUpdateTimestamps.current[favList.info.id],
+        favListAutoUpdateTimestamps.current[favList.id],
       );
       if (favList.biliSync) {
         syncFavlist(favList);
       }
       if (
-        favListAutoUpdateTimestamps.current[favList.info.id] === undefined ||
+        favListAutoUpdateTimestamps.current[favList.id] === undefined ||
         Date.now() -
-          new Date(
-            favListAutoUpdateTimestamps.current[favList.info.id]!,
-          ).getTime() >
+          new Date(favListAutoUpdateTimestamps.current[favList.id]!).getTime() >
           updateInterval
       ) {
-        favListAutoUpdateTimestamps.current[favList.info.id] =
+        favListAutoUpdateTimestamps.current[favList.id] =
           new Date().toISOString();
         setLocalStorage(
           FAVLIST_AUTO_UPDATE_TIMESTAMP,
@@ -121,7 +119,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
     listObj: PlayListDict,
     listSetting: { [key: string]: any } = {},
   ) => {
-    listObj.info.title = listSetting.favListName;
+    listObj.title = listSetting.favListName;
     listObj = { ...listObj, ...listSetting };
     StorageManager.updateFavList(listObj);
     setOpenSettingsDialog(false);

@@ -80,7 +80,7 @@ export default (function Fav({
     // this should be saved to localStorage
     if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
     requestSearch({ target: { value: '' } });
-  }, [FavList.info.id]);
+  }, [FavList.id]);
 
   const requestSearch = (e) => {
     const searchedVal = e.target.value;
@@ -136,16 +136,14 @@ export default (function Fav({
             <Tooltip title='添加到收藏歌单'>
               <PlaylistAddIcon
                 sx={CRUDIcon}
-                onClick={() =>
-                  handleAddToFavClick(currentFavList.info.id, song)
-                }
+                onClick={() => handleAddToFavClick(currentFavList.id, song)}
               />
             </Tooltip>
             <Tooltip title='删除歌曲'>
               <DeleteOutlineOutlinedIcon
                 sx={CRUDIcon}
                 onClick={() => {
-                  handleDeleteFromSearchList(currentFavList.info.id, song.id);
+                  handleDeleteFromSearchList(currentFavList.id, song.id);
                   handleSearch(searchBarRef.current.value);
                 }}
               />
@@ -195,7 +193,7 @@ export default (function Fav({
                     fontSize: '2rem',
                   }}
                 >
-                  {playlistTitleParse(currentFavList.info.title)}
+                  {playlistTitleParse(currentFavList.title)}
                 </Typography>
               </Button>
             </Grid>
@@ -210,7 +208,7 @@ export default (function Fav({
             >
               <RandomGIFIcon
                 gifs={skinPreset.gifs}
-                favList={currentFavList.info.id}
+                favList={currentFavList.id}
               />
             </Grid>
             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
@@ -222,7 +220,7 @@ export default (function Fav({
               >
                 {songIconVisible ? <EditOffIcon /> : <EditIcon />}
               </IconButton>
-              {!currentFavList.info.id.includes('Search') && (
+              {!currentFavList.id.includes('Search') && (
                 <FavSettingsButtons
                   currentList={currentFavList}
                   rssUpdate={async (subscribeUrls) => {

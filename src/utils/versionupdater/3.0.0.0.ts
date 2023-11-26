@@ -40,8 +40,8 @@ export default async function update3000() {
         const favlist = result[id];
         const newFavlist: NoxMedia.Playlist = {
           ...favlist,
-          title: favlist.info.title,
-          id: favlist.info.id,
+          title: favlist.title,
+          id: favlist.id,
           type: favlist.type,
           songList: favlist.songList,
           subscribeUrl: favlist.subscribeUrls,
@@ -51,7 +51,7 @@ export default async function update3000() {
           biliSync: favlist.biliSync,
           newSongOverwrite: false,
         };
-        chrome.storage.local.set({ [favlist.info.id]: newFavlist });
+        chrome.storage.local.set({ [favlist.id]: newFavlist });
       });
     });
   });

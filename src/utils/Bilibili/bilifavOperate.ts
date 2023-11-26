@@ -102,7 +102,7 @@ export const syncFavlist = async (favlist: PlayListDict) => {
   if (!user.mid) return false;
   const favid = await getOrInsertBiliFavlist(
     user.mid,
-    favlist.info.title.slice(0, 19),
+    favlist.title.slice(0, 19),
   );
   const uniqBVIDs = Array.from(
     favlist.songList.reduce(

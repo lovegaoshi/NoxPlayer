@@ -182,14 +182,14 @@ export default memo(
                 setFavOpen(true);
                 setSelectedList(v);
               }}
-              id={v.info.id}
+              id={v.id}
             >
               <ListItemIcon sx={DiskIcon}>
                 <AlbumOutlinedIcon />
               </ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{ fontSize: '1.1em' }}
-                primary={v.info.title}
+                primary={v.title}
               />
             </ListItemButton>
             <Box
@@ -201,14 +201,14 @@ export default memo(
               <Tooltip title='添加到收藏歌单'>
                 <PlaylistAddIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(v.info.id)}
+                  onClick={() => handleAddToFavClick(v.id)}
                 />
               </Tooltip>
               &nbsp;&nbsp;
               <Tooltip title='删除歌单'>
                 <DeleteOutlineOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleDeleteFavClick(v.info.title, v.info.id)}
+                  onClick={() => handleDeleteFavClick(v.title, v.id)}
                 />
               </Tooltip>
             </Box>
@@ -261,7 +261,7 @@ export default memo(
                     setFavOpen(true);
                     setSelectedList(searchList);
                   }}
-                  id={searchList.info.id}
+                  id={searchList.id}
                 >
                   <ListItemIcon sx={DiskIcon}>
                     <ManageSearchIcon />
@@ -269,7 +269,7 @@ export default memo(
                   <ListItemText
                     style={{ maxWidth: '50%' }}
                     primaryTypographyProps={{ fontSize: '1.1em' }}
-                    primary={searchList.info.title}
+                    primary={searchList.title}
                   />
                 </ListItemButton>
                 <Box
@@ -281,7 +281,7 @@ export default memo(
                   <Tooltip title='添加到收藏歌单'>
                     <PlaylistAddIcon
                       sx={CRUDIcon}
-                      onClick={() => handleAddToFavClick(searchList.info.id)}
+                      onClick={() => handleAddToFavClick(searchList.id)}
                     />
                   </Tooltip>
                   &nbsp;&nbsp;

@@ -84,12 +84,12 @@ const usePlayer = ({ isMobile = false }) => {
   const parseSongList = async (favList) => {
     if (
       favList.info &&
-      favList.info.title !== '搜索歌单' &&
+      favList.title !== '搜索歌单' &&
       (await getPlayerSettingKey('loadPlaylistAsArtist'))
     ) {
       const val = new Array(favList.songList.length);
       for (let i = 0; i < favList.songList.length; i++) {
-        val[i] = { ...favList.songList[i], singer: favList.info.title };
+        val[i] = { ...favList.songList[i], singer: favList.title };
       }
       return val;
     }

@@ -47,7 +47,7 @@ export default function App({ theme }) {
 
   async function syncFavlistToBilibili({ event, props, triggerEvent, data }) {
     const key = enqueueSnackbar(
-      `正在同步歌单 ${props.favlist.info.title} 到b站收藏夹……`,
+      `正在同步歌单 ${props.favlist.title} 到b站收藏夹……`,
       { variant: 'info', persist: true, action: circularProgress },
     );
     closeSnackbar(key);
@@ -72,7 +72,7 @@ export default function App({ theme }) {
     options = { forced: false },
   ) {
     const key = enqueueSnackbar(
-      `正在用b站识歌标识歌单 ${props.favlist.info.title}……`,
+      `正在用b站识歌标识歌单 ${props.favlist.title}……`,
       { variant: 'info', persist: true, action: circularProgress },
     );
     try {
@@ -81,33 +81,30 @@ export default function App({ theme }) {
         options.forced,
       );
     } catch (e) {
-      console.warn(`b站识歌标识歌单 ${props.favlist.info.title} 失败`, e);
+      console.warn(`b站识歌标识歌单 ${props.favlist.title} 失败`, e);
     }
     closeSnackbar(key);
-    updateFavlist(
-      props,
-      `歌单 ${props.favlist.info.title} 已经用b站识歌更新乐！`,
-    );
+    updateFavlist(props, `歌单 ${props.favlist.title} 已经用b站识歌更新乐！`);
   }
 
   function removeBiliShazam({ event, props, triggerEvent, data }) {
     props.favlist.songList.forEach((song) => removeSongBiliShazamed(song));
     updateFavlist(
       props,
-      `歌单 ${props.favlist.info.title} 的b站识歌记录全部清除乐！`,
+      `歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`,
     );
   }
 
   function clearPlaylist({ event, props, triggerEvent, data }) {
     confirm({
       title: '清空歌单？',
-      description: `确认要清空歌单 ${props.favlist.info.title} 吗？`,
+      description: `确认要清空歌单 ${props.favlist.title} 吗？`,
       confirmationText: '好的',
       cancellationText: '算了',
     })
       .then(() => {
         props.favlist.songList = [];
-        updateFavlist(props, `歌单 ${props.favlist.info.title} 清空乐！`);
+        updateFavlist(props, `歌单 ${props.favlist.title} 清空乐！`);
       })
       .catch();
   }
@@ -115,13 +112,13 @@ export default function App({ theme }) {
   function reloadPlaylist({ event, props, triggerEvent, data }) {
     confirm({
       title: '重新载入歌单？',
-      description: `确认要清空并重新载入歌单 ${props.favlist.info.title} 吗？`,
+      description: `确认要清空并重新载入歌单 ${props.favlist.title} 吗？`,
       confirmationText: '好的',
       cancellationText: '算了',
     })
       .then(async () => {
         const key = enqueueSnackbar(
-          `正在重新载入歌单 ${props.favlist.info.title} 的bv号……`,
+          `正在重新载入歌单 ${props.favlist.title} 的bv号……`,
           { variant: 'info', persist: true, action: circularProgress },
         );
         const bvids = new Set();
@@ -135,9 +132,9 @@ export default function App({ theme }) {
             )
           ).flat();
           props.favlist.songList = songs;
-          updateFavlist(props, `歌单 ${props.favlist.info.title} 重载了！`);
+          updateFavlist(props, `歌单 ${props.favlist.title} 重载了！`);
         } catch {
-          console.error('failed to reload playlist', props.favlist.info.title);
+          console.error('failed to reload playlist', props.favlist.title);
         } finally {
           closeSnackbar(key);
         }
@@ -148,7 +145,7 @@ export default function App({ theme }) {
   function analyzeFavlist({ event, props, triggerEvent, data }) {
     const analytics = favListAnalytics(props.favlist);
     confirm({
-      title: `歌单 ${props.favlist.info.title} 的统计信息`,
+      title: `歌单 ${props.favlist.title} 的统计信息`,
       content: textToDialogContent([
         `歌单内总共有${analytics.songsUnique.size}首独特的歌`,
         `歌单内最常出现的歌：${analytics.songTop10
@@ -180,7 +177,7 @@ export default function App({ theme }) {
     const promises = [];
     const validBVIds = [];
     const key = enqueueSnackbar(
-      `正在查询歌单 ${props.favlist.info.title} 的bv号……`,
+      `正在查询歌单 ${props.favlist.title} 的bv号……`,
       { variant: 'info', persist: true, action: circularProgress },
     );
     for (const song of props.favlist.songList) {
@@ -198,7 +195,7 @@ export default function App({ theme }) {
     closeSnackbar(key);
     updateFavlist(
       props,
-      `歌单 ${props.favlist.info.title} 清理完成，删除了${
+      `歌单 ${props.favlist.title} 清理完成，删除了${
         validBVIds.filter((v) => v === undefined).length
       }个失效的bv号`,
     );

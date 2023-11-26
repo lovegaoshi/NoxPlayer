@@ -68,7 +68,7 @@ const saveItem = setLocalStorage;
 
 export const saveFav = async (updatedToList: PlayListDict) => {
   return await chrome.storage.local.set({
-    [updatedToList.info.id]: updatedToList,
+    [updatedToList.id]: updatedToList,
   });
 };
 
@@ -110,7 +110,7 @@ export const saveMyFavList = (
   },
 ) => {
   chrome.storage.local.set(
-    { [MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.info.id) },
+    { [MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.id) },
     callbackFunc,
   );
 };

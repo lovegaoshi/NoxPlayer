@@ -122,7 +122,7 @@ export const FavList = memo(
       let i = 0;
       for (const favList of favLists) {
         for (const song of favList.songList) {
-          allFavSongList[i] = { ...song, singer: favList.info.title };
+          allFavSongList[i] = { ...song, singer: favList.title };
           i++;
         }
       }
@@ -156,14 +156,14 @@ export const FavList = memo(
             <ListItemButton
               style={{ maxWidth: 'calc(100% - 84px)' }}
               onClick={() => setSelectedList(v)}
-              id={v.info.id}
+              id={v.id}
             >
               <ListItemIcon sx={DiskIcon}>
                 <AlbumOutlinedIcon />
               </ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{ fontSize: '1.1em' }}
-                primary={v.info.title}
+                primary={v.title}
               />
             </ListItemButton>
             <Box component='div' sx={CRUDBtn}>
@@ -176,13 +176,13 @@ export const FavList = memo(
               <Tooltip title='添加到收藏歌单'>
                 <AddBoxOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(v.info.id)}
+                  onClick={() => handleAddToFavClick(v.id)}
                 />
               </Tooltip>
               <Tooltip title='删除歌单'>
                 <DeleteOutlineOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleDeleteFavClick(v.info.title, v.info.id)}
+                  onClick={() => handleDeleteFavClick(v.title, v.id)}
                 />
               </Tooltip>
             </Box>
@@ -197,19 +197,19 @@ export const FavList = memo(
         handleClick = () => setSelectedList(specialList);
 
       return (
-        <React.Fragment key={specialList.info.id}>
+        <React.Fragment key={specialList.id}>
           <ListItemButton disableRipple sx={outerLayerBtn}>
             <ListItemButton
               style={{ maxWidth: 'calc(100% - 84px)' }}
               onClick={handleClick}
-              id={specialList.info.id}
+              id={specialList.id}
             >
               <ListItemIcon sx={DiskIcon}>
                 <ManageSearchIcon />
               </ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{ fontSize: '1.1em' }}
-                primary={specialList.info.title}
+                primary={specialList.title}
               />
             </ListItemButton>
             <Box component='div' sx={CRUDBtn}>
@@ -222,7 +222,7 @@ export const FavList = memo(
               <Tooltip title='添加到收藏歌单'>
                 <AddBoxOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(specialList.info.id)}
+                  onClick={() => handleAddToFavClick(specialList.id)}
                 />
               </Tooltip>
               <Tooltip title='新建为歌单'>

@@ -234,7 +234,7 @@ export const Fav = function Fav({
 }) {
   // currentFavList is stored solely for keeping in check rows
   // still is FavList in props; we can make rows
-  // a dict and store the favlist.info.id with it, so
+  // a dict and store the favlist.id with it, so
   // theres no need for currentFavList at all.
   const [currentFavList, setCurrentFavList] = useState(null);
   const [rows, setRows] = useState(null);
@@ -270,7 +270,7 @@ export const Fav = function Fav({
     if (
       currentFavList !== null &&
       rows !== null &&
-      currentFavList.info.id === FavList.info.id
+      currentFavList.id === FavList.id
     ) {
       return rows;
     }
@@ -303,7 +303,7 @@ export const Fav = function Fav({
     setRowsPerPage(defaultRowsPerPage);
     primePageToCurrentPlaying();
     performSearch('');
-  }, [FavList.info.id]);
+  }, [FavList.id]);
 
   const requestSearch = (e) => {
     const searchedVal = e.target.value;
@@ -373,7 +373,7 @@ export const Fav = function Fav({
               song,
               performSearch,
               onDelete: () =>
-                handleDeleteFromSearchList(currentFavList.info.id, song.id),
+                handleDeleteFromSearchList(currentFavList.id, song.id),
               currentFavList,
               reloadBVid: favListReloadBVid,
               onSongEdit: () => openSongEditDialog(song),
@@ -444,17 +444,14 @@ export const Fav = function Fav({
           <Tooltip title='添加到收藏歌单'>
             <PlaylistAddIcon
               sx={CRUDIcon}
-              onClick={() => handleAddToFavClick(currentFavList.info.id, song)}
+              onClick={() => handleAddToFavClick(currentFavList.id, song)}
             />
           </Tooltip>
           <Tooltip title='删除歌曲'>
             <DeleteOutlineOutlinedIcon
               sx={CRUDIcon}
               onClick={async () => {
-                await handleDeleteFromSearchList(
-                  currentFavList.info.id,
-                  song.id,
-                );
+                await handleDeleteFromSearchList(currentFavList.id, song.id);
                 handleSearch(searchBarRef.current.value);
               }}
             />
@@ -499,18 +496,18 @@ export const Fav = function Fav({
                     fontSize: '2rem',
                   }}
                 >
-                  {currentFavList.info.title}
+                  {currentFavList.title}
                 </Typography>
               </Grid>
               <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
                 <RandomGIFIcon
                   gifs={skinPreset.gifs}
-                  favList={currentFavList.info.id + page.toString()}
+                  favList={currentFavList.id + page.toString()}
                   onClickCallback={primePageToCurrentPlaying}
                 />
               </Grid>
               <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
-                {!currentFavList.info.id.includes('Special') && (
+                {!currentFavList.id.includes('Special') && (
                   <FavSettingsButtons
                     currentList={currentFavList}
                     rssUpdate={async (subscribeUrls) => {

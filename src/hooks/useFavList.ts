@@ -68,7 +68,7 @@ const useFavList = () => {
         break;
     }
     if (listid.includes('FavList-Special-Search')) return searchList;
-    const foundList = favLists.find((f) => f.info.id === listid);
+    const foundList = favLists.find((f) => f.id === listid);
     if (foundList) return foundList;
     throw new Error(`[findList] playlist ${listid} not found`);
   };
@@ -113,10 +113,9 @@ const useFavList = () => {
       cancellationText: '算了',
     })
       .then(() => {
-        const newFavListIDs = favLists.filter((FavId) => FavId.info.id !== id);
+        const newFavListIDs = favLists.filter((FavId) => FavId.id !== id);
         StorageManager.deletFavList(id, newFavListIDs);
-        if (selectedList && selectedList.info.id === id)
-          setSelectedList(undefined);
+        if (selectedList && selectedList.id === id) setSelectedList(undefined);
       })
       .catch();
   };
