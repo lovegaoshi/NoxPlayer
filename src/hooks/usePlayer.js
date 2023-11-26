@@ -1,6 +1,7 @@
 import React, { useState, useContext, useCallback, useRef } from 'react';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
+import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
@@ -42,7 +43,7 @@ const usePlayer = ({ isMobile = false }) => {
   };
 
   const musicSrcParser = async (v) => {
-    const url = await fetchPlayUrlPromise(v);
+    const { url } = await fetchPlayUrlPromise(v);
     parseR128Gain(v, () => url);
     return url;
   };
