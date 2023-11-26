@@ -264,21 +264,7 @@ export default class StorageManager {
         const playlist = JSON.parse(parsedContentDict[playlistID]);
         console.debug(playlist);
         chrome.storage.local.set({
-          [playlist.id]: {
-            songList: playlist.songList.reduce(
-              (acc, curr) => acc.concat(JSON.parse(parsedContentDict[curr])),
-              [],
-            ),
-            info: { title: playlist.title, id: playlist.id },
-            subscribeUrls: playlist.subscribeUrl,
-            settings: {
-              autoRSSUpdate: playlist.subscribeUrl.length > 0,
-            },
-            useBiliShazam: playlist.useBiliShazam,
-            biliSync: false,
-            bannedBVids: playlist.blacklistedUrl,
-            showFavoriteList: false,
-          },
+          [playlist.id]: playlist,
         });
       }
     } else {
