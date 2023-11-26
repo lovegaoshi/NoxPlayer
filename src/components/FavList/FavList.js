@@ -22,7 +22,7 @@ import { contextMenu } from 'react-contexify';
 import { defaultSearchList } from '@objects/Playlist';
 import Search from './Search';
 import { skinPreset } from '../../styles/skin';
-import PlayerSettingsButton from '../buttons/PlayerSetttingsButton';
+import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import HelpPanelButton from '../buttons/HelpPanelButton';
 import Menu from '../menus/Favlistmenu';
 import { StorageManagerCtx } from '../../contexts/StorageManagerContext';

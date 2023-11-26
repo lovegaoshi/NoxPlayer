@@ -234,6 +234,10 @@ module.exports = (env) => {
         '@background': path.resolve(__dirname, 'src/background'),
         '@stores': path.resolve(__dirname, 'src/stores'),
         '@enums': path.resolve(__dirname, 'src/azusa-player-mobile/src/enums'),
+        '@mfsdk': path.resolve(
+          __dirname,
+          'src/azusa-player-mobile/MusicFreePlugins/dist',
+        ),
         '@APM': path.resolve(__dirname, 'src/azusa-player-mobile/src'),
       },
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],

@@ -1,10 +1,6 @@
-import {
-  setLocalStorage,
-  readLocalStorage,
-  MY_FAV_LIST_KEY,
-  dummyFavListFromList,
-  PlayListDict,
-} from '../ChromeStorage';
+import { dummyFavListFromList } from '@objects/Playlist';
+import { MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
 
 export default async function update1118() {
   console.debug(
@@ -15,7 +11,9 @@ export default async function update1118() {
   )) as Array<string>) {
     setLocalStorage(
       favKey,
-      dummyFavListFromList((await readLocalStorage(favKey)) as PlayListDict),
+      dummyFavListFromList(
+        (await readLocalStorage(favKey)) as NoxMedia.Playlist,
+      ),
     );
   }
 }

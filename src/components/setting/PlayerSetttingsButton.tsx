@@ -5,7 +5,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 import type { NoxStorage } from '@APM/types/storage';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import SettingsDialog from '../dialogs/PlayerSettingsDialog';
+import SettingsDialog from './PlayerSettingsDialog';
 
 export default function playerSettingsButton({
   AddFavIcon,

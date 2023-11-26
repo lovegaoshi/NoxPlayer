@@ -5,6 +5,7 @@ import '../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
+import { CURRENT_PLAYING } from '@objects/Storage2';
 import { FavList } from './FavList/FavList';
 import LyricOverlay from './LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
@@ -12,7 +13,7 @@ import { skins, skinPreset } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';
-import { setLocalStorage, CURRENT_PLAYING } from '../utils/ChromeStorage';
+import { setLocalStorage } from '../utils/ChromeStorage';
 
 // Initial Player options
 const options = {
@@ -32,7 +33,7 @@ export default function Player({ songList }) {
   // Sync data to chromeDB
   const StorageManager = useContext(StorageManagerCtx);
 
-  const [
+  const {
     params,
     setparams,
     setplayingList,
@@ -45,7 +46,6 @@ export default function Player({ songList }) {
     setPlayerSettings,
 
     onPlayOneFromFav,
-    onAddOneFromFav,
     onPlayAllFromFav,
     onAddFavToList,
     playByIndex,
@@ -59,7 +59,8 @@ export default function Player({ songList }) {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
-  ] = usePlayer({});
+    musicSrcParser,
+  } = usePlayer({});
 
   useHotkeys('space', () => {
     if (currentAudioInst === null) return;
@@ -168,7 +169,7 @@ export default function Player({ songList }) {
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}
           theme={skinPreset.desktopTheme}
-          musicSrcParser={(v) => fetchPlayUrlPromise(v)}
+          musicSrcParser={musicSrcParser}
           ref={(element) => {
             window.musicplayer = element;
           }}

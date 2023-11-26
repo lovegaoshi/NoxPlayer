@@ -1,8 +1,6 @@
-import {
-  setLocalStorage,
-  FAV_FAV_LIST_KEY,
-  dummyFavList,
-} from '../ChromeStorage';
+import { dummyFavList } from '@objects/Playlist';
+import { FAV_FAV_LIST_KEY } from '@objects/Storage2';
+import { setLocalStorage } from '../ChromeStorage';
 
 export default async function update1119() {
   console.debug('1.1.1.9 update: initialize fav-favlist');

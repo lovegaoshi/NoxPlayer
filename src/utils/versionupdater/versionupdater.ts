@@ -1,8 +1,5 @@
-import {
-  setLocalStorage,
-  readLocalStorage,
-  MY_FAV_LIST_KEY,
-} from '../ChromeStorage';
+import { MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
 import updater1118 from './1.1.1.8';
 import updater1119 from './1.1.1.9';
 

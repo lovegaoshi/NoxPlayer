@@ -71,6 +71,8 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     ],
+    // i dont think this works well with typescript...
+    'react/require-default-props': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/no-unescaped-entities': 'off',

@@ -2,6 +2,7 @@
 import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
 import biliseriesFetch from '@APM/utils/mediafetch/biliseries';
+import { dummyFavList, dummyFavFavList } from '@objects/Playlist';
 import {
   INITIAL_PLAYLIST,
   MY_FAV_LIST_KEY,
@@ -10,11 +11,9 @@ import {
   LAST_PLAY_LIST,
   PLAYER_SETTINGS,
   CURRENT_PLAYING,
-  dummyFavList,
-  dummyFavFavList,
   DEFAULT_SETTING,
-  setLocalStorage,
-} from '../utils/ChromeStorage';
+} from '@objects/Storage2';
+import { setLocalStorage } from '../utils/ChromeStorage';
 
 export default class StorageManager {
   constructor() {

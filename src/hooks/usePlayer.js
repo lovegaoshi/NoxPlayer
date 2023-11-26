@@ -1,10 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { useState, useContext, useCallback, useRef } from 'react';
+
+import playerSettingStore from '@APM/stores/playerSettingStore';
+import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
+import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { getPlayerSettingKey } from '../utils/ChromeStorage';
@@ -35,6 +33,20 @@ const usePlayer = ({ isMobile = false }) => {
   const StorageManager = useContext(StorageManagerCtx);
 
   const biliHeartbeat = useRef(null);
+
+  const parseR128Gain = async (song, getSource) => {
+    if (!playerSettingStore.getState().playerSetting.r128gain) {
+      return;
+    }
+    currentAudioInst.volume = 1;
+    currentAudioInst.volume = await r128gain({ song, getSource });
+  };
+
+  const musicSrcParser = async (v) => {
+    const { url } = await fetchPlayUrlPromise(v);
+    parseR128Gain(v, () => url);
+    return url;
+  };
 
   const updateCurrentAudioList = useCallback(
     ({
@@ -260,7 +272,7 @@ const usePlayer = ({ isMobile = false }) => {
     }, 15000);
   };
 
-  return [
+  return {
     params,
     setparams,
     setplayingList,
@@ -287,7 +299,8 @@ const usePlayer = ({ isMobile = false }) => {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
-  ];
+    musicSrcParser,
+  };
 };
 
 export default usePlayer;

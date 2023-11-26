@@ -8,9 +8,9 @@ import { skins } from '@styles/skin';
 import {
   setLocalStorage,
   readLocalStorage,
-  FAV_FAV_LIST_KEY,
   PlayListDict,
 } from '@utils/ChromeStorage';
+import { FAV_FAV_LIST_KEY } from '@objects/Storage2';
 
 const buttonStyle = css`
   cursor: pointer;

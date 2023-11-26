@@ -31,7 +31,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Search from './FavList/Search';
 import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList/FavList';
 import { skinPreset } from '../styles/skin';
-import PlayerSettingsButton from './buttons/PlayerSetttingsButton';
+import PlayerSettingsButton from './setting/PlayerSetttingsButton';
 import rgba2rgb from '../utils/rgba2rgb';
 import HelpPanelButton from './buttons/HelpPanelButton';
 import useFavList from '../hooks/useFavList';

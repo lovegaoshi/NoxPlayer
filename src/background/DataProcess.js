@@ -1,9 +1,8 @@
 import bilivideoFetch from '@APM/utils/mediafetch/bilivideo';
-
+import { LAST_PLAY_LIST } from '@objects/Storage2';
 import { readLocalStorage } from '../utils/ChromeStorage';
 
 const DEFAULT_BVID = 'BV1g34y1r71w';
-const LAST_PLAY_LIST = 'LastPlayList';
 
 // Load last-playist from storage, else use DEFAULT_BVID as initial list.
 export default async (setCurrentSongList) => {

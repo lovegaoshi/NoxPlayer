@@ -3,9 +3,8 @@ import { useConfirm } from 'material-ui-confirm';
 
 import useNoxStore from '@hooks/useStore';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import { dummyFavList } from '@utils/ChromeStorage';
 import { parseSongName } from '@stores/appStore';
-import { defaultSearchList } from '@objects/Playlist';
+import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
 
 /**
