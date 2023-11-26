@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { noxBackup, noxRestore, loginDropbox } from '@utils/sync/dropboxauth';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
-export function ImportSyncFavButton(AddFavIcon) {
+export function ImportSyncFavButton({ AddFavIcon }) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export function ImportSyncFavButton(AddFavIcon) {
   );
 }
 
-export function ExportSyncFavButton(AddFavIcon) {
+export function ExportSyncFavButton({ AddFavIcon }) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);

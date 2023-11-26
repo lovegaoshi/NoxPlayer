@@ -8,7 +8,10 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
-export function ExportFavButton(AddFavIcon: Object) {
+interface SyncFavButtonProps {
+  AddFavIcon: Object;
+}
+export function ExportFavButton({ AddFavIcon }: SyncFavButtonProps) {
   const StorageManager = useContext(StorageManagerCtx);
   // alls sync buttons are loaded/unloaded depending on the current sync setting;
   // thus they all must have exactly the same states for react to mount and unmount to another set.
@@ -25,7 +28,7 @@ export function ExportFavButton(AddFavIcon: Object) {
   );
 }
 
-export function ImportFavButton(AddFavIcon: Object) {
+export function ImportFavButton({ AddFavIcon }: SyncFavButtonProps) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const dummy = enqueueSnackbar;

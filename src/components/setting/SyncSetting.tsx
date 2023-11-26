@@ -35,33 +35,34 @@ function SyncSetttingButtons() {
     case EXPORT_OPTIONS.DROPBOX:
       return (
         <React.Fragment>
-          {ExportSyncFavButton(AddFavIcon)}
-          {ImportSyncFavButton(AddFavIcon)}
+          <ExportSyncFavButton AddFavIcon={AddFavIcon} />
+          <ImportSyncFavButton AddFavIcon={AddFavIcon} />
         </React.Fragment>
       );
     case EXPORT_OPTIONS.PERSONAL:
       return (
         <React.Fragment>
-          {PersonalExportSyncFavButton(
-            AddFavIcon,
-            playerSettings.personalCloudIP,
-          )}
-          {PersonalImportSyncFavButton(
-            AddFavIcon,
-            playerSettings.personalCloudIP,
-          )}
-          {SetPersonalCloudTextField(
-            playerSettings.personalCloudIP,
-            (val: EXPORT_OPTIONS) =>
-              setPlayerSettings({ settingExportLocation: val }),
-          )}
+          <PersonalExportSyncFavButton
+            AddFavIcon={AddFavIcon}
+            cloudAddress={playerSettings.personalCloudIP}
+          />
+          <PersonalImportSyncFavButton
+            AddFavIcon={AddFavIcon}
+            cloudAddress={playerSettings.personalCloudIP}
+          />
+          <SetPersonalCloudTextField
+            cloudAddress={playerSettings.personalCloudIP}
+            setCloudAddress={(val: string) =>
+              setPlayerSettings({ personalCloudIP: val })
+            }
+          />
         </React.Fragment>
       );
     default:
       return (
         <React.Fragment>
-          {ExportFavButton(AddFavIcon)}
-          {ImportFavButton(AddFavIcon)}
+          <ExportFavButton AddFavIcon={AddFavIcon} />
+          <ImportFavButton AddFavIcon={AddFavIcon} />
         </React.Fragment>
       );
   }

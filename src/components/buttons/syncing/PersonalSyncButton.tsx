@@ -10,10 +10,14 @@ import TextField from '@mui/material/TextField';
 import { noxBackup, noxRestore } from '@utils/sync/PersonalCloudAuth';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 
-export function ImportSyncFavButton(
-  AddFavIcon: Object,
-  cloudAddress: string | undefined = undefined,
-) {
+interface SyncFavButtonProps {
+  AddFavIcon: Object;
+  cloudAddress?: string;
+}
+export function ImportSyncFavButton({
+  AddFavIcon,
+  cloudAddress = '',
+}: SyncFavButtonProps) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -59,10 +63,10 @@ export function ImportSyncFavButton(
   );
 }
 
-export function ExportSyncFavButton(
-  AddFavIcon: Object,
-  cloudAddress: string | undefined = undefined,
-) {
+export function ExportSyncFavButton({
+  AddFavIcon,
+  cloudAddress = '',
+}: SyncFavButtonProps) {
   const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
@@ -105,15 +109,22 @@ export function ExportSyncFavButton(
   );
 }
 
-export function SetPersonalCloudTextField(val: string, setVal: Function) {
+interface PersonalCloudTextFieldProps {
+  cloudAddress: string;
+  setCloudAddress: (val: string) => void;
+}
+export function SetPersonalCloudTextField({
+  cloudAddress,
+  setCloudAddress,
+}: PersonalCloudTextFieldProps) {
   return (
     <TextField
       margin='dense'
       id='PersonalCloudAddress'
       label='私有云地址'
       type='name'
-      onChange={(e) => setVal(e.target.value)}
-      value={val}
+      onChange={(e) => setCloudAddress(e.target.value)}
+      value={cloudAddress}
       autoComplete='off'
       placeholder='末尾带/'
     />
