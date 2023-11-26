@@ -1,6 +1,6 @@
 import { initializeR128Gain } from '@APM/utils/ffmpeg/r128Store';
 import { initializePlayerSetting } from '@APM/stores/playerSettingStore';
-import { initializeAppStore } from './appStore';
+import { initialize as initializeAppStore } from '@APM/stores/appStore';
 
 export default async () => {
   initializeAppStore();

@@ -209,6 +209,10 @@ module.exports = (env) => {
       ifDev(new ReactRefreshWebpackPlugin()),
       ifProd(new ProgressBar()),
       new webpack.NormalModuleReplacementPlugin(
+        /react-native-track-player/,
+        require.resolve('./mocks/react-native-track-player.js'),
+      ),
+      new webpack.NormalModuleReplacementPlugin(
         /react-native/,
         require.resolve('./mocks/react-native.js'),
       ),

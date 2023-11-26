@@ -3,7 +3,7 @@ import { useConfirm } from 'material-ui-confirm';
 
 import useNoxStore from '@hooks/useStore';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import { parseSongName } from '@stores/appStore';
+import { parseSongName } from '@APM/stores/appStore';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
 
@@ -62,7 +62,7 @@ const useFavList = () => {
 
   const findList = async (listid: string): Promise<NoxMedia.Playlist> => {
     switch (listid) {
-      case favoriteList?.info?.id:
+      case favoriteList?.id:
         return StorageManager.getFavFavList();
       default:
         break;
@@ -172,7 +172,7 @@ const useFavList = () => {
     try {
       const oldListLength = playlist.songList.length;
       if (subscribeUrls === undefined) {
-        subscribeUrls = playlist.subscribeUrls;
+        subscribeUrls = playlist.subscribeUrl;
       }
       if (subscribeUrls === undefined) return null;
       // TODO: this is stupid. needs to change:
@@ -183,10 +183,10 @@ const useFavList = () => {
         playlist.songList = (
           await searchBiliURLs({
             progressEmitter: setPlaylistRefreshProgress,
-            input: subscribeUrls[i],
+            input: subscribeUrls[i] || '',
             favList: [
               ...playlist.songList.map((val) => val.bvid),
-              ...playlist.bannedBVids,
+              ...playlist.blacklistedUrl,
             ],
             useBiliTag: playlist.useBiliShazam,
           })

@@ -1,4 +1,4 @@
-import StorageManager from '../objects/Storage';
+import { getPlayerSetting } from '@utils/ChromeStorage';
 import AzusaTheme from './skins/azusa';
 import ItsukiTheme from './skins/itsuki';
 import NoxTheme from './skins/nox';
@@ -16,7 +16,7 @@ import RyniaTheme from './skins/rynia';
 import NiyaTheme from './skins/nyiaibu';
 import LumiTheme from './skins/lumi';
 // needs to enable top-level await; necessary for other modules to import current skin config
-const setting = await new StorageManager().getPlayerSetting();
+const setting = await getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
 export const SkinKeys = [
   '诺莺nox',

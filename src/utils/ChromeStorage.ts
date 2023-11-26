@@ -1,6 +1,8 @@
 import type { NoxStorage } from '@APM/types/storage';
 import { STORAGE_KEYS } from '@enums/Storage';
 import { DEFAULT_SETTING, MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { logger } from '@utils/Logger';
+import rejson from './rejson.json';
 
 export interface PlayListDict {
   songList: Array<NoxMedia.Song>;
@@ -15,6 +17,28 @@ export interface PlayListDict {
   showFavoriteList: boolean;
   [key: string]: any;
 }
+
+export const getRegExtractMapping = async (): Promise<
+  NoxRegExt.JSONExtractor[]
+> => {
+  try {
+    const res = await fetch(
+      'https://raw.githubusercontent.com/lovegaoshi/azusa-player-mobile/master/src/utils/rejson.json',
+    );
+    return await res.json();
+  } catch (e) {
+    logger.error('failed to load rejson');
+    return rejson as NoxRegExt.JSONExtractor[];
+  }
+};
+
+export const getFadeInterval = async () =>
+  Number(await getItem(STORAGE_KEYS.FADE_INTERVAL, 0));
+
+export const getABMapping = () => getItem(STORAGE_KEYS.ABREPEAT_MAPPING, {});
+
+export const saveABMapping = (val: NoxStorage.ABDict) =>
+  saveItem(STORAGE_KEYS.ABREPEAT_MAPPING, val);
 
 export const getR128GainMapping = (): Promise<NoxStorage.R128Dict> =>
   getItem(STORAGE_KEYS.R128GAIN_MAPPING, {});
@@ -114,3 +138,43 @@ export const saveMyFavList = (
     callbackFunc,
   );
 };
+
+const clearPlaylists = async () => {
+  const playlists = (await chrome.storage.local.get([MY_FAV_LIST_KEY]))[
+    MY_FAV_LIST_KEY
+  ];
+  chrome.storage.local.remove(playlists);
+};
+
+/**
+ * 
+ * 
+export const importStorageRaw = async (content) => {
+  const parsedContent = JSON.parse(strFromU8(decompressSync(content)));
+  // compatibility from azusa-player-mobile that its an array of key-value pair.
+  if (Array.isArray(parsedContent)) {
+    console.warn(
+      'import playlist is azusamobile variant. now importing just the playlist...',
+    );
+    const parsedContentDict = parsedContent.reduce(
+      (acc, curr) => ({ ...acc, [curr[0]]: curr[1] }),
+      {},
+    );
+    const playlists = JSON.parse(parsedContentDict[MY_FAV_LIST_KEY]) || [];
+    await clearPlaylists();
+    await chrome.storage.local.set({ [MY_FAV_LIST_KEY]: playlists });
+    for (const playlistID of playlists) {
+      const playlist = JSON.parse(parsedContentDict[playlistID]);
+      console.debug(playlist);
+      chrome.storage.local.set({
+        [playlist.id]: playlist,
+      });
+    }
+  } else {
+    await chrome.storage.local.clear();
+    await chrome.storage.local.set(parsedContent);
+  }
+  this.initFavLists();
+};
+
+ */
