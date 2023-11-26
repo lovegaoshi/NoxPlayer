@@ -25,22 +25,10 @@ import { useStore } from 'zustand';
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import type { NoxStorage } from '@APM/types/storage';
 import { SkinKeys, skins, skinPreset } from '@styles/skin';
-import { DEFAULT_SETTING, EXPORT_OPTIONS } from '@objects/Storage2';
+import { DEFAULT_SETTING } from '@objects/Storage2';
 import TimerButton from '../buttons/TimerButton';
-import {
-  ExportSyncFavButton as PersonalExportSyncFavButton,
-  ImportSyncFavButton as PersonalImportSyncFavButton,
-  SetPersonalCloudTextField,
-} from '../buttons/syncing/PersonalSyncButton';
-import {
-  ExportSyncFavButton,
-  ImportSyncFavButton,
-} from '../buttons/syncing/DropboxSyncButton';
-import {
-  ExportFavButton,
-  ImportFavButton,
-} from '../buttons/syncing/LocalSyncButton';
 import PlayerResetButton from '../buttons/PlayerResetButton';
+import SyncSetting from './SyncSetting';
 
 const { colorTheme } = skinPreset;
 
@@ -80,78 +68,22 @@ interface Props {
   openState: boolean;
   settings: NoxStorage.PlayerSettingDict;
 }
-export default function SettingsDialog({
-  onClose,
-  openState,
-  settings,
-}: Props) {
+export default function SettingsDialog({ onClose, openState }: Props) {
   const playerSettings = useStore(
     playerSettingStore,
     (state) => state.playerSetting,
   );
   const [skin, setSkin] = useState(DEFAULT_SETTING.skin);
-  const [settingExportLocation, setSettingExportLocation] = useState(
-    DEFAULT_SETTING.settingExportLocation,
-  );
-  const [personalCloudIP, setPersonalCloudIP] = useState('');
   const [tabValue, setTabValue] = React.useState('1');
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
 
-  const syncSetttingButtons = () => {
-    switch (settingExportLocation) {
-      case EXPORT_OPTIONS.DROPBOX:
-        return (
-          <React.Fragment>
-            {ExportSyncFavButton(AddFavIcon)}
-            {ImportSyncFavButton(AddFavIcon)}
-          </React.Fragment>
-        );
-      case EXPORT_OPTIONS.PERSONAL:
-        return (
-          <React.Fragment>
-            {PersonalExportSyncFavButton(AddFavIcon, personalCloudIP)}
-            {PersonalImportSyncFavButton(AddFavIcon, personalCloudIP)}
-            {SetPersonalCloudTextField(personalCloudIP, setPersonalCloudIP)}
-          </React.Fragment>
-        );
-      default:
-        return (
-          <React.Fragment>
-            {ExportFavButton(AddFavIcon)}
-            {ImportFavButton(AddFavIcon)}
-          </React.Fragment>
-        );
-    }
-  };
-
   const settingsPanel = () => {
     return (
       <React.Fragment>
-        <Box>
-          {syncSetttingButtons()}
-          <TextField
-            id='player-settings-sync-method-select'
-            value={settingExportLocation}
-            label='云同步选择'
-            margin='dense'
-            select
-            onChange={(e) =>
-              setSettingExportLocation(e.target.value as EXPORT_OPTIONS)
-            }
-            style={{ minWidth: 100 }}
-          >
-            {Object.values(EXPORT_OPTIONS).map((v, i) => {
-              return (
-                <MenuItem key={i} value={v}>
-                  {v}
-                </MenuItem>
-              );
-            })}
-          </TextField>
-        </Box>
+        <SyncSetting />
         <Tooltip title={skins(skin).maintainerTooltip}>
           <Typography
             style={{ color: colorTheme.songListColumnHeaderColor }}
@@ -295,16 +227,3 @@ export default function SettingsDialog({
     </Dialog>
   );
 }
-
-const AddFavIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.playListIconColor,
-  // padding added to account for the textfield label margin:dense
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '8px',
-  paddingRight: '8px',
-};
