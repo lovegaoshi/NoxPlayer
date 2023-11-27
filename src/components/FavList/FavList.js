@@ -74,6 +74,9 @@ export const FavList = memo(
   }) => {
     const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
     const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+    const playlistShouldReRender = useNoxSetting(
+      (state) => state.playlistShouldReRender,
+    );
     const {
       playlists,
       playlistIds,
@@ -139,8 +142,6 @@ export const FavList = memo(
                   updateFavList: (val) => {
                     const newList = { ...val };
                     updatePlaylist(newList);
-                    // well, we resorted back to this...
-                    setSelectedList(null);
                     setSelectedList(newList);
                   },
                 },

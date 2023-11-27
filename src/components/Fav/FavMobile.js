@@ -19,8 +19,8 @@ import EditOffIcon from '@mui/icons-material/EditOff';
 import { FixedSizeList as List } from 'react-window';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
-import { getName } from '@APM/utils/re';
-import { songText, reParseSearch } from './Fav';
+import { getName, reParseSearch } from '@APM/utils/re';
+import { songText } from './Fav';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from '../buttons/randomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
@@ -67,15 +67,13 @@ export default (function Fav({
   onRssUpdate,
   currentAudioID,
 }) {
-  const [currentFavList, setCurrentFavList] = useState(null);
-  const [rows, setRows] = useState(null);
+  const [rows, setRows] = useState([]);
   const [songIconVisible, setSongIconVisible] = useState(false);
   const FavPanelRef = useRef(null);
   const searchBarRef = useRef({ current: {} });
   const favPanelHeight = useRef(window.innerHeight - 320);
 
   useEffect(() => {
-    setCurrentFavList(FavList);
     setRows(FavList.songList);
     // this should be saved to localStorage
     if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
@@ -92,7 +90,7 @@ export default (function Fav({
       setRows(FavList.songList);
       return;
     }
-    setRows(reParseSearch(searchedVal, FavList.songList));
+    setRows(reParseSearch({ searchStr: searchedVal, rows: FavList.songList }));
   };
 
   // console.log('rener Fav')
@@ -136,14 +134,14 @@ export default (function Fav({
             <Tooltip title='添加到收藏歌单'>
               <PlaylistAddIcon
                 sx={CRUDIcon}
-                onClick={() => handleAddToFavClick(currentFavList, song)}
+                onClick={() => handleAddToFavClick(FavList, song)}
               />
             </Tooltip>
             <Tooltip title='删除歌曲'>
               <DeleteOutlineOutlinedIcon
                 sx={CRUDIcon}
                 onClick={() => {
-                  handleDeleteFromSearchList(currentFavList.id, song.id);
+                  handleDeleteFromSearchList(FavList.id, song.id);
                   handleSearch(searchBarRef.current.value);
                 }}
               />
@@ -171,7 +169,7 @@ export default (function Fav({
   };
 
   return (
-    currentFavList && (
+    FavList && (
       <div>
         <Box sx={{ flexGrow: 1, height: '144px' }}>
           <Grid
@@ -193,7 +191,7 @@ export default (function Fav({
                     fontSize: '2rem',
                   }}
                 >
-                  {playlistTitleParse(currentFavList.title)}
+                  {playlistTitleParse(FavList.title)}
                 </Typography>
               </Button>
             </Grid>
@@ -206,10 +204,7 @@ export default (function Fav({
                 paddingRight: '8px',
               }}
             >
-              <RandomGIFIcon
-                gifs={skinPreset.gifs}
-                favList={currentFavList.id}
-              />
+              <RandomGIFIcon gifs={skinPreset.gifs} favList={FavList.id} />
             </Grid>
             <Grid item xs={5} style={{ textAlign: 'right', padding: '0px' }}>
               <IconButton
@@ -220,9 +215,9 @@ export default (function Fav({
               >
                 {songIconVisible ? <EditOffIcon /> : <EditIcon />}
               </IconButton>
-              {!currentFavList.id.includes('Search') && (
+              {!FavList.id.includes('Search') && (
                 <FavSettingsButtons
-                  currentList={currentFavList}
+                  currentList={FavList}
                   rssUpdate={async (subscribeUrls) => {
                     const val = await onRssUpdate(subscribeUrls);
                     if (val !== null) setRows(val);

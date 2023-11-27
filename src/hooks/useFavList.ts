@@ -36,6 +36,8 @@ const useFavList = () => {
   const playlists = useNoxSetting((state) => state.playlists);
   const playlistIds = useNoxSetting((state) => state.playlistIds);
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+  const selectedList = useNoxSetting((state) => state.currentPlaylist);
+  const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
   const addPlaylist = useNoxSetting((state) => state.addPlaylist);
   const setPlaylistIds = useNoxSetting((state) => state.setPlaylistIds);
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
@@ -43,7 +45,6 @@ const useFavList = () => {
 
   const [searchList, setSearchList] = useState(defaultSearchList({}));
   const [favoriteList] = useState(dummyFavList(''));
-  const [selectedList, setSelectedList] = useState<NoxMedia.Playlist>();
   const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null);
   const [openNewDialog, setOpenNewDialog] = useState(false);
   const [searchInputVal, setSearchInputVal] = useState('');
@@ -111,6 +112,7 @@ const useFavList = () => {
     })
       .then(() => {
         removePlaylist(id);
+        // @ts-ignore
         if (selectedList && selectedList.id === id) setSelectedList(undefined);
       })
       .catch();
