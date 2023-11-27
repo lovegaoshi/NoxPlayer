@@ -85,7 +85,6 @@ export default memo(
     onSongListChange,
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
     showFavList,
     currentAudioID,
   }) => {
@@ -95,10 +94,8 @@ export default memo(
     const confirm = useConfirm();
     const {
       favLists,
-      setFavLists,
       searchList,
       setSearchList,
-      favoriteList,
       selectedList,
       setSelectedList,
       setSongsStoredAsNewFav,
@@ -421,17 +418,14 @@ export default memo(
             </div>
           </Dialog>
         </ThemeProvider>
-        {favLists && (
-          <AddFavDialog
-            id='AddFav'
-            openState={openAddDialog}
-            onClose={onAddFav}
-            fromId={actionFavId}
-            favLists={favLists.map((v) => v.info)}
-            song={actionFavSong}
-            isMobile
-          />
-        )}
+        <AddFavDialog
+          id='AddFav'
+          openState={openAddDialog}
+          onClose={onAddFav}
+          fromId={actionFavId}
+          song={actionFavSong}
+          isMobile
+        />
       </React.Fragment>
     );
   },

@@ -20,7 +20,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { contextMenu } from 'react-contexify';
 
 import { defaultSearchList } from '@objects/Playlist';
-import { useNoxSetting } from '@APM/stores/useApp';
 import Search from './Search';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
@@ -74,8 +73,6 @@ export const FavList = memo(
     onAddFavToList,
     playerSettings,
   }) => {
-    const playlists = useNoxSetting((state) => state.playlists);
-    const playlistIds = useNoxSetting((state) => state.playlistIds);
     const StorageManager = useContext(StorageManagerCtx);
     const {
       favLists,
@@ -375,10 +372,6 @@ export const FavList = memo(
             openState={openAddDialog}
             onClose={onAddFav}
             fromId={actionFavId}
-            favLists={playlistIds.map((favId) => ({
-              id: playlists[favId].id,
-              title: playlists[favId].id,
-            }))}
             song={actionFavSong}
             MenuProps={{ style: { maxHeight: 200 } }}
           />

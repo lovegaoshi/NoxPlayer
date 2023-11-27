@@ -12,6 +12,8 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 
+import { useNoxSetting } from '@APM/stores/useApp';
+
 export const NewFavDialog = function NewFavDialog({ onClose, openState }) {
   const [favName, setfavName] = useState('');
 
@@ -63,11 +65,12 @@ export const AddFavDialog = function AddFavDialog({
   onClose,
   openState,
   fromId,
-  favLists,
   song,
   isMobile = false,
 }) {
   const [favId, setfavId] = useState('');
+  const playlists = useNoxSetting((state) => state.playlists);
+  const playlistIds = useNoxSetting((state) => state.playlistIds);
 
   const handleCancel = () => {
     onClose();
@@ -87,9 +90,7 @@ export const AddFavDialog = function AddFavDialog({
     <div>
       <Dialog open={openState}>
         <DialogTitle>{`添加 ${
-          song === undefined
-            ? favLists.find((i) => i.id === fromId)?.title
-            : song?.parsedName
+          song === undefined ? playlists[fromId]?.title : song?.parsedName
         } 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile ? '50vw' : 400, minHeight: 50 }}>
@@ -104,19 +105,18 @@ export const AddFavDialog = function AddFavDialog({
                 input={<Input />}
                 MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
               >
-                {favLists &&
-                  favLists.map((v, i) => {
-                    if (v.id !== fromId) {
-                      return (
-                        // this is stupid, stupid linter
-                        // eslint-disable-next-line react/no-array-index-key
-                        <MenuItem key={`menu${i}`} value={v.id}>
-                          {v.title}
-                        </MenuItem>
-                      );
-                    }
-                    return null;
-                  })}
+                {playlistIds.map((v, i) => {
+                  if (v !== fromId) {
+                    return (
+                      // this is stupid, stupid linter
+                      // eslint-disable-next-line react/no-array-index-key
+                      <MenuItem key={`menu${i}`} value={v}>
+                        {playlists[v].title}
+                      </MenuItem>
+                    );
+                  }
+                  return null;
+                })}
               </Select>
             </FormControl>
           </Box>
