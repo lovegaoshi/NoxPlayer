@@ -1,4 +1,4 @@
-import { MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { MY_FAV_LIST_KEY } from '@objects/Storage';
 
 export default async function update3000() {
   console.debug('3.0.0.0 update; migrate to APMs playlist data structure.');

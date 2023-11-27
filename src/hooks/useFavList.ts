@@ -1,18 +1,16 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 
 import useNoxStore from '@hooks/useStore';
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 import { parseSongName } from '@APM/stores/appStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
+import { filterUndefined } from '@APM/utils/Utils';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.
  * @param {object} listObj the playlist to be updated.
- * @param {Object} StorageManager storageManager object that is used to update chrome.storage.local.
- * calls its updateFavList method.
  * @param {function} setSelectedList useState setter for FavList that sets its selectedList state.
  * @param {Array} subscribeUrls the subscribe urls to be checked in an array format. if not specified,
  * this is defualted to be listObj.subscribeUrls.
@@ -21,7 +19,6 @@ import { searchBiliURLs } from '@APM/utils/BiliSearch';
 
 interface UpdateSubscribeFavListProps {
   playlist: NoxMedia.Playlist;
-  StorageManager: any;
   setSelectedList: (playlist: NoxMedia.Playlist) => void;
   subscribeUrls?: string[];
 }
@@ -36,7 +33,17 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
 };
 
 const useFavList = () => {
-  const [favLists, setFavLists] = useState<NoxMedia.Playlist[]>([]);
+  const playlists = useNoxSetting((state) => state.playlists);
+  const playlistIds = useNoxSetting((state) => state.playlistIds);
+  const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+  const addPlaylist = useNoxSetting((state) => state.addPlaylist);
+  const setPlaylistIds = useNoxSetting((state) => state.setPlaylistIds);
+  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+  const removePlaylist = useNoxSetting((state) => state.removePlaylist);
+
+  const [favLists, setFavLists] = useState<NoxMedia.Playlist[]>(
+    filterUndefined(playlistIds, (id) => playlists[id]),
+  );
   const [searchList, setSearchList] = useState(defaultSearchList({}));
   const [favoriteList] = useState(dummyFavList(''));
   const [selectedList, setSelectedList] = useState<NoxMedia.Playlist>();
@@ -48,23 +55,16 @@ const useFavList = () => {
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
-  const StorageManager = useContext(StorageManagerCtx);
   const confirm = useConfirm();
 
   const setPlaylistRefreshProgress = useNoxStore(
     (state) => state.setPlaylistRefreshProgress,
   );
 
-  useEffect(() => {
-    // Caches setter and latest favList in StoreMng
-    StorageManager.setFavLists = setFavLists;
-    StorageManager.initFavLists();
-  }, []);
-
-  const findList = async (listid: string): Promise<NoxMedia.Playlist> => {
+  const findList = (listid: string): NoxMedia.Playlist => {
     switch (listid) {
       case favoriteList?.id:
-        return StorageManager.getFavFavList();
+        return favoritePlaylist;
       default:
         break;
     }
@@ -77,12 +77,12 @@ const useFavList = () => {
   const getUpdateListMethod = (listid: string) => {
     return listid.includes('FavList-Special-Search')
       ? setSearchList
-      : StorageManager.updateFavList.bind(StorageManager);
+      : updatePlaylist;
   };
 
   const handleDeleteFromSearchList = useCallback(
     async (listid: string, songid: string) => {
-      const favList = await findList(listid);
+      const favList = findList(listid);
       const index = favList.songList.findIndex((song) => song.id === songid);
       if (index === -1) return;
       favList.songList.splice(index, 1);
@@ -94,16 +94,15 @@ const useFavList = () => {
 
   const onNewFav = (favName?: string) => {
     setOpenNewDialog(false);
-    if (favName) {
-      // console.log(val)
-      const favList = StorageManager.addFavList(favName, favLists);
-      if (songsStoredAsNewFav) {
-        favList.songList = songsStoredAsNewFav;
-        setSongsStoredAsNewFav(null);
-        favList.subscribeUrls = [searchInputVal.slice()];
-        StorageManager.updateFavList(favList);
-      }
+    if (!favName) return;
+    // console.log(val)
+    const favList = dummyFavList(favName);
+    if (songsStoredAsNewFav) {
+      favList.songList = songsStoredAsNewFav;
+      setSongsStoredAsNewFav(null);
+      favList.subscribeUrl = [searchInputVal.slice()];
     }
+    addPlaylist(favList);
   };
 
   const handleDeleteFavClick = (playlistName: string, id: string) => {
@@ -114,8 +113,7 @@ const useFavList = () => {
       cancellationText: '算了',
     })
       .then(() => {
-        const newFavListIDs = favLists.filter((FavId) => FavId.id !== id);
-        StorageManager.deletFavList(id, newFavListIDs);
+        removePlaylist(id);
         if (selectedList && selectedList.id === id) setSelectedList(undefined);
       })
       .catch();
@@ -135,10 +133,10 @@ const useFavList = () => {
     setOpenAddDialog(false);
     if (!toId) return;
     let fromList;
-    const toList = await findList(toId);
+    const toList = findList(toId);
 
     if (song) fromList = { songList: [song] };
-    else fromList = await findList(fromId);
+    else fromList = findList(fromId);
 
     const newSongList = fromList.songList.filter(
       (s) => undefined === toList.songList.find((v) => v.id === s.id),
@@ -146,10 +144,10 @@ const useFavList = () => {
     // console.log(fromId, toId)
 
     const updatedToList = {
-      info: toList.info,
+      ...toList,
       songList: newSongList.concat(toList.songList),
     };
-    StorageManager.updateFavList(updatedToList);
+    updatePlaylist(updatedToList);
   };
 
   const onDragEnd = (result: any) => {
@@ -163,7 +161,7 @@ const useFavList = () => {
       result.destination.index,
     );
     setFavLists(newFavLists);
-    StorageManager.saveMyFavList(newFavLists);
+    setPlaylistIds(newFavLists.map((list) => list.id));
   };
 
   const updateSubscribeFavList = async ({
@@ -200,7 +198,7 @@ const useFavList = () => {
       // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
       // to have a change in list size.
       if (oldListLength !== playlist.songList.length) {
-        StorageManager.updateFavList(playlist);
+        updatePlaylist(playlist, [], []);
         setSelectedList(playlist);
         return playlist.songList;
       }

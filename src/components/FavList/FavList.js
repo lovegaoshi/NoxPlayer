@@ -20,12 +20,12 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { contextMenu } from 'react-contexify';
 
 import { defaultSearchList } from '@objects/Playlist';
+import { useNoxSetting } from '@APM/stores/useApp';
 import Search from './Search';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import HelpPanelButton from '../buttons/HelpPanelButton';
 import Menu from '../menus/Favlistmenu';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
 import { Fav } from '../Fav/Fav';
@@ -70,13 +70,12 @@ export const FavList = memo(
     onSongListChange,
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
     playerSettings,
   }) => {
-    const StorageManager = useContext(StorageManagerCtx);
+    const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+    const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
     const {
       favLists,
-      setFavLists,
       searchList,
       setSearchList,
       favoriteList,
@@ -144,7 +143,7 @@ export const FavList = memo(
                   favlist: v,
                   updateFavList: (val) => {
                     const newList = { ...val };
-                    StorageManager.updateFavList(newList);
+                    updatePlaylist(newList);
                     // well, we resorted back to this...
                     setSelectedList(null);
                     setSelectedList(newList);
@@ -300,7 +299,7 @@ export const FavList = memo(
             {renderSpecialList(searchList)}
             {false &&
               renderSpecialList(favoriteList, () =>
-                StorageManager.getFavFavList().then(setSelectedList),
+                setSelectedList(favoritePlaylist),
               )}
             {favLists && (
               <DragDropContext onDragEnd={onDragEnd}>
@@ -357,8 +356,6 @@ export const FavList = memo(
               rssUpdate={(subscribeUrls) =>
                 updateSubscribeFavList({
                   playlist: selectedList,
-                  StorageManager,
-                  setSelectedList,
                   subscribeUrls,
                 })
               }

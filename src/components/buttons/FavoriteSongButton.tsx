@@ -10,7 +10,7 @@ import {
   readLocalStorage,
   PlayListDict,
 } from '@utils/ChromeStorage';
-import { FAV_FAV_LIST_KEY } from '@objects/Storage2';
+import { FAV_FAV_LIST_KEY } from '@objects/Storage';
 
 const buttonStyle = css`
   cursor: pointer;

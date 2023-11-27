@@ -4,7 +4,6 @@ import React, {
   useState,
   useCallback,
   memo,
-  useContext,
 } from 'react';
 import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
@@ -36,7 +35,6 @@ import rgba2rgb from '../utils/rgba2rgb';
 import HelpPanelButton from './buttons/HelpPanelButton';
 import useFavList from '../hooks/useFavList';
 import TimerButton from './buttons/TimerButton';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
 import Fav from './Fav/FavMobile';
@@ -90,7 +88,6 @@ export default memo(
   }) => {
     const [favOpen, setFavOpen] = useState(false);
     const [open, setOpen] = useState(false);
-    const StorageManager = useContext(StorageManagerCtx);
     const confirm = useConfirm();
     const {
       favLists,
@@ -356,8 +353,6 @@ export default memo(
               onRssUpdate={async (subscribeUrls) =>
                 updateSubscribeFavList({
                   playlist: selectedList,
-                  StorageManager,
-                  setSelectedList,
                   subscribeUrls,
                 })
               }

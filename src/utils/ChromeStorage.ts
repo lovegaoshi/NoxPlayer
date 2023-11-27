@@ -2,10 +2,10 @@ import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
 import type { NoxStorage } from '@APM/types/storage';
 import { STORAGE_KEYS } from '@enums/Storage';
-import { DEFAULT_SETTING } from '@objects/Storage2';
 import { logger } from '@utils/Logger';
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
+import { DEFAULT_SETTING } from '@objects/Storage';
 import rejson from './rejson.json';
 
 export interface PlayListDict {

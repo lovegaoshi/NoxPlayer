@@ -6,7 +6,7 @@ import { useStore } from 'zustand';
 
 import { skinPreset } from '@styles/skin';
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import { EXPORT_OPTIONS } from '@objects/Storage2';
+import { EXPORT_OPTIONS } from '@objects/Storage';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
   ImportSyncFavButton as PersonalImportSyncFavButton,

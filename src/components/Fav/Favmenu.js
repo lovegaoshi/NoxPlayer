@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useContext, useCallback } from 'react';
+import React from 'react';
 import { Menu, Item, Separator, useContextMenu } from 'react-contexify';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
@@ -13,9 +13,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import 'react-contexify/dist/ReactContexify.css';
 
 import { getName } from '@APM/utils/re';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { saveFav, readLocalStorage } from '@utils/ChromeStorage';
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import { MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { MY_FAV_LIST_KEY } from '@objects/Storage';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 
 export const MENU_ID = 'favmenu';
@@ -47,7 +47,7 @@ export const searchSongOnBili = (song) =>
  */
 
 export default function App({ theme }) {
-  const StorageManager = useContext(StorageManagerCtx);
+  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
@@ -102,8 +102,7 @@ export default function App({ theme }) {
       favList.songList = favList.songList.filter(
         (val) => val.id !== props.song.id,
       );
-      if (favListLen !== favList.songList.length)
-        await StorageManager.updateFavList(favList);
+      if (favListLen !== favList.songList.length) await updatePlaylist(favList);
     }
   }
 

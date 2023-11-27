@@ -37,6 +37,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from '../buttons/randomGIF';
 import {
@@ -48,7 +49,6 @@ import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import SongSearchBar from '../dialogs/songsearchbar';
 import Menu from './Favmenu';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { ScrollBar } from '../../styles/styles';
 
 const { colorTheme } = skinPreset;
@@ -232,6 +232,7 @@ export const Fav = function Fav({
   rssUpdate,
   playerSettings,
 }) {
+  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   // currentFavList is stored solely for keeping in check rows
   // still is FavList in props; we can make rows
   // a dict and store the favlist.id with it, so
@@ -246,7 +247,6 @@ export const Fav = function Fav({
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef({ current: {} });
   const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
-  const StorageManager = useContext(StorageManagerCtx);
 
   const [songObjEdited, setSongObjEdited] = useState({
     bvid: '',
@@ -258,7 +258,7 @@ export const Fav = function Fav({
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));
 
-  const saveCurrentList = () => StorageManager.updateFavList(currentFavList);
+  const saveCurrentList = () => updatePlaylist(currentFavList);
 
   /**
    * because of delayed state update/management, we need a reliable way to get
