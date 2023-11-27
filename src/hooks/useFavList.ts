@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 
 import useNoxStore from '@hooks/useStore';
@@ -41,9 +41,6 @@ const useFavList = () => {
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const removePlaylist = useNoxSetting((state) => state.removePlaylist);
 
-  const [favLists, setFavLists] = useState<NoxMedia.Playlist[]>(
-    filterUndefined(playlistIds, (id) => playlists[id]),
-  );
   const [searchList, setSearchList] = useState(defaultSearchList({}));
   const [favoriteList] = useState(dummyFavList(''));
   const [selectedList, setSelectedList] = useState<NoxMedia.Playlist>();
@@ -69,8 +66,11 @@ const useFavList = () => {
         break;
     }
     if (listid.includes('FavList-Special-Search')) return searchList;
-    const foundList = favLists.find((f) => f.id === listid);
-    if (foundList) return foundList;
+    const foundList = playlistIds.find((f) => f === listid);
+    if (foundList) {
+      const playlist = playlists[foundList];
+      if (playlist !== undefined) return playlist;
+    }
     throw new Error(`[findList] playlist ${listid} not found`);
   };
 
@@ -80,17 +80,14 @@ const useFavList = () => {
       : updatePlaylist;
   };
 
-  const handleDeleteFromSearchList = useCallback(
-    async (listid: string, songid: string) => {
-      const favList = findList(listid);
-      const index = favList.songList.findIndex((song) => song.id === songid);
-      if (index === -1) return;
-      favList.songList.splice(index, 1);
-      const updatedToList = { ...favList };
-      getUpdateListMethod(listid)(updatedToList);
-    },
-    [searchList, selectedList, favLists],
-  );
+  const handleDeleteFromSearchList = async (listid: string, songid: string) => {
+    const favList = findList(listid);
+    const index = favList.songList.findIndex((song) => song.id === songid);
+    if (index === -1) return;
+    favList.songList.splice(index, 1);
+    const updatedToList = { ...favList };
+    getUpdateListMethod(listid)(updatedToList);
+  };
 
   const onNewFav = (favName?: string) => {
     setOpenNewDialog(false);
@@ -156,12 +153,11 @@ const useFavList = () => {
       return;
     }
     const newFavLists = reorder(
-      favLists,
+      playlistIds,
       result.source.index,
       result.destination.index,
     );
-    setFavLists(newFavLists);
-    setPlaylistIds(newFavLists.map((list) => list.id));
+    setPlaylistIds(newFavLists);
   };
 
   const updateSubscribeFavList = async ({
@@ -210,8 +206,8 @@ const useFavList = () => {
   };
 
   return {
-    favLists,
-    setFavLists,
+    playlists,
+    playlistIds,
     searchList,
     setSearchList,
     favoriteList,

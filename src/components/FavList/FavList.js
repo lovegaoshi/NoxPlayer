@@ -75,7 +75,8 @@ export const FavList = memo(
     const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
     const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
     const {
-      favLists,
+      playlists,
+      playlistIds,
       searchList,
       setSearchList,
       favoriteList,
@@ -115,17 +116,11 @@ export const FavList = memo(
     };
 
     const shuffleAll = () => {
-      let totalSongs = 0;
-      favLists.map((favList) => (totalSongs += favList.songList.length));
-      const allFavSongList = new Array(totalSongs);
-      let i = 0;
-      for (const favList of favLists) {
-        for (const song of favList.songList) {
-          allFavSongList[i] = { ...song, singer: favList.title };
-          i++;
-        }
-      }
-      loadToSearchList(allFavSongList);
+      const allSongs = Object.values(playlists).reduce(
+        (acc, curr) => acc.concat(curr.songList),
+        [],
+      );
+      loadToSearchList(allSongs);
     };
 
     const renderFavListItem = ({ v, i }) => {
@@ -301,12 +296,12 @@ export const FavList = memo(
               renderSpecialList(favoriteList, () =>
                 setSelectedList(favoritePlaylist),
               )}
-            {favLists && (
+            {playlistIds && (
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId='droppable'>
                   {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {favLists.map((item, index) => (
+                      {playlistIds.map((item, index) => (
                         <Draggable
                           key={`item-${index}`}
                           draggableId={`item-${index}`}
@@ -324,7 +319,10 @@ export const FavList = memo(
                                 ...provided2.draggableProps.style,
                               }}
                             >
-                              {renderFavListItem({ v: item, i: index })}
+                              {renderFavListItem({
+                                v: playlists[item],
+                                i: index,
+                              })}
                             </div>
                           )}
                         </Draggable>
@@ -363,7 +361,7 @@ export const FavList = memo(
             />
           )}
         </Box>
-        {favLists && (
+        {playlistIds && (
           <AddFavDialog
             id='AddFav'
             openState={openAddDialog}

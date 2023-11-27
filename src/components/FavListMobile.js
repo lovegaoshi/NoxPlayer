@@ -90,7 +90,8 @@ export default memo(
     const [open, setOpen] = useState(false);
     const confirm = useConfirm();
     const {
-      favLists,
+      playlists,
+      playlistIds,
       searchList,
       setSearchList,
       selectedList,
@@ -292,12 +293,12 @@ export default memo(
               </ListItemButton>
             </React.Fragment>
 
-            {favLists && (
+            {playlistIds && (
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId='droppable'>
                   {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {favLists.map((item, index) => (
+                      {playlistIds.map((item, index) => (
                         <Draggable
                           key={`item-${index}`}
                           draggableId={`item-${index}`}
@@ -315,7 +316,10 @@ export default memo(
                                 ...provided2.draggableProps.style,
                               }}
                             >
-                              {renderFavListItem({ v: item, i: index })}
+                              {renderFavListItem({
+                                v: playlists[item],
+                                i: index,
+                              })}
                             </div>
                           )}
                         </Draggable>
