@@ -213,7 +213,7 @@ module.exports = (env) => {
         require.resolve('./mocks/react-native-track-player.js'),
       ),
       new webpack.NormalModuleReplacementPlugin(
-        /react-native/,
+        /^react-native$/,
         require.resolve('./mocks/react-native.js'),
       ),
       new webpack.NormalModuleReplacementPlugin(
