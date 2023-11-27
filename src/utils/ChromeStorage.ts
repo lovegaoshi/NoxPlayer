@@ -1,3 +1,5 @@
+import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
+
 import type { NoxStorage } from '@APM/types/storage';
 import { STORAGE_KEYS } from '@enums/Storage';
 import { DEFAULT_SETTING, MY_FAV_LIST_KEY } from '@objects/Storage2';
@@ -183,10 +185,7 @@ const clearPlaylists = async () => {
   chrome.storage.local.remove(playlists);
 };
 
-/**
- * 
- * 
-export const importStorageRaw = async (content) => {
+export const importStorageRaw = async (content: Uint8Array) => {
   const parsedContent = JSON.parse(strFromU8(decompressSync(content)));
   // compatibility from azusa-player-mobile that its an array of key-value pair.
   if (Array.isArray(parsedContent)) {
@@ -211,10 +210,13 @@ export const importStorageRaw = async (content) => {
     await chrome.storage.local.clear();
     await chrome.storage.local.set(parsedContent);
   }
-  this.initFavLists();
+  return initPlayerObject();
 };
 
- */
+export const exportStorageRaw = async () => {
+  const items = await chrome.storage.local.get(null);
+  return compressSync(strToU8(JSON.stringify(items)));
+};
 
 export const getLyricMapping = async () =>
   new Map(await getItem(STORAGE_KEYS.LYRIC_MAPPING, []));
@@ -226,7 +228,6 @@ const getPlaylist = async (
 
 export const initPlayerObject =
   async (): Promise<NoxStorage.PlayerStorageObject> => {
-    console.log(await getItem(STORAGE_KEYS.LAST_PLAY_LIST));
     const lyricMapping = (await getLyricMapping()) || {};
     const playerObject = {
       settings: {

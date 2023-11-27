@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import IconButton from '@mui/material/IconButton';
@@ -8,7 +8,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 
 import { noxBackup, noxRestore } from '@utils/sync/PersonalCloudAuth';
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import useInitializeStore from '@stores/useInitializeStore';
+import { exportStorageRaw } from '@utils/ChromeStorage';
 
 interface SyncFavButtonProps {
   AddFavIcon: Object;
@@ -18,7 +19,7 @@ export function ImportSyncFavButton({
   AddFavIcon,
   cloudAddress = '',
 }: SyncFavButtonProps) {
-  const StorageManager = useContext(StorageManagerCtx);
+  const { initializeFromSync } = useInitializeStore();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +38,7 @@ export function ImportSyncFavButton({
     setLoading(true);
     const response = await noxRestore(cloudAddress);
     if (response !== null) {
-      await StorageManager.importStorageRaw(response);
+      await initializeFromSync(response);
       enqueueSnackbar('歌单同步自私有云成功！', {
         variant: 'success',
         autoHideDuration: 4000,
@@ -67,7 +68,6 @@ export function ExportSyncFavButton({
   AddFavIcon,
   cloudAddress = '',
 }: SyncFavButtonProps) {
-  const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -81,7 +81,7 @@ export function ExportSyncFavButton({
 
   const cloudUpload = async () => {
     setLoading(true);
-    const exportedDict = await StorageManager.exportStorageRaw();
+    const exportedDict = await exportStorageRaw();
     const response = await noxBackup(exportedDict, cloudAddress);
     if (response.status === 200) {
       enqueueSnackbar('歌单上传到私有云成功！', {

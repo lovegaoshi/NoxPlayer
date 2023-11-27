@@ -275,6 +275,7 @@ export default class StorageManager {
   }
 
   async importStorage() {
+    console.log(this.files);
     const _self = this;
     const upload = document.createElement('input');
     upload.type = 'file';
@@ -286,6 +287,7 @@ export default class StorageManager {
       fileReader.onload = function () {
         _self.importStorageRaw(new Uint8Array(fileReader.result));
       };
+      console.log(this.files);
       fileReader.readAsArrayBuffer(this.files[0]);
     }
     upload.click();
