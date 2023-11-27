@@ -2,9 +2,9 @@ import React, { useState, useContext, useCallback, useRef } from 'react';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
+import { useNoxSetting } from '@APM/stores/useApp';
 import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { getPlayerSettingKey } from '../utils/ChromeStorage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from '../components/buttons/ThumbsUpButton';
@@ -16,6 +16,8 @@ import {
 } from '../utils/Bilibili/BiliOperate';
 
 const usePlayer = ({ isMobile = false }) => {
+  const playerSettings = useNoxSetting((state) => state.playerSetting);
+  const setPlayerSettings = useNoxSetting((state) => state.setPlayerSetting);
   // Params to init music player
   const [params, setparams] = useState(null);
   // Playing List
@@ -26,11 +28,6 @@ const usePlayer = ({ isMobile = false }) => {
   const [currentAudioInst, setcurrentAudioInst] = useState(null);
   // Lyric Dialog
   const [showLyric, setShowLyric] = useState(false);
-
-  // Player Settings
-  const [playerSettings, setPlayerSettings] = useState(null);
-  // Sync data to chromeDB
-  const StorageManager = useContext(StorageManagerCtx);
 
   const biliHeartbeat = useRef(null);
 
@@ -172,22 +169,18 @@ const usePlayer = ({ isMobile = false }) => {
 
   const onPlayModeChange = (playMode) => {
     // console.log('play mode change:', playMode)
-    playerSettings.playMode = playMode;
+    setPlayerSettings({ playMode });
     params.playMode = playMode;
-    StorageManager.setPlayerSetting(playerSettings);
     setparams(params);
   };
 
   const onAudioVolumeChange = (currentVolume) => {
     // console.log('audio volume change', currentVolume)
-    playerSettings.defaultVolume = Math.sqrt(currentVolume);
-    StorageManager.setPlayerSetting(playerSettings);
+    setPlayerSettings({ defaultVolume: Math.sqrt(currentVolume) });
   };
 
   const onAudioListsChange = useCallback(
     (currentPlayId, audioLists, audioInfo) => {
-      // Sync latest-playinglist
-      StorageManager.setLastPlayList(audioLists);
       setplayingList(audioLists);
       // console.log('audioListChange:', audioLists)
     },
@@ -256,20 +249,6 @@ const usePlayer = ({ isMobile = false }) => {
     if (await getPlayerSettingKey('sendBiliHeartbeat')) return;
     initBiliHeartbeat({ bvid: song.bvid, cid: song.id });
     if (debug) checkBiliVideoPlayed(song.bvid);
-    return;
-    // heartbeat every 15 seconds. turns out totally unnecessary.
-    // eslint-disable-next-line no-unreachable
-    let playtime = 0;
-    biliHeartbeat.current = setInterval(() => {
-      playtime += 15;
-      console.log('sendBiliHeartbeat', song, playtime);
-      POSTBiliHeartbeat({ bvid: song.bvid, cid: song.id, time: playtime });
-      if (playtime > 60) {
-        if (debug) checkBiliVideoPlayed(song.bvid);
-        console.log('sendBiliHeartbeat stopped');
-        clearInterval(biliHeartbeat.current);
-      }
-    }, 15000);
   };
 
   return {
