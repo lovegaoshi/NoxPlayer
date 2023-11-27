@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
@@ -80,15 +80,12 @@ export default function Player({ songList }) {
     document.title = `${currentAudio.name} - ${skins().appTitle}`;
   }, [currentAudio.name]);
 
-  const onAudioPlay = useCallback(
-    async (audioInfo) => {
-      processExtendsContent(renderExtendsContent({ song: audioInfo }));
-      setcurrentAudio(audioInfo);
-      setCurrentPlayingId(audioInfo.id);
-      sendBiliHeartbeat(audioInfo);
-    },
-    [params],
-  );
+  const onAudioPlay = async (audioInfo) => {
+    processExtendsContent(renderExtendsContent({ song: audioInfo }));
+    setcurrentAudio(audioInfo);
+    setCurrentPlayingId(audioInfo.id);
+    sendBiliHeartbeat(audioInfo);
+  };
 
   const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
     console.error('audio error', errMsg, audioInfo);
