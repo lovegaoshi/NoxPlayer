@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Lrc } from 'react-lrc';
 
 import TextField from '@mui/material/TextField';
 import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
+
+import { useNoxSetting } from '@APM/stores/useApp';
 import { ScrollBar } from '../styles/styles';
 import LyricSearchBar from './lyric/LyricSearchBar';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skinPreset } from '../styles/skin';
 
 const { colorTheme } = skinPreset;
@@ -29,12 +30,12 @@ const styles = (theme) => ({
 });
 
 export default withStyles(styles)((props) => {
+  const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const [lyricOffset, setLyricOffset] = useState(0);
   const [lyric, setLyric] = useState('');
   const [songTitle, setSongTitle] = useState('');
 
   const { classes, currentTime, audioName, audioId, audioCover } = props;
-  const StorageManager = useContext(StorageManagerCtx);
 
   useEffect(() => {
     // console.log('Lrc changed to %s', extractedName)
@@ -57,7 +58,12 @@ export default withStyles(styles)((props) => {
 
   const onLrcOffsetChange = (e) => {
     setLyricOffset(e.target.value);
-    StorageManager.setLyricOffset(audioId, e.target.value);
+    setLyricMapping({
+      songId: audioId,
+      offset: e.target.value,
+      lyric,
+      lyricKey: 0,
+    });
   };
 
   const lineRenderer = useCallback(
