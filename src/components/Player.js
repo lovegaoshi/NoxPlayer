@@ -96,9 +96,6 @@ export default function Player({ songList }) {
 
   // Initialization effect
   useEffect(() => {
-    if (!songList || songList[0] === undefined) {
-      return;
-    }
     async function initPlayer() {
       await versionUpdate();
       const previousPlayingSongIndex = Math.max(
@@ -118,7 +115,7 @@ export default function Player({ songList }) {
       setplayingList(songList);
     }
     initPlayer();
-  }, [songList]);
+  }, []);
 
   return (
     <React.Fragment>

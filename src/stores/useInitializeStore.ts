@@ -11,7 +11,7 @@ const useInitializeStore = () => {
     initializeAppStore();
     initializeR128Gain();
     initializePlayerSetting();
-    await initPlayer(await initPlayerObject());
+    return await initPlayer(await initPlayerObject());
   };
   return { initializeStores };
 };

@@ -226,18 +226,19 @@ const getPlaylist = async (
 
 export const initPlayerObject =
   async (): Promise<NoxStorage.PlayerStorageObject> => {
+    console.log(await getItem(STORAGE_KEYS.LAST_PLAY_LIST));
     const lyricMapping = (await getLyricMapping()) || {};
     const playerObject = {
       settings: {
         ...DEFAULT_SETTING,
-        ...((await getItem(STORAGE_KEYS.PLAYER_SETTING_KEY)) || {}),
+        ...(await getItem(STORAGE_KEYS.PLAYER_SETTING_KEY, {})),
       },
-      playlistIds: (await getItem(STORAGE_KEYS.MY_FAV_LIST_KEY)) || [],
+      playlistIds: await getItem(STORAGE_KEYS.MY_FAV_LIST_KEY, []),
       playlists: {},
-      lastPlaylistId: (await getItem(STORAGE_KEYS.LAST_PLAY_LIST)) || [
+      lastPlaylistId: await getItem(STORAGE_KEYS.LAST_PLAY_LIST, [
         'NULL',
         'NULL',
-      ],
+      ]),
       searchPlaylist: dummyPlaylist(
         'Search',
         PLAYLIST_ENUMS.TYPE_SEARCH_PLAYLIST,

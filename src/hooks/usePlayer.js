@@ -15,6 +15,9 @@ import {
 
 const usePlayer = ({ isMobile = false }) => {
   const playerSettings = useNoxSetting((state) => state.playerSetting);
+  const setCurrentPlayingList = useNoxSetting(
+    (state) => state.setCurrentPlayingList,
+  );
   const setPlayerSettings = useNoxSetting((state) => state.setPlayerSetting);
   // Params to init music player
   const [params, setparams] = useState(null);
@@ -76,41 +79,40 @@ const usePlayer = ({ isMobile = false }) => {
     [params, playingList],
   );
 
-  const parseSongList = async (favList) => {
+  const parseSongList = (favList) => {
     if (
       favList.info &&
       favList.title !== '搜索歌单' &&
       playerSettings.loadPlaylistAsArtist
     ) {
-      const val = new Array(favList.songList.length);
-      for (let i = 0; i < favList.songList.length; i++) {
-        val[i] = { ...favList.songList[i], singer: favList.title };
-      }
-      return val;
+      return favList.songList.map((song) => ({
+        ...song,
+        singer: favList.title,
+      }));
     }
     return favList.songList;
   };
 
-  const onPlayOneFromFav = useCallback(
-    (songs, favList) => {
-      const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
-      if (
-        playingList.length === favList.songList.length &&
-        existingIndex !== -1
-      ) {
-        currentAudioInst.playByIndex(existingIndex);
-        return;
-      }
-      parseSongList(favList).then((val) => {
-        updateCurrentAudioList({
-          songs: val,
-          replaceList: true,
-          newAudioListPlayIndex: val.findIndex((s) => s.id === songs[0].id),
-        });
-      });
-    },
-    [params, playingList, currentAudioInst],
-  );
+  const onPlayOneFromFav = (songs, favList) => {
+    const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
+    if (
+      playingList.length === favList.songList.length &&
+      existingIndex !== -1
+    ) {
+      currentAudioInst.playByIndex(existingIndex);
+      return;
+    }
+    setCurrentPlayingList(favList);
+    console.log(favList);
+    const parsedSongList = parseSongList(favList);
+    updateCurrentAudioList({
+      songs: parsedSongList,
+      replaceList: true,
+      newAudioListPlayIndex: parsedSongList.findIndex(
+        (s) => s.id === songs[0].id,
+      ),
+    });
+  };
 
   const onAddOneFromFav = useCallback(
     (songs) => {
@@ -219,6 +221,10 @@ const usePlayer = ({ isMobile = false }) => {
     setparams({ ...params, extendsContent });
 
   const renderExtendsContent = ({ song }) => {
+    if (song === undefined) {
+      // eslint-disable-next-line react/jsx-no-useless-fragment
+      return <></>;
+    }
     return [
       <ThumbsUpButton
         song={song}

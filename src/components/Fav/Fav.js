@@ -396,8 +396,8 @@ export const Fav = function Fav({
               getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
                 (val) =>
                   onSongIndexChange([song], {
+                    ...FavList,
                     songList: val ? rows : FavList.songList,
-                    info: FavList.info,
                   }),
               )
             }

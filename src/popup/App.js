@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import isMobile from 'is-mobile';
 
 import PageLayout from './Layout';
-import initSongList from '../background/DataProcess';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
-import useInitializeStore from '../stores/initializeStores';
+import useInitializeStore from '../stores/useInitializeStore';
 
 export default function App() {
   // The current playing list
-  const [currentSongList, setCurrentSongList] = useState(null);
+  const [currentSongList, setCurrentSongList] = useState([]);
   const [backgroundSrc, setBackgroundSrc] = useState(null);
   const { initializeStores } = useInitializeStore();
 
   useEffect(() => {
-    initializeStores();
-    initSongList(setCurrentSongList);
-    async function resolveBackgroundSrc() {
+    async function init() {
+      const result = await initializeStores();
+      setCurrentSongList(result.currentPlayingList.songList);
+      console.log('intiializing...', result);
       try {
         setBackgroundSrc(
           isMobile()
@@ -27,7 +27,7 @@ export default function App() {
         setBackgroundSrc('');
       }
     }
-    resolveBackgroundSrc();
+    init();
   }, []);
 
   useEffect(() => {
