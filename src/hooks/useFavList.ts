@@ -4,6 +4,7 @@ import { useConfirm } from 'material-ui-confirm';
 import useNoxStore from '@hooks/useStore';
 import { StorageManagerCtx } from '@contexts/StorageManagerContext';
 import { parseSongName } from '@APM/stores/appStore';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
 

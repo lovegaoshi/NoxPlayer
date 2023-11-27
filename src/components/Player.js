@@ -11,7 +11,6 @@ import LyricOverlay from './lyric/LyricOverlay';
 import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins, skinPreset } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
-import { fetchPlayUrlPromise } from '../utils/Data';
 import usePlayer from '../hooks/usePlayer';
 import { setLocalStorage } from '../utils/ChromeStorage';
 
