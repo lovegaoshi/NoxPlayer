@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+
+import { useNoxSetting } from '@APM/stores/useApp';
 import { searchLyricOptions, searchLyric } from '../../utils/Data';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 
 export default function LyricSearchBar({
   SearchKey,
@@ -10,9 +11,10 @@ export default function LyricSearchBar({
   setLyric,
   setLyricOffset,
 }) {
+  const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
+  const lyricMapping = useNoxSetting((state) => state.lyricMapping);
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState('');
-  const StorageManager = useContext(StorageManagerCtx);
 
   // Initializes options
   useEffect(() => {
@@ -23,8 +25,8 @@ export default function LyricSearchBar({
     if (options.length === 0) {
       return;
     }
-    async function initLyric() {
-      const detail = await StorageManager.getLyricDetail(SongId.toString());
+    function initLyric() {
+      const detail = lyricMapping.get(String(SongId));
       if (undefined !== detail) {
         setLyricOffset(detail.lrcOffset);
         const index = options.findIndex(
@@ -47,7 +49,7 @@ export default function LyricSearchBar({
     if (newValue !== undefined) {
       setValue(newValue);
       searchLyric(newValue.songMid, setLyric);
-      StorageManager.setLyricDetail(SongId.toString(), newValue);
+      setLyricMapping(SongId.toString(), newValue);
     }
   };
 
