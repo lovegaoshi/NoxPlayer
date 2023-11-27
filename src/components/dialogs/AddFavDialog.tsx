@@ -12,7 +12,16 @@ import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 
-export const NewFavDialog = function NewFavDialog({ onClose, openState }) {
+import { useNoxSetting } from '@APM/stores/useApp';
+
+interface Props {
+  onClose: (val?: string) => void;
+  openState: boolean;
+}
+export const NewFavDialog = function NewFavDialog({
+  onClose,
+  openState,
+}: Props) {
   const [favName, setfavName] = useState('');
 
   const handleCancel = () => {
@@ -20,7 +29,7 @@ export const NewFavDialog = function NewFavDialog({ onClose, openState }) {
     setfavName('');
   };
 
-  const onfavName = (e) => {
+  const onfavName = (e: any) => {
     setfavName(e.target.value);
   };
 
@@ -59,38 +68,58 @@ export const NewFavDialog = function NewFavDialog({ onClose, openState }) {
   );
 };
 
+interface AddFavDialogProps {
+  onClose: ({
+    songs,
+    fromList,
+    toId,
+  }: {
+    songs: NoxMedia.Song[];
+    fromList?: NoxMedia.Playlist;
+    toId?: string;
+  }) => void;
+  openState: boolean;
+  fromList?: NoxMedia.Playlist;
+  songs: NoxMedia.Song[];
+  isMobile?: boolean;
+}
 export const AddFavDialog = function AddFavDialog({
   onClose,
   openState,
-  fromId,
-  favLists,
-  song,
+  fromList,
+  songs,
   isMobile = false,
-}) {
+}: AddFavDialogProps) {
   const [favId, setfavId] = useState('');
+  const playlists = useNoxSetting((state) => state.playlists);
+  const playlistIds = useNoxSetting((state) => state.playlistIds);
 
   const handleCancel = () => {
-    onClose();
+    onClose({ songs: [] });
     setfavId('');
   };
 
-  const onfavId = (e) => {
+  const onfavId = (e: any) => {
     setfavId(e.target.value);
   };
 
   const handleOK = () => {
-    onClose(fromId, favId, song);
+    onClose({ fromList, toId: favId, songs });
     setfavId('');
+  };
+
+  const playlistTitle = () => {
+    if (songs[0] === undefined) {
+      if (fromList === undefined) return 'N/A!';
+      return fromList.title;
+    }
+    return songs[0].parsedName;
   };
 
   return (
     <div>
       <Dialog open={openState}>
-        <DialogTitle>{`添加 ${
-          song === undefined
-            ? favLists.find((i) => i.id === fromId)?.title
-            : song?.parsedName
-        } 到歌单`}</DialogTitle>
+        <DialogTitle>{`添加 ${playlistTitle()} 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile ? '50vw' : 400, minHeight: 50 }}>
             <FormControl fullWidth>
@@ -104,19 +133,19 @@ export const AddFavDialog = function AddFavDialog({
                 input={<Input />}
                 MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
               >
-                {favLists &&
-                  favLists.map((v, i) => {
-                    if (v.id !== fromId) {
-                      return (
-                        // this is stupid, stupid linter
-                        // eslint-disable-next-line react/no-array-index-key
-                        <MenuItem key={`menu${i}`} value={v.id}>
-                          {v.title}
-                        </MenuItem>
-                      );
-                    }
-                    return null;
-                  })}
+                {playlistIds.map((v, i) => {
+                  const playlist = playlists[v];
+                  if (v !== fromList?.id && playlist !== undefined) {
+                    return (
+                      // this is stupid, stupid linter
+                      // eslint-disable-next-line react/no-array-index-key
+                      <MenuItem key={`menu${i}`} value={v}>
+                        {playlist.title}
+                      </MenuItem>
+                    );
+                  }
+                  return null;
+                })}
               </Select>
             </FormControl>
           </Box>

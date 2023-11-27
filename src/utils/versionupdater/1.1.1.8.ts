@@ -1,5 +1,5 @@
 import { dummyFavListFromList } from '@objects/Playlist';
-import { MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { MY_FAV_LIST_KEY } from '@objects/Storage';
 import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
 
 export default async function update1118() {

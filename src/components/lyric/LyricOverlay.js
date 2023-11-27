@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Slide from '@mui/material/Slide';
 import LyricMobile from './LyricMobile';
-import Lyric from './Lyric';
+import Lyric from '../Lyric';
 
 const Transition = forwardRef((props, ref) => {
   return <Slide direction='up' ref={ref} {...props} />;

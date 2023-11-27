@@ -4,7 +4,6 @@ import React, {
   useState,
   useCallback,
   memo,
-  useContext,
 } from 'react';
 import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
@@ -36,7 +35,6 @@ import rgba2rgb from '../utils/rgba2rgb';
 import HelpPanelButton from './buttons/HelpPanelButton';
 import useFavList from '../hooks/useFavList';
 import TimerButton from './buttons/TimerButton';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from './dialogs/AddFavDialog';
 import { ScrollBar } from '../styles/styles';
 import Fav from './Fav/FavMobile';
@@ -85,20 +83,17 @@ export default memo(
     onSongListChange,
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
     showFavList,
     currentAudioID,
   }) => {
     const [favOpen, setFavOpen] = useState(false);
     const [open, setOpen] = useState(false);
-    const StorageManager = useContext(StorageManagerCtx);
     const confirm = useConfirm();
     const {
-      favLists,
-      setFavLists,
+      playlists,
+      playlistIds,
       searchList,
       setSearchList,
-      favoriteList,
       selectedList,
       setSelectedList,
       setSongsStoredAsNewFav,
@@ -182,14 +177,14 @@ export default memo(
                 setFavOpen(true);
                 setSelectedList(v);
               }}
-              id={v.info.id}
+              id={v.id}
             >
               <ListItemIcon sx={DiskIcon}>
                 <AlbumOutlinedIcon />
               </ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{ fontSize: '1.1em' }}
-                primary={v.info.title}
+                primary={v.title}
               />
             </ListItemButton>
             <Box
@@ -201,14 +196,14 @@ export default memo(
               <Tooltip title='添加到收藏歌单'>
                 <PlaylistAddIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(v.info.id)}
+                  onClick={() => handleAddToFavClick(v)}
                 />
               </Tooltip>
               &nbsp;&nbsp;
               <Tooltip title='删除歌单'>
                 <DeleteOutlineOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleDeleteFavClick(v.info.title, v.info.id)}
+                  onClick={() => handleDeleteFavClick(v.title, v.id)}
                 />
               </Tooltip>
             </Box>
@@ -261,7 +256,7 @@ export default memo(
                     setFavOpen(true);
                     setSelectedList(searchList);
                   }}
-                  id={searchList.info.id}
+                  id={searchList.id}
                 >
                   <ListItemIcon sx={DiskIcon}>
                     <ManageSearchIcon />
@@ -269,7 +264,7 @@ export default memo(
                   <ListItemText
                     style={{ maxWidth: '50%' }}
                     primaryTypographyProps={{ fontSize: '1.1em' }}
-                    primary={searchList.info.title}
+                    primary={searchList.title}
                   />
                 </ListItemButton>
                 <Box
@@ -281,7 +276,7 @@ export default memo(
                   <Tooltip title='添加到收藏歌单'>
                     <PlaylistAddIcon
                       sx={CRUDIcon}
-                      onClick={() => handleAddToFavClick(searchList.info.id)}
+                      onClick={() => handleAddToFavClick(searchList)}
                     />
                   </Tooltip>
                   &nbsp;&nbsp;
@@ -298,12 +293,12 @@ export default memo(
               </ListItemButton>
             </React.Fragment>
 
-            {favLists && (
+            {playlistIds && (
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId='droppable'>
                   {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {favLists.map((item, index) => (
+                      {playlistIds.map((item, index) => (
                         <Draggable
                           key={`item-${index}`}
                           draggableId={`item-${index}`}
@@ -321,7 +316,10 @@ export default memo(
                                 ...provided2.draggableProps.style,
                               }}
                             >
-                              {renderFavListItem({ v: item, i: index })}
+                              {renderFavListItem({
+                                v: playlists[item],
+                                i: index,
+                              })}
                             </div>
                           )}
                         </Draggable>
@@ -359,8 +357,6 @@ export default memo(
               onRssUpdate={async (subscribeUrls) =>
                 updateSubscribeFavList({
                   playlist: selectedList,
-                  StorageManager,
-                  setSelectedList,
                   subscribeUrls,
                 })
               }
@@ -421,17 +417,14 @@ export default memo(
             </div>
           </Dialog>
         </ThemeProvider>
-        {favLists && (
-          <AddFavDialog
-            id='AddFav'
-            openState={openAddDialog}
-            onClose={onAddFav}
-            fromId={actionFavId}
-            favLists={favLists.map((v) => v.info)}
-            song={actionFavSong}
-            isMobile
-          />
-        )}
+        <AddFavDialog
+          id='AddFav'
+          openState={openAddDialog}
+          onClose={onAddFav}
+          fromList={actionFavId}
+          songs={[actionFavSong]}
+          isMobile
+        />
       </React.Fragment>
     );
   },

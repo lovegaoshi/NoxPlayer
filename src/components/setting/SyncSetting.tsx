@@ -6,20 +6,17 @@ import { useStore } from 'zustand';
 
 import { skinPreset } from '@styles/skin';
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import { EXPORT_OPTIONS } from '@objects/Storage2';
+import { EXPORT_OPTIONS } from '@objects/Storage';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
   ImportSyncFavButton as PersonalImportSyncFavButton,
   SetPersonalCloudTextField,
-} from '../buttons/syncing/PersonalSyncButton';
+} from './sync/PersonalSyncButton';
 import {
   ExportSyncFavButton,
   ImportSyncFavButton,
-} from '../buttons/syncing/DropboxSyncButton';
-import {
-  ExportFavButton,
-  ImportFavButton,
-} from '../buttons/syncing/LocalSyncButton';
+} from './sync/DropboxSyncButton';
+import { ExportFavButton, ImportFavButton } from './sync/LocalSyncButton';
 
 function SyncSetttingButtons() {
   const playerSettings = useStore(

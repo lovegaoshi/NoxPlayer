@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import IconButton from '@mui/material/IconButton';
@@ -7,10 +7,11 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { noxBackup, noxRestore, loginDropbox } from '@utils/sync/dropboxauth';
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import useInitializeStore from '@stores/useInitializeStore';
+import { exportStorageRaw } from '@utils/ChromeStorage';
 
 export function ImportSyncFavButton({ AddFavIcon }) {
-  const StorageManager = useContext(StorageManagerCtx);
+  const { initializeFromSync } = useInitializeStore();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +29,7 @@ export function ImportSyncFavButton({ AddFavIcon }) {
   const cloudDownload = async () => {
     const response = await noxRestore();
     if (response !== null) {
-      await StorageManager.importStorageRaw(response);
+      await initializeFromSync(response);
       enqueueSnackbar('歌单同步自Dropbox成功！', {
         variant: 'success',
         autoHideDuration: 4000,
@@ -60,7 +61,6 @@ export function ImportSyncFavButton({ AddFavIcon }) {
 }
 
 export function ExportSyncFavButton({ AddFavIcon }) {
-  const StorageManager = useContext(StorageManagerCtx);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -73,7 +73,7 @@ export function ExportSyncFavButton({ AddFavIcon }) {
   };
 
   const cloudUpload = async () => {
-    const exportedDict = await StorageManager.exportStorageRaw();
+    const exportedDict = await exportStorageRaw();
     const response = await noxBackup(exportedDict);
     if (response.status === 200) {
       enqueueSnackbar('歌单上传到Dropbox成功！', {

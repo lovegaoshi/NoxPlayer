@@ -3,6 +3,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 
+import { useNoxSetting } from '@APM/stores/useApp';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import {
   getPlayerSettingKey,
@@ -10,8 +11,7 @@ import {
   setLocalStorage,
   PlayListDict,
 } from '@utils/ChromeStorage';
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import { FAVLIST_AUTO_UPDATE_TIMESTAMP } from '@objects/Storage2';
+import { FAVLIST_AUTO_UPDATE_TIMESTAMP } from '@objects/Storage';
 import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
 import FavSettingLoading from './FavSettingLoading';
 
@@ -29,8 +29,8 @@ interface props {
  * @returns
  */
 export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
+  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
-  const StorageManager = useContext(StorageManagerCtx);
   const [Loading, setLoading] = useState(false);
   const favListAutoUpdateTimestamps = useRef({} as { [key: string]: string });
 
@@ -51,27 +51,25 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
       updateInterval = 1000 * 60 * 60 * 24,
     ) => {
       if (
-        favList.info.id.includes('Search') ||
+        favList.id.includes('Search') ||
         !(await getPlayerSettingKey('autoRSSUpdate'))
       )
         return false;
       console.debug(
-        favList.info.title,
+        favList.title,
         'previous updated timestamp is:',
-        favListAutoUpdateTimestamps.current[favList.info.id],
+        favListAutoUpdateTimestamps.current[favList.id],
       );
       if (favList.biliSync) {
         syncFavlist(favList);
       }
       if (
-        favListAutoUpdateTimestamps.current[favList.info.id] === undefined ||
+        favListAutoUpdateTimestamps.current[favList.id] === undefined ||
         Date.now() -
-          new Date(
-            favListAutoUpdateTimestamps.current[favList.info.id]!,
-          ).getTime() >
+          new Date(favListAutoUpdateTimestamps.current[favList.id]!).getTime() >
           updateInterval
       ) {
-        favListAutoUpdateTimestamps.current[favList.info.id] =
+        favListAutoUpdateTimestamps.current[favList.id] =
           new Date().toISOString();
         setLocalStorage(
           FAVLIST_AUTO_UPDATE_TIMESTAMP,
@@ -118,12 +116,14 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
    */
   // const updateFavSetting = (listObj, {subscribeUrls = [], favListName = null, useBiliShazam = null, bannedBVids = []}) => {
   const updateFavSetting = (
-    listObj: PlayListDict,
+    listObj: NoxMedia.Playlist,
     listSetting: { [key: string]: any } = {},
   ) => {
-    listObj.info.title = listSetting.favListName;
-    listObj = { ...listObj, ...listSetting };
-    StorageManager.updateFavList(listObj);
+    updatePlaylist({
+      ...listObj,
+      ...listSetting,
+      title: listSetting.favListName,
+    });
     setOpenSettingsDialog(false);
   };
 

@@ -12,7 +12,7 @@ const getRandomNumberExclude = (randRange: number, exclude = -1) => {
   return Math.floor(Math.random() * randRange) >> 0;
 };
 
-interface randomGIFParam {
+interface randomGIFProps {
   gifs: Array<string>;
   favList: string;
   onClickCallback: () => void;
@@ -28,7 +28,7 @@ export default function randomGIFButton({
   gifs,
   favList,
   onClickCallback = () => {},
-}: randomGIFParam) {
+}: randomGIFProps) {
   const [randomGIFSrc, setRandomGIFSrc] = useState(
     getRandomNumberExclude(gifs.length, -1),
   );

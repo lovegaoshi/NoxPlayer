@@ -1,7 +1,8 @@
-import { MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { MY_FAV_LIST_KEY } from '@objects/Storage';
 import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
 import updater1118 from './1.1.1.8';
 import updater1119 from './1.1.1.9';
+import update3000 from './3.0.0.0';
 
 export const getVersion = () => {
   return chrome.runtime.getManifest().version;
@@ -23,6 +24,8 @@ export default async () => {
         updater1118();
       case '1.1.1.9':
         updater1119();
+      case '2.5.4.0':
+        update3000();
       case currentVersion:
         break;
       default:

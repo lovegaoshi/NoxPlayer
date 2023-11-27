@@ -20,12 +20,12 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { contextMenu } from 'react-contexify';
 
 import { defaultSearchList } from '@objects/Playlist';
+import { useNoxSetting } from '@APM/stores/useApp';
 import Search from './Search';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import HelpPanelButton from '../buttons/HelpPanelButton';
 import Menu from '../menus/Favlistmenu';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
 import { Fav } from '../Fav/Fav';
@@ -70,13 +70,16 @@ export const FavList = memo(
     onSongListChange,
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
     playerSettings,
   }) => {
-    const StorageManager = useContext(StorageManagerCtx);
+    const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+    const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+    const playlistShouldReRender = useNoxSetting(
+      (state) => state.playlistShouldReRender,
+    );
     const {
-      favLists,
-      setFavLists,
+      playlists,
+      playlistIds,
       searchList,
       setSearchList,
       favoriteList,
@@ -116,17 +119,11 @@ export const FavList = memo(
     };
 
     const shuffleAll = () => {
-      let totalSongs = 0;
-      favLists.map((favList) => (totalSongs += favList.songList.length));
-      const allFavSongList = new Array(totalSongs);
-      let i = 0;
-      for (const favList of favLists) {
-        for (const song of favList.songList) {
-          allFavSongList[i] = { ...song, singer: favList.info.title };
-          i++;
-        }
-      }
-      loadToSearchList(allFavSongList);
+      const allSongs = Object.values(playlists).reduce(
+        (acc, curr) => acc.concat(curr.songList),
+        [],
+      );
+      loadToSearchList(allSongs);
     };
 
     const renderFavListItem = ({ v, i }) => {
@@ -144,9 +141,7 @@ export const FavList = memo(
                   favlist: v,
                   updateFavList: (val) => {
                     const newList = { ...val };
-                    StorageManager.updateFavList(newList);
-                    // well, we resorted back to this...
-                    setSelectedList(null);
+                    updatePlaylist(newList);
                     setSelectedList(newList);
                   },
                 },
@@ -156,14 +151,14 @@ export const FavList = memo(
             <ListItemButton
               style={{ maxWidth: 'calc(100% - 84px)' }}
               onClick={() => setSelectedList(v)}
-              id={v.info.id}
+              id={v.id}
             >
               <ListItemIcon sx={DiskIcon}>
                 <AlbumOutlinedIcon />
               </ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{ fontSize: '1.1em' }}
-                primary={v.info.title}
+                primary={v.title}
               />
             </ListItemButton>
             <Box component='div' sx={CRUDBtn}>
@@ -176,13 +171,13 @@ export const FavList = memo(
               <Tooltip title='添加到收藏歌单'>
                 <AddBoxOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(v.info.id)}
+                  onClick={() => handleAddToFavClick(v)}
                 />
               </Tooltip>
               <Tooltip title='删除歌单'>
                 <DeleteOutlineOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleDeleteFavClick(v.info.title, v.info.id)}
+                  onClick={() => handleDeleteFavClick(v.title, v.id)}
                 />
               </Tooltip>
             </Box>
@@ -197,19 +192,19 @@ export const FavList = memo(
         handleClick = () => setSelectedList(specialList);
 
       return (
-        <React.Fragment key={specialList.info.id}>
+        <React.Fragment key={specialList.id}>
           <ListItemButton disableRipple sx={outerLayerBtn}>
             <ListItemButton
               style={{ maxWidth: 'calc(100% - 84px)' }}
               onClick={handleClick}
-              id={specialList.info.id}
+              id={specialList.id}
             >
               <ListItemIcon sx={DiskIcon}>
                 <ManageSearchIcon />
               </ListItemIcon>
               <ListItemText
                 primaryTypographyProps={{ fontSize: '1.1em' }}
-                primary={specialList.info.title}
+                primary={specialList.title}
               />
             </ListItemButton>
             <Box component='div' sx={CRUDBtn}>
@@ -222,7 +217,7 @@ export const FavList = memo(
               <Tooltip title='添加到收藏歌单'>
                 <AddBoxOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(specialList.info.id)}
+                  onClick={() => handleAddToFavClick(specialList)}
                 />
               </Tooltip>
               <Tooltip title='新建为歌单'>
@@ -300,14 +295,14 @@ export const FavList = memo(
             {renderSpecialList(searchList)}
             {false &&
               renderSpecialList(favoriteList, () =>
-                StorageManager.getFavFavList().then(setSelectedList),
+                setSelectedList(favoritePlaylist),
               )}
-            {favLists && (
+            {playlistIds && (
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId='droppable'>
                   {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                      {favLists.map((item, index) => (
+                      {playlistIds.map((item, index) => (
                         <Draggable
                           key={`item-${index}`}
                           draggableId={`item-${index}`}
@@ -325,7 +320,10 @@ export const FavList = memo(
                                 ...provided2.draggableProps.style,
                               }}
                             >
-                              {renderFavListItem({ v: item, i: index })}
+                              {renderFavListItem({
+                                v: playlists[item],
+                                i: index,
+                              })}
                             </div>
                           )}
                         </Draggable>
@@ -357,8 +355,6 @@ export const FavList = memo(
               rssUpdate={(subscribeUrls) =>
                 updateSubscribeFavList({
                   playlist: selectedList,
-                  StorageManager,
-                  setSelectedList,
                   subscribeUrls,
                 })
               }
@@ -366,14 +362,13 @@ export const FavList = memo(
             />
           )}
         </Box>
-        {favLists && (
+        {playlistIds && (
           <AddFavDialog
             id='AddFav'
             openState={openAddDialog}
             onClose={onAddFav}
-            fromId={actionFavId}
-            favLists={StorageManager.latestFavLists.map((v) => v.info)}
-            song={actionFavSong}
+            fromList={actionFavId}
+            songs={[actionFavSong]}
             MenuProps={{ style: { maxHeight: 200 } }}
           />
         )}

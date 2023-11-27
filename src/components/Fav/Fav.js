@@ -36,7 +36,8 @@ import { contextMenu } from 'react-contexify';
 import { useHotkeys } from 'react-hotkeys-hook';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
-import { getName } from '@APM/utils/re';
+import { getName, reParseSearch } from '@APM/utils/re';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from '../buttons/randomGIF';
 import {
@@ -48,72 +49,9 @@ import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import SongSearchBar from '../dialogs/songsearchbar';
 import Menu from './Favmenu';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
-import { StorageManagerCtx } from '../../contexts/StorageManagerContext';
 import { ScrollBar } from '../../styles/styles';
 
 const { colorTheme } = skinPreset;
-
-const theme = createTheme(
-  {
-    palette: {
-      primary: { main: '#1976d2' },
-    },
-  },
-  zhCN,
-);
-
-const columns = [
-  { id: 'name', label: '歌曲名', minWidth: '20%' },
-  {
-    id: 'uploader',
-    label: 'UP主',
-    align: 'center',
-    padding: '0px',
-  },
-  {
-    id: 'operation',
-    label: '操作',
-    minWidth: '20%',
-    align: 'right',
-  },
-];
-
-const CRUDIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.songListIconColor,
-};
-
-export const songText = {
-  fontSize: 16,
-  minWidth: 0,
-  overflow: 'hidden',
-  paddingBottom: '4px',
-  paddingTop: '4px',
-};
-
-export const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-export const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-    padding: 0,
-  },
-}));
 
 export function TablePaginationActions(props) {
   const theme = useTheme();
@@ -188,42 +126,6 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-/**
- * search using regex defining search conditions.
- * conditions are separated by |.
- */
-export const reParseSearch = (
-  searchStr,
-  rows,
-  defaultExtract = (someRows, searchstr) =>
-    someRows.filter((row) =>
-      row.name.toLowerCase().includes(searchstr.toLowerCase()),
-    ),
-) => {
-  const reExtractions = [
-    [
-      /parsed:(.+)/,
-      (val, someRows) => someRows.filter((row) => row.parsedName === val[1]),
-    ],
-  ];
-  let defaultExtraction = true;
-  for (const searchSubStr of searchStr.split('|')) {
-    for (const reExtraction of reExtractions) {
-      const extracted = reExtraction[0].exec(searchSubStr, rows);
-      if (extracted !== null) {
-        rows = reExtraction[1](extracted, rows);
-        defaultExtraction = false;
-        break;
-      }
-    }
-  }
-  // if none matches, treat as a generic search, check if any field contains the search string
-  if (defaultExtraction) {
-    rows = defaultExtract(rows, searchStr);
-  }
-  return rows;
-};
-
 export const Fav = function Fav({
   FavList,
   onSongIndexChange,
@@ -232,12 +134,13 @@ export const Fav = function Fav({
   rssUpdate,
   playerSettings,
 }) {
-  // currentFavList is stored solely for keeping in check rows
-  // still is FavList in props; we can make rows
-  // a dict and store the favlist.info.id with it, so
-  // theres no need for currentFavList at all.
-  const [currentFavList, setCurrentFavList] = useState(null);
-  const [rows, setRows] = useState(null);
+  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+  const playlistShouldReRender = useNoxSetting(
+    (state) => state.playlistShouldReRender,
+  );
+
+  useEffect(() => console.log(FavList), [playlistShouldReRender]);
+  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
     1,
@@ -246,7 +149,6 @@ export const Fav = function Fav({
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef({ current: {} });
   const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
-  const StorageManager = useContext(StorageManagerCtx);
 
   const [songObjEdited, setSongObjEdited] = useState({
     bvid: '',
@@ -258,20 +160,16 @@ export const Fav = function Fav({
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));
 
-  const saveCurrentList = () => StorageManager.updateFavList(currentFavList);
+  const saveCurrentList = () => updatePlaylist(FavList);
 
   /**
    * because of delayed state update/management, we need a reliable way to get
    * the current playlist songs (which may be filtered by some search string).
    * this method returns the accurate current playlist's songs.
-   * @returns rows when currentFavList is the same as the Favlist props; or Favlist.songlist
+   * @returns rows when FavList is the same as the Favlist props; or Favlist.songlist
    */
   const getCurrentRow = () => {
-    if (
-      currentFavList !== null &&
-      rows !== null &&
-      currentFavList.info.id === FavList.info.id
-    ) {
+    if (FavList !== null && rows !== null) {
       return rows;
     }
     return FavList.songList;
@@ -299,11 +197,10 @@ export const Fav = function Fav({
   };
 
   useEffect(() => {
-    setCurrentFavList(FavList);
     setRowsPerPage(defaultRowsPerPage);
     primePageToCurrentPlaying();
     performSearch('');
-  }, [FavList.info.id]);
+  }, [FavList.id]);
 
   const requestSearch = (e) => {
     const searchedVal = e.target.value;
@@ -316,7 +213,7 @@ export const Fav = function Fav({
       setRows(FavList.songList);
       return;
     }
-    setRows(reParseSearch(searchedVal, FavList.songList));
+    setRows(reParseSearch({ searchStr: searchedVal, rows: FavList.songList }));
   };
 
   /**
@@ -348,9 +245,7 @@ export const Fav = function Fav({
   // onSongIndexChange([song], {songList: rows})
 
   const favListReloadBVid = (bvid) => {
-    currentFavList.songList = currentFavList.songList.filter(
-      (x) => x.bvid !== bvid,
-    );
+    FavList.songList = FavList.songList.filter((x) => x.bvid !== bvid);
     rssUpdate([bvid]);
   };
 
@@ -372,9 +267,8 @@ export const Fav = function Fav({
             props: {
               song,
               performSearch,
-              onDelete: () =>
-                handleDeleteFromSearchList(currentFavList.info.id, song.id),
-              currentFavList,
+              onDelete: () => handleDeleteFromSearchList(FavList.id, song.id),
+              FavList,
               reloadBVid: favListReloadBVid,
               onSongEdit: () => openSongEditDialog(song),
             },
@@ -396,8 +290,8 @@ export const Fav = function Fav({
               getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
                 (val) =>
                   onSongIndexChange([song], {
+                    ...FavList,
                     songList: val ? rows : FavList.songList,
-                    info: FavList.info,
                   }),
               )
             }
@@ -444,17 +338,14 @@ export const Fav = function Fav({
           <Tooltip title='添加到收藏歌单'>
             <PlaylistAddIcon
               sx={CRUDIcon}
-              onClick={() => handleAddToFavClick(currentFavList.info.id, song)}
+              onClick={() => handleAddToFavClick(FavList, song)}
             />
           </Tooltip>
           <Tooltip title='删除歌曲'>
             <DeleteOutlineOutlinedIcon
               sx={CRUDIcon}
               onClick={async () => {
-                await handleDeleteFromSearchList(
-                  currentFavList.info.id,
-                  song.id,
-                );
+                await handleDeleteFromSearchList(FavList.id, song.id);
                 handleSearch(searchBarRef.current.value);
               }}
             />
@@ -472,7 +363,7 @@ export const Fav = function Fav({
         onClose={() => setSongEditDialogOpen(false)}
         saveList={saveCurrentList}
       />
-      {currentFavList && (
+      {FavList && (
         <React.Fragment>
           <Menu theme={colorTheme.generalTheme} />
           <Box
@@ -499,20 +390,20 @@ export const Fav = function Fav({
                     fontSize: '2rem',
                   }}
                 >
-                  {currentFavList.info.title}
+                  {FavList.title}
                 </Typography>
               </Grid>
               <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
                 <RandomGIFIcon
                   gifs={skinPreset.gifs}
-                  favList={currentFavList.info.id + page.toString()}
+                  favList={FavList.id + page.toString()}
                   onClickCallback={primePageToCurrentPlaying}
                 />
               </Grid>
               <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
-                {!currentFavList.info.id.includes('Special') && (
+                {!FavList.id.includes('Special') && (
                   <FavSettingsButtons
-                    currentList={currentFavList}
+                    currentList={FavList}
                     rssUpdate={async (subscribeUrls) => {
                       const val = await rssUpdate(subscribeUrls);
                       if (val !== null) setRows(val);
@@ -582,7 +473,7 @@ export const Fav = function Fav({
                       rowsPerPageOptions={[
                         defaultRowsPerPage,
                         99,
-                        currentFavList.songList.length,
+                        FavList.songList.length,
                       ]}
                       colSpan={3}
                       count={rows.length}
@@ -609,3 +500,65 @@ export const Fav = function Fav({
     </React.Fragment>
   );
 };
+
+const theme = createTheme(
+  {
+    palette: {
+      primary: { main: '#1976d2' },
+    },
+  },
+  zhCN,
+);
+
+const columns = [
+  { id: 'name', label: '歌曲名', minWidth: '20%' },
+  {
+    id: 'uploader',
+    label: 'UP主',
+    align: 'center',
+    padding: '0px',
+  },
+  {
+    id: 'operation',
+    label: '操作',
+    minWidth: '20%',
+    align: 'right',
+  },
+];
+
+const CRUDIcon = {
+  ':hover': {
+    cursor: 'pointer',
+  },
+  width: '1em',
+  color: colorTheme.songListIconColor,
+};
+
+export const songText = {
+  fontSize: 16,
+  minWidth: 0,
+  overflow: 'hidden',
+  paddingBottom: '4px',
+  paddingTop: '4px',
+};
+
+export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+export const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 16,
+    padding: 0,
+  },
+}));

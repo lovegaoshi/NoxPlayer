@@ -1,18 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
-import { PlayListDict } from '@utils/ChromeStorage';
 import { searchSongOnWeb, searchSongOnBili } from '../Fav/Favmenu';
 import { AddFavDialog } from '../dialogs/AddFavDialog';
 
 export default function mobileMoreButton({ song }: { song: NoxMedia.Song }) {
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const StorageManager = useContext(StorageManagerCtx);
   const [anchorEl, setAnchorEl] = React.useState(
     null as Element | null | undefined,
   );
@@ -74,11 +71,8 @@ export default function mobileMoreButton({ song }: { song: NoxMedia.Song }) {
       <AddFavDialog
         openState={openAddDialog}
         onClose={() => setOpenAddDialog(false)}
-        favLists={StorageManager.latestFavLists.map(
-          (v: PlayListDict) => v.info,
-        )}
-        song={song}
-        fromId={undefined}
+        songs={[song]}
+        fromList={undefined}
         isMobile
       />
     </React.Fragment>

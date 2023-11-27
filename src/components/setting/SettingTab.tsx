@@ -93,8 +93,8 @@ function SettingsPanel() {
       />
       <BooleanCheckbox
         settingKey='r128gain'
-        tooltip='启用即时r128gain'
-        label='r128gain'
+        tooltip='启用即时音量均衡'
+        label='音量均衡'
       />
     </React.Fragment>
   );

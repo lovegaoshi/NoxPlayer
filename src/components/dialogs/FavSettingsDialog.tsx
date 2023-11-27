@@ -57,14 +57,14 @@ export default function FavSettingsDialog({
   const loadFavList = (favList = fromList) => {
     setArrayAsStr(favList.subscribeUrls, setSubUrl);
     setArrayAsStr(favList.bannedBVids, setBannedBVids);
-    setFavListName(favList.info.title);
+    setFavListName(favList.title);
     setUseBiliShazam(!!favList.useBiliShazam);
     setBiliSync(!!favList.biliSync);
   };
 
   useEffect(() => {
     loadFavList();
-  }, [fromList.info.id, fromList.songList.length]);
+  }, [fromList.id, fromList.songList.length]);
 
   return (
     <Dialog open={openState} id={id}>

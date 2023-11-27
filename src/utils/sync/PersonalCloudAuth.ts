@@ -51,7 +51,7 @@ export const noxRestore = async (cloudAddress?: string) => {
  * @returns
  */
 export const noxBackup = async (
-  content: Blob,
+  content: Blob | Uint8Array,
   cloudAddress: string | undefined = undefined,
 ) => {
   try {

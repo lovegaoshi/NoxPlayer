@@ -8,26 +8,24 @@ export const defaultSearchList = ({
 }) => {
   const newList = dummyFavList('');
   newList.songList = songList;
-  newList.info = info;
+  newList.title = info.title;
+  newList.id = info.id;
   return newList;
 };
 
 export const dummyFavList = (favName: string): NoxMedia.Playlist => {
   return {
     songList: [],
-    info: { title: favName, id: `FavList-${uuidv4()}` },
     title: favName,
     id: `FavList-${uuidv4()}`,
     // this is not a Set because we need to serialize this
     // for importing/exporting playlists.
-    subscribeUrls: [],
-    settings: {
-      autoRSSUpdate: false,
-    },
+    subscribeUrl: [],
     useBiliShazam: false,
     biliSync: false,
-    bannedBVids: [],
-    showFavoriteList: false,
+    blacklistedUrl: [],
+    lastSubscribed: 0,
+    type: 'typical',
   };
 };
 
@@ -39,6 +37,6 @@ export const dummyFavListFromList = (
 
 export const dummyFavFavList = () => {
   const favfavlist = dummyFavList('我的最爱');
-  favfavlist.info.id = 'FavList-Special-Favorite';
+  favfavlist.id = 'FavList-Special-Favorite';
   return favfavlist;
 };
