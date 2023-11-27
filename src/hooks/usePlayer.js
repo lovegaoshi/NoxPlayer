@@ -5,14 +5,12 @@ import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
 import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
-import { getPlayerSettingKey } from '../utils/ChromeStorage';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
 import ThumbsUpButton from '../components/buttons/ThumbsUpButton';
 import MobileMoreButton from '../components/buttons/MobileMoreButton';
 import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
-  sendBiliHeartbeat as POSTBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
 
 const usePlayer = ({ isMobile = false }) => {
@@ -82,7 +80,7 @@ const usePlayer = ({ isMobile = false }) => {
     if (
       favList.info &&
       favList.title !== '搜索歌单' &&
-      (await getPlayerSettingKey('loadPlaylistAsArtist'))
+      playerSettings.loadPlaylistAsArtist
     ) {
       const val = new Array(favList.songList.length);
       for (let i = 0; i < favList.songList.length; i++) {
@@ -246,7 +244,7 @@ const usePlayer = ({ isMobile = false }) => {
 
   const sendBiliHeartbeat = async (song, debug = false) => {
     clearInterval(biliHeartbeat.current);
-    if (await getPlayerSettingKey('sendBiliHeartbeat')) return;
+    if (playerSettings.sendBiliHeartbeat) return;
     initBiliHeartbeat({ bvid: song.bvid, cid: song.id });
     if (debug) checkBiliVideoPlayed(song.bvid);
   };
