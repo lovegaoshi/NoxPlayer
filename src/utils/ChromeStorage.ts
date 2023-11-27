@@ -2,7 +2,7 @@ import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
 import type { NoxStorage } from '@APM/types/storage';
 import { STORAGE_KEYS } from '@enums/Storage';
-import { DEFAULT_SETTING, MY_FAV_LIST_KEY } from '@objects/Storage2';
+import { DEFAULT_SETTING } from '@objects/Storage2';
 import { logger } from '@utils/Logger';
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
@@ -173,15 +173,15 @@ export const saveMyFavList = (
   },
 ) => {
   chrome.storage.local.set(
-    { [MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.id) },
+    { [STORAGE_KEYS.MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.id) },
     callbackFunc,
   );
 };
 
 const clearPlaylists = async () => {
-  const playlists = (await chrome.storage.local.get([MY_FAV_LIST_KEY]))[
-    MY_FAV_LIST_KEY
-  ];
+  const playlists = (
+    await chrome.storage.local.get([STORAGE_KEYS.MY_FAV_LIST_KEY])
+  )[STORAGE_KEYS.MY_FAV_LIST_KEY];
   chrome.storage.local.remove(playlists);
 };
 
@@ -196,9 +196,12 @@ export const importStorageRaw = async (content: Uint8Array) => {
       (acc, curr) => ({ ...acc, [curr[0]]: curr[1] }),
       {},
     );
-    const playlists = JSON.parse(parsedContentDict[MY_FAV_LIST_KEY]) || [];
+    const playlists =
+      JSON.parse(parsedContentDict[STORAGE_KEYS.MY_FAV_LIST_KEY]) || [];
     await clearPlaylists();
-    await chrome.storage.local.set({ [MY_FAV_LIST_KEY]: playlists });
+    await chrome.storage.local.set({
+      [STORAGE_KEYS.MY_FAV_LIST_KEY]: playlists,
+    });
     for (const playlistID of playlists) {
       const playlist = JSON.parse(parsedContentDict[playlistID]);
       console.debug(playlist);
