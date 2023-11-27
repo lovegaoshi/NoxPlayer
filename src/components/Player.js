@@ -1,18 +1,16 @@
-import React, { useEffect, useCallback, useContext } from 'react';
+import React, { useEffect, useCallback } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
-import { CURRENT_PLAYING } from '@objects/Storage2';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { FavList } from './FavList/FavList';
 import LyricOverlay from './lyric/LyricOverlay';
-import { StorageManagerCtx } from '../contexts/StorageManagerContext';
 import { skins, skinPreset } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
 import usePlayer from '../hooks/usePlayer';
-import { setLocalStorage } from '../utils/ChromeStorage';
 
 // Initial Player options
 const options = {
@@ -29,8 +27,12 @@ const options = {
 };
 
 export default function Player({ songList }) {
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setCurrentPlayingId = useNoxSetting(
+    (state) => state.setCurrentPlayingId,
+  );
+  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   // Sync data to chromeDB
-  const StorageManager = useContext(StorageManagerCtx);
 
   const {
     params,
@@ -42,7 +44,6 @@ export default function Player({ songList }) {
     showLyric,
     setShowLyric,
     playerSettings,
-    setPlayerSettings,
 
     onPlayOneFromFav,
     onPlayAllFromFav,
@@ -75,10 +76,6 @@ export default function Player({ songList }) {
   useHotkeys('pageup', () => window.musicplayer.onPlayPrevAudio());
 
   useEffect(() => {
-    StorageManager.setPlayerSettingInst = setPlayerSettings;
-  }, []);
-
-  useEffect(() => {
     if (!currentAudio?.name) return;
     document.title = `${currentAudio.name} - ${skins().appTitle}`;
   }, [currentAudio.name]);
@@ -87,10 +84,7 @@ export default function Player({ songList }) {
     async (audioInfo) => {
       processExtendsContent(renderExtendsContent({ song: audioInfo }));
       setcurrentAudio(audioInfo);
-      setLocalStorage(CURRENT_PLAYING, {
-        cid: audioInfo.id,
-        playUrl: audioInfo.musicSrc,
-      });
+      setCurrentPlayingId(audioInfo.id);
       sendBiliHeartbeat(audioInfo);
     },
     [params],
@@ -107,26 +101,21 @@ export default function Player({ songList }) {
     }
     async function initPlayer() {
       await versionUpdate();
-      const setting = await StorageManager.getPlayerSetting();
-      let previousPlaying =
-        await StorageManager.readLocalStorage('CurrentPlaying');
-      if (previousPlaying === undefined) previousPlaying = {};
       const previousPlayingSongIndex = Math.max(
         0,
-        songList.findIndex((s) => s.id === previousPlaying.cid),
+        songList.findIndex((s) => s.id === currentPlayingId),
       );
       options.extendsContent = renderExtendsContent({
         song: songList[previousPlayingSongIndex],
       });
       const params2 = {
         ...options,
-        ...setting,
+        ...playerSetting,
         audioLists: songList,
         defaultPlayIndex: previousPlayingSongIndex,
       };
       setparams(params2);
       setplayingList(songList);
-      setPlayerSettings(setting);
     }
     initPlayer();
   }, [songList]);
