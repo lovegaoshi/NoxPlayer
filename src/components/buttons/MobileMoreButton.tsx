@@ -71,8 +71,8 @@ export default function mobileMoreButton({ song }: { song: NoxMedia.Song }) {
       <AddFavDialog
         openState={openAddDialog}
         onClose={() => setOpenAddDialog(false)}
-        song={song}
-        fromId={undefined}
+        songs={[song]}
+        fromList={undefined}
         isMobile
       />
     </React.Fragment>

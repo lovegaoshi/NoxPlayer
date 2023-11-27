@@ -196,7 +196,7 @@ export default memo(
               <Tooltip title='添加到收藏歌单'>
                 <PlaylistAddIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(v.id)}
+                  onClick={() => handleAddToFavClick(v)}
                 />
               </Tooltip>
               &nbsp;&nbsp;
@@ -276,7 +276,7 @@ export default memo(
                   <Tooltip title='添加到收藏歌单'>
                     <PlaylistAddIcon
                       sx={CRUDIcon}
-                      onClick={() => handleAddToFavClick(searchList.id)}
+                      onClick={() => handleAddToFavClick(searchList)}
                     />
                   </Tooltip>
                   &nbsp;&nbsp;
@@ -421,8 +421,8 @@ export default memo(
           id='AddFav'
           openState={openAddDialog}
           onClose={onAddFav}
-          fromId={actionFavId}
-          song={actionFavSong}
+          fromList={actionFavId}
+          songs={[actionFavSong]}
           isMobile
         />
       </React.Fragment>

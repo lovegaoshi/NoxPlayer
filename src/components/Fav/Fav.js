@@ -444,7 +444,7 @@ export const Fav = function Fav({
           <Tooltip title='添加到收藏歌单'>
             <PlaylistAddIcon
               sx={CRUDIcon}
-              onClick={() => handleAddToFavClick(currentFavList.id, song)}
+              onClick={() => handleAddToFavClick(currentFavList, song)}
             />
           </Tooltip>
           <Tooltip title='删除歌曲'>

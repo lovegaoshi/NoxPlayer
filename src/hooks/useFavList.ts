@@ -48,7 +48,7 @@ const useFavList = () => {
   const [openNewDialog, setOpenNewDialog] = useState(false);
   const [searchInputVal, setSearchInputVal] = useState('');
 
-  const [actionFavId, setActionFavId] = useState<string>();
+  const [actionFavId, setActionFavId] = useState<NoxMedia.Playlist>();
   const [openAddDialog, setOpenAddDialog] = useState(false);
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
@@ -116,35 +116,30 @@ const useFavList = () => {
       .catch();
   };
 
-  const handleAddToFavClick = (id: string, song: NoxMedia.Song) => {
-    setActionFavId(id);
+  const handleAddToFavClick = (
+    playlist: NoxMedia.Playlist,
+    song?: NoxMedia.Song,
+  ) => {
+    setActionFavId(playlist);
     setActionFavSong(song);
     setOpenAddDialog(true);
   };
 
-  const onAddFav = async (
-    fromId: string,
-    toId?: string,
-    song?: NoxMedia.Song,
-  ) => {
+  const onAddFav = async ({
+    songs,
+    fromList,
+    toId,
+  }: {
+    songs: NoxMedia.Song[];
+    fromList?: NoxMedia.Playlist;
+    toId?: string;
+  }) => {
     setOpenAddDialog(false);
     if (!toId) return;
-    let fromList;
-    const toList = findList(toId);
-
-    if (song) fromList = { songList: [song] };
-    else fromList = findList(fromId);
-
-    const newSongList = fromList.songList.filter(
-      (s) => undefined === toList.songList.find((v) => v.id === s.id),
+    updatePlaylist(
+      findList(toId),
+      songs[0] === undefined ? fromList?.songList : songs,
     );
-    // console.log(fromId, toId)
-
-    const updatedToList = {
-      ...toList,
-      songList: newSongList.concat(toList.songList),
-    };
-    updatePlaylist(updatedToList);
   };
 
   const onDragEnd = (result: any) => {

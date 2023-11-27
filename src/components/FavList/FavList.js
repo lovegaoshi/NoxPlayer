@@ -170,7 +170,7 @@ export const FavList = memo(
               <Tooltip title='添加到收藏歌单'>
                 <AddBoxOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(v.id)}
+                  onClick={() => handleAddToFavClick(v)}
                 />
               </Tooltip>
               <Tooltip title='删除歌单'>
@@ -216,7 +216,7 @@ export const FavList = memo(
               <Tooltip title='添加到收藏歌单'>
                 <AddBoxOutlinedIcon
                   sx={CRUDIcon}
-                  onClick={() => handleAddToFavClick(specialList.id)}
+                  onClick={() => handleAddToFavClick(specialList)}
                 />
               </Tooltip>
               <Tooltip title='新建为歌单'>
@@ -366,8 +366,8 @@ export const FavList = memo(
             id='AddFav'
             openState={openAddDialog}
             onClose={onAddFav}
-            fromId={actionFavId}
-            song={actionFavSong}
+            fromList={actionFavId}
+            songs={[actionFavSong]}
             MenuProps={{ style: { maxHeight: 200 } }}
           />
         )}

@@ -33,7 +33,6 @@ export const delPlaylist = (
   playlist: NoxMedia.Playlist,
   playlistIds: Array<string>,
 ) => {
-  console.log(playlistIds, playlist);
   playlistIds.splice(playlistIds.indexOf(playlist.id), 1);
   removeItem(playlist.id);
   savePlaylistIds(playlistIds);
