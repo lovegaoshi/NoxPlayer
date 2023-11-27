@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import type { NoxStorage } from '@APM/types/storage';
-import { StorageManagerCtx } from '@contexts/StorageManagerContext';
+import { useNoxSetting } from '@APM/stores/useApp';
 import SettingsDialog from './PlayerSettingsDialog';
 
 export default function playerSettingsButton({
@@ -12,8 +12,9 @@ export default function playerSettingsButton({
 }: {
   AddFavIcon: Object;
 }) {
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
-  const StorageManager = useContext(StorageManagerCtx);
 
   return (
     <React.Fragment>
@@ -25,10 +26,10 @@ export default function playerSettingsButton({
       <SettingsDialog
         openState={openSettingsDialog}
         onClose={(settings: NoxStorage.PlayerSettingDict) => {
-          if (settings) StorageManager.setPlayerSetting(settings);
+          if (settings) setPlayerSetting(settings);
           setOpenSettingsDialog(false);
         }}
-        settings={StorageManager.getPlayerSetting()}
+        settings={playerSetting}
       />
     </React.Fragment>
   );
