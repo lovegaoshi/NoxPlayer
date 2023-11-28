@@ -103,7 +103,6 @@ const usePlayer = ({ isMobile = false }) => {
       return;
     }
     setCurrentPlayingList(favList);
-    console.log(favList);
     const parsedSongList = parseSongList(favList);
     updateCurrentAudioList({
       songs: parsedSongList,

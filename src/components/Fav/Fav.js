@@ -139,7 +139,6 @@ export const Fav = function Fav({
     (state) => state.playlistShouldReRender,
   );
 
-  useEffect(() => console.log(FavList), [playlistShouldReRender]);
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
