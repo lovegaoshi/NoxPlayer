@@ -40,14 +40,14 @@ import { getName, reParseSearch } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/randomGIF';
+import RandomGIFIcon from '../buttons/RandomGIF';
 import {
   getPlayerSettingKey,
   readLocalStorage,
 } from '../../utils/ChromeStorage';
 import { CurrentAudioContext } from '../../contexts/CurrentAudioContext';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
-import SongSearchBar from '../dialogs/songsearchbar';
+import SongSearchBar from '../dialogs/SongSearchbar';
 import Menu from './Favmenu';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';

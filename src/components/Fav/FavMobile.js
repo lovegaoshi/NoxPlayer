@@ -23,10 +23,10 @@ import { getName, reParseSearch } from '@APM/utils/re';
 import useFav from '@hooks/useFav';
 import { songText } from './Fav';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/randomGIF';
+import RandomGIFIcon from '../buttons/RandomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import { getPlayerSettingKey } from '../../utils/ChromeStorage';
-import SongSearchBar from '../dialogs/songsearchbar';
+import SongSearchBar from '../dialogs/SongSearchbar';
 import { ScrollBar } from '../../styles/styles';
 
 const { colorTheme } = skinPreset;

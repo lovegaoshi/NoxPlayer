@@ -21,7 +21,7 @@ import { removeSongBiliShazamed } from '@objects/Song';
 import { fetchVideoInfo } from '@utils/Data';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
-import { textToDialogContent } from '../dialogs/genericDialog';
+import { textToDialogContent } from '../dialogs/GenericDialog';
 
 const MENU_ID = 'favlistmenu';
 
