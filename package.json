@@ -20,10 +20,10 @@
     "@babel/preset-typescript": "^7.23.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0",
     "@types/md5": "^2.3.5",
-    "@types/react": "^18.2.38",
+    "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "11.0.0",
@@ -66,8 +66,8 @@
     "@ffmpeg/ffmpeg": "^0.12.7",
     "@ffmpeg/util": "^0.12.1",
     "@fontsource/roboto": "^5.0.8",
-    "@fortawesome/fontawesome-free": "^6.4.0",
-    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/fontawesome-free": "^6.5.0",
+    "@fortawesome/free-brands-svg-icons": "^6.5.0",
     "@mui/icons-material": "^5.14.18",
     "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.18",
@@ -101,7 +101,7 @@
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.0",
     "react-jinke-music-player": "file:../react-music-player",
-    "react-lrc": "^3.0.3",
+    "react-lrc": "^3.1.2",
     "react-swipeable": "^7.0.0",
     "react-window": "^1.8.10",
     "stream-browserify": "^3.0.0",
@@ -109,6 +109,6 @@
     "uuid": "^9.0.0",
     "youtube-stream-url": "^2.4.2",
     "ytdl-core": "git+https://lovegaoshi@github.com/lovegaoshi/node-ytdl-core.git",
-    "zustand": "^4.4.6"
+    "zustand": "^4.4.7"
   }
 }
