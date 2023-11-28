@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import { searchLyricOptions, searchLyric } from '../../utils/Data';
+import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
 
 export default function LyricSearchBar({
   SearchKey,
@@ -18,7 +18,9 @@ export default function LyricSearchBar({
 
   // Initializes options
   useEffect(() => {
-    searchLyricOptions(SearchKey, setOptions);
+    (async () => {
+      setOptions(await searchLyricOptions(SearchKey));
+    })();
   }, [SearchKey]);
 
   useEffect(() => {

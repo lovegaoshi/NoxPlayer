@@ -8,7 +8,6 @@ import ytvideoFetch from './mediafetch/ytvideo';
 import logger from './Logger';
 import VideoInfo from '../objects/VideoInfo';
 import { getPlayerSettingKey, readLocalStorages } from './ChromeStorage';
-import { wbiQuery } from '../stores/wbi';
 
 /**
  * limits to bilibili API call to 200ms/call using bottleneck.
@@ -39,12 +38,7 @@ const biliTagApiLimiter = new Bottleneck({
  */
 const URL_PLAY_URL =
   'https://api.bilibili.com/x/player/playurl?cid={cid}&bvid={bvid}&qn=64&fnval=16';
-/**
- *  API that gets the tag of a video. sometimes bilibili identifies the BGM used.
- * https://api.bilibili.com/x/web-interface/view/detail/tag?bvid=BV1sY411i7jP&cid=1005921247
- */
-const URL_VIDEO_TAGS =
-  'https://api.bilibili.com/x/web-interface/view/detail/tag?bvid={bvid}&cid={cid}';
+
 /**
  *  bilibili API to get an audio's stream src url.
  * https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/audio/musicstream_url.md
@@ -69,51 +63,6 @@ const URL_AUDIO_INFO =
  */
 const URL_VIDEO_INFO =
   'https://api.bilibili.com/x/web-interface/view?bvid={bvid}';
-/**
- *  channel series API Extract Info
- */
-const URL_BILISERIES_INFO =
-  'https://api.bilibili.com/x/series/archives?mid={mid}&series_id={sid}&only_normal=true&sort=desc&pn={pn}&ps=30';
-/**
- *  channel series API Extract Info
- */
-const URL_BILICOLLE_INFO =
-  'https://api.bilibili.com/x/polymer/space/seasons_archives_list?mid={mid}&season_id={sid}&sort_reverse=false&page_num={pn}&page_size=100';
-/**
- *  channel API Extract Info
- */
-const URL_BILICHANNEL_INFO =
-  'https://api.bilibili.com/x/space/wbi/arc/search?mid={mid}&pn={pn}&jsonp=jsonp&ps=50';
-/**
- *  Fav List
- */
-const URL_FAV_LIST =
-  'https://api.bilibili.com/x/v3/fav/resource/list?media_id={mid}&pn={pn}&ps=20&keyword=&order=mtime&type=0&tid=0&platform=web&jsonp=jsonp';
-/**
- *  BILIBILI search API.
- */
-const URL_BILI_SEARCH =
-  'https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}';
-/**
- *  LRC Mapping
- */
-const URL_LRC_MAPPING =
-  'https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/mappings.txt';
-/**
- *  LRC Base
- */
-const URL_LRC_BASE =
-  'https://raw.githubusercontent.com/kenmingwang/azusa-player-lrcs/main/{songFile}';
-/**
- *  QQ SongSearch API
- */
-const URL_QQ_SEARCH =
-  'https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg?key={KeyWord}';
-/**
- *  QQ LyricSearchAPI
- */
-const URL_QQ_LYRIC =
-  'https://i.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?songmid={SongMid}&g_tk=5381&format=json&inCharset=utf8&outCharset=utf-8&nobase64=1';
 
 export const ENUMS = {
   audioType: 'audio',
@@ -187,33 +136,7 @@ export const fetchVideoPlayUrlPromise = async (
   });
 };
 
-/**
- * returns the bilibili video stream url given a bvid and cid.
- * @param {string} bvid video's bvid. starts with BV.
- * @param {string} cid optional; if not provided, bvid is used to fetch cid. note
- * some videos have episodes that this may not be accurate.
- * @returns
- */
-const fetchVideoTagPromiseRaw = async ({ bvid, cid }) => {
-  const req = await fetch(
-    URL_VIDEO_TAGS.replace('{bvid}', bvid).replace('{cid}', cid),
-  );
-  const json = await req.json();
-  try {
-    if (json.data[0].tag_type === 'bgm') {
-      return json.data[0].tag_name;
-    }
-    return null;
-  } catch (e) {
-    console.warn(
-      `fetching videoTag for ${bvid}, ${cid} failed. if ${cid} is a special tag its expected.`,
-      e,
-    );
-    return null;
-  }
-};
-
-export const biliAPILimiterWrapper = async (
+const biliAPILimiterWrapper = async (
   params,
   func = () => {},
   progressEmit = () => {},
@@ -222,12 +145,6 @@ export const biliAPILimiterWrapper = async (
     progressEmit();
     return func(params);
   });
-};
-
-export const fetchVideoTagPromise = async ({ bvid, cid }) => {
-  return biliTagApiLimiter.schedule(() =>
-    fetchVideoTagPromiseRaw({ bvid, cid }),
-  );
 };
 
 /**
@@ -270,33 +187,6 @@ export const fetchCID = async (bvid) => {
   const json = await res.json();
   const cid = extractResponseJson(json, 'CID');
   return cid;
-};
-
-// Refactor needed for this func
-export const fetchLRC = async (name, setLyric, setSongTitle) => {
-  // console.log('Data.js Calling: fetchLRC')
-  // Get song mapping name and song name from title
-  const res = await fetch(URL_LRC_MAPPING);
-  const mappings = await res.text();
-  const songs = mappings.split('\n');
-  const songName = extractSongName(name);
-  setSongTitle(songName);
-
-  const songFile = songs.find((v, i, a) => v.includes(songName));
-  // use song name to get the LRC
-  try {
-    const lrc = await fetch(URL_LRC_BASE.replace('{songFile}', songFile));
-    if (lrc.status !== '200') {
-      setLyric('[00:00.000] 无法找到歌词');
-      return;
-    }
-
-    const text = await lrc.text();
-    setLyric(text.replaceAll('\r\n', '\n'));
-    return text.replaceAll('\r\n', '\n');
-  } catch (error) {
-    setLyric('[00:00.000] 无法找到歌词');
-  }
 };
 
 /**
@@ -367,327 +257,6 @@ export const fetchAudioInfoRaw = async (sid) => {
 };
 
 /**
- * fetch biliseries. copied from yt-dlp.
- * unlike other APIs, biliseries API can return all videos in the series by using page number = 0.
- * thus this does not need to use the generic paginated function.
- * @param {string} mid
- * @param {string} sid
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchBiliSeriesList = async (
-  mid,
-  sid,
-  progressEmitter,
-  favList = [],
-) => {
-  logger.info('calling fetchBiliSeriesList');
-  const page = 0;
-  const res = await fetch(
-    URL_BILISERIES_INFO.replace('{mid}', mid)
-      .replace('{sid}', sid)
-      .replace('{pn}', page),
-  );
-  const json = await res.json();
-  const { data } = json;
-
-  const BVidPromises = [];
-  for (let i = 0, n = data.archives.length; i < n; i++) {
-    if (favList.includes(data.archives[i].bvid)) {
-      console.debug(
-        'fetchBiliSeriesList: skipped duplicate bvid during rss feed update',
-        data.archives[i].bvid,
-      );
-      continue;
-    }
-    BVidPromises.push(
-      fetchVideoInfo(data.archives[i].bvid, () => {
-        progressEmitter(parseInt((100 * (i + 1)) / data.archives.length));
-      }),
-    );
-  }
-  return (await Promise.all(BVidPromises)).filter((item) => item !== undefined);
-};
-
-export const fetchiliBVIDs = async (BVids, progressEmitter = () => {}) => {
-  const BVidPromises = [];
-  for (let index = 0, n = BVids.length; index < n; index++) {
-    BVidPromises.push(
-      fetchVideoInfo(BVids[index], () => {
-        progressEmitter(parseInt((100 * (index + 1)) / n));
-      }),
-    );
-  }
-  return await Promise.all(BVidPromises);
-};
-
-/**
- * a universal bvid retriever for all bilibili paginated APIs. used to reduce
- * redundant codes in bilibili collection, favlist and channel.
- * @param {string} url
- * @param {function} getMediaCount
- * @param {function} getPageSize
- * @param {function} getItems
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchBiliPaginatedAPI = async (
-  url,
-  getMediaCount,
-  getPageSize,
-  getItems,
-  progressEmitter,
-  favList = [],
-  limiter = biliTagApiLimiter,
-) => {
-  const wbiAwareFetch = url.includes('/wbi/') ? wbiQuery : fetch;
-  const res = await wbiAwareFetch(url.replace('{pn}', 1));
-  const { data } = await res.clone().json();
-  const mediaCount = getMediaCount(data);
-  const BVids = [];
-  const pagesPromises = [res];
-  for (
-    let page = 2, n = Math.ceil(mediaCount / getPageSize(data));
-    page <= n;
-    page++
-  ) {
-    pagesPromises.push(
-      limiter.schedule(() => wbiAwareFetch(url.replace('{pn}', page))),
-    );
-  }
-  const resolvedPromises = await Promise.all(pagesPromises);
-  await Promise.all(
-    resolvedPromises.map(async (pages) => {
-      return pages
-        .json()
-        .then((parsedJson) => {
-          getItems(parsedJson).forEach((m) => {
-            if (!favList.includes(m.bvid)) BVids.push(m.bvid);
-          });
-        })
-        .catch((err) => {
-          console.error(err, pages);
-        });
-    }),
-  );
-  // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  return (await fetchiliBVIDs(BVids, progressEmitter)).filter(
-    (item) => item !== undefined,
-  );
-};
-
-export const fetchAwaitBiliPaginatedAPI = async (
-  url,
-  getMediaCount,
-  getPageSize,
-  getItems,
-  progressEmitter,
-  favList = [],
-  limiter = biliTagApiLimiter,
-) => {
-  const wbiAwareFetch = url.includes('/wbi/') ? wbiQuery : fetch;
-  // helper function that returns true if more page resolving is needed.
-  const resolvePageJson = async (BVids, json) => {
-    for (const item of getItems(json)) {
-      if (favList.includes(item.bvid)) {
-        return false;
-      }
-      BVids.push(item.bvid);
-    }
-    return true;
-  };
-
-  const res = await wbiAwareFetch(url.replace('{pn}', 1));
-  const json = await res.json();
-  const mediaCount = getMediaCount(json.data);
-  const BVids = [];
-  if (await resolvePageJson(BVids, json)) {
-    for (
-      let page = 2, n = Math.ceil(mediaCount / getPageSize(json.data));
-      page <= n;
-      page++
-    ) {
-      const subRes = await limiter.schedule(() =>
-        wbiAwareFetch(url.replace('{pn}', page)),
-      );
-      const subJson = await subRes.json();
-      if (!(await resolvePageJson(BVids, subJson))) {
-        break;
-      }
-    }
-  }
-  // i dont know the smart way to do this out of the async loop, though luckily that O(2n) isnt that big of a deal
-  return (await fetchiliBVIDs(BVids, progressEmitter)).filter(
-    (item) => item !== undefined,
-  );
-};
-
-/**
- *
-// copied from ytdlp. applies to collections such as:
-// https://space.bilibili.com/287837/channel/collectiondetail?sid=793137
- * @param {string} mid
- * @param {string} sid
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchBiliColleList = async (
-  mid,
-  sid,
-  progressEmitter,
-  favList = [],
-) => {
-  logger.info('calling fetchBiliColleList');
-
-  return fetchBiliPaginatedAPI(
-    URL_BILICOLLE_INFO.replace('{mid}', mid).replace('{sid}', sid),
-    (data) => data.meta.total,
-    (data) => data.page.page_size,
-    (js) => js.data.archives,
-    progressEmitter,
-    favList,
-    biliApiLimiter,
-  );
-};
-
-/**
- *
-// copied from ytdlp. applies to bibibili channels such as:
-// https://space.bilibili.com/355371630/video
- * @param {string} url the actual url. because url may have url search params such as tid,
- * the actual url is needed here for further parsing, instead of simply passing the bili user UID
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchBiliChannelList = async (
-  url,
-  progressEmitter,
-  favList = [],
-) => {
-  logger.info('calling fetchBiliChannelList');
-  const mid = /.*space.bilibili\.com\/(\d+)\/video.*/.exec(url)[1];
-  let searchAPI = URL_BILICHANNEL_INFO.replace('{mid}', mid);
-  const urlSearchParam = new URLSearchParams(new URL(url).search);
-  if (urlSearchParam.get('tid') !== null) {
-    // TODO: do this properly with another URLSearchParams instance
-    searchAPI += `&tid=${String(urlSearchParam.get('tid'))}`;
-  }
-  return fetchAwaitBiliPaginatedAPI(
-    searchAPI,
-    (data) => data.page.count,
-    (data) => data.page.ps,
-    (js) => js.data.list.vlist,
-    progressEmitter,
-    favList,
-    awaitLimiter,
-  );
-};
-
-/**
- *
- * @param {string} url
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchGenericPaginatedList = async (
-  url,
-  progressEmitter,
-  favList = [],
-) => {
-  logger.info('calling fetchGenricPaginatedList');
-  const exampleUrl = 'https://steria.vplayer.tk/api/musics/{pn}';
-  const res = await fetch(url.replace('{pn}', 1));
-  const videoInfos = [await res.json()];
-
-  for (let page = 2; true; page++) {
-    videoInfos.push(fetch(url.replace('{pn}', page)).json());
-    if (videoInfos[videoInfos.length - 1].length === 0) break;
-  }
-  await Promise.all(videoInfos);
-  return videoInfos;
-};
-
-/**
- *
-// copied from ytdlp. applies to bibibili fav lists such as:
-// https://space.bilibili.com/355371630/video
- * @param {string} mid
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchFavList = async (mid, progressEmitter, favList = []) => {
-  logger.info('calling fetchFavList');
-
-  return fetchBiliPaginatedAPI(
-    URL_FAV_LIST.replace('{mid}', mid),
-    (data) => data.info.media_count,
-    (data) => 20,
-    (js) => js.data.medias,
-    progressEmitter,
-    favList,
-  );
-};
-
-/**
- *
-// copied from ytdlp. applies to bibibili fav lists such as:
-// https://space.bilibili.com/355371630/video
- * @param {string} mid
- * @param {function} progressEmitter
- * @param {array} favList
- * @returns
- */
-export const fetchBiliSearchList = async (kword, progressEmitter) => {
-  const noCookieSearch = await getPlayerSettingKey('noCookieBiliSearch');
-  let cookieSESSDATA = null;
-  // this API needs a random buvid3 value, or a valid SESSDATA;
-  // otherwise will return error 412. for users didnt login to bilibili,
-  // setting a random buvid3 would enable this API. should i initialize it
-  // in start up?
-  if (noCookieSearch) {
-    cookieSESSDATA = await chrome.cookies.get({
-      url: 'https://bilibili.com',
-      name: 'SESSDATA',
-    });
-    await chrome.cookies.set({
-      url: 'https:api.bilibili.com',
-      domain: '.bilibili.com',
-      name: 'SESSDATA',
-      value: 'dummyval',
-    });
-  }
-  let val = [];
-  try {
-    val = await fetchBiliPaginatedAPI(
-      URL_BILI_SEARCH.replace('{keyword}', kword),
-      (data) => Math.min(data.numResults, data.pagesize * 2),
-      (data) => data.pagesize,
-      (js) => js.data.result,
-      progressEmitter,
-      [],
-    );
-  } catch (e) {
-    console.error(e);
-  } finally {
-    if (noCookieSearch) {
-      await chrome.cookies.set({
-        url: 'https:api.bilibili.com',
-        domain: '.bilibili.com',
-        name: 'SESSDATA',
-        value: cookieSESSDATA.value,
-      });
-    }
-  }
-  return val;
-};
-
-/**
  * Private Util to extract json, see https://github.com/SocialSisterYi/bilibili-API-collect
  * @param {Object} json
  * @param {string} field
@@ -713,44 +282,4 @@ const extractResponseJson = (json, field) => {
   } else if (field === 'AudioInfo') {
     return {};
   }
-};
-
-export const searchLyricOptions = async (searchKey, setOptions) => {
-  logger.info('calling searchLyricOptions');
-  if (searchKey === '') {
-    setOptions([]);
-    return;
-  }
-  const res = await fetch(URL_QQ_SEARCH.replace('{KeyWord}', searchKey));
-  const json = await res.json();
-  const data = json.data.song.itemlist;
-  const slimData = data.map((s, v) => {
-    return {
-      key: s.mid,
-      songMid: s.mid,
-      label: `${v}. ${s.name} / ${s.singer}`,
-    };
-  });
-
-  setOptions(slimData);
-};
-
-export const searchLyric = async (searchMID, setLyric) => {
-  logger.info('calling searchLyric');
-  const res = await fetch(URL_QQ_LYRIC.replace('{SongMid}', searchMID));
-  const json = await res.json();
-  if (!json.lyric) {
-    setLyric('[00:00.000] 无法找到歌词,请手动搜索');
-    return;
-  }
-
-  let finalLrc = json.lyric;
-
-  // Merge trans Lyrics
-  if (json.trans) {
-    finalLrc = `${json.trans}\n${finalLrc}`;
-  }
-
-  // console.log(finalLrc)
-  setLyric(finalLrc);
 };
