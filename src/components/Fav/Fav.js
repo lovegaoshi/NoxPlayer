@@ -38,6 +38,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName, reParseSearch } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
+import useFav from '@hooks/useFav';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from '../buttons/randomGIF';
 import {
@@ -139,7 +140,6 @@ export const Fav = function Fav({
     (state) => state.playlistShouldReRender,
   );
 
-  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
     1,
@@ -155,6 +155,8 @@ export const Fav = function Fav({
     index: '',
   });
   const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
+
+  const { rows, setRows, requestSearch, handleSearch } = useFav(FavList);
 
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));
@@ -200,20 +202,6 @@ export const Fav = function Fav({
     primePageToCurrentPlaying();
     performSearch('');
   }, [FavList.id]);
-
-  const requestSearch = (e) => {
-    const searchedVal = e.target.value;
-    setPage(0);
-    handleSearch(searchedVal);
-  };
-
-  const handleSearch = (searchedVal) => {
-    if (searchedVal === '') {
-      setRows(FavList.songList);
-      return;
-    }
-    setRows(reParseSearch({ searchStr: searchedVal, rows: FavList.songList }));
-  };
 
   /**
    * forcefully search a string in the playlist.
