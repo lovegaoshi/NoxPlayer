@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { jsx, css } from '@emotion/react';
+// @ts-expect-error
 import ClickNHold from 'react-click-n-hold';
 
 import {
@@ -13,7 +14,10 @@ import {
 import { skins } from '@styles/skin';
 import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
 
-export default function thumbsUpButton({ song }) {
+interface Props {
+  song: NoxMedia.Song;
+}
+export default function thumbsUpButton({ song }: Props) {
   const [liked, setLiked] = useState(0);
 
   useEffect(() => checkBVLiked(song.bvid, setLiked), [song.id]);
@@ -33,7 +37,7 @@ export default function thumbsUpButton({ song }) {
   function ThumbsUpClickNHold() {
     const start = () => {};
     const clickNHold = () => sendBVTriple(song.bvid, () => setLiked(1));
-    const end = (e, enough) => {
+    const end = (e: any, enough: any) => {
       if (enough) return;
       sendBVLike(song.bvid, () => setLiked(1));
     };
@@ -54,7 +58,7 @@ export default function thumbsUpButton({ song }) {
     <React.Fragment>
       <span
         className='group audio-download'
-        // eslint-disable-next-line react/no-unknown-property
+        // @ts-expect-error
         css={buttonStyle}
         title={liked === 1 ? '已点赞' : liked === 0 ? '点赞' : '前往视频'}
         role='button'

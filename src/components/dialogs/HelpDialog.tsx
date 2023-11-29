@@ -11,11 +11,17 @@ import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import { useConfirm } from 'material-ui-confirm';
 import textToDialogContent from './DialogContent';
+// @ts-ignore
 import changelogTxt from '../../../changelog.txt';
 
-export default function HelpDialog({ onClose, openState, id }) {
+interface Props {
+  onClose: (val?: string) => void;
+  openState: boolean;
+  id: string;
+}
+export default function HelpDialog({ onClose, openState, id }: Props) {
   const confirm = useConfirm();
-  const openChangelogWindow = (val) => {
+  const openChangelogWindow = (val: string) => {
     confirm({
       title: '版本更新',
       content: textToDialogContent(val.split('\n')),

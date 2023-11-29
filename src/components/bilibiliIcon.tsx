@@ -9,9 +9,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { sendBVLike } from '../utils/Bilibili/BiliOperate';
 import { skins } from '../styles/skin';
 
-export const BiliBiliIconSVG = function BiliBiliIconSVG() {
+interface SVGProps {
+  onClick?: () => void;
+}
+export const BiliBiliIconSVG = function BiliBiliIconSVG({ onClick }: SVGProps) {
   return (
     <svg
+      onClick={onClick}
       role='img'
       width='26'
       height='26'
@@ -32,12 +36,8 @@ export const BiliBiliIconSVG = function BiliBiliIconSVG() {
 
 interface BilibiliProps {
   bvid: string;
-  episode?: string;
+  episode?: number;
 }
-/**
- * go to a bilibili page with the given bvid.
- * @param {string} bvid bvid of the video.
- */
 export const toBiliBili = function toBiliBili({
   bvid,
   episode,
