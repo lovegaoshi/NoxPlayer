@@ -28,11 +28,10 @@ const usePlayer = ({ isMobile = false }) => {
   const setCurrentAudio = useApp((state) => state.setCurrentAudio);
   const currentAudioInst = useApp((state) => state.currentAudioInst);
   const setCurrentAudioInst = useApp((state) => state.setCurrentAudioInst);
-  // Params to init music player
-  // TODO: fix typing
-  const [params, setparams] = useState<any>();
-  // Playing List
-  const [playingList, setplayingList] = useState<NoxMedia.Song[]>([]);
+  const playingList = useApp((state) => state.playingList);
+  const setplayingList = useApp((state) => state.setplayingList);
+  const params = useApp((state) => state.params);
+  const setparams = useApp((state) => state.setparams);
   // Lyric Dialog
   const [showLyric, setShowLyric] = useState(false);
 
