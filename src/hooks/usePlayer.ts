@@ -1,13 +1,13 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
+import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
 // eslint-disable-next-line import/no-unresolved
 import renderExtendsContent from '@components/Player/ExtendContent';
 import r128gain from '../utils/ffmpeg/r128util';
-import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
@@ -24,13 +24,13 @@ const usePlayer = ({ isMobile = false }) => {
   const setCurrentPlayingId = useNoxSetting(
     (state) => state.setCurrentPlayingId,
   );
+  const currentAudio = useApp((state) => state.currentAudio);
+  const setCurrentAudio = useApp((state) => state.setCurrentAudio);
   // Params to init music player
   // TODO: fix typing
   const [params, setparams] = useState<any>();
   // Playing List
   const [playingList, setplayingList] = useState<NoxMedia.Song[]>([]);
-  // Current Audio info
-  const [currentAudio, setCurrentAudio] = useContext(CurrentAudioContext);
   // Current Audio Inst
   const [currentAudioInst, setCurrentAudioInst] = useState<any>();
   // Lyric Dialog

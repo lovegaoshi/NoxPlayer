@@ -50,9 +50,9 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }: Props) {
   };
 
   useEffect(() => {
-    if (!currentAudio.name) return;
-    document.title = currentAudio.name;
-  }, [currentAudio.name]);
+    if (!currentAudio?.name) return;
+    document.title = currentAudio?.name;
+  }, [currentAudio?.name]);
 
   // Initialization effect
   useEffect(() => {

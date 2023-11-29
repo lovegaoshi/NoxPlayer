@@ -36,7 +36,8 @@ import { contextMenu } from 'react-contexify';
 import { useHotkeys } from 'react-hotkeys-hook';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
-import { getName, reParseSearch } from '@APM/utils/re';
+import { getName } from '@APM/utils/re';
+import useApp from '@stores/useApp';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
 import { skinPreset } from '../../styles/skin';
@@ -45,7 +46,6 @@ import {
   getPlayerSettingKey,
   readLocalStorage,
 } from '../../utils/ChromeStorage';
-import { CurrentAudioContext } from '../../contexts/CurrentAudioContext';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import SongSearchBar from '../dialogs/SongSearchbar';
 import Menu from './Favmenu';
@@ -147,7 +147,7 @@ export const Fav = function Fav({
   );
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef({ current: {} });
-  const [currentAudio, setCurrentAudio] = useContext(CurrentAudioContext);
+  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
 
   const [songObjEdited, setSongObjEdited] = useState({
     bvid: '',
@@ -283,7 +283,7 @@ export const Fav = function Fav({
               )
             }
           >
-            {song.id === currentAudio.id && (
+            {song.id === currentPlayingId && (
               <ListItemIcon sx={{ minWidth: '30px' }}>
                 <PlayCircleIcon />
               </ListItemIcon>

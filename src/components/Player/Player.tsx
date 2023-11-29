@@ -62,7 +62,7 @@ export default function Player({ songList }: Props) {
   useEffect(() => {
     if (!currentAudio?.name) return;
     document.title = `${currentAudio.name} - ${skins().appTitle}`;
-  }, [currentAudio.name]);
+  }, [currentAudio?.name]);
 
   // Initialization effect
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Player({ songList }: Props) {
           playerSettings={playerSettings}
         />
       )}
-      {currentAudio.id && (
+      {currentAudio?.id && (
         <LyricOverlay
           showLyric={showLyric}
           currentTime={currentAudio.currentTime}
