@@ -3,7 +3,7 @@ import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import { defaultSearchList, dummyFavList } from '@objects/Playlist';
+import { dummyPlaylist } from '@APM/objects/Playlist';
 import usePlaylist from '@APM/hooks/usePlaylist';
 import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
@@ -80,7 +80,7 @@ const useFavList = () => {
     setOpenNewDialog(false);
     if (!favName) return;
     // console.log(val)
-    const favList = dummyFavList(favName);
+    const favList = dummyPlaylist(favName);
     if (songsStoredAsNewFav) {
       favList.songList = songsStoredAsNewFav;
       setSongsStoredAsNewFav(null);

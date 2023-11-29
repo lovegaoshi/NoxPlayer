@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
-import { defaultSearchList } from '@objects/Playlist';
+import { useNoxSetting } from '@APM/stores/useApp';
 
 interface Props {
   handleSearch: (input: NoxMedia.Playlist) => void;
@@ -25,6 +25,7 @@ export default function Search({
   const [searchValue, setSearchValue] = useState('');
   const [progressVal, setProgressVal] = useState(100);
   const [loading, setLoading] = useState(false);
+  const searchPlaylist = useNoxSetting((state) => state.searchPlaylist);
 
   // TODO: type
   const onSearchTextChange = (e: any) => {
@@ -34,14 +35,13 @@ export default function Search({
   const searchBili = async (input: string) => {
     setLoading(true);
     // handleSearch
-    handleSearch(
-      defaultSearchList({
-        songList: await searchBiliURLs({
-          input,
-          progressEmitter: setProgressVal,
-        }),
+    handleSearch({
+      ...searchPlaylist,
+      songList: await searchBiliURLs({
+        input,
+        progressEmitter: setProgressVal,
       }),
-    );
+    });
     setLoading(false);
   };
 

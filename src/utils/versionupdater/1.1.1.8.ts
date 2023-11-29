@@ -1,4 +1,4 @@
-import { dummyFavListFromList } from '@objects/Playlist';
+import { dummyPlaylistList } from '@APM/objects/Playlist';
 import { STORAGE_KEYS } from '@enums/Storage';
 import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
 
@@ -9,11 +9,9 @@ export default async function update1118() {
   for (const favKey of (await readLocalStorage(
     STORAGE_KEYS.MY_FAV_LIST_KEY,
   )) as Array<string>) {
-    setLocalStorage(
-      favKey,
-      dummyFavListFromList(
-        (await readLocalStorage(favKey)) as NoxMedia.Playlist,
-      ),
-    );
+    setLocalStorage(favKey, {
+      ...dummyPlaylistList,
+      ...((await readLocalStorage(favKey)) as NoxMedia.Playlist),
+    });
   }
 }

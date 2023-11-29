@@ -19,7 +19,6 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { contextMenu } from 'react-contexify';
 
-import { defaultSearchList } from '@objects/Playlist';
 import { useNoxSetting } from '@APM/stores/useApp';
 import Search from './Search';
 import { skinPreset } from '../../styles/skin';
@@ -30,6 +29,7 @@ import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
 import { Fav } from '../Fav/Fav';
 import useFavList from '../../hooks/useFavList';
+import FavListHeader from './FavListHeader/FavListHeader';
 
 const { colorTheme } = skinPreset;
 
@@ -77,7 +77,7 @@ export function FavList({
   };
 
   const loadToSearchList = (songList) => {
-    handleSearch(defaultSearchList({ songList }));
+    handleSearch({ ...searchList, songList });
     onPlayAllFromFav({ songList });
   };
 
@@ -215,29 +215,10 @@ export function FavList({
         }}
         sx={{ gridArea: 'sidebar' }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Typography
-              variant='subtitle1'
-              style={{
-                color: colorTheme.myPlayListCaptionColor,
-                paddingLeft: '8px',
-                paddingTop: '12px',
-              }}
-            >
-              我的歌单
-            </Typography>
-          </Grid>
-          <Grid item xs={8} style={{ textAlign: 'right', paddingRight: '8px' }}>
-            <Tooltip title='全歌单播放'>
-              <IconButton size='large' onClick={shuffleAll}>
-                <ShuffleIcon sx={AddFavIcon} />
-              </IconButton>
-            </Tooltip>
-            <PlayerSettingsButton AddFavIcon={AddFavIcon} />
-            <HelpPanelButton AddFavIcon={AddFavIcon} />
-          </Grid>
-        </Grid>
+        <FavListHeader
+          sx={AddFavIcon}
+          color={colorTheme.myPlayListCaptionColor}
+        />
         <NewFavDialog
           id='NewFav'
           keepMounted

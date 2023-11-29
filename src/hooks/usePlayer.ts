@@ -4,13 +4,14 @@ import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
+// eslint-disable-next-line import/no-unresolved
+import renderExtendsContent from '@components/Player/ExtendContent';
 import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
-import renderExtendsContent from '@components/Player/ExtendContent';
 
 const usePlayer = ({ isMobile = false }) => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);

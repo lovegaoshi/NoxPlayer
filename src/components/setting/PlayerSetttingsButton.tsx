@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { SxProps } from '@mui/material';
 
 import type { NoxStorage } from '@APM/types/storage';
 import { useNoxSetting } from '@APM/stores/useApp';
 import SettingsDialog from './PlayerSettingsDialog';
 
-export default function playerSettingsButton({
-  AddFavIcon,
-}: {
-  AddFavIcon: Object;
-}) {
+interface Props {
+  sx: SxProps;
+}
+export default function playerSettingsButton({ sx }: Props) {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
@@ -20,7 +20,7 @@ export default function playerSettingsButton({
     <React.Fragment>
       <Tooltip title='播放器设置'>
         <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
-          <SettingsIcon sx={AddFavIcon} />
+          <SettingsIcon sx={sx} />
         </IconButton>
       </Tooltip>
       <SettingsDialog
