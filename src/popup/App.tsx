@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import isMobile from 'is-mobile';
 
+import useTimer from '@hooks/useTimer';
 import PageLayout from './Layout';
 import { skins } from '../styles/skin';
 import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
@@ -11,6 +12,7 @@ export default function App() {
   const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>([]);
   const [backgroundSrc, setBackgroundSrc] = useState<string>('');
   const { initializeStores } = useInitializeStore();
+  const timer = useTimer();
 
   useEffect(() => {
     async function init() {
