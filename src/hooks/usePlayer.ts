@@ -7,6 +7,7 @@ import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
 // eslint-disable-next-line import/no-unresolved
 import renderExtendsContent from '@components/Player/ExtendContent';
+import { parseSongList } from '@objects/Playlist';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
@@ -90,16 +91,6 @@ const usePlayer = ({ isMobile = false }) => {
     setparams(newParam);
   };
 
-  const parseSongList = (favList: NoxMedia.Playlist) => {
-    if (favList.title !== '搜索歌单' && playerSettings.loadPlaylistAsArtist) {
-      return favList.songList.map((song) => ({
-        ...song,
-        singer: favList.title,
-      }));
-    }
-    return favList.songList;
-  };
-
   const onPlayOneFromFav = (
     song: NoxMedia.Song,
     favList: NoxMedia.Playlist,
@@ -113,7 +104,10 @@ const usePlayer = ({ isMobile = false }) => {
       return;
     }
     setCurrentPlayingList(favList);
-    const parsedSongList = parseSongList(favList);
+    const parsedSongList = parseSongList(
+      favList,
+      playerSetting.loadPlaylistAsArtist,
+    );
     updateCurrentAudioList({
       songs: parsedSongList,
       replaceList: true,
@@ -123,7 +117,10 @@ const usePlayer = ({ isMobile = false }) => {
 
   const onPlayAllFromFav = (favList: NoxMedia.Playlist) => {
     console.debug('current PlayMode is', params.playMode);
-    const parsedSongList = parseSongList(favList);
+    const parsedSongList = parseSongList(
+      favList,
+      playerSetting.loadPlaylistAsArtist,
+    );
     updateCurrentAudioList({
       songs: parsedSongList,
       immediatePlay: false,

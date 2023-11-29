@@ -37,15 +37,12 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
-import useApp from '@stores/useApp';
+import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from '../buttons/RandomGIF';
-import {
-  getPlayerSettingKey,
-  readLocalStorage,
-} from '../../utils/ChromeStorage';
+import { readLocalStorage } from '../../utils/ChromeStorage';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import SongSearchBar from '../dialogs/SongSearchbar';
 import Menu from './Favmenu';
@@ -129,16 +126,15 @@ TablePaginationActions.propTypes = {
 
 export const Fav = function Fav({
   FavList,
-  onSongIndexChange,
   handleDeleteFromSearchList,
   handleAddToFavClick,
   rssUpdate,
-  playerSettings,
 }) {
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
+  const { playerSettings, onPlayOneFromFav } = usePlayer({});
 
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
@@ -274,13 +270,12 @@ export const Fav = function Fav({
             variant='text'
             sx={songText}
             onClick={() =>
-              getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
-                (val) =>
-                  onSongIndexChange(song, {
-                    ...FavList,
-                    songList: val ? rows : FavList.songList,
-                  }),
-              )
+              onPlayOneFromFav(song, {
+                ...FavList,
+                songList: playerSettings.keepSearchedSongListWhenPlaying
+                  ? rows
+                  : FavList.songList,
+              })
             }
           >
             {song.id === currentPlayingId && (
