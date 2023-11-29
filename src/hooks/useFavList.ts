@@ -4,11 +4,12 @@ import { useSnackbar } from 'notistack';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
-import useAnalytics from '@APM/utils/Analytics';
+import usePlaylist from '@APM/hooks/usePlaylist';
 import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
 import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
+import { reorder } from '@APM/utils/Utils';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.
@@ -24,15 +25,6 @@ interface UpdateSubscribeFavListProps {
   setSelectedList: (playlist: NoxMedia.Playlist) => void;
   subscribeUrls?: string[];
 }
-
-export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  if (removed === undefined) return result;
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
 
 const useFavList = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -57,7 +49,7 @@ const useFavList = () => {
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
   const confirm = useConfirm();
-  const { analyzePlaylist } = useAnalytics();
+  const { playlistAnalyze } = usePlaylist();
 
   const findList = (listid: string): NoxMedia.Playlist => {
     switch (listid) {
@@ -181,7 +173,7 @@ const useFavList = () => {
   };
 
   const analyzeFavlist = (playlist: NoxMedia.Playlist) => {
-    const analytics = analyzePlaylist(playlist, 10);
+    const analytics = playlistAnalyze(playlist, 10);
     confirm({
       title: analytics.title,
       content: textToDialogContent(analytics.content),
@@ -252,6 +244,7 @@ const useFavList = () => {
     onAddFav,
     onDragEnd,
     analyzeFavlist,
+    cleanInvalidBVIds,
   };
 };
 

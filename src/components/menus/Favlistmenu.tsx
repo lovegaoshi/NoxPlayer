@@ -34,7 +34,7 @@ const MENU_ID = 'favlistmenu';
 export default function App({ theme }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const confirm = useConfirm();
-  const { analyzeFavlist } = useFavList();
+  const { analyzeFavlist, cleanInvalidBVIds } = useFavList();
   const circularProgress = () => <CircularProgress />;
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
@@ -143,35 +143,6 @@ export default function App({ theme }) {
       .catch();
   }
 
-  async function cleanInvalidBVIds({ props }) {
-    const uniqBVIds = [];
-    const promises = [];
-    const validBVIds = [];
-    const key = enqueueSnackbar(
-      `正在查询歌单 ${props.favlist.title} 的bv号……`,
-      { variant: 'info', persist: true, action: circularProgress },
-    );
-    for (const song of props.favlist.songList) {
-      if (uniqBVIds.includes(song.bvid)) continue;
-      uniqBVIds.push(song.bvid);
-      // fetchVideoInfo either returns a valid object or unidentified.
-      promises.push(
-        fetchVideoInfo(song.bvid).then((val) => validBVIds.push(val?.bvid)),
-      );
-    }
-    await Promise.all(promises);
-    props.favlist.songList = props.favlist.songList.filter((val) =>
-      validBVIds.includes(val.bvid),
-    );
-    closeSnackbar(key);
-    updateFavlist(
-      props,
-      `歌单 ${props.favlist.title} 清理完成，删除了${
-        validBVIds.filter((v) => v === undefined).length
-      }个失效的bv号`,
-    );
-  }
-
   function displayMenu(e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu
@@ -204,7 +175,11 @@ export default function App({ theme }) {
         <Item onClick={handleItemClick}>
           <DownloadIcon /> &nbsp; 导出bv号为csv
         </Item>
-        <Item onClick={cleanInvalidBVIds}>
+        <Item
+          onClick={({ props }) =>
+            cleanInvalidBVIds(props.favlist, circularProgress)
+          }
+        >
           <CleaningServicesIcon /> &nbsp; 清理失效的bv号
         </Item>
         <Item onClick={handleItemClick}>
