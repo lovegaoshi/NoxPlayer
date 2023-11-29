@@ -8,8 +8,8 @@ import useInitializeStore from '../stores/useInitializeStore';
 
 export default function App() {
   // The current playing list
-  const [currentSongList, setCurrentSongList] = useState([]);
-  const [backgroundSrc, setBackgroundSrc] = useState(null);
+  const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>([]);
+  const [backgroundSrc, setBackgroundSrc] = useState<string>('');
   const { initializeStores } = useInitializeStore();
 
   useEffect(() => {
