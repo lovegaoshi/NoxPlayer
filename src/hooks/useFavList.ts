@@ -51,29 +51,17 @@ const useFavList = () => {
   const confirm = useConfirm();
   const { playlistAnalyze } = usePlaylist();
 
-  const findList = (listid: string): NoxMedia.Playlist => {
-    if (listid.includes('FavList-Special-Search')) return searchList;
-    const foundList = playlistIds.find((f) => f === listid);
-    if (foundList) {
-      const playlist = playlists[foundList];
-      if (playlist !== undefined) return playlist;
-    }
-    throw new Error(`[findList] playlist ${listid} not found`);
-  };
-
-  const getUpdateListMethod = (listid: string) => {
-    return listid.includes('FavList-Special-Search')
-      ? setSearchList
-      : updatePlaylist;
-  };
-
   const handleDeleteFromSearchList = async (listid: string, songid: string) => {
-    const favList = findList(listid);
+    const favList = playlists[listid];
+    if (favList === undefined) {
+      console.error(`favList not found: ${listid}`);
+      return;
+    }
     const index = favList.songList.findIndex((song) => song.id === songid);
     if (index === -1) return;
     favList.songList.splice(index, 1);
     const updatedToList = { ...favList };
-    getUpdateListMethod(listid)(updatedToList);
+    updatePlaylist(updatedToList);
   };
 
   const onNewFav = (favName?: string) => {
@@ -125,7 +113,7 @@ const useFavList = () => {
     setOpenAddDialog(false);
     if (!toId) return;
     updatePlaylist(
-      findList(toId),
+      playlists[toId]!,
       songs[0] === undefined ? fromList?.songList : songs,
     );
   };

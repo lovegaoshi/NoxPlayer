@@ -96,7 +96,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }: Props) {
           onPlayOneFromFav={onPlayOneFromFav2}
           onPlayAllFromFav={onPlayAllFromFav}
           showFavList={showFavList}
-          currentAudioID={currentAudio ? currentAudio.id : -1}
+          currentAudioID={currentAudio?.id || -1}
         />
       )}
       {currentAudio && (
