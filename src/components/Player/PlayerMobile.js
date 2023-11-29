@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ReactJkMusicPlayer from 'react-jinke-music-player';
-import '../css/react-jinke-player.css';
+import '../../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import FavList from './FavList/FavListMobile';
-import LyricOverlay from './lyric/LyricOverlay';
-import { skins } from '../styles/skin';
-import versionUpdate from '../utils/versionupdater/versionupdater';
+import FavList from '../FavList/FavListMobile';
+import LyricOverlay from '../lyric/LyricOverlay';
+import { skins } from '../../styles/skin';
+import versionUpdate from '@utils/versionupdater/versionupdater';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
-import usePlayer from '../hooks/usePlayer';
+import usePlayer from '@hooks/usePlayer';
 
 // Initial Player options
 const options = {

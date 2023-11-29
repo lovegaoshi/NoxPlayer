@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactJkMusicPlayer from 'react-jinke-music-player';
-import '../css/react-jinke-player.css';
+import '../../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { FavList } from './FavList/FavList';
-import LyricOverlay from './lyric/LyricOverlay';
-import { skins, skinPreset } from '../styles/skin';
-import versionUpdate from '../utils/versionupdater/versionupdater';
-import usePlayer from '../hooks/usePlayer';
+import versionUpdate from '@utils/versionupdater/versionupdater';
+import usePlayer from '@hooks/usePlayer';
+import { FavList } from '../FavList/FavList';
+import LyricOverlay from '../lyric/LyricOverlay';
+import { skins, skinPreset } from '../../styles/skin';
 
 // Initial Player options
 const options = {
@@ -26,7 +26,10 @@ const options = {
   themeOverwrite: skins().reactJKPlayerTheme,
 };
 
-export default function Player({ songList }) {
+interface Props {
+  songList: NoxMedia.Song[];
+}
+export default function Player({ songList }: Props) {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const setCurrentPlayingId = useNoxSetting(
     (state) => state.setCurrentPlayingId,
@@ -68,11 +71,15 @@ export default function Player({ songList }) {
     // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
     // listening to pause/play audio at a global level.
     if (currentAudioInst.paused)
+      // @ts-expect-error
       document.getElementsByClassName('music-player-audio')[0].play();
+    // @ts-expect-error
     else document.getElementsByClassName('music-player-audio')[0].pause();
   });
 
+  // @ts-expect-error
   useHotkeys('pagedown', () => window.musicplayer.onPlayNextAudio());
+  // @ts-expect-error
   useHotkeys('pageup', () => window.musicplayer.onPlayPrevAudio());
 
   useEffect(() => {

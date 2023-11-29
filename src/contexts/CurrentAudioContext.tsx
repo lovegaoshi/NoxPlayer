@@ -2,12 +2,15 @@ import React, { useState, useMemo } from 'react';
 
 const CurrentAudioContext = React.createContext([{}, () => {}]);
 
-function CurrentAudioProvider(props) {
+interface Props {
+  children: JSX.Element;
+}
+function CurrentAudioProvider({ children }: Props) {
   const [state, setState] = useState({});
   const value = useMemo(() => [state, setState], [state]);
   return (
     <CurrentAudioContext.Provider value={value}>
-      {props.children}
+      {children}
     </CurrentAudioContext.Provider>
   );
 }
