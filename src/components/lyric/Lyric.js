@@ -6,9 +6,9 @@ import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import { ScrollBar } from '../styles/styles';
-import LyricSearchBar from './lyric/LyricSearchBar';
-import { skinPreset } from '../styles/skin';
+import { ScrollBar } from '../../styles/styles';
+import LyricSearchBar from './LyricSearchBar';
+import { skinPreset } from '../../styles/skin';
 
 const { colorTheme } = skinPreset;
 

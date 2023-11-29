@@ -4,7 +4,7 @@ import '../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import FavList from './FavListMobile';
+import FavList from './FavList/FavListMobile';
 import LyricOverlay from './lyric/LyricOverlay';
 import { skins } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
