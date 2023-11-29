@@ -16,7 +16,6 @@ export default function App() {
     async function init() {
       const result = await initializeStores();
       setCurrentSongList(result.currentPlayingList.songList);
-      console.log('intiializing...', result);
       try {
         setBackgroundSrc(
           isMobile()

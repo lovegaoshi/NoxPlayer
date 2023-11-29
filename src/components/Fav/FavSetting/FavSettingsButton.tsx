@@ -11,7 +11,7 @@ import {
   setLocalStorage,
   PlayListDict,
 } from '@utils/ChromeStorage';
-import { FAVLIST_AUTO_UPDATE_TIMESTAMP } from '@objects/Storage';
+import { STORAGE_KEYS } from '@enums/Storage';
 import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
 import FavSettingLoading from './FavSettingLoading';
 
@@ -39,7 +39,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
   // is mounted here. this has the additional benefit now that i dont have to see playlists
   // get auto updated every time i reload the page because its now persisted through sessions
   useEffect(() => {
-    readLocalStorage(FAVLIST_AUTO_UPDATE_TIMESTAMP).then((val) => {
+    readLocalStorage(STORAGE_KEYS.FAVLIST_AUTO_UPDATE_TIMESTAMP).then((val) => {
       if (val === undefined) return;
       favListAutoUpdateTimestamps.current = val;
     });
@@ -72,7 +72,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
         favListAutoUpdateTimestamps.current[favList.id] =
           new Date().toISOString();
         setLocalStorage(
-          FAVLIST_AUTO_UPDATE_TIMESTAMP,
+          STORAGE_KEYS.FAVLIST_AUTO_UPDATE_TIMESTAMP,
           favListAutoUpdateTimestamps.current,
         );
         return true;

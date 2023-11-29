@@ -7,13 +7,6 @@ import {
 export { EXPORT_OPTIONS } from '@APM/enums/Storage';
 
 export const INITIAL_PLAYLIST = ['5053504', '2664851'];
-export const MY_FAV_LIST_KEY = 'MyFavList';
-export const FAV_FAV_LIST_KEY = 'FavFavList-Special';
-export const LYRIC_MAPPING = 'LyricMappings';
-export const LAST_PLAY_LIST = 'LastPlayList';
-export const PLAYER_SETTINGS = 'PlayerSetting';
-export const CURRENT_PLAYING = 'CurrentPlaying';
-export const FAVLIST_AUTO_UPDATE_TIMESTAMP = 'favListAutoUpdateTimestamp';
 
 export const DEFAULT_SETTING: NoxStorage.PlayerSettingDict = {
   ...DEFAULT_SETTING_BASE,
