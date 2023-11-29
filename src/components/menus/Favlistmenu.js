@@ -18,7 +18,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import bilivideoFetch from '@APM/utils/mediafetch/bilivideo';
 import favListAnalytics from '@APM/utils/Analytics';
 import { removeSongBiliShazamed } from '@objects/Song';
-import { fetchVideoInfo } from '@utils/Data';
+import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
 import { textToDialogContent } from '../dialogs/GenericDialog';

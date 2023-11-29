@@ -8,7 +8,7 @@ import FavList from './FavListMobile';
 import LyricOverlay from './lyric/LyricOverlay';
 import { skins } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
-import { fetchPlayUrlPromise } from '../utils/Data';
+import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import usePlayer from '../hooks/usePlayer';
 
 // Initial Player options
