@@ -38,15 +38,16 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName, reParseSearch } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
+import useFav from '@hooks/useFav';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/randomGIF';
+import RandomGIFIcon from '../buttons/RandomGIF';
 import {
   getPlayerSettingKey,
   readLocalStorage,
 } from '../../utils/ChromeStorage';
 import { CurrentAudioContext } from '../../contexts/CurrentAudioContext';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
-import SongSearchBar from '../dialogs/songsearchbar';
+import SongSearchBar from '../dialogs/SongSearchbar';
 import Menu from './Favmenu';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';
@@ -139,8 +140,6 @@ export const Fav = function Fav({
     (state) => state.playlistShouldReRender,
   );
 
-  useEffect(() => console.log(FavList), [playlistShouldReRender]);
-  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
     1,
@@ -148,7 +147,7 @@ export const Fav = function Fav({
   );
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef({ current: {} });
-  const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
+  const [currentAudio, setCurrentAudio] = useContext(CurrentAudioContext);
 
   const [songObjEdited, setSongObjEdited] = useState({
     bvid: '',
@@ -156,6 +155,8 @@ export const Fav = function Fav({
     index: '',
   });
   const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
+
+  const { rows, setRows, requestSearch, handleSearch } = useFav(FavList);
 
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));
@@ -201,20 +202,6 @@ export const Fav = function Fav({
     primePageToCurrentPlaying();
     performSearch('');
   }, [FavList.id]);
-
-  const requestSearch = (e) => {
-    const searchedVal = e.target.value;
-    setPage(0);
-    handleSearch(searchedVal);
-  };
-
-  const handleSearch = (searchedVal) => {
-    if (searchedVal === '') {
-      setRows(FavList.songList);
-      return;
-    }
-    setRows(reParseSearch({ searchStr: searchedVal, rows: FavList.songList }));
-  };
 
   /**
    * forcefully search a string in the playlist.
@@ -289,7 +276,7 @@ export const Fav = function Fav({
             onClick={() =>
               getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
                 (val) =>
-                  onSongIndexChange([song], {
+                  onSongIndexChange(song, {
                     ...FavList,
                     songList: val ? rows : FavList.songList,
                   }),

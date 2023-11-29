@@ -12,7 +12,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 
-import useTimer from '@contexts/TimerContext';
+import useTimer from '@APM/components/playlists/useTimer';
 
 /**
  *
@@ -33,7 +33,7 @@ export default function TimerDialog({
     timerRestart,
     timerStart,
     timerPause,
-  } = useTimer();
+  } = useTimer({});
 
   return (
     <Dialog open={openState}>
@@ -42,7 +42,7 @@ export default function TimerDialog({
         <TextField
           id='timer-minutes'
           value={minutes}
-          onChange={(e) => setMinutes(e.target.value)}
+          onChange={(e) => setMinutes(Number(e.target.value))}
           style={{ maxWidth: '6em', minWidth: '6em' }}
           label='MM'
           disabled={startTimer}
@@ -52,7 +52,7 @@ export default function TimerDialog({
         <TextField
           id='timer-seconds'
           value={seconds}
-          onChange={(e) => setSeconds(e.target.value)}
+          onChange={(e) => setSeconds(Number(e.target.value))}
           style={{ maxWidth: '6em', minWidth: '6em' }}
           label='SS'
           disabled={startTimer}

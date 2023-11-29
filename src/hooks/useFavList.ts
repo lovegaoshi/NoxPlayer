@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 
 import useNoxStore from '@hooks/useStore';
@@ -6,7 +6,6 @@ import { parseSongName } from '@APM/stores/appStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
-import { filterUndefined } from '@APM/utils/Utils';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.

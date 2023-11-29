@@ -10,7 +10,7 @@ import {
   readLocalStorage,
   PlayListDict,
 } from '@utils/ChromeStorage';
-import { FAV_FAV_LIST_KEY } from '@objects/Storage';
+import { STORAGE_KEYS } from '@enums/Storage';
 
 const buttonStyle = css`
   cursor: pointer;
@@ -25,14 +25,16 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    readLocalStorage(FAV_FAV_LIST_KEY).then((val: PlayListDict) => {
-      setLiked(val.songList.filter((val1) => val1.id === song.id).length > 0);
-    });
+    readLocalStorage(STORAGE_KEYS.FAVORITE_PLAYLIST_KEY).then(
+      (val: PlayListDict) => {
+        setLiked(val.songList.filter((val1) => val1.id === song.id).length > 0);
+      },
+    );
   }, [song.id]);
 
   const handleClick = async () => {
     const favFavList = (await readLocalStorage(
-      FAV_FAV_LIST_KEY,
+      STORAGE_KEYS.FAVORITE_PLAYLIST_KEY,
     )) as PlayListDict;
     if (liked) {
       favFavList.songList = favFavList.songList.filter(
@@ -41,7 +43,7 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
     } else {
       favFavList.songList.push(song);
     }
-    setLocalStorage(FAV_FAV_LIST_KEY, favFavList);
+    setLocalStorage(STORAGE_KEYS.FAVORITE_PLAYLIST_KEY, favFavList);
     setLiked(!liked);
   };
 

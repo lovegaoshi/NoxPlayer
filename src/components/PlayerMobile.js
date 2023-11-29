@@ -4,11 +4,11 @@ import '../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import FavList from './FavListMobile';
+import FavList from './FavList/FavListMobile';
 import LyricOverlay from './lyric/LyricOverlay';
 import { skins } from '../styles/skin';
 import versionUpdate from '../utils/versionupdater/versionupdater';
-import { fetchPlayUrlPromise } from '../utils/Data';
+import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import usePlayer from '../hooks/usePlayer';
 
 // Initial Player options
@@ -26,7 +26,7 @@ const options = {
   themeOverwrite: skins().reactJKPlayerTheme,
 };
 
-export default function PlayerMobile({ songList }) {
+export default function PlayerMobile({ songList, id = 'noxmobile' }) {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const setCurrentPlayingId = useNoxSetting(
     (state) => state.setCurrentPlayingId,
@@ -41,13 +41,13 @@ export default function PlayerMobile({ songList }) {
     setparams,
     setplayingList,
     currentAudio,
-    setcurrentAudio,
+    setCurrentAudio,
     currentAudioInst,
     showLyric,
     setShowLyric,
     playerSettings,
 
-    onPlayOneFromFav2,
+    onPlayOneFromFav,
     onPlayAllFromFav,
     onAddFavToList,
     playByIndex,
@@ -61,10 +61,11 @@ export default function PlayerMobile({ songList }) {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
+    musicSrcParser,
   } = usePlayer({ isMobile: true });
 
-  const onPlayOneFromFav = (songs, favList) => {
-    onPlayOneFromFav2(songs, favList);
+  const onPlayOneFromFav2 = (songs, favList) => {
+    onPlayOneFromFav(songs, favList);
     setShowFavList((favState) => !favState);
   };
 
@@ -76,8 +77,8 @@ export default function PlayerMobile({ songList }) {
   }, [currentAudio.name]);
 
   const onAudioPlay = (audioInfo) => {
-    processExtendsContent(renderExtendsContent({ song: audioInfo }));
-    setcurrentAudio(audioInfo);
+    processExtendsContent(renderExtendsContent(audioInfo));
+    setCurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
   };
@@ -101,9 +102,9 @@ export default function PlayerMobile({ songList }) {
         0,
         songList.findIndex((s) => s.id === currentPlayingId),
       );
-      options.extendsContent = renderExtendsContent({
-        song: songList[previousPlayingSongIndex],
-      });
+      options.extendsContent = renderExtendsContent(
+        songList[previousPlayingSongIndex],
+      );
       const params2 = {
         ...options,
         ...playerSetting,
@@ -114,7 +115,7 @@ export default function PlayerMobile({ songList }) {
       setplayingList(songList);
     }
     initPlayer();
-  }, [songList]);
+  }, []);
 
   // handles swipe action: call playlist when swiping left
   // the reason why we dont use react-swipe is because
@@ -147,12 +148,12 @@ export default function PlayerMobile({ songList }) {
   }
 
   return (
-    <React.Fragment>
+    <React.Fragment id={id}>
       {params && (
         <FavList
           currentAudioList={params.audioLists}
           onSongIndexChange={playByIndex}
-          onPlayOneFromFav={onPlayOneFromFav}
+          onPlayOneFromFav={onPlayOneFromFav2}
           onPlayAllFromFav={onPlayAllFromFav}
           onAddFavToList={onAddFavToList}
           showFavList={showFavList}
@@ -196,7 +197,7 @@ export default function PlayerMobile({ songList }) {
             onAudioListsChange={onAudioListsChange}
             onAudioListsPanelChange={setAudioListsPanelState}
             hideCover={playerSettings?.hideCoverInMobile}
-            musicSrcParser={(v) => fetchPlayUrlPromise(v)}
+            musicSrcParser={musicSrcParser}
           />
         </Box>
       )}

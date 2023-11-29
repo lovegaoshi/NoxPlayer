@@ -15,7 +15,7 @@ import 'react-contexify/dist/ReactContexify.css';
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { saveFav, readLocalStorage } from '@utils/ChromeStorage';
-import { MY_FAV_LIST_KEY } from '@objects/Storage';
+import { STORAGE_KEYS } from '@enums/Storage';
 import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
 
 export const MENU_ID = 'favmenu';
@@ -96,7 +96,9 @@ export default function App({ theme }) {
     // in a state; storageManager context manages that state. so any direct updates to favlists through,
     // for example savFav in storage.js, wont get updated in favlist.js's state and thus appears not updated.
     props.onDelete();
-    for (const favListKey of await readLocalStorage(MY_FAV_LIST_KEY)) {
+    for (const favListKey of await readLocalStorage(
+      STORAGE_KEYS.MY_FAV_LIST_KEY,
+    )) {
       const favList = await readLocalStorage(favListKey);
       const favListLen = favList.songList.length;
       favList.songList = favList.songList.filter(

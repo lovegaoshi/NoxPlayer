@@ -1,6 +1,6 @@
+import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 import clesss from './clesss';
-import { fetchVideoPlayUrlPromise } from '@utils/Data';
 
 const gifs = [
   'http://i0.hdslb.com/bfs/live/66ec3ed6855202f34996ae18c3a91a844addfd1a.png',
@@ -30,12 +30,9 @@ export default skinTemplate({
       resolve(randomPortraitBackground);
     }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-  playerBackground: async () =>
-    await fetchVideoPlayUrlPromise(
-      randomChoice(['BV1rh4y1b7wU', 'BV1SH4y1o7rk']),
-      undefined,
-      'VideoUrl',
-    ), // BV1Sb4y1i79D
+  playerBackground: fetchVideoPlayUrl(
+    randomChoice(['BV1rh4y1b7wU', 'BV1SH4y1o7rk']),
+  ), // BV1Sb4y1i79D
   playerBackgroundVideo: true,
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,

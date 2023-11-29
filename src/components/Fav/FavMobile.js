@@ -20,12 +20,13 @@ import { FixedSizeList as List } from 'react-window';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName, reParseSearch } from '@APM/utils/re';
+import useFav from '@hooks/useFav';
 import { songText } from './Fav';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/randomGIF';
+import RandomGIFIcon from '../buttons/RandomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import { getPlayerSettingKey } from '../../utils/ChromeStorage';
-import SongSearchBar from '../dialogs/songsearchbar';
+import SongSearchBar from '../dialogs/SongSearchbar';
 import { ScrollBar } from '../../styles/styles';
 
 const { colorTheme } = skinPreset;
@@ -67,7 +68,7 @@ export default (function Fav({
   onRssUpdate,
   currentAudioID,
 }) {
-  const [rows, setRows] = useState([]);
+  const { rows, setRows, requestSearch, handleSearch } = useFav(FavList);
   const [songIconVisible, setSongIconVisible] = useState(false);
   const FavPanelRef = useRef(null);
   const searchBarRef = useRef({ current: {} });
@@ -79,19 +80,6 @@ export default (function Fav({
     if (FavPanelRef.current) FavPanelRef.current.scrollToItem(0);
     requestSearch({ target: { value: '' } });
   }, [FavList.id]);
-
-  const requestSearch = (e) => {
-    const searchedVal = e.target.value;
-    handleSearch(searchedVal);
-  };
-
-  const handleSearch = (searchedVal) => {
-    if (searchedVal === '') {
-      setRows(FavList.songList);
-      return;
-    }
-    setRows(reParseSearch({ searchStr: searchedVal, rows: FavList.songList }));
-  };
 
   // console.log('rener Fav')
   const className = ScrollBar().root;
@@ -121,7 +109,7 @@ export default (function Fav({
             : () =>
                 getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
                   (val) => {
-                    onSongIndexChange([song], {
+                    onSongIndexChange(song, {
                       ...FavList,
                       songList: val ? rows : FavList.songList,
                     });
@@ -154,7 +142,7 @@ export default (function Fav({
           style={{ overflow: 'hidden' }}
           onClick={
             songIconVisible
-              ? () => onSongIndexChange([song], { songList: rows })
+              ? () => onSongIndexChange(song, { songList: rows })
               : () => {}
           }
         >

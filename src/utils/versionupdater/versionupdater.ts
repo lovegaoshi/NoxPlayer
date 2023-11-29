@@ -1,4 +1,4 @@
-import { MY_FAV_LIST_KEY } from '@objects/Storage';
+import { STORAGE_KEYS } from '@enums/Storage';
 import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
 import updater1118 from './1.1.1.8';
 import updater1119 from './1.1.1.9';
@@ -14,7 +14,7 @@ export const getVersion = () => {
  */
 export default async () => {
   let settingsVersion = await readLocalStorage('nox-version');
-  const settingVal = await readLocalStorage(MY_FAV_LIST_KEY);
+  const settingVal = await readLocalStorage(STORAGE_KEYS.MY_FAV_LIST_KEY);
   const currentVersion = getVersion();
   if (settingsVersion === undefined) settingsVersion = 0;
   if (settingVal !== undefined) {
