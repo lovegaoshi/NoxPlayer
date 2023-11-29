@@ -109,7 +109,7 @@ export default (function Fav({
             : () =>
                 getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
                   (val) => {
-                    onSongIndexChange([song], {
+                    onSongIndexChange(song, {
                       ...FavList,
                       songList: val ? rows : FavList.songList,
                     });
@@ -142,7 +142,7 @@ export default (function Fav({
           style={{ overflow: 'hidden' }}
           onClick={
             songIconVisible
-              ? () => onSongIndexChange([song], { songList: rows })
+              ? () => onSongIndexChange(song, { songList: rows })
               : () => {}
           }
         >

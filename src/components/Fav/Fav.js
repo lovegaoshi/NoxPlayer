@@ -276,7 +276,7 @@ export const Fav = function Fav({
             onClick={() =>
               getPlayerSettingKey('keepSearchedSongListWhenPlaying').then(
                 (val) =>
-                  onSongIndexChange([song], {
+                  onSongIndexChange(song, {
                     ...FavList,
                     songList: val ? rows : FavList.songList,
                   }),

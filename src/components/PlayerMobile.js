@@ -47,7 +47,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
     setShowLyric,
     playerSettings,
 
-    onPlayOneFromFav2,
+    onPlayOneFromFav,
     onPlayAllFromFav,
     onAddFavToList,
     playByIndex,
@@ -64,8 +64,8 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
     musicSrcParser,
   } = usePlayer({ isMobile: true });
 
-  const onPlayOneFromFav = (songs, favList) => {
-    onPlayOneFromFav2(songs, favList);
+  const onPlayOneFromFav2 = (songs, favList) => {
+    onPlayOneFromFav(songs, favList);
     setShowFavList((favState) => !favState);
   };
 
@@ -153,7 +153,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
         <FavList
           currentAudioList={params.audioLists}
           onSongIndexChange={playByIndex}
-          onPlayOneFromFav={onPlayOneFromFav}
+          onPlayOneFromFav={onPlayOneFromFav2}
           onPlayAllFromFav={onPlayAllFromFav}
           onAddFavToList={onAddFavToList}
           showFavList={showFavList}

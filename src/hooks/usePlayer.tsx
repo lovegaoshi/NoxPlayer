@@ -20,9 +20,10 @@ const usePlayer = ({ isMobile = false }) => {
   );
   const setPlayerSettings = useNoxSetting((state) => state.setPlayerSetting);
   // Params to init music player
-  const [params, setparams] = useState(null);
+  // TODO: fix typing
+  const [params, setparams] = useState<any>();
   // Playing List
-  const [playingList, setplayingList] = useState(null);
+  const [playingList, setplayingList] = useState<NoxMedia.Song[]>([]);
   // Current Audio info
   const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
   // Current Audio Inst
@@ -32,7 +33,10 @@ const usePlayer = ({ isMobile = false }) => {
 
   const biliHeartbeat = useRef(null);
 
-  const parseR128Gain = async (song, getSource) => {
+  const parseR128Gain = async (
+    song: NoxMedia.Song,
+    getSource: () => Promise<string>,
+  ) => {
     if (!playerSettingStore.getState().playerSetting.r128gain) {
       return;
     }
@@ -40,51 +44,50 @@ const usePlayer = ({ isMobile = false }) => {
     currentAudioInst.volume = await r128gain({ song, getSource });
   };
 
-  const musicSrcParser = async (v) => {
+  const musicSrcParser = async (v: NoxMedia.Song) => {
     const { url } = await fetchPlayUrlPromise(v);
-    parseR128Gain(v, () => url);
+    parseR128Gain(v, async () => url);
     return url;
   };
 
-  const updateCurrentAudioList = useCallback(
-    ({
-      songs,
-      immediatePlay = false,
-      replaceList = false,
-      newAudioListPlayIndex = 0,
-    }) => {
-      // console.log("updateCurrentAudioList", params)
-      let newAudioLists = [];
-      if (immediatePlay) {
-        // Click and play
-        newAudioLists = [...songs, ...playingList];
-      } else if (replaceList) {
-        // OnPlayList handle
-        newAudioLists = [...songs];
-      } else {
-        // AddToList handle
-        newAudioLists = [...playingList, ...songs];
-      }
-      const newParam = {
-        ...params,
-        quietUpdate: !immediatePlay,
-        clearPriorAudioLists: immediatePlay || replaceList,
-        audioLists: newAudioLists,
-        newAudioListPlayIndex,
-      };
-      // console.log(newParam)
-      setplayingList(newAudioLists);
-      setparams(newParam);
-    },
-    [params, playingList],
-  );
+  interface UpdateCurrentAudioListProps {
+    songs: NoxMedia.Song[];
+    immediatePlay?: boolean;
+    replaceList?: boolean;
+    newAudioListPlayIndex?: number;
+  }
+  const updateCurrentAudioList = ({
+    songs,
+    immediatePlay = false,
+    replaceList = false,
+    newAudioListPlayIndex = 0,
+  }: UpdateCurrentAudioListProps) => {
+    // console.log("updateCurrentAudioList", params)
+    let newAudioLists = [];
+    if (immediatePlay) {
+      // Click and play
+      newAudioLists = [...songs, ...playingList];
+    } else if (replaceList) {
+      // OnPlayList handle
+      newAudioLists = [...songs];
+    } else {
+      // AddToList handle
+      newAudioLists = [...playingList, ...songs];
+    }
+    const newParam = {
+      ...params,
+      quietUpdate: !immediatePlay,
+      clearPriorAudioLists: immediatePlay || replaceList,
+      audioLists: newAudioLists,
+      newAudioListPlayIndex,
+    };
+    // console.log(newParam)
+    setplayingList(newAudioLists);
+    setparams(newParam);
+  };
 
-  const parseSongList = (favList) => {
-    if (
-      favList.info &&
-      favList.title !== '搜索歌单' &&
-      playerSettings.loadPlaylistAsArtist
-    ) {
+  const parseSongList = (favList: NoxMedia.Playlist) => {
+    if (favList.title !== '搜索歌单' && playerSettings.loadPlaylistAsArtist) {
       return favList.songList.map((song) => ({
         ...song,
         singer: favList.title,
@@ -93,8 +96,11 @@ const usePlayer = ({ isMobile = false }) => {
     return favList.songList;
   };
 
-  const onPlayOneFromFav = (songs, favList) => {
-    const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
+  const onPlayOneFromFav = (
+    song: NoxMedia.Song,
+    favList: NoxMedia.Playlist,
+  ) => {
+    const existingIndex = playingList.findIndex((s) => s.id === song.id);
     if (
       playingList.length === favList.songList.length &&
       existingIndex !== -1
@@ -107,41 +113,23 @@ const usePlayer = ({ isMobile = false }) => {
     updateCurrentAudioList({
       songs: parsedSongList,
       replaceList: true,
-      newAudioListPlayIndex: parsedSongList.findIndex(
-        (s) => s.id === songs[0].id,
-      ),
+      newAudioListPlayIndex: parsedSongList.findIndex((s) => s.id === song.id),
     });
   };
 
-  const onAddOneFromFav = useCallback(
-    (songs) => {
-      const existingIndex = playingList.findIndex((s) => s.id === songs[0].id);
-      // console.log(existingIndex)
-      if (existingIndex !== -1) {
-        return;
-      }
-      updateCurrentAudioList({ songs, immediatePlay: false });
-    },
-    [params, playingList],
-  );
-
-  const onPlayAllFromFav = useCallback(
-    (favList) => {
-      console.debug('current PlayMode is', params.playMode);
-      parseSongList(favList).then((val) => {
-        updateCurrentAudioList({
-          songs: val,
-          immediatePlay: false,
-          replaceList: true,
-          newAudioListPlayIndex:
-            params.playMode === 'shufflePlay'
-              ? Math.floor(Math.random() * val.length) >> 0
-              : 0,
-        });
-      });
-    },
-    [params],
-  );
+  const onPlayAllFromFav = (favList: NoxMedia.Playlist) => {
+    console.debug('current PlayMode is', params.playMode);
+    const parsedSongList = parseSongList(favList);
+    updateCurrentAudioList({
+      songs: parsedSongList,
+      immediatePlay: false,
+      replaceList: true,
+      newAudioListPlayIndex:
+        params.playMode === 'shufflePlay'
+          ? Math.floor(Math.random() * parsedSongList.length) >> 0
+          : 0,
+    });
+  };
 
   const onAddFavToList = useCallback(
     (songs) => {
@@ -267,7 +255,6 @@ const usePlayer = ({ isMobile = false }) => {
     setPlayerSettings,
 
     onPlayOneFromFav,
-    onAddOneFromFav,
     onPlayAllFromFav,
     onAddFavToList,
     playByIndex,
