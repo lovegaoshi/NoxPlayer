@@ -26,7 +26,7 @@ const options = {
   themeOverwrite: skins().reactJKPlayerTheme,
 };
 
-export default function PlayerMobile({ songList }) {
+export default function PlayerMobile({ songList, id = 'noxmobile' }) {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const setCurrentPlayingId = useNoxSetting(
     (state) => state.setCurrentPlayingId,
@@ -148,7 +148,7 @@ export default function PlayerMobile({ songList }) {
   }
 
   return (
-    <React.Fragment>
+    <React.Fragment id={id}>
       {params && (
         <FavList
           currentAudioList={params.audioLists}
