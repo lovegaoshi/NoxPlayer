@@ -393,10 +393,7 @@ export const Fav = function Fav({
                     currentList={FavList}
                     rssUpdate={async (subscribeUrls) => {
                       const val = await rssUpdate(subscribeUrls);
-                      if (val !== null) setRows(val);
-                      return new Promise((resolve, reject) => {
-                        resolve(1);
-                      });
+                      if (val !== null) setRows(val.songList);
                     }}
                   />
                 )}

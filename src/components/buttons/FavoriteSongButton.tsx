@@ -5,11 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { skins } from '@styles/skin';
-import {
-  setLocalStorage,
-  readLocalStorage,
-  PlayListDict,
-} from '@utils/ChromeStorage';
+import { setLocalStorage, readLocalStorage } from '@utils/ChromeStorage';
 import { STORAGE_KEYS } from '@enums/Storage';
 
 const buttonStyle = css`
@@ -26,7 +22,7 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
 
   useEffect(() => {
     readLocalStorage(STORAGE_KEYS.FAVORITE_PLAYLIST_KEY).then(
-      (val: PlayListDict) => {
+      (val: NoxMedia.Playlist) => {
         setLiked(val.songList.filter((val1) => val1.id === song.id).length > 0);
       },
     );
@@ -35,7 +31,7 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const handleClick = async () => {
     const favFavList = (await readLocalStorage(
       STORAGE_KEYS.FAVORITE_PLAYLIST_KEY,
-    )) as PlayListDict;
+    )) as NoxMedia.Playlist;
     if (liked) {
       favFavList.songList = favFavList.songList.filter(
         (val) => val.id !== song.id,

@@ -2,7 +2,6 @@ import { humanishApiLimiter } from '@APM/utils/mediafetch/throttle';
 import { getFavListBVID } from '@APM/utils/mediafetch/bilifavlist';
 import getBiliUser from '@APM/utils/Bilibili/BiliUser';
 import { getCookie, sendBVFavorite } from './BiliOperate';
-import { PlayListDict } from '../ChromeStorage';
 
 const BILI_GETFAVLIST_API =
   'https://api.bilibili.com/x/v3/fav/folder/created/list-all?up_mid={mid}';
@@ -97,7 +96,7 @@ export const addToBiliFavlist = async (
   );
 };
 
-export const syncFavlist = async (favlist: PlayListDict) => {
+export const syncFavlist = async (favlist: NoxMedia.Playlist) => {
   const user = await getBiliUser();
   if (!user.mid) return false;
   const favid = await getOrInsertBiliFavlist(

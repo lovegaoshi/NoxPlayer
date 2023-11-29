@@ -8,20 +8,6 @@ import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DEFAULT_SETTING } from '@objects/Storage';
 import rejson from './rejson.json';
 
-export interface PlayListDict {
-  songList: Array<NoxMedia.Song>;
-  info: { title: string; id: string };
-  subscribeUrls: Array<string>;
-  settings: {
-    autoRSSUpdate: boolean;
-  };
-  useBiliShazam: boolean;
-  biliSync: boolean;
-  bannedBVids: Array<string>;
-  showFavoriteList: boolean;
-  [key: string]: any;
-}
-
 export const getMusicFreePlugin = (): string[] => [];
 
 const removeItem = (key: string) => chrome.storage.local.remove(key);
@@ -129,7 +115,7 @@ export const setLocalStorage = async (key: string, val: object | string) => {
 
 const saveItem = setLocalStorage;
 
-export const saveFav = async (updatedToList: PlayListDict) => {
+export const saveFav = async (updatedToList: NoxMedia.Playlist) => {
   return await chrome.storage.local.set({
     [updatedToList.id]: updatedToList,
   });
@@ -164,18 +150,6 @@ export const getPlayerSettingKey = async (
     return settings[key];
   }
   return DEFAULT_SETTING[key];
-};
-
-export const saveMyFavList = (
-  newList: PlayListDict,
-  callbackFunc = () => {
-    console.debug('saveMyFavList called.');
-  },
-) => {
-  chrome.storage.local.set(
-    { [STORAGE_KEYS.MY_FAV_LIST_KEY]: newList.map((v: PlayListDict) => v.id) },
-    callbackFunc,
-  );
 };
 
 const clearPlaylists = async () => {

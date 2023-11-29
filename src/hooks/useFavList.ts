@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
+import { useSnackbar } from 'notistack';
 
 import useNoxStore from '@hooks/useStore';
 import { parseSongName } from '@APM/stores/appStore';
@@ -7,8 +8,10 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
 import favListAnalytics from '@APM/utils/Analytics';
+import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
-import textToDialogContent from '@/components/dialogs/DialogContent';
+import textToDialogContent from '@components/dialogs/DialogContent';
+import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.
@@ -35,6 +38,7 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
 };
 
 const useFavList = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const playlists = useNoxSetting((state) => state.playlists);
   const playlistIds = useNoxSetting((state) => state.playlistIds);
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
@@ -165,43 +169,21 @@ const useFavList = () => {
   }: UpdateSubscribeFavListProps) => {
     try {
       const oldListLength = playlist.songList.length;
-      if (subscribeUrls === undefined) {
-        subscribeUrls = playlist.subscribeUrl;
-      }
-      if (subscribeUrls === undefined) return null;
-      // TODO: this is stupid. needs to change:
-      // 1. set the unique map first with listObj, then
-      // in loop set new stuff into it, instead of concat lists
-      // 2. order this correctly. this for loop needs to be reversed
-      for (let i = 0, n = subscribeUrls.length; i < n; i++) {
-        playlist.songList = (
-          await searchBiliURLs({
-            progressEmitter: setPlaylistRefreshProgress,
-            input: subscribeUrls[i] || '',
-            favList: [
-              ...playlist.songList.map((val) => val.bvid),
-              ...playlist.blacklistedUrl,
-            ],
-            useBiliTag: playlist.useBiliShazam,
-          })
-        ).concat(playlist.songList);
-      }
-      const uniqueSongList = new Map();
-      playlist.songList.forEach((tag) => uniqueSongList.set(tag.id, tag));
-      playlist.songList = [...uniqueSongList.values()];
-      playlist.songList.forEach((song) => parseSongName(song));
+      const newList = await updateSubscribeFavListRaw({
+        playlist,
+        subscribeUrls,
+        updatePlaylist,
+      });
       // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
       // to have a change in list size.
-      if (oldListLength !== playlist.songList.length) {
-        updatePlaylist(playlist, [], []);
-        setSelectedList(playlist);
-        return playlist.songList;
+      if (oldListLength !== newList.songList.length) {
+        setSelectedList(playlists[playlist.id]!);
+        return newList;
       }
-      return null;
     } catch (err) {
       console.error(err);
-      return null;
     }
+    return null;
   };
 
   const analyzeFavlist = (playlist: NoxMedia.Playlist) => {
@@ -233,6 +215,44 @@ const useFavList = () => {
       .then()
       .catch();
   };
+  async function cleanInvalidBVIds(
+    playlist: NoxMedia.Playlist,
+    action?: () => JSX.Element,
+  ) {
+    const uniqBVIds: string[] = [];
+    const promises = [];
+    const validBVIds: string[] = [];
+    const key = enqueueSnackbar(`正在查询歌单 ${playlist.title} 的bv号……`, {
+      variant: 'info',
+      persist: true,
+      action,
+    });
+    for (const song of playlist.songList) {
+      if (uniqBVIds.includes(song.bvid)) continue;
+      uniqBVIds.push(song.bvid);
+      // fetchVideoInfo either returns a valid object or unidentified.
+      promises.push(
+        fetchVideoInfo(song.bvid).then((val) => {
+          if (val !== undefined) {
+            validBVIds.push(val.bvid);
+          }
+        }),
+      );
+    }
+    await Promise.all(promises);
+    playlist.songList = playlist.songList.filter((val) =>
+      validBVIds.includes(val.bvid),
+    );
+    closeSnackbar(key);
+    updatePlaylist(playlist, [], []);
+    enqueueSnackbar(
+      `歌单 ${playlist.title} 清理完成，删除了${
+        validBVIds.filter((v) => v === undefined).length
+      }个失效的bv号`,
+      { variant: 'success', autoHideDuration: 2000 },
+    );
+  }
+
   return {
     playlists,
     playlistIds,

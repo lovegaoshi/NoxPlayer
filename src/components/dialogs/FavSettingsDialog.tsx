@@ -9,10 +9,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
-import { PlayListDict } from '@utils/ChromeStorage';
-
 interface props {
-  fromList: PlayListDict;
+  fromList: NoxMedia.Playlist;
   onClose: Function;
   openState: boolean;
   rssUpdate: Function;
@@ -46,17 +44,17 @@ export default function FavSettingsDialog({
 
   const handleClose = () => {
     onClose(fromList, {
-      subscribeUrls: Array.from(new Set(subUrl.split(';'))),
+      subscribeUrl: Array.from(new Set(subUrl.split(';'))),
       favListName,
       useBiliShazam,
       biliSync,
-      bannedBVids: Array.from(new Set(bannedBVids.split(';'))),
+      blacklistedUrl: Array.from(new Set(bannedBVids.split(';'))),
     });
   };
 
   const loadFavList = (favList = fromList) => {
-    setArrayAsStr(favList.subscribeUrls, setSubUrl);
-    setArrayAsStr(favList.bannedBVids, setBannedBVids);
+    setArrayAsStr(favList.subscribeUrl, setSubUrl);
+    setArrayAsStr(favList.blacklistedUrl, setBannedBVids);
     setFavListName(favList.title);
     setUseBiliShazam(!!favList.useBiliShazam);
     setBiliSync(!!favList.biliSync);
