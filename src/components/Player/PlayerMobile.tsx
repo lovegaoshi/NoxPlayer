@@ -3,53 +3,31 @@ import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 
-import { useNoxSetting } from '@APM/stores/useApp';
+import usePlayer from '@hooks/usePlayer';
 import FavList from '../FavList/FavListMobile';
 import LyricOverlay from '../lyric/LyricOverlay';
-import { skins } from '../../styles/skin';
-import versionUpdate from '@utils/versionupdater/versionupdater';
-import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
-import usePlayer from '@hooks/usePlayer';
+import Options from './Enum';
 
-// Initial Player options
-const options = {
-  mode: 'full',
-  showThemeSwitch: false,
-  showLyric: false,
-  toggleMode: false,
-  locale: 'zh_CN',
-  autoPlayInitLoadPlayList: true,
-  autoPlay: false,
-  defaultPlayIndex: 0,
-  isInitRemember: true,
-  bannerBg: '',
-  themeOverwrite: skins().reactJKPlayerTheme,
-};
+const options = { ...Options, bannerBg: '' };
 
-export default function PlayerMobile({ songList, id = 'noxmobile' }) {
-  const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const setCurrentPlayingId = useNoxSetting(
-    (state) => state.setCurrentPlayingId,
-  );
-  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
+interface Props {
+  songList: NoxMedia.Song[];
+  id?: string;
+}
+export default function PlayerMobile({ songList, id = 'noxmobile' }: Props) {
   // FavList Dialog
   const [showFavList, setShowFavList] = useState(false);
   const [audioListsPanelState, setAudioListsPanelState] = useState(false);
 
   const {
     params,
-    setparams,
-    setplayingList,
     currentAudio,
-    setCurrentAudio,
-    currentAudioInst,
     showLyric,
     setShowLyric,
     playerSettings,
 
     onPlayOneFromFav,
     onPlayAllFromFav,
-    playByIndex,
     onPlayModeChange,
     onAudioVolumeChange,
     onAudioListsChange,
@@ -57,63 +35,28 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
     getAudioInstance,
     customDownloader,
     onCoverClick,
-    processExtendsContent,
-    renderExtendsContent,
-    sendBiliHeartbeat,
     musicSrcParser,
+    onAudioPlay,
+    onAudioError,
+    initPlayer,
   } = usePlayer({ isMobile: true });
 
-  const onPlayOneFromFav2 = (songs, favList) => {
-    onPlayOneFromFav(songs, favList);
+  const onPlayOneFromFav2 = (
+    song: NoxMedia.Song,
+    favList: NoxMedia.Playlist,
+  ) => {
+    onPlayOneFromFav(song, favList);
     setShowFavList((favState) => !favState);
   };
 
   useEffect(() => {
-    if (!currentAudio.name) {
-      return;
-    }
+    if (!currentAudio.name) return;
     document.title = currentAudio.name;
   }, [currentAudio.name]);
 
-  const onAudioPlay = (audioInfo) => {
-    processExtendsContent(renderExtendsContent(audioInfo));
-    setCurrentAudio(audioInfo);
-    setCurrentPlayingId(audioInfo.id);
-    sendBiliHeartbeat(audioInfo);
-  };
-
-  const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
-    console.error('audio error', errMsg, currentPlayId, audioLists, audioInfo);
-    setTimeout(() => {
-      console.debug('retrying...');
-      currentAudioInst.playByIndex(1, true);
-    }, '1000');
-  };
-
   // Initialization effect
   useEffect(() => {
-    if (!songList || songList[0] === undefined) {
-      return;
-    }
-    async function initPlayer() {
-      await versionUpdate();
-      const previousPlayingSongIndex = Math.max(
-        0,
-        songList.findIndex((s) => s.id === currentPlayingId),
-      );
-      options.extendsContent = renderExtendsContent(
-        songList[previousPlayingSongIndex],
-      );
-      const params2 = {
-        ...options,
-        ...playerSetting,
-        audioLists: songList,
-        defaultPlayIndex: previousPlayingSongIndex,
-      };
-      setparams(params2);
-      setplayingList(songList);
-    }
-    initPlayer();
+    initPlayer(songList, options);
   }, []);
 
   // handles swipe action: call playlist when swiping left
@@ -125,13 +68,13 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
   const [touchStart, setTouchStart] = React.useState(0);
   const [touchEnd, setTouchEnd] = React.useState(0);
 
-  function handleTouchStart(e) {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+  function handleTouchStart(e: React.TouchEvent<HTMLDivElement>) {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0]?.clientX || 0);
   }
 
-  function handleTouchMove(e) {
-    setTouchEnd(e.targetTouches[0].clientX);
+  function handleTouchMove(e: React.TouchEvent<HTMLDivElement>) {
+    setTouchEnd(e.targetTouches[0]?.clientX || 0);
   }
 
   function handleTouchEnd() {
@@ -141,17 +84,15 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
     if (touchStart - touchEnd > 50) {
       // do your stuff here for left swipe
       setShowFavList((favState) => !favState);
-      setTouchEnd(null);
-      setTouchStart(null);
+      setTouchEnd(0);
+      setTouchStart(0);
     }
   }
 
   return (
-    <React.Fragment id={id}>
+    <React.Fragment>
       {params && (
         <FavList
-          currentAudioList={params.audioLists}
-          onSongIndexChange={playByIndex}
           onPlayOneFromFav={onPlayOneFromFav2}
           onPlayAllFromFav={onPlayAllFromFav}
           showFavList={showFavList}
@@ -166,7 +107,6 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
           audioId={currentAudio.id}
           audioCover={currentAudio.cover}
           isMobile
-          artist={currentAudio.singerId}
           closeLyric={() => setShowLyric(false)}
         />
       )}

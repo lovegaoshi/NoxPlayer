@@ -5,44 +5,23 @@ import '../../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
-import { useNoxSetting } from '@APM/stores/useApp';
-import versionUpdate from '@utils/versionupdater/versionupdater';
 import usePlayer from '@hooks/usePlayer';
 import { FavList } from '../FavList/FavList';
 import LyricOverlay from '../lyric/LyricOverlay';
 import { skins, skinPreset } from '../../styles/skin';
+import Options from './Enum';
 
-// Initial Player options
-const options: NoxPlayer.Option = {
-  mode: 'full',
-  showThemeSwitch: false,
-  showLyric: false,
-  toggleMode: false,
-  locale: 'zh_CN',
-  autoPlayInitLoadPlayList: true,
-  autoPlay: false,
-  defaultPlayIndex: 0,
-  bannerBg: skins().playerBanner,
-  themeOverwrite: skins().reactJKPlayerTheme,
-};
+const options = { ...Options };
 
 interface Props {
   songList: NoxMedia.Song[];
 }
 export default function Player({ songList }: Props) {
-  const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const setCurrentPlayingId = useNoxSetting(
-    (state) => state.setCurrentPlayingId,
-  );
-  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   // Sync data to chromeDB
 
   const {
     params,
-    setparams,
-    setplayingList,
     currentAudio,
-    setCurrentAudio,
     currentAudioInst,
     showLyric,
     setShowLyric,
@@ -57,10 +36,10 @@ export default function Player({ songList }: Props) {
     getAudioInstance,
     customDownloader,
     onCoverClick,
-    processExtendsContent,
-    renderExtendsContent,
-    sendBiliHeartbeat,
     musicSrcParser,
+    onAudioPlay,
+    onAudioError,
+    initPlayer,
   } = usePlayer({});
 
   useHotkeys('space', () => {
@@ -85,44 +64,9 @@ export default function Player({ songList }: Props) {
     document.title = `${currentAudio.name} - ${skins().appTitle}`;
   }, [currentAudio.name]);
 
-  const onAudioPlay = async (audioInfo: NoxMedia.Song) => {
-    processExtendsContent(renderExtendsContent(audioInfo));
-    setCurrentAudio(audioInfo);
-    setCurrentPlayingId(audioInfo.id);
-    sendBiliHeartbeat(audioInfo);
-  };
-
-  const onAudioError = (
-    errMsg: string,
-    currentPlayId: string,
-    audioLists: NoxMedia.Song[],
-    audioInfo: NoxMedia.Song,
-  ) => {
-    console.error('audio error', errMsg, audioInfo);
-  };
-
   // Initialization effect
   useEffect(() => {
-    async function initPlayer() {
-      await versionUpdate();
-      const previousPlayingSongIndex = Math.max(
-        0,
-        songList.findIndex((s) => s.id === currentPlayingId),
-      );
-      const song = songList[previousPlayingSongIndex];
-      if (song !== undefined) {
-        options.extendsContent = renderExtendsContent(song);
-      }
-      const params2 = {
-        ...options,
-        ...playerSetting,
-        audioLists: songList,
-        defaultPlayIndex: previousPlayingSongIndex,
-      };
-      setparams(params2);
-      setplayingList(songList);
-    }
-    initPlayer();
+    initPlayer(songList, options);
   }, []);
 
   return (

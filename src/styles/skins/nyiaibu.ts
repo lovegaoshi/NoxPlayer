@@ -30,9 +30,8 @@ export default skinTemplate({
       resolve(randomPortraitBackground);
     }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-  playerBackground: fetchVideoPlayUrl(
-    randomChoice(['BV1rh4y1b7wU', 'BV1SH4y1o7rk']),
-  ), // BV1Sb4y1i79D
+  playerBackground: () =>
+    fetchVideoPlayUrl(randomChoice(['BV1rh4y1b7wU', 'BV1SH4y1o7rk'])), // BV1Sb4y1i79D
   playerBackgroundVideo: true,
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
   gifs,

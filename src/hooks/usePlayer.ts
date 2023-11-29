@@ -1,25 +1,28 @@
-import React, { useState, useContext, useCallback, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { filterUndefined } from '@utils/Utils';
+import versionUpdate from '@utils/versionupdater/versionupdater';
 import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
-import FavoriteButton from '../components/buttons/FavoriteSongButton';
-import ThumbsUpButton from '../components/buttons/ThumbsUpButton';
-import MobileMoreButton from '../components/buttons/MobileMoreButton';
 import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
+import renderExtendsContent from '../components/Player/ExtendContent';
 
 const usePlayer = ({ isMobile = false }) => {
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playerSettings = useNoxSetting((state) => state.playerSetting);
   const setCurrentPlayingList = useNoxSetting(
     (state) => state.setCurrentPlayingList,
   );
   const setPlayerSettings = useNoxSetting((state) => state.setPlayerSetting);
+  const setCurrentPlayingId = useNoxSetting(
+    (state) => state.setCurrentPlayingId,
+  );
   // Params to init music player
   // TODO: fix typing
   const [params, setparams] = useState<any>();
@@ -132,10 +135,6 @@ const usePlayer = ({ isMobile = false }) => {
     });
   };
 
-  const playByIndex = (index: number) => {
-    currentAudioInst.playByIndex(index);
-  };
-
   const onPlayModeChange = (playMode: string) => {
     // console.log('play mode change:', playMode)
     setPlayerSettings({ playMode });
@@ -187,25 +186,6 @@ const usePlayer = ({ isMobile = false }) => {
   const processExtendsContent = (extendsContent: any) =>
     setparams({ ...params, extendsContent });
 
-  const renderExtendsContent = (song: NoxMedia.Song) => {
-    if (song === undefined) {
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      return [<></>];
-    }
-    return filterUndefined(
-      [
-        <ThumbsUpButton song={song} key='song-thumbup-btn' />,
-        !isMobile ? (
-          <FavoriteButton song={song} key='song-fav-btn' />
-        ) : undefined,
-        isMobile ? (
-          <MobileMoreButton song={song} key='song-more-btn' />
-        ) : undefined,
-      ],
-      (v) => v,
-    );
-  };
-
   const sendBiliHeartbeat = async (song: NoxMedia.Song, debug = false) => {
     clearInterval(biliHeartbeat.current);
     if (playerSettings.sendBiliHeartbeat) return;
@@ -213,12 +193,53 @@ const usePlayer = ({ isMobile = false }) => {
     if (debug) checkBiliVideoPlayed(song.bvid);
   };
 
+  const onAudioPlay = (audioInfo: NoxMedia.Song) => {
+    processExtendsContent(renderExtendsContent(audioInfo, isMobile));
+    setCurrentAudio(audioInfo);
+    setCurrentPlayingId(audioInfo.id);
+    sendBiliHeartbeat(audioInfo);
+  };
+
+  const onAudioError = (
+    errMsg: string,
+    currentPlayId: string,
+    audioLists: NoxMedia.Song[],
+    audioInfo: NoxMedia.Song,
+  ) => {
+    console.error('audio error', errMsg, audioInfo);
+    setTimeout(() => {
+      console.debug('retrying...');
+      currentAudioInst.playByIndex(1, true);
+    }, 1000);
+  };
+
+  const initPlayer = async (
+    songList: NoxMedia.Song[],
+    options: NoxPlayer.Option,
+  ) => {
+    await versionUpdate();
+    const previousPlayingSongIndex = Math.max(
+      0,
+      songList.findIndex((s) => s.id === currentPlayingId),
+    );
+    const song = songList[previousPlayingSongIndex];
+    if (song !== undefined) {
+      options.extendsContent = renderExtendsContent(song, isMobile);
+    }
+    const params2 = {
+      ...options,
+      extendsContent: song && renderExtendsContent(song, isMobile),
+      ...playerSetting,
+      audioLists: songList,
+      defaultPlayIndex: previousPlayingSongIndex,
+    };
+    setparams(params2);
+    setplayingList(songList);
+  };
+
   return {
     params,
-    setparams,
-    setplayingList,
     currentAudio,
-    setCurrentAudio,
     currentAudioInst,
     showLyric,
     setShowLyric,
@@ -227,7 +248,6 @@ const usePlayer = ({ isMobile = false }) => {
 
     onPlayOneFromFav,
     onPlayAllFromFav,
-    playByIndex,
     onPlayModeChange,
     onAudioVolumeChange,
     onAudioListsChange,
@@ -235,10 +255,10 @@ const usePlayer = ({ isMobile = false }) => {
     getAudioInstance,
     customDownloader,
     onCoverClick,
-    processExtendsContent,
-    renderExtendsContent,
-    sendBiliHeartbeat,
     musicSrcParser,
+    onAudioPlay,
+    onAudioError,
+    initPlayer,
   };
 };
 

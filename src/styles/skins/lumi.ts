@@ -64,7 +64,7 @@ export default skinTemplate({
     new Promise<string>((resolve) => {
       resolve(randomPortraitBackground);
     }),
-  playerBackground: fetchVideoPlayUrl('BV1nj411X7Vr'),
+  playerBackground: () => fetchVideoPlayUrl('BV1nj411X7Vr'),
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => randomChoice(gifs) as string,

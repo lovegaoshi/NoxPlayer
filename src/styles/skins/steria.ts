@@ -39,12 +39,11 @@ const gifs = [
 export default skinTemplate({
   playerBanner:
     'https://i0.hdslb.com/bfs/article/3ff6c3cd3a88179cc0e582e55f6ac1fdf8c38f97.png',
-  playerBannerMobile: fetchVideoPlayUrl('BV1Da411M7ti'),
+  playerBannerMobile: () => fetchVideoPlayUrl('BV1Da411M7ti'),
   // "https://i0.hdslb.com/bfs/new_dyn/2f5703dc027b86cb303ec8c894e99ca835817909.jpg",
   playerBackgroundMobileVideo: true,
-  playerBackground: fetchVideoPlayUrl(
-    randomChoice(['BV1h24y1T78N', 'BV13w411m7iV']),
-  ),
+  playerBackground: () =>
+    fetchVideoPlayUrl(randomChoice(['BV1h24y1T78N', 'BV13w411m7iV'])),
   playerBackgroundVideo: true,
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg'); }),
   // 'https://i2.hdslb.com/bfs/archive/1b21245dbec6e4f50c870e9e64f5b17c0369316d.jpg',
