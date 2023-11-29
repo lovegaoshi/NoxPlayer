@@ -15,13 +15,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useConfirm } from 'material-ui-confirm';
 import SyncIcon from '@mui/icons-material/Sync';
 
-import bilivideoFetch from '@APM/utils/mediafetch/bilivideo';
-import favListAnalytics from '@APM/utils/Analytics';
+import bilivideoFetch, {
+  fetchVideoInfo,
+} from '@APM/utils/mediafetch/bilivideo';
 import { removeSongBiliShazamed } from '@objects/Song';
-import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
-import { textToDialogContent } from '../dialogs/GenericDialog';
+import useFavList from '@hooks/useFavList';
 
 const MENU_ID = 'favlistmenu';
 
@@ -34,6 +34,7 @@ const MENU_ID = 'favlistmenu';
 export default function App({ theme }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const confirm = useConfirm();
+  const { analyzeFavlist } = useFavList();
   const circularProgress = () => <CircularProgress />;
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
@@ -142,36 +143,6 @@ export default function App({ theme }) {
       .catch();
   }
 
-  function analyzeFavlist({ event, props, triggerEvent, data }) {
-    const analytics = favListAnalytics(props.favlist);
-    confirm({
-      title: `歌单 ${props.favlist.title} 的统计信息`,
-      content: textToDialogContent([
-        `歌单内总共有${analytics.songsUnique.size}首独特的歌`,
-        `歌单内最常出现的歌：${analytics.songTop10
-          .map((val) => `${val[0]} (${String(val[1])})`)
-          .join(', ')}`,
-        `最近的新歌：${Array.from(analytics.songsUnique)
-          .slice(-10)
-          .reverse()
-          .join(', ')}`,
-        `bv号总共有${String(analytics.bvid.size)}个，平均每bv号有${(
-          analytics.totalCount / analytics.bvid.size
-        ).toFixed(1)}首歌`,
-        `shazam失败的歌数: ${String(analytics.invalidShazamCount)}/${String(
-          analytics.totalCount,
-        )} (${(
-          (analytics.invalidShazamCount * 100) /
-          analytics.totalCount
-        ).toFixed(1)}%)`,
-      ]),
-      confirmationText: '好的',
-      hideCancelButton: true,
-    })
-      .then()
-      .catch();
-  }
-
   async function cleanInvalidBVIds({ props }) {
     const uniqBVIds = [];
     const promises = [];
@@ -227,7 +198,7 @@ export default function App({ theme }) {
         <Item onClick={clearPlaylist}>
           <ClearAllIcon /> &nbsp; 清空歌单
         </Item>
-        <Item onClick={analyzeFavlist}>
+        <Item onClick={({ props }) => analyzeFavlist(props.favlist)}>
           <AnalyticsIcon /> &nbsp; 歌单统计
         </Item>
         <Item onClick={handleItemClick}>

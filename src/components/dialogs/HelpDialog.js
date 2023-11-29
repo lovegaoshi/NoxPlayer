@@ -10,7 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import { useConfirm } from 'material-ui-confirm';
-import { textToDialogContent } from './GenericDialog';
+import textToDialogContent from './DialogContent';
 import changelogTxt from '../../../changelog.txt';
 
 export default function HelpDialog({ onClose, openState, id }) {

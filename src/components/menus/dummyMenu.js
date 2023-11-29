@@ -17,12 +17,9 @@ export default function App({ theme }) {
     id: MENU_ID,
   });
 
-  const handleItemClick = React.useCallback(
-    ({ event, props, triggerEvent, data }) => {
-      console.warn('method not implemented', props);
-    },
-  );
-
+  const handleItemClick = ({ props }) => {
+    console.warn('method not implemented', props);
+  };
   function displayMenu(e) {
     // put whatever custom logic you need
     // you can even decide to not display the Menu

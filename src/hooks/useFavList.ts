@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 
 import useNoxStore from '@hooks/useStore';
@@ -6,6 +6,9 @@ import { parseSongName } from '@APM/stores/appStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
+import favListAnalytics from '@APM/utils/Analytics';
+// eslint-disable-next-line import/no-unresolved
+import textToDialogContent from '@/components/dialogs/DialogContent';
 
 /**
  * this function updates the input playlist by its subscription url to include the missing videos.
@@ -201,6 +204,35 @@ const useFavList = () => {
     }
   };
 
+  const analyzeFavlist = (playlist: NoxMedia.Playlist) => {
+    const analytics = favListAnalytics(playlist);
+    confirm({
+      title: `歌单 ${playlist.title} 的统计信息`,
+      content: textToDialogContent([
+        `歌单内总共有${analytics.songsUnique.size}首独特的歌`,
+        `歌单内最常出现的歌：${analytics.songTop10
+          .map((val) => `${val[0]} (${String(val[1])})`)
+          .join(', ')}`,
+        `最近的新歌：${Array.from(analytics.songsUnique)
+          .slice(-10)
+          .reverse()
+          .join(', ')}`,
+        `bv号总共有${String(analytics.bvid.size)}个，平均每bv号有${(
+          analytics.totalCount / analytics.bvid.size
+        ).toFixed(1)}首歌`,
+        `shazam失败的歌数: ${String(analytics.invalidShazamCount)}/${String(
+          analytics.totalCount,
+        )} (${(
+          (analytics.invalidShazamCount * 100) /
+          analytics.totalCount
+        ).toFixed(1)}%)`,
+      ]),
+      confirmationText: '好的',
+      hideCancelButton: true,
+    })
+      .then()
+      .catch();
+  };
   return {
     playlists,
     playlistIds,
@@ -223,6 +255,7 @@ const useFavList = () => {
     handleAddToFavClick,
     onAddFav,
     onDragEnd,
+    analyzeFavlist,
   };
 };
 
