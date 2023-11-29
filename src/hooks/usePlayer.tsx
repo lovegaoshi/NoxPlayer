@@ -25,13 +25,13 @@ const usePlayer = ({ isMobile = false }) => {
   // Playing List
   const [playingList, setplayingList] = useState<NoxMedia.Song[]>([]);
   // Current Audio info
-  const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
+  const [currentAudio, setCurrentAudio] = useContext(CurrentAudioContext);
   // Current Audio Inst
-  const [currentAudioInst, setcurrentAudioInst] = useState(null);
+  const [currentAudioInst, setCurrentAudioInst] = useState<any>();
   // Lyric Dialog
   const [showLyric, setShowLyric] = useState(false);
 
-  const biliHeartbeat = useRef(null);
+  const biliHeartbeat = useRef(0);
 
   const parseR128Gain = async (
     song: NoxMedia.Song,
@@ -131,62 +131,55 @@ const usePlayer = ({ isMobile = false }) => {
     });
   };
 
-  const onAddFavToList = useCallback(
-    (songs) => {
-      // If song exists in currentPlayList, remove it
-      const newSongsInList = songs.filter(
-        (v) => playingList.find((s) => s.id === v.id) === undefined,
-      );
+  const onAddFavToList = (songs: NoxMedia.Song[]) => {
+    // If song exists in currentPlayList, remove it
+    const newSongsInList = songs.filter(
+      (v) => playingList.find((s) => s.id === v.id) === undefined,
+    );
 
-      updateCurrentAudioList({
-        songs: newSongsInList,
-        immediatePlay: false,
-        replaceList: false,
-      });
-    },
-    [params, playingList],
-  );
+    updateCurrentAudioList({
+      songs: newSongsInList,
+      immediatePlay: false,
+      replaceList: false,
+    });
+  };
 
-  const playByIndex = useCallback(
-    (index) => {
-      currentAudioInst.playByIndex(index);
-    },
-    [currentAudioInst],
-  );
+  const playByIndex = (index: number) => {
+    currentAudioInst.playByIndex(index);
+  };
 
-  const onPlayModeChange = (playMode) => {
+  const onPlayModeChange = (playMode: string) => {
     // console.log('play mode change:', playMode)
     setPlayerSettings({ playMode });
     params.playMode = playMode;
     setparams(params);
   };
 
-  const onAudioVolumeChange = (currentVolume) => {
+  const onAudioVolumeChange = (currentVolume: number) => {
     // console.log('audio volume change', currentVolume)
     setPlayerSettings({ defaultVolume: Math.sqrt(currentVolume) });
   };
 
-  const onAudioListsChange = useCallback(
-    (currentPlayId, audioLists, audioInfo) => {
-      setplayingList(audioLists);
-      // console.log('audioListChange:', audioLists)
-    },
-    [params, playingList],
-  );
+  const onAudioListsChange = (
+    currentPlayId: string,
+    audioLists: NoxMedia.Song[],
+    audioInfo: any,
+  ) => setplayingList(audioLists);
+  // console.log('audioListChange:', audioLists)
 
-  const onAudioProgress = (audioInfo) => {
+  const onAudioProgress = (audioInfo: any) => {
     // this is updated every 0.1sec or so. disabling this seems to make playing >3000 songs list
     // a tinny bit faster; the other slowing part is audioTimeUpdate's setState in JKmusicplayer.
     // its probably because with a huge songlist, updating musicplayer state recreatign it somehow and its very slow
     // to recreate objects with that huge songlist. it might need to be restructured to have player send next music signal
     // to controller (player.js here) so it doesnt have to save that list anymore.
-
-    if (showLyric) setcurrentAudio(audioInfo);
+    // @ts-expect-error
+    if (showLyric) setCurrentAudio(audioInfo);
   };
 
-  const getAudioInstance = (audio) => setcurrentAudioInst(audio);
+  const getAudioInstance = (audio: any) => setCurrentAudioInst(audio);
 
-  const customDownloader = (downloadInfo) => {
+  const customDownloader = (downloadInfo: { src: string }) => {
     fetch(downloadInfo.src)
       .then((res) => {
         return res.blob();
@@ -204,38 +197,24 @@ const usePlayer = ({ isMobile = false }) => {
 
   const onCoverClick = () => setShowLyric(!showLyric);
 
-  const processExtendsContent = (extendsContent) =>
+  const processExtendsContent = (extendsContent: any) =>
     setparams({ ...params, extendsContent });
 
-  const renderExtendsContent = ({ song }) => {
+  const renderExtendsContent = (song: NoxMedia.Song) => {
     if (song === undefined) {
       // eslint-disable-next-line react/jsx-no-useless-fragment
       return <></>;
     }
     return [
-      <ThumbsUpButton
-        song={song}
-        key='song-thumbup-btn'
-        className='song-thumbup-btn'
-      />,
-      !isMobile ? (
-        <FavoriteButton
-          song={song}
-          key='song-fav-btn'
-          className='song-fav-btn'
-        />
-      ) : undefined,
+      <ThumbsUpButton song={song} key='song-thumbup-btn' />,
+      !isMobile ? <FavoriteButton song={song} key='song-fav-btn' /> : undefined,
       isMobile ? (
-        <MobileMoreButton
-          song={song}
-          key='song-more-btn'
-          className='song-more-btn'
-        />
+        <MobileMoreButton song={song} key='song-more-btn' />
       ) : undefined,
     ].filter((val) => val !== undefined);
   };
 
-  const sendBiliHeartbeat = async (song, debug = false) => {
+  const sendBiliHeartbeat = async (song: NoxMedia.Song, debug = false) => {
     clearInterval(biliHeartbeat.current);
     if (playerSettings.sendBiliHeartbeat) return;
     initBiliHeartbeat({ bvid: song.bvid, cid: song.id });
@@ -247,7 +226,7 @@ const usePlayer = ({ isMobile = false }) => {
     setparams,
     setplayingList,
     currentAudio,
-    setcurrentAudio,
+    setCurrentAudio,
     currentAudioInst,
     showLyric,
     setShowLyric,

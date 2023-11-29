@@ -77,7 +77,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
   }, [currentAudio.name]);
 
   const onAudioPlay = (audioInfo) => {
-    processExtendsContent(renderExtendsContent({ song: audioInfo }));
+    processExtendsContent(renderExtendsContent(audioInfo));
     setcurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
@@ -102,9 +102,9 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
         0,
         songList.findIndex((s) => s.id === currentPlayingId),
       );
-      options.extendsContent = renderExtendsContent({
-        song: songList[previousPlayingSongIndex],
-      });
+      options.extendsContent = renderExtendsContent(
+        songList[previousPlayingSongIndex],
+      );
       const params2 = {
         ...options,
         ...playerSetting,
@@ -115,7 +115,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
       setplayingList(songList);
     }
     initPlayer();
-  }, [songList]);
+  }, []);
 
   // handles swipe action: call playlist when swiping left
   // the reason why we dont use react-swipe is because

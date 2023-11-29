@@ -81,7 +81,7 @@ export default function Player({ songList }) {
   }, [currentAudio.name]);
 
   const onAudioPlay = async (audioInfo) => {
-    processExtendsContent(renderExtendsContent({ song: audioInfo }));
+    processExtendsContent(renderExtendsContent(audioInfo));
     setcurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
@@ -99,9 +99,9 @@ export default function Player({ songList }) {
         0,
         songList.findIndex((s) => s.id === currentPlayingId),
       );
-      options.extendsContent = renderExtendsContent({
-        song: songList[previousPlayingSongIndex],
-      });
+      options.extendsContent = renderExtendsContent(
+        songList[previousPlayingSongIndex],
+      );
       const params2 = {
         ...options,
         ...playerSetting,
