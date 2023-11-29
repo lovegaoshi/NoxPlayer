@@ -25,6 +25,10 @@ const usePlayer = ({ isMobile = false }) => {
   const setCurrentPlayingId = useNoxSetting(
     (state) => state.setCurrentPlayingId,
   );
+  const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
+  const searchList = useNoxSetting((state) => state.searchPlaylist);
+  const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
+
   const currentAudio = useApp((state) => state.currentAudio);
   const setCurrentAudio = useApp((state) => state.setCurrentAudio);
   const currentAudioInst = useApp((state) => state.currentAudioInst);
@@ -232,6 +236,16 @@ const usePlayer = ({ isMobile = false }) => {
     setplayingList(songList);
   };
 
+  const handleSearch = (list: NoxMedia.Playlist) => {
+    setSearchList(list);
+    setSelectedList(list);
+  };
+  const loadToSearchListAndPlay = (songList: NoxMedia.Song[]) => {
+    const loadedList = { ...searchList, songList };
+    handleSearch(loadedList);
+    onPlayAllFromFav(loadedList);
+  };
+
   return {
     params,
     currentAudio,
@@ -254,6 +268,7 @@ const usePlayer = ({ isMobile = false }) => {
     onAudioPlay,
     onAudioError,
     initPlayer,
+    loadToSearchListAndPlay,
   };
 };
 

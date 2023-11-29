@@ -16,13 +16,13 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { contextMenu } from 'react-contexify';
 
 import { useNoxSetting } from '@APM/stores/useApp';
+import useFavList from '@hooks/useFavList';
+import { ScrollBar } from '@styles/styles';
+import { skinPreset } from '@styles/skin';
 import Search from './Search';
-import { skinPreset } from '../../styles/skin';
 import Menu from '../menus/Favlistmenu';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
-import { ScrollBar } from '../../styles/styles';
 import { Fav } from '../Fav/Fav';
-import useFavList from '../../hooks/useFavList';
 import FavListHeader from './FavListHeader/FavListHeader';
 
 const { colorTheme } = skinPreset;
@@ -68,19 +68,6 @@ export function FavList({
 
   const handlePlayListClick = (FavList2) => {
     onPlayAllFromFav(FavList2);
-  };
-
-  const loadToSearchList = (songList) => {
-    handleSearch({ ...searchList, songList });
-    onPlayAllFromFav({ songList });
-  };
-
-  const shuffleAll = () => {
-    const allSongs = Object.values(playlists).reduce(
-      (acc, curr) => acc.concat(curr.songList),
-      [],
-    );
-    loadToSearchList(allSongs);
   };
 
   const renderFavListItem = ({ v, i }) => {
