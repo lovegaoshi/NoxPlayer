@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '@utils/Data';
+import { fetchVideoPlayUrlPromise } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
@@ -41,7 +41,13 @@ export default skinTemplate({
     }),
   playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
   playerBackground: async () =>
-    await fetchVideoPlayUrlPromise('BV11S4y1d7v9', undefined, 'VideoUrl'), // BV1Sb4y1i79D
+    (
+      await fetchVideoPlayUrlPromise({
+        bvid: 'BV11S4y1d7v9',
+        cid: undefined,
+        extractType: 'VideoUrl',
+      })
+    ).url, // BV1Sb4y1i79D
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => randomChoice(gifs) as string,

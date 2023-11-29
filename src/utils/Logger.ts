@@ -1,30 +1,32 @@
 class Logger {
-  constructor(namespace) {
+  namespace: string;
+
+  constructor(namespace: string) {
     this.namespace = namespace;
   }
 
-  generateMessage(message) {
+  generateMessage(message: string) {
     return `${this.namespace}: ${message}`;
   }
 
-  debug(message) {
+  debug(message: string) {
     // eslint-disable-next-line no-console
     console.debug(this.generateMessage(message));
   }
 
-  info(message) {
+  info(message: string) {
     console.info(this.generateMessage(message));
   }
 
-  notice(message) {
+  notice(message: string) {
     console.warn(this.generateMessage(message));
   }
 
-  warn(message) {
+  warn(message: string) {
     console.warn(this.generateMessage(message));
   }
 
-  error(message) {
+  error(message: string) {
     console.error(this.generateMessage(message));
   }
 }

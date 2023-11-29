@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '@utils/Data';
+import { fetchVideoPlayUrlPromise } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 // this is a pink/light theme.
 
@@ -30,7 +30,13 @@ export default skinTemplate({
       );
     }),
   playerBackground: async () =>
-    await fetchVideoPlayUrlPromise('BV1Yv4y1C7K5', undefined, 'VideoUrl'),
+    (
+      await fetchVideoPlayUrlPromise({
+        bvid: 'BV1Yv4y1C7K5',
+        cid: undefined,
+        extractType: 'VideoUrl',
+      })
+    ).url,
   playerBackgroundVideo: true,
   // 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
   gifs,

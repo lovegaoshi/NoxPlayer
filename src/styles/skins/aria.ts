@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '@utils/Data';
+import { fetchVideoPlayUrlPromise } from '@APM/utils/mediafetch/bilivideo';
 import PomeloTheme from './pomelo';
 import skinTemplate, { randomChoice } from './template';
 
@@ -47,7 +47,13 @@ export default skinTemplate({
   playerBannerMobile: PomeloTheme.playerBannerMobile,
   // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://cdn.donmai.us/original/f5/cd/__watson_amelia_bubba_and_smol_ame_hololive_and_1_more_drawn_by_ro_g_oowack__f5cd65a11ff91b10f52aba05f46aa5e0.jpg'); }),
   playerBackground: async () =>
-    await fetchVideoPlayUrlPromise('BV1VM411q7j6', undefined, 'VideoUrl'),
+    (
+      await fetchVideoPlayUrlPromise({
+        bvid: 'BV1VM411q7j6',
+        cid: undefined,
+        extractType: 'VideoUrl',
+      })
+    ).url,
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => randomChoice(gifs) as string,

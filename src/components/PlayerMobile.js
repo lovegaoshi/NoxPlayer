@@ -61,6 +61,7 @@ export default function PlayerMobile({ songList }) {
     processExtendsContent,
     renderExtendsContent,
     sendBiliHeartbeat,
+    musicSrcParser,
   } = usePlayer({ isMobile: true });
 
   const onPlayOneFromFav = (songs, favList) => {
@@ -196,7 +197,7 @@ export default function PlayerMobile({ songList }) {
             onAudioListsChange={onAudioListsChange}
             onAudioListsPanelChange={setAudioListsPanelState}
             hideCover={playerSettings?.hideCoverInMobile}
-            musicSrcParser={(v) => fetchPlayUrlPromise(v)}
+            musicSrcParser={musicSrcParser}
           />
         </Box>
       )}

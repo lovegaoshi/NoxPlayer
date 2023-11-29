@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '@utils/Data';
+import { fetchVideoPlayUrlPromise } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 // this is a pink/light theme.
 
@@ -65,7 +65,13 @@ export default skinTemplate({
       resolve(randomPortraitBackground);
     }),
   playerBackground: async () =>
-    await fetchVideoPlayUrlPromise('BV1nj411X7Vr', undefined, 'VideoUrl'),
+    (
+      await fetchVideoPlayUrlPromise({
+        bvid: 'BV1nj411X7Vr',
+        cid: undefined,
+        extractType: 'VideoUrl',
+      })
+    ).url,
   playerBackgroundVideo: true,
   gifs,
   gifIcon: () => randomChoice(gifs) as string,

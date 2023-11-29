@@ -1,4 +1,4 @@
-import { fetchVideoPlayUrlPromise } from '@utils/Data';
+import { fetchVideoPlayUrlPromise } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 
 const gifs = [
@@ -19,7 +19,13 @@ const gifs = [
 const backgroundBundle: [() => Promise<string>, boolean] = randomChoice([
   [
     async () =>
-      await fetchVideoPlayUrlPromise('BV15e411u7T9', undefined, 'VideoUrl'),
+      (
+        await fetchVideoPlayUrlPromise({
+          bvid: 'BV15e411u7T9',
+          cid: undefined,
+          extractType: 'VideoUrl',
+        })
+      ).url,
     true,
   ],
   [
