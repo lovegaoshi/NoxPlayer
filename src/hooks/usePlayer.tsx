@@ -3,6 +3,7 @@ import React, { useState, useContext, useCallback, useRef } from 'react';
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
+import { filterUndefined } from '@utils/Utils';
 import r128gain from '../utils/ffmpeg/r128util';
 import { CurrentAudioContext } from '../contexts/CurrentAudioContext';
 import FavoriteButton from '../components/buttons/FavoriteSongButton';
@@ -131,19 +132,6 @@ const usePlayer = ({ isMobile = false }) => {
     });
   };
 
-  const onAddFavToList = (songs: NoxMedia.Song[]) => {
-    // If song exists in currentPlayList, remove it
-    const newSongsInList = songs.filter(
-      (v) => playingList.find((s) => s.id === v.id) === undefined,
-    );
-
-    updateCurrentAudioList({
-      songs: newSongsInList,
-      immediatePlay: false,
-      replaceList: false,
-    });
-  };
-
   const playByIndex = (index: number) => {
     currentAudioInst.playByIndex(index);
   };
@@ -173,7 +161,6 @@ const usePlayer = ({ isMobile = false }) => {
     // its probably because with a huge songlist, updating musicplayer state recreatign it somehow and its very slow
     // to recreate objects with that huge songlist. it might need to be restructured to have player send next music signal
     // to controller (player.js here) so it doesnt have to save that list anymore.
-    // @ts-expect-error
     if (showLyric) setCurrentAudio(audioInfo);
   };
 
@@ -203,15 +190,20 @@ const usePlayer = ({ isMobile = false }) => {
   const renderExtendsContent = (song: NoxMedia.Song) => {
     if (song === undefined) {
       // eslint-disable-next-line react/jsx-no-useless-fragment
-      return <></>;
+      return [<></>];
     }
-    return [
-      <ThumbsUpButton song={song} key='song-thumbup-btn' />,
-      !isMobile ? <FavoriteButton song={song} key='song-fav-btn' /> : undefined,
-      isMobile ? (
-        <MobileMoreButton song={song} key='song-more-btn' />
-      ) : undefined,
-    ].filter((val) => val !== undefined);
+    return filterUndefined(
+      [
+        <ThumbsUpButton song={song} key='song-thumbup-btn' />,
+        !isMobile ? (
+          <FavoriteButton song={song} key='song-fav-btn' />
+        ) : undefined,
+        isMobile ? (
+          <MobileMoreButton song={song} key='song-more-btn' />
+        ) : undefined,
+      ],
+      (v) => v,
+    );
   };
 
   const sendBiliHeartbeat = async (song: NoxMedia.Song, debug = false) => {
@@ -235,7 +227,6 @@ const usePlayer = ({ isMobile = false }) => {
 
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
     playByIndex,
     onPlayModeChange,
     onAudioVolumeChange,

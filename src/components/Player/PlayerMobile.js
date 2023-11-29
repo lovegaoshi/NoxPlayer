@@ -49,7 +49,6 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
 
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
     playByIndex,
     onPlayModeChange,
     onAudioVolumeChange,
@@ -155,7 +154,6 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
           onSongIndexChange={playByIndex}
           onPlayOneFromFav={onPlayOneFromFav2}
           onPlayAllFromFav={onPlayAllFromFav}
-          onAddFavToList={onAddFavToList}
           showFavList={showFavList}
           currentAudioID={currentAudio ? currentAudio.id : -1}
         />

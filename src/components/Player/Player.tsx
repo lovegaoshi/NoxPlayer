@@ -13,7 +13,7 @@ import LyricOverlay from '../lyric/LyricOverlay';
 import { skins, skinPreset } from '../../styles/skin';
 
 // Initial Player options
-const options = {
+const options: NoxPlayer.Option = {
   mode: 'full',
   showThemeSwitch: false,
   showLyric: false,
@@ -50,8 +50,6 @@ export default function Player({ songList }: Props) {
 
     onPlayOneFromFav,
     onPlayAllFromFav,
-    onAddFavToList,
-    playByIndex,
     onPlayModeChange,
     onAudioVolumeChange,
     onAudioListsChange,
@@ -87,14 +85,19 @@ export default function Player({ songList }: Props) {
     document.title = `${currentAudio.name} - ${skins().appTitle}`;
   }, [currentAudio.name]);
 
-  const onAudioPlay = async (audioInfo) => {
+  const onAudioPlay = async (audioInfo: NoxMedia.Song) => {
     processExtendsContent(renderExtendsContent(audioInfo));
     setCurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
   };
 
-  const onAudioError = (errMsg, currentPlayId, audioLists, audioInfo) => {
+  const onAudioError = (
+    errMsg: string,
+    currentPlayId: string,
+    audioLists: NoxMedia.Song[],
+    audioInfo: NoxMedia.Song,
+  ) => {
     console.error('audio error', errMsg, audioInfo);
   };
 
@@ -106,9 +109,10 @@ export default function Player({ songList }: Props) {
         0,
         songList.findIndex((s) => s.id === currentPlayingId),
       );
-      options.extendsContent = renderExtendsContent(
-        songList[previousPlayingSongIndex],
-      );
+      const song = songList[previousPlayingSongIndex];
+      if (song !== undefined) {
+        options.extendsContent = renderExtendsContent(song);
+      }
       const params2 = {
         ...options,
         ...playerSetting,
@@ -125,11 +129,8 @@ export default function Player({ songList }: Props) {
     <React.Fragment>
       {params && (
         <FavList
-          currentAudioList={params.audioLists}
-          onSongIndexChange={playByIndex}
           onPlayOneFromFav={onPlayOneFromFav}
           onPlayAllFromFav={onPlayAllFromFav}
-          onAddFavToList={onAddFavToList}
           playerSettings={playerSettings}
         />
       )}
@@ -160,6 +161,7 @@ export default function Player({ songList }: Props) {
           theme={skinPreset.desktopTheme}
           musicSrcParser={musicSrcParser}
           ref={(element) => {
+            // @ts-expect-error
             window.musicplayer = element;
           }}
         />

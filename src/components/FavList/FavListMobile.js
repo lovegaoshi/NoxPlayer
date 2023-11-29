@@ -79,13 +79,7 @@ const AddFavIcon = {
 };
 
 export default memo(
-  ({
-    onSongListChange,
-    onPlayOneFromFav,
-    onPlayAllFromFav,
-    showFavList,
-    currentAudioID,
-  }) => {
+  ({ onPlayOneFromFav, onPlayAllFromFav, showFavList, currentAudioID }) => {
     const [favOpen, setFavOpen] = useState(false);
     const [open, setOpen] = useState(false);
     const confirm = useConfirm();
@@ -349,7 +343,6 @@ export default memo(
           {selectedList && (
             <Fav
               FavList={selectedList}
-              onSongListChange={onSongListChange}
               onSongIndexChange={onPlayOneFromFav}
               handleDeleteFromSearchList={handleDeleteFromSearchList}
               handleAddToFavClick={handleAddToFavClick}
