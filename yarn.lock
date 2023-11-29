@@ -1251,10 +1251,10 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.54.0.tgz#4fab9a2ff7860082c304f750e94acd644cf984cf"
   integrity sha512-ut5V+D+fOoWPgGGNj83GGjnntO39xDy6DWxO0wb7Jp3DcMX0TfIqdzHF85VTQkerdyGmuuMD9AKAo5KiNlf/AQ==
 
-"@ffmpeg/core@^0.12.4":
+"@ffmpeg/core-mt@^0.12.4":
   version "0.12.4"
-  resolved "https://registry.npmjs.org/@ffmpeg/core/-/core-0.12.4.tgz#8303680922b3af021b8ca9cfdf7cafa6f81b84ec"
-  integrity sha512-m+H+P66TSEPlf1vK5WwVDr+Uksd1GULi7jk4o/447X5HQouTLaZjicAXC00C/IrrmyqJ8YX/8cfhqMryvNZGSg==
+  resolved "https://registry.yarnpkg.com/@ffmpeg/core-mt/-/core-mt-0.12.4.tgz#5536e7b876dfc0475e0a124c8a03512ae225ed2b"
+  integrity sha512-kExX/zzh+PlKqfgoFUnSmZzywHS/MFmaLAM6vRUc7p9G284tkt5gDud2mWmCdHCauWwppuJ6BOY6mqI5I6kMxg==
 
 "@ffmpeg/ffmpeg@^0.12.7":
   version "0.12.7"
