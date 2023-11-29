@@ -27,7 +27,6 @@ export default function Player({ songList }: Props) {
     setShowLyric,
     playerSettings,
 
-    onPlayOneFromFav,
     onPlayAllFromFav,
     onPlayModeChange,
     onAudioVolumeChange,
@@ -73,7 +72,6 @@ export default function Player({ songList }: Props) {
     <React.Fragment>
       {params && (
         <FavList
-          onPlayOneFromFav={onPlayOneFromFav}
           onPlayAllFromFav={onPlayAllFromFav}
           playerSettings={playerSettings}
         />

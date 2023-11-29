@@ -225,7 +225,6 @@ export const Fav = function Fav({
   };
 
   const className = ScrollBar().root;
-  // onSongIndexChange([song], {songList: rows})
 
   const favListReloadBVid = (bvid) => {
     FavList.songList = FavList.songList.filter((x) => x.bvid !== bvid);

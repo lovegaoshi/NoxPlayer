@@ -27,12 +27,7 @@ import FavListHeader from './FavListHeader/FavListHeader';
 
 const { colorTheme } = skinPreset;
 
-export function FavList({
-  onPlayOneFromFav,
-  onPlayAllFromFav,
-  playerSettings,
-}) {
-  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+export function FavList({ onPlayAllFromFav, playerSettings }) {
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
@@ -83,11 +78,6 @@ export function FavList({
               event,
               props: {
                 favlist: v,
-                updateFavList: (val) => {
-                  const newList = { ...val };
-                  updatePlaylist(newList);
-                  setSelectedList(newList);
-                },
               },
             });
           }}
@@ -269,7 +259,6 @@ export function FavList({
         {selectedList && (
           <Fav
             FavList={selectedList}
-            onSongIndexChange={onPlayOneFromFav}
             handleDeleteFromSearchList={handleDeleteFromSearchList}
             handleAddToFavClick={handleAddToFavClick}
             rssUpdate={(subscribeUrls) =>
