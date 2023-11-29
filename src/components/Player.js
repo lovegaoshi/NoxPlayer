@@ -39,7 +39,7 @@ export default function Player({ songList }) {
     setparams,
     setplayingList,
     currentAudio,
-    setcurrentAudio,
+    setCurrentAudio,
     currentAudioInst,
     showLyric,
     setShowLyric,
@@ -82,7 +82,7 @@ export default function Player({ songList }) {
 
   const onAudioPlay = async (audioInfo) => {
     processExtendsContent(renderExtendsContent(audioInfo));
-    setcurrentAudio(audioInfo);
+    setCurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
   };

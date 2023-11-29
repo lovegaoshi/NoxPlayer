@@ -147,7 +147,7 @@ export const Fav = function Fav({
   );
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef({ current: {} });
-  const [currentAudio, setcurrentAudio] = useContext(CurrentAudioContext);
+  const [currentAudio, setCurrentAudio] = useContext(CurrentAudioContext);
 
   const [songObjEdited, setSongObjEdited] = useState({
     bvid: '',

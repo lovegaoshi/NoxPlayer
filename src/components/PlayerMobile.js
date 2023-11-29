@@ -41,7 +41,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
     setparams,
     setplayingList,
     currentAudio,
-    setcurrentAudio,
+    setCurrentAudio,
     currentAudioInst,
     showLyric,
     setShowLyric,
@@ -78,7 +78,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }) {
 
   const onAudioPlay = (audioInfo) => {
     processExtendsContent(renderExtendsContent(audioInfo));
-    setcurrentAudio(audioInfo);
+    setCurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
   };
