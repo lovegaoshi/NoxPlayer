@@ -1,7 +1,7 @@
 {
   "name": "nox-player",
   "description": "电闹播放器 / nox-player: 一个换nox皮的电梓播放器 / 第三方哔哩哔哩(bilibili.com)音频播放器 / A 3rd party Bilibili audio player.",
-  "main": "index.js",
+  "main": "index.tsx",
   "author": "Ken Wang",
   "private": true,
   "license": "MIT",

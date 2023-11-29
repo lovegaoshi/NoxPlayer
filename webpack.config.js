@@ -84,7 +84,7 @@ module.exports = (env) => {
     },
     mode: ifProd('production', 'development'),
     entry: removeEmpty({
-      popup: ifDirExists('popup', path.join(__dirname, 'src/popup/index.js')),
+      popup: ifDirExists('popup', path.join(__dirname, 'src/popup/index.tsx')),
       options: ifDirExists('options', './src/options/index.tsx'),
       onboarding: ifDirExists('onboarding', './src/onboarding/index.tsx'),
       newtab: ifDirExists('newtab', './src/newtab/index.tsx'),
