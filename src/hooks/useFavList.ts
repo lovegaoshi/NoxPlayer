@@ -3,11 +3,9 @@ import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 
 import useNoxStore from '@hooks/useStore';
-import { parseSongName } from '@APM/stores/appStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
-import { searchBiliURLs } from '@APM/utils/BiliSearch';
-import favListAnalytics from '@APM/utils/Analytics';
+import useAnalytics from '@APM/utils/Analytics';
 import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
@@ -60,10 +58,7 @@ const useFavList = () => {
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
   const confirm = useConfirm();
-
-  const setPlaylistRefreshProgress = useNoxStore(
-    (state) => state.setPlaylistRefreshProgress,
-  );
+  const { analyzePlaylist } = useAnalytics();
 
   const findList = (listid: string): NoxMedia.Playlist => {
     switch (listid) {
@@ -187,28 +182,10 @@ const useFavList = () => {
   };
 
   const analyzeFavlist = (playlist: NoxMedia.Playlist) => {
-    const analytics = favListAnalytics(playlist);
+    const analytics = analyzePlaylist(playlist, 10);
     confirm({
-      title: `歌单 ${playlist.title} 的统计信息`,
-      content: textToDialogContent([
-        `歌单内总共有${analytics.songsUnique.size}首独特的歌`,
-        `歌单内最常出现的歌：${analytics.songTop10
-          .map((val) => `${val[0]} (${String(val[1])})`)
-          .join(', ')}`,
-        `最近的新歌：${Array.from(analytics.songsUnique)
-          .slice(-10)
-          .reverse()
-          .join(', ')}`,
-        `bv号总共有${String(analytics.bvid.size)}个，平均每bv号有${(
-          analytics.totalCount / analytics.bvid.size
-        ).toFixed(1)}首歌`,
-        `shazam失败的歌数: ${String(analytics.invalidShazamCount)}/${String(
-          analytics.totalCount,
-        )} (${(
-          (analytics.invalidShazamCount * 100) /
-          analytics.totalCount
-        ).toFixed(1)}%)`,
-      ]),
+      title: analytics.title,
+      content: textToDialogContent(analytics.content),
       confirmationText: '好的',
       hideCancelButton: true,
     })
