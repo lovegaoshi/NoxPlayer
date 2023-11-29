@@ -33,7 +33,7 @@ export default function Player({ songList }: Props) {
     onAudioVolumeChange,
     onAudioListsChange,
     onAudioProgress,
-    getAudioInstance,
+    setCurrentAudioInst,
     customDownloader,
     onCoverClick,
     musicSrcParser,
@@ -98,7 +98,7 @@ export default function Player({ songList }: Props) {
           onAudioError={onAudioError}
           customDownloader={customDownloader}
           onAudioProgress={onAudioProgress}
-          getAudioInstance={getAudioInstance}
+          getAudioInstance={setCurrentAudioInst}
           onAudioPlay={onAudioPlay}
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}

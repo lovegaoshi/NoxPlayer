@@ -26,13 +26,13 @@ const usePlayer = ({ isMobile = false }) => {
   );
   const currentAudio = useApp((state) => state.currentAudio);
   const setCurrentAudio = useApp((state) => state.setCurrentAudio);
+  const currentAudioInst = useApp((state) => state.currentAudioInst);
+  const setCurrentAudioInst = useApp((state) => state.setCurrentAudioInst);
   // Params to init music player
   // TODO: fix typing
   const [params, setparams] = useState<any>();
   // Playing List
   const [playingList, setplayingList] = useState<NoxMedia.Song[]>([]);
-  // Current Audio Inst
-  const [currentAudioInst, setCurrentAudioInst] = useState<any>();
   // Lyric Dialog
   const [showLyric, setShowLyric] = useState(false);
 
@@ -164,8 +164,6 @@ const usePlayer = ({ isMobile = false }) => {
     if (showLyric) setCurrentAudio(audioInfo);
   };
 
-  const getAudioInstance = (audio: any) => setCurrentAudioInst(audio);
-
   const customDownloader = (downloadInfo: { src: string }) => {
     fetch(downloadInfo.src)
       .then((res) => {
@@ -253,7 +251,7 @@ const usePlayer = ({ isMobile = false }) => {
     onAudioVolumeChange,
     onAudioListsChange,
     onAudioProgress,
-    getAudioInstance,
+    setCurrentAudioInst,
     customDownloader,
     onCoverClick,
     musicSrcParser,
