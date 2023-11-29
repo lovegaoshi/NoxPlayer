@@ -7,7 +7,7 @@
 
  */
 
-import { NoxStorage } from '@APM/types/storage';
+import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
 
 // this is a special audio intance that is passed from react-music-player

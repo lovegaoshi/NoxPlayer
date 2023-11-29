@@ -5,8 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { skins } from '@styles/skin';
-import { setLocalStorage, readLocalStorage } from '@utils/ChromeStorage';
-import { STORAGE_KEYS } from '@enums/Storage';
+import { useNoxSetting } from '@APM/stores/useApp';
 
 const buttonStyle = css`
   cursor: pointer;
@@ -19,27 +18,26 @@ const buttonStyle = css`
 
 export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const [liked, setLiked] = useState(false);
+  const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+  const setFavoritePlaylist = useNoxSetting(
+    (state) => state.setFavoritePlaylist,
+  );
 
   useEffect(() => {
-    readLocalStorage(STORAGE_KEYS.FAVORITE_PLAYLIST_KEY).then(
-      (val: NoxMedia.Playlist) => {
-        setLiked(val.songList.filter((val1) => val1.id === song.id).length > 0);
-      },
+    setLiked(
+      favoritePlaylist.songList.filter((val1) => val1.id === song.id).length >
+        0,
     );
   }, [song.id]);
 
   const handleClick = async () => {
-    const favFavList = (await readLocalStorage(
-      STORAGE_KEYS.FAVORITE_PLAYLIST_KEY,
-    )) as NoxMedia.Playlist;
+    let newSongList = favoritePlaylist.songList;
     if (liked) {
-      favFavList.songList = favFavList.songList.filter(
-        (val) => val.id !== song.id,
-      );
+      newSongList = newSongList.filter((val) => val.id !== song.id);
     } else {
-      favFavList.songList.push(song);
+      newSongList = [song, ...newSongList];
     }
-    setLocalStorage(STORAGE_KEYS.FAVORITE_PLAYLIST_KEY, favFavList);
+    setFavoritePlaylist({ ...favoritePlaylist, songList: newSongList });
     setLiked(!liked);
   };
 
@@ -47,6 +45,7 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
     <React.Fragment>
       <span
         className='group audio-download'
+        // @ts-expect-error
         // eslint-disable-next-line react/no-unknown-property
         css={buttonStyle}
         onClick={() => handleClick()}
