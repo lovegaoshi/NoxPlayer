@@ -37,9 +37,9 @@ const useFavList = () => {
   const setPlaylistIds = useNoxSetting((state) => state.setPlaylistIds);
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const removePlaylist = useNoxSetting((state) => state.removePlaylist);
+  const searchList = useNoxSetting((state) => state.searchPlaylist);
+  const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
 
-  const [searchList, setSearchList] = useState(defaultSearchList({}));
-  const [favoriteList] = useState(dummyFavList(''));
   const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null);
   const [openNewDialog, setOpenNewDialog] = useState(false);
   const [searchInputVal, setSearchInputVal] = useState('');
@@ -52,12 +52,6 @@ const useFavList = () => {
   const { playlistAnalyze } = usePlaylist();
 
   const findList = (listid: string): NoxMedia.Playlist => {
-    switch (listid) {
-      case favoriteList?.id:
-        return favoritePlaylist;
-      default:
-        break;
-    }
     if (listid.includes('FavList-Special-Search')) return searchList;
     const foundList = playlistIds.find((f) => f === listid);
     if (foundList) {
@@ -226,7 +220,6 @@ const useFavList = () => {
     playlistIds,
     searchList,
     setSearchList,
-    favoriteList,
     selectedList,
     setSelectedList,
     setSongsStoredAsNewFav,

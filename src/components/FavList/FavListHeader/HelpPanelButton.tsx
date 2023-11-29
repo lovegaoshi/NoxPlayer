@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import Dialog from '../dialogs/HelpDialog';
+import Dialog from './HelpDialog';
 
 interface props {
   AddFavIcon: Object;

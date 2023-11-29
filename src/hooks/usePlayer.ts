@@ -10,7 +10,7 @@ import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
-import renderExtendsContent from '../components/Player/ExtendContent';
+import renderExtendsContent from '@components/Player/ExtendContent';
 
 const usePlayer = ({ isMobile = false }) => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);

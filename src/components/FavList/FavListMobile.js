@@ -26,7 +26,7 @@ import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import rgba2rgb from '../../utils/rgba2rgb';
-import HelpPanelButton from '../buttons/HelpPanelButton';
+import HelpPanelButton from './FavListHeader/HelpPanelButton';
 import useFavList from '../../hooks/useFavList';
 import TimerButton from '../buttons/TimerButton';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';

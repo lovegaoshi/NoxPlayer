@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { filterUndefined } from '@utils/Utils';
-import ThumbsUpButton from '@components/buttons/ThumbsUpButton';
+import ThumbsUpButton from '../buttons/ThumbsUpButton';
 import MobileMoreButton from '../buttons/MobileMoreButton';
 import FavoriteButton from '../buttons/FavoriteSongButton';
 

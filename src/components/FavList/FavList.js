@@ -24,7 +24,7 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import Search from './Search';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
-import HelpPanelButton from '../buttons/HelpPanelButton';
+import HelpPanelButton from './FavListHeader/HelpPanelButton';
 import Menu from '../menus/Favlistmenu';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
@@ -33,43 +33,11 @@ import useFavList from '../../hooks/useFavList';
 
 const { colorTheme } = skinPreset;
 
-export const outerLayerBtn = { padding: 'unset' };
-
-export const CRUDBtn = {
-  ':hover': {
-    cursor: 'default',
-  },
-  paddingLeft: '8px',
-  paddingRight: '8px',
-};
-
-const CRUDIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1.1em',
-  height: '1.1em',
-  paddingBottom: '2px',
-  color: colorTheme.playListIconColor,
-};
-
-const AddFavIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.playListIconColor,
-};
-
-export const DiskIcon = {
-  minWidth: '36px',
-};
-
-export const FavList = ({
+export function FavList({
   onPlayOneFromFav,
   onPlayAllFromFav,
   playerSettings,
-}) => {
+}) {
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const playlistShouldReRender = useNoxSetting(
@@ -80,7 +48,6 @@ export const FavList = ({
     playlistIds,
     searchList,
     setSearchList,
-    favoriteList,
     selectedList,
     setSelectedList,
     setSongsStoredAsNewFav,
@@ -270,13 +237,13 @@ export const FavList = ({
             <PlayerSettingsButton AddFavIcon={AddFavIcon} />
             <HelpPanelButton AddFavIcon={AddFavIcon} />
           </Grid>
-          <NewFavDialog
-            id='NewFav'
-            keepMounted
-            openState={openNewDialog}
-            onClose={onNewFav}
-          />
         </Grid>
+        <NewFavDialog
+          id='NewFav'
+          keepMounted
+          openState={openNewDialog}
+          onClose={onNewFav}
+        />
         <Divider light />
         <List
           style={{ overflow: 'auto', maxHeight: 'calc(100% - 50px)' }}
@@ -286,7 +253,7 @@ export const FavList = ({
         >
           {renderSpecialList(searchList)}
           {false &&
-            renderSpecialList(favoriteList, () =>
+            renderSpecialList(favoritePlaylist, () =>
               setSelectedList(favoritePlaylist),
             )}
           {playlistIds && (
@@ -365,4 +332,36 @@ export const FavList = ({
       )}
     </React.Fragment>
   );
+}
+
+export const outerLayerBtn = { padding: 'unset' };
+
+export const CRUDBtn = {
+  ':hover': {
+    cursor: 'default',
+  },
+  paddingLeft: '8px',
+  paddingRight: '8px',
+};
+
+const CRUDIcon = {
+  ':hover': {
+    cursor: 'pointer',
+  },
+  width: '1.1em',
+  height: '1.1em',
+  paddingBottom: '2px',
+  color: colorTheme.playListIconColor,
+};
+
+const AddFavIcon = {
+  ':hover': {
+    cursor: 'pointer',
+  },
+  width: '1em',
+  color: colorTheme.playListIconColor,
+};
+
+export const DiskIcon = {
+  minWidth: '36px',
 };

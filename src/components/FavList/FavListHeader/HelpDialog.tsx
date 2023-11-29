@@ -10,9 +10,11 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import { useConfirm } from 'material-ui-confirm';
-import textToDialogContent from './DialogContent';
+
+// eslint-disable-next-line import/no-unresolved
+import textToDialogContent from '@components/dialogs/DialogContent';
 // @ts-ignore
-import changelogTxt from '../../../changelog.txt';
+import changelogTxt from '../../../../changelog.txt';
 
 interface Props {
   onClose: (val?: string) => void;
