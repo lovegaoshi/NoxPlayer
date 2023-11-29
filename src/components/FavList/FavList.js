@@ -1,4 +1,4 @@
-import React, { useCallback, memo, useContext } from 'react';
+import React from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -99,13 +99,11 @@ export const FavList = ({
     onDragEnd,
     updateSubscribeFavList,
   } = useFavList();
-  const handleSearch = useCallback(
-    (list) => {
-      setSearchList(list);
-      setSelectedList(list);
-    },
-    [searchList, selectedList],
-  );
+
+  const handleSearch = (list) => {
+    setSearchList(list);
+    setSelectedList(list);
+  };
 
   const handlePlayListClick = (FavList2) => {
     onPlayAllFromFav(FavList2);

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 
-import useNoxStore from '@hooks/useStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { defaultSearchList, dummyFavList } from '@objects/Playlist';
 import useAnalytics from '@APM/utils/Analytics';

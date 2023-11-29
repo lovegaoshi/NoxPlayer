@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useState,
-  useCallback,
-  memo,
-} from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -136,15 +130,12 @@ export default function ({
     setOpen(false);
   };
 
-  const handleSearch = useCallback(
-    (list) => {
-      setSearchList(list);
-      setSelectedList(list);
-      setOpen(false);
-      setFavOpen(true);
-    },
-    [searchList, selectedList],
-  );
+  const handleSearch = (list) => {
+    setSearchList(list);
+    setSelectedList(list);
+    setOpen(false);
+    setFavOpen(true);
+  };
 
   const handlePlayListClick = (FavList) => {
     onPlayAllFromFav(FavList);
