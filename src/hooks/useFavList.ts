@@ -40,7 +40,9 @@ const useFavList = () => {
   const searchList = useNoxSetting((state) => state.searchPlaylist);
   const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
 
-  const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState(null);
+  const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState<
+    NoxMedia.Song[]
+  >([]);
   const [openNewDialog, setOpenNewDialog] = useState(false);
   const [searchInputVal, setSearchInputVal] = useState('');
 
@@ -69,23 +71,23 @@ const useFavList = () => {
     if (!favName) return;
     // console.log(val)
     const favList = dummyPlaylist(favName);
-    if (songsStoredAsNewFav) {
+    if (songsStoredAsNewFav.length > 0) {
       favList.songList = songsStoredAsNewFav;
-      setSongsStoredAsNewFav(null);
+      setSongsStoredAsNewFav([]);
       favList.subscribeUrl = [searchInputVal.slice()];
     }
     addPlaylist(favList);
   };
 
-  const handleDeleteFavClick = (playlistName: string, id: string) => {
+  const handleDeleteFavClick = (playlist: NoxMedia.Playlist) => {
     confirm({
       title: '删除歌单？',
-      description: `确认要删除歌单 ${playlistName} 吗？`,
+      description: `确认要删除歌单 ${playlist.title} 吗？`,
       confirmationText: '好的',
       cancellationText: '算了',
     })
       .then(() => {
-        removePlaylist(id);
+        removePlaylist(playlist.id);
         // @ts-ignore
         if (selectedList && selectedList.id === id) setSelectedList(undefined);
       })

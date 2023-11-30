@@ -15,12 +15,14 @@ import Input from '@mui/material/Input';
 import { useNoxSetting } from '@APM/stores/useApp';
 
 interface Props {
+  id: string;
   onClose: (val?: string) => void;
   openState: boolean;
 }
 export const NewFavDialog = function NewFavDialog({
   onClose,
   openState,
+  id,
 }: Props) {
   const [favName, setfavName] = useState('');
 
@@ -40,7 +42,7 @@ export const NewFavDialog = function NewFavDialog({
 
   return (
     <div>
-      <Dialog open={openState}>
+      <Dialog open={openState} id={id}>
         <DialogTitle>新建歌单</DialogTitle>
         <DialogContent>
           <TextField
@@ -69,6 +71,7 @@ export const NewFavDialog = function NewFavDialog({
 };
 
 interface AddFavDialogProps {
+  id: string;
   onClose: ({
     songs,
     fromList,
@@ -89,6 +92,7 @@ export const AddFavDialog = function AddFavDialog({
   fromList,
   songs,
   isMobile = false,
+  id,
 }: AddFavDialogProps) {
   const [favId, setfavId] = useState('');
   const playlists = useNoxSetting((state) => state.playlists);
@@ -118,7 +122,7 @@ export const AddFavDialog = function AddFavDialog({
 
   return (
     <div>
-      <Dialog open={openState}>
+      <Dialog open={openState} id={id}>
         <DialogTitle>{`添加 ${playlistTitle()} 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile ? '50vw' : 400, minHeight: 50 }}>
