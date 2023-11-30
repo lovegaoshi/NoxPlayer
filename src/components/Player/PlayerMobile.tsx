@@ -24,7 +24,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }: Props) {
     currentAudio,
     showLyric,
     setShowLyric,
-    playerSettings,
+    playerSetting,
 
     onPlayOneFromFav,
     onPlayAllFromFav,
@@ -134,7 +134,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }: Props) {
             onCoverClick={onCoverClick}
             onAudioListsChange={onAudioListsChange}
             onAudioListsPanelChange={setAudioListsPanelState}
-            hideCover={playerSettings?.hideCoverInMobile}
+            hideCover={playerSetting?.hideCoverInMobile}
             musicSrcParser={musicSrcParser}
           />
         </Box>

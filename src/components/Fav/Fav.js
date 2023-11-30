@@ -134,7 +134,8 @@ export const Fav = function Fav({
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
-  const { playerSettings, onPlayOneFromFav } = usePlayer({});
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const { onPlayOneFromFav } = usePlayer({});
 
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
@@ -271,7 +272,7 @@ export const Fav = function Fav({
             onClick={() =>
               onPlayOneFromFav(song, {
                 ...FavList,
-                songList: playerSettings.keepSearchedSongListWhenPlaying
+                songList: playerSetting.keepSearchedSongListWhenPlaying
                   ? rows
                   : FavList.songList,
               })
@@ -283,7 +284,7 @@ export const Fav = function Fav({
               </ListItemIcon>
             )}
             <ListItemText
-              primary={getName(song, playerSettings.parseSongName)}
+              primary={getName(song, playerSetting.parseSongName)}
             />
           </ListItemButton>
         </StyledTableCell>

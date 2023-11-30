@@ -17,7 +17,6 @@ import {
 const usePlayer = ({ isMobile = false }) => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
-  const playerSettings = useNoxSetting((state) => state.playerSetting);
   const setCurrentPlayingList = useNoxSetting(
     (state) => state.setCurrentPlayingList,
   );
@@ -187,7 +186,7 @@ const usePlayer = ({ isMobile = false }) => {
 
   const sendBiliHeartbeat = async (song: NoxMedia.Song, debug = false) => {
     clearInterval(biliHeartbeat.current);
-    if (playerSettings.sendBiliHeartbeat) return;
+    if (playerSetting.sendBiliHeartbeat) return;
     initBiliHeartbeat({ bvid: song.bvid, cid: song.id });
     if (debug) checkBiliVideoPlayed(song.bvid);
   };
@@ -252,7 +251,7 @@ const usePlayer = ({ isMobile = false }) => {
     currentAudioInst,
     showLyric,
     setShowLyric,
-    playerSettings,
+    playerSetting,
     setPlayerSettings,
 
     onPlayOneFromFav,

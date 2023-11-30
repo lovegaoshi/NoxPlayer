@@ -25,9 +25,6 @@ export default function Player({ songList }: Props) {
     currentAudioInst,
     showLyric,
     setShowLyric,
-    playerSettings,
-
-    onPlayAllFromFav,
     onPlayModeChange,
     onAudioVolumeChange,
     onAudioListsChange,
@@ -70,12 +67,7 @@ export default function Player({ songList }: Props) {
 
   return (
     <React.Fragment>
-      {params && (
-        <FavList
-          onPlayAllFromFav={onPlayAllFromFav}
-          playerSettings={playerSettings}
-        />
-      )}
+      <FavList />
       {currentAudio?.id && (
         <LyricOverlay
           showLyric={showLyric}

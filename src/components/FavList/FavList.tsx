@@ -13,7 +13,7 @@ import PlaylistList from './FavListEntry/PlaylistList';
 
 const { colorTheme } = skinPreset;
 
-export function FavList({ playerSettings }) {
+export function FavList() {
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
@@ -28,7 +28,7 @@ export function FavList({ playerSettings }) {
     updateSubscribeFavList,
   } = useFavList();
 
-  const handleSearch = (list) => {
+  const handleSearch = (list: NoxMedia.Playlist) => {
     setSearchList(list);
     setSelectedList(list);
   };
@@ -77,7 +77,6 @@ export function FavList({ playerSettings }) {
                 subscribeUrls,
               })
             }
-            playerSettings={playerSettings}
           />
         )}
       </Box>
