@@ -14,9 +14,7 @@ import PlaylistList from './FavListEntry/PlaylistList';
 const { colorTheme } = skinPreset;
 
 export function FavList() {
-  const playlistShouldReRender = useNoxSetting(
-    (state) => state.playlistShouldReRender,
-  );
+  const _ = useNoxSetting((state) => state.playlistShouldReRender);
   const {
     setSearchList,
     selectedList,
@@ -71,7 +69,7 @@ export function FavList() {
             FavList={selectedList}
             handleDeleteFromSearchList={handleDeleteFromSearchList}
             handleAddToFavClick={handleAddToFavClick}
-            rssUpdate={(subscribeUrls) =>
+            rssUpdate={(subscribeUrls: string[]) =>
               updateSubscribeFavList({
                 playlist: selectedList,
                 subscribeUrls,

@@ -15,7 +15,7 @@ import { CRUDBtn, CRUDIcon, DiskIcon, outerLayerBtn } from '../Styles';
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  key: string;
+  key2: string;
   setSelectedList: (playlist: NoxMedia.Playlist) => void;
   handleAddToFavClick: (playlist: NoxMedia.Playlist) => void;
   onPlayAllFromFav: (playlist: NoxMedia.Playlist) => void;
@@ -25,14 +25,14 @@ interface Props {
 
 export function PlaylistEntry({
   playlist,
-  key,
+  key2,
   setSelectedList,
   handleAddToFavClick,
   onPlayAllFromFav,
   handleDeleteFavClick,
 }: Props) {
   return (
-    <React.Fragment key={key}>
+    <React.Fragment key={key2}>
       <ListItemButton
         disableRipple
         sx={outerLayerBtn}

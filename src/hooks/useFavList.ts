@@ -22,7 +22,6 @@ import { reorder } from '@APM/utils/Utils';
 
 interface UpdateSubscribeFavListProps {
   playlist: NoxMedia.Playlist;
-  setSelectedList: (playlist: NoxMedia.Playlist) => void;
   subscribeUrls?: string[];
 }
 

@@ -22,6 +22,7 @@ export default function Search({
   const [progressVal, setProgressVal] = useState(100);
   const [loading, setLoading] = useState(false);
   const searchPlaylist = useNoxSetting((state) => state.searchPlaylist);
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
 
   // TODO: type
   const onSearchTextChange = (e: any) => {
@@ -36,6 +37,7 @@ export default function Search({
       songList: await searchBiliURLs({
         input,
         progressEmitter: setProgressVal,
+        fastSearch: playerSetting.fastBiliSearch,
       }),
     });
     setLoading(false);

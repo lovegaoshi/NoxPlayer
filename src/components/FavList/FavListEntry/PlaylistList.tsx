@@ -44,7 +44,7 @@ export default function PlaylistList() {
         component='nav'
       >
         <SearchlistEntry
-          key='key'
+          key2='key'
           playlist={searchList}
           setSelectedList={setSelectedList}
           handleAddToFavClick={handleAddToFavClick}
@@ -57,7 +57,7 @@ export default function PlaylistList() {
         />
         {false && (
           <SearchlistEntry
-            key='key'
+            key2='key'
             playlist={favoritePlaylist}
             setSelectedList={setSelectedList}
             handleAddToFavClick={handleAddToFavClick}
@@ -92,7 +92,7 @@ export default function PlaylistList() {
                         }}
                       >
                         <PlaylistEntry
-                          key={String(index)}
+                          key2={String(index)}
                           playlist={playlists[item]!}
                           setSelectedList={setSelectedList}
                           handleAddToFavClick={handleAddToFavClick}

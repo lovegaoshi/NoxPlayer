@@ -180,6 +180,7 @@ export const Fav = function Fav({
    */
   const primePageToCurrentPlaying = () => {
     try {
+      return;
       const songList = getCurrentRow();
       readLocalStorage('CurrentPlaying').then((r) => {
         for (let i = 0, n = songList.length; i < n; i++) {
