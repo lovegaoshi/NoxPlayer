@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/RandomGIF';
+import RandomGIFIcon from './FavHeader/RandomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import SongSearchBar from '../dialogs/SongSearchbar';
 

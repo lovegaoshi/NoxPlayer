@@ -23,7 +23,7 @@ import { getName } from '@APM/utils/re';
 import useFav from '@hooks/useFav';
 import { songText } from './FavHeader';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/RandomGIF';
+import RandomGIFIcon from './FavHeader/RandomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
 import { getPlayerSettingKey } from '../../utils/ChromeStorage';
 import SongSearchBar from '../dialogs/SongSearchbar';
