@@ -9,9 +9,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { sendBVLike } from '../utils/Bilibili/BiliOperate';
 import { skins } from '../styles/skin';
 
-export const BiliBiliIconSVG = function BiliBiliIconSVG() {
+interface SVGProps {
+  onClick?: () => void;
+}
+export const BiliBiliIconSVG = function BiliBiliIconSVG({ onClick }: SVGProps) {
   return (
     <svg
+      onClick={onClick}
       role='img'
       width='26'
       height='26'
@@ -30,11 +34,14 @@ export const BiliBiliIconSVG = function BiliBiliIconSVG() {
   );
 };
 
-/**
- * go to a bilibili page with the given bvid.
- * @param {string} bvid bvid of the video.
- */
-export const toBiliBili = function toBiliBili({ bvid, episode = null }) {
+interface BilibiliProps {
+  bvid: string;
+  episode?: number;
+}
+export const toBiliBili = function toBiliBili({
+  bvid,
+  episode,
+}: BilibiliProps) {
   let url = `https://www.bilibili.com/video/${bvid}`;
   if (episode) {
     url += `?p=${episode}`;
@@ -45,7 +52,10 @@ export const toBiliBili = function toBiliBili({ bvid, episode = null }) {
  * go to a bilibili page with the given bvid.
  * @param {string} bvid bvid of the video.
  */
-export const goToBiliBili = function goToBiliBili({ bvid, episode = null }) {
+export const goToBiliBili = function goToBiliBili({
+  bvid,
+  episode,
+}: BilibiliProps) {
   window.open(toBiliBili({ bvid, episode }));
 };
 
@@ -58,16 +68,24 @@ const buttonStyle = css`
   color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
 `;
 
+interface Props {
+  bvid: string;
+  liked?: number;
+  handleThumbsUp?: () => void;
+  handleThumbedUp?: () => void;
+}
 export function BiliBiliIcon({
   bvid,
   liked,
   handleThumbsUp = () => {},
   handleThumbedUp = () => goToBiliBili({ bvid }),
-}) {
+}: Props) {
   if (liked === 1) {
     return (
       <span
+        aria-label='thumbedUp'
         className='group audio-download'
+        // @ts-expect-error
         css={buttonStyle}
         onClick={handleThumbedUp}
         title='已点赞'
@@ -82,7 +100,9 @@ export function BiliBiliIcon({
   if (liked === undefined) {
     return (
       <span
+        aria-label='goToBilibili'
         className='group audio-download'
+        // @ts-expect-error
         css={buttonStyle}
         onClick={handleThumbedUp}
         title='前往视频'
@@ -96,7 +116,9 @@ export function BiliBiliIcon({
   }
   return (
     <span
+      aria-label='thumbUp'
       className='group audio-download'
+      // @ts-expect-error
       css={buttonStyle}
       onClick={() => sendBVLike(bvid, handleThumbsUp)}
       title='点赞'

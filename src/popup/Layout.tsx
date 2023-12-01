@@ -8,8 +8,10 @@ import { skinPreset } from '../styles/skin';
 // import PlayerMobile from '../components/PlayerMobile';
 // import Player from '../components/Player';
 
-const PlayerMobile = React.lazy(() => import('../components/PlayerMobile'));
-const Player = React.lazy(() => import('../components/Player'));
+const PlayerMobile = React.lazy(
+  () => import('../components/Player/PlayerMobile'),
+);
+const Player = React.lazy(() => import('../components/Player/Player'));
 
 const { colorTheme } = skinPreset;
 

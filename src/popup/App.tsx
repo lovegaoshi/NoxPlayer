@@ -4,7 +4,6 @@ import isMobile from 'is-mobile';
 import useTimer from '@hooks/useTimer';
 import PageLayout from './Layout';
 import { skins } from '../styles/skin';
-import PlayerContextsProvider from '../contexts/PlayerContextWrapper';
 import useInitializeStore from '../stores/useInitializeStore';
 
 export default function App() {
@@ -12,6 +11,7 @@ export default function App() {
   const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>([]);
   const [backgroundSrc, setBackgroundSrc] = useState<string>('');
   const { initializeStores } = useInitializeStore();
+  // eslint-disable-next-line no-unused-vars
   const timer = useTimer();
 
   useEffect(() => {
@@ -37,8 +37,6 @@ export default function App() {
 
   // console.log(currentSongList)
   return (
-    <PlayerContextsProvider>
-      <PageLayout songList={currentSongList} backgroundSrc={backgroundSrc} />
-    </PlayerContextsProvider>
+    <PageLayout songList={currentSongList} backgroundSrc={backgroundSrc} />
   );
 }

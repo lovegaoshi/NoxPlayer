@@ -29,7 +29,7 @@ export default skinTemplate({
         'https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png',
       );
     }),
-  playerBackground: fetchVideoPlayUrl('BV1Yv4y1C7K5'),
+  playerBackground: () => fetchVideoPlayUrl('BV1Yv4y1C7K5'),
   playerBackgroundVideo: true,
   // 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
   gifs,

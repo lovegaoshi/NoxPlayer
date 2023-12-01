@@ -14,19 +14,19 @@ const getRandomNumberExclude = (randRange: number, exclude = -1) => {
 
 interface randomGIFProps {
   gifs: Array<string>;
-  favList: string;
+  playlist: string;
   onClickCallback: () => void;
 }
 
 /**
  * returns a button that shows a random gif from the input array. when clicked, change the gif into another one.
  * @param {array} gifs a list of gifs.
- * @param {array} favList an identifier/signal that changes the gif.
+ * @param {array} playlist an identifier/signal that changes the gif.
  * @param {function} onClickCallback extra onclick function when button is clicked.
  */
 export default function randomGIFButton({
   gifs,
-  favList,
+  playlist,
   onClickCallback = () => {},
 }: randomGIFProps) {
   const [randomGIFSrc, setRandomGIFSrc] = useState(
@@ -35,7 +35,7 @@ export default function randomGIFButton({
 
   useEffect(() => {
     setRandomGIFSrc(getRandomNumberExclude(gifs.length, randomGIFSrc));
-  }, [favList]);
+  }, [playlist]);
 
   return (
     <IconButton

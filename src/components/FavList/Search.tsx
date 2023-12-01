@@ -8,23 +8,21 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
-import { defaultSearchList } from '@objects/Playlist';
+import { useNoxSetting } from '@APM/stores/useApp';
 
 interface Props {
   handleSearch: (input: NoxMedia.Playlist) => void;
-  handleOpenFav: () => void;
-  playListIcon: JSX.Element;
   handleSetSearchInputVal: (input: string) => void;
 }
 export default function Search({
   handleSearch,
-  handleOpenFav,
-  playListIcon,
   handleSetSearchInputVal,
 }: Props) {
   const [searchValue, setSearchValue] = useState('');
   const [progressVal, setProgressVal] = useState(100);
   const [loading, setLoading] = useState(false);
+  const searchPlaylist = useNoxSetting((state) => state.searchPlaylist);
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
 
   // TODO: type
   const onSearchTextChange = (e: any) => {
@@ -34,14 +32,14 @@ export default function Search({
   const searchBili = async (input: string) => {
     setLoading(true);
     // handleSearch
-    handleSearch(
-      defaultSearchList({
-        songList: await searchBiliURLs({
-          input,
-          progressEmitter: setProgressVal,
-        }),
+    handleSearch({
+      ...searchPlaylist,
+      songList: await searchBiliURLs({
+        input,
+        progressEmitter: setProgressVal,
+        fastSearch: playerSetting.fastBiliSearch,
       }),
-    );
+    });
     setLoading(false);
   };
 
@@ -102,9 +100,6 @@ export default function Search({
           paddingTop: '12px',
         }}
       >
-        <FavListButton loading={loading} handleOpenFav={handleOpenFav}>
-          {playListIcon}
-        </FavListButton>
         <TextField
           id='outlined-basic'
           label='搜索b站url'
@@ -117,33 +112,5 @@ export default function Search({
         {progressBar()}
       </Box>
     </Box>
-  );
-}
-
-interface FavListButtonProps {
-  handleOpenFav?: () => void;
-  loading: boolean;
-  children: JSX.Element;
-}
-
-function FavListButton({
-  handleOpenFav,
-  loading,
-  children,
-}: FavListButtonProps) {
-  if (!handleOpenFav) {
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    return <></>;
-  }
-  return (
-    <IconButton
-      size='large'
-      onClick={() => {
-        handleOpenFav();
-      }}
-      sx={{ fontSize: '40px', marginTop: loading ? '-42px' : '0px' }}
-    >
-      {children}
-    </IconButton>
   );
 }

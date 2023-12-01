@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import Dialog from '../dialogs/HelpDialog';
+import { SxProps } from '@mui/material';
+import Dialog from './HelpDialog';
 
 interface props {
-  AddFavIcon: Object;
-  onClosedDialogFunc: Function;
+  sx: SxProps;
+  onClosedDialogFunc?: Function;
 }
 
-/**
- * a component that includes a
- * @param {Object} AddFavIcon styles of the icon used inside.
- * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
- * @returns
- */
 export default function helpPanelButton({
-  AddFavIcon,
+  sx,
   onClosedDialogFunc = () => {},
 }: props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
@@ -25,7 +20,7 @@ export default function helpPanelButton({
     <React.Fragment>
       <Tooltip title='帮助'>
         <IconButton size='large' onClick={() => setOpenSettingsDialog(true)}>
-          <HelpOutlineIcon sx={AddFavIcon} />
+          <HelpOutlineIcon sx={sx} />
         </IconButton>
       </Tooltip>
       <Dialog

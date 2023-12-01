@@ -1,15 +1,15 @@
 {
   "name": "nox-player",
   "description": "电闹播放器 / nox-player: 一个换nox皮的电梓播放器 / 第三方哔哩哔哩(bilibili.com)音频播放器 / A 3rd party Bilibili audio player.",
-  "main": "index.js",
+  "main": "index.tsx",
   "author": "Ken Wang",
   "private": true,
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --env dev",
     "watch": "webpack --env devBuild --watch",
-    "dev": "mv build/js/ffmpeg-core.js ffmpeg-core.js && mv build/js/ffmpeg-core.wasm ffmpeg-core.wasm && webpack --env devBuild && mv ffmpeg-core.js build/js/ffmpeg-core.js && mv ffmpeg-core.wasm build/js/ffmpeg-core.wasm",
-    "build": "webpack --env prod && cp node_modules/@ffmpeg/core/dist/umd/ffmpeg-core.js build/js/ffmpeg-core.js && cp node_modules/@ffmpeg/core/dist/umd/ffmpeg-core.wasm build/js/ffmpeg-core.wasm",
+    "dev": "mv build/js/ffmpeg-core.worker.js ffmpeg-core.worker.js && mv build/js/ffmpeg-core.js ffmpeg-core.js && mv build/js/ffmpeg-core.wasm ffmpeg-core.wasm && webpack --env devBuild && mv ffmpeg-core.js build/js/ffmpeg-core.js && mv ffmpeg-core.wasm build/js/ffmpeg-core.wasm && mv ffmpeg-core.worker.js build/js/ffmpeg-core.worker.js",
+    "build": "webpack --env prod && cp node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.js build/js/ffmpeg-core.js && cp node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.wasm build/js/ffmpeg-core.wasm && cp node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.worker.js build/js/ffmpeg-core.worker.js",
     "dep": "git submodule update --remote --merge --recursive",
     "compile": "tsc"
   },
@@ -21,6 +21,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0",
     "@types/md5": "^2.3.5",
     "@types/react": "^18.2.39",
+    "@types/react-beautiful-dnd": "^13.1.7",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
@@ -62,7 +63,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@ffmpeg/core": "^0.12.4",
+    "@ffmpeg/core-mt": "^0.12.4",
     "@ffmpeg/ffmpeg": "^0.12.7",
     "@ffmpeg/util": "^0.12.1",
     "@fontsource/roboto": "^5.0.8",

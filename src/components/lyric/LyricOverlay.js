@@ -14,66 +14,64 @@ const theme = {
   background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
 };
 
-export default memo(
-  ({
-    showLyric,
-    currentTime,
-    audioName,
-    audioId,
-    audioCover,
-    isMobile = false,
-    closeLyric = () => {},
-  }) => {
-    return (
-      <div>
-        <Dialog
-          fullScreen
-          open={showLyric}
-          onClose={closeLyric}
-          hideBackdrop
-          TransitionComponent={Transition}
-          PaperProps={{
-            style: {
-              backgroundImage: `url(${audioCover})`,
-              backgroundSize: 'cover',
-              boxShadow: 'none',
-            },
+export default function LyricOverlay({
+  showLyric,
+  currentTime,
+  audioName,
+  audioId,
+  audioCover,
+  isMobile = false,
+  closeLyric = () => {},
+}) {
+  return (
+    <div>
+      <Dialog
+        fullScreen
+        open={showLyric}
+        onClose={closeLyric}
+        hideBackdrop
+        TransitionComponent={Transition}
+        PaperProps={{
+          style: {
+            backgroundImage: `url(${audioCover})`,
+            backgroundSize: 'cover',
+            boxShadow: 'none',
+          },
+        }}
+      >
+        <div
+          id='blur-glass'
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
           }}
         >
-          <div
-            id='blur-glass'
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}
+          <IconButton
+            color='inherit'
+            onClick={closeLyric}
+            aria-label='close'
+            style={{ borderRadius: '0' }}
           >
-            <IconButton
-              color='inherit'
-              onClick={closeLyric}
-              aria-label='close'
-              style={{ borderRadius: '0' }}
-            >
-              <KeyboardArrowDownIcon />
-            </IconButton>
-            {isMobile ? (
-              <LyricMobile
-                currentTime={currentTime}
-                audioName={audioName}
-                audioId={audioId}
-                audioCover={audioCover}
-              />
-            ) : (
-              <Lyric
-                currentTime={currentTime}
-                audioName={audioName}
-                audioId={audioId}
-                audioCover={audioCover}
-              />
-            )}
-          </div>
-        </Dialog>
-      </div>
-    );
-  },
-);
+            <KeyboardArrowDownIcon />
+          </IconButton>
+          {isMobile ? (
+            <LyricMobile
+              currentTime={currentTime}
+              audioName={audioName}
+              audioId={audioId}
+              audioCover={audioCover}
+            />
+          ) : (
+            <Lyric
+              currentTime={currentTime}
+              audioName={audioName}
+              audioId={audioId}
+              audioCover={audioCover}
+            />
+          )}
+        </div>
+      </Dialog>
+    </div>
+  );
+}

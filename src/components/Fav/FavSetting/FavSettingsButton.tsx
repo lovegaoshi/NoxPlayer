@@ -9,14 +9,13 @@ import {
   getPlayerSettingKey,
   readLocalStorage,
   setLocalStorage,
-  PlayListDict,
 } from '@utils/ChromeStorage';
 import { STORAGE_KEYS } from '@enums/Storage';
 import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
 import FavSettingLoading from './FavSettingLoading';
 
 interface props {
-  currentList: PlayListDict;
+  currentList: NoxMedia.Playlist;
   rssUpdate: Function;
 }
 
@@ -47,7 +46,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
 
   useEffect(() => {
     const checkFavListAutoUpdate = async (
-      favList: PlayListDict,
+      favList: NoxMedia.Playlist,
       updateInterval = 1000 * 60 * 60 * 24,
     ) => {
       if (
@@ -86,9 +85,11 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
     checkFavListAutoUpdate(currentList).then((val) => {
       if (val) {
         setLoading(true);
-        rssUpdate()
-          .then(() => setLoading(false))
-          .catch(() => setLoading(false));
+        try {
+          rssUpdate();
+        } finally {
+          setLoading(false);
+        }
       }
     });
   }, [currentList]);

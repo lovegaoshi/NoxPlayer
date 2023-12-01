@@ -10,12 +10,20 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import { useConfirm } from 'material-ui-confirm';
-import { textToDialogContent } from './GenericDialog';
-import changelogTxt from '../../../changelog.txt';
 
-export default function HelpDialog({ onClose, openState, id }) {
+// eslint-disable-next-line import/no-unresolved
+import textToDialogContent from '@components/dialogs/DialogContent';
+// @ts-ignore
+import changelogTxt from '../../../../changelog.txt';
+
+interface Props {
+  onClose: (val?: string) => void;
+  openState: boolean;
+  id: string;
+}
+export default function HelpDialog({ onClose, openState, id }: Props) {
   const confirm = useConfirm();
-  const openChangelogWindow = (val) => {
+  const openChangelogWindow = (val: string) => {
     confirm({
       title: '版本更新',
       content: textToDialogContent(val.split('\n')),
