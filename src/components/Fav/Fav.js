@@ -5,7 +5,6 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
@@ -16,16 +15,8 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
-import Tooltip from '@mui/material/Tooltip';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { contextMenu } from 'react-contexify';
 import { useHotkeys } from 'react-hotkeys-hook';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
-import { getName } from '@APM/utils/re';
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
@@ -38,7 +29,8 @@ import Menu from './Favmenu';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';
 
-import FavTableActions from './FavTableActions';
+import FavTableActions from './SongListTableActions';
+import SongRow from './SongRow';
 
 const { colorTheme } = skinPreset;
 
@@ -71,7 +63,7 @@ export const Fav = function Fav({
   });
   const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
 
-  const { rows, setRows, requestSearch, handleSearch } = useFav(FavList);
+  const { rows, setRows, handleSearch } = useFav(FavList);
 
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));
@@ -128,7 +120,7 @@ export const Fav = function Fav({
     setTimeout(() => {
       searchBarRef.current.value = searchedVal;
     }, 100);
-    requestSearch({ target: { value: searchedVal } });
+    handleSearch(searchedVal);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -153,106 +145,6 @@ export const Fav = function Fav({
   const openSongEditDialog = (songObj) => {
     setSongObjEdited(songObj);
     setSongEditDialogOpen(true);
-  };
-
-  const rowRenderer = ({ song, index }) => {
-    return (
-      <StyledTableRow
-        key={index}
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-        onContextMenu={(event, row, index) => {
-          event.preventDefault();
-          contextMenu.show({
-            id: 'favmenu',
-            event,
-            props: {
-              song,
-              performSearch,
-              onDelete: () => handleDeleteFromSearchList(FavList.id, song.id),
-              FavList,
-              reloadBVid: favListReloadBVid,
-              onSongEdit: () => openSongEditDialog(song),
-            },
-          });
-        }}
-      >
-        <StyledTableCell
-          align='left'
-          sx={{
-            paddingLeft: '8px',
-            width: '45%',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          <ListItemButton
-            variant='text'
-            sx={songText}
-            onClick={() =>
-              onPlayOneFromFav(song, {
-                ...FavList,
-                songList: playerSetting.keepSearchedSongListWhenPlaying
-                  ? rows
-                  : FavList.songList,
-              })
-            }
-          >
-            {song.id === currentPlayingId && (
-              <ListItemIcon sx={{ minWidth: '30px' }}>
-                <PlayCircleIcon />
-              </ListItemIcon>
-            )}
-            <ListItemText
-              primary={getName(song, playerSetting.parseSongName)}
-            />
-          </ListItemButton>
-        </StyledTableCell>
-        <StyledTableCell
-          align='center'
-          sx={{
-            width: '10%',
-            fontSize: 4,
-            minWidth: 0,
-            color: colorTheme.uploaderCaptionColor,
-            whiteSpace: 'nowrap',
-          }}
-          style={{ overflow: 'visible' }}
-        >
-          <a
-            href={`https://space.bilibili.com/${song.singerId}`}
-            target='_blank'
-            rel='noreferrer'
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            {song.singer}
-          </a>
-        </StyledTableCell>
-        <StyledTableCell
-          align='right'
-          sx={{
-            paddingRight: '8px',
-            width: '45%',
-            whiteSpace: 'nowrap',
-          }}
-          style={{ paddingLeft: '40px', paddingRight: '8px' }}
-        >
-          <Tooltip title='添加到收藏歌单'>
-            <PlaylistAddIcon
-              sx={CRUDIcon}
-              onClick={() => handleAddToFavClick(FavList, song)}
-            />
-          </Tooltip>
-          <Tooltip title='删除歌曲'>
-            <DeleteOutlineOutlinedIcon
-              sx={CRUDIcon}
-              onClick={async () => {
-                await handleDeleteFromSearchList(FavList.id, song.id);
-                handleSearch(searchBarRef.current.value);
-              }}
-            />
-          </Tooltip>
-        </StyledTableCell>
-      </StyledTableRow>
-    );
   };
 
   return (
@@ -310,10 +202,7 @@ export const Fav = function Fav({
                     }}
                   />
                 )}
-                <SongSearchBar
-                  requestSearch={requestSearch}
-                  ref={searchBarRef}
-                />
+                <SongSearchBar handleSearch={handleSearch} ref={searchBarRef} />
               </Grid>
             </Grid>
           </Box>
@@ -361,7 +250,27 @@ export const Fav = function Fav({
                       page * rowsPerPage + rowsPerPage,
                     )
                   : rows
-                ).map((song, index) => rowRenderer({ song, index }))}
+                ).map((song, index) => (
+                  <SongRow
+                    song={song}
+                    index={index}
+                    playlist={FavList}
+                    performSearch={performSearch}
+                    handleDeleteFromSearchList={handleDeleteFromSearchList}
+                    favListReloadBVid={favListReloadBVid}
+                    openSongEditDialog={openSongEditDialog}
+                    playSong={(v) =>
+                      onPlayOneFromFav(v, {
+                        ...FavList,
+                        songList: playerSetting.keepSearchedSongListWhenPlaying
+                          ? rows
+                          : FavList.songList,
+                      })
+                    }
+                    searchBarRef={searchBarRef}
+                    handleAddToFavClick={handleAddToFavClick}
+                  />
+                ))}
               </TableBody>
               <TableFooter>
                 <TableRow>
@@ -422,14 +331,6 @@ const columns = [
     align: 'right',
   },
 ];
-
-const CRUDIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.songListIconColor,
-};
 
 export const songText = {
   fontSize: 16,

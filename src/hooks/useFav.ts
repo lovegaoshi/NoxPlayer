@@ -5,11 +5,6 @@ import { reParseSearch } from '@APM/utils/re';
 const useFav = (favlist: NoxMedia.Playlist) => {
   const [rows, setRows] = useState<NoxMedia.Song[]>([]);
 
-  const requestSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchedVal = e.target.value;
-    handleSearch(searchedVal);
-  };
-
   const handleSearch = (searchedVal: string) => {
     if (searchedVal === '') {
       setRows(favlist.songList);
@@ -20,7 +15,6 @@ const useFav = (favlist: NoxMedia.Playlist) => {
   return {
     rows,
     setRows,
-    requestSearch,
     handleSearch,
   };
 };
