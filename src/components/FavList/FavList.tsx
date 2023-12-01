@@ -66,9 +66,11 @@ export function FavList() {
       >
         {selectedList && (
           <Fav
-            FavList={selectedList}
+            playlist={selectedList}
             handleDeleteFromSearchList={handleDeleteFromSearchList}
             handleAddToFavClick={handleAddToFavClick}
+            // TODO: fix
+            // @ts-ignore
             rssUpdate={(subscribeUrls: string[]) =>
               updateSubscribeFavList({
                 playlist: selectedList,

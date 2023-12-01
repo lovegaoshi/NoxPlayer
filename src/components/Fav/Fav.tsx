@@ -12,12 +12,21 @@ import FavHeader from './FavHeader';
 
 const { colorTheme } = skinPreset;
 
+interface Props {
+  playlist?: NoxMedia.Playlist;
+  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
+  handleAddToFavClick: (v: NoxMedia.Playlist) => void;
+  handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
+}
 export default function Fav({
-  FavList,
+  playlist,
   rssUpdate,
   handleAddToFavClick,
   handleDeleteFromSearchList,
-}) {
+}: Props) {
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  if (!playlist) return <></>;
+
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
@@ -30,19 +39,19 @@ export default function Fav({
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef();
 
-  const { rows, setRows, handleSearch } = useFav(FavList);
+  const { rows, setRows, handleSearch } = useFav(playlist);
 
   /**
    * because of delayed state update/management, we need a reliable way to get
    * the current playlist songs (which may be filtered by some search string).
    * this method returns the accurate current playlist's songs.
-   * @returns rows when FavList is the same as the Favlist props; or Favlist.songlist
+   * @returns rows when playlist is the same as the playlist props; or playlist.songlist
    */
   const getCurrentRow = () => {
-    if (FavList !== null && rows !== null) {
+    if (playlist !== null && rows !== null) {
       return rows;
     }
-    return FavList.songList;
+    return playlist.songList;
   };
 
   /**
@@ -55,7 +64,7 @@ export default function Fav({
       const songList = getCurrentRow();
       readLocalStorage('CurrentPlaying').then((r) => {
         for (let i = 0, n = songList.length; i < n; i++) {
-          if (songList[i].id === r.cid) {
+          if (songList[i]!.id === r.cid) {
             setPage(Math.floor(i / defaultRowsPerPage));
             break;
           }
@@ -70,7 +79,7 @@ export default function Fav({
     setRowsPerPage(defaultRowsPerPage);
     primePageToCurrentPlaying();
     performSearch('');
-  }, [FavList.id]);
+  }, [playlist.id]);
 
   /**
    * forcefully search a string in the playlist.
@@ -78,21 +87,22 @@ export default function Fav({
    * the visual update of textfield's label; otherwise works just fine.
    * @param {string} searchedVal
    */
-  const performSearch = (searchedVal) => {
+  const performSearch = (searchedVal: string) => {
     setTimeout(() => {
-      searchBarRef.current.value = searchedVal;
+      if (searchBarRef.current) {
+        // TODO: fix type
+        // @ts-ignore
+        searchBarRef.current.value = searchedVal;
+      }
     }, 100);
     handleSearch(searchedVal);
   };
-
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  if (!FavList) return <></>;
 
   return (
     <React.Fragment>
       <Menu theme={colorTheme.generalTheme} />
       <FavHeader
-        playlist={FavList}
+        playlist={playlist}
         rssUpdate={rssUpdate}
         page={page}
         primePageToCurrentPlaying={primePageToCurrentPlaying}
@@ -101,7 +111,7 @@ export default function Fav({
         setRows={setRows}
       />
       <SongList
-        playlist={FavList}
+        playlist={playlist}
         handleDeleteFromSearchList={handleDeleteFromSearchList}
         handleAddToFavClick={handleAddToFavClick}
         rssUpdate={rssUpdate}

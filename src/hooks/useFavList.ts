@@ -138,7 +138,7 @@ const useFavList = () => {
   }: UpdateSubscribeFavListProps) => {
     try {
       const oldListLength = playlist.songList.length;
-      const newList = await updateSubscribeFavListRaw({
+      const newList: NoxMedia.Playlist = await updateSubscribeFavListRaw({
         playlist,
         subscribeUrls,
         updatePlaylist,
