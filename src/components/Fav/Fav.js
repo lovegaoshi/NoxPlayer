@@ -1,28 +1,18 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState, useRef } from 'react';
-import { styled, createTheme } from '@mui/material/styles';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-
-import { zhCN } from '@mui/material/locale';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/RandomGIF';
 import { readLocalStorage } from '../../utils/ChromeStorage';
-import FavSettingsButtons from './FavSetting/FavSettingsButton';
-import SongSearchBar from '../dialogs/SongSearchbar';
 import Menu from './Favmenu';
 
 import SongList from './SongList';
+import FavHeader from './FavHeader';
 
 const { colorTheme } = skinPreset;
 
-export const Fav = function Fav({
+export default function Fav({
   FavList,
   rssUpdate,
   handleAddToFavClick,
@@ -101,54 +91,15 @@ export const Fav = function Fav({
   return (
     <React.Fragment>
       <Menu theme={colorTheme.generalTheme} />
-      <Box
-        sx={{ flexGrow: 1, maxHeight: '80px' }}
-        style={{ paddingBottom: '8px' }}
-      >
-        <Grid container spacing={2} style={{ padding: '10px' }}>
-          <Grid
-            item
-            xs={5}
-            style={{
-              textAlign: 'left',
-              padding: '0px',
-              paddingLeft: '12px',
-              paddingTop: '12px',
-            }}
-            overflow='hidden'
-          >
-            <Typography
-              variant='h6'
-              style={{
-                color: colorTheme.playlistCaptionColor,
-                whiteSpace: 'nowrap',
-                fontSize: '2rem',
-              }}
-            >
-              {FavList.title}
-            </Typography>
-          </Grid>
-          <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
-            <RandomGIFIcon
-              gifs={skinPreset.gifs}
-              favList={FavList.id + page.toString()}
-              onClickCallback={primePageToCurrentPlaying}
-            />
-          </Grid>
-          <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
-            {!FavList.id.includes('Special') && (
-              <FavSettingsButtons
-                currentList={FavList}
-                rssUpdate={async (subscribeUrls) => {
-                  const val = await rssUpdate(subscribeUrls);
-                  if (val !== null) setRows(val.songList);
-                }}
-              />
-            )}
-            <SongSearchBar handleSearch={handleSearch} ref={searchBarRef} />
-          </Grid>
-        </Grid>
-      </Box>
+      <FavHeader
+        playlist={FavList}
+        rssUpdate={rssUpdate}
+        page={page}
+        primePageToCurrentPlaying={primePageToCurrentPlaying}
+        handleSearch={handleSearch}
+        searchBarRef={searchBarRef}
+        setRows={setRows}
+      />
       <SongList
         playlist={FavList}
         handleDeleteFromSearchList={handleDeleteFromSearchList}
@@ -165,42 +116,4 @@ export const Fav = function Fav({
       />
     </React.Fragment>
   );
-};
-
-const theme = createTheme(
-  {
-    palette: {
-      primary: { main: '#1976d2' },
-    },
-  },
-  zhCN,
-);
-
-export const songText = {
-  fontSize: 16,
-  minWidth: 0,
-  overflow: 'hidden',
-  paddingBottom: '4px',
-  paddingTop: '4px',
-};
-
-export const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-export const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-    padding: 0,
-  },
-}));
+}

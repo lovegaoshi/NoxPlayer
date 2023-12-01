@@ -7,7 +7,7 @@ import useFavList from '@hooks/useFavList';
 import { skinPreset } from '@styles/skin';
 import Search from './Search';
 import Menu from '../menus/Favlistmenu';
-import { Fav } from '../Fav/Fav';
+import Fav from '../Fav/Fav';
 import FavListHeader from './FavListHeader/FavListHeader';
 import PlaylistList from './FavListEntry/PlaylistList';
 

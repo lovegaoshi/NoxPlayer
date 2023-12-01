@@ -1,9 +1,9 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -30,14 +30,14 @@ interface Props {
   playlist: NoxMedia.Playlist;
   handleAddToFavClick: (p: NoxMedia.Playlist, s: NoxMedia.Song) => void;
   handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
-  rssUpdate: (v: string[]) => Promise<void>;
+  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
   rows: NoxMedia.Song[];
-  handleSearch: (v: string) => void;
   page: number;
   setPage: (v: number) => void;
   defaultRowsPerPage: number;
   rowsPerPage: number;
   setRowsPerPage: (v: number) => void;
+  handleSearch: (v: string) => void;
   searchBarRef: any;
 }
 export default function Fav({
@@ -46,12 +46,12 @@ export default function Fav({
   handleAddToFavClick,
   rssUpdate,
   rows,
-  handleSearch,
   page,
   setPage,
   defaultRowsPerPage,
   rowsPerPage,
   setRowsPerPage,
+  handleSearch,
   searchBarRef,
 }: Props) {
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
@@ -274,32 +274,3 @@ const columns = [
     align: 'right',
   },
 ];
-
-export const songText = {
-  fontSize: 16,
-  minWidth: 0,
-  overflow: 'hidden',
-  paddingBottom: '4px',
-  paddingTop: '4px',
-};
-
-export const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-export const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 16,
-    padding: 0,
-  },
-}));
