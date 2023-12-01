@@ -11,18 +11,16 @@ import { searchBiliURLs } from '@APM/utils/BiliSearch';
 import { useNoxSetting } from '@APM/stores/useApp';
 
 interface Props {
-  handleSearch: (input: NoxMedia.Playlist) => void;
-  handleSetSearchInputVal: (input: string) => void;
+  setSearchInputVal: (input: string) => void;
 }
-export default function Search({
-  handleSearch,
-  handleSetSearchInputVal,
-}: Props) {
+export default function Search({ setSearchInputVal }: Props) {
   const [searchValue, setSearchValue] = useState('');
   const [progressVal, setProgressVal] = useState(100);
   const [loading, setLoading] = useState(false);
   const searchPlaylist = useNoxSetting((state) => state.searchPlaylist);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
+  const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
 
   // TODO: type
   const onSearchTextChange = (e: any) => {
@@ -31,15 +29,16 @@ export default function Search({
 
   const searchBili = async (input: string) => {
     setLoading(true);
-    // handleSearch
-    handleSearch({
+    const searchedList = {
       ...searchPlaylist,
       songList: await searchBiliURLs({
         input,
         progressEmitter: setProgressVal,
         fastSearch: playerSetting.fastBiliSearch,
       }),
-    });
+    };
+    setSearchList(searchedList);
+    setSelectedList(searchedList);
     setLoading(false);
   };
 
@@ -74,7 +73,7 @@ export default function Search({
           size='large'
           onClick={() => {
             searchBili(searchValue);
-            handleSetSearchInputVal(searchValue);
+            setSearchInputVal(searchValue);
           }}
           sx={{ fontSize: '40px' }}
         >

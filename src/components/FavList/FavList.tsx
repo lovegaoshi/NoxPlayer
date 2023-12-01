@@ -16,9 +16,7 @@ const { colorTheme } = skinPreset;
 export function FavList() {
   const _ = useNoxSetting((state) => state.playlistShouldReRender);
   const {
-    setSearchList,
     selectedList,
-    setSelectedList,
     setSearchInputVal,
 
     handleDeleteFromSearchList,
@@ -26,18 +24,10 @@ export function FavList() {
     updateSubscribeFavList,
   } = useFavList();
 
-  const handleSearch = (list: NoxMedia.Playlist) => {
-    setSearchList(list);
-    setSelectedList(list);
-  };
-
   return (
     <React.Fragment>
       <Menu theme={colorTheme.generalTheme} />
-      <Search
-        handleSearch={handleSearch}
-        handleSetSearchInputVal={setSearchInputVal}
-      />
+      <Search setSearchInputVal={setSearchInputVal} />
       <br />
       <Box // Mid Grid -- SideBar
         style={{
