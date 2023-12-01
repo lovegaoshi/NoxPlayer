@@ -3,27 +3,25 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
+import usePlaylist from '@hooks/usePlaylist';
 import { skinPreset } from '../../styles/skin';
 import { readLocalStorage } from '../../utils/ChromeStorage';
 import Menu from './Favmenu';
-
 import SongList from './SongList';
 import FavHeader from './FavHeader';
 
 const { colorTheme } = skinPreset;
 
 interface Props {
-  playlist?: NoxMedia.Playlist;
   rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
-  handleAddToFavClick: (v: NoxMedia.Playlist) => void;
-  handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
 }
-export default function Fav({
-  playlist,
-  rssUpdate,
-  handleAddToFavClick,
-  handleDeleteFromSearchList,
-}: Props) {
+export default function Fav({ rssUpdate }: Props) {
+  const playlist = useNoxSetting((state) => state.currentPlaylist);
+  const {
+    handleDeleteFromSearchList,
+    handleAddToFavClick,
+    updateSubscribeFavList,
+  } = usePlaylist();
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
 
