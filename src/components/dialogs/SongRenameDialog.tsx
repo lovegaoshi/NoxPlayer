@@ -13,14 +13,14 @@ import { getPlayerSettingKey } from '@utils/ChromeStorage';
 
 interface props {
   openState: boolean;
-  songObj: NoxMedia.Song;
+  song?: NoxMedia.Song;
   onClose: Function;
   saveList: Function;
 }
 
 export default function songRenameDialog({
   openState,
-  songObj,
+  song,
   onClose,
   saveList,
 }: props) {
@@ -31,12 +31,14 @@ export default function songRenameDialog({
   const circularProgress = () => <CircularProgress />;
 
   useEffect(() => {
-    setSongBVID(songObj.bvid);
-    setSongBVIndex(songObj.page ? String(songObj.page) : '');
-    setSongName(songObj.parsedName);
-  }, [songObj]);
+    if (!song) return;
+    setSongBVID(song.bvid);
+    setSongBVIndex(song.page ? String(song.page) : '');
+    setSongName(song.parsedName);
+  }, [song]);
 
   const handleClose = async () => {
+    if (!song) return;
     // 歌曲名：卡宝殿下，歌手名：甜儿，专辑名：
     const regExtractQQMusicName = (name: string) => {
       const extractedName = /歌曲名：(.+)，歌手名/.exec(name);
@@ -48,12 +50,12 @@ export default function songRenameDialog({
     };
     const extractedSongName = regExtractQQMusicName(songName);
     const result = { songBVID, songBVIndex, extractedSongName };
-    songObj.name = extractedSongName;
-    songObj.parsedName = extractedSongName;
+    song.name = extractedSongName;
+    song.parsedName = extractedSongName;
     onClose(result);
     switch ((await getBiliUser()).mid) {
       case 3493085134719196:
-        if (songObj.singerId !== 3493085134719196) break;
+        if (song.singerId !== 3493085134719196) break;
         // eslint-disable-next-line no-case-declarations
         const key = enqueueSnackbar('正在连接歌名修订API……', {
           variant: 'info',
@@ -83,9 +85,9 @@ export default function songRenameDialog({
           enqueueSnackbar('歌名修订API连接失败', { variant: 'error' });
         }
         break;
-      case songObj.singerId:
+      case song.singerId:
         window.open(
-          `https://member.bilibili.com/platform/upload/video/frame?type=edit&bvid=${songObj.bvid}`,
+          `https://member.bilibili.com/platform/upload/video/frame?type=edit&bvid=${song.bvid}`,
         );
         break;
       default:
