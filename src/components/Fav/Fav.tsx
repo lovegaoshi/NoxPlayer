@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
-import usePlaylist from '@hooks/usePlaylist';
 import { skinPreset } from '../../styles/skin';
 import Menu from './Favmenu';
 import SongList from './SongList';
@@ -17,18 +16,6 @@ export default function Fav() {
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
 
-  const {
-    handleDeleteFromSearchList,
-    handleAddToFavClick,
-    updateSubscribeFavList,
-  } = usePlaylist();
-
-  const rssUpdate = (subscribeUrls: string[]) =>
-    updateSubscribeFavList({
-      playlist,
-      subscribeUrls,
-    });
-
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
     1,
@@ -37,7 +24,7 @@ export default function Fav() {
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef();
 
-  const { rows, setRows, handleSearch } = useFav(playlist);
+  const { rows, setRows, handleSearch, rssUpdate } = useFav(playlist);
 
   /**
    * because of delayed state update/management, we need a reliable way to get
@@ -106,9 +93,7 @@ export default function Fav() {
       />
       <SongList
         playlist={playlist}
-        handleDeleteFromSearchList={handleDeleteFromSearchList}
         primePageToCurrentPlaying={primePageToCurrentPlaying}
-        handleAddToFavClick={handleAddToFavClick}
         rssUpdate={rssUpdate}
         rows={rows}
         handleSearch={handleSearch}

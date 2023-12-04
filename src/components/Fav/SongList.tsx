@@ -16,6 +16,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
+import usePlaylist from '@hooks/usePlaylist';
 import { skinPreset } from '../../styles/skin';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';
@@ -27,8 +28,6 @@ const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  handleAddToFavClick: (p: NoxMedia.Playlist, s: NoxMedia.Song) => void;
-  handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
   rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
   rows: NoxMedia.Song[];
   page: number;
@@ -42,8 +41,6 @@ interface Props {
 }
 export default function Fav({
   playlist,
-  handleDeleteFromSearchList,
-  handleAddToFavClick,
   rssUpdate,
   rows,
   page,
@@ -69,6 +66,7 @@ export default function Fav({
   useHotkeys('right', () => handleChangePage(null, page + 1));
 
   const saveCurrentList = () => updatePlaylist(playlist);
+  const { handleDeleteFromSearchList, handleAddToFavClick } = usePlaylist();
 
   useEffect(() => {
     setRowsPerPage(defaultRowsPerPage);
