@@ -5,7 +5,6 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFav';
 import usePlaylist from '@hooks/usePlaylist';
 import { skinPreset } from '../../styles/skin';
-import { readLocalStorage } from '../../utils/ChromeStorage';
 import Menu from './Favmenu';
 import SongList from './SongList';
 import FavHeader from './FavHeader';
@@ -14,6 +13,7 @@ const { colorTheme } = skinPreset;
 
 export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
+  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
 
@@ -57,26 +57,22 @@ export default function Fav() {
    * that is currently in play. the current song is found by reading the locally stored
    * value "currentPlaying". this function is in a useEffect.
    */
-  const primePageToCurrentPlaying = () => {
-    try {
-      const songList = getCurrentRow();
-      readLocalStorage('CurrentPlaying').then((r) => {
-        for (let i = 0, n = songList.length; i < n; i++) {
-          if (songList[i]!.id === r.cid) {
-            setPage(Math.floor(i / defaultRowsPerPage));
-            break;
-          }
-        }
-      });
-    } catch (e) {
-      console.error(e);
+  const primePageToCurrentPlaying = (
+    resetToFirstPage = false,
+    songList = getCurrentRow(),
+  ) => {
+    for (let i = 0, n = songList.length; i < n; i++) {
+      if (songList[i]!.id === currentPlayingId) {
+        return setPage(Math.floor(i / defaultRowsPerPage));
+      }
     }
+    if (resetToFirstPage) setPage(0);
   };
 
   useEffect(() => {
     setRowsPerPage(defaultRowsPerPage);
-    primePageToCurrentPlaying();
     performSearch('');
+    primePageToCurrentPlaying(true, playlist.songList);
   }, [playlist.id]);
 
   /**
@@ -111,6 +107,7 @@ export default function Fav() {
       <SongList
         playlist={playlist}
         handleDeleteFromSearchList={handleDeleteFromSearchList}
+        primePageToCurrentPlaying={primePageToCurrentPlaying}
         handleAddToFavClick={handleAddToFavClick}
         rssUpdate={rssUpdate}
         rows={rows}

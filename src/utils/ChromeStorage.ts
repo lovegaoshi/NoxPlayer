@@ -170,19 +170,19 @@ export const importStorageRaw = async (content: Uint8Array) => {
       (acc, curr) => ({ ...acc, [curr[0]]: curr[1] }),
       {},
     );
-    const playlists =
+    const playlists: string[] =
       JSON.parse(parsedContentDict[STORAGE_KEYS.MY_FAV_LIST_KEY]) || [];
     await clearPlaylists();
     await chrome.storage.local.set({
       [STORAGE_KEYS.MY_FAV_LIST_KEY]: playlists,
     });
-    for (const playlistID of playlists) {
+    playlists.forEach((playlistID) => {
       const playlist = JSON.parse(parsedContentDict[playlistID]);
       console.debug(playlist);
       chrome.storage.local.set({
         [playlist.id]: playlist,
       });
-    }
+    });
   } else {
     await chrome.storage.local.clear();
     await chrome.storage.local.set(parsedContent);

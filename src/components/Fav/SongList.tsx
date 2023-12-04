@@ -17,7 +17,6 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { skinPreset } from '../../styles/skin';
-import { readLocalStorage } from '../../utils/ChromeStorage';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';
 
@@ -39,6 +38,7 @@ interface Props {
   setRowsPerPage: (v: number) => void;
   handleSearch: (v: string) => void;
   searchBarRef: any;
+  primePageToCurrentPlaying: () => void;
 }
 export default function Fav({
   playlist,
@@ -53,6 +53,7 @@ export default function Fav({
   setRowsPerPage,
   handleSearch,
   searchBarRef,
+  primePageToCurrentPlaying,
 }: Props) {
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const playlistShouldReRender = useNoxSetting(
@@ -68,40 +69,6 @@ export default function Fav({
   useHotkeys('right', () => handleChangePage(null, page + 1));
 
   const saveCurrentList = () => updatePlaylist(playlist);
-
-  /**
-   * because of delayed state update/management, we need a reliable way to get
-   * the current playlist songs (which may be filtered by some search string).
-   * this method returns the accurate current playlist's songs.
-   * @returns rows when playlist is the same as the Favlist props; or Favlist.songlist
-   */
-  const getCurrentRow = () => {
-    if (playlist !== null && rows !== null) {
-      return rows;
-    }
-    return playlist.songList;
-  };
-
-  /**
-   * this method primes the current page displaying songs to the one containing the song
-   * that is currently in play. the current song is found by reading the locally stored
-   * value "currentPlaying". this function is in a useEffect.
-   */
-  const primePageToCurrentPlaying = () => {
-    try {
-      const songList = getCurrentRow();
-      readLocalStorage('CurrentPlaying').then((r) => {
-        for (let i = 0, n = songList.length; i < n; i++) {
-          if (songList[i]!.id === r.cid) {
-            setPage(Math.floor(i / defaultRowsPerPage));
-            break;
-          }
-        }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   useEffect(() => {
     setRowsPerPage(defaultRowsPerPage);
