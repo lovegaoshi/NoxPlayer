@@ -67,7 +67,7 @@ export default function FavHeader({ playlist, useFav }: Props) {
               currentList={playlist}
               rssUpdate={async (subscribeUrls: string[]) => {
                 const val = await rssUpdate(subscribeUrls);
-                if (val !== null) setRows(val.songList);
+                if (val !== undefined) setRows(val.songList);
               }}
             />
           )}
