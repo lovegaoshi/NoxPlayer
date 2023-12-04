@@ -5,10 +5,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import { UseFavP } from '@hooks/useFavPaginated';
-import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from './FavHeader/RandomGIF';
-import FavSettingsButtons from './FavSetting/FavSettingsButton';
-import SongSearchBar from '../dialogs/SongSearchbar';
+import { skinPreset } from '../../../styles/skin';
+import RandomGIFIcon from './RandomGIF';
+import FavSettingsButtons from '../FavSetting/FavSettingsButton';
+import SongSearchBar from '../../dialogs/SongSearchbar';
 
 const { colorTheme } = skinPreset;
 

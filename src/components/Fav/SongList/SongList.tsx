@@ -17,10 +17,10 @@ import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylist from '@hooks/usePlaylist';
 import { UseFavP } from '@hooks/useFavPaginated';
-import useRenameSong from './useRenameSong';
-import { skinPreset } from '../../styles/skin';
-import SongRenameDialog from '../dialogs/SongRenameDialog';
-import { ScrollBar } from '../../styles/styles';
+import useRenameSong from '../useRenameSong';
+import { skinPreset } from '../../../styles/skin';
+import SongRenameDialog from '../../dialogs/SongRenameDialog';
+import { ScrollBar } from '../../../styles/styles';
 
 import FavTableActions from './SongListTableActions';
 import SongRow from './SongRow';
@@ -36,10 +36,8 @@ export default function Fav({ playlist, useFav }: Props) {
     rssUpdate,
     rows,
     page,
-    setPage,
     defaultRowsPerPage,
     rowsPerPage,
-    setRowsPerPage,
     searchBarRef,
     saveCurrentList,
     performSearch,

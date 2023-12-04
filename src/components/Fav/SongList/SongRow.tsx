@@ -15,7 +15,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { skinPreset } from '../../styles/skin';
+import { skinPreset } from '../../../styles/skin';
 
 const { colorTheme } = skinPreset;
 

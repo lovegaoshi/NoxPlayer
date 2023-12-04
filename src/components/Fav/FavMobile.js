@@ -21,7 +21,7 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import useFav from '@hooks/useFav';
-import { songText } from './FavHeader';
+import { songText } from './FavHeader/FavHeader';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from './FavHeader/RandomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';

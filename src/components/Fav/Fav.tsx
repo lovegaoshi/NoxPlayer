@@ -5,8 +5,8 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFavPaginated';
 import { skinPreset } from '../../styles/skin';
 import Menu from './Favmenu';
-import SongList from './SongList';
-import FavHeader from './FavHeader';
+import SongList from './SongList/SongList';
+import FavHeader from './FavHeader/FavHeader';
 
 const { colorTheme } = skinPreset;
 
