@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,12 +12,12 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
-import { useHotkeys } from 'react-hotkeys-hook';
 
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylist from '@hooks/usePlaylist';
 import { UseFavP } from '@hooks/useFavPaginated';
+import useRenameSong from './useRenameSong';
 import { skinPreset } from '../../styles/skin';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';
@@ -40,57 +40,28 @@ export default function Fav({ playlist, useFav }: Props) {
     defaultRowsPerPage,
     rowsPerPage,
     setRowsPerPage,
-    handleSearch,
     searchBarRef,
+    saveCurrentList,
+    performSearch,
+    handleChangePage,
+    handleChangeRowsPerPage,
   } = useFav;
-  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const { onPlayOneFromFav } = usePlayer({});
+  const {
+    songObjEdited,
+    songEditDialogOpen,
+    openSongEditDialog,
+    setSongEditDialogOpen,
+  } = useRenameSong();
 
-  const [songObjEdited, setSongObjEdited] = useState<NoxMedia.Song>();
-  const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
-
-  useHotkeys('left', () => handleChangePage(null, page - 1));
-  useHotkeys('right', () => handleChangePage(null, page + 1));
-
-  const saveCurrentList = () => updatePlaylist(playlist);
   const { handleDeleteFromSearchList, handleAddToFavClick } = usePlaylist();
-
-  /**
-   * forcefully search a string in the playlist.
-   * setting the searchbar ref's value directly is bugged with
-   * the visual update of textfield's label; otherwise works just fine.
-   * @param {string} searchedVal
-   */
-  const performSearch = (searchedVal: string) => {
-    setTimeout(() => {
-      searchBarRef.current.value = searchedVal;
-    }, 100);
-    handleSearch(searchedVal);
-  };
-
-  const handleChangePage = (event: any, newPage: number) => {
-    const maxPage = Math.ceil(rows.length / rowsPerPage);
-    if (newPage < 0) newPage = 0;
-    else if (newPage >= maxPage) newPage = maxPage - 1;
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const className = ScrollBar().root;
 
   const favListReloadBVid = (bvid: string) => {
     playlist.songList = playlist.songList.filter((x) => x.bvid !== bvid);
     rssUpdate([bvid]);
-  };
-
-  const openSongEditDialog = (song: NoxMedia.Song) => {
-    setSongObjEdited(song);
-    setSongEditDialogOpen(true);
   };
 
   return (

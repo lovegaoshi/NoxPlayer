@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav, { UseFav } from './useFav';
@@ -10,6 +11,8 @@ export interface UseFavP extends UseFav {
   rowsPerPage: number;
   setRowsPerPage: (rowsPerPage: number) => void;
   primePageToCurrentPlaying: () => void;
+  handleChangePage: (event: any, newPage: number) => void;
+  handleChangeRowsPerPage: (event: any) => void;
 }
 
 /**
@@ -67,6 +70,21 @@ const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
     primePageToCurrentPlaying(true, playlist.songList);
   }, [playlist.id, playlistShouldReRender]);
 
+  useHotkeys('left', () => handleChangePage(null, page - 1));
+  useHotkeys('right', () => handleChangePage(null, page + 1));
+
+  const handleChangePage = (event: any, newPage: number) => {
+    const maxPage = Math.ceil(rows.length / rowsPerPage);
+    if (newPage < 0) newPage = 0;
+    else if (newPage >= maxPage) newPage = maxPage - 1;
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: any) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return {
     ...usedFav,
     page,
@@ -75,6 +93,8 @@ const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
     rowsPerPage,
     setRowsPerPage,
     primePageToCurrentPlaying,
+    handleChangePage,
+    handleChangeRowsPerPage,
   };
 };
 
