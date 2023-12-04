@@ -107,7 +107,7 @@ export default function Fav({
     setRowsPerPage(defaultRowsPerPage);
     primePageToCurrentPlaying();
     performSearch('');
-  }, [playlist.id]);
+  }, [playlist.id, playlistShouldReRender]);
 
   /**
    * forcefully search a string in the playlist.
@@ -197,6 +197,7 @@ export default function Fav({
               : rows
             ).map((song, index) => (
               <SongRow
+                key={`${index}`}
                 song={song}
                 index={index}
                 playlist={playlist}

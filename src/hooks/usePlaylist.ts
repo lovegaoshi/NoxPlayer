@@ -136,23 +136,18 @@ const useFavList = () => {
     playlist,
     subscribeUrls,
   }: UpdateSubscribeFavListProps) => {
-    try {
-      const oldListLength = playlist.songList.length;
-      const newList: NoxMedia.Playlist = await updateSubscribeFavListRaw({
-        playlist,
-        subscribeUrls,
-        updatePlaylist,
-      });
-      // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
-      // to have a change in list size.
-      if (oldListLength !== newList.songList.length) {
-        setSelectedList(playlists[playlist.id]!);
-        return newList;
-      }
-    } catch (err) {
-      console.error(err);
+    const oldListLength = playlist.songList.length;
+    const newList: NoxMedia.Playlist = await updateSubscribeFavListRaw({
+      playlist,
+      subscribeUrls,
+      updatePlaylist,
+    });
+    // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
+    // to have a change in list size.
+    if (oldListLength !== newList.songList.length) {
+      setSelectedList(playlists[playlist.id]!);
     }
-    return null;
+    return newList;
   };
 
   const analyzeFavlist = (playlist: NoxMedia.Playlist) => {

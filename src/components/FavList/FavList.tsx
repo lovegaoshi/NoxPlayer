@@ -2,7 +2,6 @@ import React from 'react';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
-import { useNoxSetting } from '@APM/stores/useApp';
 import useFavList from '@hooks/useFavList';
 import { skinPreset } from '@styles/skin';
 import Search from './Search';
@@ -14,15 +13,7 @@ import PlaylistList from './FavListEntry/PlaylistList';
 const { colorTheme } = skinPreset;
 
 export function FavList() {
-  const _ = useNoxSetting((state) => state.playlistShouldReRender);
-  const {
-    selectedList,
-    setSearchInputVal,
-
-    handleDeleteFromSearchList,
-    handleAddToFavClick,
-    updateSubscribeFavList,
-  } = useFavList();
+  const { setSearchInputVal } = useFavList();
 
   return (
     <React.Fragment>
@@ -54,18 +45,7 @@ export function FavList() {
         }}
         sx={{ gridArea: 'Lrc', padding: '0.2em' }}
       >
-        <Fav
-          handleDeleteFromSearchList={handleDeleteFromSearchList}
-          handleAddToFavClick={handleAddToFavClick}
-          // TODO: fix
-          // @ts-ignore
-          rssUpdate={(subscribeUrls: string[]) =>
-            updateSubscribeFavList({
-              playlist: selectedList,
-              subscribeUrls,
-            })
-          }
-        />
+        <Fav />
       </Box>
     </React.Fragment>
   );

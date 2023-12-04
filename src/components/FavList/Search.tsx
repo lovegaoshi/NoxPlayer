@@ -21,6 +21,9 @@ export default function Search({ setSearchInputVal }: Props) {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
   const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
+  const toggleRefresh = useNoxSetting(
+    (state) => state.togglePlaylistShouldReRender,
+  );
 
   // TODO: type
   const onSearchTextChange = (e: any) => {
@@ -40,6 +43,7 @@ export default function Search({ setSearchInputVal }: Props) {
     setSearchList(searchedList);
     setSelectedList(searchedList);
     setLoading(false);
+    toggleRefresh();
   };
 
   const keyPress = (e: any) => {

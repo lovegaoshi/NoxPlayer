@@ -22,6 +22,7 @@ const { colorTheme } = skinPreset;
 interface Props {
   song: NoxMedia.Song;
   index: number;
+  key: string;
   playlist: NoxMedia.Playlist;
   performSearch: (v: string) => void;
   handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
@@ -48,7 +49,7 @@ function SongRow({
 
   return (
     <StyledTableRow
-      key={index}
+      key={`song-${index}`}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       onContextMenu={(event) => {
         event.preventDefault();

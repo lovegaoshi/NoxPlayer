@@ -12,22 +12,22 @@ import FavHeader from './FavHeader';
 
 const { colorTheme } = skinPreset;
 
-interface Props {
-  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
-}
-export default function Fav({ rssUpdate }: Props) {
+export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  if (!playlist) return <></>;
+
   const {
     handleDeleteFromSearchList,
     handleAddToFavClick,
     updateSubscribeFavList,
   } = usePlaylist();
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  if (!playlist) return <></>;
 
-  const playlistShouldReRender = useNoxSetting(
-    (state) => state.playlistShouldReRender,
-  );
+  const rssUpdate = (subscribeUrls: string[]) =>
+    updateSubscribeFavList({
+      playlist,
+      subscribeUrls,
+    });
 
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
