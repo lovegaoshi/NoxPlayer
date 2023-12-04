@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import useFav from '@hooks/useFavPaginated';
+import useFav from './hooks/useFavPaginated';
 import { skinPreset } from '../../styles/skin';
 import Menu from './Favmenu';
 import SongList from './SongList/SongList';

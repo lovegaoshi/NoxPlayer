@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 
 import { reParseSearch } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import usePlaylist from './usePlaylist';
+import usePlaylist from '@hooks/usePlaylist';
 
 export interface UseFav {
   rows: NoxMedia.Song[];
