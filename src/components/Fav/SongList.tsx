@@ -37,7 +37,6 @@ interface Props {
   setRowsPerPage: (v: number) => void;
   handleSearch: (v: string) => void;
   searchBarRef: any;
-  primePageToCurrentPlaying: () => void;
 }
 export default function Fav({
   playlist,
@@ -50,12 +49,8 @@ export default function Fav({
   setRowsPerPage,
   handleSearch,
   searchBarRef,
-  primePageToCurrentPlaying,
 }: Props) {
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
-  const playlistShouldReRender = useNoxSetting(
-    (state) => state.playlistShouldReRender,
-  );
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const { onPlayOneFromFav } = usePlayer({});
 
@@ -67,12 +62,6 @@ export default function Fav({
 
   const saveCurrentList = () => updatePlaylist(playlist);
   const { handleDeleteFromSearchList, handleAddToFavClick } = usePlaylist();
-
-  useEffect(() => {
-    setRowsPerPage(defaultRowsPerPage);
-    primePageToCurrentPlaying();
-    performSearch('');
-  }, [playlist.id, playlistShouldReRender]);
 
   /**
    * forcefully search a string in the playlist.

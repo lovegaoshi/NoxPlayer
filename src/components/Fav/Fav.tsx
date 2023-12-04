@@ -13,6 +13,9 @@ const { colorTheme } = skinPreset;
 export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
+  const playlistShouldReRender = useNoxSetting(
+    (state) => state.playlistShouldReRender,
+  );
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
 
@@ -60,7 +63,7 @@ export default function Fav() {
     setRowsPerPage(defaultRowsPerPage);
     performSearch('');
     primePageToCurrentPlaying(true, playlist.songList);
-  }, [playlist.id]);
+  }, [playlist.id, playlistShouldReRender]);
 
   /**
    * forcefully search a string in the playlist.
@@ -93,7 +96,6 @@ export default function Fav() {
       />
       <SongList
         playlist={playlist}
-        primePageToCurrentPlaying={primePageToCurrentPlaying}
         rssUpdate={rssUpdate}
         rows={rows}
         handleSearch={handleSearch}

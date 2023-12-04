@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import { reParseSearch } from '@APM/utils/re';
 import usePlaylist from './usePlaylist';
 
+/**
+ * use hook for the paginated fav view. has rows.
+ * @param playlist
+ * @returns
+ */
 const useFav = (playlist: NoxMedia.Playlist) => {
   const [rows, setRows] = useState<NoxMedia.Song[]>([]);
   const { updateSubscribeFavList } = usePlaylist();
