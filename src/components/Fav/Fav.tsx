@@ -1,8 +1,8 @@
 /* eslint-disable no-shadow */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import useFav from '@hooks/useFav';
+import useFav from '@hooks/useFavPaginated';
 import { skinPreset } from '../../styles/skin';
 import Menu from './Favmenu';
 import SongList from './SongList';
@@ -12,52 +12,26 @@ const { colorTheme } = skinPreset;
 
 export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
-  const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
 
-  const [page, setPage] = useState(0);
-  const defaultRowsPerPage = Math.max(
-    1,
-    Math.floor((window.innerHeight - 305) / 40),
-  );
-  const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const searchBarRef = useRef();
 
-  const { rows, setRows, handleSearch, rssUpdate } = useFav(playlist);
-
-  /**
-   * because of delayed state update/management, we need a reliable way to get
-   * the current playlist songs (which may be filtered by some search string).
-   * this method returns the accurate current playlist's songs.
-   * @returns rows when playlist is the same as the playlist props; or playlist.songlist
-   */
-  const getCurrentRow = () => {
-    if (playlist !== null && rows !== null) {
-      return rows;
-    }
-    return playlist.songList;
-  };
-
-  /**
-   * this method primes the current page displaying songs to the one containing the song
-   * that is currently in play. the current song is found by reading the locally stored
-   * value "currentPlaying". this function is in a useEffect.
-   */
-  const primePageToCurrentPlaying = (
-    resetToFirstPage = false,
-    songList = getCurrentRow(),
-  ) => {
-    for (let i = 0, n = songList.length; i < n; i++) {
-      if (songList[i]!.id === currentPlayingId) {
-        return setPage(Math.floor(i / defaultRowsPerPage));
-      }
-    }
-    if (resetToFirstPage) setPage(0);
-  };
+  const {
+    rows,
+    setRows,
+    handleSearch,
+    rssUpdate,
+    page,
+    setPage,
+    defaultRowsPerPage,
+    rowsPerPage,
+    setRowsPerPage,
+    primePageToCurrentPlaying,
+  } = useFav(playlist);
 
   useEffect(() => {
     setRowsPerPage(defaultRowsPerPage);
