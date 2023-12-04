@@ -16,14 +16,14 @@ import { zhCN } from '@mui/material/locale';
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylist from '@hooks/usePlaylist';
-import { UseFavP } from '../hooks/useFavPaginated';
+import { UseFavP } from '../hooks/usePlaylistPaginated';
 import useRenameSong from '../hooks/useRenameSong';
 import { skinPreset } from '../../../styles/skin';
 import SongRenameDialog from '../../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../../styles/styles';
 
 import FavTableActions from './SongListTableActions';
-import SongRow from './SongRow';
+import SongInfo from './SongInfo';
 
 const { colorTheme } = skinPreset;
 
@@ -112,7 +112,7 @@ export default function Fav({ playlist, useFav }: Props) {
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((song, index) => (
-              <SongRow
+              <SongInfo
                 key={`${index}`}
                 song={song}
                 index={index}

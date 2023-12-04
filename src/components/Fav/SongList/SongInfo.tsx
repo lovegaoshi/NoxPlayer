@@ -32,7 +32,7 @@ interface Props {
   searchBarRef: any;
   handleAddToFavClick: (p: NoxMedia.Playlist, s: NoxMedia.Song) => void;
 }
-function SongRow({
+function SongInfo({
   song,
   index,
   playlist,
@@ -133,7 +133,7 @@ function SongRow({
   );
 }
 
-export default SongRow;
+export default SongInfo;
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {

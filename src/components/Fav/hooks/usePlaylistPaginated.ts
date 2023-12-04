@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import useFav, { UseFav } from './useFav';
+import useFav, { UseFav } from '@APM/hooks/usePlaylist';
 
 export interface UseFavP extends UseFav {
   page: number;
