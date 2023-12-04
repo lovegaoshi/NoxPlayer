@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from '@hooks/useFavPaginated';
@@ -12,13 +12,8 @@ const { colorTheme } = skinPreset;
 
 export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
-  const playlistShouldReRender = useNoxSetting(
-    (state) => state.playlistShouldReRender,
-  );
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
-
-  const searchBarRef = useRef();
 
   const {
     rows,
@@ -31,30 +26,8 @@ export default function Fav() {
     rowsPerPage,
     setRowsPerPage,
     primePageToCurrentPlaying,
+    searchBarRef,
   } = useFav(playlist);
-
-  useEffect(() => {
-    setRowsPerPage(defaultRowsPerPage);
-    performSearch('');
-    primePageToCurrentPlaying(true, playlist.songList);
-  }, [playlist.id, playlistShouldReRender]);
-
-  /**
-   * forcefully search a string in the playlist.
-   * setting the searchbar ref's value directly is bugged with
-   * the visual update of textfield's label; otherwise works just fine.
-   * @param {string} searchedVal
-   */
-  const performSearch = (searchedVal: string) => {
-    setTimeout(() => {
-      if (searchBarRef.current) {
-        // TODO: fix type
-        // @ts-ignore
-        searchBarRef.current.value = searchedVal;
-      }
-    }, 100);
-    handleSearch(searchedVal);
-  };
 
   return (
     <React.Fragment>

@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import useFav from './useFav';
+import useFav, { UseFav } from './useFav';
+
+interface UseFavP extends UseFav {
+  page: number;
+  setPage: (page: number) => void;
+  defaultRowsPerPage: number;
+  rowsPerPage: number;
+  setRowsPerPage: (rowsPerPage: number) => void;
+  primePageToCurrentPlaying: () => void;
+}
+
 /**
  * use hook for the paginated fav view. has rows.
  * @param playlist
  * @returns
  */
-const useFavP = (playlist: NoxMedia.Playlist) => {
+const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
   const usedFav = useFav(playlist);
-  const { rows, setRows, handleSearch, rssUpdate, saveCurrentList } = usedFav;
+  const { rows, performSearch } = usedFav;
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
+  const playlistShouldReRender = useNoxSetting(
+    (state) => state.playlistShouldReRender,
+  );
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
     1,
@@ -47,6 +60,13 @@ const useFavP = (playlist: NoxMedia.Playlist) => {
     }
     if (resetToFirstPage) setPage(0);
   };
+
+  useEffect(() => {
+    setRowsPerPage(defaultRowsPerPage);
+    performSearch('');
+    primePageToCurrentPlaying(true, playlist.songList);
+  }, [playlist.id, playlistShouldReRender]);
+
   return {
     ...usedFav,
     page,
