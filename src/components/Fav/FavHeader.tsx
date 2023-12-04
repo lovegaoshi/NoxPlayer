@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import { UseFavP } from '@hooks/useFavPaginated';
 import { skinPreset } from '../../styles/skin';
 import RandomGIFIcon from './FavHeader/RandomGIF';
 import FavSettingsButtons from './FavSetting/FavSettingsButton';
@@ -12,23 +13,19 @@ import SongSearchBar from '../dialogs/SongSearchbar';
 const { colorTheme } = skinPreset;
 
 interface Props {
-  primePageToCurrentPlaying: () => void;
   playlist: NoxMedia.Playlist;
-  page: number;
-  handleSearch: (v: string) => void;
-  searchBarRef: any;
-  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
-  setRows: (v: NoxMedia.Song[]) => void;
+  useFav: UseFavP;
 }
-export default function FavHeader({
-  playlist,
-  rssUpdate,
-  page,
-  primePageToCurrentPlaying,
-  handleSearch,
-  searchBarRef,
-  setRows,
-}: Props) {
+export default function FavHeader({ playlist, useFav }: Props) {
+  const {
+    rssUpdate,
+    page,
+    primePageToCurrentPlaying,
+    handleSearch,
+    searchBarRef,
+    setRows,
+  } = useFav;
+
   return (
     <Box
       sx={{ flexGrow: 1, maxHeight: '80px' }}

@@ -14,45 +14,13 @@ export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
-
-  const {
-    rows,
-    setRows,
-    handleSearch,
-    rssUpdate,
-    page,
-    setPage,
-    defaultRowsPerPage,
-    rowsPerPage,
-    setRowsPerPage,
-    primePageToCurrentPlaying,
-    searchBarRef,
-  } = useFav(playlist);
+  const usedFav = useFav(playlist);
 
   return (
     <React.Fragment>
       <Menu theme={colorTheme.generalTheme} />
-      <FavHeader
-        playlist={playlist}
-        rssUpdate={rssUpdate}
-        page={page}
-        primePageToCurrentPlaying={primePageToCurrentPlaying}
-        handleSearch={handleSearch}
-        searchBarRef={searchBarRef}
-        setRows={setRows}
-      />
-      <SongList
-        playlist={playlist}
-        rssUpdate={rssUpdate}
-        rows={rows}
-        handleSearch={handleSearch}
-        page={page}
-        setPage={setPage}
-        defaultRowsPerPage={defaultRowsPerPage}
-        rowsPerPage={rowsPerPage}
-        setRowsPerPage={setRowsPerPage}
-        searchBarRef={searchBarRef}
-      />
+      <FavHeader playlist={playlist} useFav={usedFav} />
+      <SongList playlist={playlist} useFav={usedFav} />
     </React.Fragment>
   );
 }

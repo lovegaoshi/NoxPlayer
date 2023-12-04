@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav, { UseFav } from './useFav';
 
-interface UseFavP extends UseFav {
+export interface UseFavP extends UseFav {
   page: number;
   setPage: (page: number) => void;
   defaultRowsPerPage: number;

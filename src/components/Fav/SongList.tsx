@@ -17,6 +17,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylist from '@hooks/usePlaylist';
+import { UseFavP } from '@hooks/useFavPaginated';
 import { skinPreset } from '../../styles/skin';
 import SongRenameDialog from '../dialogs/SongRenameDialog';
 import { ScrollBar } from '../../styles/styles';
@@ -28,28 +29,20 @@ const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
-  rows: NoxMedia.Song[];
-  page: number;
-  setPage: (v: number) => void;
-  defaultRowsPerPage: number;
-  rowsPerPage: number;
-  setRowsPerPage: (v: number) => void;
-  handleSearch: (v: string) => void;
-  searchBarRef: any;
+  useFav: UseFavP;
 }
-export default function Fav({
-  playlist,
-  rssUpdate,
-  rows,
-  page,
-  setPage,
-  defaultRowsPerPage,
-  rowsPerPage,
-  setRowsPerPage,
-  handleSearch,
-  searchBarRef,
-}: Props) {
+export default function Fav({ playlist, useFav }: Props) {
+  const {
+    rssUpdate,
+    rows,
+    page,
+    setPage,
+    defaultRowsPerPage,
+    rowsPerPage,
+    setRowsPerPage,
+    handleSearch,
+    searchBarRef,
+  } = useFav;
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const { onPlayOneFromFav } = usePlayer({});
