@@ -15,11 +15,11 @@ const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  useFav: UsePlaylistP;
+  playlistPaginated: UsePlaylistP;
 }
-export default function FavHeader({ playlist, useFav }: Props) {
+export default function FavHeader({ playlist, playlistPaginated }: Props) {
   const { page, primePageToCurrentPlaying, handleSearch, searchBarRef } =
-    useFav;
+    playlistPaginated;
 
   return (
     <Box
@@ -58,7 +58,10 @@ export default function FavHeader({ playlist, useFav }: Props) {
         </Grid>
         <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
           {playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST && (
-            <FavSettingsButtons playlist={playlist} usePlaylist={useFav} />
+            <FavSettingsButtons
+              playlist={playlist}
+              usePlaylist={playlistPaginated}
+            />
           )}
           <SongSearchBar handleSearch={handleSearch} ref={searchBarRef} />
         </Grid>

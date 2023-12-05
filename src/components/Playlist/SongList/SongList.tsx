@@ -13,6 +13,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
 
+// eslint-disable-next-line import/no-unresolved
 import SongRenameDialog from '@components/dialogs/SongRenameDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
@@ -29,9 +30,9 @@ const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  useFav: UsePlaylistP;
+  playlistPaginated: UsePlaylistP;
 }
-export default function Fav({ playlist, useFav }: Props) {
+export default function Fav({ playlist, playlistPaginated }: Props) {
   const {
     rssUpdate,
     rows,
@@ -42,7 +43,7 @@ export default function Fav({ playlist, useFav }: Props) {
     performSearch,
     handleChangePage,
     handleChangeRowsPerPage,
-  } = useFav;
+  } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const playlistCRUD = usePlaylistCRUD();
   const { onPlayOneFromFav } = usePlayback({});
