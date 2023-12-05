@@ -1,10 +1,3 @@
-/**
- * to avoid excessive prop drilling, some use usePlayback's methods will be stored
- * in this store so that they can be accessed from anywhere.
- * 
-
- */
-
 import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
 
@@ -32,14 +25,16 @@ interface NoxApp {
   setplayingList: (a: NoxMedia.Song[]) => void;
   params?: any;
   setparams: (a: any) => void;
+  showLyric: boolean;
+  setShowLyric: (a: boolean) => void;
 }
 
-const useApp = create<NoxApp>((set, get) => ({
+export default create<NoxApp>((set, get) => ({
   setCurrentAudio: (a) => set({ currentAudio: a }),
   setCurrentAudioInst: (a) => set({ currentAudioInst: a }),
   setplayingList: (a) => set({ playingList: a }),
   playingList: [],
   setparams: (a) => set({ params: a }),
+  showLyric: false,
+  setShowLyric: (a) => set({ showLyric: a }),
 }));
-
-export default useApp;
