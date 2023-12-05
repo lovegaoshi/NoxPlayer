@@ -71,7 +71,7 @@ export default function FavSettingsDialog({
           type='name'
           variant='standard'
           onChange={(e) => setSubscribeUrl(e.target.value)}
-          value={setSubscribeUrl}
+          value={subscribeUrl}
           autoComplete='off'
           placeholder='这些url会被订阅'
         />

@@ -138,36 +138,15 @@ export default () => {
     playlist: NoxMedia.Playlist,
     action?: () => JSX.Element,
   ) {
-    const uniqBVIds: string[] = [];
-    const promises = [];
-    const validBVIds: string[] = [];
     const key = enqueueSnackbar(`正在查询歌单 ${playlist.title} 的bv号……`, {
       variant: 'info',
       persist: true,
       action,
     });
-    for (const song of playlist.songList) {
-      if (uniqBVIds.includes(song.bvid)) continue;
-      uniqBVIds.push(song.bvid);
-      // fetchVideoInfo either returns a valid object or unidentified.
-      promises.push(
-        fetchVideoInfo(song.bvid).then((val) => {
-          if (val !== undefined) {
-            validBVIds.push(val.bvid);
-          }
-        }),
-      );
-    }
-    await Promise.all(promises);
-    playlist.songList = playlist.songList.filter((val) =>
-      validBVIds.includes(val.bvid),
-    );
+    const result = await playlistCRUD.playlistCleanup(playlist);
     closeSnackbar(key);
-    updatePlaylist(playlist, [], []);
     enqueueSnackbar(
-      `歌单 ${playlist.title} 清理完成，删除了${
-        validBVIds.filter((v) => v === undefined).length
-      }个失效的bv号`,
+      `歌单 ${playlist.title} 清理完成，删除了${result}个失效的bv号`,
       { variant: 'success', autoHideDuration: 2000 },
     );
   }

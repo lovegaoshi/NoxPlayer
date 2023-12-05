@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 
 import { skinPreset } from '@styles/skin';
-import Menu from '../menus/Favlistmenu';
+import Menu from '../menus/PlaylistMenu';
 import Fav from '../Playlist/Playlist';
 import Playlists from './Playlists';
 

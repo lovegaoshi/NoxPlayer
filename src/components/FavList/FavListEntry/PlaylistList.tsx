@@ -2,7 +2,6 @@ import React from 'react';
 import List from '@mui/material/List';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import useFavList from '@components/FavList/useFavList';
 import { ScrollBar } from '@styles/styles';
 import { useNoxSetting } from '@APM/stores/useApp';
 // eslint-disable-next-line import/no-unresolved
