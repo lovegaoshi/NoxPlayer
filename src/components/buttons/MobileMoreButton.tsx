@@ -5,7 +5,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import { searchSongOnWeb, searchSongOnBili } from '../Fav/SongMenu';
+import { searchSongOnWeb, searchSongOnBili } from '../Playlist/SongMenu';
 import { AddFavDialog } from '../dialogs/AddFavDialog';
 
 export default function mobileMoreButton({ song }: { song: NoxMedia.Song }) {

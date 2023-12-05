@@ -31,7 +31,7 @@ import useFavList from '../../hooks/useFavList';
 import TimerButton from '../buttons/TimerButton';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
-import Fav from '../Fav/FavMobile';
+import Fav from '../Playlist/FavMobile';
 
 const { colorTheme } = skinPreset;
 const modifiedBackgroundPalette = colorTheme.palette;
