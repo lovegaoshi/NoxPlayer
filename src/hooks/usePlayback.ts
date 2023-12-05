@@ -14,7 +14,7 @@ import {
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
 
-const usePlayer = ({ isMobile = false }) => {
+const usePlayback = ({ isMobile = false }) => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const setCurrentPlayingList = useNoxSetting(
@@ -271,4 +271,4 @@ const usePlayer = ({ isMobile = false }) => {
   };
 };
 
-export default usePlayer;
+export default usePlayback;

@@ -13,9 +13,9 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
 
-import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useUpdatePlaylist from '@hooks/useUpdatePlaylist';
+import usePlayback from '@hooks/usePlayback';
 import { UseFavP } from '../hooks/usePlaylistPaginated';
 import useRenameSong from '../hooks/useRenameSong';
 import { skinPreset } from '../../../styles/skin';
@@ -45,7 +45,7 @@ export default function Fav({ playlist, useFav }: Props) {
     handleChangeRowsPerPage,
   } = useFav;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const { onPlayOneFromFav } = usePlayer({});
+  const { onPlayOneFromFav } = usePlayback({});
   const {
     songObjEdited,
     songEditDialogOpen,

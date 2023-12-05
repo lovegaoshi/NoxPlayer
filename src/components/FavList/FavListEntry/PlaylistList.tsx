@@ -4,17 +4,17 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import useFavList from '@hooks/useFavList';
 import { ScrollBar } from '@styles/styles';
-import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 // eslint-disable-next-line import/no-unresolved
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
 import { skinPreset } from '@styles/skin';
+import usePlayback from '@hooks/usePlayback';
 import { PlaylistEntry, SearchlistEntry } from './PlaylistEntry';
 
 const { colorTheme } = skinPreset;
 
 export default function PlaylistList() {
-  const { onPlayAllFromFav } = usePlayer({});
+  const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const {
     playlists,

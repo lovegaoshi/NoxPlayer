@@ -3,7 +3,7 @@ import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 
-import usePlayer from '@hooks/usePlayer';
+import usePlayback from '@hooks/usePlayback';
 import FavList from '../FavList/FavListMobile';
 import LyricOverlay from '../lyric/LyricOverlay';
 import Options from './Enum';
@@ -39,7 +39,7 @@ export default function PlayerMobile({ songList, id = 'noxmobile' }: Props) {
     onAudioPlay,
     onAudioError,
     initPlayer,
-  } = usePlayer({ isMobile: true });
+  } = usePlayback({ isMobile: true });
 
   const onPlayOneFromFav2 = (
     song: NoxMedia.Song,
