@@ -4,28 +4,19 @@ import { useSnackbar } from 'notistack';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
-import usePlaylist from '@APM/hooks/useUpdatePlaylist';
+import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
 import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
 import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
 import { reorder } from '@APM/utils/Utils';
 
-/**
- * this function updates the input playlist by its subscription url to include the missing videos.
- * @param {object} listObj the playlist to be updated.
- * @param {function} setSelectedList useState setter for FavList that sets its selectedList state.
- * @param {Array} subscribeUrls the subscribe urls to be checked in an array format. if not specified,
- * this is defualted to be listObj.subscribeUrls.
- * this state is passed to Fav to trigger a rerender.
- */
-
 interface UpdateSubscribeFavListProps {
   playlist: NoxMedia.Playlist;
   subscribeUrls?: string[];
 }
 
-const useFavList = () => {
+export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const playlists = useNoxSetting((state) => state.playlists);
   const playlistIds = useNoxSetting((state) => state.playlistIds);
@@ -50,7 +41,7 @@ const useFavList = () => {
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
   const confirm = useConfirm();
-  const { playlistAnalyze } = usePlaylist();
+  const playlistCRUD = usePlaylistCRUD();
 
   const handleDeleteFromSearchList = async (listid: string, songid: string) => {
     const favList = playlists[listid];
@@ -150,8 +141,8 @@ const useFavList = () => {
     return newList;
   };
 
-  const analyzeFavlist = (playlist: NoxMedia.Playlist) => {
-    const analytics = playlistAnalyze(playlist, 10);
+  const playlistAnalyze = (playlist: NoxMedia.Playlist) => {
+    const analytics = playlistCRUD.playlistAnalyze(playlist, 10);
     confirm({
       title: analytics.title,
       content: textToDialogContent(analytics.content),
@@ -200,6 +191,7 @@ const useFavList = () => {
   }
 
   return {
+    ...playlistCRUD,
     playlists,
     playlistIds,
     searchList,
@@ -220,9 +212,7 @@ const useFavList = () => {
     handleAddToFavClick,
     onAddFav,
     onDragEnd,
-    analyzeFavlist,
+    playlistAnalyze,
     cleanInvalidBVIds,
   };
 };
-
-export default useFavList;

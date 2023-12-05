@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import useFav, { UseFav } from '@APM/hooks/usePlaylist';
+import usePlaylist, { UsePlaylist } from '@APM/hooks/usePlaylist';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { logger } from '@utils/Logger';
 
-export interface UseFavP extends UseFav {
+export interface UsePlaylistP extends UsePlaylist {
   page: number;
   setPage: (page: number) => void;
   defaultRowsPerPage: number;
@@ -24,8 +24,8 @@ export interface UseFavP extends UseFav {
  * @param playlist
  * @returns
  */
-const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
-  const usedFav = useFav(playlist);
+export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
+  const usedFav = usePlaylist(playlist);
   const { setRefreshing, rssUpdate, rows, performSearch, setRows } = usedFav;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
@@ -134,5 +134,3 @@ const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
     refreshPlaylist,
   };
 };
-
-export default useFavP;

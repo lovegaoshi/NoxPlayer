@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
-import { UseFavP } from '../hooks/usePlaylistPaginated';
+import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 import { skinPreset } from '../../../styles/skin';
 import RandomGIFIcon from './RandomGIF';
 import FavSettingsButtons from '../PlaylistSetting/PlaylistSettingsButton';
@@ -15,7 +15,7 @@ const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  useFav: UseFavP;
+  useFav: UsePlaylistP;
 }
 export default function FavHeader({ playlist, useFav }: Props) {
   const { page, primePageToCurrentPlaying, handleSearch, searchBarRef } =

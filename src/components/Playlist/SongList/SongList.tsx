@@ -13,14 +13,14 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
 
+import SongRenameDialog from '@components/dialogs/SongRenameDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
-import useUpdatePlaylist from '@hooks/useUpdatePlaylist';
+import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 import usePlayback from '@hooks/usePlayback';
-import { UseFavP } from '../hooks/usePlaylistPaginated';
+import { skinPreset } from '@styles/skin';
+import { ScrollBar } from '@styles/styles';
+import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 import useRenameSong from '../hooks/useRenameSong';
-import { skinPreset } from '../../../styles/skin';
-import SongRenameDialog from '../../dialogs/SongRenameDialog';
-import { ScrollBar } from '../../../styles/styles';
 
 import FavTableActions from './SongListTableActions';
 import SongInfo from './SongInfo';
@@ -29,7 +29,7 @@ const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  useFav: UseFavP;
+  useFav: UsePlaylistP;
 }
 export default function Fav({ playlist, useFav }: Props) {
   const {
@@ -39,12 +39,12 @@ export default function Fav({ playlist, useFav }: Props) {
     defaultRowsPerPage,
     rowsPerPage,
     searchBarRef,
-    saveCurrentList,
     performSearch,
     handleChangePage,
     handleChangeRowsPerPage,
   } = useFav;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const playlistCRUD = usePlaylistCRUD();
   const { onPlayOneFromFav } = usePlayback({});
   const {
     songObjEdited,
@@ -53,8 +53,8 @@ export default function Fav({ playlist, useFav }: Props) {
     setSongEditDialogOpen,
   } = useRenameSong();
 
-  const { handleDeleteFromSearchList, handleAddToFavClick } =
-    useUpdatePlaylist();
+  const { handleDeleteFromSearchList, handleAddToFavClick, updateSong } =
+    playlistCRUD;
 
   const className = ScrollBar().root;
 
@@ -69,7 +69,7 @@ export default function Fav({ playlist, useFav }: Props) {
         openState={songEditDialogOpen}
         song={songObjEdited}
         onClose={() => setSongEditDialogOpen(false)}
-        saveList={saveCurrentList}
+        updateSong={updateSong}
       />
       <TableContainer
         className={className}
