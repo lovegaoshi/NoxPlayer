@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
-import usePlaylist from '@APM/hooks/usePlaylist';
+import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
 import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
@@ -50,7 +50,7 @@ const useFavList = () => {
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
   const confirm = useConfirm();
-  const { playlistAnalyze } = usePlaylist();
+  const { playlistAnalyze } = usePlaylistCRUD();
 
   const handleDeleteFromSearchList = async (listid: string, songid: string) => {
     const favList = playlists[listid];

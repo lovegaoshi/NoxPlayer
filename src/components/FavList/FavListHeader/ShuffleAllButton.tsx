@@ -4,15 +4,15 @@ import IconButton from '@mui/material/IconButton';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import { SxProps } from '@mui/material';
 
-import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
+import usePlayback from '@hooks/usePlayback';
 
 interface Props {
   sx?: SxProps;
 }
 function ShuffleAll({ sx }: Props) {
   const playlists = useNoxSetting((state) => state.playlists);
-  const { loadToSearchListAndPlay } = usePlayer({});
+  const { loadToSearchListAndPlay } = usePlayback({});
 
   const shuffleAll = () => {
     const allSongs = Object.values(playlists).reduce(

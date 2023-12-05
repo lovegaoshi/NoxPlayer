@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,139 +12,51 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
-import { useHotkeys } from 'react-hotkeys-hook';
 
-import usePlayer from '@hooks/usePlayer';
+// eslint-disable-next-line import/no-unresolved
+import SongRenameDialog from '@components/dialogs/SongRenameDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { skinPreset } from '../../styles/skin';
-import { readLocalStorage } from '../../utils/ChromeStorage';
-import SongRenameDialog from '../dialogs/SongRenameDialog';
-import { ScrollBar } from '../../styles/styles';
+import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
+import usePlayback from '@hooks/usePlayback';
+import { skinPreset } from '@styles/skin';
+import { ScrollBar } from '@styles/styles';
+import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
+import useRenameSong from '../hooks/useRenameSong';
 
 import FavTableActions from './SongListTableActions';
-import SongRow from './SongRow';
+import SongInfo from './SongInfo';
 
 const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  handleAddToFavClick: (p: NoxMedia.Playlist, s: NoxMedia.Song) => void;
-  handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
-  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
-  rows: NoxMedia.Song[];
-  page: number;
-  setPage: (v: number) => void;
-  defaultRowsPerPage: number;
-  rowsPerPage: number;
-  setRowsPerPage: (v: number) => void;
-  handleSearch: (v: string) => void;
-  searchBarRef: any;
+  playlistPaginated: UsePlaylistP;
 }
-export default function Fav({
-  playlist,
-  handleDeleteFromSearchList,
-  handleAddToFavClick,
-  rssUpdate,
-  rows,
-  page,
-  setPage,
-  defaultRowsPerPage,
-  rowsPerPage,
-  setRowsPerPage,
-  handleSearch,
-  searchBarRef,
-}: Props) {
-  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
-  const playlistShouldReRender = useNoxSetting(
-    (state) => state.playlistShouldReRender,
-  );
+export default function Fav({ playlist, playlistPaginated }: Props) {
+  const {
+    rssUpdate,
+    rows,
+    page,
+    defaultRowsPerPage,
+    rowsPerPage,
+    searchBarRef,
+    performSearch,
+    handleChangePage,
+    handleChangeRowsPerPage,
+  } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const { onPlayOneFromFav } = usePlayer({});
+  const playlistCRUD = usePlaylistCRUD();
+  const { onPlayOneFromFav } = usePlayback({});
+  const {
+    songObjEdited,
+    songEditDialogOpen,
+    openSongEditDialog,
+    setSongEditDialogOpen,
+  } = useRenameSong();
 
-  const [songObjEdited, setSongObjEdited] = useState<NoxMedia.Song>();
-  const [songEditDialogOpen, setSongEditDialogOpen] = useState(false);
-
-  useHotkeys('left', () => handleChangePage(null, page - 1));
-  useHotkeys('right', () => handleChangePage(null, page + 1));
-
-  const saveCurrentList = () => updatePlaylist(playlist);
-
-  /**
-   * because of delayed state update/management, we need a reliable way to get
-   * the current playlist songs (which may be filtered by some search string).
-   * this method returns the accurate current playlist's songs.
-   * @returns rows when playlist is the same as the Favlist props; or Favlist.songlist
-   */
-  const getCurrentRow = () => {
-    if (playlist !== null && rows !== null) {
-      return rows;
-    }
-    return playlist.songList;
-  };
-
-  /**
-   * this method primes the current page displaying songs to the one containing the song
-   * that is currently in play. the current song is found by reading the locally stored
-   * value "currentPlaying". this function is in a useEffect.
-   */
-  const primePageToCurrentPlaying = () => {
-    try {
-      const songList = getCurrentRow();
-      readLocalStorage('CurrentPlaying').then((r) => {
-        for (let i = 0, n = songList.length; i < n; i++) {
-          if (songList[i]!.id === r.cid) {
-            setPage(Math.floor(i / defaultRowsPerPage));
-            break;
-          }
-        }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  useEffect(() => {
-    setRowsPerPage(defaultRowsPerPage);
-    primePageToCurrentPlaying();
-    performSearch('');
-  }, [playlist.id]);
-
-  /**
-   * forcefully search a string in the playlist.
-   * setting the searchbar ref's value directly is bugged with
-   * the visual update of textfield's label; otherwise works just fine.
-   * @param {string} searchedVal
-   */
-  const performSearch = (searchedVal: string) => {
-    setTimeout(() => {
-      searchBarRef.current.value = searchedVal;
-    }, 100);
-    handleSearch(searchedVal);
-  };
-
-  const handleChangePage = (event: any, newPage: number) => {
-    const maxPage = Math.ceil(rows.length / rowsPerPage);
-    if (newPage < 0) newPage = 0;
-    else if (newPage >= maxPage) newPage = maxPage - 1;
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: any) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const { removeSongs, handleAddToFavClick, updateSong } = playlistCRUD;
 
   const className = ScrollBar().root;
-
-  const favListReloadBVid = (bvid: string) => {
-    playlist.songList = playlist.songList.filter((x) => x.bvid !== bvid);
-    rssUpdate([bvid]);
-  };
-
-  const openSongEditDialog = (song: NoxMedia.Song) => {
-    setSongObjEdited(song);
-    setSongEditDialogOpen(true);
-  };
 
   return (
     <React.Fragment>
@@ -152,7 +64,7 @@ export default function Fav({
         openState={songEditDialogOpen}
         song={songObjEdited}
         onClose={() => setSongEditDialogOpen(false)}
-        saveList={saveCurrentList}
+        updateSong={updateSong}
       />
       <TableContainer
         className={className}
@@ -196,13 +108,13 @@ export default function Fav({
               ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : rows
             ).map((song, index) => (
-              <SongRow
+              <SongInfo
+                key={`${index}`}
                 song={song}
                 index={index}
                 playlist={playlist}
                 performSearch={performSearch}
-                handleDeleteFromSearchList={handleDeleteFromSearchList}
-                favListReloadBVid={favListReloadBVid}
+                removeSongs={removeSongs}
                 openSongEditDialog={openSongEditDialog}
                 playSong={(v) =>
                   onPlayOneFromFav(v, {

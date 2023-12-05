@@ -14,15 +14,15 @@ import { getPlayerSettingKey } from '@utils/ChromeStorage';
 interface props {
   openState: boolean;
   song?: NoxMedia.Song;
-  onClose: Function;
-  saveList: Function;
+  onClose: () => void;
+  updateSong: (song: NoxMedia.Song, v: Partial<NoxMedia.Song>) => void;
 }
 
 export default function songRenameDialog({
   openState,
   song,
   onClose,
-  saveList,
+  updateSong,
 }: props) {
   const [songBVID, setSongBVID] = useState('');
   const [songBVIndex, setSongBVIndex] = useState('');
@@ -49,10 +49,7 @@ export default function songRenameDialog({
       return name;
     };
     const extractedSongName = regExtractQQMusicName(songName);
-    const result = { songBVID, songBVIndex, extractedSongName };
-    song.name = extractedSongName;
-    song.parsedName = extractedSongName;
-    onClose(result);
+    onClose();
     switch ((await getBiliUser()).mid) {
       case 3493085134719196:
         if (song.singerId !== 3493085134719196) break;
@@ -92,7 +89,10 @@ export default function songRenameDialog({
         break;
       default:
     }
-    saveList();
+    updateSong(song, {
+      name: extractedSongName,
+      parsedName: extractedSongName,
+    });
   };
 
   return (

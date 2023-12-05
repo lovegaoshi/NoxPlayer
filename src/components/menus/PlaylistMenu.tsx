@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
-import { Menu, Item, Separator, useContextMenu } from 'react-contexify';
+import { Menu, Item, useContextMenu } from 'react-contexify';
 import YoutubeSearchedForIcon from '@mui/icons-material/YoutubeSearchedFor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
@@ -15,18 +15,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useConfirm } from 'material-ui-confirm';
 import SyncIcon from '@mui/icons-material/Sync';
 
-import bilivideoFetch from '@APM/utils/mediafetch/bilivideo';
-import { useNoxSetting } from '@APM/stores/useApp';
-import { removeSongBiliShazamed } from '@objects/Song';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
-import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
-import useFavList from '@hooks/useFavList';
+import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 
 const MENU_ID = 'favlistmenu';
 
 interface Props {
   event: any;
-  props: any;
+  props?: any;
   triggerEvent: any;
   data: any;
 }
@@ -40,8 +36,7 @@ interface Props {
 export default function App({ theme = 'light' }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const confirm = useConfirm();
-  const { analyzeFavlist, cleanInvalidBVIds, setSelectedList } = useFavList();
-  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+  const playlistCRUD = usePlaylistCRUD();
   const circularProgress = () => <CircularProgress />;
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
@@ -53,12 +48,7 @@ export default function App({ theme = 'light' }) {
     console.warn('method not implemented', props.favlist);
   }
 
-  async function syncFavlistToBilibili({
-    event,
-    props,
-    triggerEvent,
-    data,
-  }: Props) {
+  async function syncFavlistToBilibili({ props }: Props) {
     const key = enqueueSnackbar(
       `正在同步歌单 ${props.favlist.title} 到b站收藏夹……`,
       { variant: 'info', persist: true, action: circularProgress },
@@ -71,13 +61,10 @@ export default function App({ theme = 'light' }) {
     }
   }
 
-  function updateFavlist(
-    props: any,
+  function showMsg(
     msg: string,
     option = { variant: 'success', autoHideDuration: 2000 },
   ) {
-    setSelectedList(props.favlist);
-    updatePlaylist(props.favlist);
     // @ts-ignore
     enqueueSnackbar(msg, option);
   }
@@ -91,24 +78,17 @@ export default function App({ theme = 'light' }) {
       { variant: 'info', persist: true, action: circularProgress },
     );
     try {
-      props.favlist.songList = await biliShazamOnSonglist(
-        props.favlist.songList,
-        options.forced,
-      );
+      await playlistCRUD.playlistBiliShazam(props.favlist);
     } catch (e) {
       console.warn(`b站识歌标识歌单 ${props.favlist.title} 失败`, e);
     }
     closeSnackbar(key);
-    updateFavlist(props, `歌单 ${props.favlist.title} 已经用b站识歌更新乐！`);
+    showMsg(`歌单 ${props.favlist.title} 已经用b站识歌更新乐！`);
   }
 
   function removeBiliShazam({ event, props, triggerEvent, data }: Props) {
-    const playlist = props.favlist as NoxMedia.Playlist;
-    playlist.songList.forEach((song) => removeSongBiliShazamed(song));
-    updateFavlist(
-      props,
-      `歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`,
-    );
+    playlistCRUD.playlistRemoveBiliShazamed(props.favlist);
+    showMsg(`歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`);
   }
 
   function clearPlaylist({ event, props, triggerEvent, data }: Props) {
@@ -119,8 +99,8 @@ export default function App({ theme = 'light' }) {
       cancellationText: '算了',
     })
       .then(() => {
-        props.favlist.songList = [];
-        updateFavlist(props, `歌单 ${props.favlist.title} 清空乐！`);
+        playlistCRUD.playlistClear(props.favlist);
+        showMsg(`歌单 ${props.favlist.title} 清空乐！`);
       })
       .catch();
   }
@@ -137,19 +117,9 @@ export default function App({ theme = 'light' }) {
           `正在重新载入歌单 ${props.favlist.title} 的bv号……`,
           { variant: 'info', persist: true, action: circularProgress },
         );
-        const bvids = new Set<string>();
-        const playlist = props.favlist as NoxMedia.Playlist;
-        playlist.songList.forEach((song) => bvids.add(song.bvid));
         try {
-          const songs = (
-            await Promise.all(
-              Array.from(bvids).map((bvid) =>
-                bilivideoFetch.regexFetch({ reExtracted: ['', bvid] }),
-              ),
-            )
-          ).flat();
-          props.favlist.songList = songs;
-          updateFavlist(props, `歌单 ${props.favlist.title} 重载了！`);
+          await playlistCRUD.playlistReload(props.favlist);
+          showMsg(`歌单 ${props.favlist.title} 重载了！`);
         } catch {
           console.error('failed to reload playlist', props.favlist.title);
         } finally {
@@ -168,7 +138,7 @@ export default function App({ theme = 'light' }) {
         <Item onClick={BiliShazam}>
           <YoutubeSearchedForIcon /> &nbsp; b站识歌
         </Item>
-        <Item onClick={(props) => removeBiliShazam(props, {})}>
+        <Item onClick={(props) => removeBiliShazam(props)}>
           <DeleteIcon /> &nbsp; 删除b站识歌
         </Item>
         <Item onClick={reloadPlaylist}>
@@ -177,16 +147,16 @@ export default function App({ theme = 'light' }) {
         <Item onClick={clearPlaylist}>
           <ClearAllIcon /> &nbsp; 清空歌单
         </Item>
-        <Item onClick={({ props }) => analyzeFavlist(props.favlist)}>
+        <Item
+          onClick={({ props }) => playlistCRUD.playlistAnalyze(props.favlist)}
+        >
           <AnalyticsIcon /> &nbsp; 歌单统计
         </Item>
         <Item onClick={handleItemClick}>
           <DownloadIcon /> &nbsp; 导出bv号为csv
         </Item>
         <Item
-          onClick={({ props }) =>
-            cleanInvalidBVIds(props.favlist, circularProgress)
-          }
+          onClick={({ props }) => playlistCRUD.playlistCleanup(props.favlist)}
         >
           <CleaningServicesIcon /> &nbsp; 清理失效的bv号
         </Item>

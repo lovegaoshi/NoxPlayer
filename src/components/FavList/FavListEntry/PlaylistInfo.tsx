@@ -7,10 +7,10 @@ import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { contextMenu } from 'react-contexify';
 
-import AddToPlaylistButton from './AddToPlaylistButton';
-import DeletePlaylistButton from './DeletePlaylistButton';
-import PlayPlaylistButton from './PlayPlaylistButton';
-import CreateAsPlaylistButton from './CreateAsPlaylistButton';
+import AddToPlaylistButton from './ButtonAddToPlaylist';
+import DeletePlaylistButton from './ButtonDeletePlaylist';
+import PlayPlaylistButton from './ButtonPlayPlaylist';
+import CreateAsPlaylistButton from './ButtonCreateAsPlaylist';
 import { CRUDBtn, CRUDIcon, DiskIcon, outerLayerBtn } from '../Styles';
 
 interface Props {
@@ -23,7 +23,7 @@ interface Props {
   handleCreateAsFavClick: (playlist: NoxMedia.Song[]) => void;
 }
 
-export function PlaylistEntry({
+export function PlaylistInfo({
   playlist,
   key2,
   setSelectedList,

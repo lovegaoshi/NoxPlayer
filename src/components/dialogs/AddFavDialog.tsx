@@ -72,15 +72,11 @@ export const NewFavDialog = function NewFavDialog({
 
 interface AddFavDialogProps {
   id: string;
-  onClose: ({
-    songs,
-    fromList,
-    toId,
-  }: {
-    songs: NoxMedia.Song[];
-    fromList?: NoxMedia.Playlist;
-    toId?: string;
-  }) => void;
+  onClose: (
+    songs: NoxMedia.Song[],
+    fromList?: NoxMedia.Playlist,
+    toId?: string,
+  ) => void;
   openState: boolean;
   fromList?: NoxMedia.Playlist;
   songs: NoxMedia.Song[];
@@ -99,7 +95,7 @@ export const AddFavDialog = function AddFavDialog({
   const playlistIds = useNoxSetting((state) => state.playlistIds);
 
   const handleCancel = () => {
-    onClose({ songs: [] });
+    onClose([]);
     setfavId('');
   };
 
@@ -108,7 +104,7 @@ export const AddFavDialog = function AddFavDialog({
   };
 
   const handleOK = () => {
-    onClose({ fromList, toId: favId, songs });
+    onClose(songs, fromList, favId);
     setfavId('');
   };
 

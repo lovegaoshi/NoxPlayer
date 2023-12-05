@@ -1,0 +1,178 @@
+import { useState } from 'react';
+import { useConfirm } from 'material-ui-confirm';
+import { useSnackbar } from 'notistack';
+
+import { useNoxSetting } from '@APM/stores/useApp';
+import { dummyPlaylist } from '@APM/objects/Playlist';
+import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
+import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
+// eslint-disable-next-line import/no-unresolved
+import textToDialogContent from '@components/dialogs/DialogContent';
+import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
+import { reorder } from '@APM/utils/Utils';
+
+interface UpdateSubscribeFavListProps {
+  playlist: NoxMedia.Playlist;
+  subscribeUrls?: string[];
+}
+
+export default () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const playlists = useNoxSetting((state) => state.playlists);
+  const playlistIds = useNoxSetting((state) => state.playlistIds);
+  const selectedList = useNoxSetting((state) => state.currentPlaylist);
+  const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
+  const addPlaylist = useNoxSetting((state) => state.addPlaylist);
+  const setPlaylistIds = useNoxSetting((state) => state.setPlaylistIds);
+  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+  const removePlaylist = useNoxSetting((state) => state.removePlaylist);
+  const searchList = useNoxSetting((state) => state.searchPlaylist);
+  const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
+
+  const [songsStoredAsNewFav, setSongsStoredAsNewFav] = useState<
+    NoxMedia.Song[]
+  >([]);
+  const [openNewDialog, setOpenNewDialog] = useState(false);
+  const [searchInputVal, setSearchInputVal] = useState('');
+
+  const [actionFavId, setActionFavId] = useState<NoxMedia.Playlist>();
+  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
+
+  const confirm = useConfirm();
+  const playlistCRUD = usePlaylistCRUD();
+
+  const onNewFav = (favName?: string) => {
+    setOpenNewDialog(false);
+    if (!favName) return;
+    // console.log(val)
+    const favList = dummyPlaylist(favName);
+    if (songsStoredAsNewFav.length > 0) {
+      favList.songList = songsStoredAsNewFav;
+      setSongsStoredAsNewFav([]);
+      favList.subscribeUrl = [searchInputVal.slice()];
+    }
+    addPlaylist(favList);
+  };
+
+  const handleDeleteFavClick = (playlist: NoxMedia.Playlist) => {
+    confirm({
+      title: '删除歌单？',
+      description: `确认要删除歌单 ${playlist.title} 吗？`,
+      confirmationText: '好的',
+      cancellationText: '算了',
+    })
+      .then(() => {
+        removePlaylist(playlist.id);
+        // @ts-ignore
+        if (selectedList && selectedList.id === id) setSelectedList(undefined);
+      })
+      .catch();
+  };
+
+  const handleAddToFavClick = (
+    playlist: NoxMedia.Playlist,
+    song?: NoxMedia.Song,
+  ) => {
+    setActionFavId(playlist);
+    setActionFavSong(song);
+    setOpenAddDialog(true);
+  };
+
+  const onAddFav = (
+    songs: NoxMedia.Song[],
+    fromList?: NoxMedia.Playlist,
+    toId?: string,
+  ) => {
+    setOpenAddDialog(false);
+    if (!toId) return;
+    updatePlaylist(
+      playlists[toId]!,
+      songs[0] === undefined ? fromList?.songList : songs,
+    );
+  };
+
+  const onDragEnd = (result: any) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    const newFavLists = reorder(
+      playlistIds,
+      result.source.index,
+      result.destination.index,
+    );
+    setPlaylistIds(newFavLists);
+  };
+
+  const updateSubscribeFavList = async ({
+    playlist,
+    subscribeUrls,
+  }: UpdateSubscribeFavListProps) => {
+    const oldListLength = playlist.songList.length;
+    const newList: NoxMedia.Playlist = await updateSubscribeFavListRaw({
+      playlist,
+      subscribeUrls,
+      updatePlaylist,
+    });
+    // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
+    // to have a change in list size.
+    if (oldListLength !== newList.songList.length) {
+      setSelectedList(playlists[playlist.id]!);
+    }
+    return newList;
+  };
+
+  const playlistAnalyze = (playlist: NoxMedia.Playlist) => {
+    const analytics = playlistCRUD.playlistAnalyze(playlist, 10);
+    confirm({
+      title: analytics.title,
+      content: textToDialogContent(analytics.content),
+      confirmationText: '好的',
+      hideCancelButton: true,
+    })
+      .then()
+      .catch();
+  };
+  async function cleanInvalidBVIds(
+    playlist: NoxMedia.Playlist,
+    action?: () => JSX.Element,
+  ) {
+    const key = enqueueSnackbar(`正在查询歌单 ${playlist.title} 的bv号……`, {
+      variant: 'info',
+      persist: true,
+      action,
+    });
+    const result = await playlistCRUD.playlistCleanup(playlist);
+    closeSnackbar(key);
+    enqueueSnackbar(
+      `歌单 ${playlist.title} 清理完成，删除了${result}个失效的bv号`,
+      { variant: 'success', autoHideDuration: 2000 },
+    );
+  }
+
+  return {
+    ...playlistCRUD,
+    playlists,
+    playlistIds,
+    searchList,
+    setSearchList,
+    selectedList,
+    setSelectedList,
+    setSongsStoredAsNewFav,
+    openNewDialog,
+    setOpenNewDialog,
+    openAddDialog,
+    actionFavId,
+    actionFavSong,
+    setSearchInputVal,
+    updateSubscribeFavList,
+    onNewFav,
+    handleDeleteFavClick,
+    handleAddToFavClick,
+    onAddFav,
+    onDragEnd,
+    playlistAnalyze,
+    cleanInvalidBVIds,
+  };
+};

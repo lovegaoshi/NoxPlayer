@@ -14,7 +14,7 @@ import {
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
 
-const usePlayer = ({ isMobile = false }) => {
+export default ({ isMobile = false }) => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const setCurrentPlayingList = useNoxSetting(
@@ -36,8 +36,8 @@ const usePlayer = ({ isMobile = false }) => {
   const setplayingList = useApp((state) => state.setplayingList);
   const params = useApp((state) => state.params);
   const setparams = useApp((state) => state.setparams);
-  // Lyric Dialog
-  const [showLyric, setShowLyric] = useState(false);
+  const showLyric = useApp((state) => state.showLyric);
+  const setShowLyric = useApp((state) => state.setShowLyric);
 
   const biliHeartbeat = useRef(0);
 
@@ -270,5 +270,3 @@ const usePlayer = ({ isMobile = false }) => {
     loadToSearchListAndPlay,
   };
 };
-
-export default usePlayer;

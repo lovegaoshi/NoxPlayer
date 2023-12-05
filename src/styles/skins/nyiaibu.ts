@@ -1,19 +1,9 @@
 import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 import clesss from './clesss';
+import APMSkins from './APMSkins';
 
-const gifs = [
-  'http://i0.hdslb.com/bfs/live/66ec3ed6855202f34996ae18c3a91a844addfd1a.png',
-  'http://i0.hdslb.com/bfs/live/c296d6bab5113aa21ab9b0ecb16a37db02f14eff.png',
-  'http://i0.hdslb.com/bfs/live/d86caeabb395d8cb457608bbbe68936031eee285.png',
-  'http://i0.hdslb.com/bfs/live/224d84da054752bc96d0f84d98d1fdb609d90f54.png',
-  'http://i0.hdslb.com/bfs/live/1e70f8b1658f1b028ef056503b9855e93dfc7e4d.png',
-  'http://i0.hdslb.com/bfs/live/4aa07b90860096de4047733fb8c9522467021931.png',
-  'http://i0.hdslb.com/bfs/live/d8804be4b7c27105ff5dd1af93d840fca30bd3e6.png',
-  'http://i0.hdslb.com/bfs/live/35db7dc821109465b1a0882c5e9967f0af88199c.png',
-  'http://i0.hdslb.com/bfs/live/7296da1a361114792a1ea435b9ed958393866a58.png',
-  'http://i0.hdslb.com/bfs/live/ed07c7fb8b6d8cf800c47449dd453d7041aa2f0c.png',
-];
+const { gifs } = APMSkins['阿布播放器']!;
 
 const randomPortraitBackground = randomChoice([
   'https://i0.hdslb.com/bfs/garb/item/17f365d114f3a2749f3dde71b5f555fd4474ca9c.jpg',

@@ -1,43 +1,7 @@
 import skinTemplate, { randomChoice } from './template';
+import APMSkins from './APMSkins';
 
-const gifs = [
-  'https://i0.hdslb.com/bfs/garb/05b4eae551b81e3804e0611fb543829d240686d4.png',
-  'http://i0.hdslb.com/bfs/garb/4b44860cf1d6e78b2654bed0fc98eb23081036dd.png',
-  'https://i0.hdslb.com/bfs/garb/5929dce14b1e19c805152f38e9633823ae56ee20.png',
-  'http://i0.hdslb.com/bfs/garb/217153560d4a507dccb2b18df67aa60cace10ad9.png',
-  'http://i0.hdslb.com/bfs/garb/df0bc269ac1536e97c14045fac05cb945c2ea741.png',
-  'https://i0.hdslb.com/bfs/garb/a65bcc9ba78beeefcb68bc1de70d36f899832788.png',
-  'http://i0.hdslb.com/bfs/garb/3a68bac353defa508354134da3840454c3b5c89d.png',
-  'https://i0.hdslb.com/bfs/garb/34632a6bde9dabb9416493163f28635810c4ac90.png',
-  'http://i0.hdslb.com/bfs/garb/69ab6e9df94b15819fa1d4c4d88596bf0cec0bf2.png',
-  'http://i0.hdslb.com/bfs/garb/b43e7969d73729a61e0a44b8e4c76f8b7b8a9678.png',
-  'http://i0.hdslb.com/bfs/garb/69aecdf188ff54bb20e5d3668b4464d0d731776f.png',
-  'https://i0.hdslb.com/bfs/garb/c3d491742e90f69ef3eeab36fc5b51d9e6da3ce0.png',
-  'http://i0.hdslb.com/bfs/garb/05b4eae551b81e3804e0611fb543829d240686d4.png',
-  'http://i0.hdslb.com/bfs/garb/f25882b99a24db75f37269e2099b3b42d576cf23.png',
-  'https://i0.hdslb.com/bfs/garb/4b44860cf1d6e78b2654bed0fc98eb23081036dd.png',
-  'https://i0.hdslb.com/bfs/garb/0d1cc6d9cdbb51ab06be2fb9c4fea43b3c47afc8.png',
-  'http://i0.hdslb.com/bfs/garb/bbb6a1eb1e5d8ce5e6b3874852b66e92b1563ec6.png',
-  'https://i0.hdslb.com/bfs/garb/63bdd1b07d3fc4162bc33957f43a60aacd31a3d1.png',
-  'https://i0.hdslb.com/bfs/garb/f25882b99a24db75f37269e2099b3b42d576cf23.png',
-  'http://i0.hdslb.com/bfs/garb/ea39646fee8b4b226ccc9555f6b61ebb2da107b8.png',
-  'http://i0.hdslb.com/bfs/garb/4c5f1dcbcb220b96703126ef1c95e3873a050e98.png',
-  'http://i0.hdslb.com/bfs/garb/c3d491742e90f69ef3eeab36fc5b51d9e6da3ce0.png',
-  'http://i0.hdslb.com/bfs/garb/709f1e449d7bf58ef405d6af5ee2e60ea3cb8304.png',
-  'http://i0.hdslb.com/bfs/garb/2b3f267c9ea8006a2b6f87a5f1bf82e47ef36241.png',
-  'https://i0.hdslb.com/bfs/garb/40edc3c1729d3f7a6932e8c0dfe79290f380b102.png',
-  'http://i0.hdslb.com/bfs/live/58f2c407127231d3afced5c88fc75be57194ec30.png',
-  'http://i0.hdslb.com/bfs/live/a1dfb92751ece5822ebb1e49b332b3599d86b4bf.png',
-  'http://i0.hdslb.com/bfs/live/2bb2c67c03e9a02444133db6ca6fce57b3a90d34.png',
-  'http://i0.hdslb.com/bfs/live/1c42e5c82ca70edbea10f9f8e9222dd46e656aa6.png',
-  'http://i0.hdslb.com/bfs/live/c80dbeece0214d802e8d44f48285bf43de2ffb68.png',
-  'http://i0.hdslb.com/bfs/live/61aeadbaef10e1d3f89c6be174a901ebd41c6939.png',
-  'http://i0.hdslb.com/bfs/live/32bc13100659019fcb98c272277ad5b285804d3c.png',
-  'http://i0.hdslb.com/bfs/live/7f66eebd007f52ceb63caf78ee4feb6af01914c7.png',
-  'http://i0.hdslb.com/bfs/live/80e69b9a99accf247bb2621779d73b9c19b4ef26.png',
-  'http://i0.hdslb.com/bfs/live/12941f62e9b58c4fbd48442bb1f09feecdd816af.png',
-  'https://i0.hdslb.com/bfs/new_dyn/8bea5f415532a0ac3a2444623718666c3220669.png',
-];
+const { gifs } = APMSkins['猫头鹰播放器']!;
 
 export default skinTemplate({
   playerBanner:

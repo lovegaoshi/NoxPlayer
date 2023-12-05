@@ -20,11 +20,11 @@ import { FixedSizeList as List } from 'react-window';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
-import useFav from '@hooks/useFav';
-import { songText } from './FavHeader';
+import useFav from './hooks/usePlaylistPaginated';
+import { songText } from './PlaylistHeader/PlaylistHeader';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/RandomGIF';
-import FavSettingsButtons from './FavSetting/FavSettingsButton';
+import RandomGIFIcon from './PlaylistHeader/RandomGIF';
+import FavSettingsButtons from './PlaylistSetting/PlaylistSettingsButton';
 import { getPlayerSettingKey } from '../../utils/ChromeStorage';
 import SongSearchBar from '../dialogs/SongSearchbar';
 import { ScrollBar } from '../../styles/styles';

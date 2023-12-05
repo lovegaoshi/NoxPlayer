@@ -15,29 +15,32 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { skinPreset } from '../../styles/skin';
+import { skinPreset } from '../../../styles/skin';
 
 const { colorTheme } = skinPreset;
 
 interface Props {
   song: NoxMedia.Song;
   index: number;
+  key: string;
   playlist: NoxMedia.Playlist;
   performSearch: (v: string) => void;
-  handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
-  favListReloadBVid: (bvid: string) => void;
+  removeSongs: (
+    s: NoxMedia.Song[],
+    ban?: boolean,
+    p?: NoxMedia.Playlist,
+  ) => void;
   openSongEditDialog: (song: NoxMedia.Song) => void;
   playSong: (v: NoxMedia.Song) => void;
   searchBarRef: any;
   handleAddToFavClick: (p: NoxMedia.Playlist, s: NoxMedia.Song) => void;
 }
-function SongRow({
+function SongInfo({
   song,
   index,
   playlist,
   performSearch,
-  handleDeleteFromSearchList,
-  favListReloadBVid,
+  removeSongs,
   openSongEditDialog,
   playSong,
   searchBarRef,
@@ -48,7 +51,7 @@ function SongRow({
 
   return (
     <StyledTableRow
-      key={index}
+      key={`song-${index}`}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       onContextMenu={(event) => {
         event.preventDefault();
@@ -58,9 +61,7 @@ function SongRow({
           props: {
             song,
             performSearch,
-            onDelete: () => handleDeleteFromSearchList(playlist.id, song.id),
             playlist,
-            reloadBVid: favListReloadBVid,
             onSongEdit: () => openSongEditDialog(song),
           },
         });
@@ -122,7 +123,7 @@ function SongRow({
           <DeleteOutlineOutlinedIcon
             sx={CRUDIcon}
             onClick={async () => {
-              await handleDeleteFromSearchList(playlist.id, song.id);
+              removeSongs([song], false, playlist);
               performSearch(searchBarRef.current.value);
             }}
           />
@@ -132,7 +133,7 @@ function SongRow({
   );
 }
 
-export default SongRow;
+export default SongInfo;
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {

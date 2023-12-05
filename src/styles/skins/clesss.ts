@@ -1,20 +1,8 @@
 import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
+import APMSkins from './APMSkins';
 
-const gifs = [
-  'https://article.biliimg.com/bfs/article/85e8313a2dab7c845040969b4cda9a1ea967964f.gif',
-  'https://article.biliimg.com/bfs/article/02ca7eb075f9f22fcf4049ddfa4df77ec3cb9ec0.gif',
-  'https://article.biliimg.com/bfs/article/07e44240fa272c4d8bba77d23fe837ba02cbc74d.gif',
-  'https://i0.hdslb.com/bfs/article/f28b39b1b42da0f0384b72e51d092c4efb08eceb.jpg',
-  'https://i0.hdslb.com/bfs/article/635ceccee45c090a48f2ad25744ee818167745cd.jpg',
-  'https://i0.hdslb.com/bfs/article/596bbdc8bcc62a10c9bdd571d9358ddaf5359fde.jpg',
-  'https://i0.hdslb.com/bfs/article/a54898529e4a40072559db315cc52fa46ad0206f.jpg',
-  'https://i0.hdslb.com/bfs/article/8d44a10e4360d91c7071bb4ac8f03a0ee1831851.jpg',
-  'https://i0.hdslb.com/bfs/article/a21c7b4f062363ce64bb37c7537d29d6eb7ef050.jpg',
-  'https://i0.hdslb.com/bfs/article/44608770c11cdefbdc1d1963eceb0695710bc731.jpg',
-  'https://i0.hdslb.com/bfs/new_dyn/fe44dd6190198aa1c735544a951d9e7a1817527011.png',
-  'https://img.nga.178.com/attachments/mon_202304/29/-zue37Q18k-go1rZoT3cSew-ce.gif',
-];
+const { gifs } = APMSkins['克√播放器']!;
 
 const backgroundBundle: [() => Promise<string>, boolean] = randomChoice([
   [() => fetchVideoPlayUrl('BV15e411u7T9'), true],

@@ -2,19 +2,47 @@ import React from 'react';
 import List from '@mui/material/List';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import useFavList from '@hooks/useFavList';
 import { ScrollBar } from '@styles/styles';
-import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
 // eslint-disable-next-line import/no-unresolved
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
 import { skinPreset } from '@styles/skin';
-import { PlaylistEntry, SearchlistEntry } from './PlaylistEntry';
+import usePlayback from '@hooks/usePlayback';
+import { PlaylistInfo, SearchlistEntry } from './PlaylistInfo';
 
 const { colorTheme } = skinPreset;
 
-export default function PlaylistList() {
-  const { onPlayAllFromFav } = usePlayer({});
+interface PlaylistCRUD {
+  playlists: { [key: string]: NoxMedia.Playlist };
+  playlistIds: string[];
+  searchList: NoxMedia.Playlist;
+  setSelectedList: (playlist: NoxMedia.Playlist) => void;
+  setSongsStoredAsNewFav: (v: NoxMedia.Song[]) => void;
+  openNewDialog: boolean;
+  setOpenNewDialog: (v: boolean) => void;
+  openAddDialog: boolean;
+  actionFavId?: NoxMedia.Playlist;
+  actionFavSong?: NoxMedia.Song;
+
+  onNewFav: (v?: string) => void;
+  handleDeleteFavClick: (playlist: NoxMedia.Playlist) => void;
+  handleAddToFavClick: (
+    playlist: NoxMedia.Playlist,
+    song?: NoxMedia.Song,
+  ) => void;
+  onAddFav: (
+    songs: NoxMedia.Song[],
+    fromList?: NoxMedia.Playlist,
+    toId?: string,
+  ) => void;
+  onDragEnd: (result: any) => void;
+}
+
+interface Props {
+  playlistCRUD: PlaylistCRUD;
+}
+export default function PlaylistList({ playlistCRUD }: Props) {
+  const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const {
     playlists,
@@ -33,7 +61,7 @@ export default function PlaylistList() {
     handleAddToFavClick,
     onAddFav,
     onDragEnd,
-  } = useFavList();
+  } = playlistCRUD;
 
   return (
     <React.Fragment>
@@ -91,7 +119,7 @@ export default function PlaylistList() {
                           ...provided2.draggableProps.style,
                         }}
                       >
-                        <PlaylistEntry
+                        <PlaylistInfo
                           key2={String(index)}
                           playlist={playlists[item]!}
                           setSelectedList={setSelectedList}

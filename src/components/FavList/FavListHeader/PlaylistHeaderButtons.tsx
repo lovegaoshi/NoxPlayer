@@ -12,7 +12,7 @@ interface Props {
   sx: SxProps;
   color?: string;
 }
-function FavListHeader({ sx, color }: Props) {
+export default function ({ sx, color }: Props) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
@@ -35,5 +35,3 @@ function FavListHeader({ sx, color }: Props) {
     </Grid>
   );
 }
-
-export default FavListHeader;

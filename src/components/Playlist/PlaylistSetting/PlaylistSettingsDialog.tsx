@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,60 +9,44 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
-interface props {
-  fromList: NoxMedia.Playlist;
-  onClose: Function;
+import usePlaylistSetting from '@APM/components/playlist/Menu/usePlaylistSetting';
+
+interface Props {
+  playlist: NoxMedia.Playlist;
+  onClose: () => void;
   openState: boolean;
-  rssUpdate: Function;
-  onCancel: Function;
+  rssUpdate: (v: string[]) => void;
+  onCancel: () => void;
   id: string;
 }
 
 export default function FavSettingsDialog({
-  fromList,
+  playlist,
   onClose,
   openState,
   rssUpdate,
   onCancel,
   id,
-}: props) {
-  const [subUrl, setSubUrl] = useState('');
-  const [bannedBVids, setBannedBVids] = useState('');
-  const [favListName, setFavListName] = useState('');
-  const [useBiliShazam, setUseBiliShazam] = useState(false);
-  const [biliSync, setBiliSync] = useState(false);
-
-  if (fromList === undefined) return null;
-
-  const setArrayAsStr = (val: Array<string>, setFunc = setSubUrl) => {
-    try {
-      setFunc(val.join(';'));
-    } catch {
-      setFunc('');
-    }
-  };
+}: Props) {
+  const {
+    subscribeUrl,
+    setSubscribeUrl,
+    blacklistedUrl,
+    setBlacklistedUrl,
+    title,
+    setTitle,
+    useBiliShazam,
+    useBiliSync,
+    toggleBiliShazam,
+    toggleBiliSync,
+    saveSetting,
+    loadSetting,
+  } = usePlaylistSetting(playlist);
 
   const handleClose = () => {
-    onClose(fromList, {
-      subscribeUrl: Array.from(new Set(subUrl.split(';'))),
-      favListName,
-      useBiliShazam,
-      biliSync,
-      blacklistedUrl: Array.from(new Set(bannedBVids.split(';'))),
-    });
+    saveSetting();
+    onClose();
   };
-
-  const loadFavList = (favList = fromList) => {
-    setArrayAsStr(favList.subscribeUrl, setSubUrl);
-    setArrayAsStr(favList.blacklistedUrl, setBannedBVids);
-    setFavListName(favList.title);
-    setUseBiliShazam(!!favList.useBiliShazam);
-    setBiliSync(!!favList.biliSync);
-  };
-
-  useEffect(() => {
-    loadFavList();
-  }, [fromList.id, fromList.songList.length]);
 
   return (
     <Dialog open={openState} id={id}>
@@ -74,8 +58,8 @@ export default function FavSettingsDialog({
           label='歌单名称'
           type='name'
           variant='standard'
-          onChange={(e) => setFavListName(e.target.value)}
-          value={favListName}
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
           autoComplete='off'
         />
       </DialogTitle>
@@ -86,8 +70,8 @@ export default function FavSettingsDialog({
           label='订阅url'
           type='name'
           variant='standard'
-          onChange={(e) => setSubUrl(e.target.value)}
-          value={subUrl}
+          onChange={(e) => setSubscribeUrl(e.target.value)}
+          value={subscribeUrl}
           autoComplete='off'
           placeholder='这些url会被订阅'
         />
@@ -98,21 +82,15 @@ export default function FavSettingsDialog({
           label='黑名单BV号'
           type='name'
           variant='standard'
-          onChange={(e) => setBannedBVids(e.target.value)}
-          value={bannedBVids}
+          onChange={(e) => setBlacklistedUrl(e.target.value)}
+          value={blacklistedUrl}
           autoComplete='off'
           placeholder='这些bvid不会被订阅'
         />
         <div />
         <Tooltip title='使用b站识歌API（王胡桃专用）'>
           <FormControlLabel
-            control={
-              <Checkbox
-                onChange={(e) => {
-                  setUseBiliShazam(e.target.checked);
-                }}
-              />
-            }
+            control={<Checkbox onChange={toggleBiliShazam} />}
             checked={useBiliShazam}
             label='使用b站识歌API'
           />
@@ -120,14 +98,8 @@ export default function FavSettingsDialog({
         <div />
         <Tooltip title='自动同步为b站收藏夹'>
           <FormControlLabel
-            control={
-              <Checkbox
-                onChange={(e) => {
-                  setBiliSync(e.target.checked);
-                }}
-              />
-            }
-            checked={biliSync}
+            control={<Checkbox onChange={toggleBiliSync} />}
+            checked={useBiliSync}
             label='自动同步为b站收藏夹'
           />
         </Tooltip>
@@ -135,7 +107,7 @@ export default function FavSettingsDialog({
       <DialogActions>
         <Button
           onClick={() => {
-            loadFavList();
+            loadSetting();
             onCancel();
           }}
         >
@@ -145,7 +117,7 @@ export default function FavSettingsDialog({
         <Button
           onClick={() => {
             handleClose();
-            rssUpdate(subUrl.split(';'));
+            rssUpdate(subscribeUrl.split(';'));
           }}
         >
           确认并更新订阅

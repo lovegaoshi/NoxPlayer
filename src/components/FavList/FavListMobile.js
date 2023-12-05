@@ -21,17 +21,17 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useConfirm } from 'material-ui-confirm';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import Search from './Search';
+import Search from './FavListHeader/Search';
 import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import rgba2rgb from '../../utils/rgba2rgb';
 import HelpPanelButton from './FavListHeader/HelpPanelButton';
-import useFavList from '../../hooks/useFavList';
+import useFavList from './useFavList';
 import TimerButton from '../buttons/TimerButton';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
-import Fav from '../Fav/FavMobile';
+import Fav from '../Playlist/FavMobile';
 
 const { colorTheme } = skinPreset;
 const modifiedBackgroundPalette = colorTheme.palette;

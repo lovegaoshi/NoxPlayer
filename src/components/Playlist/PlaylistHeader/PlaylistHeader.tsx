@@ -4,31 +4,23 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from '../buttons/RandomGIF';
-import FavSettingsButtons from './FavSetting/FavSettingsButton';
-import SongSearchBar from '../dialogs/SongSearchbar';
+import { PLAYLIST_ENUMS } from '@enums/Playlist';
+import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
+import { skinPreset } from '../../../styles/skin';
+import RandomGIFIcon from './RandomGIF';
+import FavSettingsButtons from '../PlaylistSetting/PlaylistSettingsButton';
+import SongSearchBar from '../../dialogs/SongSearchbar';
 
 const { colorTheme } = skinPreset;
 
 interface Props {
-  primePageToCurrentPlaying: () => void;
   playlist: NoxMedia.Playlist;
-  page: number;
-  handleSearch: (v: string) => void;
-  searchBarRef: any;
-  rssUpdate: (v: string[]) => Promise<NoxMedia.Playlist>;
-  setRows: (v: NoxMedia.Song[]) => void;
+  playlistPaginated: UsePlaylistP;
 }
-export default function FavHeader({
-  playlist,
-  rssUpdate,
-  page,
-  primePageToCurrentPlaying,
-  handleSearch,
-  searchBarRef,
-  setRows,
-}: Props) {
+export default function FavHeader({ playlist, playlistPaginated }: Props) {
+  const { page, primePageToCurrentPlaying, handleSearch, searchBarRef } =
+    playlistPaginated;
+
   return (
     <Box
       sx={{ flexGrow: 1, maxHeight: '80px' }}
@@ -65,13 +57,10 @@ export default function FavHeader({
           />
         </Grid>
         <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
-          {playlist.type && (
+          {playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST && (
             <FavSettingsButtons
-              currentList={playlist}
-              rssUpdate={async (subscribeUrls: string[]) => {
-                const val = await rssUpdate(subscribeUrls);
-                if (val !== null) setRows(val.songList);
-              }}
+              playlist={playlist}
+              usePlaylist={playlistPaginated}
             />
           )}
           <SongSearchBar handleSearch={handleSearch} ref={searchBarRef} />
