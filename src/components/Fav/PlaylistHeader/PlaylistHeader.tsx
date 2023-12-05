@@ -8,7 +8,7 @@ import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { UseFavP } from '../hooks/usePlaylistPaginated';
 import { skinPreset } from '../../../styles/skin';
 import RandomGIFIcon from './RandomGIF';
-import FavSettingsButtons from '../FavSetting/FavSettingsButton';
+import FavSettingsButtons from '../PlaylistSetting/PlaylistSettingsButton';
 import SongSearchBar from '../../dialogs/SongSearchbar';
 
 const { colorTheme } = skinPreset;

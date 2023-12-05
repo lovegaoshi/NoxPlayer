@@ -21,10 +21,10 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import useFav from './hooks/usePlaylistPaginated';
-import { songText } from './FavHeader/FavHeader';
+import { songText } from './PlaylistHeader/PlaylistHeader';
 import { skinPreset } from '../../styles/skin';
-import RandomGIFIcon from './FavHeader/RandomGIF';
-import FavSettingsButtons from './FavSetting/FavSettingsButton';
+import RandomGIFIcon from './PlaylistHeader/RandomGIF';
+import FavSettingsButtons from './PlaylistSetting/PlaylistSettingsButton';
 import { getPlayerSettingKey } from '../../utils/ChromeStorage';
 import SongSearchBar from '../dialogs/SongSearchbar';
 import { ScrollBar } from '../../styles/styles';

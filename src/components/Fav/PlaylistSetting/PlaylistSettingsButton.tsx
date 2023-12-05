@@ -3,8 +3,8 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 
-import FavSettingsDialog from './FavSettingsDialog';
-import FavSettingLoading from './FavSettingsLoading';
+import FavSettingsDialog from './PlaylistSettingsDialog';
+import FavSettingLoading from './PlaylistSettingsLoading';
 
 interface UsePlaylist {
   refreshing: boolean;

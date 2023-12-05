@@ -4,9 +4,9 @@ import React from 'react';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav from './hooks/usePlaylistPaginated';
 import { skinPreset } from '../../styles/skin';
-import Menu from './Favmenu';
+import Menu from './SongMenu';
 import SongList from './SongList/SongList';
-import FavHeader from './FavHeader/FavHeader';
+import FavHeader from './PlaylistHeader/PlaylistHeader';
 
 const { colorTheme } = skinPreset;
 
