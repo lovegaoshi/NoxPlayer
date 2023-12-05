@@ -9,7 +9,7 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
 import { skinPreset } from '@styles/skin';
 import usePlayback from '@hooks/usePlayback';
-import { PlaylistEntry, SearchlistEntry } from './PlaylistEntry';
+import { PlaylistInfo, SearchlistEntry } from './PlaylistInfo';
 
 const { colorTheme } = skinPreset;
 
@@ -91,7 +91,7 @@ export default function PlaylistList() {
                           ...provided2.draggableProps.style,
                         }}
                       >
-                        <PlaylistEntry
+                        <PlaylistInfo
                           key2={String(index)}
                           playlist={playlists[item]!}
                           setSelectedList={setSelectedList}
