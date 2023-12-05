@@ -8,6 +8,8 @@
 import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
 
+export * from '@APM/stores/useApp';
+
 // this is a special audio intance that is passed from react-music-player
 // TODO: fill in the types
 // it extends NoxMedia.Song

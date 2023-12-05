@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { UseFavP } from '../hooks/usePlaylistPaginated';
 import { skinPreset } from '../../../styles/skin';
 import RandomGIFIcon from './RandomGIF';
@@ -56,8 +57,8 @@ export default function FavHeader({ playlist, useFav }: Props) {
           />
         </Grid>
         <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
-          {playlist.type && (
-            <FavSettingsButtons currentList={playlist} usePlaylist={useFav} />
+          {playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST && (
+            <FavSettingsButtons playlist={playlist} usePlaylist={useFav} />
           )}
           <SongSearchBar handleSearch={handleSearch} ref={searchBarRef} />
         </Grid>

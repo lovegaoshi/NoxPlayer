@@ -3,17 +3,16 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 
-import { useNoxSetting } from '@APM/stores/useApp';
-import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
-import FavSettingLoading from './FavSettingLoading';
+import FavSettingsDialog from './FavSettingsDialog';
+import FavSettingLoading from './FavSettingsLoading';
 
 interface UsePlaylist {
   refreshing: boolean;
-  refreshPlaylist: () => void;
+  refreshPlaylist: (v?: string[]) => void;
 }
 
-interface props {
-  currentList: NoxMedia.Playlist;
+interface Props {
+  playlist: NoxMedia.Playlist;
   usePlaylist: UsePlaylist;
 }
 
@@ -21,37 +20,13 @@ interface props {
  * a component that includes a setting button; an update button; and a setting dialog.
  * this component serves in Fav.js that it opens the setting window for a playlist;
  * and update playlist according to its subscription urls.
- * @param {Object} currentList playlist object.
+ * @param {Object} playlist playlist object.
  * @param {function} rssUpdate function that updates the playlist's content, fetching its subscription urls.
  * @returns
  */
-export default function FavSettingsButtons({
-  currentList,
-  usePlaylist,
-}: props) {
+export default function FavSettingsButtons({ playlist, usePlaylist }: Props) {
   const { refreshing, refreshPlaylist } = usePlaylist;
-  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
-
-  /**
-   * updates the favlist object.
-   * @param {object} listObj
-   * @param {Array} urls
-   * @param {string} favListName
-   * @param {boolean} useBiliShazam
-   */
-  // const updateFavSetting = (listObj, {subscribeUrls = [], favListName = null, useBiliShazam = null, bannedBVids = []}) => {
-  const updateFavSetting = (
-    listObj: NoxMedia.Playlist,
-    listSetting: { [key: string]: any } = {},
-  ) => {
-    updatePlaylist({
-      ...listObj,
-      ...listSetting,
-      title: listSetting.favListName,
-    });
-    setOpenSettingsDialog(false);
-  };
 
   return (
     <React.Fragment>
@@ -72,9 +47,9 @@ export default function FavSettingsButtons({
       <FavSettingsDialog
         id='FavSettingsDialog'
         openState={openSettingsDialog}
-        onClose={updateFavSetting}
+        onClose={() => setOpenSettingsDialog(false)}
         onCancel={() => setOpenSettingsDialog(false)}
-        fromList={currentList}
+        playlist={playlist}
         rssUpdate={refreshPlaylist}
       />
     </React.Fragment>

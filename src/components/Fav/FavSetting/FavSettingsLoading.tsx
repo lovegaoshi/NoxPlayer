@@ -2,23 +2,19 @@ import React from 'react';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import useNoxStore from '@hooks/useStore';
+import { useNoxSetting } from '@APM/stores/useApp';
 
 interface Props {
   loading: boolean;
 }
 export default function FavSettingLoading({ loading }: Props) {
-  const playlistRefreshProgress = useNoxStore(
-    (state) => state.playlistRefreshProgress,
-  );
+  const searchProgress = useNoxSetting((state) => state.searchBarProgress);
 
   return loading ? (
     <CircularProgress
       size={24}
-      variant={
-        playlistRefreshProgress === 100 ? 'indeterminate' : 'determinate'
-      }
-      value={playlistRefreshProgress}
+      variant={searchProgress === 1 ? 'indeterminate' : 'determinate'}
+      value={searchProgress * 100}
     />
   ) : (
     <AutorenewIcon />
