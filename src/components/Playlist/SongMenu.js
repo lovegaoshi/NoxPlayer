@@ -13,27 +13,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import 'react-contexify/dist/ReactContexify.css';
 
 import { getName } from '@APM/utils/re';
-import { useNoxSetting } from '@APM/stores/useApp';
-import { saveFav, readLocalStorage } from '@utils/ChromeStorage';
-import { STORAGE_KEYS } from '@enums/Storage';
-import { BiliBiliIconSVG, goToBiliBili, toBiliBili } from '../bilibiliIcon';
+import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
+import { BiliBiliIconSVG, goToBiliBili } from '../bilibiliIcon';
+import {
+  searchSongOnWeb,
+  searchSongOnBili,
+  copyToClipboard,
+  copyLinkToClipboard,
+} from './SongCRUD';
 
 export const MENU_ID = 'favmenu';
-
-export const searchSongOnWeb = (song) => {
-  chrome.search.query({
-    text: getName(song, true),
-    disposition: 'NEW_TAB',
-  });
-};
-
-export const searchSongOnBili = (song) =>
-  window.open(
-    `https://search.bilibili.com/all?keyword=${getName(
-      song,
-      true,
-    )}&from_source=webtop_search`,
-  );
 
 /**
  * right-click context menu for Fav.
@@ -47,7 +36,7 @@ export const searchSongOnBili = (song) =>
  */
 
 export default function App({ theme }) {
-  const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
+  const playlistCRUD = usePlaylistCRUD();
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
@@ -56,16 +45,6 @@ export default function App({ theme }) {
 
   function handleItemClick({ event, props, triggerEvent, data }) {
     console.warn('method not implemented', props.song);
-  }
-
-  function copyToClipboard({ props }) {
-    navigator.clipboard.writeText(getName(props.song, true));
-  }
-
-  function copyLinkToClipboard({ props }) {
-    navigator.clipboard.writeText(
-      toBiliBili({ bvid: props.song.bvid, episode: props.song.page }),
-    );
   }
 
   function searchOnWeb({ props }) {
@@ -81,31 +60,15 @@ export default function App({ theme }) {
   }
 
   function banSongBVid({ event, props, triggerEvent, data }) {
-    props.onDelete();
-    props.currentFavList.bannedBVids.push(props.song.bvid);
-    saveFav(props.currentFavList);
+    playlistCRUD.removeSongs([props.song], true, props.playlist);
   }
 
   function reloadSongBVid({ event, props, triggerEvent, data }) {
-    props.reloadBVid(props.song.bvid);
+    playlistCRUD.reloadBVid([props.song], props.playlist);
   }
 
   async function deleteSongFromAllLists({ props }) {
-    // HACK: works but songs may not play after this. everything looked normal though??
-    // TODO: any problems with favlist not updated its because favlist.js actually stores all favlists
-    // in a state; storageManager context manages that state. so any direct updates to favlists through,
-    // for example savFav in storage.js, wont get updated in favlist.js's state and thus appears not updated.
-    props.onDelete();
-    for (const favListKey of await readLocalStorage(
-      STORAGE_KEYS.MY_FAV_LIST_KEY,
-    )) {
-      const favList = await readLocalStorage(favListKey);
-      const favListLen = favList.songList.length;
-      favList.songList = favList.songList.filter(
-        (val) => val.id !== props.song.id,
-      );
-      if (favListLen !== favList.songList.length) await updatePlaylist(favList);
-    }
+    playlistCRUD.removeSongsFromAllLists([props.song]);
   }
 
   function editSongBVid({ event, props, triggerEvent, data }) {
@@ -123,10 +86,10 @@ export default function App({ theme }) {
   return (
     <div>
       <Menu id={MENU_ID} animation='slide' theme={theme}>
-        <Item onClick={copyToClipboard}>
+        <Item onClick={({ props }) => copyToClipboard(props.song)}>
           <ContentCopyIcon /> &nbsp; 把歌名复制到剪贴板
         </Item>
-        <Item onClick={copyLinkToClipboard}>
+        <Item onClick={({ props }) => copyLinkToClipboard(props.song)}>
           <LinkIcon /> &nbsp; 把b站链接复制到剪贴板
         </Item>
         <Item

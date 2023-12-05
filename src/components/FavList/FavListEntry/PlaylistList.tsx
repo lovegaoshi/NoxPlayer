@@ -13,7 +13,36 @@ import { PlaylistInfo, SearchlistEntry } from './PlaylistInfo';
 
 const { colorTheme } = skinPreset;
 
-export default function PlaylistList() {
+interface PlaylistCRUD {
+  playlists: { [key: string]: NoxMedia.Playlist };
+  playlistIds: string[];
+  searchList: NoxMedia.Playlist;
+  setSelectedList: (playlist: NoxMedia.Playlist) => void;
+  setSongsStoredAsNewFav: (v: NoxMedia.Song[]) => void;
+  openNewDialog: boolean;
+  setOpenNewDialog: (v: boolean) => void;
+  openAddDialog: boolean;
+  actionFavId?: NoxMedia.Playlist;
+  actionFavSong?: NoxMedia.Song;
+
+  onNewFav: (v?: string) => void;
+  handleDeleteFavClick: (playlist: NoxMedia.Playlist) => void;
+  handleAddToFavClick: (
+    playlist: NoxMedia.Playlist,
+    song?: NoxMedia.Song,
+  ) => void;
+  onAddFav: (
+    songs: NoxMedia.Song[],
+    fromList?: NoxMedia.Playlist,
+    toId?: string,
+  ) => void;
+  onDragEnd: (result: any) => void;
+}
+
+interface Props {
+  playlistCRUD: PlaylistCRUD;
+}
+export default function PlaylistList({ playlistCRUD }: Props) {
   const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const {
@@ -33,7 +62,7 @@ export default function PlaylistList() {
     handleAddToFavClick,
     onAddFav,
     onDragEnd,
-  } = useFavList();
+  } = playlistCRUD;
 
   return (
     <React.Fragment>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import isMobile from 'is-mobile';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { SnackbarProvider } from 'notistack';
@@ -20,13 +19,18 @@ const theme = createTheme(colorTheme.palette);
 interface Props {
   songList: NoxMedia.Song[];
   backgroundSrc: string;
+  isMobile?: boolean;
 }
-export default function PageLayout({ songList, backgroundSrc }: Props) {
+export default function PageLayout({
+  songList,
+  backgroundSrc,
+  isMobile = false,
+}: Props) {
   if (!songList || !backgroundSrc) {
     return <h1>Loading...</h1>;
   }
 
-  if (isMobile()) {
+  if (isMobile) {
     return (
       // Outmost layer of the page
       <React.Suspense fallback={<h1>Loading...</h1>}>

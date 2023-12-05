@@ -25,8 +25,11 @@ interface Props {
   key: string;
   playlist: NoxMedia.Playlist;
   performSearch: (v: string) => void;
-  handleDeleteFromSearchList: (i: string, j: string) => Promise<void>;
-  favListReloadBVid: (bvid: string) => void;
+  removeSongs: (
+    s: NoxMedia.Song[],
+    ban?: boolean,
+    p?: NoxMedia.Playlist,
+  ) => void;
   openSongEditDialog: (song: NoxMedia.Song) => void;
   playSong: (v: NoxMedia.Song) => void;
   searchBarRef: any;
@@ -37,8 +40,7 @@ function SongInfo({
   index,
   playlist,
   performSearch,
-  handleDeleteFromSearchList,
-  favListReloadBVid,
+  removeSongs,
   openSongEditDialog,
   playSong,
   searchBarRef,
@@ -59,9 +61,7 @@ function SongInfo({
           props: {
             song,
             performSearch,
-            onDelete: () => handleDeleteFromSearchList(playlist.id, song.id),
             playlist,
-            reloadBVid: favListReloadBVid,
             onSongEdit: () => openSongEditDialog(song),
           },
         });
@@ -123,7 +123,7 @@ function SongInfo({
           <DeleteOutlineOutlinedIcon
             sx={CRUDIcon}
             onClick={async () => {
-              await handleDeleteFromSearchList(playlist.id, song.id);
+              removeSongs([song], false, playlist);
               performSearch(searchBarRef.current.value);
             }}
           />

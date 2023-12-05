@@ -2,8 +2,8 @@ import React from 'react';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
-import useFavList from '@/components/FavList/useFavList';
 import { skinPreset } from '@styles/skin';
+import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 import Search from './FavListHeader/Search';
 import PlaylistHeaderButtons from './FavListHeader/PlaylistHeaderButtons';
 import PlaylistList from './FavListEntry/PlaylistList';
@@ -11,11 +11,11 @@ import PlaylistList from './FavListEntry/PlaylistList';
 const { colorTheme } = skinPreset;
 
 export default function () {
-  const { setSearchInputVal } = useFavList();
+  const playlistCRUD = usePlaylistCRUD();
 
   return (
     <React.Fragment>
-      <Search setSearchInputVal={setSearchInputVal} />
+      <Search setSearchInputVal={playlistCRUD.setSearchInputVal} />
       <br />
       <Box // Mid Grid -- SideBar
         style={{
@@ -32,7 +32,7 @@ export default function () {
         />
         <Divider light />
 
-        <PlaylistList />
+        <PlaylistList playlistCRUD={playlistCRUD} />
       </Box>
     </React.Fragment>
   );

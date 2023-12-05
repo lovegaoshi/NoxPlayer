@@ -20,7 +20,6 @@ export default () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const playlists = useNoxSetting((state) => state.playlists);
   const playlistIds = useNoxSetting((state) => state.playlistIds);
-  const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const selectedList = useNoxSetting((state) => state.currentPlaylist);
   const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
   const addPlaylist = useNoxSetting((state) => state.addPlaylist);
@@ -42,19 +41,6 @@ export default () => {
 
   const confirm = useConfirm();
   const playlistCRUD = usePlaylistCRUD();
-
-  const handleDeleteFromSearchList = async (listid: string, songid: string) => {
-    const favList = playlists[listid];
-    if (favList === undefined) {
-      console.error(`favList not found: ${listid}`);
-      return;
-    }
-    const index = favList.songList.findIndex((song) => song.id === songid);
-    if (index === -1) return;
-    favList.songList.splice(index, 1);
-    const updatedToList = { ...favList };
-    updatePlaylist(updatedToList);
-  };
 
   const onNewFav = (favName?: string) => {
     setOpenNewDialog(false);
@@ -93,15 +79,11 @@ export default () => {
     setOpenAddDialog(true);
   };
 
-  const onAddFav = async ({
-    songs,
-    fromList,
-    toId,
-  }: {
-    songs: NoxMedia.Song[];
-    fromList?: NoxMedia.Playlist;
-    toId?: string;
-  }) => {
+  const onAddFav = (
+    songs: NoxMedia.Song[],
+    fromList?: NoxMedia.Playlist,
+    toId?: string,
+  ) => {
     setOpenAddDialog(false);
     if (!toId) return;
     updatePlaylist(
@@ -206,7 +188,6 @@ export default () => {
     actionFavSong,
     setSearchInputVal,
     updateSubscribeFavList,
-    handleDeleteFromSearchList,
     onNewFav,
     handleDeleteFavClick,
     handleAddToFavClick,

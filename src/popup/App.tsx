@@ -37,6 +37,12 @@ export default function App() {
 
   // console.log(currentSongList)
   return (
-    <PageLayout songList={currentSongList} backgroundSrc={backgroundSrc} />
+    <PageLayout
+      songList={currentSongList}
+      backgroundSrc={backgroundSrc}
+      // Mobile interface is assumed broken after refactoring and deprecaited
+      // in favor of APM. use the better thing!
+      isMobile={false}
+    />
   );
 }

@@ -54,15 +54,9 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     setSongEditDialogOpen,
   } = useRenameSong();
 
-  const { handleDeleteFromSearchList, handleAddToFavClick, updateSong } =
-    playlistCRUD;
+  const { removeSongs, handleAddToFavClick, updateSong } = playlistCRUD;
 
   const className = ScrollBar().root;
-
-  const favListReloadBVid = (bvid: string) => {
-    playlist.songList = playlist.songList.filter((x) => x.bvid !== bvid);
-    rssUpdate([bvid]);
-  };
 
   return (
     <React.Fragment>
@@ -120,8 +114,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
                 index={index}
                 playlist={playlist}
                 performSearch={performSearch}
-                handleDeleteFromSearchList={handleDeleteFromSearchList}
-                favListReloadBVid={favListReloadBVid}
+                removeSongs={removeSongs}
                 openSongEditDialog={openSongEditDialog}
                 playSong={(v) =>
                   onPlayOneFromFav(v, {
