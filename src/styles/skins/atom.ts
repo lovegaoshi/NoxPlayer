@@ -1,32 +1,7 @@
 import skinTemplate, { randomChoice } from './template';
+import APMSkins from './APMSkins';
 
-const gifs = [
-  'https://i0.hdslb.com/bfs/garb/91f5709e2a54844584c1f3b986cbf78d082b3712.png',
-  'https://i0.hdslb.com/bfs/garb/6f2ff2e52306be48f144ba6e8912aba51f5a239d.png',
-  'https://i0.hdslb.com/bfs/garb/fa9823893eaa7038cf815626c908622ab53eda6e.png',
-  'https://i0.hdslb.com/bfs/garb/a44ebddbb8dbc0633287a6e64542d1dafb537db7.png',
-  'https://i0.hdslb.com/bfs/garb/7a7a8e0c82327512c829fab69de72a28be6a566d.png',
-  'https://i0.hdslb.com/bfs/garb/ca0f5258d0f51d013645bcec8015656d03768995.png',
-  'https://i0.hdslb.com/bfs/garb/2e6348ed5027f900f4907c8a2083f8efd97f7171.png',
-  'https://i0.hdslb.com/bfs/garb/8c43402454ba4563466613098c557b10258e8a08.png',
-  'https://i0.hdslb.com/bfs/garb/dff8b7374a3f12b0bab04899562ed161cacb78f2.png',
-  'https://i0.hdslb.com/bfs/garb/72be33e9db0c6502d81b1f26d7beb12b04783674.png',
-  'https://i0.hdslb.com/bfs/garb/ae9928548b2f0b069ec864dc1d570bebf01b55b6.png',
-  'https://i0.hdslb.com/bfs/garb/dee6d892706fc1fcab6e48797cfc208eb6fe4f87.png',
-  'https://i0.hdslb.com/bfs/garb/7ebc2c1b5e14d87477e2290a558f55853753fea5.png',
-  'https://i0.hdslb.com/bfs/garb/c14dad9611b11cd3bcd2bd83ac1457996863c9e0.png',
-  'https://i0.hdslb.com/bfs/garb/8cd5e19684b78b005e948c540a109a6adc6b9ee1.png',
-  'https://i0.hdslb.com/bfs/garb/4646908b1ed68798bef21cde31a0482ed7516d43.png',
-  'https://i0.hdslb.com/bfs/garb/c1a73d2ec873cd6577f88ba864c8c896ec0b4e58.png',
-  'https://i0.hdslb.com/bfs/garb/7a95b2bc7492bce288436617ec1c01b32506e7e5.png',
-  'https://i0.hdslb.com/bfs/garb/ae9bd7b93ae69c54081e12cccb1fa508a3241d8d.png',
-  'https://i0.hdslb.com/bfs/garb/56d914896b5d8470354b5587bbcf25129d63c70c.png',
-  'https://i0.hdslb.com/bfs/garb/9c0a0bd8537a7adfa93a7e1d73fe76e128dfe296.png',
-  'https://i0.hdslb.com/bfs/garb/b9bb10996653e1d3579377bdf3cf64386ba946c3.png',
-  'https://i0.hdslb.com/bfs/garb/01a2de3680b6b6a23ab3e0fe19f3e3a2b3859d3c.png',
-  'https://i0.hdslb.com/bfs/garb/04256613e962fd97da5f0d392d87222835b2015b.png',
-  'https://i0.hdslb.com/bfs/garb/9caf823d27a686dbf2b8a720842d7ad1bb223f11.png',
-];
+const { gifs } = APMSkins['录音姬阿童木']!;
 
 export default skinTemplate({
   playerBanner:

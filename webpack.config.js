@@ -213,6 +213,10 @@ module.exports = (env) => {
         require.resolve('./mocks/react-native-track-player.js'),
       ),
       new webpack.NormalModuleReplacementPlugin(
+        /react-native-paper/,
+        require.resolve('./mocks/react-native-paper.js'),
+      ),
+      new webpack.NormalModuleReplacementPlugin(
         /^react-native$/,
         require.resolve('./mocks/react-native.js'),
       ),

@@ -61,7 +61,7 @@ export default function App({ theme = 'light' }) {
     }
   }
 
-  function updateFavlist(
+  function showMsg(
     msg: string,
     option = { variant: 'success', autoHideDuration: 2000 },
   ) {
@@ -83,12 +83,12 @@ export default function App({ theme = 'light' }) {
       console.warn(`b站识歌标识歌单 ${props.favlist.title} 失败`, e);
     }
     closeSnackbar(key);
-    updateFavlist(`歌单 ${props.favlist.title} 已经用b站识歌更新乐！`);
+    showMsg(`歌单 ${props.favlist.title} 已经用b站识歌更新乐！`);
   }
 
   function removeBiliShazam({ event, props, triggerEvent, data }: Props) {
     playlistCRUD.playlistRemoveBiliShazamed(props.favlist);
-    updateFavlist(`歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`);
+    showMsg(`歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`);
   }
 
   function clearPlaylist({ event, props, triggerEvent, data }: Props) {
@@ -100,7 +100,7 @@ export default function App({ theme = 'light' }) {
     })
       .then(() => {
         playlistCRUD.playlistClear(props.favlist);
-        updateFavlist(`歌单 ${props.favlist.title} 清空乐！`);
+        showMsg(`歌单 ${props.favlist.title} 清空乐！`);
       })
       .catch();
   }
@@ -119,7 +119,7 @@ export default function App({ theme = 'light' }) {
         );
         try {
           await playlistCRUD.playlistReload(props.favlist);
-          updateFavlist(`歌单 ${props.favlist.title} 重载了！`);
+          showMsg(`歌单 ${props.favlist.title} 重载了！`);
         } catch {
           console.error('failed to reload playlist', props.favlist.title);
         } finally {

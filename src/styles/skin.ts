@@ -15,6 +15,7 @@ import NoirTheme from './skins/noir';
 import RyniaTheme from './skins/rynia';
 import NiyaTheme from './skins/nyiaibu';
 import LumiTheme from './skins/lumi';
+
 // needs to enable top-level await; necessary for other modules to import current skin config
 const setting = await getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
