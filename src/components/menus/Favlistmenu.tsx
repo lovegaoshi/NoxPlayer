@@ -20,7 +20,7 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { removeSongBiliShazamed } from '@objects/Song';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { biliShazamOnSonglist } from '@APM/utils/mediafetch/bilishazam';
-import useFavList from '@hooks/useFavList';
+import useFavList from '@/components/FavList/useFavList';
 
 const MENU_ID = 'favlistmenu';
 

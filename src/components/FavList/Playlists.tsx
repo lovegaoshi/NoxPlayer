@@ -2,7 +2,7 @@ import React from 'react';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
-import useFavList from '@hooks/useFavList';
+import useFavList from '@/components/FavList/useFavList';
 import { skinPreset } from '@styles/skin';
 import Search from './FavListHeader/Search';
 import PlaylistHeaderButtons from './FavListHeader/PlaylistHeaderButtons';

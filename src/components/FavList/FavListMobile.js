@@ -27,7 +27,7 @@ import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import rgba2rgb from '../../utils/rgba2rgb';
 import HelpPanelButton from './FavListHeader/HelpPanelButton';
-import useFavList from '../../hooks/useFavList';
+import useFavList from './useFavList';
 import TimerButton from '../buttons/TimerButton';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
