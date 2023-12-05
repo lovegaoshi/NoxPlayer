@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 import useFavList from '@hooks/useFavList';
 import { skinPreset } from '@styles/skin';
-import Search from './Search';
+import Search from './FavListHeader/Search';
 import Menu from '../menus/Favlistmenu';
 import Fav from '../Playlist/Playlist';
 import FavListHeader from './FavListHeader/FavListHeader';

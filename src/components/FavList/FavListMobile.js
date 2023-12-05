@@ -21,7 +21,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useConfirm } from 'material-ui-confirm';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import Search from './Search';
+import Search from './FavListHeader/Search';
 import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';

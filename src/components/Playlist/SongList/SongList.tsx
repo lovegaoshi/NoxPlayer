@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useState } from 'react';
+import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,7 +15,7 @@ import { zhCN } from '@mui/material/locale';
 
 import usePlayer from '@hooks/usePlayer';
 import { useNoxSetting } from '@APM/stores/useApp';
-import usePlaylist from '@hooks/usePlaylist';
+import useUpdatePlaylist from '@hooks/useUpdatePlaylist';
 import { UseFavP } from '../hooks/usePlaylistPaginated';
 import useRenameSong from '../hooks/useRenameSong';
 import { skinPreset } from '../../../styles/skin';
@@ -53,7 +53,8 @@ export default function Fav({ playlist, useFav }: Props) {
     setSongEditDialogOpen,
   } = useRenameSong();
 
-  const { handleDeleteFromSearchList, handleAddToFavClick } = usePlaylist();
+  const { handleDeleteFromSearchList, handleAddToFavClick } =
+    useUpdatePlaylist();
 
   const className = ScrollBar().root;
 
