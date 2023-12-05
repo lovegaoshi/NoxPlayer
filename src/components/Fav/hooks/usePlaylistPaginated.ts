@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import useFav, { UseFav } from '@APM/hooks/usePlaylist';
+import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
+import { PLAYLIST_ENUMS } from '@enums/Playlist';
+import { logger } from '@utils/Logger';
 
 export interface UseFavP extends UseFav {
   page: number;
@@ -13,6 +16,7 @@ export interface UseFavP extends UseFav {
   primePageToCurrentPlaying: () => void;
   handleChangePage: (event: any, newPage: number) => void;
   handleChangeRowsPerPage: (event: any) => void;
+  refreshPlaylist: () => void;
 }
 
 /**
@@ -22,7 +26,8 @@ export interface UseFavP extends UseFav {
  */
 const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
   const usedFav = useFav(playlist);
-  const { rows, performSearch } = usedFav;
+  const { setRefreshing, rssUpdate, rows, performSearch, setRows } = usedFav;
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
@@ -85,6 +90,37 @@ const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
     setPage(0);
   };
 
+  const refreshPlaylist = async (subscribeUrls?: string[]) => {
+    if (playlist.type !== PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST) {
+      return;
+    }
+    setRefreshing(true);
+    try {
+      const val = await rssUpdate(subscribeUrls);
+      if (val !== undefined) setRows(val.songList);
+    } catch (e) {
+      logger.error('[refreshPlaylist] failed');
+      logger.error(String(e));
+    }
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
+    if (
+      playerSetting.autoRSSUpdate &&
+      playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST &&
+      playlist.subscribeUrl.length > 0 &&
+      playlist.subscribeUrl[0]!.length > 0 &&
+      new Date().getTime() - playlist.lastSubscribed > 86400000
+    ) {
+      refreshPlaylist().then(() => {
+        if (playlist.biliSync) {
+          syncFavlist(playlist);
+        }
+      });
+    }
+  }, [playlist]);
+
   return {
     ...usedFav,
     page,
@@ -95,6 +131,7 @@ const useFavP = (playlist: NoxMedia.Playlist): UseFavP => {
     primePageToCurrentPlaying,
     handleChangePage,
     handleChangeRowsPerPage,
+    refreshPlaylist,
   };
 };
 

@@ -1,22 +1,20 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
-import {
-  getPlayerSettingKey,
-  readLocalStorage,
-  setLocalStorage,
-} from '@utils/ChromeStorage';
-import { STORAGE_KEYS } from '@enums/Storage';
 import FavSettingsDialog from '../../dialogs/FavSettingsDialog';
 import FavSettingLoading from './FavSettingLoading';
 
+interface UsePlaylist {
+  refreshing: boolean;
+  refreshPlaylist: () => void;
+}
+
 interface props {
   currentList: NoxMedia.Playlist;
-  rssUpdate: Function;
+  usePlaylist: UsePlaylist;
 }
 
 /**
@@ -27,86 +25,13 @@ interface props {
  * @param {function} rssUpdate function that updates the playlist's content, fetching its subscription urls.
  * @returns
  */
-export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
+export default function FavSettingsButtons({
+  currentList,
+  usePlaylist,
+}: props) {
+  const { refreshing, refreshPlaylist } = usePlaylist;
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
-  const [Loading, setLoading] = useState(false);
-  const favListAutoUpdateTimestamps = useRef({} as { [key: string]: string });
-
-  // because in mobile view, fav gets destoryed when music is playing due to its UI layout;
-  // favListAutoUpdateTimestamps is not persisted. thus a dict stored in chrome.storage.local
-  // is mounted here. this has the additional benefit now that i dont have to see playlists
-  // get auto updated every time i reload the page because its now persisted through sessions
-  useEffect(() => {
-    readLocalStorage(STORAGE_KEYS.FAVLIST_AUTO_UPDATE_TIMESTAMP).then((val) => {
-      if (val === undefined) return;
-      favListAutoUpdateTimestamps.current = val;
-    });
-  }, []);
-
-  useEffect(() => {
-    const checkFavListAutoUpdate = async (
-      favList: NoxMedia.Playlist,
-      updateInterval = 1000 * 60 * 60 * 24,
-    ) => {
-      if (
-        favList.id.includes('Search') ||
-        !(await getPlayerSettingKey('autoRSSUpdate'))
-      )
-        return false;
-      console.debug(
-        favList.title,
-        'previous updated timestamp is:',
-        favListAutoUpdateTimestamps.current[favList.id],
-      );
-      if (favList.biliSync) {
-        syncFavlist(favList);
-      }
-      if (
-        favListAutoUpdateTimestamps.current[favList.id] === undefined ||
-        Date.now() -
-          new Date(favListAutoUpdateTimestamps.current[favList.id]!).getTime() >
-          updateInterval
-      ) {
-        favListAutoUpdateTimestamps.current[favList.id] =
-          new Date().toISOString();
-        setLocalStorage(
-          STORAGE_KEYS.FAVLIST_AUTO_UPDATE_TIMESTAMP,
-          favListAutoUpdateTimestamps.current,
-        );
-        return true;
-      }
-      return false;
-    };
-
-    if (!currentList) {
-      return;
-    }
-    checkFavListAutoUpdate(currentList).then((val) => {
-      if (val) {
-        setLoading(true);
-        try {
-          rssUpdate();
-        } finally {
-          setLoading(false);
-        }
-      }
-    });
-  }, [currentList]);
-
-  /**
-   * a wrapper for rssUpdate, with setting the loading state true before starting
-   * and setting to false after finishing.
-   * @param {Array} subscribeUrls
-   */
-  const handleRssUpdate = (
-    subscribeUrls: Array<string> | undefined = undefined,
-  ) => {
-    setLoading(true);
-    rssUpdate(subscribeUrls)
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false));
-  };
 
   /**
    * updates the favlist object.
@@ -138,10 +63,10 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
       <Tooltip title='歌单更新'>
         <IconButton
           size='large'
-          onClick={() => handleRssUpdate()}
+          onClick={() => refreshPlaylist()}
           disabled={false}
         >
-          <FavSettingLoading loading={Loading} />
+          <FavSettingLoading loading={refreshing} />
         </IconButton>
       </Tooltip>
       <FavSettingsDialog
@@ -150,7 +75,7 @@ export default function FavSettingsButtons({ currentList, rssUpdate }: props) {
         onClose={updateFavSetting}
         onCancel={() => setOpenSettingsDialog(false)}
         fromList={currentList}
-        rssUpdate={handleRssUpdate}
+        rssUpdate={refreshPlaylist}
       />
     </React.Fragment>
   );

@@ -17,14 +17,8 @@ interface Props {
   useFav: UseFavP;
 }
 export default function FavHeader({ playlist, useFav }: Props) {
-  const {
-    rssUpdate,
-    page,
-    primePageToCurrentPlaying,
-    handleSearch,
-    searchBarRef,
-    setRows,
-  } = useFav;
+  const { page, primePageToCurrentPlaying, handleSearch, searchBarRef } =
+    useFav;
 
   return (
     <Box
@@ -63,13 +57,7 @@ export default function FavHeader({ playlist, useFav }: Props) {
         </Grid>
         <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
           {playlist.type && (
-            <FavSettingsButtons
-              currentList={playlist}
-              rssUpdate={async (subscribeUrls: string[]) => {
-                const val = await rssUpdate(subscribeUrls);
-                if (val !== undefined) setRows(val.songList);
-              }}
-            />
+            <FavSettingsButtons currentList={playlist} usePlaylist={useFav} />
           )}
           <SongSearchBar handleSearch={handleSearch} ref={searchBarRef} />
         </Grid>
