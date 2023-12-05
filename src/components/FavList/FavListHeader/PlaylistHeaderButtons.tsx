@@ -5,17 +5,14 @@ import { SxProps } from '@mui/material';
 
 // eslint-disable-next-line import/no-unresolved
 import PlayerSettingsButton from '@components/setting/PlayerSetttingsButton';
-import useFavList from '@hooks/useFavList';
 import HelpPanelButton from './HelpPanelButton';
 import ShuffleAllButton from './ShuffleAllButton';
-import Search from './Search';
 
 interface Props {
   sx: SxProps;
   color?: string;
 }
-function FavListHeader({ sx, color }: Props) {
-  const { setSearchInputVal } = useFavList();
+export default function ({ sx, color }: Props) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
@@ -38,5 +35,3 @@ function FavListHeader({ sx, color }: Props) {
     </Grid>
   );
 }
-
-export default FavListHeader;
