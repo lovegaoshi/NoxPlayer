@@ -79,7 +79,7 @@ interface AddFavDialogProps {
   ) => void;
   openState: boolean;
   fromList?: NoxMedia.Playlist;
-  songs: NoxMedia.Song[];
+  songs?: NoxMedia.Song[];
   isMobile?: boolean;
 }
 export const AddFavDialog = function AddFavDialog({
@@ -109,13 +109,13 @@ export const AddFavDialog = function AddFavDialog({
   };
 
   const playlistTitle = () => {
-    if (songs[0] === undefined) {
+    if (songs === undefined || songs.length === 0) {
       return fromList === undefined ? 'N/A!' : `歌单 ${fromList.title}`;
     }
     if (songs.length > 1) {
       return `选定的歌`;
     }
-    return songs[0].parsedName;
+    return songs[0]!.parsedName;
   };
 
   return (

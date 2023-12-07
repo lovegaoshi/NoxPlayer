@@ -147,7 +147,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         openState={openAddDialog}
         onClose={onAddFav}
         fromList={actionFavId}
-        songs={[]}
         // MenuProps={{ style: { maxHeight: 200 } }}
       />
     </React.Fragment>

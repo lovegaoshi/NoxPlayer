@@ -15,6 +15,8 @@ import { zhCN } from '@mui/material/locale';
 
 // eslint-disable-next-line import/no-unresolved
 import SongRenameDialog from '@components/dialogs/SongRenameDialog';
+// eslint-disable-next-line import/no-unresolved
+import { AddFavDialog } from '@components/dialogs/AddFavDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 import usePlayback from '@hooks/usePlayback';
@@ -52,7 +54,13 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     setSongEditDialogOpen,
   } = useRenameSong();
 
-  const { removeSongs, handleAddToFavClick, updateSong } = playlistCRUD;
+  const {
+    removeSongs,
+    handleAddToFavClick,
+    updateSong,
+    openAddDialog,
+    onAddFav,
+  } = playlistCRUD;
 
   const className = ScrollBar().root;
 
@@ -63,6 +71,13 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
         song={songObjEdited}
         onClose={() => setSongEditDialogOpen(false)}
         updateSong={updateSong}
+      />
+      <AddFavDialog
+        id='AddToPlaylistSongList'
+        openState={openAddDialog}
+        onClose={onAddFav}
+        songs={[]}
+        // MenuProps={{ style: { maxHeight: 200 } }}
       />
       <TableContainer
         className={className}
