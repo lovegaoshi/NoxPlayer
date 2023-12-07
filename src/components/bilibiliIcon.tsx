@@ -1,6 +1,6 @@
 // except its actually a valid property...
 /* eslint-disable react/no-unknown-property */
-import React, { useEffect } from 'react';
+import React from 'react';
 /** @jsx jsx */
 import { jsx, css } from '@emotion/react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';

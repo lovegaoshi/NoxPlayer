@@ -10,6 +10,7 @@ import { skinPreset } from '../../../styles/skin';
 import RandomGIFIcon from './RandomGIF';
 import FavSettingsButtons from '../PlaylistSetting/PlaylistSettingsButton';
 import SongSearchBar from '../../dialogs/SongSearchbar';
+import PlaylistSelectButton from './PlaylistSelectButton';
 
 const { colorTheme } = skinPreset;
 
@@ -57,6 +58,7 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
           />
         </Grid>
         <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
+          <PlaylistSelectButton usePlaylist={playlistPaginated} />
           {playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST && (
             <FavSettingsButtons
               playlist={playlist}

@@ -4,8 +4,10 @@ import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
 
 import Tooltip from '@mui/material/Tooltip';
+import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -15,7 +17,8 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { skinPreset } from '../../../styles/skin';
+import { skinPreset } from '@styles/skin';
+import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 
 const { colorTheme } = skinPreset;
 
@@ -24,7 +27,7 @@ interface Props {
   index: number;
   key: string;
   playlist: NoxMedia.Playlist;
-  performSearch: (v: string) => void;
+  usePlaylist: UsePlaylistP;
   removeSongs: (
     s: NoxMedia.Song[],
     ban?: boolean,
@@ -39,7 +42,7 @@ function SongInfo({
   song,
   index,
   playlist,
-  performSearch,
+  usePlaylist,
   removeSongs,
   openSongEditDialog,
   playSong,
@@ -48,6 +51,7 @@ function SongInfo({
 }: Props) {
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const { performSearch, toggleSelected, getSongIndex } = usePlaylist;
 
   return (
     <StyledTableRow
@@ -71,10 +75,17 @@ function SongInfo({
         align='left'
         sx={{
           paddingLeft: '8px',
-          width: '45%',
+          // width: '45%',
+          display: 'flex',
           whiteSpace: 'nowrap',
         }}
       >
+        {usePlaylist.checking && (
+          <Checkbox
+            sx={{ padding: '0px', paddingLeft: '7px' }}
+            onChange={() => toggleSelected(getSongIndex(song, index))}
+          />
+        )}
         <ListItemButton sx={songText} onClick={() => playSong(song)}>
           {song.id === currentPlayingId && (
             <ListItemIcon sx={{ minWidth: '30px' }}>

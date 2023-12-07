@@ -34,7 +34,6 @@ interface Props {
 }
 export default function Fav({ playlist, playlistPaginated }: Props) {
   const {
-    rssUpdate,
     rows,
     page,
     defaultRowsPerPage,
@@ -113,7 +112,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
                 song={song}
                 index={index}
                 playlist={playlist}
-                performSearch={performSearch}
+                usePlaylist={playlistPaginated}
                 removeSongs={removeSongs}
                 openSongEditDialog={openSongEditDialog}
                 playSong={(v) =>

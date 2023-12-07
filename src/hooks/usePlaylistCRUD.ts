@@ -5,7 +5,6 @@ import { useSnackbar } from 'notistack';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
-import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
 import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
