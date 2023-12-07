@@ -4,7 +4,7 @@ import '../../css/react-jinke-player.css';
 import Box from '@mui/material/Box';
 
 import usePlayback from '@hooks/usePlayback';
-import FavList from '../FavList/FavListMobile';
+import FavList from '../Playlists/FavListMobile';
 import LyricOverlay from '../lyric/LyricOverlay';
 import Options from './Enum';
 

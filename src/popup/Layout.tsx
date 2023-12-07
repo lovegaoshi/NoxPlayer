@@ -4,13 +4,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { SnackbarProvider } from 'notistack';
 import { skinPreset } from '../styles/skin';
-// import PlayerMobile from '../components/PlayerMobile';
-// import Player from '../components/Player';
 
-const PlayerMobile = React.lazy(
-  () => import('../components/Player/PlayerMobile'),
-);
-const Player = React.lazy(() => import('../components/Player/Player'));
+const PlayerMobile = React.lazy(() => import('../components/App/AppMobile'));
+const Player = React.lazy(() => import('../components/App/App'));
 
 const { colorTheme } = skinPreset;
 

@@ -39,7 +39,6 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     defaultRowsPerPage,
     rowsPerPage,
     searchBarRef,
-    performSearch,
     handleChangePage,
     handleChangeRowsPerPage,
   } = playlistPaginated;

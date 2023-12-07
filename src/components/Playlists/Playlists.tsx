@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 
 import { skinPreset } from '@styles/skin';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
-import Search from './FavListHeader/Search';
-import PlaylistHeaderButtons from './FavListHeader/PlaylistHeaderButtons';
-import PlaylistList from './FavListEntry/PlaylistList';
+import Search from './PlaylistsHeader/Search';
+import PlaylistHeaderButtons from './PlaylistsHeader/PlaylistHeaderButtons';
+import PlaylistList from './PlaylistsList/PlaylistList';
 
 const { colorTheme } = skinPreset;
 
