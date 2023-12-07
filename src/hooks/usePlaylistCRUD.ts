@@ -79,16 +79,13 @@ export default () => {
   };
 
   const onAddFav = (
-    songs: NoxMedia.Song[],
-    fromList?: NoxMedia.Playlist,
+    songs?: NoxMedia.Song[],
     toId?: string,
+    fromList?: NoxMedia.Playlist,
   ) => {
     setOpenAddDialog(false);
     if (!toId) return;
-    updatePlaylist(
-      playlists[toId]!,
-      songs[0] === undefined ? fromList?.songList : songs,
-    );
+    updatePlaylist(playlists[toId]!, songs ? fromList?.songList : songs);
   };
 
   const onDragEnd = (result: any) => {

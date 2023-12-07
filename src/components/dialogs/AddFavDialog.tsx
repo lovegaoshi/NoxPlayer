@@ -73,9 +73,9 @@ export const NewFavDialog = function NewFavDialog({
 interface AddFavDialogProps {
   id: string;
   onClose: (
-    songs: NoxMedia.Song[],
-    fromList?: NoxMedia.Playlist,
+    songs?: NoxMedia.Song[],
     toId?: string,
+    fromList?: NoxMedia.Playlist,
   ) => void;
   openState: boolean;
   fromList?: NoxMedia.Playlist;
@@ -95,7 +95,7 @@ export const AddFavDialog = function AddFavDialog({
   const playlistIds = useNoxSetting((state) => state.playlistIds);
 
   const handleCancel = () => {
-    onClose([]);
+    onClose();
     setfavId('');
   };
 
@@ -104,14 +104,16 @@ export const AddFavDialog = function AddFavDialog({
   };
 
   const handleOK = () => {
-    onClose(songs, fromList, favId);
+    onClose(songs, favId, fromList);
     setfavId('');
   };
 
   const playlistTitle = () => {
     if (songs[0] === undefined) {
-      if (fromList === undefined) return 'N/A!';
-      return fromList.title;
+      return fromList === undefined ? 'N/A!' : `歌单 ${fromList.title}`;
+    }
+    if (songs.length > 1) {
+      return `选定的歌`;
     }
     return songs[0].parsedName;
   };

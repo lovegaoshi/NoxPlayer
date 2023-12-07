@@ -31,9 +31,9 @@ interface PlaylistCRUD {
     song?: NoxMedia.Song,
   ) => void;
   onAddFav: (
-    songs: NoxMedia.Song[],
-    fromList?: NoxMedia.Playlist,
+    songs?: NoxMedia.Song[],
     toId?: string,
+    fromList?: NoxMedia.Playlist,
   ) => void;
   onDragEnd: (result: any) => void;
 }
@@ -147,7 +147,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         openState={openAddDialog}
         onClose={onAddFav}
         fromList={actionFavId}
-        songs={actionFavSong === undefined ? [] : [actionFavSong]}
+        songs={[]}
         // MenuProps={{ style: { maxHeight: 200 } }}
       />
     </React.Fragment>

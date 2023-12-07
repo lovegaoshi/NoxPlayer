@@ -170,7 +170,7 @@ const theme = createTheme(
 );
 
 const columns = [
-  { id: 'name', label: '歌曲名', minWidth: '20%' },
+  { id: 'name', label: '歌曲名' },
   {
     id: 'uploader',
     label: 'UP主',
