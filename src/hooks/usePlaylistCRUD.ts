@@ -85,7 +85,7 @@ export default () => {
   ) => {
     setOpenAddDialog(false);
     if (!toId) return;
-    updatePlaylist(playlists[toId]!, songs ? fromList?.songList : songs);
+    updatePlaylist(playlists[toId]!, songs || fromList?.songList);
   };
 
   const onDragEnd = (result: any) => {

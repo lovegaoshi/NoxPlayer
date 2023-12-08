@@ -43,6 +43,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     searchBarRef,
     handleChangePage,
     handleChangeRowsPerPage,
+    getSelectedSongs,
   } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const playlistCRUD = usePlaylistCRUD();
@@ -60,6 +61,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     updateSong,
     openAddDialog,
     onAddFav,
+    actionFavSong,
   } = playlistCRUD;
 
   const className = ScrollBar().root;
@@ -76,7 +78,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
         id='AddToPlaylistSongList'
         openState={openAddDialog}
         onClose={onAddFav}
-        songs={[]}
+        getSongs={() => getSelectedSongs() || [actionFavSong!]}
         // MenuProps={{ style: { maxHeight: 200 } }}
       />
       <TableContainer
@@ -124,7 +126,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
               <SongInfo
                 key={`${index}`}
                 song={song}
-                index={index}
+                index={page * rowsPerPage + index}
                 playlist={playlist}
                 usePlaylist={playlistPaginated}
                 removeSongs={removeSongs}

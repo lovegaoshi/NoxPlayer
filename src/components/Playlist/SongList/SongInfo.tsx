@@ -51,7 +51,16 @@ function SongInfo({
 }: Props) {
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const { performSearch, toggleSelected, getSongIndex } = usePlaylist;
+  const {
+    performSearch,
+    toggleSelected,
+    getSongIndex,
+    getSelectedSongs,
+    selected,
+  } = usePlaylist;
+  const [, setSelectState] = React.useState(
+    selected[getSongIndex(song, index)] || false,
+  );
 
   return (
     <StyledTableRow
@@ -83,7 +92,12 @@ function SongInfo({
         {usePlaylist.checking && (
           <Checkbox
             sx={{ padding: '0px', paddingLeft: '7px' }}
-            onChange={() => toggleSelected(getSongIndex(song, index))}
+            checked={selected[getSongIndex(song, index)] || false}
+            onChange={() => {
+              toggleSelected(getSongIndex(song, index));
+              setSelectState((val) => !val);
+            }}
+            inputProps={{ 'aria-label': 'controlled' }}
           />
         )}
         <ListItemButton sx={songText} onClick={() => playSong(song)}>
@@ -134,7 +148,7 @@ function SongInfo({
           <DeleteOutlineOutlinedIcon
             sx={CRUDIcon}
             onClick={async () => {
-              removeSongs([song], false, playlist);
+              removeSongs(getSelectedSongs() || [song], false, playlist);
               performSearch(searchBarRef.current.value);
             }}
           />
