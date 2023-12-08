@@ -15,7 +15,7 @@ interface UpdateSubscribeFavListProps {
   subscribeUrls?: string[];
 }
 
-export default () => {
+export default (mPlaylist?: NoxMedia.Playlist) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const playlists = useNoxSetting((state) => state.playlists);
   const playlistIds = useNoxSetting((state) => state.playlistIds);
@@ -39,7 +39,7 @@ export default () => {
   const [actionFavSong, setActionFavSong] = useState<NoxMedia.Song>();
 
   const confirm = useConfirm();
-  const playlistCRUD = usePlaylistCRUD();
+  const playlistCRUD = usePlaylistCRUD(mPlaylist);
 
   const onNewFav = (favName?: string) => {
     setOpenNewDialog(false);

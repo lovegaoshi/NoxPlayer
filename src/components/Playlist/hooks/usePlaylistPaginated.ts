@@ -28,7 +28,7 @@ export interface UsePlaylistP extends UsePlaylist {
  */
 export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   const usedPlaylist = usePlaylist(playlist);
-  const { setRefreshing, rssUpdate, rows, performSearch, setRows } =
+  const { setRefreshing, rssUpdate, rows, performSearch, setRows, searchText } =
     usedPlaylist;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
@@ -76,7 +76,14 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     setRowsPerPage(defaultRowsPerPage);
     performSearch('');
     primePageToCurrentPlaying(true, playlist.songList);
-  }, [playlist.id, playlistShouldReRender]);
+  }, [playlist.id]);
+
+  useEffect(() => {
+    performSearch(searchText);
+    if (page * rowsPerPage >= rows.length) {
+      setPage(Math.max(page - 1, 0));
+    }
+  }, [playlistShouldReRender]);
 
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));

@@ -47,7 +47,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     songsInView,
   } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const playlistCRUD = usePlaylistCRUD();
+  const playlistCRUD = usePlaylistCRUD(playlist);
   const { onPlayOneFromFav } = usePlayback({});
   const {
     songObjEdited,
