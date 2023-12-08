@@ -6,7 +6,7 @@ import usePlaylistPaginated from './hooks/usePlaylistPaginated';
 import { skinPreset } from '../../styles/skin';
 import Menu from './SongMenu';
 import SongList from './SongList/SongList';
-import FavHeader from './PlaylistHeader/PlaylistHeader';
+import PlaylistHeader from './PlaylistHeader/PlaylistHeader';
 
 const { colorTheme } = skinPreset;
 
@@ -19,7 +19,10 @@ export default function Fav() {
   return (
     <React.Fragment>
       <Menu theme={colorTheme.generalTheme} />
-      <FavHeader playlist={playlist} playlistPaginated={playlistPaginated} />
+      <PlaylistHeader
+        playlist={playlist}
+        playlistPaginated={playlistPaginated}
+      />
       <SongList playlist={playlist} playlistPaginated={playlistPaginated} />
     </React.Fragment>
   );

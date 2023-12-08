@@ -17,6 +17,8 @@ export interface UsePlaylistP extends UsePlaylist {
   handleChangePage: (event: any, newPage: number) => void;
   handleChangeRowsPerPage: (event: any) => void;
   refreshPlaylist: () => void;
+  songsInView: () => NoxMedia.Song[];
+  toggleSelectedPage: () => void;
 }
 
 /**
@@ -25,8 +27,9 @@ export interface UsePlaylistP extends UsePlaylist {
  * @returns
  */
 export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
-  const usedFav = usePlaylist(playlist);
-  const { setRefreshing, rssUpdate, rows, performSearch, setRows } = usedFav;
+  const usedPlaylist = usePlaylist(playlist);
+  const { setRefreshing, rssUpdate, rows, performSearch, setRows } =
+    usedPlaylist;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playlistShouldReRender = useNoxSetting(
@@ -105,6 +108,25 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     setRefreshing(false);
   };
 
+  const handleSearch = (searchedVal: string) => {
+    usedPlaylist.handleSearch(searchedVal);
+    setPage(0);
+  };
+
+  const songsInView = () =>
+    rowsPerPage > 0
+      ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      : rows;
+
+  const toggleSelectedPage = () => {
+    songsInView().forEach((song) =>
+      usedPlaylist.toggleSelected(
+        playlist.songList.findIndex((row) => row.id === song.id),
+      ),
+    );
+    usedPlaylist.setShouldReRender((val) => !val);
+  };
+
   useEffect(() => {
     if (
       playerSetting.autoRSSUpdate &&
@@ -122,7 +144,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   }, [playlist]);
 
   return {
-    ...usedFav,
+    ...usedPlaylist,
     page,
     setPage,
     defaultRowsPerPage,
@@ -132,5 +154,8 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     handleChangePage,
     handleChangeRowsPerPage,
     refreshPlaylist,
+    handleSearch,
+    songsInView,
+    toggleSelectedPage,
   };
 };

@@ -1,4 +1,4 @@
-import { skins } from '../../styles/skin';
+import { skins } from '@styles/skin';
 
 const Options: NoxPlayer.Option = {
   mode: 'full',

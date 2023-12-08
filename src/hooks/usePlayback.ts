@@ -1,13 +1,13 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
-// eslint-disable-next-line import/no-unresolved
-import renderExtendsContent from '@components/Player/ExtendContent';
 import { parseSongList } from '@objects/Playlist';
+// eslint-disable-next-line import/no-unresolved
+import renderExtendsContent from '@components/App/ExtendContent';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,

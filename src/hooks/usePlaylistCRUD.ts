@@ -5,7 +5,6 @@ import { useSnackbar } from 'notistack';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
-import { fetchVideoInfo } from '@APM/utils/mediafetch/bilivideo';
 // eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
 import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
@@ -80,16 +79,13 @@ export default () => {
   };
 
   const onAddFav = (
-    songs: NoxMedia.Song[],
-    fromList?: NoxMedia.Playlist,
+    songs?: NoxMedia.Song[],
     toId?: string,
+    fromList?: NoxMedia.Playlist,
   ) => {
     setOpenAddDialog(false);
     if (!toId) return;
-    updatePlaylist(
-      playlists[toId]!,
-      songs[0] === undefined ? fromList?.songList : songs,
-    );
+    updatePlaylist(playlists[toId]!, songs || fromList?.songList);
   };
 
   const onDragEnd = (result: any) => {

@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import TableRow from '@mui/material/TableRow';
+import Checkbox from '@mui/material/Checkbox';
 
 import Tooltip from '@mui/material/Tooltip';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,7 +16,8 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { skinPreset } from '../../../styles/skin';
+import { skinPreset } from '@styles/skin';
+import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 
 const { colorTheme } = skinPreset;
 
@@ -24,7 +26,7 @@ interface Props {
   index: number;
   key: string;
   playlist: NoxMedia.Playlist;
-  performSearch: (v: string) => void;
+  usePlaylist: UsePlaylistP;
   removeSongs: (
     s: NoxMedia.Song[],
     ban?: boolean,
@@ -39,7 +41,7 @@ function SongInfo({
   song,
   index,
   playlist,
-  performSearch,
+  usePlaylist,
   removeSongs,
   openSongEditDialog,
   playSong,
@@ -48,10 +50,20 @@ function SongInfo({
 }: Props) {
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const {
+    performSearch,
+    toggleSelected,
+    getSongIndex,
+    getSelectedSongs,
+    selected,
+  } = usePlaylist;
+  const [, setSelectState] = React.useState(
+    selected[getSongIndex(song, index)] || false,
+  );
 
   return (
     <StyledTableRow
-      key={`song-${index}`}
+      key={`${song.id}-${index}`}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       onContextMenu={(event) => {
         event.preventDefault();
@@ -71,10 +83,22 @@ function SongInfo({
         align='left'
         sx={{
           paddingLeft: '8px',
-          width: '45%',
+          // width: '45%',
+          display: 'flex',
           whiteSpace: 'nowrap',
         }}
       >
+        {usePlaylist.checking && (
+          <Checkbox
+            sx={{ padding: '0px', paddingLeft: '7px' }}
+            checked={selected[getSongIndex(song, index)] || false}
+            onChange={() => {
+              toggleSelected(getSongIndex(song, index));
+              setSelectState((val) => !val);
+            }}
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        )}
         <ListItemButton sx={songText} onClick={() => playSong(song)}>
           {song.id === currentPlayingId && (
             <ListItemIcon sx={{ minWidth: '30px' }}>
@@ -123,8 +147,11 @@ function SongInfo({
           <DeleteOutlineOutlinedIcon
             sx={CRUDIcon}
             onClick={async () => {
-              removeSongs([song], false, playlist);
+              // console.log(getSelectedSongs() || [song]);
+              removeSongs(getSelectedSongs() || [song], false, playlist);
               performSearch(searchBarRef.current.value);
+              usePlaylist.setChecking(false);
+              usePlaylist.resetSelected();
             }}
           />
         </Tooltip>

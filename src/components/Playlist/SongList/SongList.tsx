@@ -15,6 +15,8 @@ import { zhCN } from '@mui/material/locale';
 
 // eslint-disable-next-line import/no-unresolved
 import SongRenameDialog from '@components/dialogs/SongRenameDialog';
+// eslint-disable-next-line import/no-unresolved
+import { AddFavDialog } from '@components/dialogs/AddFavDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 import usePlayback from '@hooks/usePlayback';
@@ -34,15 +36,15 @@ interface Props {
 }
 export default function Fav({ playlist, playlistPaginated }: Props) {
   const {
-    rssUpdate,
     rows,
     page,
     defaultRowsPerPage,
     rowsPerPage,
     searchBarRef,
-    performSearch,
     handleChangePage,
     handleChangeRowsPerPage,
+    getSelectedSongs,
+    songsInView,
   } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const playlistCRUD = usePlaylistCRUD();
@@ -54,7 +56,14 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     setSongEditDialogOpen,
   } = useRenameSong();
 
-  const { removeSongs, handleAddToFavClick, updateSong } = playlistCRUD;
+  const {
+    removeSongs,
+    handleAddToFavClick,
+    updateSong,
+    openAddDialog,
+    onAddFav,
+    actionFavSong,
+  } = playlistCRUD;
 
   const className = ScrollBar().root;
 
@@ -65,6 +74,13 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
         song={songObjEdited}
         onClose={() => setSongEditDialogOpen(false)}
         updateSong={updateSong}
+      />
+      <AddFavDialog
+        id='AddToPlaylistSongList'
+        openState={openAddDialog}
+        onClose={onAddFav}
+        getSongs={() => getSelectedSongs() || [actionFavSong!]}
+        // MenuProps={{ style: { maxHeight: 200 } }}
       />
       <TableContainer
         className={className}
@@ -104,16 +120,13 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((song, index) => (
+            {songsInView().map((song, index) => (
               <SongInfo
-                key={`${index}`}
+                key={`${song.id}-${index}`}
                 song={song}
-                index={index}
+                index={page * rowsPerPage + index}
                 playlist={playlist}
-                performSearch={performSearch}
+                usePlaylist={playlistPaginated}
                 removeSongs={removeSongs}
                 openSongEditDialog={openSongEditDialog}
                 playSong={(v) =>
@@ -172,7 +185,7 @@ const theme = createTheme(
 );
 
 const columns = [
-  { id: 'name', label: '歌曲名', minWidth: '20%' },
+  { id: 'name', label: '歌曲名' },
   {
     id: 'uploader',
     label: 'UP主',

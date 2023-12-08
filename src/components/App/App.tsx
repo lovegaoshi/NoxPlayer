@@ -6,7 +6,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
 import usePlayback from '@hooks/usePlayback';
-import { FavList } from '../FavList/FavList';
+import { FavList } from '../Playlists/Player';
 import LyricOverlay from '../lyric/LyricOverlay';
 import { skins, skinPreset } from '../../styles/skin';
 import Options from './Enum';

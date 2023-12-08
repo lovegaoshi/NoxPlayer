@@ -73,20 +73,20 @@ export const NewFavDialog = function NewFavDialog({
 interface AddFavDialogProps {
   id: string;
   onClose: (
-    songs: NoxMedia.Song[],
-    fromList?: NoxMedia.Playlist,
+    songs?: NoxMedia.Song[],
     toId?: string,
+    fromList?: NoxMedia.Playlist,
   ) => void;
   openState: boolean;
   fromList?: NoxMedia.Playlist;
-  songs: NoxMedia.Song[];
+  getSongs?: () => NoxMedia.Song[] | undefined;
   isMobile?: boolean;
 }
 export const AddFavDialog = function AddFavDialog({
   onClose,
   openState,
   fromList,
-  songs,
+  getSongs = () => undefined,
   isMobile = false,
   id,
 }: AddFavDialogProps) {
@@ -95,7 +95,7 @@ export const AddFavDialog = function AddFavDialog({
   const playlistIds = useNoxSetting((state) => state.playlistIds);
 
   const handleCancel = () => {
-    onClose([]);
+    onClose();
     setfavId('');
   };
 
@@ -104,16 +104,19 @@ export const AddFavDialog = function AddFavDialog({
   };
 
   const handleOK = () => {
-    onClose(songs, fromList, favId);
+    onClose(getSongs(), favId, fromList);
     setfavId('');
   };
 
   const playlistTitle = () => {
-    if (songs[0] === undefined) {
-      if (fromList === undefined) return 'N/A!';
-      return fromList.title;
+    const songs = getSongs();
+    if (songs === undefined || songs.length === 0 || songs[0] === undefined) {
+      return fromList === undefined ? 'BUG!' : `歌单 ${fromList.title}`;
     }
-    return songs[0].parsedName;
+    if (songs.length > 1) {
+      return `选定的歌`;
+    }
+    return songs[0]!.parsedName;
   };
 
   return (

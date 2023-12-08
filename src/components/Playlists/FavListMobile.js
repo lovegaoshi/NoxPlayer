@@ -21,13 +21,13 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useConfirm } from 'material-ui-confirm';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import Search from './FavListHeader/Search';
-import { CRUDBtn, outerLayerBtn, DiskIcon } from './FavList';
+import useFavList from '@hooks/usePlaylistCRUD';
+import Search from './PlaylistsHeader/Search';
+import { CRUDBtn, outerLayerBtn, DiskIcon } from './Player';
 import { skinPreset } from '../../styles/skin';
 import PlayerSettingsButton from '../setting/PlayerSetttingsButton';
 import rgba2rgb from '../../utils/rgba2rgb';
-import HelpPanelButton from './FavListHeader/HelpPanelButton';
-import useFavList from './useFavList';
+import HelpPanelButton from './PlaylistsHeader/HelpPanelButton';
 import TimerButton from '../buttons/TimerButton';
 import { AddFavDialog, NewFavDialog } from '../dialogs/AddFavDialog';
 import { ScrollBar } from '../../styles/styles';
