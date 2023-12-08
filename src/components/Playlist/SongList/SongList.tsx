@@ -122,7 +122,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
           <TableBody>
             {songsInView().map((song, index) => (
               <SongInfo
-                key={`${index}`}
+                key={`${song.id}-${index}`}
                 song={song}
                 index={page * rowsPerPage + index}
                 playlist={playlist}

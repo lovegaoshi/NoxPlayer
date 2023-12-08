@@ -63,7 +63,7 @@ function SongInfo({
 
   return (
     <StyledTableRow
-      key={`song-${index}`}
+      key={`${song.id}-${index}`}
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       onContextMenu={(event) => {
         event.preventDefault();
@@ -147,8 +147,11 @@ function SongInfo({
           <DeleteOutlineOutlinedIcon
             sx={CRUDIcon}
             onClick={async () => {
+              // console.log(getSelectedSongs() || [song]);
               removeSongs(getSelectedSongs() || [song], false, playlist);
               performSearch(searchBarRef.current.value);
+              usePlaylist.setChecking(false);
+              usePlaylist.resetSelected();
             }}
           />
         </Tooltip>
