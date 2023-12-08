@@ -201,7 +201,11 @@ export const getLyricMapping = async () =>
 const getPlaylist = async (
   key: string,
   defaultPlaylist: () => NoxMedia.Playlist = dummyPlaylist,
-): Promise<NoxMedia.Playlist> => getItem(key, defaultPlaylist());
+): Promise<NoxMedia.Playlist> => ({
+  ...defaultPlaylist(),
+  ...(await getItem(key)),
+  id: key,
+});
 
 export const initPlayerObject =
   async (): Promise<NoxStorage.PlayerStorageObject> => {
@@ -242,7 +246,7 @@ export const initPlayerObject =
     await Promise.all(
       playerObject.playlistIds.map(async (id) => {
         const retrievedPlaylist = await getPlaylist(id);
-        if (retrievedPlaylist) playerObject.playlists[id] = retrievedPlaylist;
+        playerObject.playlists[id] = retrievedPlaylist;
       }),
     );
     return playerObject;
