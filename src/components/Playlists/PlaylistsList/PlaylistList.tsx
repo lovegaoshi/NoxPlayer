@@ -1,6 +1,11 @@
 import React from 'react';
 import List from '@mui/material/List';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd';
 
 import { ScrollBar } from '@styles/styles';
 import { useNoxSetting } from '@APM/stores/useApp';
@@ -35,7 +40,7 @@ interface PlaylistCRUD {
     toId?: string,
     fromList?: NoxMedia.Playlist,
   ) => void;
-  onDragEnd: (result: any) => void;
+  onDragEnd: (result: DropResult) => void;
 }
 
 interface Props {

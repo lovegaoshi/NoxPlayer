@@ -27,6 +27,7 @@ import useRenameSong from '../hooks/useRenameSong';
 
 import FavTableActions from './SongListTableActions';
 import SongInfo from './SongInfo';
+import { SongListDraggable, SongInfoDraggable } from './SongListDraggable';
 
 const { colorTheme } = skinPreset;
 
@@ -63,6 +64,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     openAddDialog,
     onAddFav,
     actionFavSong,
+    onSongListDragEnd,
   } = playlistCRUD;
 
   const className = ScrollBar().root;
@@ -119,38 +121,46 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <SongListDraggable
+            onDragEnd={(r) => onSongListDragEnd(r, playlist)}
+            draggable={playlistPaginated.checking}
+          >
             {songsInView().map((song, index) => (
-              <SongInfo
+              <SongInfoDraggable
                 key={`${song.id}-${index}`}
                 song={song}
                 index={page * rowsPerPage + index}
                 playlist={playlist}
                 usePlaylist={playlistPaginated}
-                removeSongs={removeSongs}
                 openSongEditDialog={openSongEditDialog}
-                playSong={(v) =>
-                  onPlayOneFromFav(v, {
-                    ...playlist,
-                    songList: playerSetting.keepSearchedSongListWhenPlaying
-                      ? rows
-                      : playlist.songList,
-                  })
-                }
-                searchBarRef={searchBarRef}
-                handleAddToFavClick={handleAddToFavClick}
-              />
+                draggable={playlistPaginated.checking}
+              >
+                <SongInfo
+                  key={`${song.id}-${index}`}
+                  song={song}
+                  index={page * rowsPerPage + index}
+                  playlist={playlist}
+                  usePlaylist={playlistPaginated}
+                  removeSongs={removeSongs}
+                  playSong={(v) =>
+                    onPlayOneFromFav(v, {
+                      ...playlist,
+                      songList: playerSetting.keepSearchedSongListWhenPlaying
+                        ? rows
+                        : playlist.songList,
+                    })
+                  }
+                  searchBarRef={searchBarRef}
+                  handleAddToFavClick={handleAddToFavClick}
+                />
+              </SongInfoDraggable>
             ))}
-          </TableBody>
+          </SongListDraggable>
           <TableFooter>
             <TableRow>
               <ThemeProvider theme={theme}>
                 <TablePagination
-                  rowsPerPageOptions={[
-                    defaultRowsPerPage,
-                    99,
-                    playlist.songList.length,
-                  ]}
+                  rowsPerPageOptions={[defaultRowsPerPage, 99, rows.length]}
                   colSpan={3}
                   count={rows.length}
                   rowsPerPage={rowsPerPage}
