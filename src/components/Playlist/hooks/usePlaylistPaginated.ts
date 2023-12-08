@@ -17,6 +17,8 @@ export interface UsePlaylistP extends UsePlaylist {
   handleChangePage: (event: any, newPage: number) => void;
   handleChangeRowsPerPage: (event: any) => void;
   refreshPlaylist: () => void;
+  songsInView: () => NoxMedia.Song[];
+  toggleSelectedPage: () => void;
 }
 
 /**
@@ -111,6 +113,20 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     setPage(0);
   };
 
+  const songsInView = () =>
+    rowsPerPage > 0
+      ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      : rows;
+
+  const toggleSelectedPage = () => {
+    songsInView().forEach((song) =>
+      usedPlaylist.toggleSelected(
+        playlist.songList.findIndex((row) => row.id === song.id),
+      ),
+    );
+    usedPlaylist.setShouldReRender((val) => !val);
+  };
+
   useEffect(() => {
     if (
       playerSetting.autoRSSUpdate &&
@@ -139,5 +155,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     handleChangeRowsPerPage,
     refreshPlaylist,
     handleSearch,
+    songsInView,
+    toggleSelectedPage,
   };
 };

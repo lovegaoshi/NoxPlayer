@@ -44,6 +44,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     handleChangePage,
     handleChangeRowsPerPage,
     getSelectedSongs,
+    songsInView,
   } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const playlistCRUD = usePlaylistCRUD();
@@ -119,10 +120,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((song, index) => (
+            {songsInView().map((song, index) => (
               <SongInfo
                 key={`${index}`}
                 song={song}
