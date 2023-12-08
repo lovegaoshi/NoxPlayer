@@ -3,7 +3,6 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 
 import Tooltip from '@mui/material/Tooltip';
@@ -11,7 +10,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { contextMenu } from 'react-contexify';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
@@ -32,7 +30,6 @@ interface Props {
     ban?: boolean,
     p?: NoxMedia.Playlist,
   ) => void;
-  openSongEditDialog: (song: NoxMedia.Song) => void;
   playSong: (v: NoxMedia.Song) => void;
   searchBarRef: any;
   handleAddToFavClick: (p: NoxMedia.Playlist, s: NoxMedia.Song) => void;
@@ -43,7 +40,6 @@ function SongInfo({
   playlist,
   usePlaylist,
   removeSongs,
-  openSongEditDialog,
   playSong,
   searchBarRef,
   handleAddToFavClick,
@@ -62,23 +58,7 @@ function SongInfo({
   );
 
   return (
-    <StyledTableRow
-      key={`${song.id}-${index}`}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-      onContextMenu={(event) => {
-        event.preventDefault();
-        contextMenu.show({
-          id: 'favmenu',
-          event,
-          props: {
-            song,
-            performSearch: (v: string) => performSearch(v, true),
-            playlist,
-            onSongEdit: () => openSongEditDialog(song),
-          },
-        });
-      }}
-    >
+    <React.Fragment>
       <StyledTableCell
         align='left'
         sx={{
@@ -156,21 +136,11 @@ function SongInfo({
           />
         </Tooltip>
       </StyledTableCell>
-    </StyledTableRow>
+    </React.Fragment>
   );
 }
 
 export default SongInfo;
-
-export const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

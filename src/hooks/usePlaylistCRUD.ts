@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
+import { DropResult } from 'react-beautiful-dnd';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
@@ -88,7 +89,7 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
     updatePlaylist(playlists[toId]!, songs || fromList?.songList);
   };
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -99,6 +100,24 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
       result.destination.index,
     );
     setPlaylistIds(newFavLists);
+  };
+
+  const onSongListDragEnd = (
+    result: DropResult,
+    playlist: NoxMedia.Playlist = mPlaylist!,
+  ) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    // HACK: playlist cant change, otherwise it will trigger
+    // useEffect to set checking to false.
+    playlist.songList = reorder(
+      playlist.songList,
+      result.source.index,
+      result.destination.index,
+    );
+    updatePlaylist(playlist);
   };
 
   const updateSubscribeFavList = async ({
@@ -168,6 +187,7 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
     handleAddToFavClick,
     onAddFav,
     onDragEnd,
+    onSongListDragEnd,
     playlistAnalyze,
     cleanInvalidBVIds,
   };

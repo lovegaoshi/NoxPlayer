@@ -6,7 +6,7 @@ import { logger } from '@utils/Logger';
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DEFAULT_SETTING } from '@objects/Storage';
-import rejson from './rejson.json';
+import rejson from '@APM/utils/rejson.json';
 
 export const getMusicFreePlugin = (): string[] => [];
 
