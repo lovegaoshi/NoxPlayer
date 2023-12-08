@@ -72,7 +72,7 @@ function SongInfo({
           event,
           props: {
             song,
-            performSearch,
+            performSearch: (v: string) => performSearch(v, true),
             playlist,
             onSongEdit: () => openSongEditDialog(song),
           },

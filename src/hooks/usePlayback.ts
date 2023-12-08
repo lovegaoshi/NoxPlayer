@@ -49,7 +49,10 @@ export default ({ isMobile = false }) => {
       return;
     }
     currentAudioInst.volume = 1;
-    currentAudioInst.volume = await r128gain({ song, getSource });
+    setTimeout(async () => {
+      // HACK: delay r128gain's fetch so it doesnt block playback!
+      currentAudioInst.volume = await r128gain({ song, getSource });
+    }, 500);
   };
 
   const musicSrcParser = async (v: NoxMedia.Song) => {

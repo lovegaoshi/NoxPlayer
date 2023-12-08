@@ -19,6 +19,7 @@ export interface UsePlaylistP extends UsePlaylist {
   refreshPlaylist: () => void;
   songsInView: () => NoxMedia.Song[];
   toggleSelectedPage: () => void;
+  performSearch: (v: string, resetPage?: boolean) => void;
 }
 
 /**
@@ -28,8 +29,7 @@ export interface UsePlaylistP extends UsePlaylist {
  */
 export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   const usedPlaylist = usePlaylist(playlist);
-  const { setRefreshing, rssUpdate, rows, performSearch, setRows, searchText } =
-    usedPlaylist;
+  const { setRefreshing, rssUpdate, rows, setRows, searchText } = usedPlaylist;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const currentPlayingId = useNoxSetting((state) => state.currentPlayingId);
   const playlistShouldReRender = useNoxSetting(
@@ -41,6 +41,11 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     Math.floor((window.innerHeight - 305) / 40),
   );
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
+
+  const performSearch = (v: string, resetPage = false) => {
+    usedPlaylist.performSearch(v);
+    if (resetPage) setPage(0);
+  };
 
   /**
    * because of delayed state update/management, we need a reliable way to get
@@ -164,5 +169,6 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     handleSearch,
     songsInView,
     toggleSelectedPage,
+    performSearch,
   };
 };
