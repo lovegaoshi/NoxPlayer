@@ -75,6 +75,7 @@
     "@mui/lab": "^5.0.0-alpha.155",
     "@mui/material": "^5.14.20",
     "@mui/styles": "^5.14.20",
+    "base64-js": "^1.5.1",
     "bottleneck": "^2.19.5",
     "buffer": "^6.0.3",
     "cheerio": "^1.0.0-rc.12",
