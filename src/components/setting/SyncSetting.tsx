@@ -7,16 +7,14 @@ import { useStore } from 'zustand';
 import { skinPreset } from '@styles/skin';
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { EXPORT_OPTIONS } from '@objects/Storage';
+import useInitializeStore from '@stores/useInitializeStore';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
   ImportSyncFavButton as PersonalImportSyncFavButton,
   SetPersonalCloudTextField,
 } from './sync/PersonalSyncButton';
-import {
-  ExportSyncFavButton,
-  ImportSyncFavButton,
-} from './sync/DropboxSyncButton';
 import { ExportFavButton, ImportFavButton } from './sync/LocalSyncButton';
+import DropboxSyncButton from './sync/DropboxAuth';
 
 function SyncSetttingButtons() {
   const playerSettings = useStore(
@@ -27,14 +25,17 @@ function SyncSetttingButtons() {
     playerSettingStore,
     (state) => state.setPlayerSetting,
   );
+  const { initializeFromSync } = useInitializeStore();
 
   switch (playerSettings.settingExportLocation) {
     case EXPORT_OPTIONS.DROPBOX:
       return (
-        <React.Fragment>
-          <ExportSyncFavButton AddFavIcon={AddFavIcon} />
-          <ImportSyncFavButton AddFavIcon={AddFavIcon} />
-        </React.Fragment>
+        <DropboxSyncButton
+          sx={AddFavIcon}
+          restoreFromUint8Array={async (v) => {
+            await initializeFromSync(v);
+          }}
+        />
       );
     case EXPORT_OPTIONS.PERSONAL:
       return (

@@ -5,18 +5,43 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { SxProps } from '@mui/material';
 
-import { noxBackup, noxRestore, loginDropbox } from '@utils/sync/dropboxauth';
-import useInitializeStore from '@stores/useInitializeStore';
 import { exportStorageRaw } from '@utils/ChromeStorage';
+import {
+  ImportProps,
+  ExportProps,
+  Props,
+  GenericProps,
+} from '@APM/components/setting/sync/GenericSyncProps';
 
-export function ImportSyncFavButton({ AddFavIcon }) {
-  const { initializeFromSync } = useInitializeStore();
+interface ImportPropsR extends ImportProps {
+  sx: SxProps;
+}
+
+interface ExportPropsR extends ExportProps {
+  sx: SxProps;
+}
+
+interface PropsR extends Props {
+  sx: SxProps;
+}
+
+export interface GenericPropsR extends GenericProps {
+  sx: SxProps;
+}
+
+function ImportSyncFavButton({
+  restoreFromUint8Array,
+  noxRestore,
+  login,
+  sx,
+}: ImportPropsR) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
   const errorHandling = (
-    e,
+    e: Error,
     msg = '歌单同步自Dropbox失败，错误记录在控制台里',
   ) => {
     console.error(e);
@@ -29,13 +54,13 @@ export function ImportSyncFavButton({ AddFavIcon }) {
   const cloudDownload = async () => {
     const response = await noxRestore();
     if (response !== null) {
-      await initializeFromSync(response);
+      await restoreFromUint8Array(response);
       enqueueSnackbar('歌单同步自Dropbox成功！', {
         variant: 'success',
         autoHideDuration: 4000,
       });
     } else {
-      errorHandling('云端歌单不存在', '云端歌单不存在');
+      errorHandling(new Error('云端歌单不存在'), '云端歌单不存在');
     }
     setLoading(false);
     return response;
@@ -43,7 +68,7 @@ export function ImportSyncFavButton({ AddFavIcon }) {
 
   const loginAndDownload = async () => {
     setLoading(true);
-    await loginDropbox(cloudDownload, errorHandling);
+    await login(cloudDownload, errorHandling);
   };
 
   return (
@@ -51,20 +76,20 @@ export function ImportSyncFavButton({ AddFavIcon }) {
       <IconButton size='large' onClick={loading ? () => {} : loginAndDownload}>
         {loading ? (
           // for the love of bloody mary, why is 1em 28px here but 24px next?
-          <CircularProgress sx={AddFavIcon} size='24px' />
+          <CircularProgress sx={sx} size='24px' />
         ) : (
-          <CloudDownloadIcon sx={AddFavIcon} />
+          <CloudDownloadIcon sx={sx} />
         )}
       </IconButton>
     </Tooltip>
   );
 }
 
-export function ExportSyncFavButton({ AddFavIcon }) {
+function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-  const errorHandling = (e) => {
+  const errorHandling = (e: Error) => {
     console.error(e);
     enqueueSnackbar('歌单上传到Dropbox失败，错误记录在控制台里', {
       variant: 'error',
@@ -89,7 +114,7 @@ export function ExportSyncFavButton({ AddFavIcon }) {
 
   const loginAndUpload = async () => {
     setLoading(true);
-    await loginDropbox(cloudUpload, errorHandling);
+    await login(cloudUpload, errorHandling);
   };
 
   return (
@@ -97,11 +122,31 @@ export function ExportSyncFavButton({ AddFavIcon }) {
       <IconButton size='large' onClick={loading ? () => {} : loginAndUpload}>
         {loading ? (
           // for the love of bloody mary, why is 1em 28px here but 24px next?
-          <CircularProgress sx={AddFavIcon} size='24px' />
+          <CircularProgress sx={sx} size='24px' />
         ) : (
-          <CloudUploadIcon sx={AddFavIcon} />
+          <CloudUploadIcon sx={sx} />
         )}
       </IconButton>
     </Tooltip>
+  );
+}
+
+export default function ({
+  restoreFromUint8Array,
+  login,
+  noxBackup,
+  noxRestore,
+  sx,
+}: PropsR) {
+  return (
+    <React.Fragment>
+      <ImportSyncFavButton
+        restoreFromUint8Array={restoreFromUint8Array}
+        login={login}
+        noxRestore={noxRestore}
+        sx={sx}
+      />
+      <ExportSyncFavButton login={login} noxBackup={noxBackup} sx={sx} />
+    </React.Fragment>
   );
 }
