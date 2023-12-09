@@ -5,28 +5,28 @@ class Logger {
     this.namespace = namespace;
   }
 
-  generateMessage(message: string) {
-    return `${this.namespace}: ${message}`;
+  generateMessage(message: unknown) {
+    return `${this.namespace}: ${String(message)}`;
   }
 
-  debug(message: string) {
+  debug(message: unknown) {
     // eslint-disable-next-line no-console
     console.debug(this.generateMessage(message));
   }
 
-  info(message: string) {
+  info(message: unknown) {
     console.info(this.generateMessage(message));
   }
 
-  notice(message: string) {
+  notice(message: unknown) {
     console.warn(this.generateMessage(message));
   }
 
-  warn(message: string) {
+  warn(message: unknown) {
     console.warn(this.generateMessage(message));
   }
 
-  error(message: string) {
+  error(message: unknown) {
     console.error(this.generateMessage(message));
   }
 }

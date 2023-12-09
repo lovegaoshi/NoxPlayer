@@ -42,7 +42,7 @@ function ImportSyncFavButton({
 
   const errorHandling = (
     e: Error,
-    msg = '歌单同步自Dropbox失败，错误记录在控制台里',
+    msg = '歌单同步自云端失败，错误记录在控制台里',
   ) => {
     console.error(e);
     enqueueSnackbar(msg, {
@@ -55,7 +55,7 @@ function ImportSyncFavButton({
     const response = await noxRestore();
     if (response !== null) {
       await restoreFromUint8Array(response);
-      enqueueSnackbar('歌单同步自Dropbox成功！', {
+      enqueueSnackbar('歌单同步自云端成功！', {
         variant: 'success',
         autoHideDuration: 4000,
       });
@@ -72,7 +72,7 @@ function ImportSyncFavButton({
   };
 
   return (
-    <Tooltip title='下载歌单自Dropbox'>
+    <Tooltip title='下载歌单自云端'>
       <IconButton size='large' onClick={loading ? () => {} : loginAndDownload}>
         {loading ? (
           // for the love of bloody mary, why is 1em 28px here but 24px next?
@@ -91,7 +91,7 @@ function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
 
   const errorHandling = (e: Error) => {
     console.error(e);
-    enqueueSnackbar('歌单上传到Dropbox失败，错误记录在控制台里', {
+    enqueueSnackbar('歌单上传到云端失败，错误记录在控制台里', {
       variant: 'error',
     });
     setLoading(false);
@@ -101,7 +101,7 @@ function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
     const exportedDict = await exportStorageRaw();
     const response = await noxBackup(exportedDict);
     if (response.status === 200) {
-      enqueueSnackbar('歌单上传到Dropbox成功！', {
+      enqueueSnackbar('歌单上传到云端成功！', {
         variant: 'success',
         autoHideDuration: 4000,
       });
@@ -118,7 +118,7 @@ function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
   };
 
   return (
-    <Tooltip title='上传歌单到Dropbox'>
+    <Tooltip title='上传歌单到云端'>
       <IconButton size='large' onClick={loading ? () => {} : loginAndUpload}>
         {loading ? (
           // for the love of bloody mary, why is 1em 28px here but 24px next?
@@ -140,13 +140,13 @@ export default function ({
 }: PropsR) {
   return (
     <React.Fragment>
+      <ExportSyncFavButton login={login} noxBackup={noxBackup} sx={sx} />
       <ImportSyncFavButton
         restoreFromUint8Array={restoreFromUint8Array}
         login={login}
         noxRestore={noxRestore}
         sx={sx}
       />
-      <ExportSyncFavButton login={login} noxBackup={noxBackup} sx={sx} />
     </React.Fragment>
   );
 }
