@@ -1,6 +1,6 @@
 {
   "name": "电闹播放器",
-  "version": "3.0.1.0",
+  "version": "3.0.2.0",
   "description": "电闹播放器 / nox-player: 第三方b站播放器，阿梓播放器威力加强版 / 3rd party Bilibili audio player modified from Azusa-player.",
   "manifest_version": 3,
   "background": {
