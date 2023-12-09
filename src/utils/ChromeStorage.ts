@@ -178,9 +178,17 @@ export const importStorageRaw = async (content: Uint8Array) => {
     });
     playlists.forEach((playlistID) => {
       const playlist = JSON.parse(parsedContentDict[playlistID]);
-      console.debug(playlist);
       chrome.storage.local.set({
-        [playlist.id]: playlist,
+        [playlist.id]: {
+          ...playlist,
+          songList: playlist.songList.reduce(
+            (acc: NoxMedia.Song[], curr: string) => [
+              ...acc,
+              ...JSON.parse(parsedContentDict[curr]),
+            ],
+            [],
+          ),
+        },
       });
     });
   } else {
