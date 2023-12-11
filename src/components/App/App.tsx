@@ -6,9 +6,9 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import { getName } from '@APM/utils/re';
 import usePlayback from '@hooks/usePlayback';
+import useApp from '@stores/useApp';
 import { FavList } from '../Playlists/Player';
 import LyricOverlay from '../lyric/LyricOverlay';
-import { skins, skinPreset } from '../../styles/skin';
 import Options from './Enum';
 
 const options = { ...Options };
@@ -37,6 +37,7 @@ export default function Player({ songList }: Props) {
     onAudioError,
     initPlayer,
   } = usePlayback({});
+  const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
 
   useHotkeys('space', () => {
     if (currentAudioInst === null) return;
@@ -57,7 +58,7 @@ export default function Player({ songList }: Props) {
 
   useEffect(() => {
     if (!currentAudio?.name) return;
-    document.title = `${currentAudio.name} - ${skins().appTitle}`;
+    document.title = `${currentAudio.name} - ${appTitle}`;
   }, [currentAudio?.name]);
 
   // Initialization effect
@@ -92,7 +93,7 @@ export default function Player({ songList }: Props) {
           onAudioPlay={onAudioPlay}
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}
-          theme={skinPreset.desktopTheme}
+          theme={desktopTheme}
           musicSrcParser={musicSrcParser}
           ref={(element) => {
             // @ts-expect-error

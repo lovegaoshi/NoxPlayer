@@ -10,7 +10,7 @@ interface overrideMUITheme {
   [key: string]: any;
 }
 
-export interface skinInterface {
+export interface SkinInterface {
   playerBanner: string;
   playerBannerMobile: backgroundResolveFn;
   playerBackgroundMobileVideo: boolean;
@@ -28,7 +28,7 @@ export interface skinInterface {
   [key: string]: any;
 }
 
-const skinTemplate = (): skinInterface => {
+const skinTemplate = (): SkinInterface => {
   return {
     playerBanner: '',
     playerBannerMobile: async () =>
