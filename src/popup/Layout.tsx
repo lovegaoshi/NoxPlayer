@@ -3,24 +3,18 @@ import Box from '@mui/material/Box';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ConfirmProvider } from 'material-ui-confirm';
 import { SnackbarProvider } from 'notistack';
-import { skinPreset } from '../styles/skin';
+import useApp from '@stores/useApp';
 
 const Player = React.lazy(() => import('../components/App/App'));
-
-const { colorTheme } = skinPreset;
-
-const theme = createTheme(colorTheme.palette);
 
 interface Props {
   songList: NoxMedia.Song[];
   backgroundSrc: string;
   isMobile?: boolean;
 }
-export default function PageLayout({
-  songList,
-  backgroundSrc,
-  isMobile = false,
-}: Props) {
+export default function PageLayout({ songList, backgroundSrc }: Props) {
+  const playerStyle = useApp((state) => state.playerStyle);
+  const theme = createTheme(playerStyle.colorTheme.palette);
   if (!songList || !backgroundSrc) {
     return <h1>Loading...</h1>;
   }
@@ -32,7 +26,7 @@ export default function PageLayout({
         <SnackbarProvider maxSnack={1}>
           <ConfirmProvider>
             <div className='container-fluid homepage-bgimage'>
-              {skinPreset.playerBackgroundVideo ? (
+              {playerStyle.playerBackgroundVideo ? (
                 <video
                   id='player-bkgrd'
                   autoPlay
@@ -58,7 +52,7 @@ export default function PageLayout({
               sx={OutmostBox}
               id='master-box'
               style={{
-                backgroundColor: colorTheme.PCBackgroundColor,
+                backgroundColor: playerStyle.colorTheme.PCBackgroundColor,
                 backgroundBlendMode: 'overlay',
               }}
             >
@@ -91,9 +85,4 @@ const PlayerBox = {
   gridTemplateAreas: `"Lrc         Lrc      Lrc      search"
                         "Lrc         Lrc      Lrc      sidebar"
                         "footer      footer   footer   footer"`,
-};
-
-const PlayerBoxMobile = {
-  height: '0px',
-  maxHeight: '0%',
 };

@@ -9,9 +9,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 
-import { skinPreset } from '@styles/skin';
-
-const { colorTheme } = skinPreset;
+import useApp from '@stores/useApp';
 
 interface Props {
   count: number;
@@ -25,6 +23,7 @@ interface Props {
 export default function TablePaginationActions(props: Props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
+  const { colorTheme } = useApp((state) => state.playerStyle);
 
   const handleFirstPageButtonClick = (
     event: React.MouseEvent<HTMLButtonElement>,

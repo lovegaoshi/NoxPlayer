@@ -1,14 +1,14 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 
-import { skinPreset } from '@styles/skin';
+import useApp from '@stores/useApp';
 import Menu from '../menus/PlaylistMenu';
 import Fav from '../Playlist/Playlist';
 import Playlists from './Playlists';
 
-const { colorTheme } = skinPreset;
-
 export function FavList() {
+  const { colorTheme } = useApp((state) => state.playerStyle);
+
   return (
     <React.Fragment>
       <Menu theme={colorTheme.generalTheme} />
@@ -36,14 +36,6 @@ export const CRUDBtn = {
   },
   paddingLeft: '8px',
   paddingRight: '8px',
-};
-
-const AddFavIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.playListIconColor,
 };
 
 export const DiskIcon = {

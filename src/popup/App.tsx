@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import isMobile from 'is-mobile';
 
 import useTimer from '@hooks/useTimer';
+import useApp from '@stores/useApp';
 import PageLayout from './Layout';
-import { skins } from '../styles/skin';
 import useInitializeStore from '../stores/useInitializeStore';
 
 export default function App() {
@@ -13,6 +13,7 @@ export default function App() {
   const { initializeStores } = useInitializeStore();
   // eslint-disable-next-line no-unused-vars
   const timer = useTimer();
+  const playerStyle = useApp((state) => state.playerStyle);
 
   useEffect(() => {
     async function init() {
@@ -21,8 +22,8 @@ export default function App() {
       try {
         setBackgroundSrc(
           isMobile()
-            ? await skins().playerBannerMobile()
-            : await skins().playerBackground(),
+            ? await playerStyle.playerBannerMobile()
+            : await playerStyle.playerBackground(),
         );
       } catch {
         setBackgroundSrc('');
@@ -32,7 +33,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.title = skins().appTitle;
+    document.title = playerStyle.appTitle;
   }, []);
 
   // console.log(currentSongList)
