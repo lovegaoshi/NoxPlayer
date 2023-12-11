@@ -7,7 +7,6 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 
-import { ScrollBar } from '@styles/styles';
 import { useNoxSetting } from '@APM/stores/useApp';
 // eslint-disable-next-line import/no-unresolved
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
@@ -45,7 +44,7 @@ interface Props {
   playlistCRUD: PlaylistCRUD;
 }
 export default function PlaylistList({ playlistCRUD }: Props) {
-  const { colorTheme } = useApp((state) => state.playerStyle);
+  const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const {

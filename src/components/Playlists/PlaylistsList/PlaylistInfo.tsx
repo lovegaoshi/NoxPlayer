@@ -7,11 +7,11 @@ import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { contextMenu } from 'react-contexify';
 
+import useApp from '@stores/useApp';
 import AddToPlaylistButton from './ButtonAddToPlaylist';
 import DeletePlaylistButton from './ButtonDeletePlaylist';
 import PlayPlaylistButton from './ButtonPlayPlaylist';
 import CreateAsPlaylistButton from './ButtonCreateAsPlaylist';
-import { CRUDBtn, CRUDIcon, DiskIcon, outerLayerBtn } from '../Styles';
 
 interface Props {
   playlist: NoxMedia.Playlist;
@@ -31,6 +31,9 @@ export function PlaylistInfo({
   onPlayAllFromFav,
   handleDeleteFavClick,
 }: Props) {
+  const { CRUDBtn, CRUDIcon, DiskIcon, outerLayerBtn } = useApp(
+    (state) => state.playerStyle,
+  );
   return (
     <React.Fragment key={key2}>
       <ListItemButton
@@ -89,6 +92,9 @@ export function SearchlistEntry({
   onPlayAllFromFav,
   handleCreateAsFavClick,
 }: Props) {
+  const { CRUDBtn, CRUDIcon, DiskIcon, outerLayerBtn } = useApp(
+    (state) => state.playerStyle,
+  );
   return (
     <React.Fragment key={playlist.id}>
       <ListItemButton disableRipple sx={outerLayerBtn}>

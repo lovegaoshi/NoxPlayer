@@ -70,7 +70,7 @@ export function BiliBiliIcon({
   handleThumbsUp = () => {},
   handleThumbedUp = () => goToBiliBili({ bvid }),
 }: Props) {
-  const buttonStyle = useApp((state) => state.buttonStyle);
+  const { buttonStyle } = useApp((state) => state.playerStyle);
 
   if (liked === 1) {
     return (

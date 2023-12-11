@@ -1,4 +1,5 @@
 import { getPlayerSetting } from '@utils/ChromeStorage';
+import { buttonStyle, ScrollBar } from '@hooks/useTheme';
 import AzusaTheme from './skins/azusa';
 import ItsukiTheme from './skins/itsuki';
 import NoxTheme from './skins/nox';
@@ -39,52 +40,93 @@ export const SkinKeys = [
 ];
 
 export const skins = (key = setting.skin) => {
-  /**
-   * skin requires:
-   * player banner (~2000*80)
-   * mobile player banner (~600*400)
-   * gif icon (60*60)
-   * various color themes
-   *
-   */
-  if (!key) {
-    key = '诺莺nox';
-  }
-  switch (key) {
-    case 'clessS':
-      return ClessSTheme();
-    case '诺莺nox':
-      return NoxTheme();
-    case '星谷樹itsuki':
-      return ItsukiTheme();
-    case 'Amelia Watson':
-      return AmeliaTheme();
-    case 'Gawr Gura':
-      return GuraTheme();
-    case 'Pokemon安妮':
-      return PomeloTheme();
-    case '赫拉Kris':
-      return HeraKrisTheme();
-    case '林莉奈RinaHayashi':
-      return RinaHayashiTheme();
-    case '薇Steria':
-      return SteriaTheme();
-    case '桃几OvO':
-      return TaojiTheme();
-    case '阿蕊娅Aria':
-      return AriaTheme();
-    case '黑泽诺亚NOIR':
-      return NoirTheme();
-    case '莱妮娅Rynia':
-      return RyniaTheme();
-    case '阿布':
-      return NiyaTheme();
-    case '露米Lumi':
-      return LumiTheme();
-    default:
-      // default is azusa skin.
-      return AzusaTheme();
-  }
+  const getSkin = () => {
+    /**
+     * skin requires:
+     * player banner (~2000*80)
+     * mobile player banner (~600*400)
+     * gif icon (60*60)
+     * various color themes
+     *
+     */
+    if (!key) {
+      key = '诺莺nox';
+    }
+    switch (key) {
+      case 'clessS':
+        return ClessSTheme();
+      case '诺莺nox':
+        return NoxTheme();
+      case '星谷樹itsuki':
+        return ItsukiTheme();
+      case 'Amelia Watson':
+        return AmeliaTheme();
+      case 'Gawr Gura':
+        return GuraTheme();
+      case 'Pokemon安妮':
+        return PomeloTheme();
+      case '赫拉Kris':
+        return HeraKrisTheme();
+      case '林莉奈RinaHayashi':
+        return RinaHayashiTheme();
+      case '薇Steria':
+        return SteriaTheme();
+      case '桃几OvO':
+        return TaojiTheme();
+      case '阿蕊娅Aria':
+        return AriaTheme();
+      case '黑泽诺亚NOIR':
+        return NoirTheme();
+      case '莱妮娅Rynia':
+        return RyniaTheme();
+      case '阿布':
+        return NiyaTheme();
+      case '露米Lumi':
+        return LumiTheme();
+      default:
+        // default is azusa skin.
+        return AzusaTheme();
+    }
+  };
+  const playerStyle = getSkin();
+  return {
+    ...playerStyle,
+    outerLayerBtn: { padding: 'unset' },
+    CRUDBtn: {
+      ':hover': {
+        cursor: 'default',
+      },
+      paddingLeft: '8px',
+      paddingRight: '8px',
+    },
+
+    CRUDIcon: {
+      ':hover': {
+        cursor: 'pointer',
+      },
+      width: '1.1em',
+      height: '1.1em',
+      paddingBottom: '2px',
+      color: playerStyle.colorTheme.playListIconColor,
+    },
+
+    AddFavIcon: {
+      ':hover': {
+        cursor: 'pointer',
+      },
+      width: '1em',
+      color: playerStyle.colorTheme.playListIconColor,
+    },
+
+    DiskIcon: {
+      minWidth: '36px',
+    },
+    buttonStyle: buttonStyle(
+      playerStyle.reactJKPlayerTheme.sliderColor,
+      playerStyle.desktopTheme,
+    ),
+    ScrollBar: ScrollBar(playerStyle.colorTheme.scrollbarColor),
+  };
 };
 
 export const skinPreset = skins();

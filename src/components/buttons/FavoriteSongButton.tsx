@@ -11,7 +11,7 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const setFavoritePlaylist = useNoxSetting(
     (state) => state.setFavoritePlaylist,
   );
-  const buttonStyle = useApp((state) => state.buttonStyle);
+  const { buttonStyle } = useApp((state) => state.playerStyle);
 
   useEffect(() => {
     setLiked(

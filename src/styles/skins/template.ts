@@ -1,3 +1,6 @@
+import { SerializedStyles } from '@emotion/react';
+import { ClassNameMap } from '@mui/material';
+
 interface backgroundResolveFn {
   (): Promise<string>;
 }
@@ -10,7 +13,7 @@ interface overrideMUITheme {
   [key: string]: any;
 }
 
-export interface SkinInterface {
+interface SkinTemplate {
   playerBanner: string;
   playerBannerMobile: backgroundResolveFn;
   playerBackgroundMobileVideo: boolean;
@@ -28,7 +31,17 @@ export interface SkinInterface {
   [key: string]: any;
 }
 
-const skinTemplate = (): SkinInterface => {
+export interface Skin extends SkinTemplate {
+  buttonStyle: SerializedStyles;
+  ScrollBar: (props?: any) => ClassNameMap<'root'>;
+  outerLayerBtn: any;
+  CRUDBtn: any;
+  CRUDIcon: any;
+  AddFavIcon: any;
+  DiskIcon: any;
+}
+
+const skinTemplate = (): SkinTemplate => {
   return {
     playerBanner: '',
     playerBannerMobile: async () =>

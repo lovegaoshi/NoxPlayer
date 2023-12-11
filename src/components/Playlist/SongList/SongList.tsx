@@ -20,7 +20,6 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 import usePlayback from '@hooks/usePlayback';
 import useApp from '@stores/useApp';
-import { ScrollBar } from '@styles/styles';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 import useRenameSong from '../hooks/useRenameSong';
 
@@ -45,7 +44,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     songsInView,
   } = playlistPaginated;
   const playerSetting = useNoxSetting((state) => state.playerSetting);
-  const { colorTheme } = useApp((state) => state.playerStyle);
+  const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const playlistCRUD = usePlaylistCRUD(playlist);
   const { onPlayOneFromFav } = usePlayback({});
   const {

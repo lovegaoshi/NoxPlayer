@@ -17,7 +17,7 @@ interface Props {
 }
 export default function thumbsUpButton({ song }: Props) {
   const [liked, setLiked] = useState(0);
-  const buttonStyle = useApp((state) => state.buttonStyle);
+  const { buttonStyle } = useApp((state) => state.playerStyle);
 
   useEffect(() => checkBVLiked(song.bvid, setLiked), [song.id]);
 

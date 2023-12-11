@@ -1,8 +1,7 @@
 import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
 import { skins } from '@styles/skin';
-import { SkinInterface } from '@styles/skins/template';
-import { SerializedStyles, css } from '@emotion/react';
+import { Skin } from '@styles/skins/template';
 
 export * from '@APM/stores/useApp';
 
@@ -30,25 +29,18 @@ interface NoxApp {
   setparams: (a: any) => void;
   showLyric: boolean;
   setShowLyric: (a: boolean) => void;
-  playerStyle: SkinInterface;
+
+  playerStyle: Skin;
   setPlayerStyle: (v: string) => void;
-  buttonStyle: SerializedStyles;
+
   initialize: (init: NoxStorage.PlayerStorageObject) => void;
 }
 
 export default create<NoxApp>((set, get) => {
   const setPlayerStyle = (v: string) => {
     const playerStyle = skins(v);
-    set({ playerStyle });
     set({
-      buttonStyle: css`
-        cursor: pointer;
-        &:hover {
-          color: ${playerStyle.reactJKPlayerTheme.sliderColor};
-        }
-        background-color: transparent;
-        color: ${playerStyle.desktopTheme === 'light' ? '7d7d7d' : 'white'};
-      `,
+      playerStyle,
     });
   };
 
@@ -62,7 +54,6 @@ export default create<NoxApp>((set, get) => {
     setShowLyric: (a) => set({ showLyric: a }),
     playerStyle: skins(),
     setPlayerStyle,
-    buttonStyle: css``,
     initialize: (v) => {
       setPlayerStyle(v.settings.skin);
     },
