@@ -83,8 +83,8 @@ function SettingsPanel() {
       />
       <BooleanCheckbox
         settingKey='noCookieBiliSearch'
-        tooltip='不用b站cookie，关闭搜索时的b站个性化推荐'
-        label='搜索时不用b号个性化推荐'
+        tooltip='b站搜索时提交cookie获得个性化推荐'
+        label='搜索时用b号个性化推荐'
       />
       <BooleanCheckbox
         settingKey='fastBiliSearch'

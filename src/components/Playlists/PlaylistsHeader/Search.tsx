@@ -39,6 +39,7 @@ export default function Search({ setSearchInputVal }: Props) {
         input,
         progressEmitter: setProgressVal,
         fastSearch: playerSetting.fastBiliSearch,
+        cookiedSearch: playerSetting.noCookieBiliSearch,
       }),
     };
     setSearchList(searchedList);
