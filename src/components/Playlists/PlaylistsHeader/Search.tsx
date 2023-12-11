@@ -32,12 +32,14 @@ export default function Search({ setSearchInputVal }: Props) {
 
   const searchBili = async (input: string) => {
     setLoading(true);
+    setProgressVal(100);
     const searchedList = {
       ...searchPlaylist,
       songList: await searchBiliURLs({
         input,
         progressEmitter: setProgressVal,
         fastSearch: playerSetting.fastBiliSearch,
+        cookiedSearch: playerSetting.noCookieBiliSearch,
       }),
     };
     setSearchList(searchedList);

@@ -3,7 +3,6 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Slide from '@mui/material/Slide';
-import LyricMobile from './LyricMobile';
 import Lyric from './Lyric';
 
 const Transition = forwardRef((props, ref) => {
@@ -55,21 +54,12 @@ export default function LyricOverlay({
           >
             <KeyboardArrowDownIcon />
           </IconButton>
-          {isMobile ? (
-            <LyricMobile
-              currentTime={currentTime}
-              audioName={audioName}
-              audioId={audioId}
-              audioCover={audioCover}
-            />
-          ) : (
-            <Lyric
-              currentTime={currentTime}
-              audioName={audioName}
-              audioId={audioId}
-              audioCover={audioCover}
-            />
-          )}
+          <Lyric
+            currentTime={currentTime}
+            audioName={audioName}
+            audioId={audioId}
+            audioCover={audioCover}
+          />
         </div>
       </Dialog>
     </div>

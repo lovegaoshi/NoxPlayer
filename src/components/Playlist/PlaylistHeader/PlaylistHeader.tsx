@@ -5,14 +5,12 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
+import useApp from '@stores/useApp';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
-import { skinPreset } from '../../../styles/skin';
 import RandomGIFIcon from './RandomGIF';
 import FavSettingsButtons from '../PlaylistSetting/PlaylistSettingsButton';
 import SongSearchBar from '../../dialogs/SongSearchbar';
 import PlaylistSelectButton from './PlaylistSelectButton';
-
-const { colorTheme } = skinPreset;
 
 interface Props {
   playlist: NoxMedia.Playlist;
@@ -21,6 +19,7 @@ interface Props {
 export default function FavHeader({ playlist, playlistPaginated }: Props) {
   const { page, primePageToCurrentPlaying, handleSearch, searchBarRef } =
     playlistPaginated;
+  const { colorTheme, gifs } = useApp((state) => state.playerStyle);
 
   return (
     <Box
@@ -52,7 +51,7 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
         </Grid>
         <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
           <RandomGIFIcon
-            gifs={skinPreset.gifs}
+            gifs={gifs}
             playlist={playlist.id + page.toString()}
             onClickCallback={primePageToCurrentPlaying}
           />

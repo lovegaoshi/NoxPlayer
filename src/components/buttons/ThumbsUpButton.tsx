@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { jsx, css } from '@emotion/react';
 // @ts-expect-error
 import ClickNHold from 'react-click-n-hold';
 
@@ -10,8 +9,7 @@ import {
   sendBVLike,
   sendBVTriple,
 } from '@utils/Bilibili/BiliOperate';
-/** @jsx jsx */
-import { skins } from '@styles/skin';
+import useApp from '@stores/useApp';
 import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
 
 interface Props {
@@ -19,6 +17,7 @@ interface Props {
 }
 export default function thumbsUpButton({ song }: Props) {
   const [liked, setLiked] = useState(0);
+  const { buttonStyle } = useApp((state) => state.playerStyle);
 
   useEffect(() => checkBVLiked(song.bvid, setLiked), [song.id]);
 
@@ -55,32 +54,22 @@ export default function thumbsUpButton({ song }: Props) {
   }
 
   return (
-    <React.Fragment>
-      <span
-        className='group audio-download'
-        // @ts-expect-error
-        css={buttonStyle}
-        title={liked === 1 ? '已点赞' : liked === 0 ? '点赞' : '前往视频'}
-        role='button'
-        tabIndex={0}
-      >
-        {liked === 1 ? (
-          <ThumbUpAltIcon onClick={onClick} />
-        ) : liked === 0 ? (
-          <ThumbsUpClickNHold />
-        ) : (
-          <BiliBiliIconSVG onClick={onClick} />
-        )}
-      </span>
-    </React.Fragment>
+    <span
+      className='group audio-download'
+      // @ts-expect-error
+      // eslint-disable-next-line react/no-unknown-property
+      css={buttonStyle}
+      title={liked === 1 ? '已点赞' : liked === 0 ? '点赞' : '前往视频'}
+      role='button'
+      tabIndex={0}
+    >
+      {liked === 1 ? (
+        <ThumbUpAltIcon onClick={onClick} />
+      ) : liked === 0 ? (
+        <ThumbsUpClickNHold />
+      ) : (
+        <BiliBiliIconSVG onClick={onClick} />
+      )}
+    </span>
   );
 }
-
-const buttonStyle = css`
-  cursor: pointer;
-  &:hover {
-    color: ${skins().reactJKPlayerTheme.sliderColor};
-  }
-  background-color: transparent;
-  color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
-`;

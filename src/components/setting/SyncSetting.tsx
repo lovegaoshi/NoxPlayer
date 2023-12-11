@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { useStore } from 'zustand';
 
-import { skinPreset } from '@styles/skin';
+import useApp from '@stores/useApp';
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import { EXPORT_OPTIONS } from '@objects/Storage';
 import useInitializeStore from '@stores/useInitializeStore';
@@ -27,6 +27,19 @@ function SyncSetttingButtons() {
     (state) => state.setPlayerSetting,
   );
   const { initializeFromSync } = useInitializeStore();
+  const { colorTheme } = useApp((state) => state.playerStyle);
+  const AddFavIcon = {
+    ':hover': {
+      cursor: 'pointer',
+    },
+    width: '1em',
+    color: colorTheme.playListIconColor,
+    // padding added to account for the textfield label margin:dense
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    paddingLeft: '8px',
+    paddingRight: '8px',
+  };
 
   switch (playerSettings.settingExportLocation) {
     case EXPORT_OPTIONS.DROPBOX:
@@ -113,18 +126,3 @@ export default function SyncSetting() {
     </Box>
   );
 }
-
-const { colorTheme } = skinPreset;
-
-const AddFavIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.playListIconColor,
-  // padding added to account for the textfield label margin:dense
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  paddingLeft: '8px',
-  paddingRight: '8px',
-};

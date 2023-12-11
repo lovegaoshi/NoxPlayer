@@ -8,9 +8,8 @@ import Typography from '@mui/material/Typography';
 import { useStore } from 'zustand';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import { SkinKeys, skins, skinPreset } from '@styles/skin';
-
-const { colorTheme } = skinPreset;
+import { SkinKeys } from '@styles/skin';
+import useApp from '@stores/useApp';
 
 export default function SkinSetting() {
   const playerSettings = useStore(
@@ -21,45 +20,47 @@ export default function SkinSetting() {
     playerSettingStore,
     (state) => state.setPlayerSetting,
   );
+  const playerStyle = useApp((state) => state.playerStyle);
+  const setPlayerStyle = useApp((state) => state.setPlayerStyle);
 
   return (
     <Box>
-      <Tooltip title={skins(playerSettings.skin).maintainerTooltip}>
+      <Tooltip title={playerStyle.maintainerTooltip}>
         <Typography
-          style={{ color: colorTheme.songListColumnHeaderColor }}
+          style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
           display='inline'
         >
           播放器皮肤{' '}
         </Typography>
       </Tooltip>
       <Typography
-        style={{ color: colorTheme.songListColumnHeaderColor }}
+        style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
         display='inline'
       >
         (maintained by&nbsp;
       </Typography>
-      {skins(playerSettings.skin).maintinerURL ? (
+      {playerStyle.maintinerURL ? (
         <Link
           style={{
-            color: colorTheme.songListColumnHeaderColor,
+            color: playerStyle.colorTheme.songListColumnHeaderColor,
             fontSize: '1rem',
           }}
-          href={skins(playerSettings.skin).maintinerURL}
+          href={playerStyle.maintinerURL}
           target='_blank'
           display='inline'
         >
-          {skins(playerSettings.skin).maintainer}
+          {playerStyle.maintainer}
         </Link>
       ) : (
         <Typography
-          style={{ color: colorTheme.songListColumnHeaderColor }}
+          style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
           display='inline'
         >
-          {skins(playerSettings.skin).maintainer}
+          {playerStyle.maintainer}
         </Typography>
       )}
       <Typography
-        style={{ color: colorTheme.songListColumnHeaderColor }}
+        style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
         display='inline'
       >
         )
@@ -72,7 +73,10 @@ export default function SkinSetting() {
         SelectProps={{
           MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } },
         }}
-        onChange={(e) => setPlayerSettings({ skin: e.target.value })}
+        onChange={(e) => {
+          setPlayerSettings({ skin: e.target.value });
+          setPlayerStyle(e.target.value);
+        }}
       >
         {SkinKeys.map((v, i) => {
           return (

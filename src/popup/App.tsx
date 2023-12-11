@@ -1,48 +1,107 @@
 import React, { useEffect, useState } from 'react';
-import isMobile from 'is-mobile';
+import Box from '@mui/material/Box';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ConfirmProvider } from 'material-ui-confirm';
+import { SnackbarProvider } from 'notistack';
 
 import useTimer from '@hooks/useTimer';
-import PageLayout from './Layout';
-import { skins } from '../styles/skin';
+import useApp from '@stores/useApp';
 import useInitializeStore from '../stores/useInitializeStore';
+
+const Player = React.lazy(() => import('../components/App/App'));
 
 export default function App() {
   // The current playing list
   const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>([]);
-  const [backgroundSrc, setBackgroundSrc] = useState<string>('');
   const { initializeStores } = useInitializeStore();
+  const playerStyle = useApp((state) => state.playerStyle);
+  const theme = createTheme(playerStyle.colorTheme.palette);
+  const [backgroundSrc, setBackgroundSrc] = React.useState<string>();
   // eslint-disable-next-line no-unused-vars
   const timer = useTimer();
+
+  if (!currentSongList) {
+    return <h1>Loading...</h1>;
+  }
 
   useEffect(() => {
     async function init() {
       const result = await initializeStores();
       setCurrentSongList(result.currentPlayingList.songList);
-      try {
-        setBackgroundSrc(
-          isMobile()
-            ? await skins().playerBannerMobile()
-            : await skins().playerBackground(),
-        );
-      } catch {
-        setBackgroundSrc('');
-      }
     }
     init();
+    document.title = playerStyle.appTitle;
   }, []);
 
   useEffect(() => {
-    document.title = skins().appTitle;
-  }, []);
+    playerStyle.playerBackground().then(setBackgroundSrc);
+  }, [playerStyle.playerBackground]);
 
   // console.log(currentSongList)
   return (
-    <PageLayout
-      songList={currentSongList}
-      backgroundSrc={backgroundSrc}
-      // Mobile interface is assumed broken after refactoring and deprecaited
-      // in favor of APM. use the better thing!
-      isMobile={false}
-    />
+    // Outmost layer of the page
+    <React.Suspense fallback={<h1>Loading...</h1>}>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={1}>
+          <ConfirmProvider>
+            <div className='container-fluid homepage-bgimage'>
+              {playerStyle.playerBackgroundVideo ? (
+                <video
+                  id='player-bkgrd'
+                  autoPlay
+                  loop
+                  muted
+                  className='homepage-bgimage'
+                  src={backgroundSrc}
+                  height={window.innerHeight}
+                  width={window.innerWidth}
+                />
+              ) : (
+                <img
+                  id='player-bkgrd'
+                  alt=''
+                  className='homepage-bgimage'
+                  src={backgroundSrc}
+                  height={window.innerHeight}
+                  width={window.innerWidth}
+                />
+              )}
+            </div>
+            <Box
+              sx={OutmostBox}
+              id='master-box'
+              style={{
+                backgroundColor: playerStyle.colorTheme.PCBackgroundColor,
+                backgroundBlendMode: 'overlay',
+              }}
+            >
+              <Box sx={PlayerBox}>
+                <Player songList={currentSongList} />
+              </Box>
+            </Box>
+          </ConfirmProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </React.Suspense>
   );
 }
+
+const OutmostBox = {
+  width: '100vw',
+  height: '95vh',
+  color: '#1234',
+  '& > .MuiBox-root > .MuiBox-root': {
+    p: 1,
+  },
+};
+const PlayerBox = {
+  height: '100vh',
+  maxHeight: '100%',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(4, 1fr)',
+  gap: 0,
+  gridTemplateRows: '72px 1fr',
+  gridTemplateAreas: `"Lrc         Lrc      Lrc      search"
+                        "Lrc         Lrc      Lrc      sidebar"
+                        "footer      footer   footer   footer"`,
+};

@@ -2,16 +2,22 @@ import React from 'react';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
-import { skinPreset } from '@styles/skin';
+import useApp from '@stores/useApp';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 import Search from './PlaylistsHeader/Search';
 import PlaylistHeaderButtons from './PlaylistsHeader/PlaylistHeaderButtons';
 import PlaylistList from './PlaylistsList/PlaylistList';
 
-const { colorTheme } = skinPreset;
-
 export default function () {
   const playlistCRUD = usePlaylistCRUD();
+  const { colorTheme } = useApp((state) => state.playerStyle);
+  const AddFavIcon = {
+    ':hover': {
+      cursor: 'pointer',
+    },
+    width: '1em',
+    color: colorTheme.playListIconColor,
+  };
 
   return (
     <React.Fragment>
@@ -37,11 +43,3 @@ export default function () {
     </React.Fragment>
   );
 }
-
-const AddFavIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.playListIconColor,
-};

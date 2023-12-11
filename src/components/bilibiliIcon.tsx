@@ -1,13 +1,12 @@
 // except its actually a valid property...
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
-/** @jsx jsx */
-import { jsx, css } from '@emotion/react';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { v4 as uuidv4 } from 'uuid';
+
+import useApp from '@stores/useApp';
 import { sendBVLike } from '../utils/Bilibili/BiliOperate';
-import { skins } from '../styles/skin';
 
 interface SVGProps {
   onClick?: () => void;
@@ -59,15 +58,6 @@ export const goToBiliBili = function goToBiliBili({
   window.open(toBiliBili({ bvid, episode }));
 };
 
-const buttonStyle = css`
-  cursor: pointer;
-  &:hover {
-    color: ${skins().reactJKPlayerTheme.sliderColor};
-  }
-  background-color: transparent;
-  color: ${skins().desktopTheme === 'light' ? '7d7d7d' : 'white'};
-`;
-
 interface Props {
   bvid: string;
   liked?: number;
@@ -80,6 +70,8 @@ export function BiliBiliIcon({
   handleThumbsUp = () => {},
   handleThumbedUp = () => goToBiliBili({ bvid }),
 }: Props) {
+  const { buttonStyle } = useApp((state) => state.playerStyle);
+
   if (liked === 1) {
     return (
       <span

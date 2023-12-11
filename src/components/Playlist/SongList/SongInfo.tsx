@@ -14,10 +14,8 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
-import { skinPreset } from '@styles/skin';
+import useApp from '@stores/useApp';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
-
-const { colorTheme } = skinPreset;
 
 interface Props {
   song: NoxMedia.Song;
@@ -53,6 +51,14 @@ function SongInfo({
     getSelectedSongs,
     selected,
   } = usePlaylist;
+  const { colorTheme } = useApp((state) => state.playerStyle);
+  const CRUDIcon = {
+    ':hover': {
+      cursor: 'pointer',
+    },
+    width: '1em',
+    color: colorTheme.songListIconColor,
+  };
   const [, setSelectState] = React.useState(
     selected[getSongIndex(song, index)] || false,
   );
@@ -153,13 +159,6 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const CRUDIcon = {
-  ':hover': {
-    cursor: 'pointer',
-  },
-  width: '1em',
-  color: colorTheme.songListIconColor,
-};
 export const songText = {
   fontSize: 16,
   minWidth: 0,
