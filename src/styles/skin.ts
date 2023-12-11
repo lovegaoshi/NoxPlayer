@@ -52,38 +52,38 @@ export const skins = (key = setting.skin) => {
   }
   switch (key) {
     case 'clessS':
-      return ClessSTheme;
+      return ClessSTheme();
     case '诺莺nox':
-      return NoxTheme;
+      return NoxTheme();
     case '星谷樹itsuki':
-      return ItsukiTheme;
+      return ItsukiTheme();
     case 'Amelia Watson':
-      return AmeliaTheme;
+      return AmeliaTheme();
     case 'Gawr Gura':
-      return GuraTheme;
+      return GuraTheme();
     case 'Pokemon安妮':
-      return PomeloTheme;
+      return PomeloTheme();
     case '赫拉Kris':
-      return HeraKrisTheme;
+      return HeraKrisTheme();
     case '林莉奈RinaHayashi':
-      return RinaHayashiTheme;
+      return RinaHayashiTheme();
     case '薇Steria':
-      return SteriaTheme;
+      return SteriaTheme();
     case '桃几OvO':
-      return TaojiTheme;
+      return TaojiTheme();
     case '阿蕊娅Aria':
-      return AriaTheme;
+      return AriaTheme();
     case '黑泽诺亚NOIR':
-      return NoirTheme;
+      return NoirTheme();
     case '莱妮娅Rynia':
-      return RyniaTheme;
+      return RyniaTheme();
     case '阿布':
-      return NiyaTheme;
+      return NiyaTheme();
     case '露米Lumi':
-      return LumiTheme;
+      return LumiTheme();
     default:
       // default is azusa skin.
-      return AzusaTheme;
+      return AzusaTheme();
   }
 };
 
