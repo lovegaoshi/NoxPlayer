@@ -5,7 +5,6 @@ import { ConfirmProvider } from 'material-ui-confirm';
 import { SnackbarProvider } from 'notistack';
 import { skinPreset } from '../styles/skin';
 
-const PlayerMobile = React.lazy(() => import('../components/App/AppMobile'));
 const Player = React.lazy(() => import('../components/App/App'));
 
 const { colorTheme } = skinPreset;
@@ -26,51 +25,6 @@ export default function PageLayout({
     return <h1>Loading...</h1>;
   }
 
-  if (isMobile) {
-    return (
-      // Outmost layer of the page
-      <React.Suspense fallback={<h1>Loading...</h1>}>
-        <ThemeProvider theme={theme}>
-          <SnackbarProvider maxSnack={1}>
-            <ConfirmProvider>
-              <Box
-                sx={OutmostBox}
-                id='master-box'
-                style={{ backgroundColor: colorTheme.MobileBackgroundColor }}
-              >
-                <div className='container-fluid homepage-bgimage-mobile'>
-                  {skinPreset.playerBackgroundMobileVideo ? (
-                    <video
-                      id='player-bkgrd-mobile'
-                      autoPlay
-                      loop
-                      muted
-                      className='homepage-bgimage-mobile'
-                      src={backgroundSrc}
-                      height={window.innerHeight}
-                      width={window.innerWidth}
-                    />
-                  ) : (
-                    <img
-                      id='player-bkgrd-mobile'
-                      alt=''
-                      className='homepage-bgimage-mobile'
-                      src={backgroundSrc}
-                      height={window.innerHeight}
-                      width={window.innerWidth}
-                    />
-                  )}
-                </div>
-                <Box sx={PlayerBoxMobile} id='player-box'>
-                  <PlayerMobile songList={songList} id='player-instance' />
-                </Box>
-              </Box>
-            </ConfirmProvider>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </React.Suspense>
-    );
-  }
   return (
     // Outmost layer of the page
     <React.Suspense fallback={<h1>Loading...</h1>}>
