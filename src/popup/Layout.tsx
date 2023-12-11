@@ -9,15 +9,19 @@ const Player = React.lazy(() => import('../components/App/App'));
 
 interface Props {
   songList: NoxMedia.Song[];
-  backgroundSrc: string;
   isMobile?: boolean;
 }
-export default function PageLayout({ songList, backgroundSrc }: Props) {
+export default function PageLayout({ songList }: Props) {
   const playerStyle = useApp((state) => state.playerStyle);
   const theme = createTheme(playerStyle.colorTheme.palette);
-  if (!songList || !backgroundSrc) {
+  const [backgroundSrc, setBackgroundSrc] = React.useState<string>();
+  if (!songList) {
     return <h1>Loading...</h1>;
   }
+
+  React.useEffect(() => {
+    playerStyle.playerBackground().then(setBackgroundSrc);
+  }, [playerStyle.playerBackground]);
 
   return (
     // Outmost layer of the page

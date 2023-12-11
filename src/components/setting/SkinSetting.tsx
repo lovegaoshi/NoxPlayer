@@ -21,6 +21,7 @@ export default function SkinSetting() {
     (state) => state.setPlayerSetting,
   );
   const playerStyle = useApp((state) => state.playerStyle);
+  const setPlayerStyle = useApp((state) => state.setPlayerStyle);
 
   return (
     <Box>
@@ -72,7 +73,10 @@ export default function SkinSetting() {
         SelectProps={{
           MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } },
         }}
-        onChange={(e) => setPlayerSettings({ skin: e.target.value })}
+        onChange={(e) => {
+          setPlayerSettings({ skin: e.target.value });
+          setPlayerStyle(e.target.value);
+        }}
       >
         {SkinKeys.map((v, i) => {
           return (
