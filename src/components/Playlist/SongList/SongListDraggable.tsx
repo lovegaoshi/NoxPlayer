@@ -10,10 +10,8 @@ import { styled } from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';
 
 import { contextMenu } from 'react-contexify';
-import { skinPreset } from '@styles/skin';
+import useApp from '@stores/useApp';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
-
-const { colorTheme } = skinPreset;
 
 interface TableProps {
   children: React.ReactElement | React.ReactElement[];
@@ -60,6 +58,7 @@ export function SongInfoDraggable({
   children,
   draggable = false,
 }: Props) {
+  const { colorTheme } = useApp((state) => state.playerStyle);
   const onContextMenu = (
     event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
   ) => {
@@ -116,12 +115,15 @@ export function SongInfoDraggable({
   );
 }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
+const StyledTableRow = styled(TableRow)(({ theme }) => {
+  const { colorTheme } = useApp((state) => state.playerStyle);
+  return {
+    '&:nth-of-type(odd)': {
+      backgroundColor: colorTheme.FavAlternateBackgroundColor, // theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+  };
+});

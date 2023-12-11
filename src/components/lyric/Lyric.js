@@ -6,11 +6,9 @@ import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 
 import { useNoxSetting } from '@APM/stores/useApp';
+import useApp from '@stores/useApp';
 import { ScrollBar } from '../../styles/styles';
 import LyricSearchBar from './LyricSearchBar';
-import { skinPreset } from '../../styles/skin';
-
-const { colorTheme } = skinPreset;
 
 const INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL = 5000;
 
@@ -31,6 +29,7 @@ const styles = (theme) => ({
 
 export default withStyles(styles)((props) => {
   const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
+  const { colorTheme } = useApp((state) => state.playerStyle);
   const [lyricOffset, setLyricOffset] = useState(0);
   const [lyric, setLyric] = useState('');
   const [songTitle, setSongTitle] = useState('');

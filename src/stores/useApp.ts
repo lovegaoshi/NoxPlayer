@@ -2,6 +2,7 @@ import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
 import { skins } from '@styles/skin';
 import { SkinInterface } from '@styles/skins/template';
+import { SerializedStyles, css } from '@emotion/react';
 
 export * from '@APM/stores/useApp';
 
@@ -30,17 +31,40 @@ interface NoxApp {
   showLyric: boolean;
   setShowLyric: (a: boolean) => void;
   playerStyle: SkinInterface;
+  setPlayerStyle: (v: string) => void;
+  buttonStyle: SerializedStyles;
   initialize: (init: NoxStorage.PlayerStorageObject) => void;
 }
 
-export default create<NoxApp>((set, get) => ({
-  setCurrentAudio: (a) => set({ currentAudio: a }),
-  setCurrentAudioInst: (a) => set({ currentAudioInst: a }),
-  setplayingList: (a) => set({ playingList: a }),
-  playingList: [],
-  setparams: (a) => set({ params: a }),
-  showLyric: false,
-  setShowLyric: (a) => set({ showLyric: a }),
-  playerStyle: skins(),
-  initialize: (v) => set({ playerStyle: skins(v.settings.skin) }),
-}));
+export default create<NoxApp>((set, get) => {
+  const setPlayerStyle = (v: string) => {
+    const playerStyle = skins(v);
+    set({ playerStyle });
+    set({
+      buttonStyle: css`
+        cursor: pointer;
+        &:hover {
+          color: ${playerStyle.reactJKPlayerTheme.sliderColor};
+        }
+        background-color: transparent;
+        color: ${playerStyle.desktopTheme === 'light' ? '7d7d7d' : 'white'};
+      `,
+    });
+  };
+
+  return {
+    setCurrentAudio: (a) => set({ currentAudio: a }),
+    setCurrentAudioInst: (a) => set({ currentAudioInst: a }),
+    setplayingList: (a) => set({ playingList: a }),
+    playingList: [],
+    setparams: (a) => set({ params: a }),
+    showLyric: false,
+    setShowLyric: (a) => set({ showLyric: a }),
+    playerStyle: skins(),
+    setPlayerStyle,
+    buttonStyle: css``,
+    initialize: (v) => {
+      setPlayerStyle(v.settings.skin);
+    },
+  };
+});
