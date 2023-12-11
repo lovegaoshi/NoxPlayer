@@ -1,5 +1,6 @@
 import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
+import { skins } from '@styles/skin';
 
 export * from '@APM/stores/useApp';
 
@@ -27,6 +28,8 @@ interface NoxApp {
   setparams: (a: any) => void;
   showLyric: boolean;
   setShowLyric: (a: boolean) => void;
+  playerStyle: any;
+  initialize: (init: NoxStorage.PlayerStorageObject) => void;
 }
 
 export default create<NoxApp>((set, get) => ({
@@ -37,4 +40,6 @@ export default create<NoxApp>((set, get) => ({
   setparams: (a) => set({ params: a }),
   showLyric: false,
   setShowLyric: (a) => set({ showLyric: a }),
+  playerStyle: {},
+  initialize: (v) => set({ playerStyle: skins(v.settings.skin) }),
 }));
