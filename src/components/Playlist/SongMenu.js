@@ -92,11 +92,7 @@ export default function App({ theme }) {
         <Item onClick={({ props }) => copyLinkToClipboard(props.song)}>
           <LinkIcon /> &nbsp; 把b站链接复制到剪贴板
         </Item>
-        <Item
-          onClick={({ props }) =>
-            goToBiliBili({ bvid: props.song.bvid, episode: props.song.page })
-          }
-        >
+        <Item onClick={({ props }) => goToBiliBili(props.song)}>
           <BiliBiliIconSVG /> &nbsp; 去b站
         </Item>
         <Item onClick={searchInFav}>
