@@ -5,6 +5,10 @@
 
 一切因为使用电闹播放器导致您账号被风控封禁的问题，电闹播放器恕不负责。
 
+3.1.0:
+fixed youtube playback
+responsive skin selection other than the RJKM banner
+
 3.0.0:
 r128gain音量均衡
 可选歌曲处理
