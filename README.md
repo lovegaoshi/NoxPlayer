@@ -47,10 +47,10 @@ nox used a modified version of react-jinke-music-player (specified memo on audio
 ### [Nox版的功能](https://github.com/lovegaoshi/azusa-player/wiki/nox%E5%A8%81%E5%8A%9B%E5%8A%A0%E5%BC%BA%E7%89%88%E6%96%B0%E5%8A%9F%E8%83%BD#%E7%AE%80%E6%98%93%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D)
 
 - BVid/fid搜索栏支持b站合集和视频列表URL搜索
-- 皮肤切换
-- 根据up主自定义的歌名提取
+- VUP皮肤切换
 - 歌单自动更新
-- 简易移动端适配
+- FFMPEG powered onthefly volume normalization
+- limited YT support
 
 ## 项目简介
 
