@@ -10,7 +10,7 @@ chrome.action.onClicked.addListener((tab) => {
 chrome.runtime.onInstalled.addListener(async () => {
   const rules = [
     {
-      id: 3,
+      id: 5,
       action: {
         type: 'modifyHeaders',
         requestHeaders: [
@@ -28,13 +28,42 @@ chrome.runtime.onInstalled.addListener(async () => {
             header: 'User-Agent',
             operation: 'set',
             value:
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.62',
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
           },
         ],
       },
       condition: {
         domains: [chrome.runtime.id],
         urlFilter: 'api.bilibili',
+        resourceTypes: ['xmlhttprequest'],
+      },
+    },
+    {
+      id: 6,
+      action: {
+        type: 'modifyHeaders',
+        requestHeaders: [
+          {
+            header: 'Referer',
+            operation: 'set',
+            value: 'https://www.youtube.com',
+          },
+          {
+            header: 'Origin',
+            operation: 'set',
+            value: 'https://www.youtube.com',
+          },
+          {
+            header: 'User-Agent',
+            operation: 'set',
+            value:
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
+          },
+        ],
+      },
+      condition: {
+        domains: [chrome.runtime.id],
+        urlFilter: 'youtube',
         resourceTypes: ['xmlhttprequest'],
       },
     },

@@ -90,6 +90,7 @@
     "fflate": "^0.8.1",
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
+    "libmuse": "git+https://github.com/lovegaoshi/muse.git#apm-release",
     "is-mobile": "^4.0.0",
     "material-ui-confirm": "^3.0.8",
     "md5": "^2.3.0",
