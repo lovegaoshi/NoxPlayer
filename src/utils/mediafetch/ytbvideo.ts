@@ -72,6 +72,7 @@ const resolveURL = async (song: NoxMedia.Song) => {
     [];
   for (const videoStream of formats) {
     if (
+      videoStream.audioQuality &&
       videoStream.bitrate > maxAudioQualityStream.bitrate // &&
       // videoStream.mimeType.includes('mp4a')
     ) {
