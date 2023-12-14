@@ -23,13 +23,14 @@ const resolveURL = async (song: NoxMedia.Song) => {
   for (const videoStream of extractedVideoInfo.formats) {
     if (
       videoStream.loudnessDb &&
-      videoStream.bitrate > maxAudioQualityStream.bitrate
+      videoStream.bitrate > maxAudioQualityStream.bitrate // &&
+      // videoStream.mimeType.includes('mp4a')
     ) {
       maxAudioQualityStream = videoStream;
     }
   }
   console.log(maxAudioQualityStream);
-  return maxAudioQualityStream.url;
+  return maxAudioQualityStream;
 };
 
 const refreshSong = (song: NoxMedia.Song) => song;
