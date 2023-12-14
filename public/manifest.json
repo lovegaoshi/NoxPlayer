@@ -47,7 +47,8 @@
     "*://*.cgvideo.com/*",
     "*://*.y.qq.com/*",
     "*://*.akamaized.net/*",
-    "*://*.bilivideo.cn/*"
+    "*://*.bilivideo.cn/*",
+    "*://*.youtube.com/*"
   ],
   "declarative_net_request": {
     "rule_resources": [
