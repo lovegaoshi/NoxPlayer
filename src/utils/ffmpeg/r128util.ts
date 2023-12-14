@@ -16,7 +16,7 @@ const getOrSetR128Gain = async ({
     return r128gain2Volume(r128Val);
   }
   const source = await getSource(song);
-  const val = source.loudness ? -source.loudness : await r128gain(source.url);
+  const val = source.loudness ? source.loudness : await r128gain(source.url);
   addR128Gain(song, val);
   return r128gain2Volume(val);
 };
