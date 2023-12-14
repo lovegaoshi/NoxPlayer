@@ -221,10 +221,6 @@ module.exports = (env) => {
         require.resolve('./mocks/react-native.js'),
       ),
       new webpack.NormalModuleReplacementPlugin(
-        /libmuse/,
-        require.resolve('./mocks/libmuse.js'),
-      ),
-      new webpack.NormalModuleReplacementPlugin(
         /ytdl-core/,
         require.resolve('./mocks/libmuse.js'),
       ),

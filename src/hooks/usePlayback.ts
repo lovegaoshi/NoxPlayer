@@ -43,7 +43,7 @@ export default ({ isMobile = false }) => {
 
   const parseR128Gain = async (
     song: NoxMedia.Song,
-    getSource: () => Promise<string>,
+    getSource: () => Promise<NoxNetwork.ParsedNoxMediaURL>,
   ) => {
     if (!playerSettingStore.getState().playerSetting.r128gain) {
       return;
@@ -56,9 +56,9 @@ export default ({ isMobile = false }) => {
   };
 
   const musicSrcParser = async (v: NoxMedia.Song) => {
-    const { url } = await fetchPlayUrlPromise(v);
-    parseR128Gain(v, async () => url);
-    return url;
+    const resolvedUrl = await fetchPlayUrlPromise(v);
+    parseR128Gain(v, async () => resolvedUrl);
+    return resolvedUrl.url;
   };
 
   interface UpdateCurrentAudioListProps {

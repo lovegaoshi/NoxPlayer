@@ -28,7 +28,7 @@ export default function thumbsUpButton({ song }: Props) {
         break;
       case 1:
       default:
-        goToBiliBili({ bvid: song.bvid, episode: song.page });
+        goToBiliBili(song);
         break;
     }
   };

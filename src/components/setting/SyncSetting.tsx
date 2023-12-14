@@ -101,7 +101,6 @@ export default function SyncSetting() {
 
   return (
     <Box>
-      <SyncSetttingButtons />
       <TextField
         id='player-settings-sync-method-select'
         value={playerSettings.settingExportLocation}
@@ -123,6 +122,7 @@ export default function SyncSetting() {
           );
         })}
       </TextField>
+      <SyncSetttingButtons />
     </Box>
   );
 }

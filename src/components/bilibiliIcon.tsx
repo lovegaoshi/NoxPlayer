@@ -1,12 +1,8 @@
 // except its actually a valid property...
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { v4 as uuidv4 } from 'uuid';
 
-import useApp from '@stores/useApp';
-import { sendBVLike } from '../utils/Bilibili/BiliOperate';
+import { songExport2URL } from '@APM/utils/mediafetch/resolveURL';
 
 interface SVGProps {
   onClick?: () => void;
@@ -33,92 +29,10 @@ export const BiliBiliIconSVG = function BiliBiliIconSVG({ onClick }: SVGProps) {
   );
 };
 
-interface BilibiliProps {
-  bvid: string;
-  episode?: number;
-}
-export const toBiliBili = function toBiliBili({
-  bvid,
-  episode,
-}: BilibiliProps) {
-  let url = `https://www.bilibili.com/video/${bvid}`;
-  if (episode) {
-    url += `?p=${episode}`;
-  }
-  return url;
-};
 /**
  * go to a bilibili page with the given bvid.
  * @param {string} bvid bvid of the video.
  */
-export const goToBiliBili = function goToBiliBili({
-  bvid,
-  episode,
-}: BilibiliProps) {
-  window.open(toBiliBili({ bvid, episode }));
+export const goToBiliBili = function goToBiliBili(v: NoxMedia.Song) {
+  window.open(songExport2URL(v));
 };
-
-interface Props {
-  bvid: string;
-  liked?: number;
-  handleThumbsUp?: () => void;
-  handleThumbedUp?: () => void;
-}
-export function BiliBiliIcon({
-  bvid,
-  liked,
-  handleThumbsUp = () => {},
-  handleThumbedUp = () => goToBiliBili({ bvid }),
-}: Props) {
-  const { buttonStyle } = useApp((state) => state.playerStyle);
-
-  if (liked === 1) {
-    return (
-      <span
-        aria-label='thumbedUp'
-        className='group audio-download'
-        // @ts-expect-error
-        css={buttonStyle}
-        onClick={handleThumbedUp}
-        title='已点赞'
-        key={uuidv4()}
-        role='button'
-        tabIndex={0}
-      >
-        <ThumbUpAltIcon />
-      </span>
-    );
-  }
-  if (liked === undefined) {
-    return (
-      <span
-        aria-label='goToBilibili'
-        className='group audio-download'
-        // @ts-expect-error
-        css={buttonStyle}
-        onClick={handleThumbedUp}
-        title='前往视频'
-        key={uuidv4()}
-        role='button'
-        tabIndex={0}
-      >
-        <BiliBiliIconSVG />
-      </span>
-    );
-  }
-  return (
-    <span
-      aria-label='thumbUp'
-      className='group audio-download'
-      // @ts-expect-error
-      css={buttonStyle}
-      onClick={() => sendBVLike(bvid, handleThumbsUp)}
-      title='点赞'
-      key={uuidv4()}
-      role='button'
-      tabIndex={0}
-    >
-      <ThumbUpOffAltIcon />
-    </span>
-  );
-}

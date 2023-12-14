@@ -1,5 +1,5 @@
 import { getName } from '@APM/utils/re';
-import { goToBiliBili, toBiliBili } from '../bilibiliIcon';
+import { songExport2URL } from '@APM/utils/mediafetch/resolveURL';
 
 export const searchSongOnWeb = (song: NoxMedia.Song) => {
   chrome.search.query({
@@ -20,6 +20,4 @@ export const copyToClipboard = (song: NoxMedia.Song) =>
   navigator.clipboard.writeText(getName(song, true));
 
 export const copyLinkToClipboard = (song: NoxMedia.Song) =>
-  navigator.clipboard.writeText(
-    toBiliBili({ bvid: song.bvid, episode: song.page }),
-  );
+  navigator.clipboard.writeText(songExport2URL(song));
