@@ -12,11 +12,16 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
 
 import { SORT_OPTIONS } from '@enums/Playlist';
 
 interface Props {
-  sortPlaylist: (sort: SORT_OPTIONS, playlist: NoxMedia.Playlist) => void;
+  sortPlaylist: (
+    sort: SORT_OPTIONS,
+    ascend: boolean,
+    playlist: NoxMedia.Playlist,
+  ) => void;
   playlist: NoxMedia.Playlist;
 }
 
@@ -37,7 +42,7 @@ function PlaylistSortDialog({
   const [ascending, setAscending] = React.useState(false);
   const handleSort = () => {
     onClose();
-    sortPlaylist(sortOption, playlist);
+    sortPlaylist(sortOption, ascending, playlist);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSortOption((event.target as HTMLInputElement).value as SORT_OPTIONS);
@@ -51,12 +56,18 @@ function PlaylistSortDialog({
     <Dialog open={openState} onClose={onClose}>
       <DialogTitle>{`SORT歌单 ${playlist.title} by:`}</DialogTitle>
       <DialogContent>
-        <Checkbox
-          checked={ascending}
-          onChange={() => setAscending((v) => !v)}
-          inputProps={{ 'aria-label': 'controlled' }}
-          label='升序?'
-        />
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={ascending}
+                onChange={() => setAscending((v) => !v)}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            }
+            label='升序?'
+          />
+        </FormGroup>
         <FormControl>
           <RadioGroup
             aria-labelledby='demo-controlled-radio-buttons-group'
