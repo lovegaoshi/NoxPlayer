@@ -11,12 +11,11 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
 import { SORT_OPTIONS } from '@enums/Playlist';
 
 interface Props {
-  sortPlaylist: (sort: SORT_OPTIONS) => void;
+  sortPlaylist: (sort: SORT_OPTIONS, playlist: NoxMedia.Playlist) => void;
   playlist: NoxMedia.Playlist;
 }
 
@@ -25,17 +24,26 @@ interface DialogProps extends Props {
   onClose: () => void;
 }
 
-function PlaylistSortDialog({ openState, onClose, playlist }: DialogProps) {
+function PlaylistSortDialog({
+  openState,
+  onClose,
+  playlist,
+  sortPlaylist,
+}: DialogProps) {
   const [sortOption, setSortOption] = React.useState(
     SORT_OPTIONS.PREVIOUS_ORDER,
   );
   const handleSort = () => {
     onClose();
-    console.log(sortOption);
+    sortPlaylist(sortOption, playlist);
   };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSortOption((event.target as HTMLInputElement).value as SORT_OPTIONS);
   };
+
+  React.useEffect(() => {
+    setSortOption(playlist.sort ?? SORT_OPTIONS.PREVIOUS_ORDER);
+  }, [playlist]);
 
   return (
     <Dialog open={openState} onClose={onClose}>

@@ -13,7 +13,7 @@ interface UsePlaylist {
   setChecking: React.Dispatch<React.SetStateAction<boolean>>;
   resetSelected: () => void;
   toggleSelectedPage: () => void;
-  sortPlaylist: (sort: SORT_OPTIONS) => void;
+  sortPlaylist: (sort: SORT_OPTIONS, playlist: NoxMedia.Playlist) => void;
   playlist: NoxMedia.Playlist;
 }
 interface Props {
