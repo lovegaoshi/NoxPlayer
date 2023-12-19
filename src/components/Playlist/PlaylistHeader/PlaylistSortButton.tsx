@@ -11,6 +11,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
 
 import { SORT_OPTIONS } from '@enums/Playlist';
 
@@ -33,6 +34,7 @@ function PlaylistSortDialog({
   const [sortOption, setSortOption] = React.useState(
     SORT_OPTIONS.PREVIOUS_ORDER,
   );
+  const [ascending, setAscending] = React.useState(false);
   const handleSort = () => {
     onClose();
     sortPlaylist(sortOption, playlist);
@@ -49,6 +51,12 @@ function PlaylistSortDialog({
     <Dialog open={openState} onClose={onClose}>
       <DialogTitle>{`SORT歌单 ${playlist.title} by:`}</DialogTitle>
       <DialogContent>
+        <Checkbox
+          checked={ascending}
+          onChange={() => setAscending((v) => !v)}
+          inputProps={{ 'aria-label': 'controlled' }}
+          label='升序?'
+        />
         <FormControl>
           <RadioGroup
             aria-labelledby='demo-controlled-radio-buttons-group'
