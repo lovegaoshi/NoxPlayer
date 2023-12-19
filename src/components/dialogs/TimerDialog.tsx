@@ -36,7 +36,7 @@ export default function TimerDialog({
   } = useTimer({});
 
   return (
-    <Dialog open={openState}>
+    <Dialog open={openState} onClose={onClose}>
       <DialogTitle>定时停止播放</DialogTitle>
       <DialogContent style={{ paddingTop: '6px' }}>
         <TextField

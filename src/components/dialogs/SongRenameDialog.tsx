@@ -96,7 +96,7 @@ export default function songRenameDialog({
   };
 
   return (
-    <Dialog open={openState}>
+    <Dialog open={openState} onClose={onClose}>
       <DialogTitle>更改歌名</DialogTitle>
       <DialogContent>
         <TextField
@@ -139,7 +139,7 @@ export default function songRenameDialog({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => onClose()}> 取消 </Button>
+        <Button onClick={onClose}> 取消 </Button>
         <Button onClick={handleClose}> 好的 </Button>
       </DialogActions>
     </Dialog>

@@ -5,11 +5,16 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DeselectIcon from '@mui/icons-material/Deselect';
 import SelectAllIcon from '@mui/icons-material/SelectAll';
 
+import { SORT_OPTIONS } from '@enums/Playlist';
+import PlaylistSortButton from './PlaylistSortButton';
+
 interface UsePlaylist {
   checking: boolean;
   setChecking: React.Dispatch<React.SetStateAction<boolean>>;
   resetSelected: () => void;
   toggleSelectedPage: () => void;
+  sortPlaylist: (sort: SORT_OPTIONS) => void;
+  playlist: NoxMedia.Playlist;
 }
 interface Props {
   usePlaylist: UsePlaylist;
@@ -25,11 +30,17 @@ export default function ({ usePlaylist }: Props) {
   return (
     <React.Fragment>
       {usePlaylist.checking && (
-        <Tooltip title='选择ALL'>
-          <IconButton size='large' onClick={usePlaylist.toggleSelectedPage}>
-            <SelectAllIcon />
-          </IconButton>
-        </Tooltip>
+        <>
+          <PlaylistSortButton
+            sortPlaylist={usePlaylist.sortPlaylist}
+            playlist={usePlaylist.playlist}
+          />
+          <Tooltip title='选择ALL'>
+            <IconButton size='large' onClick={usePlaylist.toggleSelectedPage}>
+              <SelectAllIcon />
+            </IconButton>
+          </Tooltip>
+        </>
       )}
       <Tooltip title={usePlaylist.checking ? '取消选择' : '选择'}>
         <IconButton size='large' onClick={onClick}>

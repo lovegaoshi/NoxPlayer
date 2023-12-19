@@ -42,7 +42,7 @@ export const NewFavDialog = function NewFavDialog({
 
   return (
     <div>
-      <Dialog open={openState} id={id}>
+      <Dialog open={openState} id={id} onClose={handleCancel}>
         <DialogTitle>新建歌单</DialogTitle>
         <DialogContent>
           <TextField
@@ -121,7 +121,7 @@ export const AddFavDialog = function AddFavDialog({
 
   return (
     <div>
-      <Dialog open={openState} id={id}>
+      <Dialog open={openState} id={id} onClose={handleCancel}>
         <DialogTitle>{`添加 ${playlistTitle()} 到歌单`}</DialogTitle>
         <DialogContent style={{ paddingTop: '24px' }}>
           <Box sx={{ minWidth: isMobile ? '50vw' : 400, minHeight: 50 }}>

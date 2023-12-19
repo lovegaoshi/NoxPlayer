@@ -34,8 +34,10 @@ export default function SettingsDialog({ onClose, openState }: Props) {
     setTabValue(newValue);
   };
 
+  const handleClose = () => onClose(playerSettings);
+
   return (
-    <Dialog open={openState}>
+    <Dialog open={openState} onClose={handleClose}>
       <DialogTitle>播放器设置</DialogTitle>
       <DialogContent>
         <TabContext value={tabValue}>
@@ -61,7 +63,7 @@ export default function SettingsDialog({ onClose, openState }: Props) {
         </TabContext>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => onClose(playerSettings)}>好的</Button>
+        <Button onClick={handleClose}>好的</Button>
       </DialogActions>
     </Dialog>
   );
