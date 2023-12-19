@@ -14,7 +14,6 @@ import BuildIcon from '@mui/icons-material/Build';
 import { useStore } from 'zustand';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import type { NoxStorage } from '@APM/types/storage';
 import SETTING_TAB from './enums';
 import ToolboxTab from './ToolboxTab';
 import SettingTab from './SettingTab';

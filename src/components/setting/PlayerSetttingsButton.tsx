@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { SxProps } from '@mui/material';
 
-import type { NoxStorage } from '@APM/types/storage';
 import { useNoxSetting } from '@APM/stores/useApp';
 import SettingsDialog from './PlayerSettingsDialog';
 

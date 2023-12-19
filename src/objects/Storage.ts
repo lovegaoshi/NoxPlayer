@@ -1,4 +1,3 @@
-import type { NoxStorage } from '@APM/types/storage';
 import {
   DEFAULT_SETTING as DEFAULT_SETTING_BASE,
   EXPORT_OPTIONS,

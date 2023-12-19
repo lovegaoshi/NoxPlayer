@@ -1,6 +1,5 @@
 import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
-import type { NoxStorage } from '@APM/types/storage';
 import { STORAGE_KEYS } from '@enums/Storage';
 import { logger } from '@utils/Logger';
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
