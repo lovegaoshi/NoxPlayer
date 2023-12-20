@@ -69,7 +69,7 @@ export default function AddFavDialog<T>({
             <Select
               labelId='demo-simple-select-label'
               id='demo-simple-select'
-              value={currentIndex}
+              value={currentIndex ?? ''}
               label='genericSelect'
               onChange={(e) => setCurrentIndex(e.target.value as T)}
               input={<Input />}
