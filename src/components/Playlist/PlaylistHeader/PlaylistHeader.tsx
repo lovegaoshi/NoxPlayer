@@ -22,8 +22,8 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
   const { colorTheme, gifs } = useApp((state) => state.playerStyle);
 
   return (
-    <Box sx={styles.box}>
-      <Grid container spacing={2} sx={styles.gridContainer}>
+    <Box style={styles.box}>
+      <Grid container spacing={2} style={styles.gridContainer}>
         <Grid item xs={5} sx={styles.gridPlaylistTitle} overflow='hidden'>
           <Typography
             variant='h6'
@@ -37,7 +37,7 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
             {playlist.title}
           </Typography>
         </Grid>
-        <Grid item xs={2} sx={styles.gridGIF}>
+        <Grid item xs={2} style={styles.gridGIF}>
           <RandomGIFIcon
             gifs={gifs}
             playlist={playlist.id + page.toString()}
@@ -72,6 +72,6 @@ const styles = {
     whiteSpace: 'nowrap',
     fontSize: '2rem',
   },
-  gridGIF: { textAlign: 'center', padding: '0px' },
+  gridGIF: { textAlign: 'center' as const, padding: '0px' },
   gridPlaylistSetting: { textAlign: 'right', padding: '10px' },
 };
