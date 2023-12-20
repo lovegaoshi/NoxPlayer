@@ -48,8 +48,13 @@ export default function FavSettingsDialog({
     onClose();
   };
 
+  const handleCancel = () => {
+    loadSetting();
+    onCancel();
+  };
+
   return (
-    <Dialog open={openState} id={id}>
+    <Dialog open={openState} id={id} onClose={handleCancel}>
       <DialogTitle>
         <TextField
           autoFocus
@@ -105,14 +110,7 @@ export default function FavSettingsDialog({
         </Tooltip>
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={() => {
-            loadSetting();
-            onCancel();
-          }}
-        >
-          取消
-        </Button>
+        <Button onClick={handleCancel}>取消</Button>
         <Button onClick={handleClose}>确认</Button>
         <Button
           onClick={() => {

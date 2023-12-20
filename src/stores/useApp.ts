@@ -1,4 +1,3 @@
-import type { NoxStorage } from '@APM/types/storage';
 import { create } from 'zustand';
 import { skins } from '@styles/skin';
 import { Skin } from '@styles/skins/template';

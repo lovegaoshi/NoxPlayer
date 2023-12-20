@@ -17,7 +17,7 @@ import textToDialogContent from '@components/dialogs/DialogContent';
 import changelogTxt from '../../../../changelog.txt';
 
 interface Props {
-  onClose: (val?: string) => void;
+  onClose: () => void;
   openState: boolean;
   id: string;
 }
@@ -37,7 +37,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
 
   return (
     <div>
-      <Dialog open={openState} id={id}>
+      <Dialog open={openState} id={id} onClose={onClose}>
         <DialogTitle>帮助</DialogTitle>
         <DialogContent sx={{ maxWidth: '50vw' }}>
           <DialogContentText id='alert-dialog-description'>
@@ -101,7 +101,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => onClose()}>好的</Button>
+          <Button onClick={onClose}>好的</Button>
         </DialogActions>
       </Dialog>
     </div>

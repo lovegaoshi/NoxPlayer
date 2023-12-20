@@ -14,7 +14,6 @@ import BuildIcon from '@mui/icons-material/Build';
 import { useStore } from 'zustand';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import type { NoxStorage } from '@APM/types/storage';
 import SETTING_TAB from './enums';
 import ToolboxTab from './ToolboxTab';
 import SettingTab from './SettingTab';
@@ -35,8 +34,10 @@ export default function SettingsDialog({ onClose, openState }: Props) {
     setTabValue(newValue);
   };
 
+  const handleClose = () => onClose(playerSettings);
+
   return (
-    <Dialog open={openState}>
+    <Dialog open={openState} onClose={handleClose}>
       <DialogTitle>播放器设置</DialogTitle>
       <DialogContent>
         <TabContext value={tabValue}>
@@ -62,7 +63,7 @@ export default function SettingsDialog({ onClose, openState }: Props) {
         </TabContext>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => onClose(playerSettings)}>好的</Button>
+        <Button onClick={handleClose}>好的</Button>
       </DialogActions>
     </Dialog>
   );
