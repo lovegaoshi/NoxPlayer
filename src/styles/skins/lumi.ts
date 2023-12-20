@@ -15,10 +15,7 @@ export default () =>
   skinTemplate({
     playerBanner:
       'https://i0.hdslb.com/bfs/article/61a9243034ae538637fec40dcad4bab102b40d5a.png',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(randomPortraitBackground);
-      }),
+    playerBannerMobile: async () => randomPortraitBackground,
     playerBackground: () => fetchVideoPlayUrl('BV1nj411X7Vr'),
     playerBackgroundVideo: true,
     gifs,

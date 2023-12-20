@@ -8,17 +8,11 @@ export default () =>
     playerBanner:
       'https://article.biliimg.com/bfs/article/9c49d0133498d844869438569cf36d96ffe56234.png',
     playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png',
-        );
-      }),
+      'https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png',
+
     playerBackground: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg',
-        );
-      }),
+      'http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg',
+
     gifs,
     gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'HeraKris-player',

@@ -22,11 +22,8 @@ export default () =>
     playerBanner:
       'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
     playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
-        );
-      }),
+      'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
+
     playerBackground: backgroundBundle[0],
     playerBackgroundVideo: backgroundBundle[1],
     // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),

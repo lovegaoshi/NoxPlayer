@@ -21,11 +21,7 @@ export default () =>
       }),
     playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
     playerBackground: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://i2.hdslb.com/bfs/archive/ec91f760738bd0a7af955b4f2797d70f0fcab40a.jpg',
-        );
-      }),
+      'https://i2.hdslb.com/bfs/archive/ec91f760738bd0a7af955b4f2797d70f0fcab40a.jpg',
     // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
     gifs,
     gifIcon: () => randomChoice(gifs) as string,

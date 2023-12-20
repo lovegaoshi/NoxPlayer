@@ -16,10 +16,7 @@ export default () =>
   skinTemplate({
     playerBanner:
       'http://192.168.50.1:19527/getimg?imgserve=itsuki&file=niyabu.jpg',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(randomPortraitBackground);
-      }),
+    playerBannerMobile: async () => randomPortraitBackground,
     playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
     playerBackground: () =>
       fetchVideoPlayUrl(randomChoice(['BV1rh4y1b7wU', 'BV1SH4y1o7rk'])), // BV1Sb4y1i79D

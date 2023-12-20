@@ -22,10 +22,7 @@ export default () =>
   skinTemplate({
     playerBanner:
       'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(randomPortraitBackground);
-      }),
+    playerBannerMobile: async () => randomPortraitBackground,
     playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
     playerBackground: () => fetchVideoPlayUrl('BV11S4y1d7v9'), // BV1Sb4y1i79D
     playerBackgroundVideo: true,

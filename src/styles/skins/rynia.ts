@@ -12,17 +12,10 @@ export default () =>
   skinTemplate({
     playerBanner:
       'https://i0.hdslb.com/bfs/garb/13a4374fcf3079b009ef1c61eb7cf23ab92560d8.png',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(randomPortraitBackground);
-      }),
+    playerBannerMobile: async () => randomPortraitBackground,
     playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
     playerBackground: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://i0.hdslb.com/bfs/archive/430a3a6e90f342d25ef44ecf2e14b32e6fb71083.jpg',
-        );
-      }),
+      'https://i0.hdslb.com/bfs/archive/430a3a6e90f342d25ef44ecf2e14b32e6fb71083.jpg',
     gifs,
     gifIcon: () => randomChoice(gifs) as string,
     appTitle: '小马播放器',
