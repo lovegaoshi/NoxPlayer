@@ -5,9 +5,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { contextMenu } from 'react-contexify';
 
-import useApp from '@stores/useApp';
+import useApp, { useNoxSetting } from '@stores/useApp';
 import AddToPlaylistButton from './ButtonAddToPlaylist';
 import DeletePlaylistButton from './ButtonDeletePlaylist';
 import PlayPlaylistButton from './ButtonPlayPlaylist';
@@ -34,10 +36,17 @@ export function PlaylistInfo({
   const { CRUDBtn, CRUDIcon, DiskIcon, outerLayerBtn } = useApp(
     (state) => state.playerStyle,
   );
+  const currentPlayingList = useNoxSetting((state) => state.currentPlayingList);
+  const currentPlayList = useNoxSetting((state) => state.currentPlaylist);
+  const currentPlaying = currentPlayingList?.id === playlist.id;
+  const currentSelected = currentPlayList?.id === playlist.id;
+
   return (
     <React.Fragment key={key2}>
       <ListItemButton
         disableRipple
+        // TODO: some sorta color determination
+        // sx={[outerLayerBtn, { backgroundColor: current ? 'green' : undefined }]}
         sx={outerLayerBtn}
         onContextMenu={(event) => {
           event.preventDefault();
@@ -56,7 +65,13 @@ export function PlaylistInfo({
           id={playlist.id}
         >
           <ListItemIcon sx={DiskIcon}>
-            <AlbumOutlinedIcon />
+            {currentPlaying ? (
+              <PlayCircleIcon />
+            ) : currentSelected ? (
+              <MusicNoteIcon />
+            ) : (
+              <AlbumOutlinedIcon />
+            )}
           </ListItemIcon>
           <ListItemText
             primaryTypographyProps={{ fontSize: '1.1em' }}

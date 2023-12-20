@@ -47,6 +47,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
@@ -60,7 +61,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
     setOpenNewDialog,
     openAddDialog,
     actionFavId,
-    actionFavSong,
 
     onNewFav,
     handleDeleteFavClick,
