@@ -37,7 +37,7 @@ module.exports = {
           ['@enums', './src/azusa-player-mobile/src/enums'],
           ['@APM', './src/azusa-player-mobile/src'],
         ],
-        extensions: ['.ts', '.js', '.jsx', '.json'],
+        extensions: ['.ts', '.js', '.jsx', '.json', 'ts', 'tsx'],
       },
     },
   },

@@ -5,16 +5,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
 
+// eslint-disable-next-line import/no-unresolved
+import GenericSelectDialog from '@components/dialogs/GenericSelectDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
 
-interface Props {
+interface NewFavDialogProps {
   id: string;
   onClose: (val?: string) => void;
   openState: boolean;
@@ -23,7 +19,7 @@ export const NewFavDialog = function NewFavDialog({
   onClose,
   openState,
   id,
-}: Props) {
+}: NewFavDialogProps) {
   const [favName, setfavName] = useState('');
 
   const handleCancel = () => {
@@ -87,25 +83,12 @@ export const AddFavDialog = function AddFavDialog({
   openState,
   fromList,
   getSongs = () => undefined,
-  isMobile = false,
-  id,
 }: AddFavDialogProps) {
-  const [favId, setfavId] = useState('');
   const playlists = useNoxSetting((state) => state.playlists);
   const playlistIds = useNoxSetting((state) => state.playlistIds);
 
-  const handleCancel = () => {
-    onClose();
-    setfavId('');
-  };
-
-  const onfavId = (e: any) => {
-    setfavId(e.target.value);
-  };
-
-  const handleOK = () => {
-    onClose(getSongs(), favId, fromList);
-    setfavId('');
+  const handleOK = (toId: string) => {
+    onClose(getSongs(), toId, fromList);
   };
 
   const playlistTitle = () => {
@@ -120,48 +103,16 @@ export const AddFavDialog = function AddFavDialog({
   };
 
   return (
-    <div>
-      <Dialog open={openState} id={id} onClose={handleCancel}>
-        <DialogTitle>{`添加 ${playlistTitle()} 到歌单`}</DialogTitle>
-        <DialogContent style={{ paddingTop: '24px' }}>
-          <Box sx={{ minWidth: isMobile ? '50vw' : 400, minHeight: 50 }}>
-            <FormControl fullWidth>
-              <InputLabel id='demo-simple-select-label'>添加到歌单</InputLabel>
-              <Select
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                value={favId}
-                label='FavLists'
-                onChange={onfavId}
-                input={<Input />}
-                MenuProps={{ PaperProps: { sx: { maxHeight: '40vh' } } }}
-              >
-                {playlistIds.map((v, i) => {
-                  const playlist = playlists[v];
-                  if (v !== fromList?.id && playlist !== undefined) {
-                    return (
-                      // this is stupid, stupid linter
-                      // eslint-disable-next-line react/no-array-index-key
-                      <MenuItem key={`menu${i}`} value={v}>
-                        {playlist.title}
-                      </MenuItem>
-                    );
-                  }
-                  return null;
-                })}
-              </Select>
-            </FormControl>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel}>取消</Button>
-          {favId === '' ? (
-            <Button disabled>确认</Button>
-          ) : (
-            <Button onClick={handleOK}>确认</Button>
-          )}
-        </DialogActions>
-      </Dialog>
-    </div>
+    <GenericSelectDialog
+      visible={openState}
+      options={playlistIds.filter(
+        (v) => v !== fromList?.id && playlists[v] !== undefined,
+      )}
+      title={`添加 ${playlistTitle()} 到歌单`}
+      selectTitle='SEND TO 歌单'
+      renderOptionTitle={(id) => playlists[id]!.title}
+      onClose={() => onClose()}
+      onSubmit={handleOK}
+    />
   );
 };
