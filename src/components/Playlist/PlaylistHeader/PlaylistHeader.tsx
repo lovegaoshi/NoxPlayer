@@ -9,7 +9,7 @@ import useApp from '@stores/useApp';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 import RandomGIFIcon from './RandomGIF';
 import FavSettingsButtons from '../PlaylistSetting/PlaylistSettingsButton';
-import SongSearchBar from '../../dialogs/SongSearchbar';
+import SongSearchBar from './SongSearchbar';
 import PlaylistSelectButton from './PlaylistSelectButton';
 
 interface Props {
@@ -70,11 +70,3 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
     </Box>
   );
 }
-
-export const songText = {
-  fontSize: 16,
-  minWidth: 0,
-  overflow: 'hidden',
-  paddingBottom: '4px',
-  paddingTop: '4px',
-};
