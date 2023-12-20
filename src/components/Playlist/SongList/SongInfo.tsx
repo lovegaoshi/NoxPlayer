@@ -65,18 +65,10 @@ function SongInfo({
 
   return (
     <React.Fragment>
-      <StyledTableCell
-        align='left'
-        sx={{
-          paddingLeft: '8px',
-          // width: '45%',
-          display: 'flex',
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <StyledTableCell align='left' sx={styles.tableCell}>
         {usePlaylist.checking && (
           <Checkbox
-            sx={{ padding: '0px', paddingLeft: '7px' }}
+            sx={styles.selectCheckbox}
             checked={selected[getSongIndex(song, index)] || false}
             onChange={() => {
               toggleSelected(getSongIndex(song, index));
@@ -85,9 +77,9 @@ function SongInfo({
             inputProps={{ 'aria-label': 'controlled' }}
           />
         )}
-        <ListItemButton sx={songText} onClick={() => playSong(song)}>
+        <ListItemButton sx={styles.songText} onClick={() => playSong(song)}>
           {song.id === currentPlayingId && (
-            <ListItemIcon sx={{ minWidth: '30px' }}>
+            <ListItemIcon sx={styles.listItemIcon}>
               <PlayCircleIcon />
             </ListItemIcon>
           )}
@@ -96,13 +88,12 @@ function SongInfo({
       </StyledTableCell>
       <StyledTableCell
         align='center'
-        sx={{
-          width: '10%',
-          fontSize: 4,
-          minWidth: 0,
-          color: colorTheme.uploaderCaptionColor,
-          whiteSpace: 'nowrap',
-        }}
+        sx={[
+          styles.tableCellUp,
+          {
+            color: colorTheme.uploaderCaptionColor,
+          },
+        ]}
         style={{ overflow: 'visible' }}
       >
         <a
@@ -116,11 +107,7 @@ function SongInfo({
       </StyledTableCell>
       <StyledTableCell
         align='right'
-        sx={{
-          paddingRight: '8px',
-          width: '45%',
-          whiteSpace: 'nowrap',
-        }}
+        sx={styles.tableCellBtns}
         style={{ paddingLeft: '40px', paddingRight: '8px' }}
       >
         <Tooltip title='添加到收藏歌单'>
@@ -159,10 +146,31 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-export const songText = {
-  fontSize: 16,
-  minWidth: 0,
-  overflow: 'hidden',
-  paddingBottom: '4px',
-  paddingTop: '4px',
+const styles = {
+  tableCell: {
+    paddingLeft: '8px',
+    // width: '45%',
+    display: 'flex',
+    whiteSpace: 'nowrap',
+  },
+  selectCheckbox: { padding: '0px', paddingLeft: '7px' },
+  songText: {
+    fontSize: 16,
+    minWidth: 0,
+    overflow: 'hidden',
+    paddingBottom: '4px',
+    paddingTop: '4px',
+  },
+  listItemIcon: { minWidth: '30px' },
+  tableCellUp: {
+    width: '10%',
+    fontSize: 4,
+    minWidth: 0,
+    whiteSpace: 'nowrap',
+  },
+  tableCellBtns: {
+    paddingRight: '8px',
+    width: '45%',
+    whiteSpace: 'nowrap',
+  },
 };
