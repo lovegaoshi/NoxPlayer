@@ -5,16 +5,26 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
 
+interface Props {
+  SearchKey: string;
+  songId: string;
+  setLyric: (v: any) => void;
+  setLyricOffset: (v: number) => void;
+}
 export default function LyricSearchBar({
   SearchKey,
-  SongId,
+  songId,
   setLyric,
   setLyricOffset,
-}) {
+}: Props) {
   const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const lyricMapping = useNoxSetting((state) => state.lyricMapping);
-  const [options, setOptions] = useState([]);
-  const [value, setValue] = useState('');
+  const [options, setOptions] = useState<NoxNetwork.NoxFetchedLyric[]>([]);
+  const [value, setValue] = useState<NoxNetwork.NoxFetchedLyric>({
+    key: '',
+    songMid: '',
+    label: '',
+  });
 
   // Initializes options
   useEffect(() => {
@@ -28,18 +38,21 @@ export default function LyricSearchBar({
       return;
     }
     function initLyric() {
-      const detail = lyricMapping.get(String(SongId));
+      const detail = lyricMapping.get(songId);
+      console.log(lyricMapping, detail);
       if (undefined !== detail) {
-        setLyricOffset(detail.lrcOffset);
-        const index = options.findIndex(
-          (v) => v.songMid === detail.lrc.songMid,
-        );
+        setLyricOffset(detail.lyricOffset);
+        const index = options.findIndex((v) => v.songMid === detail.lyricKey);
         if (index !== -1) {
           onOptionSet({}, options[index]);
           return;
         }
 
-        options.unshift(detail.lrc);
+        options.unshift({
+          key: detail.lyricKey,
+          songMid: detail.lyricKey,
+          label: detail.songId,
+        });
         setOptions(options);
       }
       onOptionSet({}, options[0]);
@@ -47,12 +60,14 @@ export default function LyricSearchBar({
     initLyric();
   }, [options]);
 
-  const onOptionSet = (e, newValue) => {
-    if (newValue !== undefined) {
-      setValue(newValue);
-      searchLyric(newValue.songMid, setLyric);
-      setLyricMapping(SongId.toString(), newValue);
-    }
+  const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
+    if (newValue === undefined) return;
+    setValue(newValue);
+    searchLyric(newValue.songMid, setLyric);
+    setLyricMapping({
+      songId,
+      lyricKey: newValue.key,
+    });
   };
 
   // //console.log("SearchBarValue:", options)

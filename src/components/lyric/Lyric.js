@@ -196,7 +196,7 @@ export default withStyles(styles)((props) => {
           >
             <LyricSearchBar
               SearchKey={songTitle}
-              SongId={audioId}
+              songId={String(audioId)}
               setLyricOffset={setLyricOffset}
               setLyric={onSongTitleChange}
             />

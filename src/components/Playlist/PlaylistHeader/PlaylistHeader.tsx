@@ -22,41 +22,29 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
   const { colorTheme, gifs } = useApp((state) => state.playerStyle);
 
   return (
-    <Box
-      sx={{ flexGrow: 1, maxHeight: '80px' }}
-      style={{ paddingBottom: '8px' }}
-    >
-      <Grid container spacing={2} style={{ padding: '10px' }}>
-        <Grid
-          item
-          xs={5}
-          style={{
-            textAlign: 'left',
-            padding: '0px',
-            paddingLeft: '12px',
-            paddingTop: '12px',
-          }}
-          overflow='hidden'
-        >
+    <Box sx={styles.box}>
+      <Grid container spacing={2} sx={styles.gridContainer}>
+        <Grid item xs={5} sx={styles.gridPlaylistTitle} overflow='hidden'>
           <Typography
             variant='h6'
-            style={{
-              color: colorTheme.playlistCaptionColor,
-              whiteSpace: 'nowrap',
-              fontSize: '2rem',
-            }}
+            sx={[
+              {
+                color: colorTheme.playlistCaptionColor,
+              },
+              styles.text,
+            ]}
           >
             {playlist.title}
           </Typography>
         </Grid>
-        <Grid item xs={2} style={{ textAlign: 'center', padding: '0px' }}>
+        <Grid item xs={2} sx={styles.gridGIF}>
           <RandomGIFIcon
             gifs={gifs}
             playlist={playlist.id + page.toString()}
             onClickCallback={primePageToCurrentPlaying}
           />
         </Grid>
-        <Grid item xs={5} style={{ textAlign: 'right', padding: '10px' }}>
+        <Grid item xs={5} sx={styles.gridPlaylistSetting}>
           <PlaylistSelectButton usePlaylist={playlistPaginated} />
           {playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST && (
             <FavSettingsButtons
@@ -70,3 +58,20 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
     </Box>
   );
 }
+
+const styles = {
+  box: { flexGrow: 1, maxHeight: '80px', paddingBottom: '8px' },
+  gridPlaylistTitle: {
+    textAlign: 'left',
+    padding: '0px',
+    paddingLeft: '12px',
+    paddingTop: '12px',
+  },
+  gridContainer: { padding: '10px' },
+  text: {
+    whiteSpace: 'nowrap',
+    fontSize: '2rem',
+  },
+  gridGIF: { textAlign: 'center', padding: '0px' },
+  gridPlaylistSetting: { textAlign: 'right', padding: '10px' },
+};
