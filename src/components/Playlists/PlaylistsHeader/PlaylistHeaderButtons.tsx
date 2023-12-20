@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { SxProps } from '@mui/material';
 
-// eslint-disable-next-line import/no-unresolved
 import PlayerSettingsButton from '@components/setting/PlayerSetttingsButton';
 import HelpPanelButton from './HelpPanelButton';
 import ShuffleAllButton from './ShuffleAllButton';

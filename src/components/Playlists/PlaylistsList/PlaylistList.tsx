@@ -8,7 +8,6 @@ import {
 } from 'react-beautiful-dnd';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-// eslint-disable-next-line import/no-unresolved
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
 import useApp from '@stores/useApp';
 import usePlayback from '@hooks/usePlayback';

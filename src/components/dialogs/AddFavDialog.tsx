@@ -6,7 +6,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-// eslint-disable-next-line import/no-unresolved
 import GenericSelectDialog from '@components/dialogs/GenericSelectDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
 
