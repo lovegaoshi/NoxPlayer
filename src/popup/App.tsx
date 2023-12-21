@@ -70,14 +70,14 @@ export default function App() {
               )}
             </div>
             <Box
-              sx={OutmostBox}
+              sx={style.OutmostBox}
               id='master-box'
               style={{
                 backgroundColor: playerStyle.colorTheme.PCBackgroundColor,
                 backgroundBlendMode: 'overlay',
               }}
             >
-              <Box sx={PlayerBox}>
+              <Box sx={style.PlayerBox}>
                 <Player songList={currentSongList} />
               </Box>
             </Box>
@@ -88,22 +88,24 @@ export default function App() {
   );
 }
 
-const OutmostBox = {
-  width: '100vw',
-  height: '95vh',
-  color: '#1234',
-  '& > .MuiBox-root > .MuiBox-root': {
-    p: 1,
+const style = {
+  OutmostBox: {
+    width: '100vw',
+    height: '95vh',
+    color: '#1234',
+    '& > .MuiBox-root > .MuiBox-root': {
+      p: 1,
+    },
   },
-};
-const PlayerBox = {
-  height: '100vh',
-  maxHeight: '100%',
-  display: 'grid',
-  gridTemplateColumns: 'repeat(4, 1fr)',
-  gap: 0,
-  gridTemplateRows: '72px 1fr',
-  gridTemplateAreas: `"Lrc         Lrc      Lrc      search"
+  PlayerBox: {
+    height: '100vh',
+    maxHeight: '100%',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: 0,
+    gridTemplateRows: '72px 1fr',
+    gridTemplateAreas: `"Lrc         Lrc      Lrc      search"
                         "Lrc         Lrc      Lrc      sidebar"
                         "footer      footer   footer   footer"`,
+  },
 };
