@@ -6,6 +6,7 @@ import { SnackbarProvider } from 'notistack';
 
 import useTimer from '@hooks/useTimer';
 import useApp from '@stores/useApp';
+import { RESOLVE_TYPE } from '@APM/utils/mediafetch/mainbackgroundfetch';
 import useInitializeStore from '../stores/useInitializeStore';
 
 const Player = React.lazy(() => import('../components/App/App'));
@@ -16,7 +17,8 @@ export default function App() {
   const { initializeStores } = useInitializeStore();
   const playerStyle = useApp((state) => state.playerStyle);
   const theme = createTheme(playerStyle.colorTheme.palette);
-  const [backgroundSrc, setBackgroundSrc] = React.useState<string>();
+  const [backgroundSrc, setBackgroundSrc] =
+    React.useState<NoxTheme.backgroundImage>();
   // eslint-disable-next-line no-unused-vars
   const timer = useTimer();
 
@@ -34,7 +36,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    playerStyle.playerBackground().then(setBackgroundSrc);
+    playerStyle.playerBackground().then((v) => {
+      console.log(v);
+      setBackgroundSrc(v);
+    });
   }, [playerStyle.playerBackground]);
 
   // console.log(currentSongList)
@@ -45,14 +50,14 @@ export default function App() {
         <SnackbarProvider maxSnack={1}>
           <ConfirmProvider>
             <div className='container-fluid homepage-bgimage'>
-              {playerStyle.playerBackgroundVideo ? (
+              {backgroundSrc?.type === RESOLVE_TYPE.video ? (
                 <video
                   id='player-bkgrd'
                   autoPlay
                   loop
                   muted
                   className='homepage-bgimage'
-                  src={backgroundSrc}
+                  src={backgroundSrc?.identifier}
                   height={window.innerHeight}
                   width={window.innerWidth}
                 />
@@ -61,7 +66,7 @@ export default function App() {
                   id='player-bkgrd'
                   alt=''
                   className='homepage-bgimage'
-                  src={backgroundSrc}
+                  src={backgroundSrc?.identifier}
                   height={window.innerHeight}
                   width={window.innerWidth}
                 />

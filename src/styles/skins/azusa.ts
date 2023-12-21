@@ -2,7 +2,7 @@ import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['电梓播放器']!;
+const { gifs, backgroundImagesLandscape } = APMSkins['电梓播放器']!;
 
 const randomPortraitBackground = randomChoice([
   'https://i0.hdslb.com/bfs/garb/item/aabad1485d211701be33be155a3bba88231453ba.jpg',
@@ -22,10 +22,7 @@ export default () =>
   skinTemplate({
     playerBanner:
       'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
-    playerBannerMobile: async () => randomPortraitBackground,
-    playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-    playerBackground: () => fetchVideoPlayUrl('BV11S4y1d7v9'), // BV1Sb4y1i79D
-    playerBackgroundVideo: true,
+    playerBackground: backgroundImagesLandscape!, // BV1Sb4y1i79D
     gifs,
     gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'Azusa-player',
