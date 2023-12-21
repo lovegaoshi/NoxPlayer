@@ -36,10 +36,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    playerStyle.playerBackground().then((v) => {
-      console.log(v);
-      setBackgroundSrc(v);
-    });
+    playerStyle.playerBackground().then(setBackgroundSrc);
   }, [playerStyle.playerBackground]);
 
   // console.log(currentSongList)
