@@ -16,7 +16,6 @@ interface SkinTemplate {
   playerBanner: string;
   playerBackground: () => Promise<NoxTheme.backgroundImage>;
   gifs: Array<string>;
-  gifIcon: () => string;
   appTitle: string;
   desktopTheme: string;
   colorTheme: overrideMUITheme;
@@ -45,7 +44,6 @@ const skinTemplate = (): SkinTemplate => {
       identifier: '',
     }),
     gifs: [],
-    gifIcon: () => '',
     appTitle: 'noxplayer',
     desktopTheme: 'dark',
     colorTheme: {},

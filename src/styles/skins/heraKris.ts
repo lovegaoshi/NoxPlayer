@@ -1,20 +1,16 @@
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['猫头鹰播放器']!;
+const { gifs, backgroundImagesLandscape } = APMSkins['猫头鹰播放器']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://article.biliimg.com/bfs/article/9c49d0133498d844869438569cf36d96ffe56234.png',
-    playerBannerMobile: async () =>
-      'https://article.biliimg.com/bfs/article/665f1975a070f013580832fef95621aef37a1b2c.png',
 
-    playerBackground: async () =>
-      'http://i0.hdslb.com/bfs/live/room_bg/f969cfa685038d4d8210c9aa2844677bc5a58eeb.jpg',
+    playerBackground: backgroundImagesLandscape,
 
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'HeraKris-player',
     colorTheme: {
       generalTheme: 'dark',

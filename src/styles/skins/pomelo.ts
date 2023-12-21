@@ -1,20 +1,15 @@
-import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['安妮播放器']!;
+const { gifs, backgroundImagesLandscape } = APMSkins['安妮播放器']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'http://i0.hdslb.com/bfs/space/ac7ed8c017edce6d376707b7ce3a68302edb3c50.png',
-    playerBannerMobile: async () =>
-      'https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png',
-    playerBackground: () => fetchVideoPlayUrl('BV1Yv4y1C7K5'),
+    playerBackground: backgroundImagesLandscape,
     playerBackgroundVideo: true,
-    // 'http://i0.hdslb.com/bfs/live/room_bg/9ec58de4a73fadb0024ff80db13416093a2b158b.jpg@1920w_1080h.webp',
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: '电妮播放器',
     desktopTheme: 'dark',
     colorTheme: {

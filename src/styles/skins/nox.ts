@@ -1,4 +1,4 @@
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
 const { gifs, backgroundImagesLandscape } = APMSkins['电闹播放器']!;
@@ -9,7 +9,6 @@ export default () =>
       'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
     playerBackground: backgroundImagesLandscape!,
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'Nox-player',
     colorTheme: {
       /**

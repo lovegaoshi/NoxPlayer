@@ -1,24 +1,17 @@
-import AzusaTheme from './azusa';
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins.guraaaaaa!;
+const { gifs, backgroundImagesLandscape } = APMSkins.guraaaaaa!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://raw.githubusercontent.com/lovegaoshi/azusa-player/nox-player/public/img/Gura/GuraBanner.png',
-    playerBannerMobile: async () =>
-      'https://cdn.donmai.us/sample/00/1f/__gawr_gura_hololive_and_1_more_drawn_by_wellski__sample-001ff8e45cea2114844c7114988d7cff.jpg',
+    playerBackground: backgroundImagesLandscape,
 
-    playerBackground: async () =>
-      'https://static.moewalls.com/videos/preview/2021/gawr-gura-atlantis-virtual-youtuber-preview.mp4',
-
-    playerBackgroundVideo: true,
     // 'https://cdn.donmai.us/sample/0d/19/__gawr_gura_and_bloop_hololive_and_1_more_drawn_by_rukako__sample-0d19f403ca5f21106aa2a6cbd1afdb80.jpg',
     // https://cdn.donmai.us/sample/98/69/__gawr_gura_hololive_and_1_more_drawn_by_gueya__sample-98697219522d92d9b39ed6c79d09c456.jpg
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'Gura-player',
     colorTheme: {
       generalTheme: 'light',

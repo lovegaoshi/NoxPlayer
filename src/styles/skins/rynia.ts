@@ -1,23 +1,14 @@
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['天马播放器']!;
-
-const randomPortraitBackground = randomChoice([
-  'https://i0.hdslb.com/bfs/garb/f97c35ee849743ee0969f5fca274ecc94d00e638.jpg',
-  'https://i0.hdslb.com/bfs/garb/eeec66368c9a92292b6ecda83e39ae4330af7085.jpg',
-]) as string;
+const { gifs, backgroundImagesLandscape } = APMSkins['天马播放器']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://i0.hdslb.com/bfs/garb/13a4374fcf3079b009ef1c61eb7cf23ab92560d8.png',
-    playerBannerMobile: async () => randomPortraitBackground,
-    playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-    playerBackground: async () =>
-      'https://i0.hdslb.com/bfs/archive/430a3a6e90f342d25ef44ecf2e14b32e6fb71083.jpg',
+    playerBackground: backgroundImagesLandscape,
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: '小马播放器',
     colorTheme: {
       generalTheme: 'dark',
