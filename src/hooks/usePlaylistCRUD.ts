@@ -6,7 +6,6 @@ import { DropResult } from 'react-beautiful-dnd';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
-// eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
 import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
 import { reorder } from '@APM/utils/Utils';

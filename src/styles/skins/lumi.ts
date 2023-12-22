@@ -1,28 +1,14 @@
-import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['露米播放器']!;
-
-const randomPortraitBackground = randomChoice([
-  'https://i0.hdslb.com/bfs/garb/54a7d01058c843df9f4fadde99df42a8fb446f60.jpg',
-  'https://i0.hdslb.com/bfs/garb/1167eb2420f0480ab506f5d7d9bc18271800e57f.jpg',
-  'https://i0.hdslb.com/bfs/garb/54b09bc72cf1537c0ba0f11eb9bc13091b01aad1.jpg',
-  'https://i0.hdslb.com/bfs/garb/95874aff3686bee1b0c942658bade9543f8c6302.jpg',
-]) as string;
-
+const { gifs, backgroundImagesLandscape } = APMSkins['露米播放器']!;
 export default () =>
   skinTemplate({
     playerBanner:
       'https://i0.hdslb.com/bfs/article/61a9243034ae538637fec40dcad4bab102b40d5a.png',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(randomPortraitBackground);
-      }),
-    playerBackground: () => fetchVideoPlayUrl('BV1nj411X7Vr'),
+    playerBackground: backgroundImagesLandscape,
     playerBackgroundVideo: true,
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: '露米播放器',
     desktopTheme: 'dark',
     colorTheme: {

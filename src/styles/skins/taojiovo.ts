@@ -1,28 +1,16 @@
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 // this is a pink/light theme.
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['桃几OvO']!;
+const { gifs, backgroundImagesLandscape } = APMSkins['桃几OvO']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://article.biliimg.com/bfs/article/29af4ddfe6e9a2459b02ccb8181b414080babd65.png',
-        );
-      }),
-    playerBackground: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://img-baofun.zhhainiao.com/pcwallpaper_ugc/preview/2d4813a4df47201b40f8be2a71d60bf1_preview.mp4',
-        );
-      }),
-    playerBackgroundVideo: true,
+    playerBackground: backgroundImagesLandscape,
+
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: '电姨播放器',
     desktopTheme: 'light',
     colorTheme: {

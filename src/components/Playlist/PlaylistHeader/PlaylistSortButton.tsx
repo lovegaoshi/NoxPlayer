@@ -6,7 +6,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 
-// eslint-disable-next-line import/no-unresolved
 import GenericSelectDialog from '@components/dialogs/GenericSelectDialog';
 import { SORT_OPTIONS } from '@enums/Playlist';
 

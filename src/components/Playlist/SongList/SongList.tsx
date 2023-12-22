@@ -12,9 +12,7 @@ import TablePagination from '@mui/material/TablePagination';
 
 import { zhCN } from '@mui/material/locale';
 
-// eslint-disable-next-line import/no-unresolved
 import SongRenameDialog from '@components/dialogs/SongRenameDialog';
-// eslint-disable-next-line import/no-unresolved
 import { AddFavDialog } from '@components/dialogs/AddFavDialog';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';

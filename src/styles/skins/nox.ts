@@ -1,26 +1,14 @@
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['电闹播放器']!;
+const { gifs, backgroundImagesLandscape } = APMSkins['电闹播放器']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://i0.hdslb.com/bfs/new_dyn/a6055de12310f55ac6590a86bd4008365053504.png',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://cdn.donmai.us/original/ea/ec/__nox_nijisanji_and_3_more_drawn_by_netural__eaec50f6d554b731ffe4fcace255d0bd.png',
-        );
-      }),
-    playerBackground: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'http://i0.hdslb.com/bfs/live/room_bg/1428a93e4a983a7a6e7ba3dc62b064e403fc8354.png@1920w_1080h.webp',
-        );
-      }),
+    playerBackground: backgroundImagesLandscape!,
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'Nox-player',
     colorTheme: {
       /**

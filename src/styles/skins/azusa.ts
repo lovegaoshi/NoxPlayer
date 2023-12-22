@@ -1,36 +1,14 @@
-import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['电梓播放器']!;
-
-const randomPortraitBackground = randomChoice([
-  'https://i0.hdslb.com/bfs/garb/item/aabad1485d211701be33be155a3bba88231453ba.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/fbdbf4068ea22d36ce223e83166b0b22f684d656.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/70ca7e98464ea5678a328615a7581cf42fb4d1ea.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/00aa213a3f4c3ccc5addd18c21e71ad9ba004bae.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/ba3d3334062b43e16001ca61bab2bc4af404da27.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/8cda150169756811847d07817b3ce0c0f0d52cc2.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/2f5968ae6993f4cd190c4dd16adac61c8376e08e.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/56549820b2458a440b0eaa97b27fd3fba3232375.jpg',
-  'https://i0.hdslb.com/bfs/garb/item/37fc8d2acf41b0fe7ec3b9732297d8e2832f21e4.png',
-  'https://i0.hdslb.com/bfs/garb/item/589adb63eae72b89f2022b040c333a42125b7ae9.jpg',
-  // 'https://cdn.donmai.us/sample/b8/10/__azusa_nijisanji_and_2_more_drawn_by_bsmycc__sample-b8106d3890e42fc9bfcd896a648a6c80.jpg'
-]) as string;
+const { gifs, backgroundImagesLandscape } = APMSkins['电梓播放器']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://github.com/kenmingwang/azusa-player/blob/master/public/img/bg3.png?raw=true',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(randomPortraitBackground);
-      }),
-    playerBackgroundMobileVideo: randomPortraitBackground.includes('.mp4'),
-    playerBackground: () => fetchVideoPlayUrl('BV11S4y1d7v9'), // BV1Sb4y1i79D
-    playerBackgroundVideo: true,
+    playerBackground: backgroundImagesLandscape!, // BV1Sb4y1i79D
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: 'Azusa-player',
     colorTheme: {
       generalTheme: 'light',

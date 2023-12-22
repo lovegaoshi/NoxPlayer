@@ -6,6 +6,7 @@ import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 
 import { useNoxSetting } from '@APM/stores/useApp';
+import { useDebouncedValue } from '@APM/hooks';
 import useApp from '@stores/useApp';
 import LyricSearchBar from './LyricSearchBar';
 
@@ -32,6 +33,7 @@ export default withStyles(styles)((props) => {
   const [lyricOffset, setLyricOffset] = useState(0);
   const [lyric, setLyric] = useState('');
   const [songTitle, setSongTitle] = useState('');
+  const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
 
   const { classes, currentTime, audioName, audioId, audioCover } = props;
 
@@ -195,7 +197,7 @@ export default withStyles(styles)((props) => {
             xs={12}
           >
             <LyricSearchBar
-              SearchKey={songTitle}
+              SearchKey={debouncedSongTitle}
               songId={String(audioId)}
               setLyricOffset={setLyricOffset}
               setLyric={onSongTitleChange}

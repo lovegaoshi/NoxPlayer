@@ -8,7 +8,6 @@ import {
 } from 'react-beautiful-dnd';
 
 import { useNoxSetting } from '@APM/stores/useApp';
-// eslint-disable-next-line import/no-unresolved
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
 import useApp from '@stores/useApp';
 import usePlayback from '@hooks/usePlayback';
@@ -47,6 +46,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
+
   const playlistShouldReRender = useNoxSetting(
     (state) => state.playlistShouldReRender,
   );
@@ -60,7 +60,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
     setOpenNewDialog,
     openAddDialog,
     actionFavId,
-    actionFavSong,
 
     onNewFav,
     handleDeleteFavClick,

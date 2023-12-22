@@ -2,36 +2,14 @@ import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
 import skinTemplate, { randomChoice } from './template';
 import APMSkins from './APMSkins';
 
-const { gifs } = APMSkins['克√播放器']!;
-
-const backgroundBundle: [() => Promise<string>, boolean] = randomChoice([
-  [() => fetchVideoPlayUrl('BV15e411u7T9'), true],
-  [
-    async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://img.nga.178.com/attachments/mon_202309/22/-zue37Q18w-baydXmZ67.jpeg',
-        );
-      }),
-    false,
-  ],
-]);
+const { gifs, backgroundImagesLandscape } = APMSkins['克√播放器']!;
 
 export default () =>
   skinTemplate({
     playerBanner:
       'https://article.biliimg.com/bfs/article/6410350acbdd9707dfa4769d0c2f1e780768d153.png',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve(
-          'https://article.biliimg.com/bfs/article/285e598078047f8060a9f29affc891adf486331c.png',
-        );
-      }),
-    playerBackground: backgroundBundle[0],
-    playerBackgroundVideo: backgroundBundle[1],
-    // playerBackground: async () => new Promise<string>((resolve) => { resolve('https://i0.hdslb.com/bfs/new_dyn/aae8c009d55b9db3472c1059b32cf16c1817527011.jpg'); }),
+    playerBackground: backgroundImagesLandscape,
     gifs,
-    gifIcon: () => randomChoice(gifs) as string,
     appTitle: '克√播放器',
     colorTheme: {
       generalTheme: 'dark',

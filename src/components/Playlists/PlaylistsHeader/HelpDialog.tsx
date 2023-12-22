@@ -11,7 +11,6 @@ import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import { useConfirm } from 'material-ui-confirm';
 
-// eslint-disable-next-line import/no-unresolved
 import textToDialogContent from '@components/dialogs/DialogContent';
 // @ts-ignore
 import changelogTxt from '../../../../changelog.txt';

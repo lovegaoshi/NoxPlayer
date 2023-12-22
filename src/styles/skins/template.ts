@@ -1,13 +1,12 @@
 import { SerializedStyles } from '@emotion/react';
 import { ClassNameMap } from '@mui/material';
 
-interface backgroundResolveFn {
-  (): Promise<string>;
-}
+import resolveBackgroundImage, {
+  RESOLVE_TYPE,
+} from '@APM/utils/mediafetch/mainbackgroundfetch';
+import { randomChoice } from '@utils/Utils';
 
-interface gifIconResolveFn {
-  (): string;
-}
+export { randomChoice } from '@utils/Utils';
 
 interface overrideMUITheme {
   [key: string]: any;
@@ -15,12 +14,8 @@ interface overrideMUITheme {
 
 interface SkinTemplate {
   playerBanner: string;
-  playerBannerMobile: backgroundResolveFn;
-  playerBackgroundMobileVideo: boolean;
-  playerBackground: backgroundResolveFn;
-  playerBackgroundVideo: boolean;
+  playerBackground: () => Promise<NoxTheme.backgroundImage>;
   gifs: Array<string>;
-  gifIcon: gifIconResolveFn;
   appTitle: string;
   desktopTheme: string;
   colorTheme: overrideMUITheme;
@@ -44,18 +39,11 @@ export interface Skin extends SkinTemplate {
 const skinTemplate = (): SkinTemplate => {
   return {
     playerBanner: '',
-    playerBannerMobile: async () =>
-      new Promise<string>((resolve) => {
-        resolve('');
-      }),
-    playerBackgroundMobileVideo: false,
-    playerBackground: async () =>
-      new Promise<string>((resolve) => {
-        resolve('');
-      }),
-    playerBackgroundVideo: false,
+    playerBackground: async () => ({
+      type: RESOLVE_TYPE.image,
+      identifier: '',
+    }),
     gifs: [],
-    gifIcon: () => '',
     appTitle: 'noxplayer',
     desktopTheme: 'dark',
     colorTheme: {},
@@ -66,10 +54,15 @@ const skinTemplate = (): SkinTemplate => {
   };
 };
 
-export function randomChoice(list: Array<any>) {
-  return list[Math.floor(Math.random() * list.length) >> 0];
-}
-
 export default function template(skin: { [key: string]: any }) {
-  return { ...skinTemplate(), ...skin };
+  return {
+    ...skinTemplate(),
+    ...skin,
+    playerBackground: () =>
+      resolveBackgroundImage(
+        randomChoice(skin.playerBackground) as
+          | NoxTheme.backgroundImage
+          | string,
+      ),
+  };
 }
