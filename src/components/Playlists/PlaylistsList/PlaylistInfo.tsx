@@ -65,9 +65,11 @@ function PlaylistInfoBase({
         <Box
           sx={[
             style.playingBar,
+            /*
             currentPlaying && {
               backgroundColor: playerStyle.colorTheme.playListIconColor,
             },
+            */
           ]}
         />
         <ListItemIcon sx={DiskIcon}>
