@@ -161,9 +161,9 @@ export function SearchlistEntry(props: Props) {
 const style = {
   playingBar: {
     width: '7px',
-    'margin-left': '-7px',
+    marginLeft: '-7px',
     height: '36px',
-    'margin-bottom': '-6px',
-    'margin-top': '-6px',
+    marginBottom: '-6px',
+    marginTop: '-6px',
   },
 };

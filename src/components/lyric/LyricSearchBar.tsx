@@ -39,7 +39,6 @@ export default function LyricSearchBar({
     }
     function initLyric() {
       const detail = lyricMapping.get(songId);
-      console.log(lyricMapping, detail);
       if (undefined !== detail) {
         setLyricOffset(detail.lyricOffset);
         const index = options.findIndex((v) => v.songMid === detail.lyricKey);
