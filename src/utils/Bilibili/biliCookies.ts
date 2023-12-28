@@ -4,8 +4,10 @@
  * @param {string} name name of the cookie, eg SESSIONDATA
  * @returns
  */
-export const getCookie = async (domain: string, name: string) => {
-  return chrome.cookies.get({ url: domain, name });
-};
-export const getBiliJct = () =>
-  getCookie('https://www.bilibili.com', 'bili_jct');
+export const getCookie = async (domain: string, name: string) =>
+  chrome.cookies.get({ url: domain, name });
+
+export const getBiliCookie = async (name = 'bili_jct') =>
+  getCookie('https://www.bilibili.com', name);
+
+export const getBiliJct = () => getBiliCookie('bili_jct');

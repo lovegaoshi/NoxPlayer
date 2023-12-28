@@ -12,7 +12,7 @@ const getOrSetR128Gain = async ({
   getSource = (v) => fetchPlayUrlPromise(v),
 }: Props) => {
   const r128Val = getR128Gain(song);
-  if (r128Val !== null) {
+  if (r128Val) {
     return r128gain2Volume(r128Val);
   }
   const source = await getSource(song);

@@ -83,7 +83,12 @@ function SongInfo({
               <PlayCircleIcon />
             </ListItemIcon>
           )}
-          <ListItemText primary={getName(song, playerSetting.parseSongName)} />
+          <ListItemText
+            primary={getName(
+              song,
+              playlist.type !== 'search' && playerSetting.parseSongName,
+            )}
+          />
         </ListItemButton>
       </StyledTableCell>
       <StyledTableCell
