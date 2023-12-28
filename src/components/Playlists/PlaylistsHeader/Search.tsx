@@ -35,12 +35,12 @@ export default function Search({ setSearchInputVal }: Props) {
     setProgressVal(100);
     const searchedList = {
       ...searchPlaylist,
-      songList: await searchBiliURLs({
+      ...(await searchBiliURLs({
         input,
         progressEmitter: setProgressVal,
         fastSearch: playerSetting.fastBiliSearch,
         cookiedSearch: playerSetting.noCookieBiliSearch,
-      }),
+      })),
     };
     setSearchList(searchedList);
     setSelectedList(searchedList);
