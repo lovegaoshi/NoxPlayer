@@ -11,8 +11,6 @@ export default () =>
     playerBackground: [
       'https://article.biliimg.com/bfs/article/41ead2cf9db8946f335d4d66cc9044dc8b961aa4.png',
     ],
-
-    playerBackgroundVideo: true,
     gifs,
     appTitle: '电姨播放器',
     desktopTheme: 'light',
