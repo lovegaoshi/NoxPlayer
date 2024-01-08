@@ -8,6 +8,7 @@ import useTimer from '@hooks/useTimer';
 import useApp from '@stores/useApp';
 import { RESOLVE_TYPE } from '@APM/utils/mediafetch/mainbackgroundfetch';
 import useInitializeStore from '../stores/useInitializeStore';
+import '../utils/i18n';
 
 const Player = React.lazy(() => import('../components/App/App'));
 
