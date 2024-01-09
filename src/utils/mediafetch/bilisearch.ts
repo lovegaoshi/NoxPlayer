@@ -84,8 +84,8 @@ const regexFetch = async ({
   useBiliTag,
   fastSearch = true,
   cookiedSearch = false,
-}: regexFetchProps) => {
-  return songFetch({
+}: regexFetchProps): Promise<NoxNetwork.NoxRegexFetch> => ({
+  songList: await songFetch({
     videoinfos: await fetchBiliSearchList(
       url,
       progressEmitter,
@@ -93,8 +93,8 @@ const regexFetch = async ({
       cookiedSearch,
     ),
     useBiliTag: useBiliTag || false,
-  });
-};
+  }),
+});
 
 const resolveURL = () => undefined;
 
