@@ -5,6 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import isMobile from 'is-mobile';
 import TabPanel from '@mui/lab/TabPanel';
 import { useStore } from 'zustand';
+import { useTranslation } from 'react-i18next';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
 import SyncSetting from './SyncSetting';
@@ -13,10 +14,17 @@ import SETTING_TAB from './enums';
 
 interface BooleanCheckboxProps {
   settingKey: string;
-  tooltip: string;
-  label: string;
+  settingCategory?: string;
+  tooltip?: string;
+  label?: string;
 }
-function BooleanCheckbox({ settingKey, tooltip, label }: BooleanCheckboxProps) {
+function BooleanCheckbox({
+  settingKey,
+  tooltip,
+  label,
+  settingCategory = 'GeneralSettings',
+}: BooleanCheckboxProps) {
+  const { t } = useTranslation();
   const playerSettings = useStore(
     playerSettingStore,
     (state) => state.playerSetting,
@@ -26,7 +34,7 @@ function BooleanCheckbox({ settingKey, tooltip, label }: BooleanCheckboxProps) {
     (state) => state.setPlayerSetting,
   );
   return (
-    <Tooltip title={tooltip}>
+    <Tooltip title={tooltip ?? t(`${settingCategory}.${settingKey}Desc`)}>
       <FormControlLabel
         control={
           <Checkbox
@@ -36,7 +44,7 @@ function BooleanCheckbox({ settingKey, tooltip, label }: BooleanCheckboxProps) {
           />
         }
         checked={playerSettings[settingKey]}
-        label={label}
+        label={label ?? t(`${settingCategory}.${settingKey}Name`)}
       />
     </Tooltip>
   );
@@ -48,28 +56,9 @@ function SettingsPanel() {
       <SyncSetting />
       <SkinSetting />
       <div />
-      <BooleanCheckbox
-        settingKey='parseSongName'
-        tooltip='在歌单里显示提取后的歌名'
-        label='使用提取的歌名'
-      />
-      <BooleanCheckbox
-        settingKey='autoRSSUpdate'
-        tooltip='每天打开歌单时自动更新歌单的订阅'
-        label='自动更新订阅'
-      />
-      <BooleanCheckbox
-        settingKey='keepSearchedSongListWhenPlaying'
-        tooltip='搜索歌单时，按搜索的结果播放歌单'
-        label='播放搜索结果歌单'
-      />
-      {isMobile() && (
-        <BooleanCheckbox
-          settingKey='hideCoverInMobile'
-          tooltip='移动端不显示歌封面'
-          label='移动端不显示歌封面'
-        />
-      )}
+      <BooleanCheckbox settingKey='parseSongName' />
+      <BooleanCheckbox settingKey='autoRSSUpdate' />
+      <BooleanCheckbox settingKey='keepSearchedSongListWhenPlaying' />
       <BooleanCheckbox
         settingKey='loadPlaylistAsArtist'
         tooltip='播放歌单时显示歌手为歌单名'
@@ -81,21 +70,9 @@ function SettingsPanel() {
         API不会使用b号cookie'
         label='不发送b站播放API'
       />
-      <BooleanCheckbox
-        settingKey='noCookieBiliSearch'
-        tooltip='b站搜索时提交cookie获得个性化推荐'
-        label='搜索时用b号个性化推荐'
-      />
-      <BooleanCheckbox
-        settingKey='fastBiliSearch'
-        tooltip='搜索时不解析分p内容'
-        label='快速b站搜索'
-      />
-      <BooleanCheckbox
-        settingKey='r128gain'
-        tooltip='启用即时音量均衡'
-        label='音量均衡'
-      />
+      <BooleanCheckbox settingKey='noCookieBiliSearch' />
+      <BooleanCheckbox settingKey='fastBiliSearch' />
+      <BooleanCheckbox settingKey='r128gain' />
     </React.Fragment>
   );
 }
