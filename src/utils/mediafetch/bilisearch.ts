@@ -15,6 +15,8 @@ import { songFetch } from '@APM/utils/mediafetch//bilivideo';
 import { fastSearchResolveBVID } from '@APM/utils/mediafetch/bilisearch';
 import VideoInfo from '@APM/objects/VideoInfo';
 
+import { getBiliSESS } from '../Bilibili/biliCookies';
+
 const URL_BILI_SEARCH =
   'https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}&tids=3';
 // TODO: migrate to this wbi one
@@ -32,10 +34,7 @@ const fetchBiliSearchList = async (
   // setting a random buvid3 would enable this API. should i initialize it
   // in start up?
   if (!cookiedSearch) {
-    cookieSESSDATA = await chrome.cookies.get({
-      url: 'https://bilibili.com',
-      name: 'SESSDATA',
-    });
+    cookieSESSDATA = await getBiliSESS();
     await chrome.cookies.set({
       url: 'https:api.bilibili.com',
       domain: '.bilibili.com',
