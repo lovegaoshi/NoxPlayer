@@ -7,7 +7,6 @@ export default () =>
     playerBanner:
       'https://i0.hdslb.com/bfs/article/61a9243034ae538637fec40dcad4bab102b40d5a.png',
     playerBackground: backgroundImagesLandscape,
-    playerBackgroundVideo: true,
     gifs,
     appTitle: '露米播放器',
     desktopTheme: 'dark',

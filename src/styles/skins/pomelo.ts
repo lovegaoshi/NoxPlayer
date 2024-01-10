@@ -8,7 +8,6 @@ export default () =>
     playerBanner:
       'http://i0.hdslb.com/bfs/space/ac7ed8c017edce6d376707b7ce3a68302edb3c50.png',
     playerBackground: backgroundImagesLandscape,
-    playerBackgroundVideo: true,
     gifs,
     appTitle: '电妮播放器',
     desktopTheme: 'dark',

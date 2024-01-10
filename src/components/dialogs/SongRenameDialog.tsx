@@ -10,6 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import getBiliUser from '@APM/utils/Bilibili/BiliUser';
 import { getPlayerSettingKey } from '@utils/ChromeStorage';
+import { editBiliVideo } from '@utils/Bilibili/biliEdit';
 
 interface props {
   openState: boolean;
@@ -60,12 +61,10 @@ export default function songRenameDialog({
           action: circularProgress,
         });
         try {
-          const res = await fetch(
-            `${await getPlayerSettingKey(
-              'personalCloudIP',
-            )}noxtagfix?bvid=${songBVID}&index=${songBVIndex}&name=${extractedSongName}&secret=${
-              process.env.PERSONAL_CLOUD_SECRET
-            }`,
+          const res = await editBiliVideo(
+            songBVID,
+            Number(songBVIndex) - 1,
+            extractedSongName,
           );
           if (res.status === 200) {
             closeSnackbar(key);
