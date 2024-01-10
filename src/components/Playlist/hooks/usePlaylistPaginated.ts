@@ -93,7 +93,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   useHotkeys('left', () => handleChangePage(null, page - 1));
   useHotkeys('right', () => handleChangePage(null, page + 1));
 
-  const handleChangePage = (event: any, newPage: number) => {
+  const handleChangePage = (_: any, newPage: number) => {
     const maxPage = Math.ceil(rows.length / rowsPerPage);
     if (newPage < 0) newPage = 0;
     else if (newPage >= maxPage) newPage = maxPage - 1;

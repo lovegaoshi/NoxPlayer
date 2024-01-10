@@ -88,7 +88,7 @@ export const readLocalStorage = (
   key: string,
   defaultVal: unknown = undefined,
 ): Promise<any> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     chrome.storage.local.get([key], (result) => {
       if (result[key] === undefined) {
         resolve(defaultVal);
@@ -236,7 +236,7 @@ export const initPlayerObject =
         STORAGE_KEYS.FAVORITE_PLAYLIST_KEY,
         () => dummyPlaylist('Favorite', PLAYLIST_ENUMS.TYPE_FAVORI_PLAYLIST),
       ),
-      playerRepeat: await getItem(STORAGE_KEYS.PLAYMODE_KEY, 'shufflePlay'),
+      playbackMode: await getItem(STORAGE_KEYS.PLAYMODE_KEY, 'shufflePlay'),
       skin: await getItem(STORAGE_KEYS.SKIN, {}),
       skins: [],
       cookies: await getItem(STORAGE_KEYS.COOKIES, {}),
