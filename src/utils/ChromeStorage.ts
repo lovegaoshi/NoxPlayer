@@ -1,6 +1,6 @@
 import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
-import { STORAGE_KEYS } from '@enums/Storage';
+import { STORAGE_KEYS, SEARCH_OPTIONS } from '@enums/Storage';
 import { logger } from '@utils/Logger';
 import { PLAYLIST_ENUMS } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
@@ -8,6 +8,9 @@ import { DEFAULT_SETTING } from '@objects/Storage';
 import rejson from '@APM/utils/rejson.json';
 
 export const getMusicFreePlugin = (): string[] => [];
+
+export const saveDefaultSearch = (val: SEARCH_OPTIONS) =>
+  saveItem(STORAGE_KEYS.DEFAULT_SEARCH, val);
 
 const removeItem = (key: string) => chrome.storage.local.remove(key);
 
