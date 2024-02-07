@@ -19,8 +19,10 @@ export default async () => {
   if (settingVal !== undefined) {
     switch (settingsVersion) {
       case 0:
+      // @ts-ignore
       case '1.1.1.8':
         updater1118();
+      // @ts-ignore
       case '2.5.4.0':
         update3000();
       case currentVersion:

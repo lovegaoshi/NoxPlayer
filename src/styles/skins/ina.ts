@@ -1,4 +1,3 @@
-import AzusaTheme from './azusa';
 import skinTemplate from './template';
 
 const gifs = [

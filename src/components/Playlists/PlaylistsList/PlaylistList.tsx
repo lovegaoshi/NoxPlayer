@@ -47,9 +47,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
   const { onPlayAllFromFav } = usePlayback({});
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
 
-  const playlistShouldReRender = useNoxSetting(
-    (state) => state.playlistShouldReRender,
-  );
+  const _ = useNoxSetting((state) => state.playlistShouldReRender);
   const {
     playlists,
     playlistIds,
@@ -77,7 +75,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         component='nav'
       >
         <SearchlistEntry
-          key2='key'
           playlist={searchList}
           setSelectedList={setSelectedList}
           handleAddToFavClick={handleAddToFavClick}
@@ -90,7 +87,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         />
         {false && (
           <SearchlistEntry
-            key2='key'
             playlist={favoritePlaylist}
             setSelectedList={setSelectedList}
             handleAddToFavClick={handleAddToFavClick}
@@ -125,7 +121,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
                         }}
                       >
                         <PlaylistInfo
-                          key2={String(index)}
                           playlist={playlists[item]!}
                           setSelectedList={setSelectedList}
                           handleAddToFavClick={handleAddToFavClick}

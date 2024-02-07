@@ -66,7 +66,7 @@ export default function songRenameDialog({
             Number(songBVIndex) - 1,
             extractedSongName,
           );
-          if (res.status === 200) {
+          if (res?.status === 200) {
             closeSnackbar(key);
             enqueueSnackbar('歌名修订API连接成功', { variant: 'success' });
           } else {

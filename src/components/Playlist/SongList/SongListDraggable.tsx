@@ -27,7 +27,7 @@ export function SongListDraggable({
     return (
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
-          {(provided, snapshot) => (
+          {(provided) => (
             <TableBody {...provided.droppableProps} ref={provided.innerRef}>
               {children}
               {provided.placeholder}

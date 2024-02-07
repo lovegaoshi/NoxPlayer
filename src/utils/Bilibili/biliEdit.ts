@@ -1,4 +1,4 @@
-import { getBiliSESS, getBiliJct } from './biliCookies';
+import { getBiliJct } from './biliCookies';
 
 interface BVVideoInfo {
   filename: string;
