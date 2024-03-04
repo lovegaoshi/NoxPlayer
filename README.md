@@ -13,24 +13,11 @@
   <a href="https://github.com/kenmingwang/azusa-player/blob/master/LICENSE">
     <img src="https://camo.githubusercontent.com/992daabc2aa4463339825f8333233ba330dd08c57068f6faf4bb598ab5a3df2e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d627269676874677265656e2e737667" alt="Software License" data-canonical-src="https://img.shields.io/badge/license-MIT-brightgreen.svg" style="max-width: 100%;">
   </a>
-  <a href="">
-    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/stars/kenmingwang/azusa-player">
+  <a href="https://microsoftedge.microsoft.com/addons/detail/%E7%94%B5%E9%97%B9%E6%92%AD%E6%94%BE%E5%99%A8/jlhdkgcfcdabihmdkhdjlcppdlnlfogp">
+    <img alt="GitHub all releases" src="https://img.shields.io/badge/dynamic/json?label=edge-user&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fjlhdkgcfcdabihmdkhdjlcppdlnlfogp">
   </a>
-  <a href="https://github.com/kenmingwang/azusa-player/releases">
-    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/kenmingwang/azusa-player">
-  </a>
-  <a href="https://github.com/kenmingwang/azusa-player/actions/workflows/webpack.yml">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/kenmingwang/azusa-player/webpack.yml">
-  </a>
-  </br>
-  <a href="https://chrome.google.com/webstore/detail/%E7%94%B5%E6%A2%93%E6%92%AD%E6%94%BE%E5%99%A8-%E7%AC%AC%E4%B8%89%E6%96%B9bilibili%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/bdplgemfnbaefommicdebhboajognnhj">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/chrome-web-store/users/bdplgemfnbaefommicdebhboajognnhj?color=blue&label=chrome-user">
-  </a>
-  <a href="https://microsoftedge.microsoft.com/addons/detail/%E7%94%B5%E6%A2%93%E6%92%AD%E6%94%BE%E5%99%A8%E7%AC%AC%E4%B8%89%E6%96%B9bilibili%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8/bikfgaolchpolficinadmbmkkohkbkdf">
-    <img alt="GitHub all releases" src="https://img.shields.io/badge/dynamic/json?label=edge-user&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fbikfgaolchpolficinadmbmkkohkbkdf">
-  </a>
-  <a href="https://github.com/kenmingwang/azusa-player/releases">
-    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/kenmingwang/azusa-player/total">
+  <a href="https://github.com/lovegaoshi/azusa-player/releases/latest">
+    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/lovegaoshi/azusa-player/total">
   </a>
 </p>
 <h3 align="center" style="color:purple"> 诺莺nox威力加强版 Azusa-Player / 电梓播放器</h3>
