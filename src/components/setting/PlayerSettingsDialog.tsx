@@ -30,7 +30,7 @@ export default function SettingsDialog({ onClose, openState }: Props) {
   );
   const [tabValue, setTabValue] = React.useState('1');
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
 

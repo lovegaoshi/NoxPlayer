@@ -150,9 +150,9 @@ export default ({ isMobile = false }) => {
   };
 
   const onAudioListsChange = (
-    currentPlayId: string,
+    _currentPlayId: string,
     audioLists: NoxMedia.Song[],
-    audioInfo: any,
+    _audioInfo: any,
   ) => setplayingList(audioLists);
   // console.log('audioListChange:', audioLists)
 
@@ -202,8 +202,8 @@ export default ({ isMobile = false }) => {
 
   const onAudioError = (
     errMsg: string,
-    currentPlayId: string,
-    audioLists: NoxMedia.Song[],
+    _currentPlayId: string,
+    _audioLists: NoxMedia.Song[],
     audioInfo: NoxMedia.Song,
   ) => {
     console.error('audio error', errMsg, audioInfo);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Item, Separator, useContextMenu } from 'react-contexify';
+import { Menu, Item, useContextMenu } from 'react-contexify';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import 'react-contexify/dist/ReactContexify.css';
 

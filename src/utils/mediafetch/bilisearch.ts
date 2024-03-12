@@ -11,9 +11,7 @@
  */
 
 import { fetchBiliPaginatedAPI } from '@APM/utils/mediafetch/paginatedbili';
-import { songFetch } from '@APM/utils/mediafetch//bilivideo';
 import { fastSearchResolveBVID } from '@APM/utils/mediafetch/bilisearch';
-import VideoInfo from '@APM/objects/VideoInfo';
 
 import { getBiliSESS } from '../Bilibili/biliCookies';
 
@@ -42,9 +40,8 @@ const fetchBiliSearchList = async (
       value: 'dummyval',
     });
   }
-  let val: VideoInfo[] = [];
   try {
-    val = await fetchBiliPaginatedAPI({
+    return await fetchBiliPaginatedAPI({
       url: URL_BILI_SEARCH.replace('{keyword}', kword),
       getMediaCount: (data) => Math.min(data.numResults, data.pagesize * 2),
       getPageSize: (data) => data.pagesize,
@@ -66,7 +63,7 @@ const fetchBiliSearchList = async (
       });
     }
   }
-  return val;
+  return [];
 };
 
 interface regexFetchProps {
@@ -80,19 +77,15 @@ interface regexFetchProps {
 const regexFetch = async ({
   url,
   progressEmitter = () => undefined,
-  useBiliTag,
   fastSearch = true,
   cookiedSearch = false,
 }: regexFetchProps): Promise<NoxNetwork.NoxRegexFetch> => ({
-  songList: await songFetch({
-    videoinfos: await fetchBiliSearchList(
-      url,
-      progressEmitter,
-      fastSearch,
-      cookiedSearch,
-    ),
-    useBiliTag: useBiliTag || false,
-  }),
+  songList: await fetchBiliSearchList(
+    url,
+    progressEmitter,
+    fastSearch,
+    cookiedSearch,
+  ),
 });
 
 const resolveURL = () => undefined;

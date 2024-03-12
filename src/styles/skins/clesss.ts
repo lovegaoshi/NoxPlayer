@@ -1,5 +1,4 @@
-import { fetchVideoPlayUrl } from '@APM/utils/mediafetch/bilivideo';
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
 import APMSkins from './APMSkins';
 
 const { gifs, backgroundImagesLandscape } = APMSkins['克√播放器']!;

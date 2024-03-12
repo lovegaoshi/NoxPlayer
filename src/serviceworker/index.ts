@@ -1,4 +1,4 @@
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener((_tab) => {
   // console.log('onClicked')
   chrome.tabs.create({
     url: chrome.runtime.getURL('popup.html'),
