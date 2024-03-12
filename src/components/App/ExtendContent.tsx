@@ -4,7 +4,7 @@ import { filterUndefined } from '@utils/Utils';
 import ThumbsUpButton from '../buttons/ThumbsUpButton';
 import FavoriteButton from '../buttons/FavoriteSongButton';
 
-const ExtendsContent = (song: NoxMedia.Song, isMobile = false) => {
+const ExtendsContent = (song: NoxMedia.Song) => {
   if (song === undefined) {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return [<></>];
@@ -12,7 +12,7 @@ const ExtendsContent = (song: NoxMedia.Song, isMobile = false) => {
   return filterUndefined(
     [
       <ThumbsUpButton song={song} key='song-thumbup-btn' />,
-      !isMobile && <FavoriteButton song={song} key='song-fav-btn' />,
+      <FavoriteButton song={song} key='song-fav-btn' />,
     ],
     (v) => v,
   );

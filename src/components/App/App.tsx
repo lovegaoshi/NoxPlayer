@@ -36,7 +36,7 @@ export default function Player({ songList }: Props) {
     onAudioPlay,
     onAudioError,
     initPlayer,
-  } = usePlayback({});
+  } = usePlayback();
   const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
 
   useHotkeys('space', () => {
