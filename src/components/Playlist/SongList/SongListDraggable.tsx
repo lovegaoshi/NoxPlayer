@@ -115,7 +115,7 @@ export function SongInfoDraggable({
   );
 }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => {
+const StyledTableRow = styled(TableRow)(() => {
   const { colorTheme } = useApp((state) => state.playerStyle);
   return {
     '&:nth-of-type(odd)': {

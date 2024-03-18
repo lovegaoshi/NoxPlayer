@@ -1,5 +1,5 @@
 export const cacheWrapper = (
-  identifier: string,
+  _identifier: string,
   getURL: () => Promise<string>,
 ) => getURL();
 

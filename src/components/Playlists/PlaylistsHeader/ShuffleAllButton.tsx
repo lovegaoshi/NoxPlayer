@@ -12,7 +12,7 @@ interface Props {
 }
 function ShuffleAll({ sx }: Props) {
   const playlists = useNoxSetting((state) => state.playlists);
-  const { loadToSearchListAndPlay } = usePlayback({});
+  const { loadToSearchListAndPlay } = usePlayback();
 
   const shuffleAll = () => {
     const allSongs = Object.values(playlists).reduce(

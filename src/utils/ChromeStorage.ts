@@ -104,7 +104,7 @@ export const readLocalStorage = (
 const getItem = readLocalStorage;
 
 export const readLocalStorages = async (keys: Array<string>): Promise<any> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     chrome.storage.local.get(keys, (result) => {
       resolve(result);
     });

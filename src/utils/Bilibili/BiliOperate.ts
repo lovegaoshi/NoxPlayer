@@ -47,7 +47,7 @@ export const checkBVLiked = (bvid: string, onChecked: Function = () => {}) => {
  * @param {function} onLiked callback function with the input parameter of the
  * looked up json API return.
  */
-export const sendBVLike = (bvid: string, onLiked = (json: object) => {}) => {
+export const sendBVLike = (bvid: string, onLiked = (_json: object) => {}) => {
   getCookie('https://www.bilibili.com', 'bili_jct').then((promised) => {
     fetch(BILI_LIKE_API, {
       credentials: 'include',
@@ -70,7 +70,7 @@ export const sendBVLike = (bvid: string, onLiked = (json: object) => {}) => {
   });
 };
 
-export const sendBVTriple = (bvid: string, onLiked = (json: object) => {}) => {
+export const sendBVTriple = (bvid: string, onLiked = (_json: object) => {}) => {
   getCookie('https://www.bilibili.com', 'bili_jct').then((promised) => {
     fetch(BILI_TRIP_API, {
       credentials: 'include',

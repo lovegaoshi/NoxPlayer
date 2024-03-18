@@ -11,10 +11,6 @@ interface RJKMAudio extends NoxMedia.Song {
   [key: string]: any;
 }
 
-interface RJKMSetting extends NoxStorage.PlayerSettingDict {
-  [key: string]: any;
-}
-
 interface NoxApp {
   currentAudio?: RJKMAudio;
   setCurrentAudio: (a: RJKMAudio) => void;
@@ -35,7 +31,7 @@ interface NoxApp {
   initialize: (init: NoxStorage.PlayerStorageObject) => void;
 }
 
-export default create<NoxApp>((set, get) => {
+export default create<NoxApp>((set, _get) => {
   const setPlayerStyle = (v: string) => {
     const playerStyle = skins(v);
     set({

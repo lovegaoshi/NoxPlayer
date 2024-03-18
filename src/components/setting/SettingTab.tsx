@@ -2,7 +2,6 @@ import React from 'react';
 import { Checkbox } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
-import isMobile from 'is-mobile';
 import TabPanel from '@mui/lab/TabPanel';
 import { useStore } from 'zustand';
 import { useTranslation } from 'react-i18next';
