@@ -7,6 +7,7 @@ import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
+import { SOURCE } from '@enums/MediaFetch';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
@@ -44,7 +45,10 @@ export default () => {
     song: NoxMedia.Song,
     getSource: () => Promise<NoxNetwork.ParsedNoxMediaURL>,
   ) => {
-    if (!playerSettingStore.getState().playerSetting.r128gain) {
+    if (
+      !playerSettingStore.getState().playerSetting.r128gain ||
+      [SOURCE.biliLive].includes(song.source)
+    ) {
       return;
     }
     currentAudioInst.volume = 1;
@@ -55,9 +59,15 @@ export default () => {
   };
 
   const musicSrcParser = async (v: NoxMedia.Song) => {
-    const resolvedUrl = await fetchPlayUrlPromise(v);
-    parseR128Gain(v, async () => resolvedUrl);
-    return resolvedUrl.url;
+    try {
+      const resolvedUrl = await fetchPlayUrlPromise(v);
+      parseR128Gain(v, async () => resolvedUrl);
+      return resolvedUrl.url;
+    } catch (e) {
+      console.error(`[resolveURL] failed to resolve ${v}: ${e}`);
+      // throw e;
+      return 'FAILED_TO_RESOLVE';
+    }
   };
 
   interface UpdateCurrentAudioListProps {
@@ -208,9 +218,9 @@ export default () => {
   ) => {
     console.error('audio error', errMsg, audioInfo);
     setTimeout(() => {
-      console.debug('retrying...');
+      // console.debug('retrying...');
       currentAudioInst.playByIndex(1, true);
-    }, 1000);
+    }, 3000);
   };
 
   const initPlayer = async (
