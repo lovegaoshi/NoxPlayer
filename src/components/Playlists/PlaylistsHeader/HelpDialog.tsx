@@ -80,10 +80,10 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           <Button
             startIcon={<ForumIcon />}
             onClick={() =>
-              window.open('https://bbs.nga.cn/read.php?tid=31176308')
+              window.open('https://bbs.nga.cn/read.php?tid=37678803')
             }
           >
-            来p综@nga听歌吹水
+            来P综6@nga听歌吹水
           </Button>
           <div />
           <Button
