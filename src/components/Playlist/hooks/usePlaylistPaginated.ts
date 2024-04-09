@@ -4,7 +4,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylist, { UsePlaylist } from '@APM/hooks/usePlaylist';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
-import { PLAYLIST_ENUMS } from '@enums/Playlist';
+import { PlaylistTypes } from '@enums/Playlist';
 import { logger } from '@utils/Logger';
 
 export interface UsePlaylistP extends UsePlaylist {
@@ -106,7 +106,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   };
 
   const refreshPlaylist = async (subscribeUrls?: string[]) => {
-    if (playlist.type !== PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST) {
+    if (playlist.type !== PlaylistTypes.TYPE_TYPICA_PLAYLIST) {
       return;
     }
     setRefreshing(true);
@@ -142,7 +142,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   useEffect(() => {
     if (
       playerSetting.autoRSSUpdate &&
-      playlist.type === PLAYLIST_ENUMS.TYPE_TYPICA_PLAYLIST &&
+      playlist.type === PlaylistTypes.TYPE_TYPICA_PLAYLIST &&
       playlist.subscribeUrl.length > 0 &&
       playlist.subscribeUrl[0]!.length > 0 &&
       new Date().getTime() - playlist.lastSubscribed > 86400000

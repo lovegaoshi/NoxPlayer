@@ -7,7 +7,7 @@ import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
-import { SOURCE } from '@enums/MediaFetch';
+import { Source } from '@enums/MediaFetch';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
@@ -47,7 +47,7 @@ export default () => {
   ) => {
     if (
       !playerSettingStore.getState().playerSetting.r128gain ||
-      [SOURCE.biliLive].includes(song.source)
+      [Source.biliLive].includes(song.Source)
     ) {
       return;
     }

@@ -5,7 +5,7 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DeselectIcon from '@mui/icons-material/Deselect';
 import SelectAllIcon from '@mui/icons-material/SelectAll';
 
-import { SORT_OPTIONS } from '@enums/Playlist';
+import { SortOptions } from '@enums/Playlist';
 import PlaylistSortButton from './PlaylistSortButton';
 
 interface UsePlaylist {
@@ -14,7 +14,7 @@ interface UsePlaylist {
   resetSelected: () => void;
   toggleSelectedPage: () => void;
   sortPlaylist: (
-    sort: SORT_OPTIONS,
+    sort: SortOptions,
     ascend: boolean,
     playlist: NoxMedia.Playlist,
   ) => void;

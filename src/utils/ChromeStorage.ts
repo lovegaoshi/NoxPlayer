@@ -1,8 +1,8 @@
 import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
-import { STORAGE_KEYS, SEARCH_OPTIONS } from '@enums/Storage';
+import { StorageKeys, SEARCH_OPTIONS } from '@enums/Storage';
 import { logger } from '@utils/Logger';
-import { PLAYLIST_ENUMS } from '@enums/Playlist';
+import { PlaylistTypes } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DEFAULT_SETTING } from '@objects/Storage';
 import rejson from '@APM/utils/rejson.json';
@@ -10,12 +10,12 @@ import rejson from '@APM/utils/rejson.json';
 export const getMusicFreePlugin = (): string[] => [];
 
 export const saveDefaultSearch = (val: SEARCH_OPTIONS) =>
-  saveItem(STORAGE_KEYS.DEFAULT_SEARCH, val);
+  saveItem(StorageKeys.DEFAULT_SEARCH, val);
 
 const removeItem = (key: string) => chrome.storage.local.remove(key);
 
 export const savePlaylistIds = (val: string[]) =>
-  saveItem(STORAGE_KEYS.MY_FAV_LIST_KEY, val);
+  saveItem(StorageKeys.MY_FAV_LIST_KEY, val);
 
 export const delPlaylist = (
   playlist: NoxMedia.Playlist,
@@ -33,17 +33,17 @@ export const savePlaylist = (
 ) => saveItem(overrideKey || playlist.id, playlist);
 
 export const savelastPlaylistId = (val: [string, string]) =>
-  saveItem(STORAGE_KEYS.LAST_PLAY_LIST, val);
+  saveItem(StorageKeys.LAST_PLAY_LIST, val);
 
 export const saveFavPlaylist = (playlist: NoxMedia.Playlist) =>
-  savePlaylist(playlist, STORAGE_KEYS.FAVORITE_PLAYLIST_KEY);
+  savePlaylist(playlist, StorageKeys.FAVORITE_PLAYLIST_KEY);
 
 export const savePlayerSkins = async (skins: Array<any>) =>
-  saveItem(STORAGE_KEYS.SKINSTORAGE, skins);
+  saveItem(StorageKeys.SKINSTORAGE, skins);
 
 export const saveLyricMapping = async (
   lyricMapping: Map<string, NoxMedia.LyricDetail>,
-) => saveItem(STORAGE_KEYS.LYRIC_MAPPING, Array.from(lyricMapping.entries()));
+) => saveItem(StorageKeys.LYRIC_MAPPING, Array.from(lyricMapping.entries()));
 
 export const getRegExtractMapping = async (): Promise<
   NoxRegExt.JSONExtractor[]
@@ -60,25 +60,25 @@ export const getRegExtractMapping = async (): Promise<
 };
 
 export const getFadeInterval = async () =>
-  Number(await getItem(STORAGE_KEYS.FADE_INTERVAL, 0));
+  Number(await getItem(StorageKeys.FADE_INTERVAL, 0));
 
-export const getABMapping = () => getItem(STORAGE_KEYS.ABREPEAT_MAPPING, {});
+export const getABMapping = () => getItem(StorageKeys.ABREPEAT_MAPPING, {});
 
 export const saveABMapping = (val: NoxStorage.ABDict) =>
-  saveItem(STORAGE_KEYS.ABREPEAT_MAPPING, val);
+  saveItem(StorageKeys.ABREPEAT_MAPPING, val);
 
 export const getR128GainMapping = (): Promise<NoxStorage.R128Dict> =>
-  getItem(STORAGE_KEYS.R128GAIN_MAPPING, {});
+  getItem(StorageKeys.R128GAIN_MAPPING, {});
 
 export const saveR128GainMapping = (val: NoxStorage.R128Dict) =>
-  saveItem(STORAGE_KEYS.R128GAIN_MAPPING, val);
+  saveItem(StorageKeys.R128GAIN_MAPPING, val);
 
 export const saveSettings = async (setting: NoxStorage.PlayerSettingDict) =>
-  saveItem(STORAGE_KEYS.PLAYER_SETTING_KEY, setting);
+  saveItem(StorageKeys.PLAYER_SETTING_KEY, setting);
 
 export const getSettings = async (): Promise<NoxStorage.PlayerSettingDict> => ({
   ...DEFAULT_SETTING,
-  ...((await getItem(STORAGE_KEYS.PLAYER_SETTING_KEY)) || {}),
+  ...((await getItem(StorageKeys.PLAYER_SETTING_KEY)) || {}),
 });
 
 /**
@@ -156,8 +156,8 @@ export const getPlayerSettingKey = async (
 
 const clearPlaylists = async () => {
   const playlists = (
-    await chrome.storage.local.get([STORAGE_KEYS.MY_FAV_LIST_KEY])
-  )[STORAGE_KEYS.MY_FAV_LIST_KEY];
+    await chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY])
+  )[StorageKeys.MY_FAV_LIST_KEY];
   chrome.storage.local.remove(playlists);
 };
 
@@ -173,10 +173,10 @@ export const importStorageRaw = async (content: Uint8Array) => {
       {},
     );
     const playlists: string[] =
-      JSON.parse(parsedContentDict[STORAGE_KEYS.MY_FAV_LIST_KEY]) || [];
+      JSON.parse(parsedContentDict[StorageKeys.MY_FAV_LIST_KEY]) || [];
     await clearPlaylists();
     await chrome.storage.local.set({
-      [STORAGE_KEYS.MY_FAV_LIST_KEY]: playlists,
+      [StorageKeys.MY_FAV_LIST_KEY]: playlists,
     });
     playlists.forEach((playlistID) => {
       const playlist = JSON.parse(parsedContentDict[playlistID]);
@@ -206,7 +206,7 @@ export const exportStorageRaw = async () => {
 };
 
 export const getLyricMapping = async () =>
-  new Map(await getItem(STORAGE_KEYS.LYRIC_MAPPING, []));
+  new Map(await getItem(StorageKeys.LYRIC_MAPPING, []));
 
 const getPlaylist = async (
   key: string,
@@ -223,34 +223,33 @@ export const initPlayerObject =
     const playerObject = {
       settings: {
         ...DEFAULT_SETTING,
-        ...(await getItem(STORAGE_KEYS.PLAYER_SETTING_KEY, {})),
+        ...(await getItem(StorageKeys.PLAYER_SETTING_KEY, {})),
       },
-      playlistIds: await getItem(STORAGE_KEYS.MY_FAV_LIST_KEY, []),
+      playlistIds: await getItem(StorageKeys.MY_FAV_LIST_KEY, []),
       playlists: {},
-      lastPlaylistId: await getItem(STORAGE_KEYS.LAST_PLAY_LIST, [
+      lastPlaylistId: await getItem(StorageKeys.LAST_PLAY_LIST, [
         'NULL',
         'NULL',
       ]),
       searchPlaylist: dummyPlaylist(
         'Search',
-        PLAYLIST_ENUMS.TYPE_SEARCH_PLAYLIST,
+        PlaylistTypes.TYPE_SEARCH_PLAYLIST,
       ),
-      favoriPlaylist: await getPlaylist(
-        STORAGE_KEYS.FAVORITE_PLAYLIST_KEY,
-        () => dummyPlaylist('Favorite', PLAYLIST_ENUMS.TYPE_FAVORI_PLAYLIST),
+      favoriPlaylist: await getPlaylist(StorageKeys.FAVORITE_PLAYLIST_KEY, () =>
+        dummyPlaylist('Favorite', PlaylistTypes.TYPE_FAVORI_PLAYLIST),
       ),
-      playbackMode: await getItem(STORAGE_KEYS.PLAYMODE_KEY, 'shufflePlay'),
-      skin: await getItem(STORAGE_KEYS.SKIN, {}),
+      playbackMode: await getItem(StorageKeys.PLAYMODE_KEY, 'shufflePlay'),
+      skin: await getItem(StorageKeys.SKIN, {}),
       skins: [],
-      cookies: await getItem(STORAGE_KEYS.COOKIES, {}),
+      cookies: await getItem(StorageKeys.COOKIES, {}),
       lyricMapping,
-      lastPlayDuration: await getItem(STORAGE_KEYS.LAST_PLAY_DURATION, 0),
+      lastPlayDuration: await getItem(StorageKeys.LAST_PLAY_DURATION, 0),
       colorScheme: [],
     } as NoxStorage.PlayerStorageObject;
 
-    playerObject.playlists[STORAGE_KEYS.SEARCH_PLAYLIST_KEY] =
+    playerObject.playlists[StorageKeys.SEARCH_PLAYLIST_KEY] =
       playerObject.searchPlaylist;
-    playerObject.playlists[STORAGE_KEYS.FAVORITE_PLAYLIST_KEY] =
+    playerObject.playlists[StorageKeys.FAVORITE_PLAYLIST_KEY] =
       playerObject.favoriPlaylist;
 
     await Promise.all(
