@@ -36,7 +36,7 @@ export default function thumbsUpButton({ song }: Props) {
   function ThumbsUpClickNHold() {
     const start = () => {};
     const clickNHold = () => sendBVTriple(song.bvid, () => setLiked(1));
-    const end = (e: any, enough: any) => {
+    const end = (_e: any, enough: any) => {
       if (enough) return;
       sendBVLike(song.bvid, () => setLiked(1));
     };

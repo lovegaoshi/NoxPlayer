@@ -62,7 +62,7 @@ const getAuth = async (
   );
 
 const loginDropbox = async (
-  callback = async (v?: string) => {},
+  callback = async (_v?: string) => {},
   errorCallback = console.error,
 ) => {
   try {

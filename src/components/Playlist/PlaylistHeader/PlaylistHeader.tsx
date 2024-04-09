@@ -46,7 +46,7 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
         </Grid>
         <Grid item xs={5} sx={styles.gridPlaylistSetting}>
           <PlaylistSelectButton usePlaylist={playlistPaginated} />
-          {playlist.type === PlaylistTypes.TYPE_TYPICA_PLAYLIST && (
+          {playlist.type === PlaylistTypes.Typical && (
             <FavSettingsButtons
               playlist={playlist}
               usePlaylist={playlistPaginated}

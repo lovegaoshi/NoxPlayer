@@ -106,7 +106,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   };
 
   const refreshPlaylist = async (subscribeUrls?: string[]) => {
-    if (playlist.type !== PlaylistTypes.TYPE_TYPICA_PLAYLIST) {
+    if (playlist.type !== PlaylistTypes.Typical) {
       return;
     }
     setRefreshing(true);
@@ -142,7 +142,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   useEffect(() => {
     if (
       playerSetting.autoRSSUpdate &&
-      playlist.type === PlaylistTypes.TYPE_TYPICA_PLAYLIST &&
+      playlist.type === PlaylistTypes.Typical &&
       playlist.subscribeUrl.length > 0 &&
       playlist.subscribeUrl[0]!.length > 0 &&
       new Date().getTime() - playlist.lastSubscribed > 86400000

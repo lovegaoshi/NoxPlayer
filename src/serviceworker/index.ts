@@ -131,6 +131,7 @@ chrome.runtime.onInstalled.addListener(async () => {
     const previousRuleIds = previousRules.map((rule) => rule.id);
     chrome.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: previousRuleIds,
+      // @ts-ignore
       addRules: rules,
     });
   });

@@ -17,8 +17,11 @@ export function ExportFavButton({ AddFavIcon }: SyncFavButtonProps) {
   // alls sync buttons are loaded/unloaded depending on the current sync setting;
   // thus they all must have exactly the same states for react to mount and unmount to another set.
   // even though they are not used.
+  // @ts-ignore
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // @ts-ignore
   const dummy = enqueueSnackbar;
+  // @ts-ignore
   const [loading, setLoading] = useState(false);
   return (
     <Tooltip title='导入歌单'>
@@ -33,8 +36,11 @@ export function ExportFavButton({ AddFavIcon }: SyncFavButtonProps) {
 }
 
 export function ImportFavButton({ AddFavIcon }: SyncFavButtonProps) {
+  // @ts-ignore
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  // @ts-ignore
   const dummy = enqueueSnackbar;
+  // @ts-ignore
   const [loading, setLoading] = useState(false);
   return (
     <Tooltip title='导出歌单'>

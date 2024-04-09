@@ -37,6 +37,7 @@ function ImportSyncFavButton({
   login,
   sx,
 }: ImportPropsR) {
+  // @ts-ignore
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -86,6 +87,7 @@ function ImportSyncFavButton({
 }
 
 function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
+  // @ts-ignore
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 

@@ -6,10 +6,7 @@ export const parseSongList = (
   favList: NoxMedia.Playlist,
   loadPlaylistAsArtist = false,
 ) => {
-  if (
-    favList.type !== PlaylistTypes.TYPE_SEARCH_PLAYLIST &&
-    loadPlaylistAsArtist
-  ) {
+  if (favList.type !== PlaylistTypes.Search && loadPlaylistAsArtist) {
     return favList.songList.map((song) => ({
       ...song,
       singer: favList.title,

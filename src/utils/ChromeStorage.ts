@@ -231,12 +231,9 @@ export const initPlayerObject =
         'NULL',
         'NULL',
       ]),
-      searchPlaylist: dummyPlaylist(
-        'Search',
-        PlaylistTypes.TYPE_SEARCH_PLAYLIST,
-      ),
+      searchPlaylist: dummyPlaylist('Search', PlaylistTypes.Typical),
       favoriPlaylist: await getPlaylist(StorageKeys.FAVORITE_PLAYLIST_KEY, () =>
-        dummyPlaylist('Favorite', PlaylistTypes.TYPE_FAVORI_PLAYLIST),
+        dummyPlaylist('Favorite', PlaylistTypes.Favorite),
       ),
       playbackMode: await getItem(StorageKeys.PLAYMODE_KEY, 'shufflePlay'),
       skin: await getItem(StorageKeys.SKIN, {}),
