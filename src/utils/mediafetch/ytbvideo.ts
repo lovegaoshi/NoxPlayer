@@ -75,7 +75,7 @@ const fetchAudioInfoRaw = async (sid: string) => {
           ? Math.floor(validDurations[0]!.duration_ms / 1000)
           : 0,
       album: videoDetails.title,
-      Source: Source.ytbvideo,
+      source: Source.ytbvideo,
       metadataOnLoad: true,
     }),
   ];

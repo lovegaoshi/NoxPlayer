@@ -1,14 +1,14 @@
 import {
-  DEFAULT_SETTING as DEFAULT_SETTING_BASE,
-  EXPORT_OPTIONS,
+  DefaultSetting as _DefaultSetting,
+  SyncOptions,
 } from '@APM/enums/Storage';
 
-export { EXPORT_OPTIONS } from '@APM/enums/Storage';
+export { SyncOptions } from '@APM/enums/Storage';
 
 export const INITIAL_PLAYLIST = ['5053504', '2664851'];
 
-export const DEFAULT_SETTING: NoxStorage.PlayerSettingDict = {
-  ...DEFAULT_SETTING_BASE,
+export const DefaultSetting: NoxStorage.PlayerSettingDict = {
+  ..._DefaultSetting,
 
   playMode: 'shufflePlay',
   defaultPlayMode: 'shufflePlay',
@@ -17,7 +17,7 @@ export const DEFAULT_SETTING: NoxStorage.PlayerSettingDict = {
   skin: '诺莺nox',
   parseSongName: false,
   keepSearchedSongListWhenPlaying: false,
-  settingExportLocation: EXPORT_OPTIONS.LOCAL,
+  settingExportLocation: SyncOptions.LOCAL,
   personalCloudIP: '',
   noxVersion: chrome.runtime.getManifest().version,
   hideCoverInMobile: false,

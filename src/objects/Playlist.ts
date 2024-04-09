@@ -1,4 +1,4 @@
-import { PLAYLIST_ENUMS } from '@APM/enums/Playlist';
+import { PlaylistTypes } from '@APM/enums/Playlist';
 
 export * from '@APM/objects/Playlist';
 
@@ -7,7 +7,7 @@ export const parseSongList = (
   loadPlaylistAsArtist = false,
 ) => {
   if (
-    favList.type !== PLAYLIST_ENUMS.TYPE_SEARCH_PLAYLIST &&
+    favList.type !== PlaylistTypes.TYPE_SEARCH_PLAYLIST &&
     loadPlaylistAsArtist
   ) {
     return favList.songList.map((song) => ({

@@ -1,15 +1,15 @@
 import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
 
-import { StorageKeys, SEARCH_OPTIONS } from '@enums/Storage';
+import { StorageKeys, SearchOptions } from '@enums/Storage';
 import { logger } from '@utils/Logger';
 import { PlaylistTypes } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
-import { DEFAULT_SETTING } from '@objects/Storage';
+import { DefaultSetting } from '@objects/Storage';
 import rejson from '@APM/utils/rejson.json';
 
 export const getMusicFreePlugin = (): string[] => [];
 
-export const saveDefaultSearch = (val: SEARCH_OPTIONS) =>
+export const saveDefaultSearch = (val: SearchOptions) =>
   saveItem(StorageKeys.DEFAULT_SEARCH, val);
 
 const removeItem = (key: string) => chrome.storage.local.remove(key);
@@ -77,7 +77,7 @@ export const saveSettings = async (setting: NoxStorage.PlayerSettingDict) =>
   saveItem(StorageKeys.PLAYER_SETTING_KEY, setting);
 
 export const getSettings = async (): Promise<NoxStorage.PlayerSettingDict> => ({
-  ...DEFAULT_SETTING,
+  ...DefaultSetting,
   ...((await getItem(StorageKeys.PLAYER_SETTING_KEY)) || {}),
 });
 
@@ -151,7 +151,7 @@ export const getPlayerSettingKey = async (
   if (settings.hasOwnProperty(key)) {
     return settings[key];
   }
-  return DEFAULT_SETTING[key];
+  return DefaultSetting[key];
 };
 
 const clearPlaylists = async () => {
@@ -222,7 +222,7 @@ export const initPlayerObject =
     const lyricMapping = (await getLyricMapping()) || {};
     const playerObject = {
       settings: {
-        ...DEFAULT_SETTING,
+        ...DefaultSetting,
         ...(await getItem(StorageKeys.PLAYER_SETTING_KEY, {})),
       },
       playlistIds: await getItem(StorageKeys.MY_FAV_LIST_KEY, []),

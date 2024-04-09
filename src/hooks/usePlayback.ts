@@ -47,7 +47,7 @@ export default () => {
   ) => {
     if (
       !playerSettingStore.getState().playerSetting.r128gain ||
-      [Source.biliLive].includes(song.Source)
+      [Source.biliLive].includes(song.source)
     ) {
       return;
     }

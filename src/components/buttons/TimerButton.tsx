@@ -5,7 +5,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import Button from '@mui/material/Button';
 import TimerDialog from '../dialogs/TimerDialog';
 
-interface props {
+interface Props {
   AddFavIcon: Object | undefined;
   btnType: string;
 }
@@ -18,7 +18,7 @@ interface props {
 export default function TimerButton({
   AddFavIcon = undefined,
   btnType = 'IconButton',
-}: props) {
+}: Props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   const buttonType = (type: string) => {
