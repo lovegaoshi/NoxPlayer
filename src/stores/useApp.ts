@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { ReactJkMusicPlayerInstance } from 'react-jinke-music-player';
+
 import { skins } from '@styles/skin';
 import { Skin } from '@styles/skins/template';
 
@@ -14,8 +16,8 @@ interface RJKMAudio extends NoxMedia.Song {
 interface NoxApp {
   currentAudio?: RJKMAudio;
   setCurrentAudio: (a: RJKMAudio) => void;
-  currentAudioInst?: any;
-  setCurrentAudioInst: (a: any) => void;
+  currentAudioInst?: ReactJkMusicPlayerInstance;
+  setCurrentAudioInst: (a: ReactJkMusicPlayerInstance) => void;
   // This is here instead of being replaced by currentPlayingList,
   // bc react-music-player needs it...
   playingList: NoxMedia.Song[];

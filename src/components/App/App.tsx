@@ -40,7 +40,7 @@ export default function Player({ songList }: Props) {
   const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
 
   useHotkeys('space', () => {
-    if (currentAudioInst === null) return;
+    if (!currentAudioInst) return;
     // i have no idea why currentAudioInst doesnt have play(), but this works
     // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
     // listening to pause/play audio at a global level.

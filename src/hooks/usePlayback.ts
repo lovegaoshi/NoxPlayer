@@ -51,6 +51,7 @@ export default () => {
     ) {
       return;
     }
+    if (!currentAudioInst) return;
     currentAudioInst.volume = 1;
     setTimeout(async () => {
       // HACK: delay r128gain's fetch so it doesnt block playback!
@@ -61,6 +62,9 @@ export default () => {
   const musicSrcParser = async (v: NoxMedia.Song) => {
     try {
       const resolvedUrl = await fetchPlayUrlPromise(v);
+      if (false) {
+        return currentAudioInst?.playNext?.();
+      }
       parseR128Gain(v, async () => resolvedUrl);
       return resolvedUrl.url;
     } catch (e) {
@@ -115,7 +119,7 @@ export default () => {
       playingList.length === favList.songList.length &&
       existingIndex !== -1
     ) {
-      currentAudioInst.playByIndex(existingIndex);
+      currentAudioInst?.playByIndex?.(existingIndex);
       return;
     }
     setCurrentPlayingList(favList);
@@ -184,7 +188,7 @@ export default () => {
         const href = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = href; // a.mp3
-        link.download = `${currentAudioInst.title}.mp3`;
+        link.download = `${currentAudioInst?.title}.mp3`;
         document.body.appendChild(link);
         link.click();
       })
@@ -219,7 +223,7 @@ export default () => {
     console.error('audio error', errMsg, audioInfo);
     setTimeout(() => {
       // console.debug('retrying...');
-      currentAudioInst.playByIndex(1, true);
+      currentAudioInst?.playByIndex?.(1);
     }, 3000);
   };
 
