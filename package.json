@@ -78,6 +78,7 @@
     "@mui/material": "^5.15.15",
     "@mui/styles": "^5.15.15",
     "axios": "^1.6.8",
+    "base-64": "^1.0.0",
     "base64-js": "^1.5.1",
     "big-integer": "^1.6.52",
     "bottleneck": "^2.19.5",
