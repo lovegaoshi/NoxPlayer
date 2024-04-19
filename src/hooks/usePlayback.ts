@@ -7,6 +7,7 @@ import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
+import { Source } from '@enums/MediaFetch';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
@@ -44,9 +45,13 @@ export default () => {
     song: NoxMedia.Song,
     getSource: () => Promise<NoxNetwork.ParsedNoxMediaURL>,
   ) => {
-    if (!playerSettingStore.getState().playerSetting.r128gain) {
+    if (
+      !playerSettingStore.getState().playerSetting.r128gain ||
+      [Source.biliLive].includes(song.source)
+    ) {
       return;
     }
+    if (!currentAudioInst) return;
     currentAudioInst.volume = 1;
     setTimeout(async () => {
       // HACK: delay r128gain's fetch so it doesnt block playback!
@@ -55,9 +60,18 @@ export default () => {
   };
 
   const musicSrcParser = async (v: NoxMedia.Song) => {
-    const resolvedUrl = await fetchPlayUrlPromise(v);
-    parseR128Gain(v, async () => resolvedUrl);
-    return resolvedUrl.url;
+    try {
+      const resolvedUrl = await fetchPlayUrlPromise(v);
+      if (false) {
+        return currentAudioInst?.playNext?.();
+      }
+      parseR128Gain(v, async () => resolvedUrl);
+      return resolvedUrl.url;
+    } catch (e) {
+      console.error(`[resolveURL] failed to resolve ${v}: ${e}`);
+      // throw e;
+      return 'FAILED_TO_RESOLVE';
+    }
   };
 
   interface UpdateCurrentAudioListProps {
@@ -105,7 +119,7 @@ export default () => {
       playingList.length === favList.songList.length &&
       existingIndex !== -1
     ) {
-      currentAudioInst.playByIndex(existingIndex);
+      currentAudioInst?.playByIndex?.(existingIndex);
       return;
     }
     setCurrentPlayingList(favList);
@@ -174,7 +188,7 @@ export default () => {
         const href = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = href; // a.mp3
-        link.download = `${currentAudioInst.title}.mp3`;
+        link.download = `${currentAudioInst?.title}.mp3`;
         document.body.appendChild(link);
         link.click();
       })
@@ -208,9 +222,9 @@ export default () => {
   ) => {
     console.error('audio error', errMsg, audioInfo);
     setTimeout(() => {
-      console.debug('retrying...');
-      currentAudioInst.playByIndex(1, true);
-    }, 1000);
+      // console.debug('retrying...');
+      currentAudioInst?.playByIndex?.(1);
+    }, 3000);
   };
 
   const initPlayer = async (

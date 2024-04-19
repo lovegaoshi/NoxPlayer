@@ -47,6 +47,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
   const { onPlayAllFromFav } = usePlayback();
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
 
+  // @ts-ignore
   const _ = useNoxSetting((state) => state.playlistShouldReRender);
   const {
     playlists,
@@ -100,7 +101,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         )}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='droppable'>
-            {(provided, snapshot) => (
+            {(provided, _snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {playlistIds.map((item, index) => (
                   <Draggable

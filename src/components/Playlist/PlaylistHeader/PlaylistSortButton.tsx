@@ -7,11 +7,11 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 
 import GenericSelectDialog from '@components/dialogs/GenericSelectDialog';
-import { SORT_OPTIONS } from '@enums/Playlist';
+import { SortOptions } from '@enums/Playlist';
 
 interface Props {
   sortPlaylist: (
-    sort: SORT_OPTIONS,
+    sort: SortOptions,
     ascend: boolean,
     playlist: NoxMedia.Playlist,
   ) => void;
@@ -21,9 +21,9 @@ interface Props {
 export default function ({ sortPlaylist, playlist }: Props) {
   const [showDialog, setShowDialog] = React.useState(false);
   const [ascending, setAscending] = React.useState(false);
-  const sortOptions = Object.values(SORT_OPTIONS);
+  const sortOptions = Object.values(SortOptions);
 
-  const handleSort = (sortOption: SORT_OPTIONS) => {
+  const handleSort = (sortOption: SortOptions) => {
     sortPlaylist(sortOption, ascending, playlist);
   };
 

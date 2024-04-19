@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -15,10 +15,6 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
-
-const theme = {
-  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-};
 
 interface Props {
   showLyric: boolean;

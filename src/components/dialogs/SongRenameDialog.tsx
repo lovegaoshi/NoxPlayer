@@ -9,10 +9,9 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import getBiliUser from '@APM/utils/Bilibili/BiliUser';
-import { getPlayerSettingKey } from '@utils/ChromeStorage';
 import { editBiliVideo } from '@utils/Bilibili/biliEdit';
 
-interface props {
+interface Props {
   openState: boolean;
   song?: NoxMedia.Song;
   onClose: () => void;
@@ -24,7 +23,7 @@ export default function songRenameDialog({
   song,
   onClose,
   updateSong,
-}: props) {
+}: Props) {
   const [songBVID, setSongBVID] = useState('');
   const [songBVIndex, setSongBVIndex] = useState('');
   const [songName, setSongName] = useState('');

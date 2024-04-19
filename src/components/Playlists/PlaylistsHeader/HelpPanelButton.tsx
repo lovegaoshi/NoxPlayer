@@ -5,7 +5,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { SxProps } from '@mui/material';
 import Dialog from './HelpDialog';
 
-interface props {
+interface Props {
   sx: SxProps;
   onClosedDialogFunc?: Function;
 }
@@ -13,7 +13,7 @@ interface props {
 export default function helpPanelButton({
   sx,
   onClosedDialogFunc = () => {},
-}: props) {
+}: Props) {
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);
 
   return (

@@ -7,7 +7,7 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
 import textToDialogContent from '@components/dialogs/DialogContent';
-import { updateSubscribeFavList as updateSubscribeFavListRaw } from '@APM/utils/BiliSubscribe';
+import { updateSubscribeFavList as _updateSubscribeFavList } from '@APM/utils/BiliSubscribe';
 import { reorder } from '@APM/utils/Utils';
 
 interface UpdateSubscribeFavListProps {
@@ -124,14 +124,14 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
     subscribeUrls,
   }: UpdateSubscribeFavListProps) => {
     const oldListLength = playlist.songList.length;
-    const newList: NoxMedia.Playlist = await updateSubscribeFavListRaw({
+    const newList = await _updateSubscribeFavList({
       playlist,
       subscribeUrls,
       updatePlaylist,
     });
     // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
     // to have a change in list size.
-    if (oldListLength !== newList.songList.length) {
+    if (oldListLength !== newList?.songList?.length) {
       setSelectedList(playlists[playlist.id]!);
     }
     return newList;

@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '@enums/Storage';
+import { StorageKeys } from '@enums/Storage';
 
 export default async function update3000() {
   console.debug('3.0.0.0 update; migrate to APMs playlist data structure.');
@@ -32,8 +32,8 @@ export default async function update3000() {
   biliSync: boolean;
   newSongOverwrite?: boolean;
    */
-  chrome.storage.local.get([STORAGE_KEYS.MY_FAV_LIST_KEY], (result1) => {
-    const favlistIds: string[] = result1[STORAGE_KEYS.MY_FAV_LIST_KEY];
+  chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY], (result1) => {
+    const favlistIds: string[] = result1[StorageKeys.MY_FAV_LIST_KEY];
     if (favlistIds === undefined) return;
     chrome.storage.local.get(favlistIds, (result) => {
       favlistIds.forEach((id) => {

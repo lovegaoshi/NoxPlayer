@@ -1,4 +1,4 @@
-import { PLAYLIST_ENUMS } from '@APM/enums/Playlist';
+import { PlaylistTypes } from '@APM/enums/Playlist';
 
 export * from '@APM/objects/Playlist';
 
@@ -6,10 +6,7 @@ export const parseSongList = (
   favList: NoxMedia.Playlist,
   loadPlaylistAsArtist = false,
 ) => {
-  if (
-    favList.type !== PLAYLIST_ENUMS.TYPE_SEARCH_PLAYLIST &&
-    loadPlaylistAsArtist
-  ) {
+  if (favList.type !== PlaylistTypes.Search && loadPlaylistAsArtist) {
     return favList.songList.map((song) => ({
       ...song,
       singer: favList.title,

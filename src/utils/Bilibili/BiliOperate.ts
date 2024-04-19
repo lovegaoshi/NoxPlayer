@@ -1,4 +1,4 @@
-import { bvidToAid } from '@APM/utils/bvid';
+import { BVIDtoAID } from '@APM/utils/mediafetch/bilivideo';
 
 const BILI_LIKE_API = 'https://api.bilibili.com/x/web-interface/archive/like';
 const BILI_TRIP_API =
@@ -107,7 +107,7 @@ export const sendBVFavorite = async (
       },
       referrer: `https://www.bilibili.com/video/${bvid}/`,
       body: new URLSearchParams({
-        rid: String(bvidToAid(bvid)),
+        rid: await BVIDtoAID(bvid),
         add_media_ids: addfav.join(','),
         del_media_ids: removefav.join(','),
         csrf: (biliject?.value as string) || '',

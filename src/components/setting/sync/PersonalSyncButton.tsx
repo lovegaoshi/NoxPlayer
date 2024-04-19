@@ -20,6 +20,7 @@ export function ImportSyncFavButton({
   cloudAddress = '',
 }: SyncFavButtonProps) {
   const { initializeFromSync } = useInitializeStore();
+  // @ts-ignore
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -68,6 +69,7 @@ export function ExportSyncFavButton({
   AddFavIcon,
   cloudAddress = '',
 }: SyncFavButtonProps) {
+  // @ts-ignore
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 

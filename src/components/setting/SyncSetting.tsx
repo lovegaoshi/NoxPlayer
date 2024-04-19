@@ -6,7 +6,7 @@ import { useStore } from 'zustand';
 
 import useApp from '@stores/useApp';
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import { EXPORT_OPTIONS } from '@objects/Storage';
+import { SyncOptions } from '@objects/Storage';
 import useInitializeStore from '@stores/useInitializeStore';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,
@@ -42,7 +42,7 @@ function SyncSetttingButtons() {
   };
 
   switch (playerSettings.settingExportLocation) {
-    case EXPORT_OPTIONS.DROPBOX:
+    case SyncOptions.DROPBOX:
       return (
         <DropboxSyncButton
           sx={AddFavIcon}
@@ -51,7 +51,7 @@ function SyncSetttingButtons() {
           }}
         />
       );
-    case EXPORT_OPTIONS.GITEE:
+    case SyncOptions.GITEE:
       return (
         <GiteeSyncButton
           sx={AddFavIcon}
@@ -60,7 +60,7 @@ function SyncSetttingButtons() {
           }}
         />
       );
-    case EXPORT_OPTIONS.PERSONAL:
+    case SyncOptions.PERSONAL:
       return (
         <React.Fragment>
           <PersonalExportSyncFavButton
@@ -109,12 +109,12 @@ export default function SyncSetting() {
         select
         onChange={(e) =>
           setPlayerSettings({
-            settingExportLocation: e.target.value as EXPORT_OPTIONS,
+            settingExportLocation: e.target.value as SyncOptions,
           })
         }
         style={{ minWidth: 100 }}
       >
-        {Object.values(EXPORT_OPTIONS).map((v, i) => {
+        {Object.values(SyncOptions).map((v, i) => {
           return (
             <MenuItem key={i} value={v}>
               {v}

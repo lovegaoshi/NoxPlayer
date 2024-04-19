@@ -4,7 +4,7 @@ import { get_song } from 'libmuse';
 import { regexFetchProps } from '@APM/utils/mediafetch/generic';
 import { biliApiLimiter } from '@APM/utils/mediafetch/throttle';
 import SongTS from '@objects/Song';
-import { SOURCE } from '@enums/MediaFetch';
+import { Source } from '@enums/MediaFetch';
 
 import ytbvideoFetch from '@APM/utils/mediafetch/ytbvideo';
 
@@ -75,7 +75,7 @@ const fetchAudioInfoRaw = async (sid: string) => {
           ? Math.floor(validDurations[0]!.duration_ms / 1000)
           : 0,
       album: videoDetails.title,
-      source: SOURCE.ytbvideo,
+      source: Source.ytbvideo,
       metadataOnLoad: true,
     }),
   ];

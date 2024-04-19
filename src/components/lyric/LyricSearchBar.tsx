@@ -8,7 +8,7 @@ import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
 interface Props {
   SearchKey: string;
   songId: string;
-  setLyric: (v: any) => void;
+  setLyric: (v: string) => void;
   setLyricOffset: (v: number) => void;
 }
 export default function LyricSearchBar({
@@ -62,7 +62,7 @@ export default function LyricSearchBar({
   const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
     if (newValue === undefined) return;
     setValue(newValue);
-    searchLyric(newValue.songMid, setLyric);
+    searchLyric(newValue.songMid).then(setLyric);
     setLyricMapping({
       songId,
       lyricKey: newValue.key,
