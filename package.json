@@ -119,5 +119,6 @@
     "uuid": "^9.0.0",
     "ytdl-core": "git+https://lovegaoshi@github.com/lovegaoshi/node-ytdl-core.git",
     "zustand": "^4.5.2"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
