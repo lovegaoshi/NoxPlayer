@@ -10329,7 +10329,7 @@ __metadata:
 
 "react-jinke-music-player@file:../react-music-player::locator=nox-player%40workspace%3A.":
   version: 4.24.2
-  resolution: "react-jinke-music-player@file:../react-music-player#../react-music-player::hash=70d8ba&locator=nox-player%40workspace%3A."
+  resolution: "react-jinke-music-player@file:../react-music-player#../react-music-player::hash=c7a992&locator=nox-player%40workspace%3A."
   dependencies:
     "@emotion/css": "npm:^11.10.5"
     "@react-icons/all-files": "npm:^4.1.0"
@@ -10346,7 +10346,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10c0/2405e3e8bf23b33ec034b9023156bef94dad09b08766159bc2dda16389b28b4e6d11f6d8d6ed158bd33596354a2633a026482015503730088d3dde373dc28da1
+  checksum: 10c0/2cf606203058411d3d9cff2f349793cc9e5398c6515c594b6a2c3b4a0fc0005d79e37581e25755ff0a646e239f108a0c16893cc6e041962b256c08dc28bb916e
   languageName: node
   linkType: hard
 

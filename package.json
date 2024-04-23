@@ -8,8 +8,7 @@
   "scripts": {
     "start": "webpack serve --env dev",
     "watch": "webpack --env devBuild --watch",
-    "dev": "mv build/js/ffmpeg-core.worker.js ffmpeg-core.worker.js && mv build/js/ffmpeg-core.js ffmpeg-core.js && mv build/js/ffmpeg-core.wasm ffmpeg-core.wasm && webpack --env devBuild && mv ffmpeg-core.js build/js/ffmpeg-core.js && mv ffmpeg-core.wasm build/js/ffmpeg-core.wasm && mv ffmpeg-core.worker.js build/js/ffmpeg-core.worker.js",
-    "devw": "move build\\js\\ffmpeg-core.worker.js ffmpeg-core.worker.js && move build\\js\\ffmpeg-core.js ffmpeg-core.js && move build\\js\\ffmpeg-core.wasm ffmpeg-core.wasm && webpack --env devBuild && move ffmpeg-core.js build\\js\\ffmpeg-core.js && move ffmpeg-core.wasm build\\js\\ffmpeg-core.wasm && move ffmpeg-core.worker.js build\\js\\ffmpeg-core.worker.js",
+    "dev": "python ./scripts/moveFFMpeg.py && webpack --env devBuild && python ./scripts/moveFFMpeg.py --build",
     "build": "webpack --env prod && cp node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.js build/js/ffmpeg-core.js && cp node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.wasm build/js/ffmpeg-core.wasm && cp node_modules/@ffmpeg/core-mt/dist/umd/ffmpeg-core.worker.js build/js/ffmpeg-core.worker.js",
     "dep": "git submodule update --remote --merge --recursive",
     "compile": "tsc"
