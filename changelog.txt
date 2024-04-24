@@ -5,6 +5,12 @@
 
 一切因为使用电闹播放器导致您账号被风控封禁的问题，电闹播放器恕不负责。
 
+3.1.2:
+蛙吹皮肤
+
+3.1.1:
+修复b站收藏夹同步问题
+
 3.1.0:
 fixed youtube playback
 responsive skin selection other than the RJKM banner
