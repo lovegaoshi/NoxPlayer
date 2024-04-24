@@ -16,6 +16,7 @@ import NoirTheme from './skins/noir';
 import RyniaTheme from './skins/rynia';
 import NiyaTheme from './skins/nyiaibu';
 import LumiTheme from './skins/lumi';
+import KeroroTheme from './skins/keroro';
 
 // needs to enable top-level await; necessary for other modules to import current skin config
 const setting = await getPlayerSetting();
@@ -37,6 +38,7 @@ export const SkinKeys = [
   '莱妮娅Rynia',
   '阿布',
   '露米Lumi',
+  '蛙吹Keroro',
 ];
 
 export const skins = (key = setting.skin) => {
@@ -83,6 +85,8 @@ export const skins = (key = setting.skin) => {
         return NiyaTheme();
       case '露米Lumi':
         return LumiTheme();
+      case '蛙吹Keroro':
+        return KeroroTheme();
       default:
         // default is azusa skin.
         return AzusaTheme();
