@@ -27,6 +27,9 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
+      - name: Setup Yarn
+        uses: threeal/setup-yarn-action@v2.0.0
+
       - name: Get current date
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT

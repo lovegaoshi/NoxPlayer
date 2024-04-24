@@ -8,7 +8,7 @@ import { Source } from '@enums/MediaFetch';
 
 import ytbvideoFetch from '@APM/utils/mediafetch/ytbvideo';
 
-const CIDPREFIX = 'youtube-';
+const CIDPREFIX = `${Source.ytbvideo}-`;
 
 const resolveURL = async (song: NoxMedia.Song) => {
   const extractedVideoInfo = await get_song(song.bvid);
@@ -86,6 +86,7 @@ export default {
   resolveURL,
   regexFetch,
   regexResolveURLMatch: /^youtube-/,
+  regexResolveURLMatch2: /^ytbvideo-/,
   refreshSong,
   suggest: () => [],
   export2URL: ytbvideoFetch.export2URL,
