@@ -26,12 +26,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: get custom react music player
-        run: git clone https://github.com/lovegaoshi/react-music-player.git ../react-music-player
-
-      - name: build rjmp
-        run: cd ../react-music-player && yarn && yarn build
-
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@v2.0.0
 

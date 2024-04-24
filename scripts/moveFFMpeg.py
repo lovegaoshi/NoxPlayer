@@ -10,6 +10,9 @@ if __name__ == '__main__':
         shutil.move('ffmpeg-core.wasm', 'build/js/ffmpeg-core.wasm')
         shutil.move('ffmpeg-core.worker.js', 'build/js/ffmpeg-core.worker.js')
     else:
-        shutil.move('build/js/ffmpeg-core.js', 'ffmpeg-core.js')
-        shutil.move('build/js/ffmpeg-core.wasm', 'ffmpeg-core.wasm')
-        shutil.move('build/js/ffmpeg-core.worker.js', 'ffmpeg-core.worker.js')
+        try:
+            shutil.move('build/js/ffmpeg-core.js', 'ffmpeg-core.js')
+            shutil.move('build/js/ffmpeg-core.wasm', 'ffmpeg-core.wasm')
+            shutil.move('build/js/ffmpeg-core.worker.js', 'ffmpeg-core.worker.js')
+        except:
+            pass
