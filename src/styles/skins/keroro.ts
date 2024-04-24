@@ -229,7 +229,7 @@ export default () =>
     reactJKPlayerTheme: {
       sliderColor: '#BEDBED',
     },
-    maintainer: '-哆啦A林-@bilibili',
-    maintainerTooltip: '给你一拳',
-    maintinerURL: 'https://live.bilibili.com/28861834',
+    maintainer: '呱呱',
+    maintainerTooltip: '呱呱',
+    maintinerURL: 'https://live.bilibili.com/22344968',
   });
