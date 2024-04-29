@@ -7,6 +7,10 @@
 -->
 <br>
 
+<p align="center">
+  <a href="https://microsoftedge.microsoft.com/addons/detail/%E7%94%B5%E9%97%B9%E6%92%AD%E6%94%BE%E5%99%A8/jlhdkgcfcdabihmdkhdjlcppdlnlfogp">安装链接</a>
+</p>
+
 <p align="center"><a href="https://github.com/kenmingwang/azusa-player"><img width="200" src="https://github.com/kenmingwang/azusa-player/blob/master/public/img/logo2-01.png?raw=true"></a></p>
 
 <p align="center">
