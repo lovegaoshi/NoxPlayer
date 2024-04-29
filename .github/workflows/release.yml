@@ -59,20 +59,30 @@ jobs:
       - name: zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r build.zip build
+          args: zip -qq -r NoxPlayer.zip build
+
+      - name: pack crx
+        uses: cardinalby/webext-buildtools-chrome-crx-action@v2
+        with:
+          # zip file made at the packExtensionDir step
+          zipFilePath: 'NoxPlayer.zip'
+          crxFilePath: 'NoxPlayer.crx'
+          privateKey: ${{ secrets.PEM_KEY }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           name: 'Unpacked ${{env.COMMIT_TAG}}'
-          files: build.zip
+          files: |
+            NoxPlayer.zip
+            NoxPlayer.crx
           generate_release_notes: true
 
       - name: Edge Publish
         uses: wdzeng/edge-addon@v1
         with:
           product-id: ${{ secrets.EDGE_PRODUCT_ID }}
-          zip-path: build.zip
+          zip-path: NoxPlayer.zip
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
           client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
           access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}

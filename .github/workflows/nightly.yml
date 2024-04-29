@@ -72,11 +72,21 @@ jobs:
       - name: zip
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r build.zip build
+          args: zip -qq -r NoxPlayer.zip build
+
+      - name: pack crx
+        uses: cardinalby/webext-buildtools-chrome-crx-action@v2
+        with:
+          # zip file made at the packExtensionDir step
+          zipFilePath: 'NoxPlayer.zip'
+          crxFilePath: 'NoxPlayer.crx'
+          privateKey: ${{ secrets.PEM_KEY }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: nightly-${{ steps.date.outputs.date }}
-          files: build.zip
+          files: |
+            NoxPlayer.zip
+            NoxPlayer.crx
           prerelease: true
