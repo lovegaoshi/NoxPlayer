@@ -36,7 +36,7 @@ export const MENU_ID = 'favmenu';
  * @returns
  */
 
-export default function App({ theme }) {
+export default function App({ theme = 'light' }) {
   const playlistCRUD = usePlaylistCRUD();
 
   // 🔥 you can use this hook from everywhere. All you need is the menu id
@@ -127,7 +127,3 @@ export default function App({ theme }) {
     </div>
   );
 }
-
-App.defaultProps = {
-  theme: 'light',
-};
