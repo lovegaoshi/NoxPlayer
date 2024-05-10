@@ -13,3 +13,5 @@ export const getBiliCookie = async (name = 'bili_jct') =>
 export const getBiliJct = () => getBiliCookie('bili_jct');
 
 export const getBiliSESS = () => getBiliCookie('SESSDATA');
+
+export const cookieHeader = () => undefined;

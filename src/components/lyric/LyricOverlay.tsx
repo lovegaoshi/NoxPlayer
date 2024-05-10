@@ -17,19 +17,15 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface Props {
+  currentAudio: NoxMedia.Song;
   showLyric: boolean;
   currentTime: number;
-  audioName: string;
-  audioId: string;
-  audioCover: string;
   closeLyric?: () => void;
 }
 export default function LyricOverlay({
+  currentAudio,
   showLyric,
   currentTime,
-  audioName,
-  audioId,
-  audioCover,
   closeLyric = () => {},
 }: Props) {
   return (
@@ -42,7 +38,7 @@ export default function LyricOverlay({
         TransitionComponent={Transition}
         PaperProps={{
           style: {
-            backgroundImage: `url(${audioCover})`,
+            backgroundImage: `url(${currentAudio?.cover})`,
             backgroundSize: 'cover',
             boxShadow: 'none',
           },
@@ -64,12 +60,7 @@ export default function LyricOverlay({
           >
             <KeyboardArrowDownIcon />
           </IconButton>
-          <Lyric
-            currentTime={currentTime}
-            audioName={audioName}
-            audioId={audioId}
-            audioCover={audioCover}
-          />
+          <Lyric currentTime={currentTime} currentAudio={currentAudio} />
         </div>
       </Dialog>
     </div>

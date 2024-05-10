@@ -4,16 +4,17 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
+import { LrcSource } from '@enums/LyricFetch';
 
 interface Props {
-  SearchKey: string;
-  songId: string;
+  searchKey: string;
+  currentAudio: NoxMedia.Song;
   setLyric: (v: string) => void;
   setLyricOffset: (v: number) => void;
 }
 export default function LyricSearchBar({
-  SearchKey,
-  songId,
+  searchKey,
+  currentAudio,
   setLyric,
   setLyricOffset,
 }: Props) {
@@ -29,16 +30,25 @@ export default function LyricSearchBar({
   // Initializes options
   useEffect(() => {
     (async () => {
-      setOptions(await searchLyricOptions(SearchKey));
+      if (searchKey === '') return;
+      const resolvedOptions = await Promise.all([
+        searchLyricOptions({ searchKey }),
+        searchLyricOptions({
+          searchKey,
+          source: LrcSource.BiliBili,
+          song: currentAudio,
+        }),
+      ]);
+      setOptions(resolvedOptions.flat());
     })();
-  }, [SearchKey]);
+  }, [searchKey]);
 
   useEffect(() => {
     if (options.length === 0) {
       return;
     }
     function initLyric() {
-      const detail = lyricMapping.get(songId);
+      const detail = lyricMapping.get(currentAudio.id);
       if (undefined !== detail) {
         setLyricOffset(detail.lyricOffset);
         const index = options.findIndex((v) => v.songMid === detail.lyricKey);
@@ -62,9 +72,9 @@ export default function LyricSearchBar({
   const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
     if (newValue === undefined) return;
     setValue(newValue);
-    searchLyric(newValue.songMid).then(setLyric);
+    searchLyric(newValue.songMid, newValue.source).then(setLyric);
     setLyricMapping({
-      songId,
+      songId: currentAudio.id,
       lyricKey: newValue.key,
     });
   };

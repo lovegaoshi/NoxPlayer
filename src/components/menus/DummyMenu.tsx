@@ -11,7 +11,7 @@ const MENU_ID = 'favlistmenu';
  * debug
  * @returns
  */
-export default function App({ theme }) {
+export default function App({ theme = 'light' }) {
   // 🔥 you can use this hook from everywhere. All you need is the menu id
   const { show } = useContextMenu({
     id: MENU_ID,
@@ -38,7 +38,3 @@ export default function App({ theme }) {
     </div>
   );
 }
-
-App.defaultProps = {
-  theme: 'light',
-};

@@ -167,7 +167,3 @@ export default function App({ theme = 'light' }) {
     </div>
   );
 }
-
-App.defaultProps = {
-  theme: 'light',
-};
