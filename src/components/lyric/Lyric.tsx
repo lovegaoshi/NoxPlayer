@@ -96,37 +96,10 @@ export default withStyles(styles)((props: Props) => {
   const className = ScrollBar().root;
 
   return (
-    <Grid
-      container
-      spacing={1}
-      sx={{ maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' }}
-    >
-      <Grid
-        sx={{
-          align: 'center',
-          alignItems: 'center',
-          paddingBottom: 10,
-          overflow: 'hidden',
-          minHeight: 'calc(100% - 100px)',
-        }}
-        item
-        xs={6}
-      >
-        <Grid
-          container
-          spacing={0}
-          sx={{ maxHeight: '100vh', overflow: 'hidden', marginTop: '50px' }}
-        >
-          <Grid
-            sx={{
-              align: 'center',
-              paddingTop: '8px',
-              paddingLeft: '2px',
-              overflow: 'hidden',
-            }}
-            item
-            xs={12}
-          >
+    <Grid container spacing={1} sx={mStyles.mainContainer}>
+      <Grid sx={mStyles.mainGrid} item xs={6}>
+        <Grid container spacing={0} sx={mStyles.subGrid}>
+          <Grid sx={mStyles.lrcImgGrid} item xs={12}>
             <img
               id='LrcImg'
               alt=''
@@ -137,79 +110,37 @@ export default withStyles(styles)((props: Props) => {
               }}
             />
           </Grid>
-          <Grid
-            sx={{
-              align: 'center',
-              paddingTop: '8px',
-              paddingLeft: '2px',
-              overflow: 'hidden',
-            }}
-            item
-            xs={12}
-          >
-            <Grid
-              container
-              spacing={0}
-              sx={{ maxHeight: '100vh', overflow: 'hidden', width: '500px' }}
-            >
-              <Grid
-                sx={{
-                  align: 'right',
-                  paddingTop: '8px',
-                  paddingRight: '2px',
-                  overflow: 'hidden',
+          <Grid sx={mStyles.lrcInputGrid} item xs={12} container spacing={0}>
+            <Grid sx={mStyles.lrcOffsetGrid} item xs={3}>
+              <TextField
+                type='number'
+                variant='outlined'
+                label='歌词补偿(毫秒)'
+                InputProps={{
+                  className: classes.inputOffset,
                 }}
-                item
-                xs={3}
-              >
-                <TextField
-                  type='number'
-                  variant='outlined'
-                  label='歌词补偿(毫秒)'
-                  InputProps={{
-                    className: classes.inputOffset,
-                  }}
-                  value={lyricOffset}
-                  onChange={onLrcOffsetChange}
-                />
-              </Grid>
-              <Grid
-                sx={{
-                  align: 'center',
-                  paddingTop: '8px',
-                  overflow: 'hidden',
+                value={lyricOffset}
+                onChange={onLrcOffsetChange}
+              />
+            </Grid>
+            <Grid sx={mStyles.lrcSearchGrid} item xs={9}>
+              <TextField
+                variant='outlined'
+                label='歌词搜索'
+                InputProps={{
+                  className: classes.inputLrc,
                 }}
-                style={{ maxWidth: 'fit-content' }}
-                item
-                xs={9}
-              >
-                <TextField
-                  variant='outlined'
-                  label='歌词搜索'
-                  InputProps={{
-                    className: classes.inputLrc,
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder={songTitle}
-                  value={songTitle}
-                  onChange={(e) => setSongTitle(e.target.value)}
-                />
-              </Grid>
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                placeholder={songTitle}
+                value={songTitle}
+                onChange={(e) => setSongTitle(e.target.value)}
+              />
             </Grid>
           </Grid>
 
-          <Grid
-            sx={{
-              align: 'center',
-              paddingTop: '8px',
-              paddingLeft: '2px',
-              overflow: 'hidden',
-            }}
-            item
-            xs={12}
-          >
+          <Grid sx={mStyles.lrcSearchBarGrid} item xs={12}>
             <LyricSearchBar
               searchKey={debouncedSongTitle}
               currentAudio={currentAudio}
@@ -219,18 +150,10 @@ export default withStyles(styles)((props: Props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid
-        style={{
-          paddingBottom: 10,
-          overflow: 'auto',
-          maxHeight: 'calc(100% - 130px)',
-        }}
-        item
-        xs={6}
-      >
+      <Grid style={mStyles.lrcGrid} item xs={6}>
         <Lrc
           className={className}
-          style={{ maxHeight: '100%', paddingRight: '80px' }}
+          style={mStyles.lrc}
           lrc={lyric}
           lineRenderer={lineRenderer}
           currentMillisecond={+currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
@@ -240,3 +163,52 @@ export default withStyles(styles)((props: Props) => {
     </Grid>
   );
 });
+
+const mStyles = {
+  mainContainer: { maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' },
+  mainGrid: {
+    align: 'center',
+    alignItems: 'center',
+    paddingBottom: 10,
+    overflow: 'hidden',
+    minHeight: 'calc(100% - 100px)',
+  },
+  subGrid: { maxHeight: '100vh', overflow: 'hidden', marginTop: '50px' },
+  lrcImgGrid: {
+    align: 'center',
+    paddingTop: '8px',
+    paddingLeft: '2px',
+    overflow: 'hidden',
+  },
+  lrcInputGrid: {
+    align: 'center',
+    paddingTop: '8px',
+    paddingLeft: '2px',
+    overflow: 'hidden',
+    width: '500px',
+  },
+  lrcOffsetGrid: {
+    align: 'right',
+    paddingTop: '8px',
+    paddingRight: '2px',
+    overflow: 'hidden',
+  },
+  lrcSearchGrid: {
+    align: 'center',
+    paddingTop: '8px',
+    overflow: 'hidden',
+    maxWidth: 'fit-content',
+  },
+  lrcSearchBarGrid: {
+    align: 'center',
+    paddingTop: '8px',
+    paddingLeft: '2px',
+    overflow: 'hidden',
+  },
+  lrcGrid: {
+    paddingBottom: 10,
+    overflow: 'auto',
+    maxHeight: 'calc(100% - 130px)',
+  },
+  lrc: { maxHeight: '100%', paddingRight: '80px' },
+};
