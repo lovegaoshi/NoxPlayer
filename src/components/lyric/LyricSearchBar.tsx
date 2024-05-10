@@ -29,7 +29,7 @@ export default function LyricSearchBar({
   // Initializes options
   useEffect(() => {
     (async () => {
-      setOptions(await searchLyricOptions(SearchKey));
+      setOptions(await searchLyricOptions({ searchKey: SearchKey }));
     })();
   }, [SearchKey]);
 
