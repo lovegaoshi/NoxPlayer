@@ -211,8 +211,8 @@ export default withStyles(styles)((props: Props) => {
             xs={12}
           >
             <LyricSearchBar
-              SearchKey={debouncedSongTitle}
-              songId={String(currentAudio.id)}
+              searchKey={debouncedSongTitle}
+              currentAudio={currentAudio}
               setLyricOffset={setLyricOffset}
               setLyric={setLyric}
             />
