@@ -14,7 +14,7 @@ const Player = React.lazy(() => import('../components/App/App'));
 
 export default function App() {
   // The current playing list
-  const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>([]);
+  const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>();
   const { initializeStores } = useInitializeStore();
   const playerStyle = useApp((state) => state.playerStyle);
   const theme = createTheme(playerStyle.colorTheme.palette);
@@ -23,10 +23,6 @@ export default function App() {
   // @ts-ignore
   // eslint-disable-next-line no-unused-vars
   const timer = useTimer();
-
-  if (!currentSongList) {
-    return <h1>Loading...</h1>;
-  }
 
   useEffect(() => {
     async function init() {
@@ -41,7 +37,9 @@ export default function App() {
     playerStyle.playerBackground().then(setBackgroundSrc);
   }, [playerStyle.playerBackground]);
 
-  // console.log(currentSongList)
+  if (!currentSongList) {
+    return <h1>Loading...</h1>;
+  }
   return (
     // Outmost layer of the page
     <React.Suspense fallback={<h1>Loading...</h1>}>

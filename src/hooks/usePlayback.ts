@@ -240,14 +240,14 @@ export default () => {
     if (song !== undefined) {
       options.extendsContent = renderExtendsContent(song);
     }
-    const params2 = {
+    const newParams = {
       ...options,
       extendsContent: song && renderExtendsContent(song),
       ...playerSetting,
       audioLists: songList,
       defaultPlayIndex: previousPlayingSongIndex,
     };
-    setparams(params2);
+    setparams(newParams);
     setplayingList(songList);
   };
 
