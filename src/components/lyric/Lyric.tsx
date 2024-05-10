@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 
+import { getName } from '@APM/utils/re';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { useDebouncedValue } from '@APM/hooks';
 import useApp from '@stores/useApp';
@@ -12,7 +13,7 @@ import LyricSearchBar from './LyricSearchBar';
 
 const INTERVAL_OF_RECOVERING_AUTO_SCROLL_AFTER_USER_SCROLL = 5000;
 
-const styles = (theme) => ({
+const styles = () => ({
   inputOffset: {
     height: 40,
     width: 123,
@@ -27,7 +28,12 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)((props) => {
+interface Props {
+  currentAudio: NoxMedia.Song;
+  currentTime: number;
+}
+
+export default withStyles(styles)((props: Props) => {
   const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const [lyricOffset, setLyricOffset] = useState(0);
@@ -35,7 +41,9 @@ export default withStyles(styles)((props) => {
   const [songTitle, setSongTitle] = useState('');
   const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
 
-  const { classes, currentTime, audioName, audioId, audioCover } = props;
+  const { classes, currentTime, currentAudio } = props;
+  console.log('debug', classes);
+  const audioName = getName(currentAudio);
 
   useEffect(() => {
     // console.log('Lrc changed to %s', extractedName)
@@ -59,7 +67,7 @@ export default withStyles(styles)((props) => {
   const onLrcOffsetChange = (e) => {
     setLyricOffset(e.target.value);
     setLyricMapping({
-      songId: audioId,
+      songId: currentAudio.id,
       offset: e.target.value,
       lyric,
       lyricKey: 0,
@@ -124,7 +132,7 @@ export default withStyles(styles)((props) => {
             <img
               id='LrcImg'
               alt=''
-              src={audioCover}
+              src={currentAudio.cover}
               style={{
                 maxWidth: '500px',
                 boxShadow: colorTheme.lyricImgShadowStyle,
@@ -158,8 +166,6 @@ export default withStyles(styles)((props) => {
                   label='歌词补偿(毫秒)'
                   InputProps={{
                     className: classes.inputOffset,
-                    min: -9999,
-                    max: 9999,
                   }}
                   value={lyricOffset}
                   onChange={onLrcOffsetChange}
@@ -198,7 +204,7 @@ export default withStyles(styles)((props) => {
           >
             <LyricSearchBar
               SearchKey={debouncedSongTitle}
-              songId={String(audioId)}
+              songId={String(currentAudio.id)}
               setLyricOffset={setLyricOffset}
               setLyric={onSongTitleChange}
             />

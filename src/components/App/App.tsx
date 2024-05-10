@@ -4,7 +4,6 @@ import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 
-import { getName } from '@APM/utils/re';
 import usePlayback from '@hooks/usePlayback';
 import useApp from '@stores/useApp';
 import { FavList } from '../Playlists/Player';
@@ -72,10 +71,8 @@ export default function Player({ songList }: Props) {
       {currentAudio?.id && (
         <LyricOverlay
           showLyric={showLyric}
+          currentAudio={currentAudio}
           currentTime={currentAudio.currentTime}
-          audioName={getName(currentAudio)}
-          audioId={currentAudio.id}
-          audioCover={currentAudio.cover}
           closeLyric={() => setShowLyric(false)}
         />
       )}
