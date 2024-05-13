@@ -111,33 +111,30 @@ export default withStyles(styles)((props: Props) => {
             />
           </Grid>
           <Grid sx={mStyles.lrcInputGrid} item xs={12} container spacing={0}>
-            <Grid sx={mStyles.lrcOffsetGrid} item xs={3}>
-              <TextField
-                type='number'
-                variant='outlined'
-                label='歌词补偿(毫秒)'
-                InputProps={{
-                  className: classes.inputOffset,
-                }}
-                value={lyricOffset}
-                onChange={onLrcOffsetChange}
-              />
-            </Grid>
-            <Grid sx={mStyles.lrcSearchGrid} item xs={9}>
-              <TextField
-                variant='outlined'
-                label='歌词搜索'
-                InputProps={{
-                  className: classes.inputLrc,
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                placeholder={songTitle}
-                value={songTitle}
-                onChange={(e) => setSongTitle(e.target.value)}
-              />
-            </Grid>
+            <TextField
+              sx={mStyles.lrcOffsetGrid}
+              type='number'
+              variant='outlined'
+              label='歌词补偿(毫秒)'
+              InputProps={{
+                className: classes.inputOffset,
+              }}
+              value={lyricOffset}
+              onChange={onLrcOffsetChange}
+            />
+            <TextField
+              variant='outlined'
+              label='歌词搜索'
+              InputProps={{
+                className: classes.inputLrc,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              placeholder={songTitle}
+              value={songTitle}
+              onChange={(e) => setSongTitle(e.target.value)}
+            />
           </Grid>
 
           <Grid sx={mStyles.lrcSearchBarGrid} item xs={12}>

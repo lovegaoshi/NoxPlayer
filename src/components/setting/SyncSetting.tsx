@@ -16,6 +16,7 @@ import {
 import { ExportFavButton, ImportFavButton } from './sync/LocalSyncButton';
 import DropboxSyncButton from './sync/DropboxAuth';
 import GiteeSyncButton from './sync/GiteeAuth';
+import GithubSyncButton from './sync/GithubAuth';
 
 function SyncSetttingButtons() {
   const playerSettings = useStore(
@@ -47,7 +48,7 @@ function SyncSetttingButtons() {
         <DropboxSyncButton
           sx={AddFavIcon}
           restoreFromUint8Array={async (v) => {
-            await initializeFromSync(v);
+            initializeFromSync(v);
           }}
         />
       );
@@ -56,7 +57,16 @@ function SyncSetttingButtons() {
         <GiteeSyncButton
           sx={AddFavIcon}
           restoreFromUint8Array={async (v) => {
-            await initializeFromSync(v);
+            initializeFromSync(v);
+          }}
+        />
+      );
+    case SyncOptions.GITHUB:
+      return (
+        <GithubSyncButton
+          sx={AddFavIcon}
+          restoreFromUint8Array={async (v) => {
+            initializeFromSync(v);
           }}
         />
       );
