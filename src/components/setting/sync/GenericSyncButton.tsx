@@ -102,7 +102,7 @@ function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
   const cloudUpload = async () => {
     const exportedDict = await exportStorageRaw();
     const response = await noxBackup(exportedDict);
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       enqueueSnackbar('歌单上传到云端成功！', {
         variant: 'success',
         autoHideDuration: 4000,
