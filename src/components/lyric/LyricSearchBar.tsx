@@ -6,12 +6,15 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
 import { LrcSource } from '@enums/LyricFetch';
 
+let cachedLrc = ['', ''];
+
 interface Props {
   searchKey: string;
   currentAudio: NoxMedia.Song;
   setLyric: (v: string) => void;
   setLyricOffset: (v: number) => void;
 }
+
 export default function LyricSearchBar({
   searchKey,
   currentAudio,
@@ -20,7 +23,6 @@ export default function LyricSearchBar({
 }: Props) {
   const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const lyricMapping = useNoxSetting((state) => state.lyricMapping);
-  const cachedLrc = useRef(['', '']);
   const [options, setOptions] = useState<NoxNetwork.NoxFetchedLyric[]>([]);
   const [value, setValue] = useState<NoxNetwork.NoxFetchedLyric>({
     key: '',
@@ -51,8 +53,7 @@ export default function LyricSearchBar({
     function initLyric() {
       const detail = lyricMapping.get(currentAudio.id);
       if (detail !== undefined) {
-        if (cachedLrc.current[0] === detail.lyricKey)
-          setLyric(cachedLrc.current[1]!);
+        if (cachedLrc[0] === detail.lyricKey) setLyric(cachedLrc[1]!);
         setLyricOffset(detail.lyricOffset);
         const index = options.findIndex((v) => v.songMid === detail.lyricKey);
         if (index !== -1) {
@@ -77,7 +78,7 @@ export default function LyricSearchBar({
     setValue(newValue);
     searchLyric(newValue.songMid, newValue.source).then((v) => {
       setLyric(v);
-      cachedLrc.current = [newValue.key, v];
+      cachedLrc = [newValue.key, v];
     });
     setLyricMapping({
       songId: currentAudio.id,
