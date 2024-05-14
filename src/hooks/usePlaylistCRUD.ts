@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
-import { DropResult } from 'react-beautiful-dnd';
+import { DropResult } from '@hello-pangea/dnd';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { dummyPlaylist } from '@APM/objects/Playlist';

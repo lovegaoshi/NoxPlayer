@@ -4,7 +4,7 @@ import {
   Droppable,
   Draggable,
   DropResult,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 import TableBody from '@mui/material/TableBody';
 import { styled } from '@mui/material/styles';
 import TableRow from '@mui/material/TableRow';

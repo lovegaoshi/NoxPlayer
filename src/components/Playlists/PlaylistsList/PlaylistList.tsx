@@ -5,7 +5,7 @@ import {
   Droppable,
   Draggable,
   DropResult,
-} from 'react-beautiful-dnd';
+} from '@hello-pangea/dnd';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { AddFavDialog, NewFavDialog } from '@components/dialogs/AddFavDialog';
