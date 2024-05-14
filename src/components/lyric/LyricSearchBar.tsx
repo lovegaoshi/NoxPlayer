@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
@@ -20,6 +20,7 @@ export default function LyricSearchBar({
 }: Props) {
   const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const lyricMapping = useNoxSetting((state) => state.lyricMapping);
+  const cachedLrc = useRef(['', '']);
   const [options, setOptions] = useState<NoxNetwork.NoxFetchedLyric[]>([]);
   const [value, setValue] = useState<NoxNetwork.NoxFetchedLyric>({
     key: '',
@@ -49,7 +50,9 @@ export default function LyricSearchBar({
     }
     function initLyric() {
       const detail = lyricMapping.get(currentAudio.id);
-      if (undefined !== detail) {
+      if (detail !== undefined) {
+        if (cachedLrc.current[0] === detail.lyricKey)
+          setLyric(cachedLrc.current[1]!);
         setLyricOffset(detail.lyricOffset);
         const index = options.findIndex((v) => v.songMid === detail.lyricKey);
         if (index !== -1) {
@@ -72,14 +75,15 @@ export default function LyricSearchBar({
   const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
     if (newValue === undefined) return;
     setValue(newValue);
-    searchLyric(newValue.songMid, newValue.source).then(setLyric);
+    searchLyric(newValue.songMid, newValue.source).then((v) => {
+      setLyric(v);
+      cachedLrc.current = [newValue.key, v];
+    });
     setLyricMapping({
       songId: currentAudio.id,
       lyricKey: newValue.key,
     });
   };
-
-  // //console.log("SearchBarValue:", options)
 
   return (
     <div>
