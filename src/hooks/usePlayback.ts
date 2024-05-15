@@ -32,6 +32,7 @@ export default () => {
   const setCurrentAudio = useApp((state) => state.setCurrentAudio);
   const currentAudioInst = useApp((state) => state.currentAudioInst);
   const setCurrentAudioInst = useApp((state) => state.setCurrentAudioInst);
+  const setCurrentProgress = useApp((state) => state.setCurrentProgress);
   const playingList = useApp((state) => state.playingList);
   const setplayingList = useApp((state) => state.setplayingList);
   const params = useApp((state) => state.params);
@@ -171,6 +172,11 @@ export default () => {
   // console.log('audioListChange:', audioLists)
 
   const onAudioProgress = (audioInfo: any) => {
+    // HACK
+    if (showLyric) {
+      setCurrentProgress(audioInfo.currentTime);
+    }
+    return;
     // this is updated every 0.1sec or so. disabling this seems to make playing >3000 songs list
     // a tinny bit faster; the other slowing part is audioTimeUpdate's setState in JKmusicplayer.
     // its probably because with a huge songlist, updating musicplayer state recreatign it somehow and its very slow
@@ -194,8 +200,9 @@ export default () => {
       })
       .catch((err) => console.error(err));
   };
-
-  const onCoverClick = () => setShowLyric(!showLyric);
+  // TODO: fix this
+  // @ts-expect-error
+  const onCoverClick = () => setShowLyric((v) => !v);
 
   const processExtendsContent = (extendsContent: any) =>
     setparams({ ...params, extendsContent });

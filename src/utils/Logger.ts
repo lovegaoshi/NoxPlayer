@@ -18,6 +18,10 @@ class Logger {
     console.info(this.generateMessage(message));
   }
 
+  log(message: unknown) {
+    this.info(message);
+  }
+
   notice(message: unknown) {
     console.warn(this.generateMessage(message));
   }

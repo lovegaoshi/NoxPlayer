@@ -1,3 +1,4 @@
+import './wdyr'; // <--- first import
 import '../css/popup.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';

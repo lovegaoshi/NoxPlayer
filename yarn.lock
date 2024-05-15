@@ -3569,6 +3569,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@welldone-software/why-did-you-render@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "@welldone-software/why-did-you-render@npm:8.0.1"
+  dependencies:
+    lodash: "npm:^4"
+  peerDependencies:
+    react: ^18
+  checksum: 10c0/dec9ec4fcdb146e4830dff212262f9a9ce5752651055db3cec13f5a49fa6e2f5d61be6728ee01dd6d32e79525d433247f0ec1878401811600424c745a785908f
+  languageName: node
+  linkType: hard
+
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0
   resolution: "@xtuc/ieee754@npm:1.2.0"
@@ -8772,7 +8783,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4, lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -8919,14 +8930,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-ui-confirm@npm:^3.0.14":
-  version: 3.0.14
-  resolution: "material-ui-confirm@npm:3.0.14"
+"material-ui-confirm@npm:^3.0.15":
+  version: 3.0.15
+  resolution: "material-ui-confirm@npm:3.0.15"
   peerDependencies:
     "@mui/material": ">= 5.0.0"
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/8b7fb9ea9b00beb55fae1726112ee389cff82a1a41b8bd6635b9bf413ed562e417d3092137c547d80a6c270070db19d24ac2ff41cb98bc4fa9c9c8ba68f6d6b3
+  checksum: 10c0/d0f7bd20e90ff6f733d36815c06e8a8fc177bb010a7e7b4557dcc23fb2d3549bc998f31f52d4c3120fec16daed911ba594678e2c5fe7fc1309f048a5d97c7c84
   languageName: node
   linkType: hard
 
@@ -9606,6 +9617,7 @@ __metadata:
     "@types/uuid": "npm:^9.0.8"
     "@typescript-eslint/eslint-plugin": "npm:^7.9.0"
     "@typescript-eslint/parser": "npm:^7.9.0"
+    "@welldone-software/why-did-you-render": "npm:^8.0.1"
     axios: "npm:^1.6.8"
     babel-loader: "npm:^9.1.3"
     base-64: "npm:^1.0.0"
@@ -9644,7 +9656,7 @@ __metadata:
     i18next: "npm:^23.11.4"
     libmuse: "git+https://github.com/lovegaoshi/muse.git#apm-release"
     lodash: "npm:^4.17.21"
-    material-ui-confirm: "npm:^3.0.14"
+    material-ui-confirm: "npm:^3.0.15"
     md5: "npm:^2.3.0"
     mini-css-extract-plugin: "npm:^2.9.0"
     node-sass: "npm:^9.0.0"
