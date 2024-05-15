@@ -3,31 +3,13 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 interface Props {
-  searchKey: string;
   currentAudio: NoxMedia.Song;
   usedLyric: any;
 }
 
-export default function LyricSearchBar({
-  searchKey,
-  currentAudio,
-  usedLyric,
-}: Props) {
-  const {
-    fetchAndSetLyricOptions,
-    initTrackLrcLoad,
-    lrcOptions,
-    lrcOption,
-    searchAndSetCurrentLyric,
-  } = usedLyric;
-
-  // Initializes options
-  useEffect(() => {
-    (() => {
-      if (searchKey === '') return;
-      fetchAndSetLyricOptions(searchKey);
-    })();
-  }, [searchKey]);
+export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
+  const { initTrackLrcLoad, lrcOptions, lrcOption, searchAndSetCurrentLyric } =
+    usedLyric;
 
   useEffect(() => {
     initTrackLrcLoad();

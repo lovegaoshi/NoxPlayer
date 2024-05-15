@@ -5,7 +5,6 @@ import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid';
 
 import { getName } from '@APM/utils/re';
-import { useNoxSetting } from '@APM/stores/useApp';
 import { useDebouncedValue } from '@APM/hooks';
 import useApp from '@stores/useApp';
 import LyricSearchBar from './LyricSearchBar';
@@ -84,7 +83,6 @@ const LrcView = ({ lyricOffset, lrc, className }: LrcViewProps) => {
 };
 
 export default withStyles(styles)((props: Props) => {
-  const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const [songTitle, setSongTitle] = useState('');
   const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
@@ -101,17 +99,15 @@ export default withStyles(styles)((props: Props) => {
     setSongTitle(audioName);
   }, [audioName]);
 
+  useEffect(() => {
+    if (debouncedSongTitle.length > 0) {
+      usedLyric.fetchAndSetLyricOptions(debouncedSongTitle);
+    }
+  }, [debouncedSongTitle]);
+
   const onLrcOffsetChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const lyricOffset = Number(e.target.value);
-    usedLyric.setCurrentTimeOffset(lyricOffset);
-    setLyricMapping({
-      songId: currentAudio.id,
-      lyricOffset,
-      lyric: usedLyric.lrc,
-    });
-  };
+  ) => usedLyric.onLrcOffsetChange(Number(e.target.value));
 
   const className = ScrollBar().root;
 
@@ -158,11 +154,7 @@ export default withStyles(styles)((props: Props) => {
           </Grid>
 
           <Grid sx={mStyles.lrcSearchBarGrid} item xs={12}>
-            <LyricSearchBar
-              searchKey={debouncedSongTitle}
-              currentAudio={currentAudio}
-              usedLyric={usedLyric}
-            />
+            <LyricSearchBar currentAudio={currentAudio} usedLyric={usedLyric} />
           </Grid>
         </Grid>
       </Grid>
