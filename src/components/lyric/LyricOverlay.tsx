@@ -17,15 +17,13 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface Props {
-  currentAudio: NoxMedia.Song;
+  currentAudio: NoxMediaChrome.RJKMAudio;
   showLyric: boolean;
-  currentTime: number;
   closeLyric?: () => void;
 }
 export default function LyricOverlay({
   currentAudio,
   showLyric,
-  currentTime,
   closeLyric = () => {},
 }: Props) {
   return (
@@ -60,7 +58,7 @@ export default function LyricOverlay({
           >
             <KeyboardArrowDownIcon />
           </IconButton>
-          <Lyric currentTime={currentTime} currentAudio={currentAudio} />
+          <Lyric currentAudio={currentAudio} />
         </div>
       </Dialog>
     </div>

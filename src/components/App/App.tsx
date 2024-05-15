@@ -72,7 +72,6 @@ export default function Player({ songList }: Props) {
         <LyricOverlay
           showLyric={showLyric}
           currentAudio={currentAudio}
-          currentTime={currentAudio.currentTime}
           closeLyric={() => setShowLyric(false)}
         />
       )}

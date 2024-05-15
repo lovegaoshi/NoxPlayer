@@ -26,8 +26,7 @@ const styles = () => ({
 });
 
 interface Props {
-  currentAudio: NoxMedia.Song;
-  currentTime: number;
+  currentAudio: NoxMediaChrome.RJKMAudio;
 }
 
 interface LineRenderer {
@@ -49,7 +48,7 @@ export default withStyles(styles)((props: Props) => {
 
   // HACK: how to do this..?
   // @ts-ignore
-  const { classes, currentTime, currentAudio } = props;
+  const { classes, currentAudio } = props;
   const audioName = getName(currentAudio);
 
   useEffect(() => {
@@ -94,6 +93,7 @@ export default withStyles(styles)((props: Props) => {
 
   // //console.log(+currentTime * 1000 + +lyricOffset)
   const className = ScrollBar().root;
+  console.log('rerender');
 
   return (
     <Grid container spacing={1} sx={mStyles.mainContainer}>
@@ -141,8 +141,6 @@ export default withStyles(styles)((props: Props) => {
             <LyricSearchBar
               searchKey={debouncedSongTitle}
               currentAudio={currentAudio}
-              setLyricOffset={setLyricOffset}
-              setLyric={setLyric}
             />
           </Grid>
         </Grid>
@@ -153,7 +151,7 @@ export default withStyles(styles)((props: Props) => {
           style={mStyles.lrc}
           lrc={lyric}
           lineRenderer={lineRenderer}
-          currentMillisecond={+currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
+          currentMillisecond={+currentAudio.currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
           recoverAutoScrollInterval={5000}
         />
       </Grid>

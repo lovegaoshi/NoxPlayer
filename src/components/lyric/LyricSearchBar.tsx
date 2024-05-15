@@ -7,15 +7,9 @@ import useLyric from '@hooks/useLyric';
 interface Props {
   searchKey: string;
   currentAudio: NoxMedia.Song;
-  setLyric: (v: string) => void;
-  setLyricOffset: (v: number) => void;
 }
 
-export default function LyricSearchBar({
-  searchKey,
-  currentAudio,
-  setLyric,
-}: Props) {
+export default function LyricSearchBar({ searchKey, currentAudio }: Props) {
   const {
     fetchAndSetLyricOptions,
     initTrackLrcLoad,
@@ -36,7 +30,7 @@ export default function LyricSearchBar({
     if (lrcOptions.length === 0) {
       return;
     }
-    initTrackLrcLoad();
+    // initTrackLrcLoad();
   }, [lrcOptions]);
 
   const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
