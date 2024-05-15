@@ -96,7 +96,7 @@
     "he": "^1.2.0",
     "i18next": "^23.11.4",
     "libmuse": "git+https://github.com/lovegaoshi/muse.git#apm-release",
-    "material-ui-confirm": "^3.0.14",
+    "material-ui-confirm": "^3.0.15",
     "md5": "^2.3.0",
     "notistack": "^3.0.1",
     "octokit": "^4.0.2",

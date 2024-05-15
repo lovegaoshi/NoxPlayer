@@ -8919,14 +8919,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-ui-confirm@npm:^3.0.14":
-  version: 3.0.14
-  resolution: "material-ui-confirm@npm:3.0.14"
+"material-ui-confirm@npm:^3.0.15":
+  version: 3.0.15
+  resolution: "material-ui-confirm@npm:3.0.15"
   peerDependencies:
     "@mui/material": ">= 5.0.0"
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/8b7fb9ea9b00beb55fae1726112ee389cff82a1a41b8bd6635b9bf413ed562e417d3092137c547d80a6c270070db19d24ac2ff41cb98bc4fa9c9c8ba68f6d6b3
+  checksum: 10c0/d0f7bd20e90ff6f733d36815c06e8a8fc177bb010a7e7b4557dcc23fb2d3549bc998f31f52d4c3120fec16daed911ba594678e2c5fe7fc1309f048a5d97c7c84
   languageName: node
   linkType: hard
 
@@ -9644,7 +9644,7 @@ __metadata:
     i18next: "npm:^23.11.4"
     libmuse: "git+https://github.com/lovegaoshi/muse.git#apm-release"
     lodash: "npm:^4.17.21"
-    material-ui-confirm: "npm:^3.0.14"
+    material-ui-confirm: "npm:^3.0.15"
     md5: "npm:^2.3.0"
     mini-css-extract-plugin: "npm:^2.9.0"
     node-sass: "npm:^9.0.0"
