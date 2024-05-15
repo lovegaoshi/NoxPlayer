@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 import { useNoxSetting } from '@APM/stores/useApp';
 import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
-import { LrcSource } from '@enums/LyricFetch';
+import useLyric from '@hooks/useLyric';
 
 let cachedLrc = ['', ''];
 
@@ -21,6 +21,7 @@ export default function LyricSearchBar({
   setLyric,
   setLyricOffset,
 }: Props) {
+  const { fetchAndSetLyricOptions } = useLyric(currentAudio);
   const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
   const lyricMapping = useNoxSetting((state) => state.lyricMapping);
   const [options, setOptions] = useState<NoxNetwork.NoxFetchedLyric[]>([]);
@@ -34,15 +35,8 @@ export default function LyricSearchBar({
   useEffect(() => {
     (async () => {
       if (searchKey === '') return;
-      const resolvedOptions = await Promise.all([
-        searchLyricOptions({ searchKey }),
-        searchLyricOptions({
-          searchKey,
-          source: LrcSource.BiliBili,
-          song: currentAudio,
-        }),
-      ]);
-      setOptions(resolvedOptions.flat());
+      const resolvedOptions = await fetchAndSetLyricOptions(searchKey);
+      setOptions(resolvedOptions);
     })();
   }, [searchKey]);
 
