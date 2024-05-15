@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import { useNoxSetting } from '@APM/stores/useApp';
-import { searchLyricOptions, searchLyric } from '@APM/utils/LyricFetch';
 import useLyric from '@hooks/useLyric';
-
-let cachedLrc = ['', ''];
 
 interface Props {
   searchKey: string;
@@ -19,65 +15,33 @@ export default function LyricSearchBar({
   searchKey,
   currentAudio,
   setLyric,
-  setLyricOffset,
 }: Props) {
-  const { fetchAndSetLyricOptions } = useLyric(currentAudio);
-  const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
-  const lyricMapping = useNoxSetting((state) => state.lyricMapping);
-  const [options, setOptions] = useState<NoxNetwork.NoxFetchedLyric[]>([]);
-  const [value, setValue] = useState<NoxNetwork.NoxFetchedLyric>({
-    key: '',
-    songMid: '',
-    label: '',
-  });
+  const {
+    fetchAndSetLyricOptions,
+    initTrackLrcLoad,
+    lrcOptions,
+    lrcOption,
+    searchAndSetCurrentLyric,
+  } = useLyric(currentAudio);
 
   // Initializes options
   useEffect(() => {
-    (async () => {
+    (() => {
       if (searchKey === '') return;
-      const resolvedOptions = await fetchAndSetLyricOptions(searchKey);
-      setOptions(resolvedOptions);
+      fetchAndSetLyricOptions(searchKey);
     })();
   }, [searchKey]);
 
   useEffect(() => {
-    if (options.length === 0) {
+    if (lrcOptions.length === 0) {
       return;
     }
-    function initLyric() {
-      const detail = lyricMapping.get(currentAudio.id);
-      if (detail !== undefined) {
-        if (cachedLrc[0] === detail.lyricKey) setLyric(cachedLrc[1]!);
-        setLyricOffset(detail.lyricOffset);
-        const index = options.findIndex((v) => v.songMid === detail.lyricKey);
-        if (index !== -1) {
-          onOptionSet({}, options[index]);
-          return;
-        }
-
-        options.unshift({
-          key: detail.lyricKey,
-          songMid: detail.lyricKey,
-          label: detail.songId,
-        });
-        setOptions(options);
-      }
-      onOptionSet({}, options[0]);
-    }
-    initLyric();
-  }, [options]);
+    initTrackLrcLoad();
+  }, [lrcOptions]);
 
   const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
     if (newValue === undefined) return;
-    setValue(newValue);
-    searchLyric(newValue.songMid, newValue.source).then((v) => {
-      setLyric(v);
-      cachedLrc = [newValue.key, v];
-    });
-    setLyricMapping({
-      songId: currentAudio.id,
-      lyricKey: newValue.key,
-    });
+    searchAndSetCurrentLyric(0, [newValue]);
   };
 
   return (
@@ -85,9 +49,9 @@ export default function LyricSearchBar({
       <Autocomplete
         disableClearable
         onChange={onOptionSet}
-        value={value}
+        value={lrcOption}
         id='LyricSearchBar'
-        options={options}
+        options={lrcOptions}
         sx={{ width: 500 }}
         size='small'
         renderInput={(params) => <TextField {...params} label='歌词选择' />}
