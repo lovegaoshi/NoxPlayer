@@ -11,6 +11,8 @@ interface NoxApp {
   setCurrentAudio: (a: NoxMediaChrome.RJKMAudio) => void;
   currentAudioInst?: ReactJkMusicPlayerInstance;
   setCurrentAudioInst: (a: ReactJkMusicPlayerInstance) => void;
+  currentProgress: number;
+  setCurrentProgress: (a: number) => void;
   // This is here instead of being replaced by currentPlayingList,
   // bc react-music-player needs it...
   playingList: NoxMedia.Song[];
@@ -37,6 +39,8 @@ export default create<NoxApp>((set, _get) => {
   return {
     setCurrentAudio: (a) => set({ currentAudio: a }),
     setCurrentAudioInst: (a) => set({ currentAudioInst: a }),
+    currentProgress: 0,
+    setCurrentProgress: (a) => set({ currentProgress: a }),
     setplayingList: (a) => set({ playingList: a }),
     playingList: [],
     setparams: (a) => set({ params: a }),

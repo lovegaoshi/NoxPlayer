@@ -9,6 +9,7 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { useDebouncedValue } from '@APM/hooks';
 import useApp from '@stores/useApp';
 import LyricSearchBar from './LyricSearchBar';
+import useLyric from '@hooks/useLyric';
 
 const styles = () => ({
   inputOffset: {
@@ -38,36 +39,15 @@ interface LineRenderer {
   active: boolean;
 }
 
-export default withStyles(styles)((props: Props) => {
-  const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
-  const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
-  const [lyricOffset, setLyricOffset] = useState(0);
-  const [lyric, setLyric] = useState('');
-  const [songTitle, setSongTitle] = useState('');
-  const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
+interface LrcViewProps {
+  lyricOffset: number;
+  lrc: string;
+  className: string;
+}
 
-  // HACK: how to do this..?
-  // @ts-ignore
-  const { classes, currentAudio } = props;
-  const audioName = getName(currentAudio);
-
-  useEffect(() => {
-    // console.log('Lrc changed to %s', extractedName)
-    // fetchLRC(audioName, setLyric, setSongTitle)
-    setSongTitle(audioName);
-  }, [audioName]);
-
-  const onLrcOffsetChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const lyricOffset = Number(e.target.value);
-    setLyricOffset(lyricOffset);
-    setLyricMapping({
-      songId: currentAudio.id,
-      lyricOffset,
-      lyric,
-    });
-  };
+const LrcView = ({ lyricOffset, lrc, className }: LrcViewProps) => {
+  const currentProgress = useApp((state) => state.currentProgress);
+  const { colorTheme } = useApp((state) => state.playerStyle);
 
   const lineRenderer = useCallback(
     ({ line: { content }, active }: LineRenderer) => {
@@ -91,9 +71,49 @@ export default withStyles(styles)((props: Props) => {
     [],
   );
 
-  // //console.log(+currentTime * 1000 + +lyricOffset)
+  return (
+    <Lrc
+      className={className}
+      style={mStyles.lrc}
+      lrc={lrc}
+      lineRenderer={lineRenderer}
+      currentMillisecond={+currentProgress * 1000 + +lyricOffset} // Add offset value to adapt lrc time
+      recoverAutoScrollInterval={5000}
+    />
+  );
+};
+
+export default withStyles(styles)((props: Props) => {
+  const setLyricMapping = useNoxSetting((state) => state.setLyricMapping);
+  const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
+  const [songTitle, setSongTitle] = useState('');
+  const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
+
+  // HACK: how to do this..?
+  // @ts-ignore
+  const { classes, currentAudio } = props;
+  const audioName = getName(currentAudio);
+  const usedLyric = useLyric(currentAudio);
+
+  useEffect(() => {
+    // console.log('Lrc changed to %s', extractedName)
+    // fetchLRC(audioName, setLyric, setSongTitle)
+    setSongTitle(audioName);
+  }, [audioName]);
+
+  const onLrcOffsetChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const lyricOffset = Number(e.target.value);
+    usedLyric.setCurrentTimeOffset(lyricOffset);
+    setLyricMapping({
+      songId: currentAudio.id,
+      lyricOffset,
+      lyric: usedLyric.lrc,
+    });
+  };
+
   const className = ScrollBar().root;
-  console.log('rerender');
 
   return (
     <Grid container spacing={1} sx={mStyles.mainContainer}>
@@ -119,7 +139,7 @@ export default withStyles(styles)((props: Props) => {
               InputProps={{
                 className: classes.inputOffset,
               }}
-              value={lyricOffset}
+              value={usedLyric.currentTimeOffset}
               onChange={onLrcOffsetChange}
             />
             <TextField
@@ -141,18 +161,16 @@ export default withStyles(styles)((props: Props) => {
             <LyricSearchBar
               searchKey={debouncedSongTitle}
               currentAudio={currentAudio}
+              usedLyric={usedLyric}
             />
           </Grid>
         </Grid>
       </Grid>
       <Grid style={mStyles.lrcGrid} item xs={6}>
-        <Lrc
+        <LrcView
           className={className}
-          style={mStyles.lrc}
-          lrc={lyric}
-          lineRenderer={lineRenderer}
-          currentMillisecond={+currentAudio.currentTime * 1000 + +lyricOffset} // Add offset value to adapt lrc time
-          recoverAutoScrollInterval={5000}
+          lrc={usedLyric.lrc}
+          lyricOffset={usedLyric.currentTimeOffset}
         />
       </Grid>
     </Grid>

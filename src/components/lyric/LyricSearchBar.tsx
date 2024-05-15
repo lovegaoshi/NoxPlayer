@@ -2,21 +2,24 @@ import React, { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import useLyric from '@hooks/useLyric';
-
 interface Props {
   searchKey: string;
   currentAudio: NoxMedia.Song;
+  usedLyric: any;
 }
 
-export default function LyricSearchBar({ searchKey, currentAudio }: Props) {
+export default function LyricSearchBar({
+  searchKey,
+  currentAudio,
+  usedLyric,
+}: Props) {
   const {
     fetchAndSetLyricOptions,
     initTrackLrcLoad,
     lrcOptions,
     lrcOption,
     searchAndSetCurrentLyric,
-  } = useLyric(currentAudio);
+  } = usedLyric;
 
   // Initializes options
   useEffect(() => {
@@ -27,11 +30,8 @@ export default function LyricSearchBar({ searchKey, currentAudio }: Props) {
   }, [searchKey]);
 
   useEffect(() => {
-    if (lrcOptions.length === 0) {
-      return;
-    }
-    // initTrackLrcLoad();
-  }, [lrcOptions]);
+    initTrackLrcLoad();
+  }, [currentAudio]);
 
   const onOptionSet = (_: any, newValue?: NoxNetwork.NoxFetchedLyric) => {
     if (newValue === undefined) return;
