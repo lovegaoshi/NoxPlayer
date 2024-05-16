@@ -17,12 +17,9 @@ const removeItem = (key: string) => chrome.storage.local.remove(key);
 export const savePlaylistIds = (val: string[]) =>
   saveItem(StorageKeys.MY_FAV_LIST_KEY, val);
 
-export const delPlaylist = (
-  playlist: NoxMedia.Playlist,
-  playlistIds: Array<string>,
-) => {
-  playlistIds.splice(playlistIds.indexOf(playlist.id), 1);
-  removeItem(playlist.id);
+export const delPlaylist = (playlistId: string, playlistIds: Array<string>) => {
+  playlistIds.splice(playlistIds.indexOf(playlistId), 1);
+  removeItem(playlistId);
   savePlaylistIds(playlistIds);
   return playlistIds;
 };
@@ -208,10 +205,16 @@ export const exportStorageRaw = async () => {
 export const getLyricMapping = async () =>
   new Map(await getItem(StorageKeys.LYRIC_MAPPING, []));
 
-const getPlaylist = async (
-  key: string,
-  defaultPlaylist: () => NoxMedia.Playlist = dummyPlaylist,
-): Promise<NoxMedia.Playlist> => ({
+interface GetPlaylist {
+  key: string;
+  defaultPlaylist?: () => NoxMedia.Playlist;
+  hydrateSongList?: boolean;
+}
+
+export const getPlaylist = async ({
+  key,
+  defaultPlaylist = dummyPlaylist,
+}: GetPlaylist): Promise<NoxMedia.Playlist> => ({
   ...defaultPlaylist(),
   ...(await getItem(key)),
   id: key,
@@ -232,9 +235,11 @@ export const initPlayerObject =
         'NULL',
       ]),
       searchPlaylist: dummyPlaylist('Search', PlaylistTypes.Typical),
-      favoriPlaylist: await getPlaylist(StorageKeys.FAVORITE_PLAYLIST_KEY, () =>
-        dummyPlaylist('Favorite', PlaylistTypes.Favorite),
-      ),
+      favoriPlaylist: await getPlaylist({
+        key: StorageKeys.FAVORITE_PLAYLIST_KEY,
+        defaultPlaylist: () =>
+          dummyPlaylist('Favorite', PlaylistTypes.Favorite),
+      }),
       playbackMode: await getItem(StorageKeys.PLAYMODE_KEY, 'shufflePlay'),
       skin: await getItem(StorageKeys.SKIN, {}),
       skins: [],
@@ -251,7 +256,7 @@ export const initPlayerObject =
 
     await Promise.all(
       playerObject.playlistIds.map(async (id) => {
-        const retrievedPlaylist = await getPlaylist(id);
+        const retrievedPlaylist = await getPlaylist({ key: id });
         playerObject.playlists[id] = retrievedPlaylist;
       }),
     );
