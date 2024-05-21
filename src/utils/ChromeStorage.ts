@@ -4,7 +4,7 @@ import { StorageKeys, SearchOptions } from '@enums/Storage';
 import { logger } from '@utils/Logger';
 import { PlaylistTypes } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
-import { DefaultSetting } from '@objects/Storage';
+import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
 import rejson from '@APM/utils/rejson.json';
 
 export const getMusicFreePlugin = (): string[] => [];
@@ -227,6 +227,7 @@ export const initPlayerObject =
       settings: {
         ...DefaultSetting,
         ...(await getItem(StorageKeys.PLAYER_SETTING_KEY, {})),
+        ...NPOverwriteSetting,
       },
       playlistIds: await getItem(StorageKeys.MY_FAV_LIST_KEY, []),
       playlists: {},
