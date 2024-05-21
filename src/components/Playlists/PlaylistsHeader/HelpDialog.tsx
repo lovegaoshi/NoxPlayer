@@ -9,6 +9,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
+import PaidIcon from '@mui/icons-material/Paid';
 import { useConfirm } from 'material-ui-confirm';
 
 import textToDialogContent from '@components/dialogs/DialogContent';
@@ -20,6 +21,14 @@ interface Props {
   openState: boolean;
   id: string;
 }
+
+const HelpContent = `
+支持各种b站链接，部分油管链接
+YTM接口；不支持不是音乐的视频
+
+关注诺莺nox谢谢喵
+`;
+
 export default function HelpDialog({ onClose, openState, id }: Props) {
   const confirm = useConfirm();
   const openChangelogWindow = (val: string) => {
@@ -39,23 +48,11 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
       <Dialog open={openState} id={id} onClose={onClose}>
         <DialogTitle>帮助</DialogTitle>
         <DialogContent sx={{ maxWidth: '50vw' }}>
-          <DialogContentText id='alert-dialog-description'>
-            搜索目前支持以下四种2:
-          </DialogContentText>
-          <DialogContentText>
-            - BVID: 视频的BVID(ex.BV1wr4y1v7TA)
-          </DialogContentText>
-          <DialogContentText>
-            - FIV: 收藏夹的ID,需开放(ex.1793186881)
-          </DialogContentText>
-          <DialogContentText>
-            -
-            Collection:合集,需整个url放入搜索框(ex.https://space.bilibili.com/1982780/channel/collectiondetail?sid=93172)
-          </DialogContentText>
-          <DialogContentText>
-            -
-            Series:合集,需整个url放入搜索框(https://space.bilibili.com/5053504/channel/seriesdetail?sid=2440602)
-          </DialogContentText>
+          {HelpContent.split('\n').map((str, index) => (
+            <DialogContentText key={`helptext-${index}`}>
+              {str}
+            </DialogContentText>
+          ))}
           <p />
           <Button
             startIcon={<EmailIcon />}
@@ -78,12 +75,34 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           </Button>
           <div />
           <Button
+            startIcon={<GitHubIcon />}
+            onClick={() =>
+              window.open(
+                'https://github.com/lovegaoshi/azusa-player-mobile/releases/latest',
+              )
+            }
+          >
+            电闹播放器手机版震撼发布
+          </Button>
+          <div />
+          <Button
             startIcon={<ForumIcon />}
             onClick={() =>
               window.open('https://bbs.nga.cn/read.php?tid=37678803')
             }
           >
             来P综6@nga听歌吹水
+          </Button>
+          <div />
+          <Button
+            startIcon={<PaidIcon />}
+            onClick={() =>
+              window.open(
+                'https://raw.githubusercontent.com/lovegaoshi/azusa-player-mobile/5795492b49048046b36583502f74caa9fdb2badb/docs/docs/usage-tutorial/images/sponsor.jpg',
+              )
+            }
+          >
+            我很可爱请给我钱
           </Button>
           <div />
           <Button
