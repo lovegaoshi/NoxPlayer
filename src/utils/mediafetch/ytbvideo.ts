@@ -6,8 +6,6 @@ import { biliApiLimiter } from '@APM/utils/mediafetch/throttle';
 import SongTS from '@objects/Song';
 import { Source } from '@enums/MediaFetch';
 
-import ytbvideoFetch from '@APM/utils/mediafetch/ytbvideo';
-
 const CIDPREFIX = `${Source.ytbvideo}-`;
 
 const resolveURL = async (song: NoxMedia.Song) => {
@@ -89,5 +87,6 @@ export default {
   regexResolveURLMatch2: /^ytbvideo-/,
   refreshSong,
   suggest: () => [],
-  export2URL: ytbvideoFetch.export2URL,
+  export2URL: (song: NoxMedia.Song) =>
+    `https://www.youtube.com/watch?v=${song.bvid}`,
 };
