@@ -200,9 +200,7 @@ export default () => {
       })
       .catch((err) => console.error(err));
   };
-  // TODO: fix this
-  // @ts-expect-error
-  const onCoverClick = () => setShowLyric((v) => !v);
+  const onCoverClick = () => setShowLyric(!showLyric);
 
   const processExtendsContent = (extendsContent: any) =>
     setparams({ ...params, extendsContent });
