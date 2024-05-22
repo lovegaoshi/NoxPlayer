@@ -37,7 +37,7 @@ let dbx = new _Dropbox({
  * @param {function} errorHandling
  */
 const getAuth = async (
-  callback = (_v?: string) => checkAuthentication(dbx).then(console.log),
+  callback = (_v?: string) => checkAuthentication(dbx).then(console.debug),
   errorHandling = console.error,
 ) =>
   chrome.identity.launchWebAuthFlow(

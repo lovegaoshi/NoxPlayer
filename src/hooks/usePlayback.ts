@@ -13,6 +13,7 @@ import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
+import { saveLastPlayDuration } from '../utils/ChromeStorage';
 
 export default () => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
@@ -172,6 +173,7 @@ export default () => {
   // console.log('audioListChange:', audioLists)
 
   const onAudioProgress = (audioInfo: any) => {
+    saveLastPlayDuration(audioInfo.currentTime);
     // HACK
     if (showLyric) {
       setCurrentProgress(audioInfo.currentTime);

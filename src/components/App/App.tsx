@@ -14,8 +14,9 @@ const options = { ...Options };
 
 interface Props {
   songList: NoxMedia.Song[];
+  lastPlayDuration: number;
 }
-export default function Player({ songList }: Props) {
+export default function Player({ songList, lastPlayDuration }: Props) {
   // Sync data to chromeDB
 
   const {
@@ -37,6 +38,7 @@ export default function Player({ songList }: Props) {
     initPlayer,
   } = usePlayback();
   const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
+  const [initialized, setInitialized] = React.useState(false);
 
   useHotkeys('space', () => {
     if (!currentAudioInst) return;
@@ -62,8 +64,13 @@ export default function Player({ songList }: Props) {
 
   // Initialization effect
   useEffect(() => {
-    initPlayer(songList, options);
+    initPlayer(songList, options).then(() => setInitialized(true));
   }, []);
+
+  useEffect(() => {
+    if (initialized && currentAudioInst)
+      currentAudioInst.currentTime = lastPlayDuration;
+  }, [initialized]);
 
   return (
     <React.Fragment>

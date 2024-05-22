@@ -30,6 +30,6 @@ export default async (url: string) => {
     'null',
     '-',
   ]);
-  console.log(`[r128gain] found r128gain: ${r128gain}`);
+  console.debug(`[r128gain] found r128gain: ${r128gain}`);
   return r128gain;
 };

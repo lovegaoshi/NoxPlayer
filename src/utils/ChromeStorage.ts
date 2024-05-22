@@ -220,6 +220,9 @@ export const getPlaylist = async ({
   id: key,
 });
 
+export const saveLastPlayDuration = (val: number) =>
+  saveItem(StorageKeys.LAST_PLAY_DURATION, String(val));
+
 export const initPlayerObject =
   async (): Promise<NoxStorage.PlayerStorageObject> => {
     const lyricMapping = (await getLyricMapping()) || {};
@@ -246,7 +249,9 @@ export const initPlayerObject =
       skins: [],
       cookies: await getItem(StorageKeys.COOKIES, {}),
       lyricMapping,
-      lastPlayDuration: await getItem(StorageKeys.LAST_PLAY_DURATION, 0),
+      lastPlayDuration: Number(
+        await getItem(StorageKeys.LAST_PLAY_DURATION, 0),
+      ),
       colorScheme: [],
     } as NoxStorage.PlayerStorageObject;
 

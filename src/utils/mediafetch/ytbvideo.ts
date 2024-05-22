@@ -52,7 +52,7 @@ const fetchAudioInfo = async (
 
 const fetchAudioInfoRaw = async (sid: string) => {
   const ytdlInfo = await get_song(sid);
-  console.log(ytdlInfo);
+  console.debug(ytdlInfo);
   const { videoDetails } = ytdlInfo;
   const formats = ytdlInfo.adaptive_formats ?? ytdlInfo.formats ?? [];
   const validDurations = formats.filter((format) => format.duration_ms);

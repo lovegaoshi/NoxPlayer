@@ -12,7 +12,8 @@ const clientSecret = process.env.GITEE_SECRET;
 const redirectURI = chrome.identity.getRedirectURL();
 
 export const getAuth = async (
-  callback = (_v?: string) => checkAuthentication(authToken).then(console.log),
+  callback = (_v?: string) =>
+    checkAuthentication(authToken).then(console.debug),
   errorHandling = logger.error,
 ) =>
   chrome.identity.launchWebAuthFlow(
