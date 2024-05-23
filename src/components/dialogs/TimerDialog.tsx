@@ -12,7 +12,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 
-import useTimer from '@APM/components/playlists/useTimer';
+import useTimer from '@APM/hooks/useTimer';
 
 /**
  *
