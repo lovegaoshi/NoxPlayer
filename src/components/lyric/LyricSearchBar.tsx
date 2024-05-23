@@ -8,8 +8,7 @@ interface Props {
 }
 
 export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
-  const { initTrackLrcLoad, lrcOptions, lrcOption, searchAndSetCurrentLyric } =
-    usedLyric;
+  const { initTrackLrcLoad, lrcOptions, searchAndSetCurrentLyric } = usedLyric;
 
   useEffect(() => {
     initTrackLrcLoad();
