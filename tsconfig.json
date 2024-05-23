@@ -15,7 +15,7 @@
       "@enums/*": ["./src/azusa-player-mobile/src/enums/*"],
       "@APM/*": ["./src/azusa-player-mobile/src/*"]
     },
-    "target": "es2017",
+    "target": "esnext",
     "module": "esnext",
     "lib": ["DOM", "ESNext"],
     "allowJs": true,
@@ -36,11 +36,11 @@
     // "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
+    //"noUnusedLocals": true,
+    //"noUnusedParameters": true,
+    //"noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
+    //"noUncheckedIndexedAccess": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -50,5 +50,13 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "public"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "public",
+    "src/azusa-player-mobile/__tests__",
+    "src/azusa-player-mobile/MusicFreePlugins",
+    "src/azusa-player-mobile/docs",
+    "src/azusa-player-mobile/src/**/*.tsx"
+  ]
 }

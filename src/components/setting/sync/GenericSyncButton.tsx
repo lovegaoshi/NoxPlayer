@@ -8,26 +8,20 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { SxProps } from '@mui/material';
 
 import { exportStorageRaw } from '@utils/ChromeStorage';
-import {
-  ImportProps,
-  ExportProps,
-  Props,
-  GenericProps,
-} from '@APM/components/setting/sync/GenericSyncProps';
 
-interface ImportPropsR extends ImportProps {
+interface ImportPropsR extends NoxSyncComponent.ImportProps {
   sx: SxProps;
 }
 
-interface ExportPropsR extends ExportProps {
+interface ExportPropsR extends NoxSyncComponent.ExportProps {
   sx: SxProps;
 }
 
-interface PropsR extends Props {
+interface PropsR extends NoxSyncComponent.Props {
   sx: SxProps;
 }
 
-export interface GenericPropsR extends GenericProps {
+export interface GenericPropsR extends NoxSyncComponent.GenericProps {
   sx: SxProps;
 }
 

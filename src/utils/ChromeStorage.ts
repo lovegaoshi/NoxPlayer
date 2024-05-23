@@ -252,7 +252,7 @@ export const initPlayerObject =
       lastPlayDuration: Number(
         await getItem(StorageKeys.LAST_PLAY_DURATION, 0),
       ),
-      colorScheme: [],
+      colorScheme: undefined,
     } as NoxStorage.PlayerStorageObject;
 
     playerObject.playlists[StorageKeys.SEARCH_PLAYLIST_KEY] =
