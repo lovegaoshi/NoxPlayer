@@ -1,7 +1,7 @@
-import steriaJson from '@APM/styles/steria.json';
-import steriaGarb from '@APM/styles/steriaGarb.json';
-import AzusaTheme from '@APM/styles/AzusaTheme';
-import NoxTheme from '@APM/styles/NoxTheme';
+import steriaJson from '@APM/components/styles/steria.json';
+import steriaGarb from '@APM/components/styles/steriaGarb.json';
+import AzusaTheme from '@APM/components/styles/AzusaTheme';
+import NoxTheme from '@APM/components/styles/NoxTheme';
 
 const APMSkins: { [key: string]: NoxTheme.Style } = {
   [AzusaTheme.metaData.themeName]: AzusaTheme,
