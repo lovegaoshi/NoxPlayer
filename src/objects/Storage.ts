@@ -28,5 +28,5 @@ export const DefaultSetting: NoxStorage.PlayerSettingDict = {
 };
 
 export const NPOverwriteSetting = {
-  memoryEfficiency: false,
+  // memoryEfficiency: false,
 };

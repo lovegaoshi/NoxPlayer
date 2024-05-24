@@ -214,9 +214,11 @@ interface GetPlaylist {
 export const getPlaylist = async ({
   key,
   defaultPlaylist = dummyPlaylist,
+  hydrateSongList = true,
 }: GetPlaylist): Promise<NoxMedia.Playlist> => ({
   ...defaultPlaylist(),
   ...(await getItem(key)),
+  ...(!hydrateSongList && { songList: [] }),
   id: key,
 });
 
@@ -226,19 +228,22 @@ export const saveLastPlayDuration = (val: number) =>
 export const initPlayerObject =
   async (): Promise<NoxStorage.PlayerStorageObject> => {
     const lyricMapping = (await getLyricMapping()) || {};
+    const settings = {
+      ...DefaultSetting,
+      ...(await getItem(StorageKeys.PLAYER_SETTING_KEY, {})),
+      ...NPOverwriteSetting,
+    };
+    const searchPlaylist = dummyPlaylist('Search', PlaylistTypes.Search);
+    searchPlaylist.id = StorageKeys.SEARCH_PLAYLIST_KEY;
     const playerObject = {
-      settings: {
-        ...DefaultSetting,
-        ...(await getItem(StorageKeys.PLAYER_SETTING_KEY, {})),
-        ...NPOverwriteSetting,
-      },
+      settings,
       playlistIds: await getItem(StorageKeys.MY_FAV_LIST_KEY, []),
       playlists: {},
       lastPlaylistId: await getItem(StorageKeys.LAST_PLAY_LIST, [
         'NULL',
         'NULL',
       ]),
-      searchPlaylist: dummyPlaylist('Search', PlaylistTypes.Typical),
+      searchPlaylist,
       favoriPlaylist: await getPlaylist({
         key: StorageKeys.FAVORITE_PLAYLIST_KEY,
         defaultPlaylist: () =>
@@ -262,7 +267,10 @@ export const initPlayerObject =
 
     await Promise.all(
       playerObject.playlistIds.map(async (id) => {
-        const retrievedPlaylist = await getPlaylist({ key: id });
+        const retrievedPlaylist = await getPlaylist({
+          key: id,
+          hydrateSongList: !settings.memoryEfficiency,
+        });
         playerObject.playlists[id] = retrievedPlaylist;
       }),
     );

@@ -25,6 +25,7 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
   const setPlaylistIds = useNoxSetting((state) => state.setPlaylistIds);
   const updatePlaylist = useNoxSetting((state) => state.updatePlaylist);
   const removePlaylist = useNoxSetting((state) => state.removePlaylist);
+  const getPlaylist = useNoxSetting((state) => state.getPlaylist);
   const searchList = useNoxSetting((state) => state.searchPlaylist);
   const setSearchList = useNoxSetting((state) => state.setSearchPlaylist);
 
@@ -78,14 +79,14 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
     setOpenAddDialog(true);
   };
 
-  const onAddFav = (
+  const onAddFav = async (
     songs?: NoxMedia.Song[],
     toId?: string,
     fromList?: NoxMedia.Playlist,
   ) => {
     setOpenAddDialog(false);
     if (!toId) return;
-    updatePlaylist(playlists[toId]!, songs || fromList?.songList);
+    updatePlaylist(await getPlaylist(toId), songs || fromList?.songList);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -123,16 +124,17 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
     playlist,
     subscribeUrls,
   }: UpdateSubscribeFavListProps) => {
-    const oldListLength = playlist.songList.length;
+    const retrievedPlaylist = await getPlaylist(playlist.id);
+    const oldListLength = retrievedPlaylist.songList.length;
     const newList = await _updateSubscribeFavList({
-      playlist,
+      playlist: retrievedPlaylist,
       subscribeUrls,
       updatePlaylist,
     });
     // sinse we do NOT delete songs from this operation, any update requiring a fav update really need
     // to have a change in list size.
     if (oldListLength !== newList?.songList?.length) {
-      setSelectedList(playlists[playlist.id]!);
+      setSelectedList(newList ?? retrievedPlaylist);
     }
     return newList;
   };
