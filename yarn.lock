@@ -1925,10 +1925,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ffmpeg/core-mt@npm:^0.12.6":
+"@ffmpeg/core@npm:^0.12.6":
   version: 0.12.6
-  resolution: "@ffmpeg/core-mt@npm:0.12.6"
-  checksum: 10c0/451044a9d2d59fefda9c1e7340910c3b5b484e5c2997b25bf261fa5cde5d2ee6fcdacb570dd3085466906562b3ae5abbe2a78ad3567106244c48c078fc32d782
+  resolution: "@ffmpeg/core@npm:0.12.6"
+  checksum: 10c0/7ae6828f3a45afb7c8eac9f2256cedc6c087356a8207e98fdc1ffbb5d12e93d299c1e59e4fa6835af914721c67c093cae6848c798b653f115b70c43c4620f96b
   languageName: node
   linkType: hard
 
@@ -9607,7 +9607,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.24.1"
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
-    "@ffmpeg/core-mt": "npm:^0.12.6"
+    "@ffmpeg/core": "npm:^0.12.6"
     "@ffmpeg/ffmpeg": "npm:^0.12.10"
     "@ffmpeg/util": "npm:^0.12.1"
     "@fontsource/roboto": "npm:^5.0.13"
