@@ -5,9 +5,11 @@
 
 一切因为使用电闹播放器导致您账号被风控封禁的问题，电闹播放器恕不负责。
 
-3.1.9:
+4.0.1:
 github同步
 歌词性能提升
+memoryEfficiency
+data structure changes (save is no longer backwards compatible)
 
 3.1.8:
 b站字幕歌词

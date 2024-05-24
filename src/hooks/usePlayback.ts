@@ -4,7 +4,6 @@ import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useApp from '@stores/useApp';
-import versionUpdate from '@utils/versionupdater/versionupdater';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
 import { Source } from '@enums/MediaFetch';
@@ -238,7 +237,6 @@ export default () => {
     songList: NoxMedia.Song[],
     options: NoxPlayer.Option,
   ) => {
-    await versionUpdate();
     const previousPlayingSongIndex = Math.max(
       0,
       songList.findIndex((s) => s.id === currentPlayingId),

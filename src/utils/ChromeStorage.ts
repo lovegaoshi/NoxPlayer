@@ -7,6 +7,8 @@ import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
 import rejson from '@APM/utils/rejson.json';
 
+export const SongListSuffix = '-songList';
+
 export const getMusicFreePlugin = (): string[] => [];
 
 export const saveDefaultSearch = (val: SearchOptions) =>
@@ -20,6 +22,7 @@ export const savePlaylistIds = (val: string[]) =>
 export const delPlaylist = (playlistId: string, playlistIds: Array<string>) => {
   playlistIds.splice(playlistIds.indexOf(playlistId), 1);
   removeItem(playlistId);
+  removeItem(`${playlistId}${SongListSuffix}`);
   savePlaylistIds(playlistIds);
   return playlistIds;
 };
@@ -27,7 +30,11 @@ export const delPlaylist = (playlistId: string, playlistIds: Array<string>) => {
 export const savePlaylist = (
   playlist: NoxMedia.Playlist,
   overrideKey: string | null = null,
-) => saveItem(overrideKey || playlist.id, playlist);
+) => {
+  const key = overrideKey || playlist.id;
+  saveItem(key, { ...playlist, songList: [] });
+  saveItem(`${key}${SongListSuffix}`, playlist.songList);
+};
 
 export const savelastPlaylistId = (val: [string, string]) =>
   saveItem(StorageKeys.LAST_PLAY_LIST, val);
@@ -108,9 +115,8 @@ export const readLocalStorages = async (keys: Array<string>): Promise<any> => {
   });
 };
 
-export const setLocalStorage = async (key: string, val: object | string) => {
+export const setLocalStorage = async (key: string, val: object | string) =>
   chrome.storage.local.set({ [key]: val });
-};
 
 const saveItem = setLocalStorage;
 
@@ -218,7 +224,7 @@ export const getPlaylist = async ({
 }: GetPlaylist): Promise<NoxMedia.Playlist> => ({
   ...defaultPlaylist(),
   ...(await getItem(key)),
-  ...(!hydrateSongList && { songList: [] }),
+  songList: hydrateSongList ? await getItem(`${key}${SongListSuffix}`, []) : [],
   id: key,
 });
 
@@ -264,7 +270,7 @@ export const initPlayerObject =
       playerObject.searchPlaylist;
     playerObject.playlists[StorageKeys.FAVORITE_PLAYLIST_KEY] =
       playerObject.favoriPlaylist;
-
+    const a = new Date();
     await Promise.all(
       playerObject.playlistIds.map(async (id) => {
         const retrievedPlaylist = await getPlaylist({
@@ -273,6 +279,11 @@ export const initPlayerObject =
         });
         playerObject.playlists[id] = retrievedPlaylist;
       }),
+    );
+
+    const b = new Date();
+    console.debug(
+      `[perf] loading playlists took ${b.getTime() - a.getTime()}ms`,
     );
     return playerObject;
   };
