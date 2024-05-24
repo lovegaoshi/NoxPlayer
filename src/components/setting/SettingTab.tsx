@@ -16,12 +16,14 @@ interface BooleanCheckboxProps {
   settingCategory?: string;
   tooltip?: string;
   label?: string;
+  callback?: () => void;
 }
 function BooleanCheckbox({
   settingKey,
   tooltip,
   label,
   settingCategory = 'GeneralSettings',
+  callback,
 }: BooleanCheckboxProps) {
   const { t } = useTranslation();
   const playerSettings = useStore(
@@ -37,9 +39,10 @@ function BooleanCheckbox({
       <FormControlLabel
         control={
           <Checkbox
-            onChange={(e) =>
-              setPlayerSettings({ [settingKey]: e.target.checked })
-            }
+            onChange={(e) => {
+              setPlayerSettings({ [settingKey]: e.target.checked });
+              callback?.();
+            }}
           />
         }
         checked={playerSettings[settingKey]}
@@ -72,6 +75,10 @@ function SettingsPanel() {
       <BooleanCheckbox settingKey='noCookieBiliSearch' />
       <BooleanCheckbox settingKey='fastBiliSearch' />
       <BooleanCheckbox settingKey='r128gain' />
+      <BooleanCheckbox
+        settingKey='memoryEfficiency'
+        callback={() => window.location.reload()}
+      />
     </React.Fragment>
   );
 }

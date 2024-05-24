@@ -26,3 +26,7 @@ export const DefaultSetting: NoxStorage.PlayerSettingDict = {
   noCookieBiliSearch: false,
   fastBiliSearch: true,
 };
+
+export const NPOverwriteSetting = {
+  // memoryEfficiency: false,
+};

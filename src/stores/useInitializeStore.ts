@@ -4,12 +4,14 @@ import { initialize as initializeAppStore } from '@APM/stores/appStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { initPlayerObject, importStorageRaw } from '@utils/ChromeStorage';
 import useApp from '@stores/useApp';
+import versionUpdate from '@utils/versionupdater/versionupdater';
 
 const useInitializeStore = () => {
   const initPlayer = useNoxSetting((state) => state.initPlayer);
   const initApp = useApp((state) => state.initialize);
 
   const initializeStores = async () => {
+    await versionUpdate();
     initializeAppStore();
     initializeR128Gain();
     initializePlayerSetting();

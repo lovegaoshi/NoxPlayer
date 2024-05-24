@@ -50,7 +50,6 @@ const LrcView = ({ lyricOffset, lrc, className }: LrcViewProps) => {
 
   const lineRenderer = useCallback(
     ({ line: { content }, active }: LineRenderer) => {
-      // //console.log(content)
       return (
         <div
           style={{
@@ -94,7 +93,6 @@ export default withStyles(styles)((props: Props) => {
   const usedLyric = useLyric(currentAudio);
 
   useEffect(() => {
-    // console.log('Lrc changed to %s', extractedName)
     // fetchLRC(audioName, setLyric, setSongTitle)
     setSongTitle(audioName);
   }, [audioName]);

@@ -1,37 +1,61 @@
-import { StorageKeys } from '@enums/Storage';
 import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
-import updater1118 from './1.1.1.8';
+import update1118 from './1.1.1.8';
 import update3000 from './3.0.0.0';
+import update4000 from './4.0.0.0';
 
-export const getVersion = () => {
+const getVersion = () => {
   return chrome.runtime.getManifest().version;
 };
+
+type Version = [number, number, number, number];
+
+const convertVersion = (ver = '0.0.0.0'): Version => {
+  try {
+    return ver.split('.').map((v) => Number(v)) as Version;
+  } catch {
+    return [0, 0, 0, 0];
+  }
+};
+
+const needUpdate = (
+  curVer: Version,
+  toVer: Version,
+  iterateIndex = 0,
+): boolean => {
+  if (curVer[iterateIndex] < toVer[iterateIndex]) {
+    return true;
+  }
+  if (curVer[iterateIndex] > toVer[iterateIndex]) {
+    return false;
+  }
+  if (iterateIndex === 3) {
+    return false;
+  }
+  return needUpdate(curVer, toVer, iterateIndex + 1);
+};
+
+const updates: [Version, () => void | Promise<void>][] = [
+  [convertVersion('1.1.1.9'), update1118],
+  [convertVersion('3.0.0.0'), update3000],
+  [convertVersion('4.0.0.0'), update4000],
+];
 
 /**
  * a version updater in case there are any breaking changes.
  * unfortunately, my breaking changes actually breaks myself...
  */
 export default async () => {
-  let settingsVersion = await readLocalStorage('nox-version');
-  const settingVal = await readLocalStorage(StorageKeys.MY_FAV_LIST_KEY);
-  const currentVersion = getVersion();
-  if (settingsVersion === undefined) settingsVersion = 0;
-  if (settingVal !== undefined) {
-    switch (settingsVersion) {
-      case 0:
-      // @ts-ignore
-      case '1.1.1.8':
-        updater1118();
-      // @ts-ignore
-      case '2.5.4.0':
-        update3000();
-      case currentVersion:
-        break;
-      default:
-        alert(
-          `Noxplayer is updated from ${settingsVersion} to ${currentVersion}! \nRead what's new in settings.\n电闹播放器更新了！去帮助里更新说明看更新了什么鬼玩意儿。`,
-        );
+  const oldVer = await readLocalStorage('nox-version');
+  const oldVerParsed = convertVersion(oldVer);
+  const currVer = getVersion();
+  const updatedString = `Noxplayer is updated from ${oldVer} to ${currVer}! \nRead what's new in settings.\n电闹播放器更新了！去帮助里更新说明看更新了什么鬼玩意儿。`;
+  let updated = false;
+  for (const update of updates) {
+    if (needUpdate(oldVerParsed, update[0])) {
+      await update[1]();
+      updated = true;
     }
   }
-  setLocalStorage('nox-version', currentVersion);
+  updated && alert(updatedString);
+  setLocalStorage('nox-version', currVer);
 };

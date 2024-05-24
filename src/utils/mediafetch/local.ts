@@ -2,7 +2,7 @@ export default {
   regexSearchMatch: /NOT_IMPLEMETED_ERROR/,
   regexFetch: () => undefined,
   regexResolveURLMatch: /NOT_IMPLEMENTED_ERROR/,
-  resolveURL: () => undefined,
+  resolveURL: async () => 'NOT_IMPLEMENTED_ERROR',
   refreshSong: () => undefined,
-  resolveArtwork: () => undefined,
+  resolveArtwork: async () => 'NOT_IMPLEMENTED_ERROR',
 };

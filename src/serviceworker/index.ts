@@ -1,3 +1,5 @@
+import { DEFAULT_UA } from '@APM/utils/BiliFetch';
+
 chrome.action.onClicked.addListener((_tab) => {
   // console.log('onClicked')
   chrome.tabs.create({
@@ -27,8 +29,7 @@ chrome.runtime.onInstalled.addListener(async () => {
           {
             header: 'User-Agent',
             operation: 'set',
-            value:
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0',
+            value: DEFAULT_UA,
           },
         ],
       },
@@ -56,8 +57,7 @@ chrome.runtime.onInstalled.addListener(async () => {
           {
             header: 'User-Agent',
             operation: 'set',
-            value:
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0',
+            value: DEFAULT_UA,
           },
         ],
       },
@@ -85,8 +85,7 @@ chrome.runtime.onInstalled.addListener(async () => {
           {
             header: 'User-Agent',
             operation: 'set',
-            value:
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0',
+            value: DEFAULT_UA,
           },
         ],
       },
@@ -114,8 +113,7 @@ chrome.runtime.onInstalled.addListener(async () => {
           {
             header: 'User-Agent',
             operation: 'set',
-            value:
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0',
+            value: DEFAULT_UA,
           },
         ],
       },

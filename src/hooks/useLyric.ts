@@ -18,7 +18,6 @@ export default (song: NoxMedia.Song) => {
     if (lrcDetail === undefined) return;
     const localLrc =
       cachedLrc[0] === lrcDetail.lyricKey ? cachedLrc[1]! : lrcDetail.lyric;
-    console.log(localLrc);
     return {
       lrcDetail,
       localLrc,

@@ -1,7 +1,35 @@
 import { StorageKeys } from '@enums/Storage';
 
+export const loopFavLists = (callback: (v?: NoxMedia.Playlist) => void) => {
+  chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY], (result1) => {
+    const favlistIds: string[] = result1[StorageKeys.MY_FAV_LIST_KEY];
+    if (favlistIds === undefined) return;
+    favlistIds.push(StorageKeys.FAVORITE_PLAYLIST_KEY);
+    chrome.storage.local.get(favlistIds, (result) => {
+      favlistIds.forEach((id) => callback(result[id]));
+    });
+  });
+};
+
 export default async function update3000() {
   console.debug('3.0.0.0 update; migrate to APMs playlist data structure.');
+  const updateDataStructure = (favlist: any) => {
+    const newFavlist: NoxMedia.Playlist = {
+      ...favlist,
+      title: favlist.title,
+      id: favlist.id,
+      type: favlist.type,
+      songList: favlist.songList,
+      subscribeUrl: favlist.subscribeUrls,
+      blacklistedUrl: favlist.bannedBVids,
+      lastSubscribed: 0,
+      useBiliShazam: favlist.useBiliShazam,
+      biliSync: favlist.biliSync,
+      newSongOverwrite: false,
+    };
+    chrome.storage.local.set({ [favlist.id]: newFavlist });
+  };
+  loopFavLists(updateDataStructure);
   /**
    * 
    * depreciate PlaylistDict:
@@ -32,27 +60,4 @@ export default async function update3000() {
   biliSync: boolean;
   newSongOverwrite?: boolean;
    */
-  chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY], (result1) => {
-    const favlistIds: string[] = result1[StorageKeys.MY_FAV_LIST_KEY];
-    if (favlistIds === undefined) return;
-    chrome.storage.local.get(favlistIds, (result) => {
-      favlistIds.forEach((id) => {
-        const favlist = result[id];
-        const newFavlist: NoxMedia.Playlist = {
-          ...favlist,
-          title: favlist.title,
-          id: favlist.id,
-          type: favlist.type,
-          songList: favlist.songList,
-          subscribeUrl: favlist.subscribeUrls,
-          blacklistedUrl: favlist.bannedBVids,
-          lastSubscribed: 0,
-          useBiliShazam: favlist.useBiliShazam,
-          biliSync: favlist.biliSync,
-          newSongOverwrite: false,
-        };
-        chrome.storage.local.set({ [favlist.id]: newFavlist });
-      });
-    });
-  });
 }

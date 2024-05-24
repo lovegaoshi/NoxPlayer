@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import useTimer from '@APM/components/playlists/useTimer';
+import useTimer from '@APM/hooks/useTimer';
 
 export default () => {
   const timer = useTimer({

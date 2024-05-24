@@ -4,7 +4,6 @@ import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useApp from '@stores/useApp';
-import versionUpdate from '@utils/versionupdater/versionupdater';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
 import { Source } from '@enums/MediaFetch';
@@ -13,6 +12,7 @@ import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
+import { saveLastPlayDuration } from '../utils/ChromeStorage';
 
 export default () => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
@@ -172,6 +172,7 @@ export default () => {
   // console.log('audioListChange:', audioLists)
 
   const onAudioProgress = (audioInfo: any) => {
+    saveLastPlayDuration(audioInfo.currentTime);
     // HACK
     if (showLyric) {
       setCurrentProgress(audioInfo.currentTime);
@@ -200,9 +201,7 @@ export default () => {
       })
       .catch((err) => console.error(err));
   };
-  // TODO: fix this
-  // @ts-expect-error
-  const onCoverClick = () => setShowLyric((v) => !v);
+  const onCoverClick = () => setShowLyric(!showLyric);
 
   const processExtendsContent = (extendsContent: any) =>
     setparams({ ...params, extendsContent });
@@ -238,7 +237,6 @@ export default () => {
     songList: NoxMedia.Song[],
     options: NoxPlayer.Option,
   ) => {
-    await versionUpdate();
     const previousPlayingSongIndex = Math.max(
       0,
       songList.findIndex((s) => s.id === currentPlayingId),

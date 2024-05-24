@@ -17,7 +17,6 @@ interface PlaylistCRUD {
   playlists: { [key: string]: NoxMedia.Playlist };
   playlistIds: string[];
   searchList: NoxMedia.Playlist;
-  setSelectedList: (playlist: NoxMedia.Playlist) => void;
   setSongsStoredAsNewFav: (v: NoxMedia.Song[]) => void;
   openNewDialog: boolean;
   setOpenNewDialog: (v: boolean) => void;
@@ -53,7 +52,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
     playlists,
     playlistIds,
     searchList,
-    setSelectedList,
     setSongsStoredAsNewFav,
     openNewDialog,
     setOpenNewDialog,
@@ -77,7 +75,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
       >
         <SearchlistEntry
           playlist={searchList}
-          setSelectedList={setSelectedList}
           handleAddToFavClick={handleAddToFavClick}
           onPlayAllFromFav={onPlayAllFromFav}
           handleCreateAsFavClick={(v) => {
@@ -89,7 +86,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         {false && (
           <SearchlistEntry
             playlist={favoritePlaylist}
-            setSelectedList={setSelectedList}
             handleAddToFavClick={handleAddToFavClick}
             onPlayAllFromFav={onPlayAllFromFav}
             handleCreateAsFavClick={(v) => {
@@ -123,7 +119,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
                       >
                         <PlaylistInfo
                           playlist={playlists[item]!}
-                          setSelectedList={setSelectedList}
                           handleAddToFavClick={handleAddToFavClick}
                           onPlayAllFromFav={onPlayAllFromFav}
                           handleCreateAsFavClick={(v) => {

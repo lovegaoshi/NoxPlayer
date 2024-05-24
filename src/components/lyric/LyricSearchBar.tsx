@@ -8,8 +8,7 @@ interface Props {
 }
 
 export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
-  const { initTrackLrcLoad, lrcOptions, lrcOption, searchAndSetCurrentLyric } =
-    usedLyric;
+  const { initTrackLrcLoad, lrcOptions, searchAndSetCurrentLyric } = usedLyric;
 
   useEffect(() => {
     initTrackLrcLoad();
@@ -25,14 +24,13 @@ export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
       <Autocomplete
         disableClearable
         onChange={onOptionSet}
-        value={lrcOption}
         id='LyricSearchBar'
         options={lrcOptions}
         sx={{ width: 500 }}
         size='small'
         renderInput={(params) => <TextField {...params} label='歌词选择' />}
         isOptionEqualToValue={(option, value2) =>
-          option.songMid === value2.songMid
+          option?.songMid === value2?.songMid
         }
       />
     </div>

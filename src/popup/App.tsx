@@ -15,6 +15,7 @@ const Player = React.lazy(() => import('../components/App/App'));
 export default function App() {
   // The current playing list
   const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>();
+  const [lastPlayDuration, setLastPlayDuration] = useState(0);
   const { initializeStores } = useInitializeStore();
   const playerStyle = useApp((state) => state.playerStyle);
   const theme = createTheme(playerStyle.colorTheme.palette);
@@ -28,6 +29,7 @@ export default function App() {
     async function init() {
       const result = await initializeStores();
       setCurrentSongList(result.currentPlayingList.songList);
+      setLastPlayDuration(result.lastPlayDuration);
     }
     init();
     document.title = playerStyle.appTitle;
@@ -78,7 +80,10 @@ export default function App() {
               }}
             >
               <Box sx={style.PlayerBox}>
-                <Player songList={currentSongList} />
+                <Player
+                  songList={currentSongList}
+                  lastPlayDuration={lastPlayDuration}
+                />
               </Box>
             </Box>
           </ConfirmProvider>

@@ -21,7 +21,6 @@ interface PlaylistInfoBaseProps extends Props {
 }
 function PlaylistInfoBase({
   playlist,
-  setSelectedList,
   enableMenu = playlist.type === 'typical',
   albumIcon = <AlbumOutlinedIcon />,
   children,
@@ -30,6 +29,8 @@ function PlaylistInfoBase({
   const { DiskIcon, outerLayerBtn } = playerStyle;
   const currentPlayingList = useNoxSetting((state) => state.currentPlayingList);
   const currentPlayList = useNoxSetting((state) => state.currentPlaylist);
+  const setSelectedList = useNoxSetting((state) => state.setCurrentPlaylist);
+  const getPlaylist = useNoxSetting((state) => state.getPlaylist);
   const currentPlaying = currentPlayingList?.id === playlist.id;
   const currentSelected = currentPlayList?.id === playlist.id;
 
@@ -59,7 +60,7 @@ function PlaylistInfoBase({
     >
       <ListItemButton
         style={{ maxWidth: 'calc(100% - 84px)' }}
-        onClick={() => setSelectedList(playlist)}
+        onClick={() => getPlaylist(playlist.id).then(setSelectedList)}
         id={playlist.id}
       >
         <Box
@@ -87,7 +88,6 @@ function PlaylistInfoBase({
 
 interface Props {
   playlist: NoxMedia.Playlist;
-  setSelectedList: (playlist: NoxMedia.Playlist) => void;
   handleAddToFavClick: (playlist: NoxMedia.Playlist) => void;
   onPlayAllFromFav: (playlist: NoxMedia.Playlist) => void;
   handleDeleteFavClick: (playlist: NoxMedia.Playlist) => void;
