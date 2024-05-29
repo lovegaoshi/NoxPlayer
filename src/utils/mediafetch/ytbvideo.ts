@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies, camelcase
 import { get_song } from 'libmuse';
 
-import { regexFetchProps } from '@APM/utils/mediafetch/generic';
 import { biliApiLimiter } from '@APM/utils/mediafetch/throttle';
 import SongTS from '@objects/Song';
 import { Source } from '@enums/MediaFetch';
@@ -34,7 +33,7 @@ const refreshSong = (song: NoxMedia.Song) => song;
 
 const regexFetch = async ({
   reExtracted,
-}: regexFetchProps): Promise<NoxNetwork.NoxRegexFetch> => {
+}: NoxNetwork.RegexFetchProps): Promise<NoxNetwork.NoxRegexFetch> => {
   const audioInfo = await fetchAudioInfo(reExtracted[1]!);
   return { songList: audioInfo || [] };
 };

@@ -9,7 +9,7 @@ interface Props {
 }
 const getOrSetR128Gain = async ({
   song,
-  getSource = (v) => fetchPlayUrlPromise(v),
+  getSource = (song) => fetchPlayUrlPromise({ song }),
 }: Props) => {
   const r128Val = getR128Gain(song);
   if (r128Val) {

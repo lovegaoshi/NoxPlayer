@@ -2113,16 +2113,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/core-downloads-tracker@npm:^5.15.18":
-  version: 5.15.18
-  resolution: "@mui/core-downloads-tracker@npm:5.15.18"
-  checksum: 10c0/7899df3ce5192f2b876b8e5e645b03701512b9edaf386be07aa81d0d940404fa966776ef3e5e7654f312949f669db60438b864e14f7cece3eec7b5979a7349aa
+"@mui/core-downloads-tracker@npm:^5.15.19":
+  version: 5.15.19
+  resolution: "@mui/core-downloads-tracker@npm:5.15.19"
+  checksum: 10c0/90cd3eb95399326f60140618b43c91de133a7192fd122c379278e30e09b921a6109786189b1a78e45b3b6ef6104d0f0e2f29209e48f64c978ec28ef91c5bce2b
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.15.18":
-  version: 5.15.18
-  resolution: "@mui/icons-material@npm:5.15.18"
+"@mui/icons-material@npm:^5.15.19":
+  version: 5.15.19
+  resolution: "@mui/icons-material@npm:5.15.19"
   dependencies:
     "@babel/runtime": "npm:^7.23.9"
   peerDependencies:
@@ -2132,7 +2132,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/8990f48060cb9f52a898c3b53d602913129bd37c811528dbc3988a62b1ef84b12dd9e263be76200a429455e5552706d1395c8f2b1fe56c04b37543784864d43c
+  checksum: 10c0/f2a4381b6a0f955d74aa5ac88bb8d38fee384fdff9a8e82c7fb9e596fbc61ccff97883a6c1a3cfbab3253f4d53c3fef21a3b438dfe45de365e842577bc892c08
   languageName: node
   linkType: hard
 
@@ -2165,13 +2165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.15.18":
-  version: 5.15.18
-  resolution: "@mui/material@npm:5.15.18"
+"@mui/material@npm:^5.15.19":
+  version: 5.15.19
+  resolution: "@mui/material@npm:5.15.19"
   dependencies:
     "@babel/runtime": "npm:^7.23.9"
     "@mui/base": "npm:5.0.0-beta.40"
-    "@mui/core-downloads-tracker": "npm:^5.15.18"
+    "@mui/core-downloads-tracker": "npm:^5.15.19"
     "@mui/system": "npm:^5.15.15"
     "@mui/types": "npm:^7.2.14"
     "@mui/utils": "npm:^5.15.14"
@@ -2194,7 +2194,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 10c0/0ae6ec5cb806b8095f16c542be5e0ae059e5e4adccf1cc463865acd0429b7c9b8fc12ce56c12a15ac787f29c173d118ff06af56e1e4c46a040212cd7d203c15d
+  checksum: 10c0/388eb14bedea7453dde7e5cbdcf9e51bec20567978d9405aa4affb9df69d25c9696427820ebff927215a8e8cd79a873ce9ac4207989a1c6b859d26394031382e
   languageName: node
   linkType: hard
 
@@ -2236,9 +2236,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styles@npm:^5.15.18":
-  version: 5.15.18
-  resolution: "@mui/styles@npm:5.15.18"
+"@mui/styles@npm:^5.15.19":
+  version: 5.15.19
+  resolution: "@mui/styles@npm:5.15.19"
   dependencies:
     "@babel/runtime": "npm:^7.23.9"
     "@emotion/hash": "npm:^0.9.1"
@@ -2263,7 +2263,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/45128c321ada027af3d86f5dba32ba67ba9c65b121150b71be12542337214b2a9d1f766430752b3bb55f5375c3a7cc06487e4d281de31c3129b48a8f61993c6d
+  checksum: 10c0/0aaf18c4c1dcba0445bcf40df607ae3da84d1a3b43803b375dd005b5a8dee2c32d5c60320a5183b3cc8b892b0d194402ce992298fa38c4b3b072bd5e2bc60594
   languageName: node
   linkType: hard
 
@@ -8965,14 +8965,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-ui-confirm@npm:^3.0.15":
-  version: 3.0.15
-  resolution: "material-ui-confirm@npm:3.0.15"
+"material-ui-confirm@npm:^3.0.16":
+  version: 3.0.16
+  resolution: "material-ui-confirm@npm:3.0.16"
   peerDependencies:
     "@mui/material": ">= 5.0.0"
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/d0f7bd20e90ff6f733d36815c06e8a8fc177bb010a7e7b4557dcc23fb2d3549bc998f31f52d4c3120fec16daed911ba594678e2c5fe7fc1309f048a5d97c7c84
+  checksum: 10c0/2de68ffaf55fd178bbae789d6a43943907acfda2562ee46dfd4c228056902d16bfd6dae899eb355e204123771d57b3609e20a626d1ecad0568100f889baaa001
   languageName: node
   linkType: hard
 
@@ -9640,10 +9640,10 @@ __metadata:
     "@fortawesome/fontawesome-free": "npm:^6.5.2"
     "@fortawesome/free-brands-svg-icons": "npm:^6.5.2"
     "@hello-pangea/dnd": "npm:^16.6.0"
-    "@mui/icons-material": "npm:^5.15.18"
+    "@mui/icons-material": "npm:^5.15.19"
     "@mui/lab": "npm:^5.0.0-alpha.170"
-    "@mui/material": "npm:^5.15.18"
-    "@mui/styles": "npm:^5.15.18"
+    "@mui/material": "npm:^5.15.19"
+    "@mui/styles": "npm:^5.15.19"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.13"
     "@types/chrome": "npm:^0.0.268"
     "@types/md5": "npm:^2.3.5"
@@ -9691,7 +9691,7 @@ __metadata:
     i18next: "npm:^23.11.5"
     libmuse: "git+https://github.com/lovegaoshi/muse.git#apm-release"
     lodash: "npm:^4.17.21"
-    material-ui-confirm: "npm:^3.0.15"
+    material-ui-confirm: "npm:^3.0.16"
     md5: "npm:^2.3.0"
     mini-css-extract-plugin: "npm:^2.9.0"
     node-sass: "npm:^9.0.0"
