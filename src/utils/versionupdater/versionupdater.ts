@@ -56,6 +56,6 @@ export default async () => {
       updated = true;
     }
   }
-  updated && alert(updatedString);
+  if (updated) alert(updatedString);
   saveItem('nox-version', currVer);
 };

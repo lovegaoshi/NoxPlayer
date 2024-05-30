@@ -38,11 +38,11 @@ const regexFetch = async ({
   return { songList: audioInfo || [] };
 };
 
-const fetchAudioInfo = async (
+const fetchAudioInfo = (
   bvid: string,
   progressEmitter: () => void = () => undefined,
 ) =>
-  await biliApiLimiter.schedule(() => {
+  biliApiLimiter.schedule(() => {
     progressEmitter();
     return fetchAudioInfoRaw(bvid);
   });

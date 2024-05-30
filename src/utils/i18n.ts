@@ -1,7 +1,8 @@
-// src/localization/i18n.ts
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+// eslint-disable-next-line import/extensions
 import translationEN from '@APM/localization/en/translation.json';
+// eslint-disable-next-line import/extensions
 import translationZHCN from '@APM/localization/zhcn/translation.json';
 
 export const resources = {

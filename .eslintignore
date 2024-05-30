@@ -2,6 +2,6 @@ build/
 build/*.js
 dist/
 node_modules/
-azusa-player-mobile"/
+src/azusa-player-mobile/
 .snapshots/
 *.min.js

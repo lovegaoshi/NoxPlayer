@@ -5,6 +5,7 @@ import { logger } from '@utils/Logger';
 import { PlaylistTypes } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
+// eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
 
 export const SongListSuffix = '-songList';
@@ -19,7 +20,7 @@ const removeItem = (key: string) => chrome.storage.local.remove(key);
 export const savePlaylistIds = (val: string[]) =>
   saveItem(StorageKeys.MY_FAV_LIST_KEY, val);
 
-const getPlaylistIds = (): Promise<string[]> =>
+export const getPlaylistIds = (): Promise<string[]> =>
   getItem(StorageKeys.MY_FAV_LIST_KEY, []);
 
 const _delPlaylist = (playlistId: string) =>

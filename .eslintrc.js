@@ -70,7 +70,6 @@ module.exports = {
     'operator-linebreak': 'off',
     'max-len': 'off',
     'no-underscore-dangle': 'off',
-    'no-unused-vars': 'warn',
     'react/jsx-filename-extension': [
       1,
       {
@@ -83,27 +82,13 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/no-unescaped-entities': 'off',
     // no.
-    'arrow-body-style': 'off',
-    // no.
-    'no-plusplus': 'off',
-    // no.
-    'no-undef': 'off',
-    // no.
-    'no-restricted-syntax': 'off',
-    // no.
-    'consistent-return': 'off',
-    // no.
     radix: 'off',
     // && and ||? maybe. math operators? no. learn math.
     'no-mixed-operators': 'off',
     // i dont do this, but one line arrow functions interpreted I'm returning even though i dont use return.
     'no-return-assign': 'off',
-    // no. just no.
-    'no-continue': 'off',
-    // no. just no.
-    'no-return-await': 'off',
-    // no.
     'no-param-reassign': 'off',
+    'consistent-return': 'off',
     // i use <<.
     'no-bitwise': 'off',
     // for the convenience to work with stupid async chrome API calls.
@@ -116,5 +101,7 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/destructuring-assignment': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
 };
