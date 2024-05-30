@@ -98,7 +98,7 @@ export const getSettings = async (): Promise<NoxStorage.PlayerSettingDict> => ({
  * @param {string} key
  * @returns
  */
-export const readLocalStorage = (
+export const getItem = (
   key: string,
   defaultVal: unknown = undefined,
 ): Promise<any> => {
@@ -112,20 +112,8 @@ export const readLocalStorage = (
   });
 };
 
-const getItem = readLocalStorage;
-
-export const readLocalStorages = (keys: string[]): Promise<any> => {
-  return new Promise((resolve, _reject) => {
-    chrome.storage.local.get(keys, (result) => {
-      resolve(result);
-    });
-  });
-};
-
-export const setLocalStorage = (key: string, val: object | string) =>
+export const saveItem = (key: string, val: object | string) =>
   chrome.storage.local.set({ [key]: val });
-
-const saveItem = setLocalStorage;
 
 export const saveFav = (updatedToList: NoxMedia.Playlist) =>
   chrome.storage.local.set({

@@ -1,4 +1,4 @@
-import { setLocalStorage, readLocalStorage } from '../ChromeStorage';
+import { saveItem, getItem } from '../ChromeStorage';
 import update1118 from './1.1.1.8';
 import update3000 from './3.0.0.0';
 import update4000 from './4.0.0.0';
@@ -45,7 +45,7 @@ const updates: [Version, () => void | Promise<void>][] = [
  * unfortunately, my breaking changes actually breaks myself...
  */
 export default async () => {
-  const oldVer = await readLocalStorage('nox-version');
+  const oldVer = await getItem('nox-version');
   const oldVerParsed = convertVersion(oldVer);
   const currVer = getVersion();
   const updatedString = `Noxplayer is updated from ${oldVer} to ${currVer}! \nRead what's new in settings.\n电闹播放器更新了！去帮助里更新说明看更新了什么鬼玩意儿。`;
@@ -57,5 +57,5 @@ export default async () => {
     }
   }
   updated && alert(updatedString);
-  setLocalStorage('nox-version', currVer);
+  saveItem('nox-version', currVer);
 };
