@@ -10,7 +10,7 @@ jobs:
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: print latest_commit
         run: echo ${{ github.sha }}
 
@@ -45,12 +45,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Setup Yarn
         uses: threeal/setup-yarn-action@v2.0.0
@@ -67,12 +67,9 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: yarn build
-        run: yarn build
-
-      - name: zip
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r NoxPlayer.zip build
+        run: |
+          yarn build
+          zip -r NoxPlayer.zip build
 
       - name: pack crx
         uses: cardinalby/webext-buildtools-chrome-crx-action@v2
