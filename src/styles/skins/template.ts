@@ -6,8 +6,6 @@ import resolveBackgroundImage, {
 } from '@APM/utils/mediafetch/mainbackgroundfetch';
 import { randomChoice } from '@utils/Utils';
 
-export { randomChoice } from '@utils/Utils';
-
 interface overrideMUITheme {
   [key: string]: any;
 }

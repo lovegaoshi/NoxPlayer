@@ -1,4 +1,5 @@
-import skinTemplate, { randomChoice } from './template';
+import skinTemplate from './template';
+import { randomChoice } from '@utils/Utils';
 import clesss from './clesss';
 import APMSkins from './APMSkins';
 
