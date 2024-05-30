@@ -31,6 +31,7 @@ jobs:
 
       - name: yarn build
         run: |
+          yarn ci:format
           yarn build
           zip -r NoxPlayer.zip build
 

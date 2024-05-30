@@ -620,7 +620,9 @@
   height: 300px;
   margin: 15px auto;
   overflow: hidden;
-  transition: box-shadow, border 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
+  transition:
+    box-shadow,
+    border 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   width: 300px;
 }
 .react-jinke-music-player-mobile-cover-placeholder {
@@ -689,7 +691,9 @@
   left: 0;
   position: absolute;
   top: 5px;
-  transition: width, background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
+  transition:
+    width,
+    background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   width: 0;
   z-index: 77;
 }
@@ -826,7 +830,8 @@
   border-bottom: 1px solid rgba(3, 3, 3, 0.75);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  transition: background-color,
+  transition:
+    background-color,
     border-bottom 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
 }
 .audio-lists-panel-header-close-btn,
@@ -1235,7 +1240,9 @@
   left: 0;
   position: absolute;
   top: 5px;
-  transition: width, background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
+  transition:
+    width,
+    background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   width: 0;
   z-index: 77;
 }
@@ -1430,7 +1437,9 @@
   min-width: 60px;
   padding: 0 10px;
   position: relative;
-  transition: color, background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
+  transition:
+    color,
+    background-color 0.35s cubic-bezier(0.43, -0.1, 0.16, 1.1);
   user-select: none;
 }
 .react-jinke-music-player-main
