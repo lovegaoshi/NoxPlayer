@@ -62,7 +62,7 @@ export default () => {
 
   const musicSrcParser = async (v: NoxMedia.Song) => {
     try {
-      const resolvedUrl = await fetchPlayUrlPromise(v);
+      const resolvedUrl = await fetchPlayUrlPromise({ song: v });
       if (false) {
         return currentAudioInst?.playNext?.();
       }
