@@ -48,7 +48,7 @@ const fetchBiliSearchList = async (
       getItems: (js) => js.data.result,
       progressEmitter,
       resolveBiliBVID: fastSearch
-        ? async (bvobjs) => await fastSearchResolveBVID(bvobjs)
+        ? (bvobjs) => fastSearchResolveBVID(bvobjs)
         : undefined,
     });
   } catch (e) {
