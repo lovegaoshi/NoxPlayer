@@ -13,7 +13,7 @@ import Input from '@mui/material/Input';
 
 interface Props<T> {
   visible: boolean;
-  options: Array<T>;
+  options: T[];
   renderOptionTitle?: (val: T) => string;
   selectTitle?: string;
   title?: string;

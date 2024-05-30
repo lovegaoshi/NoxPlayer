@@ -8,7 +8,7 @@ export default async function update1118() {
   );
   for (const favKey of (await readLocalStorage(
     StorageKeys.MY_FAV_LIST_KEY,
-  )) as Array<string>) {
+  )) as string[]) {
     setLocalStorage(favKey, {
       ...dummyPlaylistList,
       ...((await readLocalStorage(favKey)) as NoxMedia.Playlist),

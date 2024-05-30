@@ -15,7 +15,7 @@ interface overrideMUITheme {
 interface SkinTemplate {
   playerBanner: string;
   playerBackground: () => Promise<NoxTheme.backgroundImage>;
-  gifs: Array<string>;
+  gifs: string[];
   appTitle: string;
   desktopTheme: string;
   colorTheme: overrideMUITheme;
