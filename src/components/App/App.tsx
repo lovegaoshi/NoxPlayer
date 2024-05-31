@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactJkMusicPlayer from 'react-jinke-music-player';
 import '../../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';

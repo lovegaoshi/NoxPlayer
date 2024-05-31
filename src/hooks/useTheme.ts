@@ -11,7 +11,7 @@ export const buttonStyle = (sliderColor: string, desktopTheme: string) => css`
 `;
 
 export const ScrollBar = (scrollbarColor: string = 'white') =>
-  makeStyles((_theme) => ({
+  makeStyles(() => ({
     root: {
       '&::-webkit-scrollbar': {
         width: '14px',

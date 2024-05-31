@@ -50,7 +50,12 @@ export const getBiliVideoInfo = async (bvid: string) => {
     interactive: rjson.archive.interactive,
     aid: rjson.archive.aid,
     new_web_edit: 1,
-    videos: [],
+    videos: rjson.videos.map((video: any) => ({
+      filename: video.filename,
+      title: video.title,
+      desc: video.desc,
+      cid: video.cid,
+    })),
     act_reserve_create: 0,
     handle_staff: false,
     topic_grey: 1,
@@ -60,15 +65,6 @@ export const getBiliVideoInfo = async (bvid: string) => {
     web_os: 3,
     csrf: (await getBiliJct())!.value,
   };
-
-  for (const video of rjson.videos) {
-    result.videos.push({
-      filename: video.filename,
-      title: video.title,
-      desc: video.desc,
-      cid: video.cid,
-    });
-  }
 
   return result;
 };

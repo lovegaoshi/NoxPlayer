@@ -9,8 +9,11 @@
     "start": "webpack serve --env dev",
     "watch": "webpack --env devBuild --watch",
     "dev": "python ./scripts/moveFFMpeg.py && webpack --env devBuild && python ./scripts/moveFFMpeg.py --build",
-    "build": "webpack --env prod && cp node_modules/@ffmpeg/core/dist/umd/ffmpeg-core.js build/js/ffmpeg-core.js && cp node_modules/@ffmpeg/core/dist/umd/ffmpeg-core.wasm build/js/ffmpeg-core.wasm",
+    "build": "webpack --env prod && python ./scripts/moveFFMpeg.py --prod",
     "dep": "git submodule update --remote --merge --recursive && yarn upgrade-interactive",
+    "ci:lint": "eslint src --max-warnings=0",
+    "ci:format": "prettier --check src",
+    "prettify": "prettier --write ./src",
     "compile": "tsc"
   },
   "devDependencies": {

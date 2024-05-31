@@ -17,7 +17,7 @@ const useInitializeStore = () => {
     initializePlayerSetting();
     const initializedObject = await initPlayerObject();
     initApp(initializedObject);
-    return await initPlayer(initializedObject);
+    return initPlayer(initializedObject);
   };
 
   const initializeFromSync = async (content: Uint8Array) => {

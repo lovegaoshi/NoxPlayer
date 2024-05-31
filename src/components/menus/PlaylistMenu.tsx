@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind */
+/* eslint-disable */
 import React from 'react';
 import { Menu, Item, useContextMenu } from 'react-contexify';
 import YoutubeSearchedForIcon from '@mui/icons-material/YoutubeSearchedFor';

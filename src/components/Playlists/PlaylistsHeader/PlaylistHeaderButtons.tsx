@@ -11,7 +11,7 @@ interface Props {
   sx: SxProps;
   color?: string;
 }
-export default function ({ sx, color }: Props) {
+export default function PlaylistHeaderButtons({ sx, color }: Props) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>

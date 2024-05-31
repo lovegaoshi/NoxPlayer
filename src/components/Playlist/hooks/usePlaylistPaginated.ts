@@ -69,8 +69,9 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     resetToFirstPage = false,
     songList = getCurrentRow(),
   ) => {
-    for (let i = 0, n = songList.length; i < n; i++) {
-      if (songList[i]!.id === currentPlayingId) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [i, v] of songList.entries()) {
+      if (v.id === currentPlayingId) {
         return setPage(Math.floor(i / defaultRowsPerPage));
       }
     }

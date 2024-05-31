@@ -6,8 +6,6 @@ import resolveBackgroundImage, {
 } from '@APM/utils/mediafetch/mainbackgroundfetch';
 import { randomChoice } from '@utils/Utils';
 
-export { randomChoice } from '@utils/Utils';
-
 interface overrideMUITheme {
   [key: string]: any;
 }
@@ -15,7 +13,7 @@ interface overrideMUITheme {
 interface SkinTemplate {
   playerBanner: string;
   playerBackground: () => Promise<NoxTheme.backgroundImage>;
-  gifs: Array<string>;
+  gifs: string[];
   appTitle: string;
   desktopTheme: string;
   colorTheme: overrideMUITheme;

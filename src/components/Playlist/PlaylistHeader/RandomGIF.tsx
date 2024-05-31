@@ -13,7 +13,7 @@ const getRandomNumberExclude = (randRange: number, exclude = -1) => {
 };
 
 interface randomGIFProps {
-  gifs: Array<string>;
+  gifs: string[];
   playlist: string;
   onClickCallback: () => void;
 }

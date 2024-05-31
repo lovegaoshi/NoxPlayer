@@ -1,6 +1,6 @@
 import { DEFAULT_UA } from '@APM/utils/BiliFetch';
 
-chrome.action.onClicked.addListener((_tab) => {
+chrome.action.onClicked.addListener(() => {
   // console.log('onClicked')
   chrome.tabs.create({
     url: chrome.runtime.getURL('popup.html'),

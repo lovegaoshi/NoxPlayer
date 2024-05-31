@@ -5,6 +5,7 @@ import { logger } from '@utils/Logger';
 import { PlaylistTypes } from '@enums/Playlist';
 import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
+// eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
 
 export const SongListSuffix = '-songList';
@@ -19,10 +20,17 @@ const removeItem = (key: string) => chrome.storage.local.remove(key);
 export const savePlaylistIds = (val: string[]) =>
   saveItem(StorageKeys.MY_FAV_LIST_KEY, val);
 
-export const delPlaylist = (playlistId: string, playlistIds: Array<string>) => {
+export const getPlaylistIds = (): Promise<string[]> =>
+  getItem(StorageKeys.MY_FAV_LIST_KEY, []);
+
+const _delPlaylist = (playlistId: string) =>
+  Promise.all([
+    removeItem(playlistId),
+    removeItem(`${playlistId}${SongListSuffix}`),
+  ]);
+export const delPlaylist = (playlistId: string, playlistIds: string[]) => {
   playlistIds.splice(playlistIds.indexOf(playlistId), 1);
-  removeItem(playlistId);
-  removeItem(`${playlistId}${SongListSuffix}`);
+  _delPlaylist(playlistId);
   savePlaylistIds(playlistIds);
   return playlistIds;
 };
@@ -42,7 +50,7 @@ export const savelastPlaylistId = (val: [string, string]) =>
 export const saveFavPlaylist = (playlist: NoxMedia.Playlist) =>
   savePlaylist(playlist, StorageKeys.FAVORITE_PLAYLIST_KEY);
 
-export const savePlayerSkins = async (skins: Array<any>) =>
+export const savePlayerSkins = (skins: any[]) =>
   saveItem(StorageKeys.SKINSTORAGE, skins);
 
 export const saveLyricMapping = async (
@@ -91,7 +99,7 @@ export const getSettings = async (): Promise<NoxStorage.PlayerSettingDict> => ({
  * @param {string} key
  * @returns
  */
-export const readLocalStorage = (
+export const getItem = (
   key: string,
   defaultVal: unknown = undefined,
 ): Promise<any> => {
@@ -105,30 +113,15 @@ export const readLocalStorage = (
   });
 };
 
-const getItem = readLocalStorage;
-
-export const readLocalStorages = async (keys: Array<string>): Promise<any> => {
-  return new Promise((resolve, _reject) => {
-    chrome.storage.local.get(keys, (result) => {
-      resolve(result);
-    });
-  });
-};
-
-export const setLocalStorage = async (key: string, val: object | string) =>
+export const saveItem = (key: string, val: object | string) =>
   chrome.storage.local.set({ [key]: val });
 
-const saveItem = setLocalStorage;
-
-export const saveFav = async (updatedToList: NoxMedia.Playlist) => {
-  return await chrome.storage.local.set({
+export const saveFav = (updatedToList: NoxMedia.Playlist) =>
+  chrome.storage.local.set({
     [updatedToList.id]: updatedToList,
   });
-};
 
-export const clearStorage = async () => {
-  chrome.storage.local.clear();
-};
+export const clearStorage = () => chrome.storage.local.clear();
 
 /**
  * wrapper for getting the current playerSetting.
@@ -158,10 +151,9 @@ export const getPlayerSettingKey = async (
 };
 
 const clearPlaylists = async () => {
-  const playlists = (
-    await chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY])
-  )[StorageKeys.MY_FAV_LIST_KEY];
-  chrome.storage.local.remove(playlists);
+  const playlistIds = await getPlaylistIds();
+  savePlaylistIds([]);
+  return playlistIds.map(_delPlaylist);
 };
 
 export const importStorageRaw = async (content: Uint8Array) => {
@@ -175,25 +167,21 @@ export const importStorageRaw = async (content: Uint8Array) => {
       (acc, curr) => ({ ...acc, [curr[0]]: curr[1] }),
       {},
     );
-    const playlists: string[] =
+    const playlistIds: string[] =
       JSON.parse(parsedContentDict[StorageKeys.MY_FAV_LIST_KEY]) || [];
     await clearPlaylists();
-    await chrome.storage.local.set({
-      [StorageKeys.MY_FAV_LIST_KEY]: playlists,
-    });
-    playlists.forEach((playlistID) => {
+    savePlaylistIds(playlistIds);
+    playlistIds.forEach((playlistID) => {
       const playlist = JSON.parse(parsedContentDict[playlistID]);
-      chrome.storage.local.set({
-        [playlist.id]: {
-          ...playlist,
-          songList: playlist.songList.reduce(
-            (acc: NoxMedia.Song[], curr: string) => [
-              ...acc,
-              ...JSON.parse(parsedContentDict[curr]),
-            ],
-            [],
-          ),
-        },
+      savePlaylist({
+        ...playlist,
+        songList: playlist.songList.reduce(
+          (acc: NoxMedia.Song[], curr: string) => [
+            ...acc,
+            ...JSON.parse(parsedContentDict[curr]),
+          ],
+          [],
+        ),
       });
     });
   } else {
@@ -243,7 +231,7 @@ export const initPlayerObject =
     searchPlaylist.id = StorageKeys.SEARCH_PLAYLIST_KEY;
     const playerObject = {
       settings,
-      playlistIds: await getItem(StorageKeys.MY_FAV_LIST_KEY, []),
+      playlistIds: await getPlaylistIds(),
       playlists: {},
       lastPlaylistId: await getItem(StorageKeys.LAST_PLAY_LIST, [
         'NULL',

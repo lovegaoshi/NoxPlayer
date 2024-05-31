@@ -22,7 +22,7 @@ export default function App() {
   const [backgroundSrc, setBackgroundSrc] =
     React.useState<NoxTheme.backgroundImage>();
   // @ts-ignore
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const timer = useTimer();
 
   useEffect(() => {

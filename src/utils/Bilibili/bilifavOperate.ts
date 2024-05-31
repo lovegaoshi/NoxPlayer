@@ -58,7 +58,7 @@ export const getOrInsertBiliFavlist = async (
 export const addToBiliFavlist = async (
   favlistid: string,
   bvids: string[],
-  progressEmitter: (val: number) => void = (_val: number) => undefined,
+  progressEmitter: (val: number) => void = () => undefined,
 ) => {
   const sendBVLikeEmitter = async (
     bvid: string,

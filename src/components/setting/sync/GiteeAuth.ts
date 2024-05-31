@@ -12,7 +12,7 @@ const clientSecret = process.env.GITEE_SECRET;
 const redirectURI = chrome.identity.getRedirectURL();
 
 export const getAuth = async (
-  callback = (_v?: string) =>
+  callback: (v: string) => Promise<void> = () =>
     checkAuthentication(authToken).then(console.debug),
   errorHandling = logger.error,
 ) =>

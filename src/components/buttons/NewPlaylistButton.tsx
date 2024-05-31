@@ -28,7 +28,7 @@ export default function newPlaylistButton({
         </IconButton>
       </Tooltip>
       <NewFavDialog
-        id={'newFavDialogID'}
+        id='newFavDialogID'
         openState={openSettingsDialog}
         onClose={(val?: string) => {
           onClosedDialogFunc(val);

@@ -47,6 +47,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
 
   // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _ = useNoxSetting((state) => state.playlistShouldReRender);
   const {
     playlists,
@@ -97,7 +98,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
         )}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='droppable'>
-            {(provided, _snapshot) => (
+            {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {playlistIds.map((item, index) => (
                   <Draggable

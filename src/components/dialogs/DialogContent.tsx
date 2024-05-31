@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
  *
  * @param {*} texts
  */
-const textToDialogContent = (texts: Array<string>) => {
+const textToDialogContent = (texts: string[]) => {
   return (
     <DialogContent>
       {texts.map((val) => {

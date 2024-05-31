@@ -32,7 +32,7 @@ function ImportSyncFavButton({
   sx,
 }: ImportPropsR) {
   // @ts-ignore
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
   const errorHandling = (
@@ -82,7 +82,7 @@ function ImportSyncFavButton({
 
 function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
   // @ts-ignore
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
   const errorHandling = (e: Error) => {
@@ -127,7 +127,7 @@ function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
   );
 }
 
-export default function ({
+export default function GenericSyncBtn({
   restoreFromUint8Array,
   login,
   noxBackup,

@@ -28,7 +28,7 @@ interface NoxApp {
   initialize: (init: NoxStorage.PlayerStorageObject) => void;
 }
 
-export default create<NoxApp>((set, _get) => {
+export default create<NoxApp>((set) => {
   const setPlayerStyle = (v: string) => {
     const playerStyle = skins(v);
     set({

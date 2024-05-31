@@ -5,9 +5,9 @@ import { LrcSource } from '@enums/LyricFetch';
 // TODO: make a proper cache
 let cachedLrc = ['', ''];
 
-export default (song: NoxMedia.Song) => {
-  const usedLyric = useLyric(song);
-  const fetchAndSetLyricOptions = (adhocTitle = song.name) =>
+export default (currSong: NoxMedia.Song) => {
+  const usedLyric = useLyric(currSong);
+  const fetchAndSetLyricOptions = (adhocTitle = currSong.name) =>
     usedLyric.fetchAndSetLyricOptions(adhocTitle, [
       LrcSource.QQ,
       LrcSource.BiliBili,
@@ -25,15 +25,14 @@ export default (song: NoxMedia.Song) => {
   };
 
   const loadLocalLrc = async (
-    lyricPromise: Promise<NoxNetwork.NoxFetchedLyric[]>,
+    lyricPromise: Promise<NoxLyric.NoxFetchedLyric[]>,
   ) => {
-    const localLrcColle = getLrcFromLocal(song);
-    return usedLyric.loadLocalLrc(getLrcFromLocal(song), async () =>
-      searchAndSetCurrentLyric(
-        undefined,
-        await lyricPromise,
-        (await localLrcColle)?.lrcDetail,
-      ),
+    const localLrcColle = getLrcFromLocal(currSong);
+    return usedLyric.loadLocalLrc(getLrcFromLocal(currSong), async () =>
+      searchAndSetCurrentLyric({
+        resolvedLrcOptions: await lyricPromise,
+        resolvedLyric: (await localLrcColle)?.lrcDetail,
+      }),
     );
   };
 
@@ -43,13 +42,7 @@ export default (song: NoxMedia.Song) => {
     song,
     lrc,
     currentTimeOffset,
-  }: {
-    resolvedLrc?: NoxNetwork.NoxFetchedLyric;
-    newLrcDetail?: Partial<NoxMedia.LyricDetail>;
-    lrc: string;
-    song: NoxMedia.Song;
-    currentTimeOffset: number;
-  }) => {
+  }: NoxLyric.UpdateLyricMapping) => {
     if (resolvedLrc) {
       const lyricDeatail: NoxMedia.LyricDetail = {
         songId: song.id,
@@ -65,19 +58,19 @@ export default (song: NoxMedia.Song) => {
     }
   };
 
-  const searchAndSetCurrentLyric = (
+  const searchAndSetCurrentLyric = ({
     index = 0,
     resolvedLrcOptions = usedLyric.lrcOptions,
-    resolvedLyric?: NoxMedia.LyricDetail,
-    mSong = song,
-  ) =>
-    usedLyric.searchAndSetCurrentLyric(
+    resolvedLyric,
+    song = currSong,
+  }: NoxLyric.SearchLyricL) =>
+    usedLyric.searchAndSetCurrentLyric({
       updateLyricMapping,
       index,
       resolvedLrcOptions,
       resolvedLyric,
-      mSong,
-    );
+      song,
+    });
 
   const initTrackLrcLoad = () =>
     usedLyric.initTrackLrcLoad(

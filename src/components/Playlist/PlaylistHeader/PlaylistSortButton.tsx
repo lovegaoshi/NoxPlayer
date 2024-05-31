@@ -18,7 +18,7 @@ interface Props {
   playlist: NoxMedia.Playlist;
 }
 
-export default function ({ sortPlaylist, playlist }: Props) {
+export default function PlaylistSortButton({ sortPlaylist, playlist }: Props) {
   const [showDialog, setShowDialog] = React.useState(false);
   const [ascending, setAscending] = React.useState(false);
   const sortOptions = Object.values(SortOptions);
