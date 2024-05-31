@@ -50,12 +50,14 @@ export default async () => {
   const currVer = getVersion();
   const updatedString = `Noxplayer is updated from ${oldVer} to ${currVer}! \nRead what's new in settings.\n电闹播放器更新了！去帮助里更新说明看更新了什么鬼玩意儿。`;
   let updated = false;
+  // eslint-disable-next-line no-restricted-syntax
   for (const update of updates) {
     if (needUpdate(oldVerParsed, update[0])) {
       await update[1]();
       updated = true;
     }
   }
+  // eslint-disable-next-line no-alert
   if (updated) alert(updatedString);
   saveItem('nox-version', currVer);
 };

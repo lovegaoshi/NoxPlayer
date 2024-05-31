@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind */
+/* eslint-disable */
 import React from 'react';
 import { Menu, Item, Separator, useContextMenu } from 'react-contexify';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';

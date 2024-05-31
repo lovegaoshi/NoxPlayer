@@ -12,6 +12,7 @@ const resolveURL = async (song: NoxMedia.Song) => {
   let maxAudioQualityStream = { bitrate: 0, url: '' };
   const formats =
     extractedVideoInfo.adaptive_formats ?? extractedVideoInfo.formats ?? [];
+  // eslint-disable-next-line no-restricted-syntax
   for (const videoStream of formats) {
     if (
       videoStream.has_audio &&

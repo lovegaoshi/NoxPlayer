@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Menu, Item, useContextMenu } from 'react-contexify';
 import TerminalIcon from '@mui/icons-material/Terminal';

@@ -24,7 +24,7 @@ interface Props {
   usePlaylist: UsePlaylist;
 }
 
-export default function ({ usePlaylist }: Props) {
+export default function PlaylistSelectBtn({ usePlaylist }: Props) {
   const onClick = () => {
     if (usePlaylist.checking) {
       usePlaylist.resetSelected();

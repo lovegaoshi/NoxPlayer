@@ -81,10 +81,6 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/no-unescaped-entities': 'off',
-    // no.
-    radix: 'off',
-    // && and ||? maybe. math operators? no. learn math.
-    'no-mixed-operators': 'off',
     // i dont do this, but one line arrow functions interpreted I'm returning even though i dont use return.
     'no-return-assign': 'off',
     'no-param-reassign': 'off',
@@ -93,8 +89,6 @@ module.exports = {
     'no-bitwise': 'off',
     // for the convenience to work with stupid async chrome API calls.
     'no-await-in-loop': 'off',
-    // actually a feature not oversight. no.
-    'no-fallthrough': 'off',
     'jsx-a11y/click-events-have-key-events': 'off',
     // no. its readable.
     'no-nested-ternary': 'off',

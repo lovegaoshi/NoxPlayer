@@ -8,7 +8,7 @@ import Search from './PlaylistsHeader/Search';
 import PlaylistHeaderButtons from './PlaylistsHeader/PlaylistHeaderButtons';
 import PlaylistList from './PlaylistsList/PlaylistList';
 
-export default function () {
+export default function Playlists() {
   const playlistCRUD = usePlaylistCRUD();
   const { colorTheme } = useApp((state) => state.playerStyle);
   const AddFavIcon = {

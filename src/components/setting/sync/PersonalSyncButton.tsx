@@ -21,7 +21,7 @@ export function ImportSyncFavButton({
 }: SyncFavButtonProps) {
   const { initializeFromSync } = useInitializeStore();
   // @ts-ignore
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
   const errorHandling = (
@@ -70,7 +70,7 @@ export function ExportSyncFavButton({
   cloudAddress = '',
 }: SyncFavButtonProps) {
   // @ts-ignore
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
   const errorHandling = (e: Object) => {

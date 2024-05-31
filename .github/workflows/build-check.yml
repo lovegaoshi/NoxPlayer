@@ -31,7 +31,6 @@ jobs:
 
       - name: yarn build
         run: |
-          yarn ci:format
           yarn build
           zip -r NoxPlayer.zip build
 
@@ -42,3 +41,26 @@ jobs:
           zipFilePath: 'NoxPlayer.zip'
           crxFilePath: 'NoxPlayer.crx'
           privateKey: ${{ secrets.PEM_KEY }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Yarn
+        uses: threeal/setup-yarn-action@v2.0.0
+
+      - name: Install dependencies
+        run: yarn; git submodule update --init --recursive
+
+      - name: yarn ci
+        run: |
+          yarn ci:format
+          yarn ci:lint
