@@ -32,6 +32,8 @@ export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
   };
 
   return (
+    // HACK: how to fix this?
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <span
       className='group audio-download'
       // @ts-expect-error

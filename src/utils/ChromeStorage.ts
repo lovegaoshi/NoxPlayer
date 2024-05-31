@@ -23,14 +23,14 @@ export const savePlaylistIds = (val: string[]) =>
 export const getPlaylistIds = (): Promise<string[]> =>
   getItem(StorageKeys.MY_FAV_LIST_KEY, []);
 
-const _delPlaylist = (playlistId: string) =>
+const delPlaylistPromise = (playlistId: string) =>
   Promise.all([
     removeItem(playlistId),
     removeItem(`${playlistId}${SongListSuffix}`),
   ]);
 export const delPlaylist = (playlistId: string, playlistIds: string[]) => {
   playlistIds.splice(playlistIds.indexOf(playlistId), 1);
-  _delPlaylist(playlistId);
+  delPlaylistPromise(playlistId);
   savePlaylistIds(playlistIds);
   return playlistIds;
 };
@@ -153,7 +153,7 @@ export const getPlayerSettingKey = async (
 const clearPlaylists = async () => {
   const playlistIds = await getPlaylistIds();
   savePlaylistIds([]);
-  return playlistIds.map(_delPlaylist);
+  return playlistIds.map(delPlaylistPromise);
 };
 
 export const importStorageRaw = async (content: Uint8Array) => {
