@@ -21,25 +21,25 @@ import KeroroTheme from './skins/keroro';
 // needs to enable top-level await; necessary for other modules to import current skin config
 const setting = await getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
-export const SkinKeys = [
-  '诺莺nox',
-  '阿梓azusa',
-  '星谷樹itsuki',
-  'clessS',
-  'Amelia Watson',
-  'Gawr Gura',
-  'Pokemon安妮',
-  '赫拉Kris',
-  '林莉奈RinaHayashi',
-  '薇Steria',
-  '桃几OvO',
-  '阿蕊娅Aria',
-  '黑泽诺亚NOIR',
-  '莱妮娅Rynia',
-  '阿布',
-  '露米Lumi',
-  '蛙吹Keroro',
-];
+
+export const SkinMap: { [key: string]: () => any } = {
+  诺莺nox: () => NoxTheme(),
+  星谷樹itsuki: () => ItsukiTheme(),
+  clessS: () => ClessSTheme(),
+  'Amelia Watson': () => AmeliaTheme(),
+  'Gawr Gura': () => GuraTheme(),
+  Pokemon安妮: () => PomeloTheme(),
+  赫拉Kris: () => HeraKrisTheme(),
+  林莉奈RinaHayashi: () => RinaHayashiTheme(),
+  薇Steria: () => SteriaTheme(),
+  桃几OvO: () => TaojiTheme(),
+  阿蕊娅Aria: () => AriaTheme(),
+  黑泽诺亚NOIR: () => NoirTheme(),
+  莱妮娅Rynia: () => RyniaTheme(),
+  阿布: () => NiyaTheme(),
+  露米Lumi: () => LumiTheme(),
+  蛙吹Keroro: () => KeroroTheme(),
+};
 
 export const skins = (key = setting.skin) => {
   const getSkin = () => {
@@ -51,46 +51,7 @@ export const skins = (key = setting.skin) => {
      * various color themes
      *
      */
-    if (!key) {
-      key = '诺莺nox';
-    }
-    switch (key) {
-      case 'clessS':
-        return ClessSTheme();
-      case '诺莺nox':
-        return NoxTheme();
-      case '星谷樹itsuki':
-        return ItsukiTheme();
-      case 'Amelia Watson':
-        return AmeliaTheme();
-      case 'Gawr Gura':
-        return GuraTheme();
-      case 'Pokemon安妮':
-        return PomeloTheme();
-      case '赫拉Kris':
-        return HeraKrisTheme();
-      case '林莉奈RinaHayashi':
-        return RinaHayashiTheme();
-      case '薇Steria':
-        return SteriaTheme();
-      case '桃几OvO':
-        return TaojiTheme();
-      case '阿蕊娅Aria':
-        return AriaTheme();
-      case '黑泽诺亚NOIR':
-        return NoirTheme();
-      case '莱妮娅Rynia':
-        return RyniaTheme();
-      case '阿布':
-        return NiyaTheme();
-      case '露米Lumi':
-        return LumiTheme();
-      case '蛙吹Keroro':
-        return KeroroTheme();
-      default:
-        // default is azusa skin.
-        return AzusaTheme();
-    }
+    return SkinMap[key ?? '诺莺nox']() ?? AzusaTheme();
   };
   const playerStyle = getSkin();
   return {
