@@ -62,5 +62,6 @@ jobs:
 
       - name: yarn ci
         run: |
+          yarn compile
           yarn ci:format
           yarn ci:lint

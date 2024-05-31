@@ -96,7 +96,11 @@ export const addToBiliFavlist = async (
   );
 };
 
-export const syncFavlist = async (favlist: NoxMedia.Playlist) => {
+export const syncFavlist = async (
+  favlist: NoxMedia.Playlist,
+  p?: NoxUtils.ProgressEmitter,
+) => {
+  p?.(100);
   const user = await getBiliUser();
   if (!user.mid) return false;
   const favid = await getOrInsertBiliFavlist(
@@ -113,5 +117,6 @@ export const syncFavlist = async (favlist: NoxMedia.Playlist) => {
     favid,
     uniqBVIDs.filter((val) => val.startsWith('BV')),
   );
+  p?.(0);
   return true;
 };

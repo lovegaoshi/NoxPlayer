@@ -7,12 +7,13 @@ import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
 // eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
+import { MUSICFREE } from './mediafetch/musicfree';
 
 export const SongListSuffix = '-songList';
 
-export const getMusicFreePlugin = (): string[] => [];
+export const getMusicFreePlugin = (): MUSICFREE[] => [];
 
-export const saveDefaultSearch = (val: SearchOptions) =>
+export const saveDefaultSearch = (val: SearchOptions | MUSICFREE) =>
   saveItem(StorageKeys.DEFAULT_SEARCH, val);
 
 const removeItem = (key: string) => chrome.storage.local.remove(key);

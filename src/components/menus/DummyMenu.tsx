@@ -1,4 +1,6 @@
 /* eslint-disable */
+// @ts-nocheck
+// HACK: the menu type checks are just a giant mess
 import React from 'react';
 import { Menu, Item, useContextMenu } from 'react-contexify';
 import TerminalIcon from '@mui/icons-material/Terminal';

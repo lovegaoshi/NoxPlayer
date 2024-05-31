@@ -114,7 +114,10 @@ module.exports = (env) => {
             },
           },
           exclude: /node_modules/,
-          include: [path.resolve(__dirname, 'src')],
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'azusa-player-mobile'),
+          ],
         },
         {
           test: /\.(s[ac]|c)ss$/i,
@@ -237,12 +240,12 @@ module.exports = (env) => {
         '@objects': path.resolve(__dirname, 'src/objects'),
         '@background': path.resolve(__dirname, 'src/background'),
         '@stores': path.resolve(__dirname, 'src/stores'),
-        '@enums': path.resolve(__dirname, 'src/azusa-player-mobile/src/enums'),
+        '@enums': path.resolve(__dirname, 'azusa-player-mobile/src/enums'),
         '@mfsdk': path.resolve(
           __dirname,
-          'src/azusa-player-mobile/MusicFreePlugins/dist',
+          'azusa-player-mobile/MusicFreePlugins/dist',
         ),
-        '@APM': path.resolve(__dirname, 'src/azusa-player-mobile/src'),
+        '@APM': path.resolve(__dirname, 'azusa-player-mobile/src'),
       },
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],
       fallback: {

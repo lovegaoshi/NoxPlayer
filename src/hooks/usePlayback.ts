@@ -7,13 +7,16 @@ import useApp from '@stores/useApp';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
 import { Source } from '@enums/MediaFetch';
+import { DEFAULT_NULL_URL } from '@objects/Song';
+import { MUSICFREE } from '@utils/mediafetch/musicfree';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
 import { saveLastPlayDuration } from '../utils/ChromeStorage';
-import { DEFAULT_NULL_URL } from '@objects/Song';
+
+const SkipR128Source: (Source | undefined | MUSICFREE)[] = [Source.biliLive];
 
 export default () => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
@@ -49,7 +52,7 @@ export default () => {
   ) => {
     if (
       !playerSettingStore.getState().playerSetting.r128gain ||
-      [Source.biliLive].includes(song.source)
+      SkipR128Source.includes(song.source)
     ) {
       return;
     }

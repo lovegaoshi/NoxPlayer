@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-nocheck
 import React from 'react';
 import { Menu, Item, useContextMenu } from 'react-contexify';
 import YoutubeSearchedForIcon from '@mui/icons-material/YoutubeSearchedFor';

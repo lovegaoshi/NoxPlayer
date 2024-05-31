@@ -40,8 +40,8 @@ module.exports = {
           ['@components', './src/components'],
           ['@stores', './src/stores'],
           ['@hooks', './src/hooks'],
-          ['@enums', './src/azusa-player-mobile/src/enums'],
-          ['@APM', './src/azusa-player-mobile/src'],
+          ['@enums', './azusa-player-mobile/src/enums'],
+          ['@APM', './azusa-player-mobile/src'],
         ],
         extensions: ['.ts', '.js', '.jsx', '.json', 'ts', 'tsx'],
       },
@@ -88,5 +88,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
 };
