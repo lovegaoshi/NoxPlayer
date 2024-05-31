@@ -106,10 +106,7 @@ export const getItem = (
 ): Promise<any> => {
   return new Promise((resolve) => {
     chrome.storage.local.get([key], (result) => {
-      if (result[key] === undefined) {
-        resolve(defaultVal);
-      }
-      resolve(result[key]);
+      resolve(result[key] === undefined ? defaultVal : result[key]);
     });
   });
 };
