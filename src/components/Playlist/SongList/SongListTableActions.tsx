@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';

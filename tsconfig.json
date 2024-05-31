@@ -12,8 +12,8 @@
       "@styles/*": ["./src/styles/*"],
       "@objects/*": ["./src/objects/*"],
       "@background/*": ["./src/background/*"],
-      "@enums/*": ["./src/azusa-player-mobile/src/enums/*"],
-      "@APM/*": ["./src/azusa-player-mobile/src/*"]
+      "@enums/*": ["./azusa-player-mobile/src/enums/*"],
+      "@APM/*": ["./azusa-player-mobile/src/*"]
     },
     "target": "esnext",
     "module": "esnext",
@@ -24,7 +24,7 @@
     // "declaration": true,
     "sourceMap": true,
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": ".",
     "removeComments": true,
     "noEmit": true,
     "isolatedModules": true,
@@ -49,14 +49,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "build",
-    "public",
-    "src/azusa-player-mobile/__tests__",
-    "src/azusa-player-mobile/MusicFreePlugins",
-    "src/azusa-player-mobile/docs",
-    "src/azusa-player-mobile/src/**/*.tsx"
-  ]
+  "include": ["src", "azusa-player-mobile/src/types"],
+  "exclude": ["node_modules", "build", "public"]
 }

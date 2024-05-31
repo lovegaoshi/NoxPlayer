@@ -1,4 +1,4 @@
 [submodule "azusa-player-mobile"]
-	path = src/azusa-player-mobile
+	path = azusa-player-mobile
 	url = https://github.com/lovegaoshi/azusa-player-mobile.git
   branch = dev

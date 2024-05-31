@@ -5,7 +5,7 @@ import { biliApiLimiter } from '@APM/utils/mediafetch/throttle';
 import SongTS from '@objects/Song';
 import { Source } from '@enums/MediaFetch';
 
-const CIDPREFIX = `${Source.ytbvideo}-`;
+export const CIDPREFIX = `${Source.ytbvideo}-`;
 
 const resolveURL = async (song: NoxMedia.Song) => {
   const extractedVideoInfo = await get_song(song.bvid);
@@ -39,7 +39,7 @@ const regexFetch = async ({
   return { songList: audioInfo || [] };
 };
 
-const fetchAudioInfo = (
+export const fetchAudioInfo = (
   bvid: string,
   progressEmitter: () => void = () => undefined,
 ) =>

@@ -2584,6 +2584,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/base-64@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@types/base-64@npm:1.0.2"
+  checksum: 10c0/3ad69002bd9ca4e79c010f6d9a4c9d09967687153fa6bb98e9459c731219609a4ac76920451565784e9d98cbe3567429eb60bd1561918c3a6ea2436d894346af
+  languageName: node
+  linkType: hard
+
 "@types/body-parser@npm:*":
   version: 1.19.5
   resolution: "@types/body-parser@npm:1.19.5"
@@ -2716,6 +2723,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/he@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "@types/he@npm:1.2.3"
+  checksum: 10c0/562e4ec00e31e3d464e79e6da4b8a5c21999d38ceca6a8facaa96e89c2d646f410bb58bb81f48a7472aeb4655ce40d27b7d77e5a4fa5a2d9caa0f3037caab5b7
+  languageName: node
+  linkType: hard
+
 "@types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.5
   resolution: "@types/hoist-non-react-statics@npm:3.3.5"
@@ -2746,6 +2760,15 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/c4bffd87be9aff7e879c05bd2c28716220e0eb39788e3f8d314eee665324ad8f5f0919041cbd710254d553cd9cea023f8b776d4b1ec31d2188eac60af18c3022
+  languageName: node
+  linkType: hard
+
+"@types/js-base64@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "@types/js-base64@npm:3.3.1"
+  dependencies:
+    js-base64: "npm:*"
+  checksum: 10c0/677ada5339cd48fed160552dd599350a94e4ba3698dc749f23d5301dec852742203173bf0c86556bde0f17bb7321e508d8f6289c7a0ea9eded36c15037047719
   languageName: node
   linkType: hard
 
@@ -7805,6 +7828,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-base64@npm:*":
+  version: 3.7.7
+  resolution: "js-base64@npm:3.7.7"
+  checksum: 10c0/3c905a7e78b601e4751b5e710edd0d6d045ce2d23eb84c9df03515371e1b291edc72808dc91e081cb9855aef6758292a2407006f4608ec3705373dd8baf2f80f
+  languageName: node
+  linkType: hard
+
 "js-base64@npm:^2.4.9":
   version: 2.6.4
   resolution: "js-base64@npm:2.6.4"
@@ -8972,7 +9002,10 @@ __metadata:
     "@mui/material": "npm:^5.15.19"
     "@mui/styles": "npm:^5.15.19"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.13"
+    "@types/base-64": "npm:^1.0.2"
     "@types/chrome": "npm:^0.0.268"
+    "@types/he": "npm:^1.2.3"
+    "@types/js-base64": "npm:^3.3.1"
     "@types/md5": "npm:^2.3.5"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
