@@ -5,9 +5,9 @@ import { LrcSource } from '@enums/LyricFetch';
 // TODO: make a proper cache
 let cachedLrc = ['', ''];
 
-export default (song: NoxMedia.Song) => {
-  const usedLyric = useLyric(song);
-  const fetchAndSetLyricOptions = (adhocTitle = song.name) =>
+export default (currSong: NoxMedia.Song) => {
+  const usedLyric = useLyric(currSong);
+  const fetchAndSetLyricOptions = (adhocTitle = currSong.name) =>
     usedLyric.fetchAndSetLyricOptions(adhocTitle, [
       LrcSource.QQ,
       LrcSource.BiliBili,
@@ -27,8 +27,8 @@ export default (song: NoxMedia.Song) => {
   const loadLocalLrc = async (
     lyricPromise: Promise<NoxNetwork.NoxFetchedLyric[]>,
   ) => {
-    const localLrcColle = getLrcFromLocal(song);
-    return usedLyric.loadLocalLrc(getLrcFromLocal(song), async () =>
+    const localLrcColle = getLrcFromLocal(currSong);
+    return usedLyric.loadLocalLrc(getLrcFromLocal(currSong), async () =>
       searchAndSetCurrentLyric(
         undefined,
         await lyricPromise,
@@ -69,7 +69,7 @@ export default (song: NoxMedia.Song) => {
     index = 0,
     resolvedLrcOptions = usedLyric.lrcOptions,
     resolvedLyric?: NoxMedia.LyricDetail,
-    mSong = song,
+    mSong = currSong,
   ) =>
     usedLyric.searchAndSetCurrentLyric(
       updateLyricMapping,

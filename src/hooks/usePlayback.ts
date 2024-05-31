@@ -167,7 +167,6 @@ export default () => {
   const onAudioListsChange = (
     _currentPlayId: string,
     audioLists: NoxMedia.Song[],
-    _audioInfo: any,
   ) => setplayingList(audioLists);
   // console.log('audioListChange:', audioLists)
 

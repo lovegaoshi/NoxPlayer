@@ -7,8 +7,8 @@ import Grid from '@mui/material/Grid';
 import { getName } from '@APM/utils/re';
 import { useDebouncedValue } from '@APM/hooks';
 import useApp from '@stores/useApp';
-import LyricSearchBar from './LyricSearchBar';
 import useLyric from '@hooks/useLyric';
+import LyricSearchBar from './LyricSearchBar';
 
 const styles = () => ({
   inputOffset: {
@@ -44,7 +44,7 @@ interface LrcViewProps {
   className: string;
 }
 
-const LrcView = ({ lyricOffset, lrc, className }: LrcViewProps) => {
+function LrcView({ lyricOffset, lrc, className }: LrcViewProps) {
   const currentProgress = useApp((state) => state.currentProgress);
   const { colorTheme } = useApp((state) => state.playerStyle);
 
@@ -79,7 +79,7 @@ const LrcView = ({ lyricOffset, lrc, className }: LrcViewProps) => {
       recoverAutoScrollInterval={5000}
     />
   );
-};
+}
 
 export default withStyles(styles)((props: Props) => {
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
