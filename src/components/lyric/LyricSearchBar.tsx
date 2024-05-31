@@ -16,7 +16,7 @@ export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
 
   const onOptionSet = (_: any, newValue?: NoxLyric.NoxFetchedLyric) => {
     if (newValue === undefined) return;
-    searchAndSetCurrentLyric(0, [newValue]);
+    searchAndSetCurrentLyric({ index: 0, resolvedLrcOptions: [newValue] });
   };
 
   return (
