@@ -13,6 +13,7 @@ import {
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
 import { saveLastPlayDuration } from '../utils/ChromeStorage';
+import { DEFAULT_NULL_URL } from '@objects/Song';
 
 export default () => {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
@@ -63,12 +64,14 @@ export default () => {
   const musicSrcParser = async (v: NoxMedia.Song) => {
     try {
       const resolvedUrl = await fetchPlayUrlPromise({ song: v });
-      // return currentAudioInst?.playNext?.();
+      if (resolvedUrl.url === DEFAULT_NULL_URL) {
+        throw new Error('resolve failed');
+      }
       parseR128Gain(v, async () => resolvedUrl);
       return resolvedUrl.url;
     } catch (e) {
-      console.error(`[resolveURL] failed to resolve ${v}: ${e}`);
-      // throw e;
+      console.error(`[resolveURL] failed to resolve ${v.bvid}: ${e}`);
+      setTimeout(() => currentAudioInst?.playNext?.(), 1000);
       return 'FAILED_TO_RESOLVE';
     }
   };
@@ -223,6 +226,7 @@ export default () => {
     _audioLists: NoxMedia.Song[],
     audioInfo: NoxMedia.Song,
   ) => {
+    // HACK: does this get called?
     console.error('audio error', errMsg, audioInfo);
     setTimeout(() => {
       // console.debug('retrying...');
