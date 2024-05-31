@@ -69,7 +69,6 @@ module.exports = {
     'linebreak-style': 0,
     'operator-linebreak': 'off',
     'max-len': 'off',
-    'no-underscore-dangle': 'off',
     'react/jsx-filename-extension': [
       1,
       {
@@ -78,23 +77,15 @@ module.exports = {
     ],
     // i dont think this works well with typescript...
     'react/require-default-props': 'off',
-    'react/jsx-one-expression-per-line': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'react/no-unescaped-entities': 'off',
-    // i dont do this, but one line arrow functions interpreted I'm returning even though i dont use return.
-    'no-return-assign': 'off',
     'no-param-reassign': 'off',
     'consistent-return': 'off',
     // i use <<.
     'no-bitwise': 'off',
     // for the convenience to work with stupid async chrome API calls.
     'no-await-in-loop': 'off',
-    'jsx-a11y/click-events-have-key-events': 'off',
-    // no. its readable.
     'no-nested-ternary': 'off',
     'react/no-array-index-key': 'off',
     'react/jsx-props-no-spreading': 'off',
-    'react/destructuring-assignment': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
   },
