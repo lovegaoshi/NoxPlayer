@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useStore } from 'zustand';
 
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import { SkinKeys } from '@styles/skin';
+import { SkinMap } from '@styles/skin';
 import useApp from '@stores/useApp';
 
 export default function SkinSetting() {
@@ -78,7 +78,7 @@ export default function SkinSetting() {
           setPlayerStyle(e.target.value);
         }}
       >
-        {SkinKeys.map((v, i) => {
+        {Object.keys(SkinMap).map((v, i) => {
           return (
             <MenuItem key={i} value={v}>
               {v}

@@ -248,7 +248,7 @@
 .rc-switch {
   background-color: #ccc;
   border: 1px solid #ccc;
-  border-radius: 20px 20px;
+  border-radius: 20px;
   box-sizing: border-box;
   cursor: pointer;
   display: inline-block;
@@ -272,7 +272,7 @@
   animation-name: rcSwitchOff;
   animation-timing-function: cubic-bezier(0.35, 0, 0.25, 1);
   background-color: #fff;
-  border-radius: 50% 50%;
+  border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
   content: ' ';
   cursor: pointer;

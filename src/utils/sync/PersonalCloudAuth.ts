@@ -55,9 +55,9 @@ export const noxBackup = async (
   cloudAddress: string | undefined = undefined,
 ) => {
   try {
-    if (cloudAddress === undefined) {
-      cloudAddress = (await getPlayerSettingKey('personalCloudIP')) as string;
-    }
+    cloudAddress =
+      cloudAddress ??
+      ((await getPlayerSettingKey('personalCloudIP')) as string);
     return await fetch(`${cloudAddress}upload`, {
       method: 'POST',
       headers: {
