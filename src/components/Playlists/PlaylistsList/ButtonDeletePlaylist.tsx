@@ -5,20 +5,15 @@ import { SxProps } from '@mui/material';
 
 interface Props {
   sx?: SxProps;
-  playlist: NoxMedia.Playlist;
-  handleDeleteFavClick: (v: NoxMedia.Playlist) => void;
+  handleDeleteFavClick: () => void;
 }
 export default function DeletePlaylistButton({
   sx,
-  playlist,
   handleDeleteFavClick,
 }: Props) {
   return (
     <Tooltip title='删除歌单'>
-      <DeleteOutlineOutlinedIcon
-        sx={sx}
-        onClick={() => handleDeleteFavClick(playlist)}
-      />
+      <DeleteOutlineOutlinedIcon sx={sx} onClick={handleDeleteFavClick} />
     </Tooltip>
   );
 }
