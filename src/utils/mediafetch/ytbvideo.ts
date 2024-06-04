@@ -1,9 +1,16 @@
 // eslint-disable-next-line import/no-extraneous-dependencies, camelcase
 import { biliApiLimiter } from '@APM/utils/mediafetch/throttle';
 import {
-  resolveURL,
+  resolveURL as resolveURLMuse,
   fetchAudioInfo as fetchAudioInfoMuse,
 } from '@APM/utils/mediafetch/ytbvideo.muse';
+import {
+  resolveURL as resolveURLYtbi,
+  fetchAudioInfo as fetchAudioInfoYtbi,
+} from './ytbvideo.ytbi';
+
+const resolveURL = (song: NoxMedia.Song) =>
+  resolveURLYtbi(song).catch(() => resolveURLMuse(song));
 
 const refreshSong = (song: NoxMedia.Song) => song;
 
@@ -20,7 +27,7 @@ export const fetchAudioInfo = (
 ) =>
   biliApiLimiter.schedule(() => {
     progressEmitter();
-    return fetchAudioInfoMuse(bvid);
+    return fetchAudioInfoYtbi(bvid).catch(() => fetchAudioInfoMuse(bvid));
   });
 
 export default {
