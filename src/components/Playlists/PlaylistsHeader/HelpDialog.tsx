@@ -24,7 +24,6 @@ interface Props {
 
 const HelpContent = `
 支持各种b站链接，部分油管链接
-YTM接口；不支持不是音乐的视频
 
 关注诺莺nox谢谢喵
 `;
