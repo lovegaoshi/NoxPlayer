@@ -103,23 +103,24 @@ export function PlaylistInfo(props: Props) {
   } = props;
   const playerStyle = useApp((state) => state.playerStyle);
   const { CRUDBtn, CRUDIcon } = playerStyle;
+  const getPlaylist = useNoxSetting((state) => state.getPlaylist);
+
   return (
     <PlaylistInfoBase {...props}>
       <Box component='div' sx={CRUDBtn}>
         <PlayPlaylistButton
           sx={CRUDIcon}
-          playlist={playlist}
-          onPlayAllFromFav={onPlayAllFromFav}
+          onPlayAllFromFav={() =>
+            getPlaylist(playlist.id).then(onPlayAllFromFav)
+          }
         />
         <AddToPlaylistButton
           sx={CRUDIcon}
-          playlist={playlist}
-          handleAddToFavClick={handleAddToFavClick}
+          handleAddToFavClick={() => handleAddToFavClick(playlist)}
         />
         <DeletePlaylistButton
           sx={CRUDIcon}
-          playlist={playlist}
-          handleDeleteFavClick={handleDeleteFavClick}
+          handleDeleteFavClick={() => handleDeleteFavClick(playlist)}
         />
       </Box>
     </PlaylistInfoBase>
@@ -134,24 +135,26 @@ export function SearchlistEntry(props: Props) {
     handleCreateAsFavClick,
   } = props;
   const { CRUDBtn, CRUDIcon } = useApp((state) => state.playerStyle);
+  const getPlaylist = useNoxSetting((state) => state.getPlaylist);
 
   return (
     <PlaylistInfoBase {...props} albumIcon={<ManageSearchIcon />}>
       <Box component='div' sx={CRUDBtn}>
         <PlayPlaylistButton
           sx={CRUDIcon}
-          playlist={playlist}
-          onPlayAllFromFav={onPlayAllFromFav}
+          onPlayAllFromFav={() => onPlayAllFromFav(playlist)}
         />
         <AddToPlaylistButton
           sx={CRUDIcon}
-          playlist={playlist}
-          handleAddToFavClick={handleAddToFavClick}
+          handleAddToFavClick={() => handleAddToFavClick(playlist)}
         />
         <CreateAsPlaylistButton
           sx={CRUDIcon}
-          playlist={playlist}
-          handleCreateAsFavClick={handleCreateAsFavClick}
+          handleCreateAsFavClick={() =>
+            getPlaylist(playlist.id).then((v) =>
+              handleCreateAsFavClick(v.songList),
+            )
+          }
         />
       </Box>
     </PlaylistInfoBase>
