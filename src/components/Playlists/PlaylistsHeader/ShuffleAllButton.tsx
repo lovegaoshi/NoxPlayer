@@ -12,10 +12,14 @@ interface Props {
 }
 function ShuffleAll({ sx }: Props) {
   const playlists = useNoxSetting((state) => state.playlists);
+  const getPlaylist = useNoxSetting((state) => state.getPlaylist);
   const { loadToSearchListAndPlay } = usePlayback();
 
-  const shuffleAll = () => {
-    const allSongs = Object.values(playlists).reduce(
+  const shuffleAll = async () => {
+    const allPlaylists = await Promise.all(
+      Object.values(playlists).map((p) => getPlaylist(p.id)),
+    );
+    const allSongs = Object.values(allPlaylists).reduce(
       (acc, curr) => acc.concat(curr.songList),
       [] as NoxMedia.Song[],
     );
