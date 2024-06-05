@@ -67,6 +67,8 @@ if __name__ == '__main__':
     version = get_version()
     new_version = autoincrease_version(
         version=version, inc=VersionUpdateDict[args.inc])
+    subprocess.call(['git', 'switch', 'nox-player'])
+    subprocess.call(['git', 'pull'])
     fix_content(Path('./public/manifest.json'), lambda line: line.replace(
         version, new_version
     ))
