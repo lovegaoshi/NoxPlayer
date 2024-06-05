@@ -8,9 +8,9 @@
 4.0.1:
 github同步
 歌词性能提升
-memoryEfficiency
-data structure changes (save is no longer backwards compatible)
-ytbi
+省内存的处理模式
+数据结构迁移（歌单不兼容旧版）
+youtube.js解析油管链接
 
 3.1.8:
 b站字幕歌词
