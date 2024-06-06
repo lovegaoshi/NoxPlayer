@@ -1,9 +1,11 @@
+import { DEFAULT_NULL_URL } from '@objects/Song';
+
 export default {
-  regexSearchMatch: /NOT_IMPLEMETED_ERROR/,
+  regexSearchMatch: /local:\/\/(.+)/,
+  regexResolveURLMatch: /^local-/,
   regexFetch: async () => ({ songList: [] }),
-  regexResolveURLMatch: /NOT_IMPLEMENTED_ERROR/,
-  resolveURL: async () => 'NOT_IMPLEMENTED_ERROR',
+  resolveURL: async () => DEFAULT_NULL_URL,
   refreshSong: () => undefined,
-  resolveArtwork: async () => 'NOT_IMPLEMENTED_ERROR',
+  resolveArtwork: async () => DEFAULT_NULL_URL,
   resolveURLPrefetch: async (song: NoxMedia.Song) => ({ url: song.bvid }),
 };
