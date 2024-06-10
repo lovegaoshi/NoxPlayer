@@ -17,10 +17,10 @@
     "compile": "tsc"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
-    "@babel/preset-react": "^7.24.6",
-    "@babel/preset-typescript": "^7.24.6",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@types/base-64": "^1.0.2",
     "@types/chrome": "^0.0.268",
@@ -53,7 +53,7 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.9.0",
     "node-sass": "^9.0.0",
-    "prettier": "^3.3.0",
+    "prettier": "^3.3.1",
     "progress-bar-webpack-plugin": "^2.1.0",
     "react-refresh": "^0.14.2",
     "sass-loader": "^14.2.1",
@@ -122,9 +122,8 @@
     "react-window": "^1.8.10",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
-    "uuid": "^9.0.1",
-    "youtubei.js": "^9.4.0",
-    "ytdl-core": "git+https://lovegaoshi@github.com/lovegaoshi/node-ytdl-core.git",
+    "uuid": "^10.0.0",
+    "youtubei.js": "^10.0.0",
     "zustand": "^4.5.2"
   },
   "packageManager": "yarn@4.2.2"
