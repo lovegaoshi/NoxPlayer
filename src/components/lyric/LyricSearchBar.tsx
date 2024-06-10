@@ -29,6 +29,11 @@ export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
         sx={{ width: 500 }}
         size='small'
         renderInput={(params) => <TextField {...params} label='歌词选择' />}
+        renderOption={(props, option) => (
+          <li {...props} key={option?.key}>
+            {option?.label}
+          </li>
+        )}
         isOptionEqualToValue={(option, value2) =>
           option?.songMid === value2?.songMid
         }
