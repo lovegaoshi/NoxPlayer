@@ -23,7 +23,8 @@ const setting = await getPlayerSetting();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
 
 export const SkinMap: { [key: string]: () => any } = {
-  诺莺nox: () => NoxTheme(),
+  诺莺Nox: () => NoxTheme(),
+  阿梓Azusa: () => AzusaTheme(),
   星谷樹itsuki: () => ItsukiTheme(),
   clessS: () => ClessSTheme(),
   'Amelia Watson': () => AmeliaTheme(),
@@ -51,7 +52,7 @@ export const skins = (key = setting.skin) => {
      * various color themes
      *
      */
-    return SkinMap[key ?? '诺莺nox']() ?? AzusaTheme();
+    return SkinMap[key ?? '诺莺Nox']() ?? AzusaTheme();
   };
   const playerStyle = getSkin();
   return {
