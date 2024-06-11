@@ -52,7 +52,7 @@ export const skins = (key = setting.skin) => {
      * various color themes
      *
      */
-    return SkinMap[key ?? '诺莺Nox']() ?? AzusaTheme();
+    return SkinMap[key ?? '诺莺Nox']?.() ?? AzusaTheme();
   };
   const playerStyle = getSkin();
   return {
