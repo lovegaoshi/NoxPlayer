@@ -15,7 +15,7 @@ import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
 interface Props {
   song: NoxMedia.Song;
 }
-export default function thumbsUpButton({ song }: Props) {
+export default function ThumbsUpButton({ song }: Props) {
   const [liked, setLiked] = useState(0);
   const { buttonStyle } = useApp((state) => state.playerStyle);
 

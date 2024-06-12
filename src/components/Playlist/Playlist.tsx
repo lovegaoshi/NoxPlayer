@@ -10,9 +10,10 @@ import PlaylistHeader from './PlaylistHeader/PlaylistHeader';
 export default function Fav() {
   const playlist = useNoxSetting((state) => state.currentPlaylist);
   const { colorTheme } = useApp((state) => state.playerStyle);
+  const playlistPaginated = usePlaylistPaginated(playlist);
+
   // eslint-disable-next-line react/jsx-no-useless-fragment
   if (!playlist) return <></>;
-  const playlistPaginated = usePlaylistPaginated(playlist);
 
   return (
     <React.Fragment>

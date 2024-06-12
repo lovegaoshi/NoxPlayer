@@ -14,7 +14,7 @@ interface Props {
  * @param {function} onClosedDialogFunc function that is called after the dialog is closed.
  * @returns
  */
-export default function newPlaylistButton({
+export default function NewPlaylistButton({
   AddFavIcon,
   onClosedDialogFunc,
 }: Props) {

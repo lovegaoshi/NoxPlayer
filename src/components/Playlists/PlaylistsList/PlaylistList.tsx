@@ -66,6 +66,11 @@ export default function PlaylistList({ playlistCRUD }: Props) {
     onDragEnd,
   } = playlistCRUD;
 
+  const handleCreateAsFavClick = (v: NoxMedia.Song[]) => {
+    setSongsStoredAsNewFav(v);
+    setOpenNewDialog(true);
+  };
+
   return (
     <React.Fragment>
       <List
@@ -78,10 +83,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
           playlist={searchList}
           handleAddToFavClick={handleAddToFavClick}
           onPlayAllFromFav={onPlayAllFromFav}
-          handleCreateAsFavClick={(v) => {
-            setSongsStoredAsNewFav(v);
-            setOpenNewDialog(true);
-          }}
+          handleCreateAsFavClick={handleCreateAsFavClick}
           handleDeleteFavClick={handleDeleteFavClick}
         />
         {false && (
@@ -89,10 +91,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
             playlist={favoritePlaylist}
             handleAddToFavClick={handleAddToFavClick}
             onPlayAllFromFav={onPlayAllFromFav}
-            handleCreateAsFavClick={(v) => {
-              setSongsStoredAsNewFav(v);
-              setOpenNewDialog(true);
-            }}
+            handleCreateAsFavClick={handleCreateAsFavClick}
             handleDeleteFavClick={handleDeleteFavClick}
           />
         )}
@@ -122,10 +121,7 @@ export default function PlaylistList({ playlistCRUD }: Props) {
                           playlist={playlists[item]!}
                           handleAddToFavClick={handleAddToFavClick}
                           onPlayAllFromFav={onPlayAllFromFav}
-                          handleCreateAsFavClick={(v) => {
-                            setSongsStoredAsNewFav(v);
-                            setOpenNewDialog(true);
-                          }}
+                          handleCreateAsFavClick={handleCreateAsFavClick}
                           handleDeleteFavClick={handleDeleteFavClick}
                         />
                       </div>

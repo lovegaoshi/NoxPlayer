@@ -16,7 +16,7 @@ export interface UsePlaylistP extends UsePlaylist {
   primePageToCurrentPlaying: () => void;
   handleChangePage: (event: any, newPage: number) => void;
   handleChangeRowsPerPage: (event: any) => void;
-  refreshPlaylist: () => void;
+  refreshPlaylist: () => Promise<void>;
   songsInView: () => NoxMedia.Song[];
   toggleSelectedPage: () => void;
   performSearch: (v: string, resetPage?: boolean) => void;

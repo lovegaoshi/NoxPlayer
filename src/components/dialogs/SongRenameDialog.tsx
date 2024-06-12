@@ -18,7 +18,7 @@ interface Props {
   updateSong: (song: NoxMedia.Song, v: Partial<NoxMedia.Song>) => void;
 }
 
-export default function songRenameDialog({
+export default function SongRenameDialog({
   openState,
   song,
   onClose,
