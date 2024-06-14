@@ -12,10 +12,34 @@ import {
 import useApp from '@stores/useApp';
 import { goToBiliBili, BiliBiliIconSVG } from '../bilibiliIcon';
 
+interface HoldProps {
+  song: NoxMedia.Song;
+  setLiked: React.Dispatch<React.SetStateAction<number>>;
+}
+function ThumbsUpClickNHold({ song, setLiked }: HoldProps) {
+  const start = () => {};
+  const clickNHold = () => sendBVTriple(song.bvid, () => setLiked(1));
+  const end = (_e: any, enough: any) => {
+    if (enough) return;
+    sendBVLike(song.bvid, () => setLiked(1));
+  };
+
+  return (
+    <ClickNHold
+      time={2} // Time to keep pressing. Default is 2
+      onStart={start} // Start callback
+      onClickNHold={clickNHold} // Timeout callback
+      onEnd={end}
+    >
+      <ThumbUpOffAltIcon />
+    </ClickNHold>
+  );
+}
+
 interface Props {
   song: NoxMedia.Song;
 }
-export default function thumbsUpButton({ song }: Props) {
+export default function ThumbsUpButton({ song }: Props) {
   const [liked, setLiked] = useState(0);
   const { buttonStyle } = useApp((state) => state.playerStyle);
 
@@ -33,26 +57,6 @@ export default function thumbsUpButton({ song }: Props) {
     }
   };
 
-  function ThumbsUpClickNHold() {
-    const start = () => {};
-    const clickNHold = () => sendBVTriple(song.bvid, () => setLiked(1));
-    const end = (_e: any, enough: any) => {
-      if (enough) return;
-      sendBVLike(song.bvid, () => setLiked(1));
-    };
-
-    return (
-      <ClickNHold
-        time={2} // Time to keep pressing. Default is 2
-        onStart={start} // Start callback
-        onClickNHold={clickNHold} // Timeout callback
-        onEnd={end}
-      >
-        <ThumbUpOffAltIcon />
-      </ClickNHold>
-    );
-  }
-
   return (
     <span
       className='group audio-download'
@@ -66,7 +70,7 @@ export default function thumbsUpButton({ song }: Props) {
       {liked === 1 ? (
         <ThumbUpAltIcon onClick={onClick} />
       ) : liked === 0 ? (
-        <ThumbsUpClickNHold />
+        <ThumbsUpClickNHold song={song} setLiked={setLiked} />
       ) : (
         <BiliBiliIconSVG onClick={onClick} />
       )}

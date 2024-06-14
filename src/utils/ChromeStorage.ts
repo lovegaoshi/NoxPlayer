@@ -7,6 +7,7 @@ import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
 // eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
+import { saveItem, getItem, removeItem } from './ChromeStorageAPI';
 import { MUSICFREE } from './mediafetch/musicfree';
 
 export const SongListSuffix = '-songList';
@@ -15,8 +16,6 @@ export const getMusicFreePlugin = (): MUSICFREE[] => [];
 
 export const saveDefaultSearch = (val: SearchOptions | MUSICFREE) =>
   saveItem(StorageKeys.DEFAULT_SEARCH, val);
-
-const removeItem = (key: string) => chrome.storage.local.remove(key);
 
 export const savePlaylistIds = (val: string[]) =>
   saveItem(StorageKeys.MY_FAV_LIST_KEY, val);
@@ -93,26 +92,6 @@ export const getSettings = async (): Promise<NoxStorage.PlayerSettingDict> => ({
   ...DefaultSetting,
   ...((await getItem(StorageKeys.PLAYER_SETTING_KEY)) || {}),
 });
-
-/**
- * wrapper for chrome.storage.local.get. return the
- * local stored objects given a key.
- * @param {string} key
- * @returns
- */
-export const getItem = (
-  key: string,
-  defaultVal: unknown = undefined,
-): Promise<any> => {
-  return new Promise((resolve) => {
-    chrome.storage.local.get([key], (result) => {
-      resolve(result[key] === undefined ? defaultVal : result[key]);
-    });
-  });
-};
-
-export const saveItem = (key: string, val: object | string) =>
-  chrome.storage.local.set({ [key]: val });
 
 export const saveFav = (updatedToList: NoxMedia.Playlist) =>
   chrome.storage.local.set({
@@ -250,6 +229,7 @@ export const initPlayerObject =
         await getItem(StorageKeys.LAST_PLAY_DURATION, 0),
       ),
       colorScheme: undefined,
+      AListCred: [],
     } as NoxStorage.PlayerStorageObject;
 
     playerObject.playlists[StorageKeys.SEARCH_PLAYLIST_KEY] =

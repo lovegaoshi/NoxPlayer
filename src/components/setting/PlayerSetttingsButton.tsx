@@ -10,7 +10,7 @@ import SettingsDialog from './PlayerSettingsDialog';
 interface Props {
   sx: SxProps;
 }
-export default function playerSettingsButton({ sx }: Props) {
+export default function PlayerSettingsButton({ sx }: Props) {
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
   const [openSettingsDialog, setOpenSettingsDialog] = useState(false);

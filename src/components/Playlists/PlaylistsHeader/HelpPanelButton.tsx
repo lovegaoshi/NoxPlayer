@@ -10,7 +10,7 @@ interface Props {
   onClosedDialogFunc?: Function;
 }
 
-export default function helpPanelButton({
+export default function HelpPanelButton({
   sx,
   onClosedDialogFunc = () => {},
 }: Props) {

@@ -5,7 +5,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import useApp from '@stores/useApp';
 import { useNoxSetting } from '@APM/stores/useApp';
 
-export default function favoriteSongButton({ song }: { song: NoxMedia.Song }) {
+export default function FavoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const [liked, setLiked] = useState(false);
   const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
   const setFavoritePlaylist = useNoxSetting(

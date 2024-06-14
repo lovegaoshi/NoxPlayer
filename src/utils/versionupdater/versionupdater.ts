@@ -1,4 +1,4 @@
-import { saveItem, getItem } from '../ChromeStorage';
+import { saveItem, getItem } from '../ChromeStorageAPI';
 import update1118 from './1.1.1.8';
 import update3000 from './3.0.0.0';
 import update4000 from './4.0.0.0';
