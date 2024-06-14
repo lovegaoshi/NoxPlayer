@@ -1,5 +1,6 @@
 import { dummyPlaylistList } from '@APM/objects/Playlist';
-import { saveItem, getItem, getPlaylistIds } from '../ChromeStorage';
+import { saveItem, getItem } from '../ChromeStorageAPI';
+import { getPlaylistIds } from '../ChromeStorage';
 
 export default async function update1118() {
   console.debug(

@@ -1,8 +1,12 @@
 import { parseBodyParams, DEFAULT_UA } from '@APM/utils/BiliFetch';
 
+interface NoxRequestInit extends RequestInit {
+  body?: any;
+}
+
 export default async (
   url: string,
-  params: RequestInit = { method: 'GET', headers: {} },
+  params: NoxRequestInit = { method: 'GET', headers: {} },
 ) => {
   params.headers = new Headers({
     'User-Agent': DEFAULT_UA,
