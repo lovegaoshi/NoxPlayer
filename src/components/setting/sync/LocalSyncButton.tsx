@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import Tooltip from '@mui/material/Tooltip';
 
 import useInitializeStore from '@stores/useInitializeStore';
-import { exportStorageRaw } from '@utils/ChromeStorage';
+import { exportPlayerContent } from '@utils/ChromeStorageAPI';
 
 interface SyncFavButtonProps {
   AddFavIcon: Object;
@@ -48,7 +48,7 @@ export function ImportFavButton({ AddFavIcon }: SyncFavButtonProps) {
 }
 
 const exportStorage = async () => {
-  const bytes = await exportStorageRaw();
+  const bytes = await exportPlayerContent();
   const blobBytes = new Blob([bytes], {
     type: 'application/json;charset=utf-8',
   });

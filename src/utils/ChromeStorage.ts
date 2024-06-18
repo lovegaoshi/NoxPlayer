@@ -1,4 +1,4 @@
-import { strToU8, strFromU8, compressSync, decompressSync } from 'fflate';
+import { strFromU8, decompressSync } from 'fflate';
 
 import { StorageKeys, SearchOptions } from '@enums/Storage';
 import { logger } from '@utils/Logger';
@@ -7,10 +7,14 @@ import { dummyPlaylist } from '@APM/objects/Playlist';
 import { DefaultSetting, NPOverwriteSetting } from '@objects/Storage';
 // eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
-import { saveItem, getItem, removeItem } from './ChromeStorageAPI';
+import {
+  saveItem,
+  getItem,
+  delPlaylist as _delPlaylist,
+  savePlaylist,
+  SongListSuffix,
+} from './ChromeStorageAPI';
 import { MUSICFREE } from './mediafetch/musicfree';
-
-export const SongListSuffix = '-songList';
 
 export const getMusicFreePlugin = (): MUSICFREE[] => [];
 
@@ -23,25 +27,11 @@ export const savePlaylistIds = (val: string[]) =>
 export const getPlaylistIds = (): Promise<string[]> =>
   getItem(StorageKeys.MY_FAV_LIST_KEY, []);
 
-const delPlaylistPromise = (playlistId: string) =>
-  Promise.all([
-    removeItem(playlistId),
-    removeItem(`${playlistId}${SongListSuffix}`),
-  ]);
 export const delPlaylist = (playlistId: string, playlistIds: string[]) => {
   playlistIds.splice(playlistIds.indexOf(playlistId), 1);
-  delPlaylistPromise(playlistId);
+  _delPlaylist(playlistId);
   savePlaylistIds(playlistIds);
   return playlistIds;
-};
-
-export const savePlaylist = (
-  playlist: NoxMedia.Playlist,
-  overrideKey: string | null = null,
-) => {
-  const key = overrideKey || playlist.id;
-  saveItem(key, { ...playlist, songList: [] });
-  saveItem(`${key}${SongListSuffix}`, playlist.songList);
 };
 
 export const savelastPlaylistId = (val: [string, string]) =>
@@ -130,7 +120,7 @@ export const getPlayerSettingKey = async (
 const clearPlaylists = async () => {
   const playlistIds = await getPlaylistIds();
   savePlaylistIds([]);
-  return playlistIds.map(delPlaylistPromise);
+  return playlistIds.map(_delPlaylist);
 };
 
 export const importStorageRaw = async (content: Uint8Array) => {
@@ -166,11 +156,6 @@ export const importStorageRaw = async (content: Uint8Array) => {
     await chrome.storage.local.set(parsedContent);
   }
   return initPlayerObject();
-};
-
-export const exportStorageRaw = async () => {
-  const items = await chrome.storage.local.get(null);
-  return compressSync(strToU8(JSON.stringify(items)));
 };
 
 export const getLyricMapping = async () =>

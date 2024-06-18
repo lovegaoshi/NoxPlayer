@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useConfirm } from 'material-ui-confirm';
 
-import { clearStorage } from '@utils/ChromeStorage';
+import { clearStorage } from '@utils/ChromeStorageAPI';
 
 export default function PlayerResetButton() {
   const confirm = useConfirm();

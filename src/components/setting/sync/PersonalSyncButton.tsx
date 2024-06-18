@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 
 import { noxBackup, noxRestore } from '@utils/sync/PersonalCloudAuth';
 import useInitializeStore from '@stores/useInitializeStore';
-import { exportStorageRaw } from '@utils/ChromeStorage';
+import { exportPlayerContent } from '@utils/ChromeStorageAPI';
 
 interface SyncFavButtonProps {
   AddFavIcon: Object;
@@ -83,7 +83,7 @@ export function ExportSyncFavButton({
 
   const cloudUpload = async () => {
     setLoading(true);
-    const exportedDict = await exportStorageRaw();
+    const exportedDict = await exportPlayerContent();
     const response = await noxBackup(exportedDict, cloudAddress);
     if (response.status === 200) {
       enqueueSnackbar('歌单上传到私有云成功！', {

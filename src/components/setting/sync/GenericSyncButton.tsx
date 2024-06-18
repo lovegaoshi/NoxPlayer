@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { SxProps } from '@mui/material';
 
-import { exportStorageRaw } from '@utils/ChromeStorage';
+import { exportPlayerContent } from '@utils/ChromeStorageAPI';
 
 interface ImportPropsR extends NoxSyncComponent.ImportProps {
   sx: SxProps;
@@ -94,7 +94,7 @@ function ExportSyncFavButton({ noxBackup, login, sx }: ExportPropsR) {
   };
 
   const cloudUpload = async () => {
-    const exportedDict = await exportStorageRaw();
+    const exportedDict = await exportPlayerContent();
     const response = await noxBackup(exportedDict);
     if (response.status === 200 || response.status === 201) {
       enqueueSnackbar('歌单上传到云端成功！', {
