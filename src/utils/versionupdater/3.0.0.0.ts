@@ -1,4 +1,4 @@
-import { StorageKeys } from '@enums/Storage';
+import { StorageKeys } from '@APM/enums/Storage';
 
 export const loopFavLists = (callback: (v?: NoxMedia.Playlist) => void) => {
   chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY], (result1) => {

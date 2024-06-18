@@ -5,7 +5,7 @@ import CropSquareIcon from '@mui/icons-material/CropSquare';
 import DeselectIcon from '@mui/icons-material/Deselect';
 import SelectAllIcon from '@mui/icons-material/SelectAll';
 
-import { SortOptions } from '@enums/Playlist';
+import { SortOptions } from '@APM/enums/Playlist';
 import PlaylistSortButton from './PlaylistSortButton';
 
 interface UsePlaylist {

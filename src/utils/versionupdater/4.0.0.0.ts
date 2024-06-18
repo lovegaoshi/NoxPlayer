@@ -1,4 +1,4 @@
-import { SongListSuffix } from '../ChromeStorage';
+import { SongListSuffix } from '../ChromeStorageAPI';
 import { loopFavLists } from './3.0.0.0';
 
 export default function update4000() {

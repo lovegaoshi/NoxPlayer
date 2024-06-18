@@ -7,7 +7,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 
 import GenericSelectDialog from '@components/dialogs/GenericSelectDialog';
-import { SortOptions } from '@enums/Playlist';
+import { SortOptions } from '@APM/enums/Playlist';
 
 interface Props {
   sortPlaylist: (

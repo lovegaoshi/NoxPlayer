@@ -4,7 +4,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { useNoxSetting } from '@APM/stores/useApp';
 import usePlaylist, { UsePlaylist } from '@APM/hooks/usePlaylist';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
-import { PlaylistTypes } from '@enums/Playlist';
+import { PlaylistTypes } from '@APM/enums/Playlist';
 import { logger } from '@utils/Logger';
 
 export interface UsePlaylistP extends UsePlaylist {

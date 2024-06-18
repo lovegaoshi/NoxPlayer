@@ -1,4 +1,4 @@
-import { getPlayerSetting } from '@utils/ChromeStorage';
+import { getSettings } from '@APM/utils/ChromeStorage';
 import { buttonStyle, ScrollBar } from '@hooks/useTheme';
 import AzusaTheme from './skins/azusa';
 import ItsukiTheme from './skins/itsuki';
@@ -19,7 +19,7 @@ import LumiTheme from './skins/lumi';
 import KeroroTheme from './skins/keroro';
 
 // needs to enable top-level await; necessary for other modules to import current skin config
-const setting = await getPlayerSetting();
+const setting = await getSettings();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
 
 export const SkinMap: { [key: string]: () => any } = {

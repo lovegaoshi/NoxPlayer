@@ -1,5 +1,5 @@
 import useLyric from '@APM/hooks/useLyric';
-import { LrcSource } from '@enums/LyricFetch';
+import { LrcSource } from '@APM/enums/LyricFetch';
 
 // HACK: instead of a local lrc cache, just use a simple global var cache...?
 // TODO: make a proper cache

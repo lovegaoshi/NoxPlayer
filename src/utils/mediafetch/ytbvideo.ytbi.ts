@@ -1,5 +1,5 @@
 import SongTS from '@objects/Song';
-import { Source } from '@enums/MediaFetch';
+import { Source } from '@APM/enums/MediaFetch';
 import { Innertube } from 'youtubei.js/web';
 
 const ytClient = Innertube.create({
