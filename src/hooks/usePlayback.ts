@@ -246,12 +246,10 @@ export default () => {
       songList.findIndex((s) => s.id === currentPlayingId),
     );
     const song = songList[previousPlayingSongIndex];
-    if (song !== undefined) {
-      options.extendsContent = renderExtendsContent(song);
-    }
+    options.extendsContent =
+      song !== undefined ? renderExtendsContent(song) : [];
     const newParams = {
       ...options,
-      extendsContent: song && renderExtendsContent(song),
       ...playerSetting,
       audioLists: songList,
       defaultPlayIndex: previousPlayingSongIndex,

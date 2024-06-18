@@ -56,7 +56,7 @@ export const saveChucked = async (key: string, objects: any[]) => [
   await saveItem(key, objects),
 ];
 
-export const loadChucked = async (keys: string[]) => getItem(keys[0]);
+export const loadChucked = async (keys: string[]) => keys;
 
 export const getRegExtractMapping = async (): Promise<
   NoxRegExt.JSONExtractor[]
