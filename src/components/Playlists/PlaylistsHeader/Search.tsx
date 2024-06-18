@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { searchBiliURLs } from '@APM/utils/BiliSearch';
 import { useNoxSetting } from '@APM/stores/useApp';
+import { StorageKeys } from '@enums/Storage';
 
 interface Props {
   setSearchInputVal: (input: string) => void;
@@ -35,6 +36,7 @@ export default function Search({ setSearchInputVal }: Props) {
     setProgressVal(100);
     const searchedList = {
       ...searchPlaylist,
+      id: StorageKeys.SEARCH_PLAYLIST_KEY,
       ...(await searchBiliURLs({
         input,
         progressEmitter: setProgressVal,

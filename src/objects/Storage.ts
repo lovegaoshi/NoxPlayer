@@ -1,10 +1,6 @@
 import { SyncOptions } from '@APM/enums/Storage';
 import { DefaultSetting as _DefaultSetting } from '@APM/objects/Storage';
 
-export { SyncOptions } from '@APM/enums/Storage';
-
-export const INITIAL_PLAYLIST = ['5053504', '2664851'];
-
 export const DefaultSetting: NoxStorage.PlayerSettingDict = {
   ..._DefaultSetting,
 
