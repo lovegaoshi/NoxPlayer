@@ -6,7 +6,7 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import useApp from '@stores/useApp';
 import { parseSongList } from '@objects/Playlist';
 import renderExtendsContent from '@components/App/ExtendContent';
-import { Source } from '@enums/MediaFetch';
+import { Source } from '@APM/enums/MediaFetch';
 import { DEFAULT_NULL_URL } from '@objects/Song';
 import { MUSICFREE } from '@utils/mediafetch/musicfree';
 import r128gain from '../utils/ffmpeg/r128util';

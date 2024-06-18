@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import { PlaylistTypes } from '@enums/Playlist';
+import { PlaylistTypes } from '@APM/enums/Playlist';
 import useApp from '@stores/useApp';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 import RandomGIFIcon from './RandomGIF';

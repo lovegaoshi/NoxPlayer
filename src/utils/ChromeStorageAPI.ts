@@ -6,7 +6,7 @@ import rejson from '@APM/utils/rejson.json';
 
 export const SongListSuffix = '-songList';
 
-export const saveItem = (key: string, val: object | string) =>
+export const saveItem = (key: string, val: object | string | number) =>
   chrome.storage.local.set({ [key]: val });
 
 /**
@@ -73,3 +73,21 @@ export const getRegExtractMapping = async (): Promise<
 };
 
 export const clearStorage = () => chrome.storage.local.clear();
+
+export const getDefaultTheme = () => ({});
+
+export const getColorScheme = () => undefined;
+
+export const getPlaylistSongList = (
+  playlist?: NoxMedia.Playlist,
+): Promise<NoxMedia.Song[]> => getItem(`${playlist?.id}${SongListSuffix}`, []);
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getMapping = (key: string, _: any = undefined) => getItem(key, {});
+
+export const importPlayerContentRaw = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _a: any = undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _b: any = undefined,
+) => [];

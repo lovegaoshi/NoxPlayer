@@ -6,7 +6,7 @@ import { useStore } from 'zustand';
 
 import useApp from '@stores/useApp';
 import playerSettingStore from '@APM/stores/playerSettingStore';
-import { SyncOptions } from '@objects/Storage';
+import { SyncOptions } from '@enums/Storage';
 import useInitializeStore from '@stores/useInitializeStore';
 import {
   ExportSyncFavButton as PersonalExportSyncFavButton,

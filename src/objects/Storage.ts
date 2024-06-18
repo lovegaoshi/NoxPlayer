@@ -1,7 +1,5 @@
-import {
-  DefaultSetting as _DefaultSetting,
-  SyncOptions,
-} from '@APM/enums/Storage';
+import { SyncOptions } from '@APM/enums/Storage';
+import { DefaultSetting as _DefaultSetting } from '@APM/objects/Storage';
 
 export { SyncOptions } from '@APM/enums/Storage';
 
@@ -28,6 +26,6 @@ export const DefaultSetting: NoxStorage.PlayerSettingDict = {
   memoryEfficiency: true,
 };
 
-export const NPOverwriteSetting = {
+export const OverrideSetting = {
   // memoryEfficiency: false,
 };

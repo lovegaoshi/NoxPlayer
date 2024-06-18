@@ -14,7 +14,7 @@ import 'react-contexify/dist/ReactContexify.css';
 
 import { getName } from '@APM/utils/re';
 import usePlaylistCRUD from '@APM/hooks/usePlaylistCRUD';
-import { SearchRegex } from '@enums/Playlist';
+import { SearchRegex } from '@APM/enums/Playlist';
 import { BiliBiliIconSVG, goToBiliBili } from '../bilibiliIcon';
 import {
   searchSongOnWeb,
