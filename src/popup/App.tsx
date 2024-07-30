@@ -39,9 +39,7 @@ export default function App() {
     playerStyle.playerBackground().then(setBackgroundSrc);
   }, [playerStyle.playerBackground]);
 
-  if (!currentSongList) {
-    return <h1>Loading...</h1>;
-  }
+  if (!currentSongList) return <h1>Loading...</h1>;
   return (
     // Outmost layer of the page
     <React.Suspense fallback={<h1>Loading...</h1>}>
