@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
@@ -79,11 +79,11 @@
     "@fortawesome/fontawesome-free": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@hello-pangea/dnd": "^16.6.0",
-    "@mui/icons-material": "^5.16.5",
+    "@mui/icons-material": "^5.16.6",
     "@mui/lab": "^5.0.0-alpha.173",
-    "@mui/material": "^5.16.5",
-    "@mui/styles": "^5.16.5",
-    "axios": "^1.7.2",
+    "@mui/material": "^5.16.6",
+    "@mui/styles": "^5.16.6",
+    "axios": "^1.7.3",
     "base-64": "^1.0.0",
     "base64-js": "^1.5.1",
     "big-integer": "^1.6.52",
@@ -123,7 +123,7 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
     "uuid": "^10.0.0",
-    "youtubei.js": "^10.2.0",
+    "youtubei.js": "^10.3.0",
     "zustand": "^4.5.4"
   },
   "packageManager": "yarn@4.2.2"
