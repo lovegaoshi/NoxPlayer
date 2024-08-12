@@ -7,7 +7,7 @@ import {
 import {
   resolveURL as resolveURLYtbi,
   fetchAudioInfo as fetchAudioInfoYtbi,
-} from './ytbvideo.ytbi';
+} from '@APM/utils/mediafetch/ytbvideo.ytbi';
 
 const resolveURL = (song: NoxMedia.Song) =>
   resolveURLMuse(song).catch(() => resolveURLYtbi(song));

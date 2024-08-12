@@ -101,7 +101,7 @@
     "file-saver": "^2.0.5",
     "fs": "^0.0.1-security",
     "he": "^1.2.0",
-    "i18next": "^23.12.2",
+    "i18next": "^23.12.3",
     "libmuse": "https://github.com/lovegaoshi/muse.git#commit=4dc2e5446ba2eff4547d91cd06c7843cdac4401a",
     "material-ui-confirm": "^3.0.16",
     "md5": "^2.3.0",
