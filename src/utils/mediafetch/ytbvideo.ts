@@ -27,7 +27,7 @@ export const fetchAudioInfo = (
 ) =>
   biliApiLimiter.schedule(() => {
     progressEmitter();
-    return fetchAudioInfoYtbi(bvid).catch(() => fetchAudioInfoMuse(bvid));
+    return fetchAudioInfoMuse(bvid).catch(() => fetchAudioInfoYtbi(bvid));
   });
 
 export default {
