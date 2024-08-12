@@ -10,7 +10,7 @@ import {
 } from './ytbvideo.ytbi';
 
 const resolveURL = (song: NoxMedia.Song) =>
-  resolveURLYtbi(song).catch(() => resolveURLMuse(song));
+  resolveURLMuse(song).catch(() => resolveURLYtbi(song));
 
 const refreshSong = (song: NoxMedia.Song) => song;
 
@@ -27,7 +27,7 @@ export const fetchAudioInfo = (
 ) =>
   biliApiLimiter.schedule(() => {
     progressEmitter();
-    return fetchAudioInfoMuse(bvid).catch(() => fetchAudioInfoYtbi(bvid));
+    return fetchAudioInfoYtbi(bvid).catch(() => fetchAudioInfoMuse(bvid));
   });
 
 export default {
