@@ -16,6 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useConfirm } from 'material-ui-confirm';
 import SyncIcon from '@mui/icons-material/Sync';
 
+import { useNoxSetting } from '@stores/useApp';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import usePlaylistCRUD from '@hooks/usePlaylistCRUD';
 
@@ -28,6 +29,13 @@ interface Props {
   data: any;
 }
 
+interface ExecTask {
+  task: () => Promise<unknown>;
+  executingMsg: string;
+  successMsg: string;
+  errorMsg?: string;
+}
+
 /**
  * right-click context menu for FavList.
  * has menu items:
@@ -36,6 +44,7 @@ interface Props {
  */
 export default function App({ theme = 'light' }) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const getPlaylist = useNoxSetting((state) => state.getPlaylist);
   const confirm = useConfirm();
   const playlistCRUD = usePlaylistCRUD();
   const circularProgress = () => <CircularProgress />;
@@ -49,47 +58,63 @@ export default function App({ theme = 'light' }) {
     console.warn('method not implemented', props.favlist);
   }
 
-  async function syncFavlistToBilibili({ props }: Props) {
-    const key = enqueueSnackbar(
-      `正在同步歌单 ${props.favlist.title} 到b站收藏夹……`,
-      { variant: 'info', persist: true, action: circularProgress },
-    );
-    closeSnackbar(key);
-    if (await syncFavlist(props.favlist)) {
-      enqueueSnackbar('done!', { variant: 'success', autoHideDuration: 2000 });
-    } else {
-      enqueueSnackbar('ERROR!', { variant: 'error', autoHideDuration: 2000 });
+  const loadTask = async ({
+    task,
+    executingMsg,
+    successMsg,
+    errorMsg,
+  }: ExecTask) => {
+    const key = enqueueSnackbar(executingMsg, {
+      variant: 'info',
+      persist: true,
+      action: circularProgress,
+    });
+    try {
+      await task();
+      closeSnackbar(key);
+      enqueueSnackbar(successMsg, {
+        variant: 'success',
+        autoHideDuration: 2000,
+      });
+    } catch (e) {
+      closeSnackbar(key);
+      console.error(e);
+      if (errorMsg) {
+        enqueueSnackbar(errorMsg, { variant: 'error', autoHideDuration: 2000 });
+      }
     }
-  }
+  };
 
-  function showMsg(
-    msg: string,
-    option = { variant: 'success', autoHideDuration: 2000 },
-  ) {
-    // @ts-ignore
-    enqueueSnackbar(msg, option);
+  async function syncFavlistToBilibili({ props }: Props) {
+    const playlist = await getPlaylist(props.favlist.id);
+    loadTask({
+      task: () => syncFavlist(playlist),
+      executingMsg: `正在同步歌单 ${props.favlist.title} 到b站收藏夹……`,
+      successMsg: 'done!',
+      errorMsg: 'ERROR!',
+    });
   }
 
   async function BiliShazam(
     { event, props, triggerEvent, data }: Props,
     options = { forced: false },
   ) {
-    const key = enqueueSnackbar(
-      `正在用b站识歌标识歌单 ${props.favlist.title}……`,
-      { variant: 'info', persist: true, action: circularProgress },
-    );
-    try {
-      await playlistCRUD.playlistBiliShazam(props.favlist);
-    } catch (e) {
-      console.warn(`b站识歌标识歌单 ${props.favlist.title} 失败`, e);
-    }
-    closeSnackbar(key);
-    showMsg(`歌单 ${props.favlist.title} 已经用b站识歌更新乐！`);
+    const playlist = await getPlaylist(props.favlist.id);
+    loadTask({
+      task: () => playlistCRUD.playlistBiliShazam(playlist),
+      executingMsg: `正在用b站识歌标识歌单 ${props.favlist.title}……`,
+      successMsg: `歌单 ${props.favlist.title} 已经用b站识歌更新乐！`,
+      errorMsg: `b站识歌标识歌单 ${props.favlist.title} 失败`,
+    });
   }
 
-  function removeBiliShazam({ event, props, triggerEvent, data }: Props) {
-    playlistCRUD.playlistRemoveBiliShazamed(props.favlist);
-    showMsg(`歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`);
+  async function removeBiliShazam({ event, props, triggerEvent, data }: Props) {
+    const playlist = await getPlaylist(props.favlist.id);
+    loadTask({
+      task: () => playlistCRUD.playlistRemoveBiliShazamed(playlist),
+      executingMsg: `正在用b站识歌标识歌单 ${props.favlist.title}……`,
+      successMsg: `歌单 ${props.favlist.title} 的b站识歌记录全部清除乐！`,
+    });
   }
 
   function clearPlaylist({ event, props, triggerEvent, data }: Props) {
@@ -101,7 +126,10 @@ export default function App({ theme = 'light' }) {
     })
       .then(() => {
         playlistCRUD.playlistClear(props.favlist);
-        showMsg(`歌单 ${props.favlist.title} 清空乐！`);
+        enqueueSnackbar(`歌单 ${props.favlist.title} 清空乐！`, {
+          variant: 'success',
+          autoHideDuration: 2000,
+        });
       })
       .catch();
   }
@@ -112,22 +140,15 @@ export default function App({ theme = 'light' }) {
       description: `确认要清空并重新载入歌单 ${props.favlist.title} 吗？`,
       confirmationText: '好的',
       cancellationText: '算了',
-    })
-      .then(async () => {
-        const key = enqueueSnackbar(
-          `正在重新载入歌单 ${props.favlist.title} 的bv号……`,
-          { variant: 'info', persist: true, action: circularProgress },
-        );
-        try {
-          await playlistCRUD.playlistReload(props.favlist);
-          showMsg(`歌单 ${props.favlist.title} 重载了！`);
-        } catch {
-          console.error('failed to reload playlist', props.favlist.title);
-        } finally {
-          closeSnackbar(key);
-        }
-      })
-      .catch();
+    }).then(async () => {
+      const playlist = await getPlaylist(props.favlist.id);
+      loadTask({
+        task: () => playlistCRUD.playlistReload(playlist),
+        executingMsg: `正在重新载入歌单 ${props.favlist.title} 的bv号……`,
+        successMsg: `歌单 ${props.favlist.title} 重载了！`,
+        errorMsg: `歌单 ${props.favlist.title} 重载失败！`,
+      });
+    });
   }
 
   return (
@@ -149,7 +170,11 @@ export default function App({ theme = 'light' }) {
           <ClearAllIcon /> &nbsp; 清空歌单
         </Item>
         <Item
-          onClick={({ props }) => playlistCRUD.playlistAnalyze(props.favlist)}
+          onClick={({ props }) =>
+            getPlaylist(props.favlist.id).then((playlist) =>
+              playlistCRUD.playlistAnalyze(playlist),
+            )
+          }
         >
           <AnalyticsIcon /> &nbsp; 歌单统计
         </Item>
@@ -157,7 +182,11 @@ export default function App({ theme = 'light' }) {
           <DownloadIcon /> &nbsp; 导出bv号为csv
         </Item>
         <Item
-          onClick={({ props }) => playlistCRUD.playlistCleanup(props.favlist)}
+          onClick={({ props }) =>
+            getPlaylist(props.favlist.id).then((playlist) =>
+              playlistCRUD.playlistCleanup(playlist),
+            )
+          }
         >
           <CleaningServicesIcon /> &nbsp; 清理失效的bv号
         </Item>
