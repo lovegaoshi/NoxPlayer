@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Lrc } from 'react-lrc';
 import TextField from '@mui/material/TextField';
 import { withStyles } from '@mui/styles';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 
 import { getName } from '@APM/utils/re';
 import { useDebouncedValue } from '@APM/hooks';
@@ -111,9 +111,9 @@ export default withStyles(styles)((props: Props) => {
 
   return (
     <Grid container spacing={1} sx={mStyles.mainContainer}>
-      <Grid sx={mStyles.mainGrid} item xs={6}>
+      <Grid sx={mStyles.mainGrid} size={6}>
         <Grid container spacing={0} sx={mStyles.subGrid}>
-          <Grid sx={mStyles.lrcImgGrid} item xs={12}>
+          <Grid sx={mStyles.lrcImgGrid} size={12}>
             <img
               id='LrcImg'
               alt=''
@@ -124,7 +124,7 @@ export default withStyles(styles)((props: Props) => {
               }}
             />
           </Grid>
-          <Grid sx={mStyles.lrcInputGrid} item xs={12} container spacing={0}>
+          <Grid sx={mStyles.lrcInputGrid} size={12} container spacing={0}>
             <TextField
               sx={mStyles.lrcOffsetGrid}
               type='number'
@@ -151,12 +151,12 @@ export default withStyles(styles)((props: Props) => {
             />
           </Grid>
 
-          <Grid sx={mStyles.lrcSearchBarGrid} item xs={12}>
+          <Grid sx={mStyles.lrcSearchBarGrid} size={12}>
             <LyricSearchBar currentAudio={currentAudio} usedLyric={usedLyric} />
           </Grid>
         </Grid>
       </Grid>
-      <Grid style={mStyles.lrcGrid} item xs={6}>
+      <Grid style={mStyles.lrcGrid} size={6}>
         <LrcView
           className={className}
           lrc={usedLyric.lrc}

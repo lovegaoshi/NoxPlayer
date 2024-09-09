@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 
 import { PlaylistTypes } from '@APM/enums/Playlist';
@@ -23,7 +23,7 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
   return (
     <Box style={styles.box}>
       <Grid container spacing={2} style={styles.gridContainer}>
-        <Grid item xs={5} sx={styles.gridPlaylistTitle} overflow='hidden'>
+        <Grid size={5} sx={styles.gridPlaylistTitle} overflow='hidden'>
           <Typography
             variant='h6'
             sx={[
@@ -36,14 +36,14 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
             {playlist.title}
           </Typography>
         </Grid>
-        <Grid item xs={2} style={styles.gridGIF}>
+        <Grid size={2} style={styles.gridGIF}>
           <RandomGIFIcon
             gifs={gifs}
             playlist={playlist.id + page.toString()}
             onClickCallback={primePageToCurrentPlaying}
           />
         </Grid>
-        <Grid item xs={5} sx={styles.gridPlaylistSetting}>
+        <Grid size={5} sx={styles.gridPlaylistSetting}>
           <PlaylistSelectButton usePlaylist={playlistPaginated} />
           {playlist.type === PlaylistTypes.Typical && (
             <FavSettingsButtons
