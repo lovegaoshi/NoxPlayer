@@ -84,8 +84,8 @@ export const getPlaylistSongList = (
 
 export const getMapping = async (
   key: string,
-  transform: (v: any) => any = (v) => v,
-) => transform(await getItem(key, {}));
+  transform: (v: Iterable<any>) => any = (v) => v,
+) => transform(await getItem(key, []));
 
 export const importPlayerContentRaw = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
