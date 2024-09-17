@@ -3,4 +3,4 @@ export const cacheWrapper = (
   getURL: () => Promise<string>,
 ) => getURL();
 
-export default {};
+export default { noxMediaCache: { deleteSongCache: (v: any) => v } };
