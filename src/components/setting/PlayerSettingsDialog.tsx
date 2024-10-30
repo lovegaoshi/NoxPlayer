@@ -11,9 +11,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BuildIcon from '@mui/icons-material/Build';
-import { useStore } from 'zustand';
 
-import playerSettingStore from '@APM/stores/playerSettingStore';
+import { useNoxSetting } from '@APM/stores/useApp';
 import SETTING_TAB from './enums';
 import ToolboxTab from './ToolboxTab';
 import SettingTab from './SettingTab';
@@ -24,17 +23,14 @@ interface Props {
   settings: NoxStorage.PlayerSettingDict;
 }
 export default function SettingsDialog({ onClose, openState }: Props) {
-  const playerSettings = useStore(
-    playerSettingStore,
-    (state) => state.playerSetting,
-  );
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
   const [tabValue, setTabValue] = React.useState('1');
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
   };
 
-  const handleClose = () => onClose(playerSettings);
+  const handleClose = () => onClose(playerSetting);
 
   return (
     <Dialog open={openState} onClose={handleClose}>

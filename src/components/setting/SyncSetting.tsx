@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import { useStore } from 'zustand';
 
 import useApp from '@stores/useApp';
-import playerSettingStore from '@APM/stores/playerSettingStore';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { SyncOptions } from '@enums/Storage';
 import useInitializeStore from '@stores/useInitializeStore';
 import {
@@ -19,14 +19,8 @@ import GiteeSyncButton from './sync/GiteeAuth';
 import GithubSyncButton from './sync/GithubAuth';
 
 function SyncSetttingButtons() {
-  const playerSettings = useStore(
-    playerSettingStore,
-    (state) => state.playerSetting,
-  );
-  const setPlayerSettings = useStore(
-    playerSettingStore,
-    (state) => state.setPlayerSetting,
-  );
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
   const { initializeFromSync } = useInitializeStore();
   const { colorTheme } = useApp((state) => state.playerStyle);
   const AddFavIcon = {
@@ -42,7 +36,7 @@ function SyncSetttingButtons() {
     paddingRight: '8px',
   };
 
-  switch (playerSettings.settingExportLocation) {
+  switch (playerSetting.settingExportLocation) {
     case SyncOptions.DROPBOX:
       return (
         <DropboxSyncButton
@@ -75,16 +69,16 @@ function SyncSetttingButtons() {
         <React.Fragment>
           <PersonalExportSyncFavButton
             AddFavIcon={AddFavIcon}
-            cloudAddress={playerSettings.personalCloudIP}
+            cloudAddress={playerSetting.personalCloudIP}
           />
           <PersonalImportSyncFavButton
             AddFavIcon={AddFavIcon}
-            cloudAddress={playerSettings.personalCloudIP}
+            cloudAddress={playerSetting.personalCloudIP}
           />
           <SetPersonalCloudTextField
-            cloudAddress={playerSettings.personalCloudIP}
+            cloudAddress={playerSetting.personalCloudIP}
             setCloudAddress={(val: string) =>
-              setPlayerSettings({ personalCloudIP: val })
+              setPlayerSetting({ personalCloudIP: val })
             }
           />
         </React.Fragment>
@@ -100,25 +94,19 @@ function SyncSetttingButtons() {
 }
 
 export default function SyncSetting() {
-  const playerSettings = useStore(
-    playerSettingStore,
-    (state) => state.playerSetting,
-  );
-  const setPlayerSettings = useStore(
-    playerSettingStore,
-    (state) => state.setPlayerSetting,
-  );
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
 
   return (
     <Box>
       <TextField
         id='player-settings-sync-method-select'
-        value={playerSettings.settingExportLocation}
+        value={playerSetting.settingExportLocation}
         label='云同步选择'
         margin='dense'
         select
         onChange={(e) =>
-          setPlayerSettings({
+          setPlayerSetting({
             settingExportLocation: e.target.value as SyncOptions,
           })
         }

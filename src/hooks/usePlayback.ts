@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 
-import playerSettingStore from '@APM/stores/playerSettingStore';
 import { fetchPlayUrlPromise } from '@APM/utils/mediafetch/resolveURL';
 import { useNoxSetting } from '@APM/stores/useApp';
 import useApp from '@stores/useApp';
@@ -51,7 +50,7 @@ export default () => {
     getSource: () => Promise<NoxNetwork.ParsedNoxMediaURL>,
   ) => {
     if (
-      !playerSettingStore.getState().playerSetting.r128gain ||
+      !useNoxSetting.getState().playerSetting.r128gain ||
       SkipR128Source.includes(song.source)
     ) {
       return;
