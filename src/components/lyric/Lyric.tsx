@@ -10,21 +10,6 @@ import useApp from '@stores/useApp';
 import useLyric from '@hooks/useLyric';
 import LyricSearchBar from './LyricSearchBar';
 
-const styles = () => ({
-  inputOffset: {
-    height: 40,
-    width: 123,
-  },
-  inputLrc: {
-    height: 40,
-    width: 375,
-  },
-  inputSelect: {
-    height: 40,
-    width: 500,
-  },
-});
-
 interface Props {
   currentAudio: NoxMediaChrome.RJKMAudio;
 }
@@ -81,7 +66,7 @@ function LrcView({ lyricOffset, lrc, className }: LrcViewProps) {
   );
 }
 
-export default withStyles(styles)((props: Props) => {
+export default (props: Props) => {
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const [songTitle, setSongTitle] = useState('');
   const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
@@ -124,35 +109,34 @@ export default withStyles(styles)((props: Props) => {
               }}
             />
           </Grid>
-          <Grid sx={mStyles.lrcInputGrid} size={12} container spacing={0}>
-            <TextField
-              sx={mStyles.lrcOffsetGrid}
-              type='number'
-              variant='outlined'
-              label='歌词补偿(毫秒)'
-              InputProps={{
-                className: classes.inputOffset,
-              }}
-              value={usedLyric.currentTimeOffset}
-              onChange={onLrcOffsetChange}
-            />
-            <TextField
-              variant='outlined'
-              label='歌词搜索'
-              InputProps={{
-                className: classes.inputLrc,
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder={songTitle}
-              value={songTitle}
-              onChange={(e) => setSongTitle(e.target.value)}
-            />
-          </Grid>
-
-          <Grid sx={mStyles.lrcSearchBarGrid} size={12}>
-            <LyricSearchBar currentAudio={currentAudio} usedLyric={usedLyric} />
+          <Grid sx={mStyles.lrcInputGrid} size={12} container spacing={1}>
+            <Grid size={3}>
+              <TextField
+                sx={mStyles.lrcOffsetGrid}
+                type='number'
+                inputProps={mStyles.lrcOffsetInput}
+                variant='outlined'
+                label='歌词补偿(毫秒)'
+                value={usedLyric.currentTimeOffset}
+                onChange={onLrcOffsetChange}
+              />
+            </Grid>
+            <Grid size={'grow'}>
+              <TextField
+                sx={mStyles.lrcSearchGrid}
+                variant='outlined'
+                label='歌词搜索'
+                placeholder={songTitle}
+                value={songTitle}
+                onChange={(e) => setSongTitle(e.target.value)}
+              />
+            </Grid>
+            <Grid sx={mStyles.lrcSearchBarGrid} size={12}>
+              <LyricSearchBar
+                currentAudio={currentAudio}
+                usedLyric={usedLyric}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -165,7 +149,7 @@ export default withStyles(styles)((props: Props) => {
       </Grid>
     </Grid>
   );
-});
+};
 
 const mStyles = {
   mainContainer: { maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' },
@@ -184,29 +168,24 @@ const mStyles = {
     overflow: 'hidden',
   },
   lrcInputGrid: {
+    paddingTop: '12px',
     align: 'center',
-    paddingTop: '8px',
     paddingLeft: '2px',
     overflow: 'hidden',
     width: '500px',
   },
   lrcOffsetGrid: {
     align: 'right',
-    paddingTop: '8px',
     paddingRight: '2px',
-    overflow: 'hidden',
   },
+  lrcOffsetInput: { step: '500' },
   lrcSearchGrid: {
-    align: 'center',
-    paddingTop: '8px',
-    overflow: 'hidden',
-    maxWidth: 'fit-content',
+    width: '-webkit-fill-available',
   },
   lrcSearchBarGrid: {
     align: 'center',
     paddingTop: '8px',
     paddingLeft: '2px',
-    overflow: 'hidden',
   },
   lrcGrid: {
     paddingBottom: 10,

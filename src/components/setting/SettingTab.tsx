@@ -3,10 +3,9 @@ import { Checkbox } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
 import TabPanel from '@mui/lab/TabPanel';
-import { useStore } from 'zustand';
 import { useTranslation } from 'react-i18next';
 
-import playerSettingStore from '@APM/stores/playerSettingStore';
+import { useNoxSetting } from '@APM/stores/useApp';
 import SyncSetting from './SyncSetting';
 import SkinSetting from './SkinSetting';
 import SETTING_TAB from './enums';
@@ -26,26 +25,21 @@ function BooleanCheckbox({
   callback,
 }: BooleanCheckboxProps) {
   const { t } = useTranslation();
-  const playerSettings = useStore(
-    playerSettingStore,
-    (state) => state.playerSetting,
-  );
-  const setPlayerSettings = useStore(
-    playerSettingStore,
-    (state) => state.setPlayerSetting,
-  );
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
+
   return (
     <Tooltip title={tooltip ?? t(`${settingCategory}.${settingKey}Desc`)}>
       <FormControlLabel
         control={
           <Checkbox
             onChange={(e) => {
-              setPlayerSettings({ [settingKey]: e.target.checked });
+              setPlayerSetting({ [settingKey]: e.target.checked });
               callback?.();
             }}
           />
         }
-        checked={playerSettings[settingKey]}
+        checked={playerSetting[settingKey]}
         label={label ?? t(`${settingCategory}.${settingKey}Name`)}
       />
     </Tooltip>

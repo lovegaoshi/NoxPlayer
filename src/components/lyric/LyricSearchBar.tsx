@@ -26,7 +26,7 @@ export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
         onChange={onOptionSet}
         id='LyricSearchBar'
         options={lrcOptions}
-        sx={{ width: 500 }}
+        sx={style}
         size='small'
         renderInput={(params) => <TextField {...params} label='歌词选择' />}
         renderOption={(props, option) => (
@@ -41,3 +41,7 @@ export default function LyricSearchBar({ currentAudio, usedLyric }: Props) {
     </div>
   );
 }
+
+const style = {
+  width: '-webkit-fill-available',
+};

@@ -5,21 +5,14 @@ import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { useStore } from 'zustand';
 
-import playerSettingStore from '@APM/stores/playerSettingStore';
+import { useNoxSetting } from '@APM/stores/useApp';
 import { SkinMap } from '@styles/skin';
 import useApp from '@stores/useApp';
 
 export default function SkinSetting() {
-  const playerSettings = useStore(
-    playerSettingStore,
-    (state) => state.playerSetting,
-  );
-  const setPlayerSettings = useStore(
-    playerSettingStore,
-    (state) => state.setPlayerSetting,
-  );
+  const playerSetting = useNoxSetting((state) => state.playerSetting);
+  const setPlayerSetting = useNoxSetting((state) => state.setPlayerSetting);
   const playerStyle = useApp((state) => state.playerStyle);
   const setPlayerStyle = useApp((state) => state.setPlayerStyle);
 
@@ -68,13 +61,13 @@ export default function SkinSetting() {
       <br />
       <TextField
         id='player-settings-skin-select'
-        value={playerSettings.skin}
+        value={playerSetting.skin}
         select
         SelectProps={{
           MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } },
         }}
         onChange={(e) => {
-          setPlayerSettings({ skin: e.target.value });
+          setPlayerSetting({ skin: e.target.value });
           setPlayerStyle(e.target.value);
         }}
       >

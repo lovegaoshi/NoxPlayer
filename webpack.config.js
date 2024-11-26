@@ -256,6 +256,7 @@ module.exports = (env) => {
         crypto: require.resolve('crypto-browserify'),
         buffer: require.resolve('buffer/'),
         stream: require.resolve('stream-browserify'),
+        vm: false,
       },
     },
     devtool: ifProd(false, 'source-map'),
