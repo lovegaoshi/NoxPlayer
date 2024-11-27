@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Lrc } from 'react-lrc';
 import TextField from '@mui/material/TextField';
-import { withStyles } from '@mui/styles';
 import Grid from '@mui/material/Grid2';
 
 import { getName } from '@APM/utils/re';
@@ -66,14 +65,12 @@ function LrcView({ lyricOffset, lrc, className }: LrcViewProps) {
   );
 }
 
-export default (props: Props) => {
+export default function Lyric(props: Props) {
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const [songTitle, setSongTitle] = useState('');
   const debouncedSongTitle = useDebouncedValue(songTitle, 1000);
 
-  // HACK: how to do this..?
-  // @ts-ignore
-  const { classes, currentAudio } = props;
+  const { currentAudio } = props;
   const audioName = getName(currentAudio);
   const usedLyric = useLyric(currentAudio);
 
@@ -121,7 +118,7 @@ export default (props: Props) => {
                 onChange={onLrcOffsetChange}
               />
             </Grid>
-            <Grid size={'grow'}>
+            <Grid size='grow'>
               <TextField
                 sx={mStyles.lrcSearchGrid}
                 variant='outlined'
@@ -149,7 +146,7 @@ export default (props: Props) => {
       </Grid>
     </Grid>
   );
-};
+}
 
 const mStyles = {
   mainContainer: { maxHeight: '100vh', minHeight: '100vh', overflow: 'hidden' },
