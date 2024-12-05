@@ -48,6 +48,8 @@ module.exports = {
     },
   },
   rules: {
+    // HACK: breaks youtubei.js
+    'import/no-cycle': 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'import/extensions': [
       'warn',
