@@ -16,7 +16,7 @@ const ytClient = Innertube.create({
   },
 });
 
-export default ytClient;
+export default () => ytClient;
 
 export const ytClientWeb: Promise<Innertube> = Innertube.create({
   retrieve_player: false,

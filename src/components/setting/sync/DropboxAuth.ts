@@ -84,7 +84,8 @@ const DropboxSyncButton = ({ restoreFromUint8Array, sx }: GenericPropsR) =>
   GenericSyncButton({
     restoreFromUint8Array,
     noxBackup: (v) => noxBackup(dbx, v),
-    noxRestore: () => noxRestore(dbx, async (v) => v.arrayBuffer()),
+    noxRestore: () =>
+      noxRestore(dbx, async (v) => new Uint8Array(await v.arrayBuffer())),
     login: loginDropbox,
     sx,
   });

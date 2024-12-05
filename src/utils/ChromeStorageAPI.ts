@@ -67,7 +67,7 @@ export const getRegExtractMapping = async (): Promise<
     );
     return await res.json();
   } catch (e) {
-    logger.error('failed to load rejson');
+    logger.error(`failed to load rejson: ${e}`);
     return rejson as NoxRegExt.JSONExtractor[];
   }
 };
