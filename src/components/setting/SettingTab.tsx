@@ -71,8 +71,9 @@ function SettingsPanel() {
       <BooleanCheckbox settingKey='r128gain' />
       <BooleanCheckbox
         settingKey='memoryEfficiency'
-        callback={() => window.location.reload()}
+        callback={window.location.reload}
       />
+      <BooleanCheckbox settingKey='noBiliR128Gain' />
     </React.Fragment>
   );
 }

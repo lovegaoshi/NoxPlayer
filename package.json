@@ -43,7 +43,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.7.0",
-    "eslint-import-resolver-webpack": "^0.13.9",
+    "eslint-import-resolver-webpack": "^0.13.10",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.1",
@@ -62,7 +62,7 @@
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-config-utils": "^2.3.1",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-dev-server": "^5.2.0"
   },
   "browserslist": [
     "chrome >= 72",
@@ -78,10 +78,10 @@
     "@fortawesome/fontawesome-free": "^6.7.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.1",
     "@hello-pangea/dnd": "^17.0.0",
-    "@mui/icons-material": "^6.1.10",
+    "@mui/icons-material": "^6.2.0",
     "@mui/lab": "6.0.0-dev.240424162023-9968b4889d",
-    "@mui/material": "^6.1.10",
-    "@mui/styles": "^6.1.10",
+    "@mui/material": "^6.2.0",
+    "@mui/styles": "^6.2.0",
     "axios": "^1.7.9",
     "base-64": "^1.0.0",
     "base64-js": "^1.5.1",
@@ -123,7 +123,7 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
     "uuid": "^11.0.3",
-    "youtubei.js": "^12.0.0",
+    "youtubei.js": "^12.1.0",
     "zustand": "^5.0.2"
   },
   "resolutions": {
