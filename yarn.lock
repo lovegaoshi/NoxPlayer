@@ -7216,12 +7216,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jintr@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "jintr@npm:3.1.0"
+"jintr@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "jintr@npm:3.2.0"
   dependencies:
     acorn: "npm:^8.8.0"
-  checksum: 10c0/49fea8c87dcc54ced0fe0265c6c7c36edf16656d3a0ee27717ffc1c790a3b20c5f890f4b5b59abdad4e02cf5a7de03e6e4fea2ca82dbf02eed8027fa25436a42
+  checksum: 10c0/6b68bca3c18b45100b97d0710079c33fe7bb3a1ca32dec2be2d5b0c392b7c3f9b9c3db85f2abf2a1cfe8c79397efebc1508c11a2251de47fc2665d9b76f3f30a
   languageName: node
   linkType: hard
 
@@ -8183,7 +8183,7 @@ __metadata:
     react-contexify: "npm:^6.0.0"
     react-dom: "npm:19.0.0"
     react-hotkeys-hook: "npm:^4.6.1"
-    react-i18next: "npm:^15.1.4"
+    react-i18next: "npm:^15.2.0"
     react-jinke-music-player: "git+https://lovegaoshi@github.com/lovegaoshi/react-music-player.git"
     react-lrc: "npm:^3.2.1"
     react-refresh: "npm:^0.16.0"
@@ -8201,7 +8201,7 @@ __metadata:
     webpack-cli: "npm:^5.1.4"
     webpack-config-utils: "npm:^2.3.1"
     webpack-dev-server: "npm:^5.2.0"
-    youtubei.js: "npm:^12.1.0"
+    youtubei.js: "npm:^12.2.0"
     zustand: "npm:^5.0.2"
   languageName: unknown
   linkType: soft
@@ -9087,9 +9087,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^15.1.4":
-  version: 15.1.4
-  resolution: "react-i18next@npm:15.1.4"
+"react-i18next@npm:^15.2.0":
+  version: 15.2.0
+  resolution: "react-i18next@npm:15.2.0"
   dependencies:
     "@babel/runtime": "npm:^7.25.0"
     html-parse-stringify: "npm:^3.0.1"
@@ -9101,7 +9101,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 10c0/6c1b053fc530c3a750c8cb0a090a54cd3580cbe2103bea26579a2855a6c0a8be7e1cbffda732d4ec9c9aa8724569783dc340564855e1fe76f48c24683fe0b3d4
+  checksum: 10c0/e6dfd3f04a070777231ea50e750d74ed7a72c56e3f2da238e8666db65431c805482706bbc76bdb69e5196c4125ff4c955ea4166a1788997a679c3a5c03590654
   languageName: node
   linkType: hard
 
@@ -11227,15 +11227,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"youtubei.js@npm:^12.1.0":
-  version: 12.1.0
-  resolution: "youtubei.js@npm:12.1.0"
+"youtubei.js@npm:^12.2.0":
+  version: 12.2.0
+  resolution: "youtubei.js@npm:12.2.0"
   dependencies:
     "@bufbuild/protobuf": "npm:^2.0.0"
-    jintr: "npm:^3.1.0"
+    jintr: "npm:^3.2.0"
     tslib: "npm:^2.5.0"
     undici: "npm:^5.19.1"
-  checksum: 10c0/51d01cdd17821456120ebd1e9f5694c7a17c7d009b1d0243cc33852b94b8e60da1f396b05cfe675dbebaae59b34e018ecf0832c912e9c4bfa7e43f29bc50ccbb
+  checksum: 10c0/5d93a4cec858ea808c99bcbcf139f44e7f14dadde93f1ae20437371e0d26ef615ecfbbe284a0c8cd9fb4bc015fbdb1ca9bc785665f3d1cb5794f3b311a5f07d9
   languageName: node
   linkType: hard
 
