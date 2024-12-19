@@ -7,11 +7,16 @@
 export const getCookie = async (domain: string, name: string) =>
   chrome.cookies.get({ url: domain, name });
 
-export const getBiliCookie = async (name = 'bili_jct') =>
+export const getBiliCookie = async (name = BILICOOKIES.bilijct) =>
   getCookie('https://www.bilibili.com', name);
 
-export const getBiliJct = () => getBiliCookie('bili_jct');
+export const getBiliJct = () => getBiliCookie(BILICOOKIES.bilijct);
 
-export const getBiliSESS = () => getBiliCookie('SESSDATA');
+export const getBiliSESS = () => getBiliCookie(BILICOOKIES.SESSDATA);
 
 export const cookieHeader = () => undefined;
+
+export enum BILICOOKIES {
+  SESSDATA = 'SESSDATA',
+  bilijct = 'bili_jct',
+}
