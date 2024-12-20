@@ -101,7 +101,7 @@
     "fs": "^0.0.1-security",
     "he": "^1.2.0",
     "i18next": "^23.16.8",
-    "libmuse": "https://github.com/lovegaoshi/muse.git#commit=0bffe2319baf825037bece6869d360d6d307eb72",
+    "libmuse": "https://github.com/lovegaoshi/muse.git#commit=1e3076ede9069888d5c7e5024ab14dd95c966310",
     "material-ui-confirm": "^3.0.16",
     "md5": "^2.3.0",
     "notistack": "^3.0.1",
