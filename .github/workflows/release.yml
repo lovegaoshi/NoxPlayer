@@ -76,7 +76,7 @@ jobs:
           generate_release_notes: true
 
       - name: Edge Publish
-        uses: wdzeng/edge-addon@v1
+        uses: wdzeng/edge-addon@v2
         with:
           product-id: ${{ secrets.EDGE_PRODUCT_ID }}
           zip-path: NoxPlayer.zip
