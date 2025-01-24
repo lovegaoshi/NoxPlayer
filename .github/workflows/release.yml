@@ -81,4 +81,4 @@ jobs:
           product-id: ${{ secrets.EDGE_PRODUCT_ID }}
           zip-path: NoxPlayer.zip
           api-key: ${{ secrets.EDGE_API_KEY }}
-          access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
+          client-id: ${{ secrets.EDGE_CLIENT_ID }}
