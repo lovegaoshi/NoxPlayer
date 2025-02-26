@@ -16,8 +16,8 @@ import CreateAsPlaylistButton from './ButtonCreateAsPlaylist';
 
 interface PlaylistInfoBaseProps extends Props {
   enableMenu?: boolean;
-  albumIcon?: JSX.Element;
-  children?: JSX.Element;
+  albumIcon?: React.ReactNode;
+  children?: React.ReactNode;
 }
 function PlaylistInfoBase({
   playlist,

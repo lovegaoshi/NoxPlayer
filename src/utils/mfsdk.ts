@@ -1,5 +1,7 @@
 export const initMFsdk = () => [];
 
-export const addMFsdks = () => void 0;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const addMFsdks = (paths: string[]) => undefined;
 
-export const rmMFsdks = () => void 0;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const rmMFsdks = (paths: string[]) => undefined;

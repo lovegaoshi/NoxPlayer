@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useConfirm } from 'material-ui-confirm';
 import { useSnackbar } from 'notistack';
 import { DropResult } from '@hello-pangea/dnd';
@@ -152,7 +152,7 @@ export default (mPlaylist?: NoxMedia.Playlist) => {
   };
   async function cleanInvalidBVIds(
     playlist: NoxMedia.Playlist,
-    action?: () => JSX.Element,
+    action?: () => ReactNode,
   ) {
     const key = enqueueSnackbar(`正在查询歌单 ${playlist.title} 的bv号……`, {
       variant: 'info',
