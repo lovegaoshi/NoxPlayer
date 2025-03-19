@@ -45,7 +45,7 @@ export default function App() {
     <React.Suspense fallback={<h1>Loading...</h1>}>
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={1}>
-          <ConfirmProvider>
+          <ConfirmProvider useLegacyReturn>
             <div className='container-fluid homepage-bgimage'>
               {backgroundSrc?.type === RESOLVE_TYPE.video ? (
                 <video
