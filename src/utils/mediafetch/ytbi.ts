@@ -11,7 +11,6 @@ const ytClient = Innertube.create({
 
     // fetch the URL
 
-    // @ts-expect-error
     return fetch(input, init);
   },
 });
@@ -28,7 +27,6 @@ export const ytClientWeb: Promise<Innertube> = Innertube.create({
 
     // fetch the URL
 
-    // @ts-expect-error
     return fetch(input, init);
   },
 });

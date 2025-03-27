@@ -6,6 +6,7 @@ import usePlaylist, { UsePlaylist } from '@APM/hooks/usePlaylist';
 import { syncFavlist } from '@utils/Bilibili/bilifavOperate';
 import { PlaylistTypes } from '@APM/enums/Playlist';
 import { logger } from '@utils/Logger';
+import { isPlayerFocused } from '@utils/Utils';
 
 export interface UsePlaylistP extends UsePlaylist {
   page: number;
@@ -91,8 +92,12 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     }
   }, [playlistShouldReRender]);
 
-  useHotkeys('left', () => handleChangePage(null, page - 1));
-  useHotkeys('right', () => handleChangePage(null, page + 1));
+  useHotkeys('left', () =>
+    isPlayerFocused(() => handleChangePage(null, page - 1)),
+  );
+  useHotkeys('right', () =>
+    isPlayerFocused(() => handleChangePage(null, page + 1)),
+  );
 
   const handleChangePage = (_: any, newPage: number) => {
     const maxPage = Math.ceil(rows.length / rowsPerPage);

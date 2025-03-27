@@ -34,10 +34,7 @@ jobs:
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Install dependencies
-        run: yarn; git submodule update --init --recursive
-
-      - name: Install dependencies
-        run: yarn
+        run: yarn; yarn inst; git submodule update --init --recursive
 
       - name: 'Create env file'
         run: |
