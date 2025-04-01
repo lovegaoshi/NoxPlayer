@@ -3,7 +3,8 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import TimerIcon from '@mui/icons-material/Timer';
 import Button from '@mui/material/Button';
-import TimerDialog from '../dialogs/TimerDialog';
+
+import TimerDialog from './TimerDialog';
 
 interface Props {
   AddFavIcon: Object | undefined;

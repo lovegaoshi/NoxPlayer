@@ -3,8 +3,9 @@ import Button from '@mui/material/Button';
 import TabPanel from '@mui/lab/TabPanel';
 import BuildIcon from '@mui/icons-material/Build';
 
-import TimerButton from '../buttons/TimerButton';
-import PlayerResetButton from '../buttons/PlayerResetButton';
+import TimerButton from './tabButtons/TimerButton';
+import PlayerResetButton from './tabButtons/PlayerResetButton';
+import CustomSkinButton from './tabButtons/CustomSkinButton';
 import SETTING_TAB from './enums';
 
 export default function ToolboxTab() {
@@ -12,7 +13,7 @@ export default function ToolboxTab() {
     <TabPanel value={SETTING_TAB.TOOLBOX}>
       <TimerButton AddFavIcon={undefined} btnType='regular' />
       <PlayerResetButton />
-      <Button startIcon={<BuildIcon />}>placeholder</Button>
+      <CustomSkinButton />
       <br />
       <Button startIcon={<BuildIcon />}>placeholder</Button>
       <Button startIcon={<BuildIcon />}>placeholder</Button>

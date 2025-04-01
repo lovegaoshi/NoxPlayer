@@ -1,5 +1,6 @@
 import { getSettings } from '@APM/utils/ChromeStorage';
 import { buttonStyle, ScrollBar } from '@hooks/useTheme';
+import { getCustomSkin } from '@utils/ChromeStorage';
 import AzusaTheme from './skins/azusa';
 import ItsukiTheme from './skins/itsuki';
 import NoxTheme from './skins/nox';
@@ -17,10 +18,13 @@ import RyniaTheme from './skins/rynia';
 import NiyaTheme from './skins/nyiaibu';
 import LumiTheme from './skins/lumi';
 import KeroroTheme from './skins/keroro';
+import skinTemplate from './skins/template';
 
 // needs to enable top-level await; necessary for other modules to import current skin config
 const setting = await getSettings();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
+
+const customSkin = await getCustomSkin();
 
 export const SkinMap: { [key: string]: () => any } = {
   诺莺Nox: () => NoxTheme(),
@@ -40,6 +44,7 @@ export const SkinMap: { [key: string]: () => any } = {
   阿布: () => NiyaTheme(),
   露米Lumi: () => LumiTheme(),
   蛙吹Keroro: () => KeroroTheme(),
+  Custom: () => skinTemplate(customSkin) ?? NoxTheme(),
 };
 
 export const skins = (key = setting.skin) => {
@@ -56,6 +61,7 @@ export const skins = (key = setting.skin) => {
   };
   const playerStyle = getSkin();
   return {
+    ...NoxTheme(),
     ...playerStyle,
     outerLayerBtn: { padding: 'unset' },
     CRUDBtn: {
@@ -73,7 +79,7 @@ export const skins = (key = setting.skin) => {
       width: '1.1em',
       height: '1.1em',
       paddingBottom: '2px',
-      color: playerStyle.colorTheme.playListIconColor,
+      color: playerStyle.colorTheme?.playListIconColor,
     },
 
     AddFavIcon: {
@@ -81,17 +87,17 @@ export const skins = (key = setting.skin) => {
         cursor: 'pointer',
       },
       width: '1em',
-      color: playerStyle.colorTheme.playListIconColor,
+      color: playerStyle.colorTheme?.playListIconColor,
     },
 
     DiskIcon: {
       minWidth: '36px',
     },
     buttonStyle: buttonStyle(
-      playerStyle.reactJKPlayerTheme.sliderColor,
-      playerStyle.desktopTheme,
+      playerStyle.reactJKPlayerTheme?.sliderColor ?? '',
+      playerStyle.desktopTheme ?? '',
     ),
-    ScrollBar: ScrollBar(playerStyle.colorTheme.scrollbarColor),
+    ScrollBar: ScrollBar(playerStyle.colorTheme?.scrollbarColor ?? ''),
   };
 };
 
