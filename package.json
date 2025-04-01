@@ -117,7 +117,7 @@
     "react-dom": "19.0.0",
     "react-hotkeys-hook": "^4.6.1",
     "react-i18next": "^15.4.1",
-    "react-jinke-music-player": "git+https://lovegaoshi@github.com/lovegaoshi/react-music-player.git",
+    "react-jinke-music-player": "https://github.com/lovegaoshi/react-music-player.git#commit=8b925989f12805201659bd0528a84b50f23ff7bb",
     "react-lrc": "^3.2.1",
     "react-swipeable": "^7.0.2",
     "react-window": "^1.8.11",
@@ -132,5 +132,5 @@
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
-  "packageManager": "yarn@4.5.3"
+  "packageManager": "yarn@4.7.0"
 }

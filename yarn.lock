@@ -9141,7 +9141,7 @@ __metadata:
     react-dom: "npm:19.0.0"
     react-hotkeys-hook: "npm:^4.6.1"
     react-i18next: "npm:^15.4.1"
-    react-jinke-music-player: "git+https://lovegaoshi@github.com/lovegaoshi/react-music-player.git"
+    react-jinke-music-player: "https://github.com/lovegaoshi/react-music-player.git#commit=8b925989f12805201659bd0528a84b50f23ff7bb"
     react-lrc: "npm:^3.2.1"
     react-refresh: "npm:^0.16.0"
     react-swipeable: "npm:^7.0.2"
@@ -10169,9 +10169,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-jinke-music-player@git+https://lovegaoshi@github.com/lovegaoshi/react-music-player.git":
+"react-jinke-music-player@https://github.com/lovegaoshi/react-music-player.git#commit=8b925989f12805201659bd0528a84b50f23ff7bb":
   version: 4.24.2
-  resolution: "react-jinke-music-player@https://lovegaoshi@github.com/lovegaoshi/react-music-player.git#commit=fbab30bf23e15c5d2e9d3e9495b5be11ae68bc12"
+  resolution: "react-jinke-music-player@https://github.com/lovegaoshi/react-music-player.git#commit=8b925989f12805201659bd0528a84b50f23ff7bb"
   dependencies:
     "@emotion/css": "npm:^11.10.5"
     "@react-icons/all-files": "npm:^4.1.0"
@@ -10188,7 +10188,7 @@ __metadata:
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10c0/5c85de4edb6ca64a536f756d8b7ed3c987a2e0fbd6f5742750cd9c589095f59eff4bbc238ca3fbf0d6788a3f6a74e5c890b8428796c3cd4ee99ff2ebb78e06ac
+  checksum: 10c0/23ec453c62d8b8198338544ba5f61b2bbe0277d4f563870edc6480b8dc098f94d643e2e4c002e48db5ce5890a86dd6e0c415e9acf501322643ada3223310fdf6
   languageName: node
   linkType: hard
 
