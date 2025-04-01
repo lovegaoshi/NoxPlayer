@@ -8,6 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import useInitializeStore from '@stores/useInitializeStore';
 import { exportPlayerContent } from '@utils/ChromeStorageAPI';
+import uploadLocalFile from '@utils/uploadLocalFile';
 
 interface SyncFavButtonProps {
   AddFavIcon: Object;
@@ -62,27 +63,4 @@ const exportStorage = async () => {
 
 const importStorage = async (
   importStorageRaw: (val: Uint8Array) => Promise<unknown>,
-) => {
-  const upload = document.createElement('input');
-  upload.type = 'file';
-  document.body.appendChild(upload);
-
-  upload.addEventListener('change', handleFiles, false);
-  function handleFiles() {
-    const fileReader = new FileReader();
-    fileReader.onload = function onload() {
-      if (fileReader.result === null) return;
-      if (
-        typeof fileReader.result === 'string' ||
-        fileReader.result instanceof String
-      ) {
-        console.error('[Sync] fileReader.result is a string; will not import');
-        return;
-      }
-      importStorageRaw(new Uint8Array(fileReader.result));
-    };
-    if (upload.files === null || upload.files[0] === undefined) return;
-    fileReader.readAsArrayBuffer(upload.files[0]);
-  }
-  upload.click();
-};
+) => uploadLocalFile((v) => importStorageRaw(new Uint8Array(v)));

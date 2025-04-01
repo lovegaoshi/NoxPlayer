@@ -58,7 +58,7 @@ export default function template(skin: { [key: string]: any }) {
     ...skin,
     playerBackground: () =>
       resolveBackgroundImage(
-        randomChoice(skin.playerBackground) as
+        randomChoice(skin.playerBackground ?? ['']) as
           | NoxTheme.backgroundImage
           | string,
       ),
