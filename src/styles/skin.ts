@@ -1,5 +1,6 @@
 import { getSettings } from '@APM/utils/ChromeStorage';
 import { buttonStyle, ScrollBar } from '@hooks/useTheme';
+import { getCustomSkin } from '@utils/ChromeStorage';
 import AzusaTheme from './skins/azusa';
 import ItsukiTheme from './skins/itsuki';
 import NoxTheme from './skins/nox';
@@ -22,6 +23,8 @@ import KeroroTheme from './skins/keroro';
 const setting = await getSettings();
 // http://192.168.50.1:19527/getimg?imgserve=itsuki&file=herabanner.png
 
+const customSkin = await getCustomSkin();
+
 export const SkinMap: { [key: string]: () => any } = {
   诺莺Nox: () => NoxTheme(),
   阿梓Azusa: () => AzusaTheme(),
@@ -40,6 +43,7 @@ export const SkinMap: { [key: string]: () => any } = {
   阿布: () => NiyaTheme(),
   露米Lumi: () => LumiTheme(),
   蛙吹Keroro: () => KeroroTheme(),
+  Custom: () => customSkin ?? NoxTheme(),
 };
 
 export const skins = (key = setting.skin) => {

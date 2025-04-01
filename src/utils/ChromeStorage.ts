@@ -8,9 +8,14 @@ import {
   clearPlaylists,
   savePlaylistIds,
 } from '@APM/utils/ChromeStorage';
-import { getItem, savePlaylist } from './ChromeStorageAPI';
+import { getItem, savePlaylist, saveItem } from './ChromeStorageAPI';
 
 export * from '@APM/utils/ChromeStorage';
+
+export const saveCustomSkin = (skin: any) =>
+  saveItem(StorageKeys.SKINSTORAGE, skin);
+
+export const getCustomSkin = () => getItem(StorageKeys.SKINSTORAGE);
 
 export const getPlaylistIds = (): Promise<string[]> =>
   getItem(StorageKeys.MY_FAV_LIST_KEY, []);

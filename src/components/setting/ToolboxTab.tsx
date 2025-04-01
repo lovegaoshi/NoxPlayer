@@ -3,8 +3,8 @@ import Button from '@mui/material/Button';
 import TabPanel from '@mui/lab/TabPanel';
 import BuildIcon from '@mui/icons-material/Build';
 
-import TimerButton from '../buttons/TimerButton';
-import PlayerResetButton from '../buttons/PlayerResetButton';
+import TimerButton from './tabButtons/TimerButton';
+import PlayerResetButton from './tabButtons/PlayerResetButton';
 import SETTING_TAB from './enums';
 
 export default function ToolboxTab() {

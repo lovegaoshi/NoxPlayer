@@ -23,7 +23,7 @@ export default function SkinSetting() {
           style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
           display='inline'
         >
-          播放器皮肤{' '}
+          播放器皮肤
         </Typography>
       </Tooltip>
       <Typography
