@@ -12,7 +12,7 @@ interface overrideMUITheme {
 
 interface SkinTemplate {
   playerBanner: string;
-  playerBackground: () => Promise<NoxTheme.backgroundImage>;
+  playerBackground: () => Promise<NoxTheme.BackgroundImage>;
   gifs: string[];
   appTitle: string;
   desktopTheme: string;
@@ -59,7 +59,7 @@ export default function template(skin: { [key: string]: any }) {
     playerBackground: () =>
       resolveBackgroundImage(
         randomChoice(skin.playerBackground ?? ['']) as
-          | NoxTheme.backgroundImage
+          | NoxTheme.BackgroundImage
           | string,
       ),
   };

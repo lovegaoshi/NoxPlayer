@@ -5,13 +5,14 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import IconButton from '@mui/material/IconButton';
 import { useSnackbar } from 'notistack';
 import Tooltip from '@mui/material/Tooltip';
+import { SxProps, Theme } from '@mui/material';
 
 import useInitializeStore from '@stores/useInitializeStore';
 import { exportPlayerContent } from '@utils/ChromeStorageAPI';
 import uploadLocalFile from '@utils/uploadLocalFile';
 
 interface SyncFavButtonProps {
-  AddFavIcon: Object;
+  AddFavIcon: SxProps<Theme>;
 }
 export function ExportFavButton({ AddFavIcon }: SyncFavButtonProps) {
   const { initializeFromSync } = useInitializeStore();

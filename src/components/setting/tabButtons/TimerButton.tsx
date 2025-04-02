@@ -3,11 +3,12 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import TimerIcon from '@mui/icons-material/Timer';
 import Button from '@mui/material/Button';
+import { SxProps, Theme } from '@mui/material';
 
 import TimerDialog from './TimerDialog';
 
 interface Props {
-  AddFavIcon: Object | undefined;
+  AddFavIcon: SxProps<Theme> | undefined;
   btnType: string;
 }
 /**

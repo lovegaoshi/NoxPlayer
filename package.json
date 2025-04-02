@@ -15,7 +15,8 @@
     "ci:lint": "eslint src --max-warnings=0",
     "ci:format": "prettier --check src",
     "prettify": "prettier --write ./src",
-    "compile": "tsc"
+    "compile": "tsc",
+    "lint": "yarn compile; yarn ci:lint; yarn ci:format"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",

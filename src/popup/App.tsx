@@ -20,7 +20,7 @@ export default function App() {
   const playerStyle = useApp((state) => state.playerStyle);
   const theme = createTheme(playerStyle.colorTheme.palette);
   const [backgroundSrc, setBackgroundSrc] =
-    React.useState<NoxTheme.backgroundImage>();
+    React.useState<NoxTheme.BackgroundImage>();
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const timer = useTimer();
