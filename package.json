@@ -117,7 +117,7 @@
     "react-dom": "19.0.0",
     "react-hotkeys-hook": "^4.6.1",
     "react-i18next": "^15.4.1",
-    "react-jinke-music-player": "https://github.com/lovegaoshi/react-music-player.git#commit=8b925989f12805201659bd0528a84b50f23ff7bb",
+    "react-jinke-music-player": "https://github.com/lovegaoshi/react-music-player.git#commit=19a0eb729671df8c4aff40f155d999a84d572b22",
     "react-lrc": "^3.2.1",
     "react-swipeable": "^7.0.2",
     "react-window": "^1.8.11",
