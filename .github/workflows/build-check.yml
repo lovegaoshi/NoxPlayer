@@ -2,7 +2,7 @@ name: build check
 on:
   pull_request:
     branches:
-      - nox-player
+      - main
   workflow_dispatch:
 jobs:
   build:
