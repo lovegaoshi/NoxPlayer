@@ -5,6 +5,11 @@
 
 一切因为使用电闹播放器导致您账号被风控封禁的问题，电闹播放器恕不负责。
 
+4.1.4:
+YT.js 13.3.0
+customized skin
+fixes audio reload when using repeat mode loopOne
+
 4.1.0:
 ytbi 解析油管bugfix
 
