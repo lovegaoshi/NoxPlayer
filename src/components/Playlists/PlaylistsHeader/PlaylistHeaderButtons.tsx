@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { SxProps } from '@mui/material';
 
 import PlayerSettingsButton from '@components/setting/PlayerSetttingsButton';

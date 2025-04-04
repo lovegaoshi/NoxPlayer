@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Lrc } from 'react-lrc';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 
 import { getName } from '@APM/utils/re';
 import { useDebouncedValue } from '@APM/hooks';
