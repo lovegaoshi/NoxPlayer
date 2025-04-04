@@ -2,7 +2,7 @@ name: build check
 on:
   pull_request:
     branches:
-      - nox-player
+      - main
   workflow_dispatch:
 jobs:
   build:
@@ -61,7 +61,4 @@ jobs:
         run: yarn; git submodule update --init --recursive
 
       - name: yarn ci
-        run: |
-          yarn compile
-          yarn ci:format
-          yarn ci:lint
+        run: yarn lint

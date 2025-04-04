@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
+import { SxProps, Theme } from '@mui/material';
+
 import { NewFavDialog } from '../dialogs/AddFavDialog';
 
 interface Props {
-  AddFavIcon: Object;
+  AddFavIcon: SxProps<Theme>;
   onClosedDialogFunc: Function;
 }
 /**

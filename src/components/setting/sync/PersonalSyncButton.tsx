@@ -6,13 +6,14 @@ import Tooltip from '@mui/material/Tooltip';
 import { useSnackbar } from 'notistack';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
+import { SxProps, Theme } from '@mui/material';
 
 import { noxBackup, noxRestore } from '@utils/sync/PersonalCloudAuth';
 import useInitializeStore from '@stores/useInitializeStore';
 import { exportPlayerContent } from '@utils/ChromeStorageAPI';
 
 interface SyncFavButtonProps {
-  AddFavIcon: Object;
+  AddFavIcon: SxProps<Theme>;
   cloudAddress?: string;
 }
 export function ImportSyncFavButton({
@@ -25,7 +26,7 @@ export function ImportSyncFavButton({
   const [loading, setLoading] = useState(false);
 
   const errorHandling = (
-    e: Object,
+    e: any,
     msg = '歌单同步自私有云失败，错误记录在控制台里',
   ) => {
     console.error(e);
@@ -73,7 +74,7 @@ export function ExportSyncFavButton({
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
-  const errorHandling = (e: Object) => {
+  const errorHandling = (e: any) => {
     console.error(e);
     enqueueSnackbar('歌单上传到私有云失败，错误记录在控制台里', {
       variant: 'error',
