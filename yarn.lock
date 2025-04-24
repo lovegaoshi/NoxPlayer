@@ -3006,13 +3006,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chrome@npm:^0.0.316":
-  version: 0.0.316
-  resolution: "@types/chrome@npm:0.0.316"
+"@types/chrome@npm:^0.0.317":
+  version: 0.0.317
+  resolution: "@types/chrome@npm:0.0.317"
   dependencies:
     "@types/filesystem": "npm:*"
     "@types/har-format": "npm:*"
-  checksum: 10c0/c08d4bf737e257a277e272dd25251c3d307bf96561f22ead8eb40989651504e104613d474f7e023f7dbf7d593fd7ee5e3beef5ccc1d18f6963b38e7bedfef1a5
+  checksum: 10c0/aa6c199701aa4ec224332151e22489a8cf58e91c4ebe1ee157ddae98b472a84541ff5f98d4c65d853cdbfe5a95be03d560116524c27ff01d94734884079500ff
   languageName: node
   linkType: hard
 
@@ -8172,12 +8172,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jintr@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "jintr@npm:3.3.0"
+"jintr@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "jintr@npm:3.3.1"
   dependencies:
     acorn: "npm:^8.8.0"
-  checksum: 10c0/88a62d4748c85fddb8bb4284066fcaeb77c4ecfa9bd3f93ccdcc2ebc2e701e86d2c8d1a079026044b0aca8be451c121da4c95b494bfbaf8540ef9128fa2d1f0b
+  checksum: 10c0/e699894549a653fc1e40505b47fe9ba69beed74cd7bf7ee50f62a6e616cd6e3753423f254f05286fc1132a20f2f086b8d410e818bc0a9e32efb50c2adf583bcc
   languageName: node
   linkType: hard
 
@@ -9125,7 +9125,7 @@ __metadata:
     "@mui/styles": "npm:6.4.11"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.16"
     "@types/base-64": "npm:^1.0.2"
-    "@types/chrome": "npm:^0.0.316"
+    "@types/chrome": "npm:^0.0.317"
     "@types/he": "npm:^1.2.3"
     "@types/js-base64": "npm:^3.3.1"
     "@types/lodash": "npm:^4.17.16"
@@ -9189,7 +9189,7 @@ __metadata:
     react-contexify: "npm:^6.0.0"
     react-dom: "npm:19.1.0"
     react-hotkeys-hook: "npm:^5.0.1"
-    react-i18next: "npm:^15.4.1"
+    react-i18next: "npm:^15.5.1"
     react-jinke-music-player: "https://github.com/lovegaoshi/react-music-player.git#commit=19a0eb729671df8c4aff40f155d999a84d572b22"
     react-lrc: "npm:^3.2.1"
     react-refresh: "npm:^0.17.0"
@@ -9207,7 +9207,7 @@ __metadata:
     webpack-cli: "npm:^6.0.1"
     webpack-config-utils: "npm:^2.3.1"
     webpack-dev-server: "npm:^5.2.1"
-    youtubei.js: "npm:^13.3.0"
+    youtubei.js: "npm:^13.4.0"
     zustand: "npm:^5.0.3"
   languageName: unknown
   linkType: soft
@@ -10150,21 +10150,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^15.4.1":
-  version: 15.4.1
-  resolution: "react-i18next@npm:15.4.1"
+"react-i18next@npm:^15.5.1":
+  version: 15.5.1
+  resolution: "react-i18next@npm:15.5.1"
   dependencies:
     "@babel/runtime": "npm:^7.25.0"
     html-parse-stringify: "npm:^3.0.1"
   peerDependencies:
     i18next: ">= 23.2.3"
     react: ">= 16.8.0"
+    typescript: ^5
   peerDependenciesMeta:
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 10c0/4f421a4db8255766bdbc8cc262b03c75bed4d92e5f7cc79dee99236c3239eb86a4d100fcbc6c2c735fa0207de23c09516450c8d970d193b0f7c2a3daaa51e261
+    typescript:
+      optional: true
+  checksum: 10c0/448e190beb3338e5e6e48936c82b5e8610fdb54d0b3dafc14c2af76115a6c931eff601c3e4aee00b3d3c1b78d4d7061bbac443fc9bcff786d131e695c79f5822
   languageName: node
   linkType: hard
 
@@ -12660,15 +12663,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"youtubei.js@npm:^13.3.0":
-  version: 13.3.0
-  resolution: "youtubei.js@npm:13.3.0"
+"youtubei.js@npm:^13.4.0":
+  version: 13.4.0
+  resolution: "youtubei.js@npm:13.4.0"
   dependencies:
     "@bufbuild/protobuf": "npm:^2.0.0"
-    jintr: "npm:^3.3.0"
+    jintr: "npm:^3.3.1"
     tslib: "npm:^2.5.0"
     undici: "npm:^5.19.1"
-  checksum: 10c0/5611fcc2400549f3d75cee0f6afbcaacc3759532814943db76d9b8fc8f18ab380c7fa71088b965bf53a065062d9bb4fec66457bec585da45a97685c8cebd5dc9
+  checksum: 10c0/059a5f29c5668dabdec706dd65abc39b2650bb1eaf45240df35ef6676116300b875bb682093f356a20ee70110b4fc54660577778b7d6ccacefca75bbbe4e1a5c
   languageName: node
   linkType: hard
 

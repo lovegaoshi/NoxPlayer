@@ -25,7 +25,7 @@
     "@babel/preset-typescript": "^7.27.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.16",
     "@types/base-64": "^1.0.2",
-    "@types/chrome": "^0.0.316",
+    "@types/chrome": "^0.0.317",
     "@types/he": "^1.2.3",
     "@types/js-base64": "^3.3.1",
     "@types/lodash": "^4.17.16",
@@ -117,7 +117,7 @@
     "react-contexify": "^6.0.0",
     "react-dom": "19.1.0",
     "react-hotkeys-hook": "^5.0.1",
-    "react-i18next": "^15.4.1",
+    "react-i18next": "^15.5.1",
     "react-jinke-music-player": "https://github.com/lovegaoshi/react-music-player.git#commit=19a0eb729671df8c4aff40f155d999a84d572b22",
     "react-lrc": "^3.2.1",
     "react-swipeable": "^7.0.2",
@@ -126,7 +126,7 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
     "uuid": "^11.1.0",
-    "youtubei.js": "^13.3.0",
+    "youtubei.js": "^13.4.0",
     "zustand": "^5.0.3"
   },
   "resolutions": {
