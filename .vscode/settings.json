@@ -7,5 +7,6 @@
   "search.exclude": {
     "azusa-player-mobile": true,
     "src/azusa-player-mobile": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
