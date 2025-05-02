@@ -9,6 +9,7 @@ import useApp from '@stores/useApp';
 import { RESOLVE_TYPE } from '@APM/utils/mediafetch/mainbackgroundfetch';
 import useInitializeStore from '../stores/useInitializeStore';
 import '../utils/i18n';
+import migrateSQL from '../utils/db/migrate';
 
 const Player = React.lazy(() => import('../components/App/App'));
 
@@ -27,6 +28,7 @@ export default function App() {
 
   useEffect(() => {
     async function init() {
+      await migrateSQL();
       const result = await initializeStores();
       setCurrentSongList(result.currentPlayingList.songList);
       setLastPlayDuration(result.lastPlayDuration);
