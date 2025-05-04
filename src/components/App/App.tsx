@@ -5,6 +5,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import usePlayback from '@hooks/usePlayback';
 import useApp from '@stores/useApp';
+import usePlaybackCount from '@hooks/usePlaybackCount';
 import { FavList } from '../Playlists/Player';
 import LyricOverlay from '../lyric/LyricOverlay';
 import Options from './Enum';
@@ -36,6 +37,7 @@ export default function Player({ songList, lastPlayDuration }: Props) {
     onAudioError,
     initPlayer,
   } = usePlayback();
+  const { increasePlayback } = usePlaybackCount();
   const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
   const [initialized, setInitialized] = React.useState(false);
 
@@ -85,6 +87,8 @@ export default function Player({ songList, lastPlayDuration }: Props) {
       {params && (
         <ReactJkMusicPlayer
           {...params}
+          onPlayNextAudio={increasePlayback}
+          onPlayPrevAudio={increasePlayback}
           showMediaSession
           onAudioVolumeChange={onAudioVolumeChange}
           onPlayModeChange={onPlayModeChange}

@@ -3227,15 +3227,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-icons/all-files@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@react-icons/all-files@npm:4.1.0"
-  peerDependencies:
-    react: "*"
-  checksum: 10c0/6327623b857ba2a9fdf835f2e7029feec7acdd53dc14163085789518d7e1323deb7db649b660d3bad3991285e8408238ad4d09c37b9a0ba7d2601dd74ac0ae56
-  languageName: node
-  linkType: hard
-
 "@rtsao/scc@npm:^1.1.0":
   version: 1.1.0
   resolution: "@rtsao/scc@npm:1.1.0"
@@ -5896,9 +5887,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:^0.31.0":
-  version: 0.31.0
-  resolution: "drizzle-kit@npm:0.31.0"
+"drizzle-kit@npm:^0.31.1":
+  version: 0.31.1
+  resolution: "drizzle-kit@npm:0.31.1"
   dependencies:
     "@drizzle-team/brocli": "npm:^0.10.2"
     "@esbuild-kit/esm-loader": "npm:^2.5.5"
@@ -5906,7 +5897,7 @@ __metadata:
     esbuild-register: "npm:^3.5.0"
   bin:
     drizzle-kit: bin.cjs
-  checksum: 10c0/592471addd20dee3bde564faaba794f2b66cefabe50ce05af4cbc19dd559eea1102c8bc15e3d966ecaa28f8cecfa9948438ebc6893064052ca81cfa56a6e9dc4
+  checksum: 10c0/da28fd8de2649ff4a9bccd84270d95eddac7578bda7604d9cf1870bffd94c7ae3a939d300a4af1f74e9942ae6a46e816afdc7aa7f2837e65c3051a4aa42cdee9
   languageName: node
   linkType: hard
 
@@ -9711,7 +9702,7 @@ __metadata:
     dayjs: "npm:^1.11.13"
     dotenv-webpack: "npm:^8.1.0"
     downloadjs: "npm:^1.4.7"
-    drizzle-kit: "npm:^0.31.0"
+    drizzle-kit: "npm:^0.31.1"
     drizzle-orm: "npm:^0.43.1"
     dropbox: "npm:^10.34.0"
     eslint: "npm:8.57.1"
@@ -9750,7 +9741,7 @@ __metadata:
     react-dom: "npm:19.1.0"
     react-hotkeys-hook: "npm:^5.0.1"
     react-i18next: "npm:^15.5.1"
-    react-jinke-music-player: "https://github.com/lovegaoshi/react-music-player.git#commit=19a0eb729671df8c4aff40f155d999a84d572b22"
+    react-jinke-music-player: "https://github.com/lovegaoshi/react-music-player.git#commit=ab6c7a11d27827e56fb0998c2e130bf9468e3d8d"
     react-lrc: "npm:^3.2.1"
     react-refresh: "npm:^0.17.0"
     react-swipeable: "npm:^7.0.2"
@@ -10731,6 +10722,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-icons@npm:^5.5.0":
+  version: 5.5.0
+  resolution: "react-icons@npm:5.5.0"
+  peerDependencies:
+    react: "*"
+  checksum: 10c0/a24309bfc993c19cbcbfc928157e53a137851822779977b9588f6dd41ffc4d11ebc98b447f4039b0d309a858f0a42980f6bfb4477fb19f9f2d1bc2e190fcf79c
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -10759,12 +10759,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-jinke-music-player@https://github.com/lovegaoshi/react-music-player.git#commit=19a0eb729671df8c4aff40f155d999a84d572b22":
+"react-jinke-music-player@https://github.com/lovegaoshi/react-music-player.git#commit=ab6c7a11d27827e56fb0998c2e130bf9468e3d8d":
   version: 4.24.2
-  resolution: "react-jinke-music-player@https://github.com/lovegaoshi/react-music-player.git#commit=19a0eb729671df8c4aff40f155d999a84d572b22"
+  resolution: "react-jinke-music-player@https://github.com/lovegaoshi/react-music-player.git#commit=ab6c7a11d27827e56fb0998c2e130bf9468e3d8d"
   dependencies:
     "@emotion/css": "npm:^11.10.5"
-    "@react-icons/all-files": "npm:^4.1.0"
     classnames: "npm:^2.5.1"
     downloadjs: "npm:^1.4.7"
     is-mobile: "npm:^4.0.0"
@@ -10772,13 +10771,14 @@ __metadata:
     rc-slider: "npm:^10.6.2"
     rc-switch: "npm:^4.1.0"
     react-draggable: "npm:^4.4.3"
+    react-icons: "npm:^5.5.0"
     react-virtualized: "npm:^9.22.3"
     react-window: "npm:^1.8.10"
     sortablejs: "npm:^1.15.2"
   peerDependencies:
     react: ">=16.9.0"
     react-dom: ">=16.9.0"
-  checksum: 10c0/86d86cf641bd91933a0628a3e5728f1ac74b2dd70c56a3e1cab5ae08870b4c8853a624335c8b13cb506f2a064a97341e2c70476e8af741df9ee9b3be7f1981d8
+  checksum: 10c0/580f8d445893a02d1d51afe7f42df692988f9a23d5398630bd1186b45ceba2cf13c18ee4e187fa6212da19c6f70258bae7572fb03b6cfb17e1d673c9e9de8811
   languageName: node
   linkType: hard
 
