@@ -1,6 +1,6 @@
 import { strFromU8, decompressSync } from 'fflate';
 
-import { StorageKeys } from '@enums/Storage';
+import { StorageKeys, StoragePlaceholders } from '@enums/Storage';
 import { DefaultSetting } from '@objects/Storage';
 import {
   initPlayerObject,
@@ -8,6 +8,7 @@ import {
   clearPlaylists,
   savePlaylistIds,
 } from '@APM/utils/ChromeStorage';
+import { importSQL } from '@APM/utils/db/sqlStorage';
 import { getItem, savePlaylist, saveItem } from './ChromeStorageAPI';
 
 export * from '@APM/utils/ChromeStorage';
@@ -76,7 +77,11 @@ export const importStorageRaw = async (content: Uint8Array) => {
       });
     });
   } else {
-    await chrome.storage.local.clear();
+    await clearStorage();
+    await importSQL(parsedContent[StorageKeys.SQL_PLACEHOLDER]);
+    StoragePlaceholders.forEach((placeholder) => {
+      parsedContent[placeholder] = '';
+    });
     await chrome.storage.local.set(parsedContent);
   }
   return initPlayerObject();
