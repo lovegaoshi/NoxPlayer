@@ -1,8 +1,10 @@
 import { strToU8, compressSync } from 'fflate';
 
 import { logger } from '@utils/Logger';
+import { StorageKeys } from '@enums/Storage';
 // eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
+import { exportSQL } from '@APM/utils/db/sqlStorage';
 
 export const SongListSuffix = '-songList';
 
@@ -49,6 +51,7 @@ export const delPlaylist = (playlistId: string) =>
 
 export const exportPlayerContent = async () => {
   const items = await chrome.storage.local.get(null);
+  items[StorageKeys.SQL_PLACEHOLDER] = await exportSQL();
   return compressSync(strToU8(JSON.stringify(items)));
 };
 
