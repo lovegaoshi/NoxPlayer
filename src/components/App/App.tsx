@@ -96,6 +96,7 @@ export default function Player({ songList, lastPlayDuration }: Props) {
           customDownloader={customDownloader}
           onAudioProgress={onAudioProgress}
           getAudioInstance={setCurrentAudioInst}
+          onAudioPlayTrackChange={(_, __, song) => increasePlayback(song.id, 1)}
           onAudioPlay={onAudioPlay}
           onCoverClick={onCoverClick}
           onAudioListsChange={onAudioListsChange}

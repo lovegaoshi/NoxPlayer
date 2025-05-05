@@ -8,7 +8,6 @@ import renderExtendsContent from '@components/App/ExtendContent';
 import { Source } from '@APM/enums/MediaFetch';
 import { DEFAULT_NULL_URL } from '@objects/Song';
 import { MUSICFREE } from '@utils/mediafetch/musicfree';
-import { increasePlaybackCount } from '@APM/utils/db/sqlStorage';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
@@ -220,7 +219,6 @@ export default () => {
     processExtendsContent(renderExtendsContent(audioInfo));
     setCurrentAudio(audioInfo);
     setCurrentPlayingId(audioInfo.id);
-    increasePlaybackCount(audioInfo.id);
     sendBiliHeartbeat(audioInfo);
   };
 
