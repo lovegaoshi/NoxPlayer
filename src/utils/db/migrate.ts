@@ -1,5 +1,6 @@
 import type { MigrationConfig } from 'drizzle-orm/migrator';
 import db from './sql';
+// eslint-disable-next-line import/extensions
 import migrations from '../../../migrations.json';
 
 export default async () =>

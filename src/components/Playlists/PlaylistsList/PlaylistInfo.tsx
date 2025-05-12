@@ -59,7 +59,7 @@ function PlaylistInfoBase({
       }
     >
       <ListItemButton
-        style={{ maxWidth: 'calc(100% - 84px)' }}
+        style={{ flex: 1 }}
         onClick={() => getPlaylist(playlist.id).then(setSelectedList)}
         id={playlist.id}
       >

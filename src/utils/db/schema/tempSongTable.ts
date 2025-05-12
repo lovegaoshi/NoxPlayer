@@ -1,10 +1,9 @@
 import { integer, pgTable, varchar } from 'drizzle-orm/pg-core';
 
-const table = pgTable('playback-count', {
+// this table merely keeps a list of songcids to allow a faster innerjoin.
+const table = pgTable('temp-table', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   songcid: varchar({ length: 255 }).notNull(),
-  count: integer().notNull(),
-  lastPlayed: integer(),
 });
 
 export default table;
