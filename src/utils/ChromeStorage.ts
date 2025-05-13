@@ -10,6 +10,7 @@ import {
 } from '@APM/utils/ChromeStorage';
 import { importSQL } from '@APM/utils/db/sqlStorage';
 import { getItem, savePlaylist, saveItem } from './ChromeStorageAPI';
+import APMMigration from '@APM/utils/db/migration';
 
 export * from '@APM/utils/ChromeStorage';
 
@@ -83,6 +84,7 @@ export const importStorageRaw = async (content: Uint8Array) => {
       parsedContent[placeholder] = '';
     });
     await chrome.storage.local.set(parsedContent);
+    await APMMigration();
   }
   return initPlayerObject();
 };

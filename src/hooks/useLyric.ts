@@ -14,7 +14,7 @@ export default (currSong: NoxMedia.Song) => {
     ]);
 
   const getLrcFromLocal = async (song?: NoxMedia.Song) => {
-    const lrcDetail = usedLyric.getLrcFromLocal(song);
+    const lrcDetail = await usedLyric.getLrcFromLocal(song);
     if (lrcDetail === undefined) return;
     const localLrc =
       cachedLrc[0] === lrcDetail.lyricKey ? cachedLrc[1]! : lrcDetail.lyric;
