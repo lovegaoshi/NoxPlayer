@@ -44,7 +44,6 @@ interface Props {
 export default function PlaylistList({ playlistCRUD }: Props) {
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const { onPlayAllFromFav } = usePlayback();
-  const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
 
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -86,15 +85,6 @@ export default function PlaylistList({ playlistCRUD }: Props) {
           handleCreateAsFavClick={handleCreateAsFavClick}
           handleDeleteFavClick={handleDeleteFavClick}
         />
-        {false && (
-          <SearchlistEntry
-            playlist={favoritePlaylist}
-            handleAddToFavClick={handleAddToFavClick}
-            onPlayAllFromFav={onPlayAllFromFav}
-            handleCreateAsFavClick={handleCreateAsFavClick}
-            handleDeleteFavClick={handleDeleteFavClick}
-          />
-        )}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='droppable'>
             {(provided) => (

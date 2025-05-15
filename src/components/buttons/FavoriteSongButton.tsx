@@ -3,31 +3,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import useApp from '@stores/useApp';
-import { useNoxSetting } from '@APM/stores/useApp';
+import { getFavContainSong } from '@APM/utils/db/sqlStorage';
 
 export default function FavoriteSongButton({ song }: { song: NoxMedia.Song }) {
   const [liked, setLiked] = useState(false);
-  const favoritePlaylist = useNoxSetting((state) => state.favoritePlaylist);
-  const setFavoritePlaylist = useNoxSetting(
-    (state) => state.setFavoritePlaylist,
-  );
   const { buttonStyle } = useApp((state) => state.playerStyle);
 
   useEffect(() => {
-    setLiked(
-      favoritePlaylist.songList.filter((val1) => val1.id === song.id).length >
-        0,
-    );
+    getFavContainSong({ song }).then(setLiked);
   }, [song.id]);
 
   const handleClick = async () => {
-    let newSongList = favoritePlaylist.songList;
-    if (liked) {
-      newSongList = newSongList.filter((val) => val.id !== song.id);
-    } else {
-      newSongList = [song, ...newSongList];
-    }
-    setFavoritePlaylist({ ...favoritePlaylist, songList: newSongList });
+    getFavContainSong({ song, add: !liked, remove: liked });
     setLiked(!liked);
   };
 

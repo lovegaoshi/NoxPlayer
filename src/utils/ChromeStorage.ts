@@ -8,9 +8,14 @@ import {
   clearPlaylists,
   savePlaylistIds,
 } from '@APM/utils/ChromeStorage';
-import { importSQL } from '@APM/utils/db/sqlStorage';
-import { getItem, savePlaylist, saveItem } from './ChromeStorageAPI';
+import {
+  importSQL,
+  migratePlaylistToSQL,
+  restorePlaylist,
+  restoreSongs,
+} from '@APM/utils/db/sqlStorage';
 import APMMigration from '@APM/utils/db/migration';
+import { getItem, saveItem } from './ChromeStorageAPI';
 
 export * from '@APM/utils/ChromeStorage';
 
@@ -63,28 +68,45 @@ export const importStorageRaw = async (content: Uint8Array) => {
     const playlistIds: string[] =
       JSON.parse(parsedContentDict[StorageKeys.MY_FAV_LIST_KEY]) || [];
     await clearPlaylists();
+    // clear sql
+    restoreSongs([], true);
+    restorePlaylist([], true);
+    // first import sql
+    await importSQL(
+      JSON.parse(parsedContentDict[StorageKeys.SQL_PLACEHOLDER] ?? '{}'),
+    );
     savePlaylistIds(playlistIds);
-    playlistIds.forEach((playlistID) => {
-      const playlist = JSON.parse(parsedContentDict[playlistID]);
-      savePlaylist({
-        ...playlist,
-        songList: playlist.songList.reduce(
-          (acc: NoxMedia.Song[], curr: string) => [
-            ...acc,
-            ...JSON.parse(parsedContentDict[curr]),
-          ],
-          [],
-        ),
-      });
-    });
+    await Promise.all(
+      playlistIds.map(async (playlistID) => {
+        try {
+          const playlist = JSON.parse(parsedContentDict[playlistID]);
+          await migratePlaylistToSQL({
+            ...playlist,
+            songList: playlist.songList.reduce(
+              (acc: NoxMedia.Song[], curr: string) => [
+                ...acc,
+                ...JSON.parse(parsedContentDict[curr]),
+              ],
+              [],
+            ),
+          });
+        } catch {
+          console.warn(
+            `[NoxSync] failed to import APM old style playlist ${playlistID}`,
+          );
+        }
+      }),
+    );
   } else {
     await clearStorage();
-    await importSQL(parsedContent[StorageKeys.SQL_PLACEHOLDER]);
+    await importSQL(
+      JSON.parse(parsedContent[StorageKeys.SQL_PLACEHOLDER] ?? '{}'),
+    );
     StoragePlaceholders.forEach((placeholder) => {
       parsedContent[placeholder] = '';
     });
     await chrome.storage.local.set(parsedContent);
-    await APMMigration();
+    await APMMigration({});
   }
   return initPlayerObject();
 };
