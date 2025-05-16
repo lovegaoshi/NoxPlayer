@@ -1316,6 +1316,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.26.10":
+  version: 7.27.0
+  resolution: "@babel/runtime@npm:7.27.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/35091ea9de48bd7fd26fb177693d64f4d195eb58ab2b142b893b7f3fa0f1d7c677604d36499ae0621a3703f35ba0c6a8f6c572cc8f7dc0317213841e493cf663
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.26.7":
   version: 7.26.10
   resolution: "@babel/runtime@npm:7.26.10"
@@ -8004,17 +8013,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^25.1.3":
-  version: 25.1.3
-  resolution: "i18next@npm:25.1.3"
+"i18next@npm:^25.1.2":
+  version: 25.1.2
+  resolution: "i18next@npm:25.1.2"
   dependencies:
-    "@babel/runtime": "npm:^7.27.1"
+    "@babel/runtime": "npm:^7.26.10"
   peerDependencies:
     typescript: ^5
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/5a352c80b8950f40c8616bdb5b7422137ff02a4f68d6914089e86caddf65232b3d1d3ca9fd1fbc13eea28f83e28d7fd4f1286a0a6d7fdf2513c42205e542010b
+  checksum: 10c0/ba028411a201c5816d01215110f42d99133c4e77724ebf60c38087bfb367921ba5c4e4eb1e9a4b8456d9550d1f50278b13528012ad53d2936de9092a9dd4120d
   languageName: node
   linkType: hard
 
@@ -9759,7 +9768,7 @@ __metadata:
     fs: "npm:^0.0.1-security"
     he: "npm:^1.2.0"
     html-webpack-plugin: "npm:^5.6.3"
-    i18next: "npm:^25.1.3"
+    i18next: "npm:^25.1.2"
     libmuse: "https://github.com/lovegaoshi/muse.git#commit=942f16bde7ba44ad1d0452ce838a96b17fe95aff"
     material-ui-confirm: "npm:^4.0.0"
     md5: "npm:^2.3.0"
@@ -9776,7 +9785,7 @@ __metadata:
     react-click-n-hold: "npm:^1.0.7"
     react-contexify: "npm:^6.0.0"
     react-dom: "npm:19.1.0"
-    react-hotkeys-hook: "npm:^5.1.0"
+    react-hotkeys-hook: "npm:^5.0.1"
     react-i18next: "npm:^15.5.1"
     react-jinke-music-player: "https://github.com/lovegaoshi/react-music-player.git#commit=ab6c7a11d27827e56fb0998c2e130bf9468e3d8d"
     react-lrc: "npm:^3.2.1"
@@ -10728,13 +10737,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hotkeys-hook@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "react-hotkeys-hook@npm:5.1.0"
+"react-hotkeys-hook@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "react-hotkeys-hook@npm:5.0.1"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10c0/99df6d3c305b139ac7afd073b58575961bf30a819fb23e8f1251b1b3a9f1c7662737f8b6266e3fc42bd5bdfdaca81aa1e019613f95f9a6313267de265e45836d
+  checksum: 10c0/77151fda428cbb8647c75b94368427ce42ea1dbd2b22562dda43a38a397719c10c5b01513c307adb92fd4ceb3749a2591679179ba6c007341332c114982cdefd
   languageName: node
   linkType: hard
 

@@ -3,8 +3,8 @@ import { useNoxSetting } from '@APM/stores/useApp';
 import { initPlayerObject, importStorageRaw } from '@utils/ChromeStorage';
 import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
-import APMMigration from '@APM/utils/db/migration';
 import { initialize as initializeRegexStore } from './regexStore';
+import APMMigration from '@APM/utils/db/migration';
 
 const useInitializeStore = () => {
   const initPlayer = useNoxSetting((state) => state.initPlayer);
@@ -12,7 +12,7 @@ const useInitializeStore = () => {
 
   const initializeStores = async () => {
     await versionUpdate();
-    await APMMigration({});
+    await APMMigration();
     initializeAppStore();
     await initializeRegexStore();
     const initializedObject = await initPlayerObject();
