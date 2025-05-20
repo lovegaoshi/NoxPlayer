@@ -9,7 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
-import usePlaylistSetting from '@APM/hooks/usePlaylistSetting';
+import usePlaylistSetting from './usePlaylistSetting';
 import PlaymodeButton from './PlaymodeButton';
 
 interface Props {
