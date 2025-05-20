@@ -10,6 +10,7 @@ import { Checkbox } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
 import usePlaylistSetting from '@APM/hooks/usePlaylistSetting';
+import PlaymodeButton from './PlaymodeButton';
 
 interface Props {
   playlist: NoxMedia.Playlist;
@@ -41,6 +42,8 @@ export default function FavSettingsDialog({
     toggleBiliSync,
     saveSetting,
     loadSetting,
+    repeatMode,
+    setRepeatMode,
   } = usePlaylistSetting(playlist);
 
   const handleClose = () => {
@@ -108,6 +111,7 @@ export default function FavSettingsDialog({
             label='自动同步为b站收藏夹'
           />
         </Tooltip>
+        <PlaymodeButton mode={repeatMode} setMode={setRepeatMode} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>取消</Button>

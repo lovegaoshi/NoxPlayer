@@ -1,5 +1,7 @@
 import { create } from 'zustand';
-import { ReactJkMusicPlayerInstance } from 'react-jinke-music-player';
+import ReactJkMusicPlayer, {
+  ReactJkMusicPlayerInstance,
+} from 'react-jinke-music-player';
 
 import { skins } from '@styles/skin';
 import { Skin } from '@styles/skins/template';
@@ -11,6 +13,8 @@ interface NoxApp {
   setCurrentAudio: (a: NoxMediaChrome.RJKMAudio) => void;
   currentAudioInst?: ReactJkMusicPlayerInstance;
   setCurrentAudioInst: (a: ReactJkMusicPlayerInstance) => void;
+  RJKMref?: ReactJkMusicPlayer;
+  setRJKMref: (a: ReactJkMusicPlayer) => void;
   currentProgress: number;
   setCurrentProgress: (a: number) => void;
   // This is here instead of being replaced by currentPlayingList,
@@ -39,6 +43,7 @@ export default create<NoxApp>((set) => {
   return {
     setCurrentAudio: (a) => set({ currentAudio: a }),
     setCurrentAudioInst: (a) => set({ currentAudioInst: a }),
+    setRJKMref: (a) => set({ RJKMref: a }),
     currentProgress: 0,
     setCurrentProgress: (a) => set({ currentProgress: a }),
     setplayingList: (a) => set({ playingList: a }),

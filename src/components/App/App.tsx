@@ -39,6 +39,7 @@ export default function Player({ songList, lastPlayDuration }: Props) {
   } = usePlayback();
   const { increasePlayback } = usePlaybackCount();
   const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
+  const setRJKMref = useApp((state) => state.setRJKMref);
   const [initialized, setInitialized] = React.useState(false);
 
   useHotkeys('space', () => {
@@ -105,6 +106,7 @@ export default function Player({ songList, lastPlayDuration }: Props) {
           ref={(element) => {
             // @ts-expect-error
             window.musicplayer = element;
+            element && setRJKMref(element);
           }}
         />
       )}
