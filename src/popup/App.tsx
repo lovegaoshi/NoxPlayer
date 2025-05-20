@@ -15,7 +15,7 @@ const Player = React.lazy(() => import('../components/App/App'));
 
 export default function App() {
   // The current playing list
-  const [currentSongList, setCurrentSongList] = useState<NoxMedia.Song[]>();
+  const [currentSongList, setCurrentSongList] = useState<NoxMedia.Playlist>();
   const [lastPlayDuration, setLastPlayDuration] = useState(0);
   const { initializeStores } = useInitializeStore();
   const playerStyle = useApp((state) => state.playerStyle);
@@ -30,7 +30,7 @@ export default function App() {
     async function init() {
       await migrateSQL();
       const result = await initializeStores();
-      setCurrentSongList(result.currentPlayingList.songList);
+      setCurrentSongList(result.currentPlayingList);
       setLastPlayDuration(result.lastPlayDuration);
     }
     init();
@@ -81,7 +81,7 @@ export default function App() {
             >
               <Box sx={style.PlayerBox}>
                 <Player
-                  songList={currentSongList}
+                  playlist={currentSongList}
                   lastPlayDuration={lastPlayDuration}
                 />
               </Box>

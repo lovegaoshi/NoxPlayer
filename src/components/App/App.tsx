@@ -13,10 +13,10 @@ import Options from './Enum';
 const options = { ...Options };
 
 interface Props {
-  songList: NoxMedia.Song[];
+  playlist: NoxMedia.Playlist;
   lastPlayDuration: number;
 }
-export default function Player({ songList, lastPlayDuration }: Props) {
+export default function Player({ playlist, lastPlayDuration }: Props) {
   // Sync data to chromeDB
 
   const {
@@ -36,10 +36,12 @@ export default function Player({ songList, lastPlayDuration }: Props) {
     onAudioPlay,
     onAudioError,
     initPlayer,
+    updatePlaylistRepeatMode,
   } = usePlayback();
   const { increasePlayback } = usePlaybackCount();
   const { appTitle, desktopTheme } = useApp((state) => state.playerStyle);
   const setRJKMref = useApp((state) => state.setRJKMref);
+  const RJKMref = useApp((state) => state.RJKMref);
   const [initialized, setInitialized] = React.useState(false);
 
   useHotkeys('space', () => {
@@ -47,17 +49,14 @@ export default function Player({ songList, lastPlayDuration }: Props) {
     // i have no idea why currentAudioInst doesnt have play(), but this works
     // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
     // listening to pause/play audio at a global level.
-    if (currentAudioInst.paused)
-      // @ts-expect-error
-      document.getElementsByClassName('music-player-audio')[0].play();
     // @ts-expect-error
-    else document.getElementsByClassName('music-player-audio')[0].pause();
+    currentAudioInst.paused ? RJKMref?.play() : RJKMref?.pause();
   });
 
   // @ts-expect-error
-  useHotkeys('pagedown', () => window.musicplayer.onPlayNextAudio());
+  useHotkeys('pagedown', () => RJKMref?.onPlayNextAudio());
   // @ts-expect-error
-  useHotkeys('pageup', () => window.musicplayer.onPlayPrevAudio());
+  useHotkeys('pageup', () => RJKMref?.onPlayPrevAudio());
 
   useEffect(() => {
     if (!currentAudio?.name) return;
@@ -66,7 +65,11 @@ export default function Player({ songList, lastPlayDuration }: Props) {
 
   // Initialization effect
   useEffect(() => {
-    initPlayer(songList, options).then(() => setInitialized(true));
+    initPlayer(playlist, options).then(() => {
+      setInitialized(true);
+      // @ts-expect-error
+      updatePlaylistRepeatMode(playlist, window.musicplayer);
+    });
   }, []);
 
   useEffect(() => {

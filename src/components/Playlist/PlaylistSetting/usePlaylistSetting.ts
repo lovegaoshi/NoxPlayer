@@ -18,8 +18,11 @@ export default (playlist: NoxMedia.Playlist) => {
   singleLoop: 'singleLoop',
   shufflePlay: 'shufflePlay',
      */
-    // @ts-expect-error
-    RJKMref?.updateMode(NoxRepeatModeToRJKM[usedPlaylistSetting.repeatMode]);
+    // @ts-expect-error RJKM type doesnt have updatePlayMode, but it does exist
+    RJKMref?.updatePlayMode(
+      // @ts-expect-error updatePlaymode catches null anyways
+      NoxRepeatModeToRJKM[usedPlaylistSetting.repeatMode],
+    );
   };
 
   return {
