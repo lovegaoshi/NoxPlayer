@@ -8,13 +8,13 @@ import renderExtendsContent from '@components/App/ExtendContent';
 import { Source } from '@APM/enums/MediaFetch';
 import { DEFAULT_NULL_URL } from '@objects/Song';
 import { MUSICFREE } from '@utils/mediafetch/musicfree';
+import { NoxRepeatModeToRJKM } from '@utils/RJKMUtils';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
   initBiliHeartbeat,
 } from '../utils/Bilibili/BiliOperate';
 import { saveLastPlayDuration } from '../utils/ChromeStorage';
-import { NoxRepeatModeToRJKM } from '@utils/RJKMUtils';
 
 const SkipR128Source: (Source | undefined | MUSICFREE)[] = [Source.biliLive];
 
@@ -259,7 +259,7 @@ export default () => {
     playlist: NoxMedia.Playlist,
     options: NoxPlayer.Option,
   ) => {
-    const songList = playlist.songList;
+    const { songList } = playlist;
     const previousPlayingSongIndex = Math.max(
       0,
       songList.findIndex((s) => s.id === currentPlayingId),

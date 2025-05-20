@@ -5,3 +5,5 @@ export const NoxRepeatModeToRJKM = {
   [NoxRepeatMode.RepeatTrack]: 'orderLoop',
   [NoxRepeatMode.Shuffle]: 'shufflePlay',
 };
+
+export default {};

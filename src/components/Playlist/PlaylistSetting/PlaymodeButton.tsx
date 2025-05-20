@@ -27,7 +27,7 @@ const nextPlaymode = (mode?: NoxRepeatMode) => {
   }
 };
 
-const RepeatModeIcon = ({ mode }: { mode?: NoxRepeatMode }) => {
+function RepeatModeIcon({ mode }: { mode?: NoxRepeatMode }) {
   switch (mode) {
     case NoxRepeatMode.Repeat:
       return <RepeatIcon />;
@@ -38,9 +38,9 @@ const RepeatModeIcon = ({ mode }: { mode?: NoxRepeatMode }) => {
     default:
       return <QuestionMarkIcon />;
   }
-};
+}
 
-export default ({ mode, setMode }: Props) => {
+export default function PlaymodeButton({ mode, setMode }: Props) {
   const { t } = useTranslation();
 
   return (
@@ -53,4 +53,4 @@ export default ({ mode, setMode }: Props) => {
       <Typography>{t('PlaylistSettingsDialog.repeatMode')}</Typography>
     </Box>
   );
-};
+}
