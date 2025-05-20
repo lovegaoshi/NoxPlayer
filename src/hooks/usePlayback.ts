@@ -8,6 +8,7 @@ import renderExtendsContent from '@components/App/ExtendContent';
 import { Source } from '@APM/enums/MediaFetch';
 import { DEFAULT_NULL_URL } from '@objects/Song';
 import { MUSICFREE } from '@utils/mediafetch/musicfree';
+import { NoxRepeatModeToRJKM } from '@utils/RJKMUtils';
 import r128gain from '../utils/ffmpeg/r128util';
 import {
   checkBiliVideoPlayed,
@@ -34,6 +35,7 @@ export default () => {
   const currentAudio = useApp((state) => state.currentAudio);
   const setCurrentAudio = useApp((state) => state.setCurrentAudio);
   const currentAudioInst = useApp((state) => state.currentAudioInst);
+  const RJKMref = useApp((state) => state.RJKMref);
   const setCurrentAudioInst = useApp((state) => state.setCurrentAudioInst);
   const setCurrentProgress = useApp((state) => state.setCurrentProgress);
   const playingList = useApp((state) => state.playingList);
@@ -114,6 +116,21 @@ export default () => {
     setparams(newParam);
   };
 
+  const updatePlaylistRepeatMode = (
+    favList: NoxMedia.Playlist,
+    rjkm = RJKMref,
+  ) => {
+    setTimeout(
+      () =>
+        // @ts-expect-error RJKM type doesnt have updatePlayMode, but it does exist
+        rjkm?.updatePlayMode(
+          // @ts-expect-error updatePlaymode catches null anyways
+          NoxRepeatModeToRJKM[favList.repeatMode] ?? params.playMode,
+        ),
+      500,
+    );
+  };
+
   const onPlayOneFromFav = (
     song: NoxMedia.Song,
     favList: NoxMedia.Playlist,
@@ -136,6 +153,7 @@ export default () => {
       replaceList: true,
       newAudioListPlayIndex: parsedSongList.findIndex((s) => s.id === song.id),
     });
+    updatePlaylistRepeatMode(favList);
   };
 
   const onPlayAllFromFav = (favList: NoxMedia.Playlist) => {
@@ -153,17 +171,18 @@ export default () => {
           ? Math.floor(Math.random() * parsedSongList.length) >> 0
           : 0,
     });
+    updatePlaylistRepeatMode(favList);
   };
 
   const onPlayModeChange = (playMode: string) => {
-    // console.log('play mode change:', playMode)
+    console.debug('[RJKM] play mode change:', playMode);
     setPlayerSettings({ playMode });
     params.playMode = playMode;
     setparams(params);
   };
 
   const onAudioVolumeChange = (currentVolume: number) => {
-    // console.log('audio volume change', currentVolume)
+    // console.log('[RJKM] audio volume change', currentVolume)
     setPlayerSettings({ defaultVolume: Math.sqrt(currentVolume) });
   };
 
@@ -237,9 +256,10 @@ export default () => {
   };
 
   const initPlayer = async (
-    songList: NoxMedia.Song[],
+    playlist: NoxMedia.Playlist,
     options: NoxPlayer.Option,
   ) => {
+    const { songList } = playlist;
     const previousPlayingSongIndex = Math.max(
       0,
       songList.findIndex((s) => s.id === currentPlayingId),
@@ -290,5 +310,6 @@ export default () => {
     onAudioError,
     initPlayer,
     loadToSearchListAndPlay,
+    updatePlaylistRepeatMode,
   };
 };

@@ -4,7 +4,7 @@ import { logger } from '@utils/Logger';
 import { StorageKeys } from '@enums/Storage';
 // eslint-disable-next-line import/extensions
 import rejson from '@APM/utils/rejson.json';
-import { exportSQL } from '@APM/utils/db/sqlStorage';
+import { exportSQL } from '@utils/db/sqlAPI';
 
 export const SongListSuffix = '-songList';
 

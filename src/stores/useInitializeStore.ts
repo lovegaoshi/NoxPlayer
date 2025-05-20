@@ -1,9 +1,9 @@
-import { initializeR128Gain } from '@APM/utils/ffmpeg/r128Store';
 import { initialize as initializeAppStore } from '@APM/stores/appStore';
 import { useNoxSetting } from '@APM/stores/useApp';
 import { initPlayerObject, importStorageRaw } from '@utils/ChromeStorage';
 import useApp from '@stores/useApp';
 import versionUpdate from '@utils/versionupdater/versionupdater';
+import APMMigration from '@APM/utils/db/migration';
 import { initialize as initializeRegexStore } from './regexStore';
 
 const useInitializeStore = () => {
@@ -12,9 +12,9 @@ const useInitializeStore = () => {
 
   const initializeStores = async () => {
     await versionUpdate();
+    await APMMigration();
     initializeAppStore();
     await initializeRegexStore();
-    initializeR128Gain();
     const initializedObject = await initPlayerObject();
     initApp(initializedObject);
     return initPlayer(initializedObject);
