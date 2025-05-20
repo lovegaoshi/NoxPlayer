@@ -9,8 +9,8 @@ import {
   savePlaylistIds,
 } from '@APM/utils/ChromeStorage';
 import { importSQL } from '@APM/utils/db/sqlStorage';
-import { getItem, savePlaylist, saveItem } from './ChromeStorageAPI';
 import APMMigration from '@APM/utils/db/migration';
+import { getItem, savePlaylist, saveItem } from './ChromeStorageAPI';
 
 export * from '@APM/utils/ChromeStorage';
 

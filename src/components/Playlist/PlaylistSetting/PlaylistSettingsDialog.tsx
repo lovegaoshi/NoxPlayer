@@ -36,7 +36,7 @@ export default function FavSettingsDialog({
     title,
     setTitle,
     useBiliShazam,
-    useBiliSync,
+    biliSync,
     toggleBiliShazam,
     toggleBiliSync,
     saveSetting,
@@ -104,7 +104,7 @@ export default function FavSettingsDialog({
         <Tooltip title='自动同步为b站收藏夹'>
           <FormControlLabel
             control={<Checkbox onChange={toggleBiliSync} />}
-            checked={useBiliSync}
+            checked={biliSync}
             label='自动同步为b站收藏夹'
           />
         </Tooltip>
