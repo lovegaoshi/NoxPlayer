@@ -44,13 +44,22 @@ export default function PlaymodeButton({ mode, setMode }: Props) {
   const { t } = useTranslation();
 
   return (
-    <Box sx={{ flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+    <Box
+      sx={{
+        flexDirection: 'row',
+        display: 'flex',
+        alignItems: 'center',
+        marginLeft: '-10px',
+      }}
+    >
       <Tooltip title='Playmode'>
         <IconButton size='medium' onClick={() => setMode(nextPlaymode(mode))}>
           <RepeatModeIcon mode={mode} />
         </IconButton>
       </Tooltip>
-      <Typography>{t('PlaylistSettingsDialog.repeatMode')}</Typography>
+      <Typography sx={{ marginLeft: '2px' }}>
+        {t('PlaylistSettingsDialog.repeatMode')}
+      </Typography>
     </Box>
   );
 }
