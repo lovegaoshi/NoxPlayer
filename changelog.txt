@@ -8,6 +8,9 @@
 4.4.0:
 歌单独立的播放模式
 
+4.3.5:
+跟进w_webid
+
 4.1.4:
 YT.js 13.3.0
 customized skin
