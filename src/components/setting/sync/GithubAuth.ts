@@ -62,8 +62,7 @@ const GiteeSyncButton = ({ restoreFromUint8Array, sx }: GenericPropsR) =>
   GenericSyncButton({
     restoreFromUint8Array,
     noxBackup: (v) => noxBackup(v, authToken),
-    noxRestore: () =>
-      noxRestore(authToken, async (v) => new Uint8Array(await v.arrayBuffer())),
+    noxRestore: () => noxRestore(authToken),
     login,
     sx,
   });
