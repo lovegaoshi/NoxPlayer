@@ -49,8 +49,9 @@ export default function Player({ playlist, lastPlayDuration }: Props) {
     // i have no idea why currentAudioInst doesnt have play(), but this works
     // reactJKPlayer's spaceBar prop only listens when it has focus; this allows spacebar
     // listening to pause/play audio at a global level.
+    // HACK: properly call play/pause and onPlay/onPause
     // @ts-expect-error
-    currentAudioInst.paused ? RJKMref?.play() : RJKMref?.pause();
+    currentAudioInst.paused ? RJKMref?.play() : RJKMref?.audio.pause();
   });
 
   // @ts-expect-error
