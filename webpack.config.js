@@ -249,6 +249,7 @@ module.exports = (env) => {
       },
       extensions: ['.tsx', '.ts', '.js', '.jsx', 'svg', 'png'],
       fallback: {
+        '@env': false,
         path: require.resolve('path-browserify'),
         os: require.resolve('os-browserify/browser'),
         fs: false,

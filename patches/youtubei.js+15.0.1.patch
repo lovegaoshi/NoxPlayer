@@ -1,8 +1,8 @@
 diff --git a/node_modules/youtubei.js/dist/src/core/Player.js b/node_modules/youtubei.js/dist/src/core/Player.js
-index 4dabe22..b1736c2 100644
+index fb1cdfb..fe5b62b 100644
 --- a/node_modules/youtubei.js/dist/src/core/Player.js
 +++ b/node_modules/youtubei.js/dist/src/core/Player.js
-@@ -23,15 +23,14 @@ export default class Player {
+@@ -30,15 +30,14 @@ export default class Player {
          if (!player_id)
              throw new PlayerError('Failed to get player id');
          // We have the player id, now we can check if we have a cached player.
@@ -24,7 +24,7 @@ index 4dabe22..b1736c2 100644
          Log.info(TAG, `Could not find any cached player. Will download a new player from ${player_url}.`);
          const player_res = await fetch(player_url, {
              headers: {
-@@ -127,7 +126,17 @@ export default class Player {
+@@ -137,7 +136,17 @@ export default class Player {
          return url_components.toString();
      }
      static async fromCache(cache, player_id) {
@@ -42,15 +42,16 @@ index 4dabe22..b1736c2 100644
 +        const buffer = await getCachedPlayer();
          if (!buffer)
              return null;
-         const view = new DataView(buffer);
-@@ -141,6 +150,10 @@ export default class Player {
-         const sig_sc = LZW.decompress(new TextDecoder().decode(sig_buf));
-         const nsig_sc = LZW.decompress(new TextDecoder().decode(nsig_buf));
-         return new Player(player_id, sig_timestamp, sig_sc, nsig_sc);
-+      } catch {
+         try {
+@@ -153,7 +162,11 @@ export default class Player {
+             Log.error(TAG, 'Failed to deserialize player data from cache:', e);
+             return null;
+         }
++    } catch (e) {
 +        console.log('[fakeMMKV] failed to load from cache');
 +        return null;
-+      }
      }
++  }
      static async fromSource(player_id, sig_timestamp, cache, sig_sc, nsig_sc) {
          const player = new Player(player_id, sig_timestamp, sig_sc, nsig_sc);
+         await player.cache(cache);
