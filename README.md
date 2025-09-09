@@ -5,6 +5,8 @@
  * @LastEditors: your name
  * @Description:
 -->
+
+## 电梓播放器有[手机版本](https://github.com/lovegaoshi/azusa-player-mobile)！
 <br>
 
 <p align="center">
