@@ -67,6 +67,7 @@ export const noxBackup = async (
         'secret-key': process.env.PERSONAL_CLOUD_SECRET!,
         'Content-Encoding': 'gzip',
       },
+      // @ts-ignore test if this still works - i dont use this anymore tho
       body: content,
     });
   } catch {
