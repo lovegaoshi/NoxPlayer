@@ -51,7 +51,7 @@ export function ImportFavButton({ AddFavIcon }: SyncFavButtonProps) {
 
 const exportStorage = async () => {
   const bytes = await exportPlayerContent();
-  const blobBytes = new Blob([bytes], {
+  const blobBytes = new Blob([bytes.buffer as ArrayBuffer], {
     type: 'application/json;charset=utf-8',
   });
   const href = window.URL.createObjectURL(blobBytes);
