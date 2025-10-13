@@ -29,6 +29,13 @@
       "when": 1757528305658,
       "tag": "0003_new_scarecrow",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1760319870598,
+      "tag": "0004_burly_outlaw_kid",
+      "breakpoints": true
     }
   ]
 }

@@ -125,7 +125,7 @@ export default () => {
         // @ts-expect-error RJKM type doesnt have updatePlayMode, but it does exist
         rjkm?.updatePlayMode(
           // @ts-expect-error updatePlaymode catches null anyways
-          NoxRepeatModeToRJKM[favList.repeatMode] ?? params.playMode,
+          NoxRepeatModeToRJKM[favList.repeatMode] ?? params?.playMode,
         ),
       500,
     );

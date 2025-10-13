@@ -1,0 +1,1 @@
+ALTER TABLE "playback-count" ALTER COLUMN "lastPlayed" SET DATA TYPE bigint;

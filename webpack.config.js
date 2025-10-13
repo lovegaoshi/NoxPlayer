@@ -163,6 +163,11 @@ module.exports = (env) => {
           chunks: ['popup'],
         }),
       ),
+      new HtmlWebpackPlugin({
+        filename: 'sandbox.html',
+        template: 'src/popup/sandbox.html',
+        chunks: ['popup'],
+      }),
       ifDirExists(
         'options',
         new HtmlWebpackPlugin({
