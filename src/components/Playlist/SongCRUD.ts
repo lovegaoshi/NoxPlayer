@@ -9,7 +9,7 @@ export const searchSongOnWeb = (song: NoxMedia.Song) => {
 };
 
 export const searchSongOnBili = (song: NoxMedia.Song) =>
-  window.open(
+  globalThis.open(
     `https://search.bilibili.com/all?keyword=${getName(
       song,
       true,

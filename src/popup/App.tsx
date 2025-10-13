@@ -57,8 +57,8 @@ export default function App() {
                   muted
                   className='homepage-bgimage'
                   src={backgroundSrc?.identifier}
-                  height={window.innerHeight}
-                  width={window.innerWidth}
+                  height={globalThis.innerHeight}
+                  width={globalThis.innerWidth}
                 />
               ) : (
                 <img
@@ -66,8 +66,8 @@ export default function App() {
                   alt=''
                   className='homepage-bgimage'
                   src={backgroundSrc?.identifier}
-                  height={window.innerHeight}
-                  width={window.innerWidth}
+                  height={globalThis.innerHeight}
+                  width={globalThis.innerWidth}
                 />
               )}
             </div>

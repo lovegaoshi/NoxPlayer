@@ -213,7 +213,7 @@ export default () => {
         return res.blob();
       })
       .then((blob) => {
-        const href = window.URL.createObjectURL(blob);
+        const href = globalThis.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = href; // a.mp3
         link.download = `${currentAudioInst?.title}.mp3`;

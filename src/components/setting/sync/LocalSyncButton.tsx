@@ -54,7 +54,7 @@ const exportStorage = async () => {
   const blobBytes = new Blob([bytes.buffer as ArrayBuffer], {
     type: 'application/json;charset=utf-8',
   });
-  const href = window.URL.createObjectURL(blobBytes);
+  const href = globalThis.URL.createObjectURL(blobBytes);
   const link = document.createElement('a');
   link.href = href;
   link.download = `noxplay_${new Date().toISOString().slice(0, 10)}.noxBackup`;

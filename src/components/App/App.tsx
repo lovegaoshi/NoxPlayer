@@ -69,7 +69,7 @@ export default function Player({ playlist, lastPlayDuration }: Props) {
     initPlayer(playlist, options).then(() => {
       setInitialized(true);
       // @ts-expect-error
-      updatePlaylistRepeatMode(playlist, window.musicplayer);
+      updatePlaylistRepeatMode(playlist, globalThis.musicplayer);
     });
   }, []);
 
@@ -109,7 +109,7 @@ export default function Player({ playlist, lastPlayDuration }: Props) {
           musicSrcParser={musicSrcParser}
           ref={(element) => {
             // @ts-expect-error
-            window.musicplayer = element;
+            globalThis.musicplayer = element;
             element && setRJKMref(element);
           }}
         />
