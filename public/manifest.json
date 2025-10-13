@@ -58,5 +58,8 @@
         "path": "rules.json"
       }
     ]
+  },
+  "sandbox": {
+    "pages": ["sandbox.html"]
   }
 }
