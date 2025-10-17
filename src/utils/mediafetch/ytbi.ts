@@ -25,8 +25,6 @@ Platform.shim.eval = async (
   return JSON.parse(result);
 };
 
-window.evalCode = evalCode;
-
 const ytClient = Innertube.create({
   cache: new GHCacher(),
   retrieve_player: true,
