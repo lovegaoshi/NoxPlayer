@@ -5,3 +5,8 @@ node_modules/
 src/azusa-player-mobile/
 .snapshots/
 *.min.js
+
+# ytbi/bgutils; copied code doesnt need our eslinting
+src/utils/bgutils/Constants.ts
+src/utils/mediafetch/ytbi.ts
+src/utils/mediafetch/ytpot.ts

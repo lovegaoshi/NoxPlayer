@@ -3,7 +3,7 @@
   <script>
     window.addEventListener('message', async function (event) {
       if (event.data.type === 'sandboxEvaluate') {
-        await preparePromise;
+        // await preparePromise;
         try {
           const fn = new Function(...event.data.argNames, event.data.body);
           const result = await fn(...event.data.argValues);
