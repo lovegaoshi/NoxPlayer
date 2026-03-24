@@ -81,7 +81,7 @@ export default function SongRenameDialog({
         }
         break;
       case song.singerId:
-        window.open(
+        globalThis.open(
           `https://member.bilibili.com/platform/upload/video/frame?type=edit&bvid=${song.bvid}`,
         );
         break;

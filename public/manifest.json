@@ -60,6 +60,6 @@
     ]
   },
   "sandbox": {
-    "pages": ["sandbox.html"]
+    "pages": ["sandbox.html", "sandboxPOT.html"]
   }
 }

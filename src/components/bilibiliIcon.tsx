@@ -34,5 +34,5 @@ export const BiliBiliIconSVG = function BiliBiliIconSVG({ onClick }: SVGProps) {
  * @param {string} bvid bvid of the video.
  */
 export const goToBiliBili = function goToBiliBili(v: NoxMedia.Song) {
-  window.open(songExport2URL(v));
+  globalThis.open(songExport2URL(v));
 };

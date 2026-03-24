@@ -56,7 +56,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           <Button
             startIcon={<EmailIcon />}
             onClick={() =>
-              window.open(
+              globalThis.open(
                 'https://message.bilibili.com/?spm_id_from=333.999.0.0#whisper/mid1989881',
               )
             }
@@ -67,7 +67,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           <Button
             startIcon={<GitHubIcon />}
             onClick={() =>
-              window.open('https://github.com/lovegaoshi/azusa-player/wiki')
+              globalThis.open('https://github.com/lovegaoshi/azusa-player/wiki')
             }
           >
             电闹播放器@Github
@@ -76,7 +76,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           <Button
             startIcon={<GitHubIcon />}
             onClick={() =>
-              window.open(
+              globalThis.open(
                 'https://github.com/lovegaoshi/azusa-player-mobile/releases/latest',
               )
             }
@@ -87,7 +87,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           <Button
             startIcon={<ForumIcon />}
             onClick={() =>
-              window.open('https://bbs.nga.cn/read.php?tid=37678803')
+              globalThis.open('https://bbs.nga.cn/read.php?tid=37678803')
             }
           >
             来P综6@nga听歌吹水
@@ -96,7 +96,7 @@ export default function HelpDialog({ onClose, openState, id }: Props) {
           <Button
             startIcon={<PaidIcon />}
             onClick={() =>
-              window.open(
+              globalThis.open(
                 'https://raw.githubusercontent.com/lovegaoshi/azusa-player-mobile/5795492b49048046b36583502f74caa9fdb2badb/docs/docs/usage-tutorial/images/sponsor.jpg',
               )
             }

@@ -1,0 +1,23 @@
+<!-- sandbox dedicated to POT generation; better to keep them separate who knows what global var they use -->
+<html>
+  <script>
+    window.addEventListener('message', async function (event) {
+      if (event.data.type === 'sandboxEvaluate') {
+        // await preparePromise;
+        try {
+          const fn = new Function(...event.data.argNames, event.data.body);
+          const result = await fn(...event.data.argValues);
+          event.source.postMessage(
+            { type: 'sandboxResult', result },
+            event.origin,
+          );
+        } catch (error) {
+          event.source.postMessage(
+            { type: 'sandboxError', error: error },
+            event.origin,
+          );
+        }
+      }
+    });
+  </script>
+</html>

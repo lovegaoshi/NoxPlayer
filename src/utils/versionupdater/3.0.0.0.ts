@@ -2,11 +2,13 @@ import { StorageKeys } from '@APM/enums/Storage';
 
 export const loopFavLists = (callback: (v?: NoxMedia.Playlist) => void) => {
   chrome.storage.local.get([StorageKeys.MY_FAV_LIST_KEY], (result1) => {
-    const favlistIds: string[] = result1[StorageKeys.MY_FAV_LIST_KEY];
+    const favlistIds: string[] = result1[
+      StorageKeys.MY_FAV_LIST_KEY
+    ] as string[];
     if (favlistIds === undefined) return;
     favlistIds.push(StorageKeys.FAVORITE_PLAYLIST_KEY);
     chrome.storage.local.get(favlistIds, (result) => {
-      favlistIds.forEach((id) => callback(result[id]));
+      favlistIds.forEach((id) => callback(result[id] as NoxMedia.Playlist));
     });
   });
 };

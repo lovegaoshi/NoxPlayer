@@ -39,7 +39,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   const [page, setPage] = useState(0);
   const defaultRowsPerPage = Math.max(
     1,
-    Math.floor((window.innerHeight - 305) / 40),
+    Math.floor((globalThis.innerHeight - 305) / 40),
   );
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
 
