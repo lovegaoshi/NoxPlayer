@@ -4,6 +4,8 @@ export default {
   regexSearchMatch: /local:\/\/(.+)/,
   regexResolveURLMatch: /^local-/,
   regexFetch: async () => ({ songList: [] }),
+  regexContentSearchMatch: /content:\/\/.+\/(\d+)/,
+  contentRegexFetch: async () => ({ songList: [] }),
   resolveURL: async () => DEFAULT_NULL_URL,
   refreshSong: () => undefined,
   resolveArtwork: async () => DEFAULT_NULL_URL,
