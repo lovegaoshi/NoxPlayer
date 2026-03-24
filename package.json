@@ -74,7 +74,7 @@
     "not dead"
   ],
   "dependencies": {
-    "@electric-sql/pglite": "^0.4.1",
+    "@electric-sql/pglite": "0.3.14",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@ffmpeg/core": "^0.12.10",

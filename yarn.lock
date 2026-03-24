@@ -1692,10 +1692,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@electric-sql/pglite@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@electric-sql/pglite@npm:0.4.1"
-  checksum: 10c0/42b7735cf6953804541ff308bb8c892458e4edc50975f440bab3b6ecb40a59dc67d0b59611d512d53b42f7615aa19de61d1a80be32c3443d9f5710b25f6e9110
+"@electric-sql/pglite@npm:0.3.14":
+  version: 0.3.14
+  resolution: "@electric-sql/pglite@npm:0.3.14"
+  checksum: 10c0/da61bece304e1ef0c094ae83d18c3cc73afcab750037195fc2342d39ebd1591e62a4e9041be297dd8f694b97a8d22a44cf9ad4389c56e9ee04eb166a83bca44f
   languageName: node
   linkType: hard
 
@@ -10519,7 +10519,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.29.2"
     "@babel/preset-react": "npm:^7.28.5"
     "@babel/preset-typescript": "npm:^7.28.5"
-    "@electric-sql/pglite": "npm:^0.4.1"
+    "@electric-sql/pglite": "npm:0.3.14"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@ffmpeg/core": "npm:^0.12.10"
