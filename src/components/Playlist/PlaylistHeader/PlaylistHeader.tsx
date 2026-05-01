@@ -23,7 +23,7 @@ export default function FavHeader({ playlist, playlistPaginated }: Props) {
   return (
     <Box style={styles.box}>
       <Grid container spacing={2} style={styles.gridContainer}>
-        <Grid size={5} sx={styles.gridPlaylistTitle} overflow='hidden'>
+        <Grid size={5} sx={styles.gridPlaylistTitle}>
           <Typography
             variant='h6'
             sx={[
@@ -65,6 +65,7 @@ const styles = {
     padding: '0px',
     paddingLeft: '12px',
     paddingTop: '12px',
+    overflow: 'hidden',
   },
   gridContainer: { padding: '10px' },
   text: {

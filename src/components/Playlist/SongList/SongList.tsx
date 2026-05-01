@@ -66,7 +66,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
   useEffect(() => {
     if (dummySongInfoRef.current) {
       const dummyHeight = dummySongInfoRef.current.clientHeight;
-      console.log('dummy height', dummyHeight);
+      console.debug('[SongList] measured songInfo height:', dummyHeight);
       playlistPaginated.updateRowHeight(dummyHeight);
     }
   }, []);

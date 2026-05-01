@@ -111,7 +111,7 @@ export default function Lyric(props: Props) {
               <TextField
                 sx={mStyles.lrcOffsetGrid}
                 type='number'
-                inputProps={mStyles.lrcOffsetInput}
+                slotProps={{ input: mStyles.lrcOffsetInput }}
                 variant='outlined'
                 label='歌词补偿(毫秒)'
                 value={usedLyric.currentTimeOffset}
