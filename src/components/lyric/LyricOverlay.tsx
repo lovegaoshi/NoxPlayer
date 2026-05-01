@@ -33,12 +33,14 @@ export default function LyricOverlay({
         open={showLyric}
         onClose={closeLyric}
         hideBackdrop
-        TransitionComponent={Transition}
-        PaperProps={{
-          style: {
-            backgroundImage: `url(${currentAudio?.cover})`,
-            backgroundSize: 'cover',
-            boxShadow: 'none',
+        slots={{ transition: Transition }}
+        slotProps={{
+          paper: {
+            style: {
+              backgroundImage: `url(${currentAudio?.cover})`,
+              backgroundSize: 'cover',
+              boxShadow: 'none',
+            },
           },
         }}
       >

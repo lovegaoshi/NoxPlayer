@@ -73,7 +73,7 @@ function SongInfo({
               toggleSelected(getSongIndex(song, index));
               setSelectState((val) => !val);
             }}
-            inputProps={{ 'aria-label': 'controlled' }}
+            slotProps={{ input: { 'aria-label': 'controlled' } }}
           />
         )}
         <ListItemButton sx={styles.songText} onClick={() => playSong(song)}>
@@ -138,6 +138,23 @@ function SongInfo({
 }
 
 export default SongInfo;
+
+// eslint-disable-next-line no-empty-pattern
+export const DummySongInfo = React.forwardRef(({}, ref: React.Ref<unknown>) => {
+  return (
+    <React.Fragment>
+      <StyledTableCell align='left' sx={styles.tableCell} ref={ref}>
+        <ListItemButton sx={styles.songText}>
+          <ListItemText primary='dummy text' />
+        </ListItemButton>
+      </StyledTableCell>
+      <StyledTableCell align='center' sx={styles.tableCellUp}>
+        {' '}
+      </StyledTableCell>
+      <StyledTableCell align='right' sx={styles.tableCellBtns} />
+    </React.Fragment>
+  );
+});
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableCell from '@mui/material/TableCell';
@@ -8,8 +8,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
-
 import { zhCN } from '@mui/material/locale';
+import { TableBody } from '@mui/material';
 
 import SongRenameDialog from '@components/dialogs/SongRenameDialog';
 import { AddFavDialog } from '@components/dialogs/AddFavDialog';
@@ -19,9 +19,8 @@ import usePlayback from '@hooks/usePlayback';
 import useApp from '@stores/useApp';
 import { UsePlaylistP } from '../hooks/usePlaylistPaginated';
 import useRenameSong from '../hooks/useRenameSong';
-
 import FavTableActions from './SongListTableActions';
-import SongInfo from './SongInfo';
+import SongInfo, { DummySongInfo } from './SongInfo';
 import { SongListDraggable, SongInfoDraggable } from './SongListDraggable';
 
 interface Props {
@@ -40,6 +39,7 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
     getSelectedSongs,
     songsInView,
   } = playlistPaginated;
+  const dummySongInfoRef = useRef<HTMLTableCellElement>(undefined);
   const playerSetting = useNoxSetting((state) => state.playerSetting);
   const { colorTheme, ScrollBar } = useApp((state) => state.playerStyle);
   const playlistCRUD = usePlaylistCRUD(playlist);
@@ -62,6 +62,14 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
   } = playlistCRUD;
 
   const className = ScrollBar().root;
+
+  useEffect(() => {
+    if (dummySongInfoRef.current) {
+      const dummyHeight = dummySongInfoRef.current.clientHeight;
+      console.log('dummy height', dummyHeight);
+      playlistPaginated.updateRowHeight(dummyHeight);
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -115,6 +123,12 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
               ))}
             </TableRow>
           </TableHead>
+          <TableBody sx={{ visibility: 'hidden', position: 'absolute' }}>
+            <TableRow>
+              <DummySongInfo ref={dummySongInfoRef} />
+            </TableRow>
+          </TableBody>
+
           <SongListDraggable
             onDragEnd={(r) => onSongListDragEnd(r, playlist)}
             draggable={playlistPaginated.checking}
@@ -159,11 +173,13 @@ export default function Fav({ playlist, playlistPaginated }: Props) {
                   count={rows.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
-                  SelectProps={{
-                    inputProps: {
-                      'aria-label': 'rows per page',
+                  slotProps={{
+                    select: {
+                      inputProps: {
+                        'aria-label': 'rows per page',
+                      },
+                      native: true,
                     },
-                    native: true,
                   }}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
