@@ -21,7 +21,11 @@ export interface UsePlaylistP extends UsePlaylist {
   songsInView: () => NoxMedia.Song[];
   toggleSelectedPage: () => void;
   performSearch: (v: string, resetPage?: boolean) => void;
+  updateRowHeight: (h?: number) => void;
 }
+
+const calcRowPage = (height = 40) =>
+  Math.max(1, Math.floor((globalThis.innerHeight - 305) / height));
 
 /**
  * use hook for the paginated fav view. has rows.
@@ -37,11 +41,14 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     (state) => state.playlistShouldReRender,
   );
   const [page, setPage] = useState(0);
-  const defaultRowsPerPage = Math.max(
-    1,
-    Math.floor((globalThis.innerHeight - 305) / 40),
-  );
+  const [defaultRowsPerPage, setDefaultRowsPerPage] = useState(calcRowPage());
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
+
+  const updateRowHeight = (h = 40) => {
+    const calcrows = calcRowPage(h);
+    setDefaultRowsPerPage(calcrows);
+    setRowsPerPage(calcrows);
+  };
 
   const performSearch = (v: string, resetPage = false) => {
     usedPlaylist.performSearch(v);
@@ -176,5 +183,6 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     songsInView,
     toggleSelectedPage,
     performSearch,
+    updateRowHeight,
   };
 };

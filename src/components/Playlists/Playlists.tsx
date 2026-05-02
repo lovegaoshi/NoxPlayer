@@ -36,7 +36,7 @@ export default function Playlists() {
           sx={AddFavIcon}
           color={colorTheme.myPlayListCaptionColor}
         />
-        <Divider light />
+        <Divider />
 
         <PlaylistList playlistCRUD={playlistCRUD} />
       </Box>

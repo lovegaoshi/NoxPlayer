@@ -99,6 +99,6 @@ export default function AddFavDialog<T>({
 const styles = {
   dialogContent: { paddingTop: '24px' },
   dialogContentBox: { minWidth: 400, minHeight: 50 },
-  select: { PaperProps: { sx: { maxHeight: '40vh' } } },
+  select: { slotProps: { paper: { sx: { maxHeight: '40vh' } } } },
   inputLabel: { paddingTop: '10px' },
 };

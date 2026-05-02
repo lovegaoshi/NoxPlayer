@@ -49,7 +49,7 @@ export default function PlaylistSortButton({ sortPlaylist, playlist }: Props) {
               <Checkbox
                 checked={ascending}
                 onChange={() => setAscending((v) => !v)}
-                inputProps={{ 'aria-label': 'controlled' }}
+                slotProps={{ input: { 'aria-label': 'controlled' } }}
               />
             }
             label='升序?'

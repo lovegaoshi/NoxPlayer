@@ -77,7 +77,7 @@ function PlaylistInfoBase({
           {currentPlaying ? <PlayCircleIcon /> : albumIcon}
         </ListItemIcon>
         <ListItemText
-          primaryTypographyProps={{ fontSize: '1.1em' }}
+          slotProps={{ primary: { sx: { fontSize: '1.1em' } } }}
           primary={playlist.title}
         />
       </ListItemButton>

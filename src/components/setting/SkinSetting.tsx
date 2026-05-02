@@ -20,15 +20,19 @@ export default function SkinSetting() {
     <Box>
       <Tooltip title={playerStyle.maintainerTooltip}>
         <Typography
-          style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
-          display='inline'
+          style={{
+            color: playerStyle.colorTheme.songListColumnHeaderColor,
+            display: 'inline',
+          }}
         >
           播放器皮肤
         </Typography>
       </Tooltip>
       <Typography
-        style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
-        display='inline'
+        style={{
+          color: playerStyle.colorTheme.songListColumnHeaderColor,
+          display: 'inline',
+        }}
       >
         (maintained by&nbsp;
       </Typography>
@@ -37,24 +41,28 @@ export default function SkinSetting() {
           style={{
             color: playerStyle.colorTheme.songListColumnHeaderColor,
             fontSize: '1rem',
+            display: 'inline',
           }}
           href={playerStyle.maintinerURL}
           target='_blank'
-          display='inline'
         >
           {playerStyle.maintainer}
         </Link>
       ) : (
         <Typography
-          style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
-          display='inline'
+          style={{
+            color: playerStyle.colorTheme.songListColumnHeaderColor,
+            display: 'inline',
+          }}
         >
           {playerStyle.maintainer}
         </Typography>
       )}
       <Typography
-        style={{ color: playerStyle.colorTheme.songListColumnHeaderColor }}
-        display='inline'
+        style={{
+          color: playerStyle.colorTheme.songListColumnHeaderColor,
+          display: 'inline',
+        }}
       >
         )
       </Typography>
@@ -63,8 +71,10 @@ export default function SkinSetting() {
         id='player-settings-skin-select'
         value={playerSetting.skin}
         select
-        SelectProps={{
-          MenuProps: { PaperProps: { sx: { maxHeight: '40vh' } } },
+        slotProps={{
+          select: {
+            MenuProps: { slotProps: { paper: { sx: { maxHeight: '40vh' } } } },
+          },
         }}
         onChange={(e) => {
           setPlayerSetting({ skin: e.target.value });
