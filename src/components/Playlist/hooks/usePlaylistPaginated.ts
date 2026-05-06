@@ -45,7 +45,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
 
   const updateRowHeight = (h = 40) => {
-    const calcrows = calcRowPage(h);
+    const calcrows = calcRowPage(h + 1);
     setDefaultRowsPerPage(calcrows);
     setRowsPerPage(calcrows);
   };
