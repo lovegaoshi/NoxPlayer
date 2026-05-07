@@ -41,10 +41,12 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
     (state) => state.playlistShouldReRender,
   );
   const [page, setPage] = useState(0);
+  const [songInfoHeight, setSongInfoHeight] = useState(40);
   const [defaultRowsPerPage, setDefaultRowsPerPage] = useState(calcRowPage());
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
 
   const updateRowHeight = (h = 40) => {
+    setSongInfoHeight(h);
     const calcrows = calcRowPage(h + 1);
     setDefaultRowsPerPage(calcrows);
     setRowsPerPage(calcrows);
@@ -87,7 +89,7 @@ export default (playlist: NoxMedia.Playlist): UsePlaylistP => {
   };
 
   useEffect(() => {
-    setRowsPerPage(defaultRowsPerPage);
+    updateRowHeight(songInfoHeight);
     performSearch('');
     primePageToCurrentPlaying(true, playlist.songList);
   }, [playlist.id]);
