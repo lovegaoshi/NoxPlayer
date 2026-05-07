@@ -7,6 +7,7 @@ interface Props {
 export default React.forwardRef(({ handleSearch }: Props, ref) => {
   return (
     <TextField
+      sx={{ verticalAlign: 'middle' }}
       id='outlined-basic'
       color='secondary'
       size='small'

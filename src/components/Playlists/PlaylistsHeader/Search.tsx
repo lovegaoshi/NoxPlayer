@@ -105,6 +105,7 @@ export default function Search({ setSearchInputVal }: Props) {
           overflow: 'hidden',
           height: '64px',
           paddingTop: '12px',
+          verticalAlign: 'middle',
         }}
       >
         <TextField
