@@ -67,7 +67,10 @@ export default () => {
 
   const musicSrcParser = async (v: NoxMedia.Song) => {
     try {
-      const resolvedUrl = await fetchPlayUrlPromise({ song: v });
+      const resolvedUrl = await fetchPlayUrlPromise({
+        song: v,
+        noBiliR128Gain: playerSetting.noBiliR128Gain,
+      });
       if (resolvedUrl.url === DEFAULT_NULL_URL) {
         throw new Error('resolve failed');
       }
