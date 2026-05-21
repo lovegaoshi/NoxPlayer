@@ -16,7 +16,7 @@ import { fastSearchResolveBVID } from '@APM/utils/mediafetch/bilisearch';
 import { getBiliSESS } from '../Bilibili/biliCookies';
 
 const URL_BILI_SEARCH =
-  'https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword={keyword}&page={pn}&tids=3';
+  'https://api.bilibili.com/x/web-interface/wbi/search/type?search_type=video&keyword={keyword}&page={pn}&tids=3';
 // TODO: migrate to this wbi one
 // 'https://api.bilibili.com/x/web-interface/wbi/search/all/v2?search_type=video&keyword={keyword}&page={pn}&tids=3';
 
