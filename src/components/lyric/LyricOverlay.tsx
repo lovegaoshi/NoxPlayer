@@ -7,7 +7,7 @@ import { TransitionProps } from '@mui/material/transitions';
 
 import Lyric from './Lyric';
 
-const Transition = React.forwardRef(function Transition(
+const myTransition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
   },
@@ -33,7 +33,7 @@ export default function LyricOverlay({
         open={showLyric}
         onClose={closeLyric}
         hideBackdrop
-        slots={{ transition: Transition }}
+        slots={{ transition: myTransition }}
         slotProps={{
           paper: {
             style: {
