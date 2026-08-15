@@ -105,12 +105,7 @@ module.exports = (env) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: [
-                '@babel/preset-env',
-                ['@babel/preset-react', { runtime: 'classic' }],
-                '@babel/preset-typescript',
-              ],
-              plugins: removeEmpty([ifDev('react-refresh/babel')]),
+              cacheDirectory: true,
             },
           },
           exclude: /node_modules/,

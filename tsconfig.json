@@ -12,7 +12,8 @@
       "@objects/*": ["./src/objects/*"],
       "@background/*": ["./src/background/*"],
       "@enums/*": ["./azusa-player-mobile/src/enums/*"],
-      "@APM/*": ["./azusa-player-mobile/src/*"]
+      "@APM/*": ["./azusa-player-mobile/src/*"],
+      "youtubei.js/dist/src/*": ["./node_modules/youtubei.js/dist/src/*"]
     },
     "target": "esnext",
     "module": "esnext",
@@ -42,7 +43,7 @@
     //"noUncheckedIndexedAccess": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "node10",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     // "allowUmdGlobalAccess": true,
     "skipLibCheck": true,

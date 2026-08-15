@@ -8,7 +8,7 @@
   "scripts": {
     "start": "webpack serve --env dev",
     "watch": "webpack --env devBuild --watch",
-    "dev": "python3 ./scripts/moveFFMpeg.py && webpack --env devBuild && python3 ./scripts/moveFFMpeg.py --build",
+    "dev": "python3 ./scripts/moveFFMpeg.py && webpack --env devBuild; python3 ./scripts/moveFFMpeg.py --build",
     "build": "webpack --env prod && python3 ./scripts/moveFFMpeg.py --prod",
     "inst": "patch-package; yarn db:generate",
     "dep": "git submodule update --remote --merge --recursive && yarn upgrade-interactive; yarn inst",
@@ -20,10 +20,10 @@
     "lint": "yarn compile; yarn ci:lint; yarn ci:format"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.7",
-    "@babel/preset-env": "^7.29.7",
-    "@babel/preset-react": "^7.29.7",
-    "@babel/preset-typescript": "^7.29.7",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-react": "^8.0.1",
+    "@babel/preset-typescript": "^8.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@types/base-64": "^1.0.2",
     "@types/chrome": "^0.2.6",
@@ -39,6 +39,7 @@
     "@typescript-eslint/parser": "^8.67.0",
     "@welldone-software/why-did-you-render": "^10.0.1",
     "babel-loader": "^10.1.1",
+    "babel-plugin-module-resolver": "^5.0.3",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "14.0.0",
     "css-loader": "^7.1.4",
