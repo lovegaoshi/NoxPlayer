@@ -1,12 +1,12 @@
 import { ClientType, Innertube, Platform } from 'youtubei.js/web';
-import { BuildScriptResult, VMPrimative } from 'youtubei.js/dist/src/types';
+import { Types } from 'youtubei.js';
 
 import { GHCacher } from '@APM/utils/fakeMMKV';
 import evalCode from '../eval';
 
 Platform.shim.eval = async (
-  data: BuildScriptResult,
-  env: Record<string, VMPrimative>,
+  data: Types.BuildScriptResult,
+  env: Record<string, Types.VMPrimative>,
 ) => {
   const properties = [];
 
