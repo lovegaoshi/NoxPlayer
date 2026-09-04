@@ -5,6 +5,25 @@ import { logger } from '../Logger';
 
 const URL_VIDEO_INFO = 'https://api.bilibili.com/x/web-interface/view';
 
+const bvToSongs = (data: any): NoxMedia.Song[] => {
+  return data.pages.map((page: any, index: number) => {
+    const filename = data.pages.length === 1 ? data.title : page.part;
+    return SongTS({
+      cid: page.cid,
+      bvid: data.bvid,
+      name: filename,
+      nameRaw: filename,
+      singer: data.owner.name,
+      singerId: data.owner.mid,
+      cover: data.pic,
+      lyric: '',
+      page: index + 1,
+      duration: page.duration,
+      album: data.title,
+      source: Source.bilivideo,
+    });
+  });
+};
 export const fetchAVIDRaw = async (aid: string): Promise<NoxMedia.Song[]> => {
   const api = `${URL_VIDEO_INFO}?aid=${aid}`;
   logger.info(`calling fetchAVID of ${aid} of ${api}`);
@@ -12,23 +31,7 @@ export const fetchAVIDRaw = async (aid: string): Promise<NoxMedia.Song[]> => {
     const res = await bfetch(api);
     const json = await res.json();
     const { data } = json;
-    return data.pages.map((page: any, index: number) => {
-      const filename = data.pages.length === 1 ? data.title : page.part;
-      return SongTS({
-        cid: page.cid,
-        bvid: data.bvid,
-        name: filename,
-        nameRaw: filename,
-        singer: data.owner.name,
-        singerId: data.owner.mid,
-        cover: data.pic,
-        lyric: '',
-        page: index + 1,
-        duration: page.duration,
-        album: data.title,
-        source: Source.bilivideo,
-      });
-    });
+    return bvToSongs(data);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     logger.error(error.message);
@@ -44,23 +47,7 @@ export const fetchBVIDRaw = async (bvid: string): Promise<NoxMedia.Song[]> => {
     const res = await bfetch(api);
     const json = await res.json();
     const { data } = json;
-    return data.pages.map((page: any, index: number) => {
-      const filename = data.pages.length === 1 ? data.title : page.part;
-      return SongTS({
-        cid: page.cid,
-        bvid,
-        name: filename,
-        nameRaw: filename,
-        singer: data.owner.name,
-        singerId: data.owner.mid,
-        cover: data.pic,
-        lyric: '',
-        page: index + 1,
-        duration: page.duration,
-        album: data.title,
-        source: Source.bilivideo,
-      });
-    });
+    return bvToSongs(data);
   } catch (error: any) {
     logger.error(error.message);
     logger.warn(`Some issue happened when fetching ${bvid}`);
