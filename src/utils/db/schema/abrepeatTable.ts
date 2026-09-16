@@ -5,6 +5,9 @@ const table = pgTable('abrepeat-table', {
   songcid: varchar({ length: 255 }).unique().notNull(),
   a: real(),
   b: real(),
+  aAbs: real(),
+  bAbs: real(),
+  resumePlayback: real(),
 });
 
 export default table;
