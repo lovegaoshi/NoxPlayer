@@ -15,7 +15,16 @@ module.exports = function (api) {
     overrides: [
       {
         test: /\.[jt]sx$/,
-        presets: ['@babel/preset-react'],
+        presets: [
+          [
+            '@babel/preset-react',
+            {
+              runtime: 'automatic',
+              // This ensures jsxDEV is only used strictly when in development
+              development: process.env.NODE_ENV === 'development',
+            },
+          ],
+        ],
       },
     ],
     plugins: [
