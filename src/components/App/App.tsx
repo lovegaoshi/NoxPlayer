@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactJkMusicPlayer from 'react-jinke-music-player';
+// @ts-expect-error ignore type def for css
 import '../../css/react-jinke-player.css';
 import { useHotkeys } from 'react-hotkeys-hook';
 

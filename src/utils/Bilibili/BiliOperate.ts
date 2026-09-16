@@ -1,4 +1,4 @@
-import { BVIDtoAID } from '@APM/utils/mediafetch/bilivideo';
+import { BVIDtoAID } from '@utils/mediafetch/biliVideoInfo';
 
 const BILI_LIKE_API = 'https://api.bilibili.com/x/web-interface/archive/like';
 const BILI_TRIP_API =

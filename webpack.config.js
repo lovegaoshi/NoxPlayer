@@ -29,7 +29,6 @@ const ifDirExists = (SrcPath, value) => {
 
 module.exports = (env) => {
   const { ifProd, ifDev } = getIfUtils(env);
-
   /**
    * @param dirPath the path relative to src (eg 'scripts' not 'src/scripts')
    */
@@ -81,6 +80,19 @@ module.exports = (env) => {
   return {
     experiments: {
       topLevelAwait: true,
+    },
+    optimization: {
+      minimizer: [
+        (compiler) => {
+          return () => {
+            return {
+              terserOptions: {
+                exclude: /sandbox*/,
+              },
+            };
+          };
+        },
+      ],
     },
     mode: ifProd('production', 'development'),
     entry: removeEmpty({
