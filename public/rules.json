@@ -13,7 +13,11 @@
         {
           "header": "User-Agent",
           "operation": "set",
-          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
+          "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
+        },
+        {
+          "header": "sec-ch-ua",
+          "operation": "remove"
         }
       ]
     },
@@ -48,10 +52,43 @@
         {
           "header": "User-Agent",
           "operation": "set",
-          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
+          "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
+        },
+        {
+          "header": "sec-ch-ua",
+          "operation": "remove"
+        },
+        {
+          "header": "range",
+          "operation": "set",
+          "value": "bytes=0-62155200"
         }
       ]
     },
     "condition": { "urlFilter": "akamaized.net" }
+  },
+  {
+    "id": 4,
+    "priority": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "header": "referer",
+          "operation": "set",
+          "value": "https://www.bilibili.com/"
+        },
+        {
+          "header": "User-Agent",
+          "operation": "set",
+          "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
+        },
+        {
+          "header": "sec-ch-ua",
+          "operation": "remove"
+        }
+      ]
+    },
+    "condition": { "urlFilter": "api.bilibili.com" }
   }
 ]
